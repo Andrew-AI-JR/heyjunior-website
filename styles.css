@@ -46,19 +46,46 @@ body {
 
 .nav-links {
     display: flex;
+    align-items: center;
     list-style: none;
+    gap: 0;
+}
+
+.nav-group {
+    display: flex;
     gap: 30px;
 }
 
-.nav-links a {
-    text-decoration: none;
-    color: #333;
-    font-weight: 500;
-    transition: color 0.3s;
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-left: 32px;
 }
 
-.nav-links a:hover {
+.nav-separator {
+    color: #bdbdbd;
+    font-size: 22px;
+    font-weight: 400;
+    margin: 0 10px;
+    user-select: none;
+}
+
+.my-story-link {
+    background: #fff;
     color: #2563eb;
+    border: 2px solid #2563eb;
+    border-radius: 8px;
+    padding: 10px 22px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.3s, color 0.3s;
+    box-shadow: 0 2px 8px rgba(37,99,235,0.06);
+}
+
+.my-story-link:hover {
+    background: #2563eb;
+    color: #fff;
 }
 
 /* Hero Section */
