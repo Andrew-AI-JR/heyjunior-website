@@ -481,4 +481,30 @@ body {
     .pricing-card.featured {
         grid-column: span 1;
     }
+}
+
+/* Story Page Styles */
+.story {
+    padding: 100px 0;
+    background-color: #f8f9fa;
+}
+
+.story-content {
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.8;
+    font-size: 1.1rem;
+}
+
+.story-content p {
+    margin-bottom: 1.5rem;
+}
+
+.signature {
+    margin-top: 3rem;
+    font-style: italic;
+}
+
+.signature p {
+    margin-bottom: 0.5rem;
 } 
