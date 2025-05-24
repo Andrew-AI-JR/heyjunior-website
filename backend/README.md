@@ -1,165 +1,178 @@
-# Junior LinkedIn Automation Backend
+# Junior LinkedIn Automation - Payment Backend
 
-Local PostgreSQL backend for processing payments and managing subscriptions for the Junior LinkedIn Automation Tool.
+## Overview
+Backend infrastructure for processing payments and managing subscriptions for the Junior LinkedIn Automation Tool.
 
-## Features
-
-- 💳 Stripe payment processing
-- 📊 PostgreSQL database
-- 🔐 License key generation
-- 📦 Secure download tokens
-- 🔄 Subscription management
-- 📧 Webhook handling
-
-## Prerequisites
-
-- Python 3.8+
+## Technical Stack
+- Python 3.8+ (3.13 not yet supported)
 - PostgreSQL 12+
-- Stripe account
+- Stripe API
+- FastAPI/Uvicorn
 
-## Quick Setup
+## Required Environment Variables
+```env
+# Stripe Configuration
+STRIPE_SECRET_KEY=sk_live_xxx
+STRIPE_PUBLISHABLE_KEY=pk_live_xxx
+STRIPE_WEBHOOK_SECRET=whsec_xxx
 
-1. **Run the setup script:**
-   ```bash
-   cd heyjunior-website/backend
-   python setup.py
-   ```
+# Database Configuration
+DATABASE_URL=postgresql://username:password@localhost:5432/junior_db
 
-2. **Update Stripe configuration:**
-   - Edit the `.env` file with your Stripe keys
-   - Set up Stripe products and webhooks (instructions provided by setup script)
-
-3. **Start the server:**
-   ```bash
-   python main.py
-   ```
-
-4. **Access the API:**
-   - Server: http://localhost:8000
-   - Documentation: http://localhost:8000/docs
-
-## Manual Setup
-
-If you prefer manual setup:
-
-### 1. Install Dependencies
-
-```bash
-pip install -r requirements.txt
+# Application Configuration
+SECRET_KEY=your-secret-key-here
+DEBUG=False
+HOST=0.0.0.0
+PORT=8000
 ```
 
-### 2. Database Setup
+## Infrastructure Requirements
 
-```sql
--- Connect to PostgreSQL as admin
-createdb junior_db
-createuser junior_user --pwprompt
-psql -c "GRANT ALL PRIVILEGES ON DATABASE junior_db TO junior_user;"
-```
+### 1. Database Setup
+- PostgreSQL 12+ instance
+- Database name: `junior_db`
+- User with full privileges on `junior_db`
+- SSL enabled for production
 
-### 3. Environment Configuration
+### 2. Server Requirements
+- Linux server (Ubuntu 20.04+ recommended)
+- Python 3.8+ installed
+- Nginx as reverse proxy
+- SSL certificates (Let's Encrypt recommended)
+- Systemd service for process management
 
-Copy `config.env.example` to `.env` and update:
-
-```bash
-DATABASE_URL=postgresql://junior_user:password@localhost:5432/junior_db
-STRIPE_SECRET_KEY=sk_test_your_key_here
-STRIPE_PUBLISHABLE_KEY=pk_test_your_key_here
-STRIPE_WEBHOOK_SECRET=whsec_your_secret_here
-```
-
-### 4. Stripe Setup
-
-1. Create a product in Stripe:
+### 3. Stripe Configuration
+1. Create Stripe Product:
    - Name: "LinkedIn Automation Tool - Beta"
    - Price: $20.00 USD/month
-   - Price ID: `price_beta_20_monthly`
+   - ID: `price_beta_20_monthly`
 
-2. Set up webhook:
-   - URL: `http://localhost:8000/webhook`
-   - Events: `invoice.payment_succeeded`, `customer.subscription.deleted`
+2. Configure Webhooks:
+   - URL: `https://your-domain.com/webhook`
+   - Events to monitor:
+     - `invoice.payment_succeeded`
+     - `customer.subscription.deleted`
+     - `payment_intent.succeeded`
 
-## API Endpoints
+## Deployment Steps
 
-### Payment Processing
-- `POST /create-payment-intent` - Create payment intent
-- `POST /create-subscription` - Create subscription
-- `POST /webhook` - Stripe webhook handler
+1. **Server Setup**:
+   ```bash
+   # Install dependencies
+   sudo apt update
+   sudo apt install python3-pip python3-venv nginx postgresql
 
-### Downloads
-- `GET /download/{token}` - Secure download with token
+   # Create application directory
+   mkdir -p /opt/junior
+   cd /opt/junior
 
-### Health
-- `GET /health` - Health check
+   # Clone repository
+   git clone https://github.com/Andrew-AI-JR/heyjunior-website.git
+   cd heyjunior-website/backend
 
-## Database Schema
+   # Create virtual environment
+   python3 -m venv venv
+   source venv/bin/activate
+   pip install -r requirements.txt
+   ```
 
-### Tables
-- **users** - Customer information
-- **subscriptions** - Stripe subscriptions
-- **payments** - Payment records
-- **download_tokens** - Secure download links
-- **license_keys** - Software license keys
+2. **Database Setup**:
+   ```sql
+   CREATE DATABASE junior_db;
+   CREATE USER junior_user WITH PASSWORD 'your_password';
+   GRANT ALL PRIVILEGES ON DATABASE junior_db TO junior_user;
+   ```
 
-## Testing
+3. **Nginx Configuration**:
+   ```nginx
+   server {
+       listen 443 ssl;
+       server_name your-domain.com;
 
-Test the payment flow:
+       ssl_certificate /etc/letsencrypt/live/your-domain.com/fullchain.pem;
+       ssl_certificate_key /etc/letsencrypt/live/your-domain.com/privkey.pem;
 
-1. Start the backend: `python main.py`
-2. Open your website: `purchase.html`
-3. Use Stripe test cards:
-   - Success: `4242424242424242`
-   - Decline: `4000000000000002`
+       location / {
+           proxy_pass http://localhost:8000;
+           proxy_set_header Host $host;
+           proxy_set_header X-Real-IP $remote_addr;
+           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+           proxy_set_header X-Forwarded-Proto $scheme;
+       }
+   }
+   ```
 
-## Production Deployment
+4. **Systemd Service**:
+   ```ini
+   [Unit]
+   Description=Junior Payment Backend
+   After=network.target
 
-For production:
+   [Service]
+   User=junior
+   Group=junior
+   WorkingDirectory=/opt/junior/heyjunior-website/backend
+   Environment="PATH=/opt/junior/heyjunior-website/backend/venv/bin"
+   EnvironmentFile=/opt/junior/heyjunior-website/backend/.env
+   ExecStart=/opt/junior/heyjunior-website/backend/venv/bin/uvicorn main:app --host 0.0.0.0 --port 8000
 
-1. Use production Stripe keys
-2. Set up SSL/TLS
-3. Use a production-grade WSGI server
-4. Configure proper database security
-5. Set up monitoring and logging
+   [Install]
+   WantedBy=multi-user.target
+   ```
 
-## Troubleshooting
+5. **Environment Setup**:
+   - Copy `.env.example` to `.env`
+   - Update with production values
+   - Ensure file permissions are secure:
+     ```bash
+     chmod 600 .env
+     ```
 
-### Common Issues
+## Testing the Deployment
 
-**Database connection failed:**
-```bash
-# Check PostgreSQL is running
-sudo service postgresql status
+1. **Health Check**:
+   ```bash
+   curl https://your-domain.com/health
+   ```
 
-# Check connection
-psql -h localhost -U junior_user -d junior_db
-```
+2. **Test Payment**:
+   ```bash
+   # Using test card
+   curl -X POST https://your-domain.com/create-payment-intent \
+     -H "Content-Type: application/json" \
+     -d '{"amount": 2000, "currency": "usd"}'
+   ```
 
-**Stripe webhook not working:**
-- Check webhook URL is accessible
-- Verify webhook secret in .env
-- Check webhook events are configured
+## Monitoring
 
-**CORS errors:**
-- Ensure frontend URL is in CORS origins
-- Check API_BASE_URL in frontend matches backend
+1. **Logs**:
+   - Application logs: `journalctl -u junior-payment`
+   - Nginx access logs: `/var/log/nginx/access.log`
+   - Nginx error logs: `/var/log/nginx/error.log`
 
-## File Structure
+2. **Stripe Dashboard**:
+   - Monitor webhooks in Stripe Dashboard
+   - Set up alerts for failed webhooks
+   - Monitor payment success rates
 
-```
-backend/
-├── main.py              # FastAPI application
-├── database.py          # Database connection
-├── models.py            # SQLAlchemy models
-├── requirements.txt     # Python dependencies
-├── setup.py            # Setup script
-├── config.env.example  # Environment template
-└── README.md           # This file
-```
+## Security Considerations
 
-## Support
+1. **SSL/TLS**:
+   - Keep certificates up to date
+   - Configure strong SSL settings in Nginx
+   - Enable HSTS
 
-For issues:
-1. Check the logs in the terminal
-2. Verify Stripe configuration
-3. Test database connectivity
-4. Check webhook delivery in Stripe dashboard 
+2. **Database**:
+   - Regular backups
+   - Strong passwords
+   - Limited network access
+
+3. **API Security**:
+   - Rate limiting enabled
+   - CORS properly configured
+   - Input validation on all endpoints
+
+## Contact
+For any deployment issues or questions:
+- Email: support@heyjunior.ai
+- GitHub: Open an issue in the repository 
