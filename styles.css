@@ -1123,6 +1123,24 @@ body {
     background: linear-gradient(135deg, #ffffff 0%, #fff5f5 100%);
 }
 
+.beta-card .price {
+    color: #1a202c !important;
+    text-shadow: none;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 10px 20px;
+    border-radius: 8px;
+    margin: 15px 0;
+    display: inline-flex;
+    align-items: baseline;
+}
+
+.beta-card .price .currency,
+.beta-card .price .amount,
+.beta-card .price .period {
+    color: #1a202c !important;
+    font-weight: 700;
+}
+
 .beta-purchase {
     border: 3px solid #ff6b6b;
     background: linear-gradient(135deg, #ffffff 0%, #fff5f5 100%);
