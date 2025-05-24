@@ -1,18 +1,44 @@
 // Stripe configuration
-const stripe = Stripe('pk_test_your_publishable_key_here'); // Replace with your actual publishable key
+const stripe = Stripe('pk_live_51RGNsDRxE6F23RwQYPOULj2p5wnrgMIG4xgqZd5WVYEF5e4uRSDinlqT9b7hlMBCwxoUoDm4l1hO8xjKoenyK7HV00SJaVnMRj'); // Replace with your actual publishable key
 let elements;
 let emailAddress = '';
 
 // API base URL - detect environment
-const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
-    ? 'http://localhost:8000' 
-    : 'https://your-production-domain.com';
+const isGitHubPages = window.location.hostname.includes('github.io');
+const API_BASE_URL = isGitHubPages 
+    ? null // GitHub Pages - use demo mode
+    : (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') 
+        ? 'http://localhost:8000' 
+        : 'https://your-production-domain.com';
 
 // Beta pricing
 const BETA_PRICE = 2000; // $20.00 in cents
 
-// Initialize Stripe Elements
-initialize();
+// GitHub Pages demo mode
+const DEMO_MODE = isGitHubPages || !API_BASE_URL;
+
+if (DEMO_MODE) {
+    console.log('🚀 Demo Mode: Using simulated payments');
+    // Show demo mode notice immediately
+    document.querySelector('#payment-element').innerHTML = `
+        <div class="demo-payment-notice">
+            <h3>🚀 Demo Mode Active</h3>
+            <p>This is a demonstration of the payment flow.</p>
+            <p>Enter your email above and click the button to simulate a payment.</p>
+            <div class="demo-test-cards">
+                <h4>Test Card Numbers:</h4>
+                <ul>
+                    <li>Success: 4242 4242 4242 4242</li>
+                    <li>Decline: 4000 0000 0000 0002</li>
+                </ul>
+            </div>
+        </div>
+    `;
+    
+    // Update button text for demo
+    const submitButton = document.querySelector("#submit-button");
+    submitButton.innerHTML = "Try Demo Payment - $20/month";
+}
 
 // Handle form submission
 document.querySelector('#payment-form').addEventListener('submit', handleSubmit);
@@ -24,33 +50,30 @@ document.querySelector('#customer-email').addEventListener('change', (e) => {
 
 async function initialize() {
     try {
-        // Wait for email before initializing payment
-        if (!emailAddress) {
-            // Try to get email from URL parameter
-            const urlParams = new URLSearchParams(window.location.search);
-            emailAddress = urlParams.get('email') || '';
-            if (emailAddress) {
-                document.querySelector('#customer-email').value = emailAddress;
-            }
-        }
-
+        // Show loading state
+        showMessage("Setting up secure payment...");
+        
         const response = await fetch(`${API_BASE_URL}/create-payment-intent`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-                items: [{ id: 'linkedin-automation-beta', amount: BETA_PRICE }],
-                customer_email: emailAddress,
-                subscription: true
-            }),
+            body: JSON.stringify({
+                amount: BETA_PRICE,
+                currency: 'usd',
+                customer_email: emailAddress || 'demo@example.com'
+            })
         });
-        
+
         if (!response.ok) {
-            const errorData = await response.json().catch(() => ({ detail: 'Network error' }));
-            throw new Error(errorData.detail || `HTTP error! status: ${response.status}`);
+            throw new Error(`Backend server returned ${response.status}: ${response.statusText}`);
         }
+
+        const { client_secret, publishable_key } = await response.json();
         
-        const { clientSecret } = await response.json();
-        
+        // Update Stripe key if provided by backend
+        if (publishable_key) {
+            stripe = Stripe(publishable_key);
+        }
+
         const appearance = {
             theme: 'stripe',
             variables: {
@@ -63,38 +86,42 @@ async function initialize() {
                 borderRadius: '8px',
             }
         };
-        
-        elements = stripe.elements({ appearance, clientSecret });
-        
-        const paymentElementOptions = {
-            layout: "tabs",
-            business: {
-                name: 'Junior - LinkedIn Automation Beta'
-            }
-        };
-        
-        const paymentElement = elements.create("payment", paymentElementOptions);
+        elements = stripe.elements({ appearance, clientSecret: client_secret });
+
+        const paymentElement = elements.create("payment");
         paymentElement.mount("#payment-element");
         
-        console.log('✅ Payment form initialized successfully');
+        // Hide loading message
+        hideMessage();
         
     } catch (error) {
-        console.error('❌ Error initializing payment:', error);
-        showMessage(`Error loading payment form: ${error.message}. Please refresh the page or contact support.`);
+        console.error('Payment initialization failed:', error);
         
-        // Show a fallback message
-        document.querySelector("#payment-element").innerHTML = `
-            <div style="padding: 20px; text-align: center; background: #fee; border-radius: 8px;">
-                <h3>Payment Form Loading Error</h3>
-                <p>Unable to load the payment form. Please ensure:</p>
-                <ul style="text-align: left; display: inline-block;">
-                    <li>Backend server is running on port 8000</li>
-                    <li>Stripe keys are properly configured</li>
-                    <li>Database connection is working</li>
-                </ul>
-                <button onclick="location.reload()" style="margin-top: 10px; padding: 10px 20px; background: #ff6b6b; color: white; border: none; border-radius: 4px; cursor: pointer;">
-                    Retry
-                </button>
+        let errorMessage = "Unable to connect to payment server.";
+        if (error.message.includes('Failed to fetch')) {
+            errorMessage = "Backend server is not running. Please start the server first.";
+        } else if (error.message.includes('404')) {
+            errorMessage = "Payment endpoint not found. Please check your backend configuration.";
+        } else if (error.message.includes('500')) {
+            errorMessage = "Server error. Please check your backend logs.";
+        }
+        
+        showMessage(errorMessage);
+        
+        // Fallback: Show manual payment instructions
+        document.querySelector('#payment-element').innerHTML = `
+            <div class="error-payment-notice">
+                <h3>⚠️ Payment Server Unavailable</h3>
+                <p><strong>Error:</strong> ${errorMessage}</p>
+                <div class="troubleshooting">
+                    <h4>To fix this issue:</h4>
+                    <ol>
+                        <li><strong>For local development:</strong> Start the backend server by running:<br>
+                            <code>python start_dev.py</code></li>
+                        <li><strong>For production:</strong> Ensure your backend is deployed and the API_BASE_URL is correct</li>
+                        <li><strong>For demo:</strong> <button type="button" onclick="simulatePayment()" class="demo-payment-button">Try Demo Mode</button></li>
+                    </ol>
+                </div>
             </div>
         `;
     }
@@ -103,91 +130,96 @@ async function initialize() {
 async function handleSubmit(e) {
     e.preventDefault();
     
-    if (!emailAddress || !emailAddress.includes('@')) {
-        showMessage("Please enter a valid email address");
-        document.querySelector('#customer-email').focus();
+    // Validate email
+    const email = document.querySelector('#customer-email').value;
+    if (!email || !email.includes('@')) {
+        showMessage('Please enter a valid email address.');
+        return;
+    }
+
+    setLoading(true);
+    showMessage('Processing payment...');
+
+    if (DEMO_MODE) {
+        simulatePayment();
+    } else {
+        try {
+            const {error} = await stripe.confirmPayment({
+                elements,
+                confirmParams: {
+                    return_url: `${window.location.origin}/success.html?email=${encodeURIComponent(email)}`,
+                    receipt_email: email,
+                },
+            });
+
+            if (error) {
+                if (error.type === "card_error" || error.type === "validation_error") {
+                    showMessage(error.message);
+                } else {
+                    showMessage("An unexpected error occurred.");
+                }
+                setLoading(false);
+            }
+        } catch (error) {
+            console.error('Payment error:', error);
+            showMessage("Payment processing failed. Please try again.");
+            setLoading(false);
+        }
+    }
+}
+
+// Demo mode functions
+function simulatePayment() {
+    const email = document.querySelector('#customer-email').value;
+    if (!email || !email.includes('@')) {
+        showMessage('Please enter a valid email address for the demo.');
+        setLoading(false);
         return;
     }
     
-    setLoading(true);
+    showMessage('🚀 Processing demo payment...');
     
-    // Track beta signup attempt
-    trackPurchaseIntent('beta');
-    
-    try {
-        console.log('🔄 Creating subscription...');
-        
-        // Create subscription for beta pricing
-        const subscriptionResponse = await fetch(`${API_BASE_URL}/create-subscription`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                customer_email: emailAddress,
-                price_id: 'price_beta_20_monthly' // You'll need to create this in Stripe
-            }),
-        });
-        
-        if (!subscriptionResponse.ok) {
-            const errorData = await subscriptionResponse.json().catch(() => ({ detail: 'Network error' }));
-            throw new Error(errorData.detail || 'Failed to create subscription');
-        }
-        
-        const { subscriptionId, clientSecret } = await subscriptionResponse.json();
-        console.log('✅ Subscription created:', subscriptionId);
-        
-        // Confirm payment
-        console.log('🔄 Confirming payment...');
-        const { error } = await stripe.confirmPayment({
-            elements,
-            confirmParams: {
-                return_url: `${window.location.origin}/success.html?beta=true&subscription=${subscriptionId}&email=${encodeURIComponent(emailAddress)}`,
-                receipt_email: emailAddress,
-            },
-        });
-        
-        if (error) {
-            console.error('❌ Payment error:', error);
-            if (error.type === "card_error" || error.type === "validation_error") {
-                showMessage(error.message);
-            } else {
-                showMessage("An unexpected error occurred during payment.");
-            }
-        }
-    } catch (error) {
-        console.error('❌ Payment process error:', error);
-        showMessage(`Payment failed: ${error.message}. Please try again or contact support.`);
-    }
-    
-    setLoading(false);
+    // Simulate payment delay
+    setTimeout(() => {
+        showMessage('✅ Demo payment successful! Redirecting...');
+        setTimeout(() => {
+            // Redirect to success page with demo parameters
+            const successUrl = `success.html?demo=true&email=${encodeURIComponent(email)}&amount=20&currency=USD`;
+            window.location.href = successUrl;
+        }, 1000);
+    }, 2000);
 }
 
+// Helper functions
+function showMessage(messageText) {
+    const messageContainer = document.querySelector("#payment-message");
+    messageContainer.classList.remove("hidden");
+    messageContainer.textContent = messageText;
+}
+
+function hideMessage() {
+    const messageContainer = document.querySelector("#payment-message");
+    messageContainer.classList.add("hidden");
+}
+
+// Show a spinner on payment submission
 function setLoading(isLoading) {
     const submitButton = document.querySelector("#submit-button");
-    const spinner = document.querySelector("#spinner");
-    const buttonText = document.querySelector("#button-text");
     
     if (isLoading) {
+        // Disable the button and show a spinner
         submitButton.disabled = true;
-        spinner.classList.remove("hidden");
-        buttonText.classList.add("hidden");
+        submitButton.innerHTML = `
+            <div class="spinner" id="spinner"></div>
+            <span id="button-text">Processing...</span>
+        `;
     } else {
         submitButton.disabled = false;
-        spinner.classList.add("hidden");
-        buttonText.classList.remove("hidden");
-    }
-}
-
-function showMessage(messageText) {
-    const messageContainer = document.querySelector("#payment-errors");
-    messageContainer.textContent = messageText;
-    messageContainer.style.display = 'block';
-    
-    // Auto-hide success messages
-    if (!messageText.toLowerCase().includes('error') && !messageText.toLowerCase().includes('failed')) {
-        setTimeout(function () {
-            messageContainer.textContent = "";
-            messageContainer.style.display = 'none';
-        }, 5000);
+        if (DEMO_MODE) {
+            submitButton.innerHTML = "Try Demo Payment";
+        } else {
+            submitButton.innerHTML = "Subscribe Now - $20/month";
+        }
     }
 }
 
