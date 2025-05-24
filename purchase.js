@@ -4,19 +4,64 @@ const API_BASE_URL = 'https://junior-api-staging-915940312680.us-west1.run.app';
 let stripe;
 let elements;
 let paymentElement;
+let isPaymentInitialized = false;
 
 // Initialize when page loads
-document.addEventListener('DOMContentLoaded', async function() {
-    console.log('🔄 Initializing payment system...');
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🔄 Setting up beta selection...');
     
-    try {
-        await initializeStripe();
-        console.log('✅ Payment system ready');
-    } catch (error) {
-        console.error('❌ Failed to initialize payment system:', error);
-        showMessage('Payment system unavailable. Please try again later.', 'error');
-    }
+    // Set up beta selection flow
+    setupBetaSelection();
+    
+    console.log('✅ Beta selection ready');
 });
+
+function setupBetaSelection() {
+    const selectBetaButton = document.querySelector('#select-beta-button');
+    const paymentSection = document.querySelector('#payment-section');
+    const betaCTASection = document.querySelector('.beta-cta-section');
+    const backButton = document.querySelector('#back-button');
+
+    // Handle beta selection
+    selectBetaButton.addEventListener('click', async function() {
+        console.log('🚀 User selected beta access');
+        
+        // Hide beta selection and show payment form
+        betaCTASection.style.display = 'none';
+        paymentSection.classList.remove('hidden');
+        
+        // Initialize Stripe if not already done
+        if (!isPaymentInitialized) {
+            showMessage("Setting up secure payment...");
+            try {
+                await initializeStripe();
+                hideMessage();
+                console.log('✅ Payment system ready');
+            } catch (error) {
+                console.error('❌ Failed to initialize payment system:', error);
+                showMessage('Payment system unavailable. Please try again later.');
+            }
+        }
+        
+        // Scroll to payment form
+        paymentSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    // Handle back button
+    backButton.addEventListener('click', function() {
+        console.log('👈 User returned to beta selection');
+        
+        // Show beta selection and hide payment form
+        paymentSection.classList.add('hidden');
+        betaCTASection.style.display = 'block';
+        
+        // Clear any messages
+        hideMessage();
+        
+        // Scroll back to beta selection
+        betaCTASection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+}
 
 async function initializeStripe() {
     // Stripe configuration
@@ -35,9 +80,6 @@ async function initializeStripe() {
     });
 
     try {
-        // Show loading state
-        showMessage("Setting up secure payment...");
-        
         const response = await fetch(`${API_BASE_URL}/create-payment-intent`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -76,8 +118,7 @@ async function initializeStripe() {
         paymentElement = elements.create("payment");
         paymentElement.mount("#payment-element");
         
-        // Hide loading message
-        hideMessage();
+        isPaymentInitialized = true;
         
     } catch (error) {
         console.error('Payment initialization failed:', error);
@@ -166,7 +207,7 @@ function setLoading(isLoading) {
         `;
     } else {
         submitButton.disabled = false;
-        submitButton.innerHTML = "Start Beta Access - $20/month";
+        submitButton.innerHTML = "Complete Beta Signup - $20/month";
     }
 }
 
