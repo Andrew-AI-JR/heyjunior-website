@@ -1,8 +1,8 @@
 // Success page functionality
 const API_BASE_URL = 'https://junior-api-staging-915940312680.us-west1.run.app';
 
-// GitHub release URL for v3.0.0-beta
-const GITHUB_RELEASE_URL = 'https://github.com/Andrew-AI-JR/heyjunior-website/releases/download/v3.0.0-beta/LinkedIn_Automation_Tool_v3.0.0-beta.zip';
+// GitHub release URL for v3.0.1-beta
+const GITHUB_RELEASE_URL = 'https://github.com/Andrew-AI-JR/heyjunior-website/releases/download/v3.0.1-beta/LinkedIn_Automation_Tool_v3.0.1-beta.zip';
 
 // Get URL parameters
 const urlParams = new URLSearchParams(window.location.search);
@@ -55,7 +55,7 @@ function showDownloadInstructions() {
                 <h4>🎯 Next Steps:</h4>
                 <ol>
                     <li>Extract the ZIP file to a permanent location</li>
-                    <li>Run the LinkedIn_Automation_Tool_v3.0.0-beta.exe file</li>
+                    <li>Run the LinkedIn_Automation_Tool_v3.0.1-beta.exe file</li>
                     <li>Follow the setup wizard instructions</li>
                     <li>Start with conservative automation settings!</li>
                 </ol>
@@ -71,7 +71,7 @@ function trackDownload() {
     if (typeof gtag !== 'undefined') {
         gtag('event', 'download', {
             'event_category': 'Beta Release',
-            'event_label': 'v3.0.0-beta',
+            'event_label': 'v3.0.1-beta',
             'value': 1
         });
     }
@@ -81,7 +81,7 @@ function trackDownload() {
         fbq('track', 'Download', {
             content_name: 'LinkedIn Automation Tool Beta',
             content_type: 'product',
-            content_ids: ['v3.0.0-beta']
+            content_ids: ['v3.0.1-beta']
         });
     }
 }

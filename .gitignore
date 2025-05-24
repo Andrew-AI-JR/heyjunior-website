@@ -16,4 +16,18 @@ yarn-error.log*
 
 # Build files
 dist/
-build/ 
+build/
+
+# Environment files
+.env
+.env.local
+.env.production
+*.env
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Server files
+*.pid 
