@@ -1,54 +1,39 @@
-// Stripe configuration
-const stripe = Stripe('pk_live_51RGNsDRxE6F23RwQYPOULj2p5wnrgMIG4xgqZd5WVYEF5e4uRSDinlqT9b7hlMBCwxoUoDm4l1hO8xjKoenyK7HV00SJaVnMRj'); // Replace with your actual publishable key
+// Purchase page functionality
+const API_BASE_URL = 'https://junior-api-staging-915940312680.us-west1.run.app';
+
+let stripe;
 let elements;
-let emailAddress = '';
+let paymentElement;
 
-// API base URL - detect environment
-const isGitHubPages = window.location.hostname.includes('github.io');
-const API_BASE_URL = isGitHubPages 
-    ? 'https://junior-api-staging-915940312680.us-west1.run.app' // GCP environment
-    : (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') 
-        ? 'http://localhost:8000' 
-        : 'https://junior-api-staging-915940312680.us-west1.run.app'; // Default to GCP
-
-// Beta pricing
-const BETA_PRICE = 2000; // $20.00 in cents
-
-// GitHub Pages demo mode
-const DEMO_MODE = false; // Disable demo mode since we have a live backend
-
-if (DEMO_MODE) {
-    console.log('🚀 Demo Mode: Using simulated payments');
-    // Show demo mode notice immediately
-    document.querySelector('#payment-element').innerHTML = `
-        <div class="demo-payment-notice">
-            <h3>🚀 Demo Mode Active</h3>
-            <p>This is a demonstration of the payment flow.</p>
-            <p>Enter your email above and click the button to simulate a payment.</p>
-            <div class="demo-test-cards">
-                <h4>Test Card Numbers:</h4>
-                <ul>
-                    <li>Success: 4242 4242 4242 4242</li>
-                    <li>Decline: 4000 0000 0000 0002</li>
-                </ul>
-            </div>
-        </div>
-    `;
+// Initialize when page loads
+document.addEventListener('DOMContentLoaded', async function() {
+    console.log('🔄 Initializing payment system...');
     
-    // Update button text for demo
-    const submitButton = document.querySelector("#submit-button");
-    submitButton.innerHTML = "Try Demo Payment - $20/month";
-}
-
-// Handle form submission
-document.querySelector('#payment-form').addEventListener('submit', handleSubmit);
-
-// Handle email input
-document.querySelector('#customer-email').addEventListener('change', (e) => {
-    emailAddress = e.target.value;
+    try {
+        await initializeStripe();
+        console.log('✅ Payment system ready');
+    } catch (error) {
+        console.error('❌ Failed to initialize payment system:', error);
+        showMessage('Payment system unavailable. Please try again later.', 'error');
+    }
 });
 
-async function initialize() {
+async function initializeStripe() {
+    // Stripe configuration
+    stripe = Stripe('pk_live_51RGNsDRxE6F23RwQYPOULj2p5wnrgMIG4xgqZd5WVYEF5e4uRSDinlqT9b7hlMBCwxoUoDm4l1hO8xjKoenyK7HV00SJaVnMRj');
+    let emailAddress = '';
+
+    // Beta pricing
+    const BETA_PRICE = 2000; // $20.00 in cents
+
+    // Handle form submission
+    document.querySelector('#payment-form').addEventListener('submit', handleSubmit);
+
+    // Handle email input
+    document.querySelector('#customer-email').addEventListener('change', (e) => {
+        emailAddress = e.target.value;
+    });
+
     try {
         // Show loading state
         showMessage("Setting up secure payment...");
@@ -59,7 +44,7 @@ async function initialize() {
             body: JSON.stringify({
                 amount: BETA_PRICE,
                 currency: 'usd',
-                customer_email: emailAddress || 'demo@example.com'
+                customer_email: emailAddress || 'customer@example.com'
             })
         });
 
@@ -88,7 +73,7 @@ async function initialize() {
         };
         elements = stripe.elements({ appearance, clientSecret: client_secret });
 
-        const paymentElement = elements.create("payment");
+        paymentElement = elements.create("payment");
         paymentElement.mount("#payment-element");
         
         // Hide loading message
@@ -99,29 +84,21 @@ async function initialize() {
         
         let errorMessage = "Unable to connect to payment server.";
         if (error.message.includes('Failed to fetch')) {
-            errorMessage = "Backend server is not running. Please start the server first.";
+            errorMessage = "Backend server is not running. Please contact support.";
         } else if (error.message.includes('404')) {
-            errorMessage = "Payment endpoint not found. Please check your backend configuration.";
+            errorMessage = "Payment endpoint not found. Please contact support.";
         } else if (error.message.includes('500')) {
-            errorMessage = "Server error. Please check your backend logs.";
+            errorMessage = "Server error. Please contact support.";
         }
         
         showMessage(errorMessage);
         
-        // Fallback: Show manual payment instructions
+        // Show error notice
         document.querySelector('#payment-element').innerHTML = `
             <div class="error-payment-notice">
-                <h3>⚠️ Payment Server Unavailable</h3>
+                <h3>⚠️ Payment System Unavailable</h3>
                 <p><strong>Error:</strong> ${errorMessage}</p>
-                <div class="troubleshooting">
-                    <h4>To fix this issue:</h4>
-                    <ol>
-                        <li><strong>For local development:</strong> Start the backend server by running:<br>
-                            <code>python start_dev.py</code></li>
-                        <li><strong>For production:</strong> Ensure your backend is deployed and the API_BASE_URL is correct</li>
-                        <li><strong>For demo:</strong> <button type="button" onclick="simulatePayment()" class="demo-payment-button">Try Demo Mode</button></li>
-                    </ol>
-                </div>
+                <p>Please contact our support team at <a href="mailto:support@heyjunior.ai">support@heyjunior.ai</a></p>
             </div>
         `;
     }
@@ -140,54 +117,28 @@ async function handleSubmit(e) {
     setLoading(true);
     showMessage('Processing payment...');
 
-    if (DEMO_MODE) {
-        simulatePayment();
-    } else {
-        try {
-            const {error} = await stripe.confirmPayment({
-                elements,
-                confirmParams: {
-                    return_url: `${window.location.origin}/success.html?email=${encodeURIComponent(email)}`,
-                    receipt_email: email,
-                },
-            });
+    try {
+        const {error} = await stripe.confirmPayment({
+            elements,
+            confirmParams: {
+                return_url: `${window.location.origin}/success.html?email=${encodeURIComponent(email)}`,
+                receipt_email: email,
+            },
+        });
 
-            if (error) {
-                if (error.type === "card_error" || error.type === "validation_error") {
-                    showMessage(error.message);
-                } else {
-                    showMessage("An unexpected error occurred.");
-                }
-                setLoading(false);
+        if (error) {
+            if (error.type === "card_error" || error.type === "validation_error") {
+                showMessage(error.message);
+            } else {
+                showMessage("An unexpected error occurred.");
             }
-        } catch (error) {
-            console.error('Payment error:', error);
-            showMessage("Payment processing failed. Please try again.");
             setLoading(false);
         }
-    }
-}
-
-// Demo mode functions
-function simulatePayment() {
-    const email = document.querySelector('#customer-email').value;
-    if (!email || !email.includes('@')) {
-        showMessage('Please enter a valid email address for the demo.');
+    } catch (error) {
+        console.error('Payment error:', error);
+        showMessage("Payment processing failed. Please try again.");
         setLoading(false);
-        return;
     }
-    
-    showMessage('🚀 Processing demo payment...');
-    
-    // Simulate payment delay
-    setTimeout(() => {
-        showMessage('✅ Demo payment successful! Redirecting...');
-        setTimeout(() => {
-            // Redirect to success page with demo parameters
-            const successUrl = `success.html?demo=true&email=${encodeURIComponent(email)}&amount=20&currency=USD`;
-            window.location.href = successUrl;
-        }, 1000);
-    }, 2000);
 }
 
 // Helper functions
@@ -215,11 +166,7 @@ function setLoading(isLoading) {
         `;
     } else {
         submitButton.disabled = false;
-        if (DEMO_MODE) {
-            submitButton.innerHTML = "Try Demo Payment";
-        } else {
-            submitButton.innerHTML = "Subscribe Now - $20/month";
-        }
+        submitButton.innerHTML = "Start Beta Access - $20/month";
     }
 }
 
