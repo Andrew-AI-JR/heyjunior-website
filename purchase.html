@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Purchase Junior - AI-Powered LinkedIn Automation Tool">
+    <title>Purchase Junior - LinkedIn Automation Tool</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <img src="./images/junior-logo.png" alt="Junior Logo" class="logo-img">
+            </div>
+            <ul class="nav-links">
+                <div class="nav-group">
+                    <li><a href="index.html#features">Features</a></li>
+                    <li><a href="index.html#how-it-works">How It Works</a></li>
+                    <li><a href="index.html#pricing">Pricing</a></li>
+                </div>
+                <div class="nav-actions">
+                    <li><a href="index.html" class="secondary-button">← Back to Home</a></li>
+                </div>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Purchase Section -->
+    <section class="purchase-section">
+        <div class="container">
+            <div class="purchase-container">
+                <div class="product-info">
+                    <h1>LinkedIn Automation Tool v2.1.1</h1>
+                    <div class="product-image">
+                        <img src="./images/product-preview.png" alt="Junior LinkedIn Automation Tool" />
+                    </div>
+                    <div class="product-features">
+                        <h3>What's Included:</h3>
+                        <ul>
+                            <li>✅ LinkedIn Automation Tool (Windows .exe)</li>
+                            <li>✅ AI-Powered Comment Generation</li>
+                            <li>✅ Hiring Manager Targeting</li>
+                            <li>✅ Quick Start Guide</li>
+                            <li>✅ Lifetime Updates</li>
+                            <li>✅ Email Support</li>
+                        </ul>
+                    </div>
+                    <div class="testimonial">
+                        <blockquote>
+                            "This tool helped me land 3 interviews in my first week. The AI comments are so natural!"
+                        </blockquote>
+                        <cite>- Sarah K., Data Scientist</cite>
+                    </div>
+                </div>
+
+                <div class="payment-info">
+                    <div class="pricing-card purchase-card beta-purchase">
+                        <div class="beta-badge">🚀 BETA LAUNCH</div>
+                        <h2>Beta Access - Limited Time</h2>
+                        <div class="price">
+                            <span class="currency">$</span>
+                            <span class="amount">20</span>
+                            <span class="period">/month</span>
+                        </div>
+                        <div class="beta-savings">
+                            <span class="original-price">Regular Price: $97/month</span>
+                            <span class="save-badge">Save 79%</span>
+                        </div>
+                        <div class="price-note">Special beta pricing • Cancel anytime</div>
+                        
+                        <div class="beta-benefits">
+                            <h4>Beta Program Includes:</h4>
+                            <ul>
+                                <li>✅ Full access to all premium features</li>
+                                <li>✅ Unlimited AI-powered comments</li>
+                                <li>✅ Hiring manager targeting</li>
+                                <li>✅ Performance analytics</li>
+                                <li>✅ Priority email support</li>
+                                <li>✅ Shape future development</li>
+                                <li>✅ Early access to new features</li>
+                                <li>✅ Setup assistance included</li>
+                            </ul>
+                        </div>
+
+                        <form id="payment-form">
+                            <div class="email-input-container">
+                                <label for="customer-email">Email for receipt:</label>
+                                <input type="email" id="customer-email" placeholder="your@email.com" required class="email-input">
+                            </div>
+                            <div id="payment-element">
+                                <!-- Stripe Elements will create form elements here -->
+                            </div>
+                            <div id="payment-errors" role="alert"></div>
+                            <button id="submit-button" type="submit" class="primary-button full-width beta-submit">
+                                <span id="button-text">Start Beta Access - $20/month</span>
+                                <div id="spinner" class="spinner hidden"></div>
+                            </button>
+                        </form>
+
+                        <div class="security-badges">
+                            <div class="badge">
+                                <span>🔒</span>
+                                <small>Secure Payment</small>
+                            </div>
+                            <div class="badge">
+                                <span>💳</span>
+                                <small>Stripe Protected</small>
+                            </div>
+                            <div class="badge">
+                                <span>✅</span>
+                                <small>Instant Access</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="beta-guarantee">
+                        <h3>🎯 Beta Program Promise</h3>
+                        <p>Try risk-free! If you're not satisfied with the beta, cancel anytime. No questions asked. Plus, loyal beta users get grandfathered pricing!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="container">
+            <h2>Beta Program FAQ</h2>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <h3>What is the beta program?</h3>
+                    <p>Our beta program gives you early access to our LinkedIn automation tool at a heavily discounted price of $20/month while we perfect the product with your feedback.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>What happens after the beta period?</h3>
+                    <p>Beta users who remain subscribed will keep their $20/month pricing permanently as a thank you for early support!</p>
+                </div>
+                <div class="faq-item">
+                    <h3>What operating systems are supported?</h3>
+                    <p>Currently supports Windows 10 and later. Mac version is in development and coming soon!</p>
+                </div>
+                <div class="faq-item">
+                    <h3>How do I download after purchase?</h3>
+                    <p>You'll receive an email with download instructions immediately after payment, plus setup assistance during your first 30 days.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Is my LinkedIn account safe?</h3>
+                    <p>Absolutely! The tool respects LinkedIn's rate limits and uses human-like behavior patterns to keep your account safe.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Can I cancel anytime?</h3>
+                    <p>Yes! You can cancel your beta subscription anytime with no questions asked. No long-term commitments required.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>Email: support@heyjunior.ai</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Refund Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="purchase.js"></script>
+</body>
+</html> 
