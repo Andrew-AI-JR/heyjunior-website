@@ -6,16 +6,16 @@ let emailAddress = '';
 // API base URL - detect environment
 const isGitHubPages = window.location.hostname.includes('github.io');
 const API_BASE_URL = isGitHubPages 
-    ? null // GitHub Pages - use demo mode
+    ? 'https://junior-api-staging-915940312680.us-west1.run.app' // GCP environment
     : (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') 
         ? 'http://localhost:8000' 
-        : 'https://your-production-domain.com';
+        : 'https://junior-api-staging-915940312680.us-west1.run.app'; // Default to GCP
 
 // Beta pricing
 const BETA_PRICE = 2000; // $20.00 in cents
 
 // GitHub Pages demo mode
-const DEMO_MODE = isGitHubPages || !API_BASE_URL;
+const DEMO_MODE = false; // Disable demo mode since we have a live backend
 
 if (DEMO_MODE) {
     console.log('🚀 Demo Mode: Using simulated payments');

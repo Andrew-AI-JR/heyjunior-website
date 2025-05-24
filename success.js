@@ -1,87 +1,139 @@
 // Success page functionality
-const API_BASE_URL = 'https://your-api-domain.com'; // Replace with your actual API URL
+const API_BASE_URL = 'https://junior-api-staging-915940312680.us-west1.run.app';
+
+// GitHub release URL for v3.0.0-beta
+const GITHUB_RELEASE_URL = 'https://github.com/Andrew-AI-JR/heyjunior-website/releases/download/v3.0.0-beta/LinkedIn_Automation_Tool_v3.0.0-beta.zip';
+
+// Get URL parameters
+const urlParams = new URLSearchParams(window.location.search);
+const isDemo = urlParams.get('demo') === 'true';
+const email = urlParams.get('email');
+const paymentIntentId = urlParams.get('payment_intent');
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Get URL parameters
-    const urlParams = new URLSearchParams(window.location.search);
-    const sessionId = urlParams.get('session_id');
-    const paymentIntent = urlParams.get('payment_intent');
-    const subscription = urlParams.get('subscription');
+    // Update success message
+    document.querySelector('#customer-email').textContent = email || 'your email';
     
-    if (sessionId || paymentIntent) {
-        // Verify payment and get download link
-        verifyPaymentAndGenerateDownloadLink(sessionId, paymentIntent, subscription);
-    } else {
-        // Redirect to purchase page if no valid payment
-        window.location.href = 'purchase.html';
+    // Set download link
+    const downloadButton = document.querySelector('#download-button');
+    if (downloadButton) {
+        downloadButton.href = GITHUB_RELEASE_URL;
+        downloadButton.addEventListener('click', function(e) {
+            // Track download
+            console.log('🔄 Download started');
+            trackDownload();
+            
+            // Show additional instructions
+            showDownloadInstructions();
+        });
     }
     
-    // Track successful purchase
-    trackSuccessfulPurchase(subscription);
+    // Show appropriate message based on demo mode
+    if (isDemo) {
+        document.querySelector('#payment-status').innerHTML = `
+            <div class="demo-notice">
+                <h3>🚀 Demo Mode</h3>
+                <p>This is a demonstration of the download flow.</p>
+                <p>In production, payment verification will be required.</p>
+            </div>
+        `;
+    }
 });
 
-async function verifyPaymentAndGenerateDownloadLink(sessionId, paymentIntent, isSubscription) {
+function showDownloadInstructions() {
+    const instructionsDiv = document.querySelector('#download-instructions');
+    if (instructionsDiv) {
+        instructionsDiv.innerHTML = `
+            <div class="instructions-box">
+                <h3>📥 Download Starting...</h3>
+                <p>Your download should begin automatically. If it doesn't:</p>
+                <ol>
+                    <li>Click the download button again</li>
+                    <li>Or <a href="${GITHUB_RELEASE_URL}" target="_blank">click here</a></li>
+                </ol>
+                
+                <h4>🎯 Next Steps:</h4>
+                <ol>
+                    <li>Extract the ZIP file to a permanent location</li>
+                    <li>Run the LinkedIn_Automation_Tool_v3.0.0-beta.exe file</li>
+                    <li>Follow the setup wizard instructions</li>
+                    <li>Start with conservative automation settings!</li>
+                </ol>
+                
+                <p><strong>Need help?</strong> Check the installation guide included in the download.</p>
+            </div>
+        `;
+    }
+}
+
+function trackDownload() {
+    // Google Analytics
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'download', {
+            'event_category': 'Beta Release',
+            'event_label': 'v3.0.0-beta',
+            'value': 1
+        });
+    }
+    
+    // Facebook Pixel
+    if (typeof fbq !== 'undefined') {
+        fbq('track', 'Download', {
+            content_name: 'LinkedIn Automation Tool Beta',
+            content_type: 'product',
+            content_ids: ['v3.0.0-beta']
+        });
+    }
+}
+
+async function handlePaymentSuccess() {
     try {
-        showLoading();
+        // Show loading state
+        document.getElementById('status-message').textContent = 'Finalizing your subscription...';
         
-        const response = await fetch(`${API_BASE_URL}/verify-payment-and-generate-download`, {
+        // Verify payment with backend
+        const response = await fetch(`${API_BASE_URL}/verify-payment`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                session_id: sessionId,
-                payment_intent: paymentIntent,
-                subscription: isSubscription === 'true'
+                payment_intent_id: paymentIntentId,
+                email: email
             })
         });
-        
+
         if (!response.ok) {
             throw new Error('Payment verification failed');
         }
-        
+
         const data = await response.json();
         
-        if (data.verified && data.download_url) {
-            // Set up the download link
-            const downloadLink = document.getElementById('download-link');
-            downloadLink.href = data.download_url;
-            downloadLink.addEventListener('click', handleDownloadClick);
-            
-            // Show customer info if available
-            if (data.customer_email) {
-                showCustomerInfo(data.customer_email, data.amount);
-            }
-            
-            hideLoading();
-        } else {
-            throw new Error('Invalid payment verification');
-        }
+        // Show success message
+        document.getElementById('status-message').textContent = 'Payment successful! Preparing your download...';
+        document.getElementById('download-section').style.display = 'block';
+        
+        // Set download link
+        const downloadButton = document.getElementById('download-button');
+        downloadButton.href = data.download_url;
+        
+        // Show setup instructions
+        document.getElementById('setup-instructions').style.display = 'block';
         
     } catch (error) {
-        console.error('Error verifying payment:', error);
-        showErrorMessage();
+        console.error('Error:', error);
+        document.getElementById('status-message').textContent = 'There was an error processing your payment. Please contact support.';
     }
 }
 
-function handleDownloadClick(e) {
-    // Track download initiation
-    trackDownloadStart();
-    
-    // Show download instructions
-    showDownloadInstructions();
-    
-    // Optional: Disable the link after first download
-    setTimeout(() => {
-        const downloadLink = e.target;
-        downloadLink.style.opacity = '0.6';
-        downloadLink.innerHTML = `
-            <span class="download-icon">✅</span>
-            Download Started
-            <small>Check your Downloads folder</small>
-        `;
-    }, 1000);
-}
+// Initialize page
+window.addEventListener('load', () => {
+    if (email && paymentIntentId) {
+        handlePaymentSuccess();
+    } else {
+        document.getElementById('status-message').textContent = 'Invalid payment session. Please try again or contact support.';
+    }
+});
 
 function showCustomerInfo(email, amount) {
     const customerInfo = document.createElement('div');
@@ -97,36 +149,6 @@ function showCustomerInfo(email, amount) {
     
     const successHeader = document.querySelector('.success-header');
     successHeader.appendChild(customerInfo);
-}
-
-function showDownloadInstructions() {
-    const instructions = document.createElement('div');
-    instructions.className = 'download-instructions-popup';
-    instructions.innerHTML = `
-        <div class="popup-content">
-            <h3>Download Started!</h3>
-            <p>Your LinkedIn Automation Tool is downloading...</p>
-            <div class="instructions">
-                <h4>Next Steps:</h4>
-                <ol>
-                    <li>Check your Downloads folder</li>
-                    <li>Right-click the file and "Run as administrator"</li>
-                    <li>Follow the installation wizard</li>
-                    <li>Launch the app and enter your LinkedIn credentials</li>
-                </ol>
-            </div>
-            <button onclick="this.parentElement.parentElement.remove()" class="close-popup">Got it!</button>
-        </div>
-    `;
-    
-    document.body.appendChild(instructions);
-    
-    // Auto-remove after 10 seconds
-    setTimeout(() => {
-        if (instructions.parentNode) {
-            instructions.remove();
-        }
-    }, 10000);
 }
 
 function showLoading() {
