@@ -1,8 +1,8 @@
 // Success page functionality
 const API_BASE_URL = 'https://junior-api-staging-915940312680.us-west1.run.app';
 
-// GitHub release URL for v3.0.1-beta
-const GITHUB_RELEASE_URL = 'https://github.com/Andrew-AI-JR/heyjunior-website/releases/download/v3.0.1-beta/LinkedIn_Automation_Tool_v3.0.1-beta.zip';
+// GitHub release URL for v3.0.2-beta
+const GITHUB_RELEASE_URL = 'https://github.com/Andrew-AI-JR/heyjunior-website/releases/download/v3.0.2-beta/LinkedIn_Automation_Tool_v3.0.2-beta.zip';
 
 // Get URL parameters
 const urlParams = new URLSearchParams(window.location.search);
@@ -43,7 +43,7 @@ function showDownloadInstructions() {
                 <h4>🎯 Next Steps:</h4>
                 <ol>
                     <li>Extract the ZIP file to a permanent location</li>
-                    <li>Run the LinkedIn_Automation_Tool_v3.0.1-beta.exe file</li>
+                    <li>Run the LinkedIn_Automation_Tool_v3.0.2-beta.exe file</li>
                     <li>Follow the setup wizard instructions</li>
                     <li>Start with conservative automation settings!</li>
                 </ol>
