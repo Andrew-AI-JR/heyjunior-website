@@ -139,7 +139,7 @@ async function initializeStripe() {
             <div class="error-payment-notice">
                 <h3>⚠️ Payment System Unavailable</h3>
                 <p><strong>Error:</strong> ${errorMessage}</p>
-                <p>Please contact our support team at <a href="mailto:support@heyjunior.ai">support@heyjunior.ai</a></p>
+                <p>Please contact our support team at <a href="mailto:amalinow1973@gmail.com">amalinow1973@gmail.com</a></p>
             </div>
         `;
     }
