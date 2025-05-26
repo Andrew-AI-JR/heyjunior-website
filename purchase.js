@@ -1,5 +1,5 @@
 // Purchase page functionality
-const API_BASE_URL = 'https://junior-api-staging-915940312680.us-west1.run.app';
+const API_BASE_URL = 'https://junior-api-915940312680.us-west1.run.app';
 
 let stripe;
 let elements;
@@ -80,18 +80,27 @@ async function initializeStripe() {
     });
 
     try {
-        const response = await fetch(`${API_BASE_URL}/create-payment-intent`, {
+        // Use the proper backend endpoint for payment intent creation
+        const response = await fetch(`${API_BASE_URL}/payments/create-payment-intent`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
             body: JSON.stringify({
                 amount: BETA_PRICE,
                 currency: 'usd',
-                customer_email: emailAddress || 'customer@example.com'
+                customer_email: emailAddress || 'customer@example.com',
+                metadata: {
+                    product: 'linkedin-automation-beta',
+                    version: 'v3.0.2-beta'
+                }
             })
         });
 
         if (!response.ok) {
-            throw new Error(`Backend server returned ${response.status}: ${response.statusText}`);
+            const errorData = await response.json().catch(() => ({}));
+            throw new Error(`Backend server returned ${response.status}: ${errorData.detail || response.statusText}`);
         }
 
         const { client_secret, publishable_key } = await response.json();
@@ -159,12 +168,13 @@ async function handleSubmit(e) {
     showMessage('Processing payment...');
 
     try {
-        const {error} = await stripe.confirmPayment({
+        const {error, paymentIntent} = await stripe.confirmPayment({
             elements,
             confirmParams: {
                 return_url: `${window.location.origin}/success.html?email=${encodeURIComponent(email)}`,
                 receipt_email: email,
             },
+            redirect: 'if_required'
         });
 
         if (error) {
@@ -174,10 +184,72 @@ async function handleSubmit(e) {
                 showMessage("An unexpected error occurred.");
             }
             setLoading(false);
+        } else if (paymentIntent && paymentIntent.status === 'succeeded') {
+            // Payment succeeded, verify with backend and create customer
+            await verifyPaymentAndCreateCustomer(paymentIntent.id, email);
         }
     } catch (error) {
         console.error('Payment error:', error);
         showMessage("Payment processing failed. Please try again.");
+        setLoading(false);
+    }
+}
+
+async function verifyPaymentAndCreateCustomer(paymentIntentId, email) {
+    try {
+        showMessage('Verifying payment and setting up your account...');
+        
+        // Verify payment with backend
+        const verifyResponse = await fetch(`${API_BASE_URL}/payments/verify-payment`, {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                payment_intent_id: paymentIntentId,
+                customer_email: email
+            })
+        });
+
+        if (!verifyResponse.ok) {
+            throw new Error('Payment verification failed');
+        }
+
+        const verifyData = await verifyResponse.json();
+        
+        // Create customer record
+        const customerResponse = await fetch(`${API_BASE_URL}/payments/customers`, {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                email: email,
+                payment_intent_id: paymentIntentId,
+                subscription_status: 'active',
+                plan: 'beta',
+                metadata: {
+                    signup_date: new Date().toISOString(),
+                    version: 'v3.0.2-beta'
+                }
+            })
+        });
+
+        if (!customerResponse.ok) {
+            console.warn('Customer creation failed, but payment succeeded');
+        }
+
+        // Track successful purchase
+        trackPurchaseComplete(email, paymentIntentId);
+        
+        // Redirect to success page
+        window.location.href = `success.html?email=${encodeURIComponent(email)}&payment_intent=${paymentIntentId}`;
+        
+    } catch (error) {
+        console.error('Post-payment processing failed:', error);
+        showMessage('Payment succeeded, but account setup failed. Please contact support with your payment confirmation.');
         setLoading(false);
     }
 }
@@ -237,6 +309,38 @@ function trackPurchaseIntent(planType) {
             currency: 'USD',
             content_name: 'LinkedIn Automation Tool Beta',
             content_category: 'Software'
+        });
+    }
+}
+
+// Track completed purchase
+function trackPurchaseComplete(email, paymentIntentId) {
+    console.log(`🎉 Purchase completed: ${email}`);
+    
+    // Google Analytics
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'purchase', {
+            transaction_id: paymentIntentId,
+            value: 20,
+            currency: 'USD',
+            items: [{
+                item_id: 'linkedin-automation-beta',
+                item_name: 'LinkedIn Automation Tool Beta',
+                category: 'Software',
+                quantity: 1,
+                price: 20
+            }]
+        });
+    }
+    
+    // Facebook Pixel
+    if (typeof fbq !== 'undefined') {
+        fbq('track', 'Purchase', {
+            value: 20,
+            currency: 'USD',
+            content_name: 'LinkedIn Automation Tool Beta',
+            content_type: 'product',
+            content_ids: ['linkedin-automation-beta']
         });
     }
 }
