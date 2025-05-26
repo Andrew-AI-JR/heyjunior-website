@@ -1697,4 +1697,74 @@ body {
     .instructions-box h3 {
         font-size: 1.1rem;
     }
+}
+
+/* Platform Support Styles */
+.platform-support {
+    margin-top: 30px;
+    padding: 20px;
+    background: #f8fafc;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+}
+
+.platform-support h3 {
+    color: #1f2937;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}
+
+.platform-badges {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.platform-badge {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s ease;
+}
+
+.platform-badge:hover {
+    border-color: #3b82f6;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
+}
+
+.platform-icon {
+    font-size: 1.5rem;
+    min-width: 24px;
+}
+
+.platform-info strong {
+    display: block;
+    color: #1f2937;
+    font-size: 1rem;
+    margin-bottom: 2px;
+}
+
+.platform-info small {
+    color: #6b7280;
+    font-size: 0.85rem;
+}
+
+/* Responsive Design for Platform Badges */
+@media (max-width: 768px) {
+    .platform-badges {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    
+    .platform-badge {
+        padding: 12px;
+    }
+    
+    .platform-icon {
+        font-size: 1.3rem;
+    }
 } 
