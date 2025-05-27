@@ -3,7 +3,7 @@ const API_BASE_URL = 'https://junior-api-915940312680.us-west1.run.app';
 
 // Download URLs
 const WINDOWS_DOWNLOAD_URL = 'https://github.com/Andrew-AI-JR/heyjunior-website/releases/download/v3.1.0-beta/LinkedIn_Automation_Tool_v3.1.0-beta.zip';
-const MACOS_DOWNLOAD_URL = 'https://github.com/Andrew-AI-JR/junior/actions'; // Will be updated when DMG is available
+const MACOS_DOWNLOAD_URL = 'https://github.com/amalinow1973/linkedin-automation-tool/actions/workflows/build-macos.yml'; // macOS v3.1.0-beta via GitHub Actions
 
 // Get URL parameters
 const urlParams = new URLSearchParams(window.location.search);
@@ -117,7 +117,7 @@ function setupDownloadButtons() {
                     Download for macOS
                 </a>
                 ${isMac ? '<span class="recommended-badge">Recommended for you</span>' : ''}
-                <p class="note">Note: macOS version available via GitHub Actions artifacts</p>
+                <p class="note">Note: macOS v3.1.0-beta available via GitHub Actions artifacts</p>
             </div>
         </div>
         
