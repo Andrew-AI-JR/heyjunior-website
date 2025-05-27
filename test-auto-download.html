@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Auto Download</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .test-button {
+            background: #10b981;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+        }
+        .test-button:hover {
+            background: #059669;
+        }
+        .status {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 5px;
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🧪 Auto Download Test</h1>
+        <p>This page tests the automatic download functionality that will be triggered after payment verification.</p>
+        
+        <div class="test-controls">
+            <button class="test-button" onclick="testWindowsAutoDownload()">Test Windows Auto Download</button>
+            <button class="test-button" onclick="testMacOSAutoInstructions()">Test macOS Auto Instructions</button>
+            <button class="test-button" onclick="testPaymentVerification()">Test Full Payment Flow</button>
+        </div>
+        
+        <div id="test-status" class="status" style="display: none;">
+            <h3>Test Status</h3>
+            <p id="status-message">Ready to test...</p>
+        </div>
+        
+        <div id="download-instructions" class="instructions-container">
+            <!-- Instructions will appear here -->
+        </div>
+    </div>
+
+    <script>
+        // Copy the relevant functions from success.js for testing
+        const WINDOWS_DOWNLOAD_URL = 'https://github.com/Andrew-AI-JR/heyjunior-website/releases/download/v3.1.0-beta/LinkedIn_Automation_Tool_v3.1.0-beta.zip';
+        const MACOS_DOWNLOAD_URL = 'https://github.com/amalinow1973/linkedin-automation-tool/actions/workflows/build-macos.yml';
+        
+        let downloadTriggered = false;
+
+        function showStatus(message) {
+            const statusDiv = document.getElementById('test-status');
+            const messageEl = document.getElementById('status-message');
+            statusDiv.style.display = 'block';
+            messageEl.textContent = message;
+        }
+
+        function testWindowsAutoDownload() {
+            showStatus('Testing Windows automatic download...');
+            startWindowsDownload();
+        }
+
+        function testMacOSAutoInstructions() {
+            showStatus('Testing macOS automatic instructions...');
+            showMacOSInstructions();
+        }
+
+        function testPaymentVerification() {
+            showStatus('Testing full payment verification flow...');
+            // Simulate payment verification success
+            setTimeout(() => {
+                triggerAutomaticDownload();
+            }, 1000);
+        }
+
+        function triggerAutomaticDownload() {
+            if (downloadTriggered) return;
+            downloadTriggered = true;
+            
+            const userAgent = navigator.userAgent.toLowerCase();
+            const isMac = userAgent.includes('mac');
+            const isWindows = userAgent.includes('win');
+            
+            showDownloadNotification();
+            
+            if (isWindows) {
+                setTimeout(() => {
+                    startWindowsDownload();
+                }, 2000);
+            } else if (isMac) {
+                setTimeout(() => {
+                    showMacOSAutoInstructions();
+                }, 2000);
+            } else {
+                setTimeout(() => {
+                    showStatus('Unknown OS - showing both options');
+                }, 2000);
+            }
+        }
+
+        function showDownloadNotification() {
+            const notification = document.createElement('div');
+            notification.id = 'download-notification';
+            notification.innerHTML = `
+                <div class="download-notification">
+                    <div class="notification-content">
+                        <h3>🎉 Payment Verified!</h3>
+                        <p>Your download will start automatically...</p>
+                        <div class="loading-spinner"></div>
+                    </div>
+                </div>
+            `;
+            
+            const style = document.createElement('style');
+            style.textContent = `
+                .download-notification {
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+                    color: white;
+                    padding: 20px;
+                    border-radius: 12px;
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                    z-index: 1000;
+                    animation: slideIn 0.5s ease-out;
+                    max-width: 300px;
+                }
+                
+                .notification-content h3 {
+                    margin: 0 0 10px 0;
+                    font-size: 1.2em;
+                }
+                
+                .notification-content p {
+                    margin: 0 0 15px 0;
+                }
+                
+                .loading-spinner {
+                    width: 20px;
+                    height: 20px;
+                    border: 2px solid rgba(255,255,255,0.3);
+                    border-top: 2px solid white;
+                    border-radius: 50%;
+                    animation: spin 1s linear infinite;
+                    margin: 0 auto;
+                }
+                
+                @keyframes slideIn {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+                
+                @keyframes spin {
+                    0% { transform: rotate(0deg); }
+                    100% { transform: rotate(360deg); }
+                }
+            `;
+            document.head.appendChild(style);
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 5000);
+        }
+
+        function startWindowsDownload() {
+            const downloadLink = document.createElement('a');
+            downloadLink.href = WINDOWS_DOWNLOAD_URL;
+            downloadLink.download = 'LinkedIn_Automation_Tool_v3.1.0-beta.zip';
+            downloadLink.style.display = 'none';
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+            
+            showStatus('✅ Windows download started! Check your Downloads folder.');
+            showWindowsInstructions();
+        }
+
+        function showMacOSAutoInstructions() {
+            showMacOSInstructions();
+            showStatus('✅ macOS instructions displayed.');
+        }
+
+        function showWindowsInstructions() {
+            const instructionsDiv = document.querySelector('#download-instructions');
+            if (instructionsDiv) {
+                instructionsDiv.innerHTML = `
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                        <h3>📥 Windows Installation v3.1.0-beta</h3>
+                        <p>Your download should begin automatically. If it doesn't:</p>
+                        <ol>
+                            <li>Click the download button again</li>
+                            <li>Or <a href="${WINDOWS_DOWNLOAD_URL}" target="_blank">click here</a></li>
+                        </ol>
+                        
+                        <h4>🎯 Installation Steps:</h4>
+                        <ol>
+                            <li>Extract the ZIP file to a permanent location</li>
+                            <li>Run the LinkedIn_Automation_Tool_v3.1.0-beta.exe file</li>
+                            <li>🔑 Enter your license key when prompted</li>
+                            <li>Follow the setup wizard instructions</li>
+                            <li>Configure your LinkedIn credentials</li>
+                            <li>Start with conservative automation settings!</li>
+                        </ol>
+                    </div>
+                `;
+            }
+        }
+
+        function showMacOSInstructions() {
+            const instructionsDiv = document.querySelector('#download-instructions');
+            if (instructionsDiv) {
+                instructionsDiv.innerHTML = `
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                        <h3>📥 macOS Installation v3.1.0-beta</h3>
+                        <p>The macOS version v3.1.0-beta is available through GitHub Actions:</p>
+                        <ol>
+                            <li><a href="${MACOS_DOWNLOAD_URL}" target="_blank">Click here to go to GitHub Actions</a></li>
+                            <li>Look for the latest successful "Build LinkedIn Automation Tool v3.1.0-beta - macOS" workflow run</li>
+                            <li>Click on the workflow run to view details</li>
+                            <li>Scroll down to "Artifacts" section</li>
+                            <li>Download the "linkedin-automation-macos-v3.1.0-beta" artifact</li>
+                            <li>Unzip the downloaded file to get the DMG</li>
+                        </ol>
+                        
+                        <h4>🎯 Installation Steps:</h4>
+                        <ol>
+                            <li>Double-click the DMG file to mount it</li>
+                            <li>Drag the app to your Applications folder</li>
+                            <li>Right-click the app and select "Open" (first time only)</li>
+                            <li>🔑 Enter your license key when prompted</li>
+                            <li>Follow the setup wizard instructions</li>
+                        </ol>
+                    </div>
+                `;
+            }
+        }
+    </script>
+</body>
+</html> 

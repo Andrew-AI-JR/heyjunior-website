@@ -10,6 +10,9 @@ const urlParams = new URLSearchParams(window.location.search);
 const email = urlParams.get('email');
 const paymentIntentId = urlParams.get('payment_intent');
 
+// Track if download has been triggered to prevent multiple downloads
+let downloadTriggered = false;
+
 document.addEventListener('DOMContentLoaded', function() {
     // Update success message
     document.querySelector('#customer-email').textContent = email || 'your email';
@@ -47,6 +50,9 @@ async function verifyPaymentStatus() {
             
             // Show verified payment status
             updatePaymentStatus('verified');
+            
+            // Trigger automatic download after payment verification
+            triggerAutomaticDownload();
         } else {
             console.warn('⚠️ Payment verification failed');
             updatePaymentStatus('unverified');
@@ -54,6 +60,179 @@ async function verifyPaymentStatus() {
     } catch (error) {
         console.error('❌ Payment verification error:', error);
         updatePaymentStatus('error');
+    }
+}
+
+function triggerAutomaticDownload() {
+    // Prevent multiple downloads
+    if (downloadTriggered) return;
+    downloadTriggered = true;
+    
+    // Detect user's operating system
+    const userAgent = navigator.userAgent.toLowerCase();
+    const isMac = userAgent.includes('mac');
+    const isWindows = userAgent.includes('win');
+    
+    // Show download notification
+    showDownloadNotification();
+    
+    // Trigger download based on OS
+    if (isWindows) {
+        // Auto-download for Windows
+        setTimeout(() => {
+            startWindowsDownload();
+        }, 2000); // 2 second delay to show notification
+    } else if (isMac) {
+        // For macOS, show instructions since it's via GitHub Actions
+        setTimeout(() => {
+            showMacOSAutoInstructions();
+        }, 2000);
+    } else {
+        // For other OS, show both options
+        setTimeout(() => {
+            showDownloadOptions();
+        }, 2000);
+    }
+}
+
+function showDownloadNotification() {
+    // Create and show download notification
+    const notification = document.createElement('div');
+    notification.id = 'download-notification';
+    notification.innerHTML = `
+        <div class="download-notification">
+            <div class="notification-content">
+                <h3>🎉 Payment Verified!</h3>
+                <p>Your download will start automatically...</p>
+                <div class="loading-spinner"></div>
+            </div>
+        </div>
+    `;
+    
+    // Add notification styles
+    const style = document.createElement('style');
+    style.textContent = `
+        .download-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 1000;
+            animation: slideIn 0.5s ease-out;
+            max-width: 300px;
+        }
+        
+        .notification-content h3 {
+            margin: 0 0 10px 0;
+            font-size: 1.2em;
+        }
+        
+        .notification-content p {
+            margin: 0 0 15px 0;
+        }
+        
+        .loading-spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @media (max-width: 768px) {
+            .download-notification {
+                top: 10px;
+                right: 10px;
+                left: 10px;
+                max-width: none;
+            }
+        }
+    `;
+    document.head.appendChild(style);
+    document.body.appendChild(notification);
+    
+    // Remove notification after 5 seconds
+    setTimeout(() => {
+        notification.remove();
+    }, 5000);
+}
+
+function startWindowsDownload() {
+    // Create invisible download link and trigger it
+    const downloadLink = document.createElement('a');
+    downloadLink.href = WINDOWS_DOWNLOAD_URL;
+    downloadLink.download = 'LinkedIn_Automation_Tool_v3.1.0-beta.zip';
+    downloadLink.style.display = 'none';
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+    
+    // Track the download
+    trackDownload('windows-auto');
+    
+    // Show Windows instructions
+    showWindowsInstructions();
+    
+    // Update notification
+    updateDownloadNotification('Windows download started! Check your Downloads folder.');
+}
+
+function showMacOSAutoInstructions() {
+    // For macOS, we can't auto-download from GitHub Actions, so show instructions
+    showMacOSInstructions();
+    
+    // Track the attempt
+    trackDownload('macos-auto');
+    
+    // Update notification
+    updateDownloadNotification('macOS instructions displayed below. Click the download link to proceed.');
+}
+
+function showDownloadOptions() {
+    // Show both download options for unknown OS
+    const downloadSection = document.querySelector('.download-section');
+    if (downloadSection) {
+        downloadSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    
+    // Update notification
+    updateDownloadNotification('Please select your operating system below to download.');
+}
+
+function updateDownloadNotification(message) {
+    const notification = document.getElementById('download-notification');
+    if (notification) {
+        const content = notification.querySelector('.notification-content');
+        content.innerHTML = `
+            <h3>✅ Ready to Download</h3>
+            <p>${message}</p>
+        `;
+        
+        // Change notification color to success
+        notification.querySelector('.download-notification').style.background = 
+            'linear-gradient(135deg, #10b981 0%, #059669 100%)';
     }
 }
 
@@ -67,6 +246,9 @@ function updatePaymentStatus(status) {
                 <h2>✅ Payment Verified!</h2>
                 <p>Your payment has been confirmed and your beta access is active.</p>
                 <p>Confirmation email sent to <span id="customer-email">${email}</span></p>
+                <div class="auto-download-notice">
+                    <p><strong>🚀 Your download will start automatically!</strong></p>
+                </div>
             `;
             break;
         case 'unverified':
@@ -128,12 +310,12 @@ function setupDownloadButtons() {
 
     // Add event listeners
     document.querySelector('#windows-download').addEventListener('click', function(e) {
-        trackDownload('windows');
+        trackDownload('windows-manual');
         showWindowsInstructions();
     });
 
     document.querySelector('#macos-download').addEventListener('click', function(e) {
-        trackDownload('macos');
+        trackDownload('macos-manual');
         showMacOSInstructions();
     });
 }
@@ -143,7 +325,7 @@ function showWindowsInstructions() {
     if (instructionsDiv) {
         instructionsDiv.innerHTML = `
             <div class="instructions-box">
-                <h3>📥 Windows Installation</h3>
+                <h3>📥 Windows Installation v3.1.0-beta</h3>
                 <p>Your download should begin automatically. If it doesn't:</p>
                 <ol>
                     <li>Click the download button again</li>
@@ -154,10 +336,16 @@ function showWindowsInstructions() {
                 <ol>
                     <li>Extract the ZIP file to a permanent location</li>
                     <li>Run the LinkedIn_Automation_Tool_v3.1.0-beta.exe file</li>
+                    <li>🔑 Enter your license key when prompted (check your email or copy from above)</li>
                     <li>Follow the setup wizard instructions</li>
                     <li>Configure your LinkedIn credentials</li>
                     <li>Start with conservative automation settings!</li>
                 </ol>
+                
+                <div style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 5px; padding: 10px; margin: 10px 0;">
+                    <strong>🔑 License Required:</strong> This version requires a valid license key to run automation features.
+                    <br>Your license key should be displayed above or sent to your email.
+                </div>
                 
                 <p><strong>Need help?</strong> Check the installation guide included in the download.</p>
             </div>
@@ -170,12 +358,14 @@ function showMacOSInstructions() {
     if (instructionsDiv) {
         instructionsDiv.innerHTML = `
             <div class="instructions-box">
-                <h3>📥 macOS Installation</h3>
-                <p>The macOS version is available through GitHub Actions:</p>
+                <h3>📥 macOS Installation v3.1.0-beta</h3>
+                <p>The macOS version v3.1.0-beta is available through GitHub Actions:</p>
                 <ol>
                     <li>Click the link above to go to GitHub Actions</li>
-                    <li>Look for the latest "Build LinkedIn Automation Tool - macOS" workflow</li>
-                    <li>Download the "linkedin-automation-macos" artifact</li>
+                    <li>Look for the latest successful "Build LinkedIn Automation Tool v3.1.0-beta - macOS" workflow run</li>
+                    <li>Click on the workflow run to view details</li>
+                    <li>Scroll down to "Artifacts" section</li>
+                    <li>Download the "linkedin-automation-macos-v3.1.0-beta" artifact</li>
                     <li>Unzip the downloaded file to get the DMG</li>
                 </ol>
                 
@@ -184,10 +374,16 @@ function showMacOSInstructions() {
                     <li>Double-click the DMG file to mount it</li>
                     <li>Drag the app to your Applications folder</li>
                     <li>Right-click the app and select "Open" (first time only)</li>
+                    <li>🔑 Enter your license key when prompted (check your email or copy from above)</li>
                     <li>Follow the setup wizard instructions</li>
                     <li>Configure your LinkedIn credentials</li>
                     <li>Start with conservative automation settings!</li>
                 </ol>
+                
+                <div style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 5px; padding: 10px; margin: 10px 0;">
+                    <strong>🔑 License Required:</strong> This version requires a valid license key to run automation features.
+                    <br>Your license key should be displayed above or sent to your email.
+                </div>
                 
                 <p><strong>Need help?</strong> Contact support at <a href="mailto:amalinow1973@gmail.com">amalinow1973@gmail.com</a></p>
             </div>
@@ -217,14 +413,16 @@ function trackDownload(platform) {
     }
 }
 
-// Auto-scroll to download section
+// Auto-scroll to download section (only if no automatic download was triggered)
 setTimeout(() => {
-    const downloadSection = document.querySelector('.download-section');
-    if (downloadSection) {
-        downloadSection.scrollIntoView({
-            behavior: 'smooth',
-            block: 'center'
-        });
+    if (!downloadTriggered) {
+        const downloadSection = document.querySelector('.download-section');
+        if (downloadSection) {
+            downloadSection.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center'
+            });
+        }
     }
 }, 1000);
 
@@ -289,10 +487,31 @@ function copyLicenseKey() {
     }
 }
 
-// Add CSS styles for license section
+// Add CSS styles for license section and auto-download notice
 function addLicenseStyles() {
     const style = document.createElement('style');
     style.textContent = `
+        .auto-download-notice {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            text-align: center;
+            animation: pulse 2s infinite;
+        }
+        
+        .auto-download-notice p {
+            margin: 0;
+            font-weight: bold;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+        
         .license-info {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border-radius: 15px;
