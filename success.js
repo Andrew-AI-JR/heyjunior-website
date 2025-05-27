@@ -5,6 +5,9 @@ const API_BASE_URL = 'https://junior-api-915940312680.us-west1.run.app';
 const WINDOWS_DOWNLOAD_URL = 'https://github.com/Andrew-AI-JR/heyjunior-website/releases/download/v3.1.0-beta/LinkedIn_Automation_Tool_v3.1.0-beta.zip';
 const MACOS_DOWNLOAD_URL = 'https://github.com/amalinow1973/linkedin-automation-tool/actions/workflows/build-macos.yml'; // macOS v3.1.0-beta via GitHub Actions
 
+// Secure download endpoints
+const SECURE_DOWNLOAD_API = `${API_BASE_URL}/downloads`;
+
 // Get URL parameters
 const urlParams = new URLSearchParams(window.location.search);
 const email = urlParams.get('email');
@@ -12,6 +15,7 @@ const paymentIntentId = urlParams.get('payment_intent');
 
 // Track if download has been triggered to prevent multiple downloads
 let downloadTriggered = false;
+let downloadToken = null;
 
 document.addEventListener('DOMContentLoaded', function() {
     // Update success message
@@ -48,6 +52,9 @@ async function verifyPaymentStatus() {
             const paymentData = await response.json();
             console.log('✅ Payment verified:', paymentData);
             
+            // Generate secure download token
+            await generateDownloadToken();
+            
             // Show verified payment status
             updatePaymentStatus('verified');
             
@@ -60,6 +67,34 @@ async function verifyPaymentStatus() {
     } catch (error) {
         console.error('❌ Payment verification error:', error);
         updatePaymentStatus('error');
+    }
+}
+
+async function generateDownloadToken() {
+    try {
+        const response = await fetch(`${SECURE_DOWNLOAD_API}/generate-token`, {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                customer_email: email,
+                payment_intent_id: paymentIntentId,
+                platform: navigator.platform,
+                user_agent: navigator.userAgent
+            })
+        });
+
+        if (response.ok) {
+            const tokenData = await response.json();
+            downloadToken = tokenData.download_token;
+            console.log('🔑 Download token generated');
+        } else {
+            console.warn('⚠️ Could not generate download token, falling back to public downloads');
+        }
+    } catch (error) {
+        console.warn('⚠️ Download token generation failed:', error);
     }
 }
 
@@ -83,15 +118,104 @@ function triggerAutomaticDownload() {
             startWindowsDownload();
         }, 2000); // 2 second delay to show notification
     } else if (isMac) {
-        // For macOS, show instructions since it's via GitHub Actions
+        // For macOS, use secure download if token available, otherwise show instructions
         setTimeout(() => {
-            showMacOSAutoInstructions();
+            if (downloadToken) {
+                startSecureMacOSDownload();
+            } else {
+                showMacOSAutoInstructions();
+            }
         }, 2000);
     } else {
         // For other OS, show both options
         setTimeout(() => {
             showDownloadOptions();
         }, 2000);
+    }
+}
+
+async function startSecureMacOSDownload() {
+    try {
+        // Request secure macOS download
+        const response = await fetch(`${SECURE_DOWNLOAD_API}/macos`, {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                download_token: downloadToken,
+                customer_email: email
+            })
+        });
+
+        if (response.ok) {
+            const downloadData = await response.json();
+            
+            if (downloadData.download_url) {
+                // Start secure download
+                const downloadLink = document.createElement('a');
+                downloadLink.href = downloadData.download_url;
+                downloadLink.download = downloadData.filename || 'LinkedIn_Automation_Tool_v3.1.0-beta_macOS.dmg';
+                downloadLink.style.display = 'none';
+                document.body.appendChild(downloadLink);
+                downloadLink.click();
+                document.body.removeChild(downloadLink);
+                
+                // Track the download
+                trackDownload('macos-secure-auto');
+                
+                // Show macOS instructions
+                showSecureMacOSInstructions(downloadData);
+                
+                // Update notification
+                updateDownloadNotification('Secure macOS download started! Check your Downloads folder.');
+            } else {
+                throw new Error('No download URL provided');
+            }
+        } else {
+            throw new Error(`Download request failed: ${response.status}`);
+        }
+    } catch (error) {
+        console.warn('Secure download failed, falling back to GitHub Actions:', error);
+        showMacOSAutoInstructions();
+    }
+}
+
+function showSecureMacOSInstructions(downloadData) {
+    const instructionsDiv = document.querySelector('#download-instructions');
+    if (instructionsDiv) {
+        instructionsDiv.innerHTML = `
+            <div class="instructions-box">
+                <h3>📥 macOS Installation v3.1.0-beta (Secure Download)</h3>
+                <p>✅ Your secure macOS download has started automatically!</p>
+                
+                <div style="background: #d4edda; border: 1px solid #c3e6cb; border-radius: 5px; padding: 10px; margin: 10px 0;">
+                    <strong>🔒 Secure Download:</strong> This is a personalized download link tied to your purchase.
+                    <br>File: ${downloadData.filename || 'LinkedIn_Automation_Tool_v3.1.0-beta_macOS.dmg'}
+                    <br>Valid until: ${downloadData.expires_at || 'N/A'}
+                </div>
+                
+                <h4>🎯 Installation Steps:</h4>
+                <ol>
+                    <li>Wait for the DMG file to finish downloading</li>
+                    <li>Double-click the DMG file to mount it</li>
+                    <li>Drag the app to your Applications folder</li>
+                    <li>Right-click the app and select "Open" (first time only)</li>
+                    <li>🔑 Enter your license key when prompted (check your email or copy from above)</li>
+                    <li>Follow the setup wizard instructions</li>
+                    <li>Configure your LinkedIn credentials</li>
+                    <li>Start with conservative automation settings!</li>
+                </ol>
+                
+                <div style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 5px; padding: 10px; margin: 10px 0;">
+                    <strong>🔑 License Required:</strong> This version requires a valid license key to run automation features.
+                    <br>Your license key should be displayed above or sent to your email.
+                </div>
+                
+                <p><strong>Need help?</strong> Contact support at <a href="mailto:amalinow1973@gmail.com">amalinow1973@gmail.com</a></p>
+            </div>
+        `;
     }
 }
 
