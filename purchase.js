@@ -143,12 +143,49 @@ async function initializeStripe() {
         
         showMessage(errorMessage);
         
-        // Show error notice
+        // Show error notice with alternative payment options
         document.querySelector('#payment-element').innerHTML = `
             <div class="error-payment-notice">
-                <h3>⚠️ Payment System Unavailable</h3>
-                <p><strong>Error:</strong> ${errorMessage}</p>
-                <p>Please contact our support team at <a href="mailto:amalinow1973@gmail.com">amalinow1973@gmail.com</a></p>
+                <h3>⚠️ Payment System Temporarily Unavailable</h3>
+                <p><strong>We're experiencing technical difficulties with our automated payment system.</strong></p>
+                
+                <div class="alternative-payment-options">
+                    <h4>🚀 Get Beta Access Now - Alternative Options:</h4>
+                    
+                    <div class="payment-option">
+                        <h5>📧 Email Payment Request</h5>
+                        <p>Send us an email and we'll send you a direct payment link:</p>
+                        <a href="mailto:amalinow1973@gmail.com?subject=LinkedIn Automation Beta Access Request&body=Hi! I'd like to purchase beta access to the LinkedIn Automation Tool for $20/month. Please send me a payment link. Thanks!" 
+                           class="contact-button email-button">
+                            📧 Request Payment Link via Email
+                        </a>
+                    </div>
+                    
+                    <div class="payment-option">
+                        <h5>💳 Direct Stripe Payment</h5>
+                        <p>Use our backup Stripe payment link:</p>
+                        <a href="https://buy.stripe.com/test_your_payment_link" 
+                           target="_blank" 
+                           class="contact-button stripe-button">
+                            💳 Pay with Stripe (Opens New Tab)
+                        </a>
+                        <small>Note: You'll receive download instructions via email after payment</small>
+                    </div>
+                    
+                    <div class="payment-option">
+                        <h5>💬 Live Support</h5>
+                        <p>Contact us directly for immediate assistance:</p>
+                        <a href="mailto:amalinow1973@gmail.com?subject=LinkedIn Automation Beta - Payment Issue&body=Hi! I'm trying to purchase the LinkedIn Automation Tool beta but the payment system isn't working. Can you help me complete my purchase? Thanks!" 
+                           class="contact-button support-button">
+                            💬 Contact Support
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="error-details">
+                    <p><strong>Technical Details:</strong> ${errorMessage}</p>
+                    <p><small>Error occurred at: ${new Date().toLocaleString()}</small></p>
+                </div>
             </div>
         `;
     }

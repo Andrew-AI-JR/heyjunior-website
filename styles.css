@@ -1767,4 +1767,138 @@ body {
     .platform-icon {
         font-size: 1.3rem;
     }
+}
+
+/* Alternative Payment Options Styles */
+.alternative-payment-options {
+    margin: 25px 0;
+    text-align: left;
+}
+
+.alternative-payment-options h4 {
+    color: #2563eb;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+.payment-option {
+    background: white;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 15px;
+    transition: all 0.3s ease;
+}
+
+.payment-option:hover {
+    border-color: #3b82f6;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
+}
+
+.payment-option h5 {
+    color: #1f2937;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.payment-option p {
+    color: #6b7280;
+    margin-bottom: 15px;
+    font-size: 0.95rem;
+}
+
+.contact-button {
+    display: inline-block;
+    padding: 12px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.email-button {
+    background: #10b981;
+    color: white;
+    border: 2px solid #10b981;
+}
+
+.email-button:hover {
+    background: #059669;
+    border-color: #059669;
+    color: white;
+    text-decoration: none;
+}
+
+.stripe-button {
+    background: #6772e5;
+    color: white;
+    border: 2px solid #6772e5;
+}
+
+.stripe-button:hover {
+    background: #5469d4;
+    border-color: #5469d4;
+    color: white;
+    text-decoration: none;
+}
+
+.support-button {
+    background: #f59e0b;
+    color: white;
+    border: 2px solid #f59e0b;
+}
+
+.support-button:hover {
+    background: #d97706;
+    border-color: #d97706;
+    color: white;
+    text-decoration: none;
+}
+
+.payment-option small {
+    display: block;
+    color: #9ca3af;
+    font-size: 0.85rem;
+    margin-top: 8px;
+    text-align: center;
+}
+
+.error-details {
+    margin-top: 25px;
+    padding: 15px;
+    background: #f3f4f6;
+    border-radius: 6px;
+    border-left: 4px solid #dc3545;
+}
+
+.error-details p {
+    margin: 5px 0;
+    font-size: 0.9rem;
+}
+
+.error-details strong {
+    color: #dc3545;
+}
+
+/* Responsive design for payment options */
+@media (max-width: 768px) {
+    .payment-option {
+        padding: 15px;
+    }
+    
+    .contact-button {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+    }
+    
+    .alternative-payment-options h4 {
+        font-size: 1.1rem;
+    }
 } 
