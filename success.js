@@ -21,6 +21,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Set up download buttons
     setupDownloadButtons();
+    
+    // Add license display
+    addLicenseStyles();
+    displayLicenseInfo();
 });
 
 async function verifyPaymentStatus() {
@@ -222,4 +226,221 @@ setTimeout(() => {
             block: 'center'
         });
     }
-}, 1000); 
+}, 1000);
+
+// Add license management functions
+function displayLicenseInfo() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const licenseId = urlParams.get('license_id');
+    const customerEmail = urlParams.get('email');
+    
+    // Try to get license from localStorage
+    const storedLicense = localStorage.getItem('user_license');
+    
+    if (licenseId && customerEmail) {
+        // Show license info section
+        const licenseInfoSection = document.getElementById('licenseInfo');
+        if (licenseInfoSection) {
+            licenseInfoSection.style.display = 'block';
+            
+            // Populate license details
+            document.getElementById('licenseId').textContent = licenseId;
+            document.getElementById('customerEmail').textContent = customerEmail;
+            
+            // If we have stored license data, show the key
+            if (storedLicense) {
+                try {
+                    const licenseData = JSON.parse(storedLicense);
+                    if (licenseData.license_key) {
+                        document.getElementById('licenseKey').value = licenseData.license_key;
+                    }
+                } catch (error) {
+                    console.error('Error parsing stored license:', error);
+                }
+            }
+        }
+    }
+}
+
+function copyLicenseKey() {
+    const licenseKeyField = document.getElementById('licenseKey');
+    if (licenseKeyField && licenseKeyField.value) {
+        licenseKeyField.select();
+        licenseKeyField.setSelectionRange(0, 99999); // For mobile devices
+        
+        try {
+            document.execCommand('copy');
+            
+            // Update button text temporarily
+            const copyBtn = document.querySelector('.copy-btn');
+            const originalText = copyBtn.textContent;
+            copyBtn.textContent = '✅ Copied!';
+            copyBtn.style.backgroundColor = '#10b981';
+            
+            setTimeout(() => {
+                copyBtn.textContent = originalText;
+                copyBtn.style.backgroundColor = '';
+            }, 2000);
+            
+        } catch (error) {
+            console.error('Failed to copy license key:', error);
+            alert('Failed to copy license key. Please select and copy manually.');
+        }
+    }
+}
+
+// Add CSS styles for license section
+function addLicenseStyles() {
+    const style = document.createElement('style');
+    style.textContent = `
+        .license-info {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+            color: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .license-info h3 {
+            margin-top: 0;
+            color: #fff;
+            font-size: 1.4em;
+        }
+        
+        .license-details {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .license-details p {
+            margin: 8px 0;
+            font-size: 1.1em;
+        }
+        
+        .status-active {
+            background: #10b981;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+        
+        .license-key-section {
+            margin-top: 20px;
+        }
+        
+        .license-key-section h4 {
+            color: #fff;
+            margin-bottom: 10px;
+        }
+        
+        .license-key-container {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+        
+        .license-key-display {
+            flex: 1;
+            min-height: 80px;
+            padding: 12px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 8px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            resize: vertical;
+            word-break: break-all;
+        }
+        
+        .license-key-display:focus {
+            outline: none;
+            border-color: rgba(255,255,255,0.6);
+        }
+        
+        .copy-btn {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+        
+        .copy-btn:hover {
+            background: #059669;
+            transform: translateY(-2px);
+        }
+        
+        .license-note {
+            margin-top: 15px;
+            padding: 12px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+            font-size: 0.95em;
+            border-left: 4px solid #fbbf24;
+        }
+        
+        .download-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        
+        .download-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            min-width: 200px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+        
+        .download-icon {
+            font-size: 2em;
+            margin-bottom: 8px;
+        }
+        
+        .download-size {
+            font-size: 0.85em;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+        
+        @media (max-width: 768px) {
+            .license-key-container {
+                flex-direction: column;
+            }
+            
+            .copy-btn {
+                align-self: flex-start;
+            }
+            
+            .download-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    `;
+    document.head.appendChild(style);
+} 

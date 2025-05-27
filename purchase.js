@@ -6,6 +6,9 @@ let elements;
 let paymentElement;
 let isPaymentInitialized = false;
 
+// Add license management integration
+const LICENSE_API_BASE = 'https://junior-api-915940312680.us-west1.run.app/api/license';
+
 // Initialize when page loads
 document.addEventListener('DOMContentLoaded', function() {
     console.log('🔄 Setting up beta selection...');
@@ -389,4 +392,102 @@ function showBetaWelcome() {
 }
 
 // Initialize beta welcome
-showBetaWelcome(); 
+showBetaWelcome();
+
+// Function to process payment and generate license
+async function processPaymentAndGenerateLicense(paymentIntentId, customerEmail, amount) {
+    try {
+        const response = await fetch(`${LICENSE_API_BASE}/process-payment`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                customer_email: customerEmail,
+                stripe_payment_intent_id: paymentIntentId,
+                amount: amount,
+                plan: amount >= 9900 ? 'lifetime' : 'beta',
+                duration_days: amount >= 9900 ? 3650 : 30
+            })
+        });
+
+        const result = await response.json();
+        
+        if (response.ok && result.success) {
+            return {
+                success: true,
+                license_key: result.license_key,
+                license_id: result.license_id
+            };
+        } else {
+            throw new Error(result.error || 'Failed to generate license');
+        }
+    } catch (error) {
+        console.error('License generation error:', error);
+        return {
+            success: false,
+            error: error.message
+        };
+    }
+}
+
+// Function to send license via email
+async function sendLicenseEmail(customerEmail, licenseKey, licenseId) {
+    try {
+        // You can integrate with your email service here
+        // For now, we'll store it locally and show it to the user
+        
+        const licenseData = {
+            email: customerEmail,
+            license_key: licenseKey,
+            license_id: licenseId,
+            generated_at: new Date().toISOString()
+        };
+        
+        // Store in localStorage for user to access
+        localStorage.setItem('user_license', JSON.stringify(licenseData));
+        
+        return { success: true };
+    } catch (error) {
+        console.error('Email sending error:', error);
+        return { success: false, error: error.message };
+    }
+}
+
+// Update the existing payment success handler
+async function handlePaymentSuccess(paymentIntent) {
+    try {
+        // Get customer email from the form or payment metadata
+        const customerEmail = document.getElementById('email')?.value || 
+                             paymentIntent.metadata?.customer_email;
+        
+        if (!customerEmail) {
+            throw new Error('Customer email not found');
+        }
+        
+        // Generate license
+        const licenseResult = await processPaymentAndGenerateLicense(
+            paymentIntent.id,
+            customerEmail,
+            paymentIntent.amount
+        );
+        
+        if (licenseResult.success) {
+            // Send license via email
+            await sendLicenseEmail(customerEmail, licenseResult.license_key, licenseResult.license_id);
+            
+            // Redirect to success page with license info
+            const successUrl = new URL('success.html', window.location.origin);
+            successUrl.searchParams.set('license_id', licenseResult.license_id);
+            successUrl.searchParams.set('email', customerEmail);
+            
+            window.location.href = successUrl.toString();
+        } else {
+            throw new Error(licenseResult.error);
+        }
+        
+    } catch (error) {
+        console.error('Payment success handling error:', error);
+        showError('Payment successful, but there was an issue generating your license. Please contact support.');
+    }
+} 

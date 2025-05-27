@@ -41,15 +41,45 @@
                     <p>A confirmation email has been sent to <span id="customer-email">your email</span></p>
                 </div>
 
+                <!-- Add license information section -->
+                <div class="license-info" id="licenseInfo" style="display: none;">
+                    <h3>🔑 Your License Information</h3>
+                    <div class="license-details">
+                        <p><strong>License ID:</strong> <span id="licenseId"></span></p>
+                        <p><strong>Email:</strong> <span id="customerEmail"></span></p>
+                        <p><strong>Status:</strong> <span class="status-active">Active</span></p>
+                    </div>
+                    
+                    <div class="license-key-section">
+                        <h4>License Key:</h4>
+                        <div class="license-key-container">
+                            <textarea id="licenseKey" readonly class="license-key-display"></textarea>
+                            <button onclick="copyLicenseKey()" class="copy-btn">📋 Copy</button>
+                        </div>
+                        <p class="license-note">
+                            ⚠️ <strong>Important:</strong> Save this license key securely. You'll need it to activate the software on your computer.
+                        </p>
+                    </div>
+                </div>
+
                 <div class="download-section">
                     <h2>📥 Download Your Software</h2>
                     <p>Your LinkedIn Automation Tool is ready for download:</p>
                     
-                    <div class="download-button-container">
-                        <a id="download-button" href="#" class="download-button">
-                            Download LinkedIn Automation Tool v3.0.2-beta
+                    <div class="download-buttons">
+                        <a href="downloads/LinkedIn_Automation_Tool_v3.0.2-beta_Windows.exe" 
+                           class="download-btn windows-btn" id="windowsDownload">
+                            <span class="download-icon">🪟</span>
+                            Download for Windows
+                            <span class="download-size">(~26 MB)</span>
                         </a>
-                        <p class="file-info">File size: 26 MB • Windows 10/11</p>
+                        
+                        <a href="downloads/LinkedIn_Automation_Tool_v3.0.2-beta_macOS.dmg" 
+                           class="download-btn mac-btn" id="macDownload">
+                            <span class="download-icon">🍎</span>
+                            Download for macOS
+                            <span class="download-size">(~28 MB)</span>
+                        </a>
                     </div>
 
                     <div id="download-instructions" class="instructions-container">
