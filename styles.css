@@ -1901,4 +1901,102 @@ body {
     .alternative-payment-options h4 {
         font-size: 1.1rem;
     }
+}
+
+/* Alternative Payment Section Styles */
+.alternative-payment-section {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    margin: 20px 0;
+    border: 2px solid #e2e8f0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.alternative-payment-section h3 {
+    color: #2563eb;
+    margin-bottom: 15px;
+    text-align: center;
+    font-size: 1.3rem;
+}
+
+.alternative-payment-section p {
+    color: #6b7280;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.payment-alternatives {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.stripe-buy-button-container,
+.stripe-link-container {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+}
+
+.stripe-buy-button-container h4,
+.stripe-link-container h4 {
+    color: #1f2937;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+}
+
+.stripe-buy-button-container {
+    border-color: #10b981;
+    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+}
+
+.stripe-buy-button-container h4 {
+    color: #059669;
+}
+
+.stripe-direct-link {
+    display: inline-block;
+    background: #6772e5;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    margin-bottom: 10px;
+}
+
+.stripe-direct-link:hover {
+    background: #5469d4;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(103, 114, 229, 0.3);
+    color: white;
+    text-decoration: none;
+}
+
+.stripe-link-container small {
+    display: block;
+    color: #9ca3af;
+    font-size: 0.85rem;
+    margin-top: 8px;
+}
+
+/* Responsive design for alternative payment section */
+@media (max-width: 768px) {
+    .payment-alternatives {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .stripe-buy-button-container,
+    .stripe-link-container {
+        padding: 15px;
+    }
+    
+    .alternative-payment-section {
+        padding: 20px;
+    }
 } 

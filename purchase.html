@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <script src="https://js.stripe.com/v3/"></script>
+    <script async src="https://js.stripe.com/v3/buy-button.js"></script>
 </head>
 <body>
     <!-- Navigation -->
@@ -124,6 +125,32 @@
                             <span class="button-text">Choose Beta Access - $20/month</span>
                             <span class="button-subtitle">Cancel anytime • Secure payment</span>
                         </button>
+                    </div>
+
+                    <!-- Alternative Payment Options -->
+                    <div class="alternative-payment-section">
+                        <h3>💳 Alternative Payment Options</h3>
+                        <p>If the main payment form isn't working, you can use these backup options:</p>
+                        
+                        <div class="payment-alternatives">
+                            <div class="stripe-buy-button-container">
+                                <h4>🚀 Stripe Buy Button (Recommended)</h4>
+                                <stripe-buy-button
+                                    buy-button-id="buy_btn_1RTMLQRxE6F23RwQTdiFIQ1r"
+                                    publishable-key="pk_live_51RGNsDRxE6F23RwQYPOULj2p5wnrgMIG4xgqZd5WVYEF5e4uRSDinlqT9b7hlMBCwxoUoDm4l1hO8xjKoenyK7HV00SJaVnMRj">
+                                </stripe-buy-button>
+                            </div>
+                            
+                            <div class="stripe-link-container">
+                                <h4>🔗 Direct Payment Link</h4>
+                                <a href="https://buy.stripe.com/aFabJ3alfcbOcfB8GE3cc01" 
+                                   target="_blank" 
+                                   class="stripe-direct-link">
+                                    💳 Pay via Stripe (Opens New Tab)
+                                </a>
+                                <small>Same secure payment, different interface</small>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Payment Form (Initially Hidden) -->

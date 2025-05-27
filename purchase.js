@@ -164,7 +164,7 @@ async function initializeStripe() {
                     <div class="payment-option">
                         <h5>💳 Direct Stripe Payment</h5>
                         <p>Use our backup Stripe payment link:</p>
-                        <a href="https://buy.stripe.com/test_your_payment_link" 
+                        <a href="https://buy.stripe.com/aFabJ3alfcbOcfB8GE3cc01" 
                            target="_blank" 
                            class="contact-button stripe-button">
                             💳 Pay with Stripe (Opens New Tab)
