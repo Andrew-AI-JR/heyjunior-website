@@ -2,7 +2,7 @@
 const API_BASE_URL = 'https://junior-api-915940312680.us-west1.run.app';
 
 // Download URLs
-const WINDOWS_DOWNLOAD_URL = 'https://github.com/Andrew-AI-JR/heyjunior-website/releases/download/v3.0.2-beta/LinkedIn_Automation_Tool_v3.0.2-beta.zip';
+const WINDOWS_DOWNLOAD_URL = 'https://github.com/Andrew-AI-JR/heyjunior-website/releases/download/v3.1.0-beta/LinkedIn_Automation_Tool_v3.1.0-beta.zip';
 const MACOS_DOWNLOAD_URL = 'https://github.com/Andrew-AI-JR/junior/actions'; // Will be updated when DMG is available
 
 // Get URL parameters
@@ -103,7 +103,7 @@ function setupDownloadButtons() {
         <div class="download-options">
             <div class="download-option ${isWindows ? 'recommended' : ''}">
                 <h3>🪟 Windows</h3>
-                <p>Windows 10/11 • 26 MB</p>
+                <p>Windows 10/11 • 51 MB</p>
                 <a href="${WINDOWS_DOWNLOAD_URL}" class="download-button" id="windows-download">
                     Download for Windows
                 </a>
@@ -153,7 +153,7 @@ function showWindowsInstructions() {
                 <h4>🎯 Installation Steps:</h4>
                 <ol>
                     <li>Extract the ZIP file to a permanent location</li>
-                    <li>Run the LinkedIn_Automation_Tool_v3.0.2-beta.exe file</li>
+                    <li>Run the LinkedIn_Automation_Tool_v3.1.0-beta.exe file</li>
                     <li>Follow the setup wizard instructions</li>
                     <li>Configure your LinkedIn credentials</li>
                     <li>Start with conservative automation settings!</li>
@@ -202,7 +202,7 @@ function trackDownload(platform) {
     if (typeof gtag !== 'undefined') {
         gtag('event', 'download', {
             'event_category': 'Beta Release',
-            'event_label': `v3.0.2-beta-${platform}`,
+            'event_label': `v3.1.0-beta-${platform}`,
             'value': 1
         });
     }
@@ -212,7 +212,7 @@ function trackDownload(platform) {
         fbq('track', 'Download', {
             content_name: `LinkedIn Automation Tool Beta - ${platform}`,
             content_type: 'product',
-            content_ids: [`v3.0.2-beta-${platform}`]
+            content_ids: [`v3.1.0-beta-${platform}`]
         });
     }
 }

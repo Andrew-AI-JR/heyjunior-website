@@ -96,7 +96,7 @@ async function initializeStripe() {
                 customer_email: emailAddress || 'customer@example.com',
                 metadata: {
                     product: 'linkedin-automation-beta',
-                    version: 'v3.0.2-beta'
+                    version: 'v3.1.0-beta'
                 }
             })
         });
@@ -272,7 +272,7 @@ async function verifyPaymentAndCreateCustomer(paymentIntentId, email) {
                 plan: 'beta',
                 metadata: {
                     signup_date: new Date().toISOString(),
-                    version: 'v3.0.2-beta'
+                    version: 'v3.1.0-beta'
                 }
             })
         });
