@@ -5,8 +5,8 @@ const API_BASE_URL = 'https://junior-api-915940312680.us-west1.run.app';
 const WINDOWS_DOWNLOAD_URL = 'https://github.com/Andrew-AI-JR/heyjunior-website/releases/download/v3.1.0-beta/LinkedIn_Automation_Tool_v3.1.0-beta.zip';
 const MACOS_DOWNLOAD_URL = 'https://github.com/amalinow1973/linkedin-automation-tool/actions/workflows/build-macos.yml'; // macOS v3.1.0-beta via GitHub Actions
 
-// Secure download endpoints
-const SECURE_DOWNLOAD_API = `${API_BASE_URL}/downloads`;
+// Secure download endpoints (GCP-based)
+const SECURE_DOWNLOAD_API = `${API_BASE_URL}/api/downloads`;
 
 // Get URL parameters
 const urlParams = new URLSearchParams(window.location.search);
