@@ -1999,4 +1999,81 @@ body {
     .alternative-payment-section {
         padding: 20px;
     }
+}
+
+/* Beta offer card list styling */
+.beta-offer-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+    text-align: left;
+}
+
+.beta-offer-card li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    padding: 8px 0;
+    font-size: 1rem;
+    color: #4a5568;
+}
+
+.beta-offer-card li:before {
+    content: none; /* Remove any default bullet points */
+}
+
+/* Ensure checkmarks are properly aligned */
+.beta-offer-card li:first-child {
+    margin-top: 0;
+}
+
+.beta-offer-card li:last-child {
+    margin-bottom: 0;
+}
+
+/* Beta card list styling improvements */
+.beta-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+    text-align: left;
+}
+
+.beta-card li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    padding: 6px 0;
+    font-size: 0.95rem;
+    color: #4a5568;
+    line-height: 1.4;
+}
+
+.beta-card li:before {
+    content: none; /* Remove any default bullet points */
+}
+
+/* Purchase page beta card styling */
+.beta-purchase ul {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+    text-align: left;
+}
+
+.beta-purchase li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    padding: 6px 0;
+    font-size: 0.95rem;
+    color: #4a5568;
+    line-height: 1.4;
+}
+
+.beta-purchase li:before {
+    content: none; /* Remove any default bullet points */
 } 
