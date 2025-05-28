@@ -17,8 +17,8 @@ const paymentIntentId = urlParams.get('payment_intent');
 let downloadTriggered = false;
 let downloadToken = null;
 
-// success.js - Simplified for Direct Beta Download (No Licensing)
-const WINDOWS_DIRECT_DOWNLOAD_URL = 'LinkedIn_Automation_Tool_v3.1.0-beta.zip'; // Assuming it's in the website root
+// success.js - Simplified for Direct Beta Download (No Licensing) - v3.0.1
+const WINDOWS_DIRECT_DOWNLOAD_URL = 'downloads/LinkedIn_Automation_Tool_v3.0.1-beta.zip';
 const MACOS_DIRECT_DOWNLOAD_URL = 'https://drive.google.com/uc?export=download&id=1Q0AuZYSlMealm5B-iDEhO5oW1VO7x8dM';
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -30,9 +30,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const checkoutData = JSON.parse(checkoutDataStr);
         email = checkoutData.email || email;
         platform = checkoutData.platform || platform;
-        // sessionStorage.removeItem('checkoutData'); // Optional: clear after use
     } else {
-        // Attempt to gracefully handle if user lands here without session data
         console.warn('Checkout data not found in session. Displaying generic success message.');
     }
 
@@ -40,7 +38,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     updateDownloadButtons(platform);
     updateInstructions(platform, email);
 
-    // Start automatic download after a short delay
     setTimeout(() => {
         startAutomaticDownload(platform);
     }, 1500);
@@ -59,17 +56,18 @@ function displayOrderInfo(email, platform) {
     
     const licenseSection = document.querySelector('.license-section');
     if (licenseSection) {
-        licenseSection.style.display = 'none'; // Ensure license section is hidden
+        licenseSection.style.display = 'none';
     }
 
     const paymentStatusDiv = document.querySelector('.payment-status');
     if (paymentStatusDiv) {
-        // Remove any old email delivery notices if they exist from previous versions
         const oldNotice = paymentStatusDiv.querySelector('.email-delivery-notice');
         if (oldNotice) oldNotice.remove();
+        const existingSuccessMessage = paymentStatusDiv.querySelector('.payment-success-notice');
+        if (existingSuccessMessage) existingSuccessMessage.remove(); // Remove if already exists to prevent duplication
 
         const successMessage = document.createElement('div');
-        successMessage.className = 'payment-success-notice'; // New class for new message
+        successMessage.className = 'payment-success-notice';
         successMessage.style.background = '#e0f2fe';
         successMessage.style.border = '1px solid #7dd3fc';
         successMessage.style.borderRadius = '8px';
@@ -81,7 +79,6 @@ function displayOrderInfo(email, platform) {
             <p style="color: #075985; margin-bottom: 15px;">Your payment was successful. Your download for the <strong>${platform === 'windows' ? 'Windows' : 'macOS'}</strong> version should start automatically.</p>
             <p style="color: #075985;">If it doesn't, please use the download buttons below. This beta version does not require a license key.</p>
         `;
-        // Prepend this message
         const successHeader = document.querySelector('.success-header');
         if (successHeader) {
             successHeader.insertAdjacentElement('afterend', successMessage);
@@ -96,7 +93,7 @@ function updateDownloadButtons(platform) {
         option.style.display = 'none';
     });
 
-    const effectivePlatform = platform || (Math.random() < 0.5 ? 'windows' : 'macos'); // Fallback for display
+    const effectivePlatform = platform || (Math.random() < 0.5 ? 'windows' : 'macos');
 
     if (effectivePlatform === 'windows') {
         const windowsOption = document.querySelector('.download-option.windows');
@@ -105,8 +102,10 @@ function updateDownloadButtons(platform) {
             windowsOption.classList.add('recommended');
             const button = windowsOption.querySelector('.download-button');
             if (button) button.href = WINDOWS_DIRECT_DOWNLOAD_URL;
+            const note = windowsOption.querySelector('.note');
+            if(note) note.textContent = 'File: LinkedIn_Automation_Tool_v3.0.1-beta.zip';
         }
-    } else { // macOS
+    } else { 
         const macOption = document.querySelector('.download-option.macos');
         if (macOption) {
             macOption.style.display = 'block';
@@ -114,8 +113,10 @@ function updateDownloadButtons(platform) {
             const button = macOption.querySelector('.download-button');
             if (button) {
                 button.href = MACOS_DIRECT_DOWNLOAD_URL;
-                button.target = '_self'; // Keep download in the same tab for direct link
+                button.target = '_self';
             }
+            const note = macOption.querySelector('.note');
+            if(note) note.textContent = 'File: LinkedIn_Automation_Tool_macOS_beta.dmg';
         }
     }
 }
@@ -131,7 +132,7 @@ function updateInstructions(platform, email) {
         platformSpecificInstructions = `
             <h3>🖥️ Windows Installation</h3>
             <ol>
-                <li>Your download for <strong>LinkedIn_Automation_Tool_v3.1.0-beta.zip</strong> should have started. If not, use the button above.</li>
+                <li>Your download for <strong>LinkedIn_Automation_Tool_v3.0.1-beta.zip</strong> should have started. If not, use the button above.</li>
                 <li>Locate the downloaded ZIP file (usually in your Downloads folder).</li>
                 <li>Right-click the ZIP file and select "Extract All...".</li>
                 <li>Open the extracted folder and run "LinkedIn_Automation_Tool.exe".</li>
@@ -139,7 +140,7 @@ function updateInstructions(platform, email) {
             </ol>
             <p><small><strong>Note:</strong> Windows Defender SmartScreen might show a warning ("Windows protected your PC"). If so, click "More info" then "Run anyway".</small></p>
         `;
-    } else { // macOS
+    } else { 
         platformSpecificInstructions = `
             <h3>🍎 macOS Installation</h3>
             <ol>
@@ -161,20 +162,20 @@ function startAutomaticDownload(platform) {
 
     if (platform === 'windows') {
         downloadUrl = WINDOWS_DIRECT_DOWNLOAD_URL;
-        filename = 'LinkedIn_Automation_Tool_v3.1.0-beta.zip';
+        filename = 'LinkedIn_Automation_Tool_v3.0.1-beta.zip';
     } else if (platform === 'macos') {
         downloadUrl = MACOS_DIRECT_DOWNLOAD_URL;
-        filename = 'LinkedIn_Automation_Tool_macOS_beta.dmg'; // Suggested filename for the browser
+        filename = 'LinkedIn_Automation_Tool_macOS_beta.dmg';
     } else {
         console.warn('Unknown platform for automatic download:', platform);
-        return; // Don't attempt download if platform is unknown
+        return;
     }
 
     if (downloadUrl) {
-        showDownloadNotification(platform); // Show visual feedback
+        showDownloadNotification(platform);
         const link = document.createElement('a');
         link.href = downloadUrl;
-        link.download = filename; // Suggests a filename to the browser
+        link.download = filename;
         link.style.display = 'none';
         document.body.appendChild(link);
         link.click();
@@ -184,21 +185,20 @@ function startAutomaticDownload(platform) {
 }
 
 function showDownloadNotification(platform) {
-    // Remove any existing notification first
     const existingNotification = document.querySelector('.download-notification-toast');
     if (existingNotification) existingNotification.remove();
 
     const notification = document.createElement('div');
-    notification.className = 'download-notification-toast'; // Unique class
+    notification.className = 'download-notification-toast';
     notification.style.position = 'fixed';
     notification.style.top = '20px';
     notification.style.right = '20px';
-    notification.style.background = '#10b981'; // Green
+    notification.style.background = '#10b981';
     notification.style.color = 'white';
     notification.style.padding = '20px';
     notification.style.borderRadius = '8px';
     notification.style.boxShadow = '0 4px 20px rgba(0,0,0,0.2)';
-    notification.style.zIndex = '1001'; // Ensure it's on top
+    notification.style.zIndex = '1001';
     notification.style.animation = 'slideInNotification 0.5s ease-out';
     notification.innerHTML = `
         <h4 style="margin: 0 0 5px 0;">🚀 Download Started!</h4>
@@ -210,14 +210,13 @@ function showDownloadNotification(platform) {
     setTimeout(() => {
         notification.style.animation = 'slideOutNotification 0.5s ease-in forwards';
         notification.addEventListener('animationend', () => {
-            if (notification.parentNode) { // Check if still in DOM before removing
+            if (notification.parentNode) {
                 notification.remove();
             }
         });
     }, 5000);
 }
 
-// Add CSS for notification animations dynamically
 const dynamicNotificationStyles = document.createElement('style');
 dynamicNotificationStyles.textContent = `
     @keyframes slideInNotification {
@@ -228,11 +227,10 @@ dynamicNotificationStyles.textContent = `
         from { transform: translateX(0); opacity: 1; }
         to { transform: translateX(100%); opacity: 0; }
     }
-    .license-section { display: none !important; } /* Double ensure old license section is hidden */
+    .license-section { display: none !important; }
 `;
 document.head.appendChild(dynamicNotificationStyles);
 
-// Ensure email placeholders are updated if needed (though less critical now)
 function updateAllEmailPlaceholders(email) {
     const emailElements = document.querySelectorAll('.customer-email');
     emailElements.forEach(el => {
