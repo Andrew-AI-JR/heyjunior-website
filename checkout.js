@@ -1,4 +1,4 @@
-// checkout.js - Simplified for Stripe Payment Link
+// checkout.js - Enhanced for Account Creation Integration
 document.addEventListener('DOMContentLoaded', () => {
     // Add event listeners
     document.getElementById('stripe-payment-link-button')?.addEventListener('click', handleProceedToPayment);
@@ -20,7 +20,7 @@ function handleProceedToPayment(e) {
 
     if (!email || !validateEmail(email)) {
         e.preventDefault(); // Prevent redirect if email is invalid
-        alert('Please enter a valid email address. This email will be used for your license key and receipt.');
+        alert('Please enter a valid email address. This email will be used for your account creation and license key.');
         return;
     }
 
@@ -30,17 +30,44 @@ function handleProceedToPayment(e) {
         return;
     }
 
-    // You can prefill email and pass platform/other data to Stripe Payment Link via URL parameters
-    // Example: https://buy.stripe.com/your_link_id?prefilled_email=user@example.com&client_reference_id=platform_windows_order_123
-    // Update the `paymentLink` with these parameters if your Stripe Payment Link is configured to accept them.
-    // For now, we just ensure email is entered.
-    // Stripe's Payment Link page will collect payment details.
+    // Store checkout data for account creation after payment
+    const checkoutData = {
+        email: email,
+        platform: platform,
+        timestamp: new Date().toISOString(),
+        userAgent: navigator.userAgent,
+        referrer: document.referrer || 'direct'
+    };
 
-    // Optional: you could store email and platform in sessionStorage to retrieve on the success page if needed
-    sessionStorage.setItem('checkoutData', JSON.stringify({ email, platform }));
+    // Store in sessionStorage for success page
+    sessionStorage.setItem('checkoutData', JSON.stringify(checkoutData));
 
-    // The <a> tag's default behavior will handle the redirect to the Stripe Payment Link.
-    // If you dynamically construct the link, you would do: window.location.href = paymentLink;
+    // Also store in localStorage as backup (in case session is lost during redirect)
+    localStorage.setItem('pendingAccountCreation', JSON.stringify(checkoutData));
+
+    // Update the Stripe Payment Link to include customer email in metadata
+    // This ensures the webhook can identify the customer for account creation
+    try {
+        const url = new URL(paymentLink);
+        url.searchParams.set('prefilled_email', email);
+        url.searchParams.set('client_reference_id', `platform_${platform}_${Date.now()}`);
+        stripeLinkButton.href = url.toString();
+    } catch (error) {
+        console.warn('Could not modify payment link URL:', error);
+        // Continue with original link if URL modification fails
+    }
+
+    // Show loading state
+    const buttonText = document.getElementById('button-text');
+    if (buttonText) {
+        buttonText.textContent = 'Redirecting to secure payment...';
+        stripeLinkButton.style.opacity = '0.7';
+        stripeLinkButton.style.pointerEvents = 'none';
+    }
+
+    // The <a> tag's default behavior will handle the redirect to the Stripe Payment Link
+    // After successful payment, Stripe will redirect to success.html with payment details
+    // The webhook will handle account creation automatically
 }
 
 function validateEmail(email) {
@@ -53,9 +80,19 @@ function updateButtonText() {
     const buttonTextElement = document.getElementById('button-text');
     if (buttonTextElement) {
         if (platform) {
-            buttonTextElement.textContent = `Proceed to Payment for ${platform.charAt(0).toUpperCase() + platform.slice(1)} - $20/month`;
+            const platformName = platform.charAt(0).toUpperCase() + platform.slice(1);
+            buttonTextElement.textContent = `Proceed to Payment for ${platformName} - $20/month`;
         } else {
             buttonTextElement.textContent = 'Proceed to Payment - $20/month';
         }
     }
-} 
+}
+
+// Clean up any pending account creation data when leaving the page
+window.addEventListener('beforeunload', () => {
+    // Only clean up if we're not going to Stripe (payment link)
+    const stripeLinkButton = document.getElementById('stripe-payment-link-button');
+    if (stripeLinkButton && !stripeLinkButton.href.includes('stripe.com')) {
+        localStorage.removeItem('pendingAccountCreation');
+    }
+}); 
