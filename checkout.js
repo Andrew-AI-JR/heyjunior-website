@@ -1,166 +1,46 @@
-// Stripe configuration
-const stripe = Stripe('pk_test_51OJlvNDPpSthVQMcVcz8Zzp7ssYbKKDJVIJQH9g2pMwFVhqKmLVBRoURt1hXfOKoqBpHisFPOCxHkVpbLhc5Axzs00kiAYxQxe');
-
-// Initialize on page load
-document.addEventListener('DOMContentLoaded', async () => {
-    // Initialize Stripe Elements
-    await initializePayment();
-    
+// checkout.js - Simplified for Stripe Payment Link
+document.addEventListener('DOMContentLoaded', () => {
     // Add event listeners
-    document.getElementById('submit-payment').addEventListener('click', handleSubmit);
+    document.getElementById('stripe-payment-link-button')?.addEventListener('click', handleProceedToPayment);
     
     // Platform selection listeners
     document.querySelectorAll('input[name="platform"]').forEach(radio => {
         radio.addEventListener('change', updateButtonText);
     });
+
+    // Initialize button text
+    updateButtonText();
 });
 
-let elements;
-let paymentElement;
-
-async function initializePayment() {
-    try {
-        // Create payment intent
-        const response = await fetch('https://junior-api-915940312680.us-west1.run.app/api/v1/payments/create-payment-intent', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                amount: 2000, // $20.00 in cents
-                currency: 'usd',
-                description: 'LinkedIn Automation Tool - Beta Access'
-            })
-        });
-
-        if (!response.ok) {
-            throw new Error('Failed to create payment intent');
-        }
-
-        const { clientSecret } = await response.json();
-
-        // Create Stripe Elements
-        const appearance = {
-            theme: 'stripe',
-            variables: {
-                colorPrimary: '#2563eb',
-                colorBackground: '#ffffff',
-                colorSurface: '#ffffff',
-                colorText: '#1a202c',
-                colorDanger: '#dc3545',
-                fontFamily: 'Roboto, sans-serif',
-                spacingUnit: '4px',
-                borderRadius: '6px',
-            }
-        };
-
-        elements = stripe.elements({ appearance, clientSecret });
-
-        // Create and mount payment element
-        paymentElement = elements.create('payment');
-        paymentElement.mount('#payment-element');
-
-    } catch (error) {
-        console.error('Error initializing payment:', error);
-        showError('Failed to initialize payment. Please refresh the page and try again.');
-    }
-}
-
-async function handleSubmit(e) {
-    e.preventDefault();
-
-    // Disable submit button
-    const submitButton = document.getElementById('submit-payment');
-    submitButton.disabled = true;
-    document.getElementById('spinner').classList.remove('hidden');
-    document.getElementById('button-text').classList.add('hidden');
-
-    // Get form data
+function handleProceedToPayment(e) {
     const email = document.getElementById('customer-email').value;
-    const platform = document.querySelector('input[name="platform"]:checked').value;
+    const platform = document.querySelector('input[name="platform"]:checked')?.value;
+    const stripeLinkButton = document.getElementById('stripe-payment-link-button');
+    let paymentLink = stripeLinkButton.href; // Get the base link
 
-    // Validate email
     if (!email || !validateEmail(email)) {
-        showError('Please enter a valid email address');
-        resetButton();
+        e.preventDefault(); // Prevent redirect if email is invalid
+        alert('Please enter a valid email address. This email will be used for your license key and receipt.');
         return;
     }
 
-    try {
-        // Confirm payment with Stripe
-        const { error, paymentIntent } = await stripe.confirmPayment({
-            elements,
-            confirmParams: {
-                receipt_email: email,
-            },
-            redirect: 'if_required'
-        });
-
-        if (error) {
-            showError(error.message);
-            resetButton();
-            return;
-        }
-
-        if (paymentIntent.status === 'succeeded') {
-            // Payment successful - process the order
-            await processSuccessfulPayment(paymentIntent.id, email, platform);
-        }
-
-    } catch (error) {
-        console.error('Payment error:', error);
-        showError('Payment failed. Please try again.');
-        resetButton();
+    if (!platform) {
+        e.preventDefault(); // Prevent redirect if platform is not selected
+        alert('Please select your platform (Windows or macOS).');
+        return;
     }
-}
 
-async function processSuccessfulPayment(paymentIntentId, email, platform) {
-    try {
-        // Call backend to generate license and process order
-        const response = await fetch('https://junior-api-915940312680.us-west1.run.app/api/v1/payments/process-order', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                payment_intent_id: paymentIntentId,
-                email: email,
-                platform: platform,
-                product: 'linkedin-automation-beta',
-                amount: 2000
-            })
-        });
+    // You can prefill email and pass platform/other data to Stripe Payment Link via URL parameters
+    // Example: https://buy.stripe.com/your_link_id?prefilled_email=user@example.com&client_reference_id=platform_windows_order_123
+    // Update the `paymentLink` with these parameters if your Stripe Payment Link is configured to accept them.
+    // For now, we just ensure email is entered.
+    // Stripe's Payment Link page will collect payment details.
 
-        if (!response.ok) {
-            throw new Error('Failed to process order');
-        }
+    // Optional: you could store email and platform in sessionStorage to retrieve on the success page if needed
+    sessionStorage.setItem('checkoutData', JSON.stringify({ email, platform }));
 
-        const orderData = await response.json();
-
-        // Store order data for success page
-        sessionStorage.setItem('orderData', JSON.stringify({
-            email: email,
-            platform: platform,
-            license_key: orderData.license_key,
-            order_id: orderData.order_id,
-            payment_intent_id: paymentIntentId
-        }));
-
-        // Redirect to success page
-        window.location.href = 'success.html';
-
-    } catch (error) {
-        console.error('Order processing error:', error);
-        // Payment succeeded but order processing failed
-        // Still redirect to success page with limited info
-        sessionStorage.setItem('orderData', JSON.stringify({
-            email: email,
-            platform: platform,
-            payment_intent_id: paymentIntentId,
-            error: 'Order processing delayed. You will receive your license key via email shortly.'
-        }));
-        window.location.href = 'success.html';
-    }
+    // The <a> tag's default behavior will handle the redirect to the Stripe Payment Link.
+    // If you dynamically construct the link, you would do: window.location.href = paymentLink;
 }
 
 function validateEmail(email) {
@@ -168,44 +48,14 @@ function validateEmail(email) {
     return re.test(email);
 }
 
-function showError(message) {
-    const errorDiv = document.getElementById('payment-errors');
-    errorDiv.textContent = message;
-    errorDiv.style.display = 'block';
-    
-    // Auto-hide after 5 seconds
-    setTimeout(() => {
-        errorDiv.style.display = 'none';
-    }, 5000);
-}
-
-function resetButton() {
-    const submitButton = document.getElementById('submit-payment');
-    submitButton.disabled = false;
-    document.getElementById('spinner').classList.add('hidden');
-    document.getElementById('button-text').classList.remove('hidden');
-}
-
 function updateButtonText() {
-    const platform = document.querySelector('input[name="platform"]:checked').value;
-    const buttonText = document.getElementById('button-text');
-    buttonText.textContent = `Complete Purchase - $20/month`;
-}
-
-// Add loading state to payment element
-if (paymentElement) {
-    paymentElement.on('ready', () => {
-        // Payment element is ready
-        console.log('Payment element ready');
-    });
-
-    paymentElement.on('change', (event) => {
-        // Handle real-time validation errors from the payment element
-        if (event.error) {
-            showError(event.error.message);
+    const platform = document.querySelector('input[name="platform"]:checked')?.value;
+    const buttonTextElement = document.getElementById('button-text');
+    if (buttonTextElement) {
+        if (platform) {
+            buttonTextElement.textContent = `Proceed to Payment for ${platform.charAt(0).toUpperCase() + platform.slice(1)} - $20/month`;
         } else {
-            // Clear error
-            document.getElementById('payment-errors').style.display = 'none';
+            buttonTextElement.textContent = 'Proceed to Payment - $20/month';
         }
-    });
+    }
 } 

@@ -109,20 +109,15 @@
                         <small>Your license key will be sent to this email</small>
                     </div>
 
-                    <!-- Stripe Payment -->
+                    <!-- Stripe Payment Link Button -->
                     <div class="payment-section">
-                        <h3>Payment Information</h3>
-                        <div id="payment-element">
-                            <!-- Stripe Elements will create form elements here -->
-                        </div>
-                        <div id="payment-errors" role="alert"></div>
+                        <h3>Complete Your Purchase</h3>
+                        <p style="text-align: center; margin-bottom: 20px;">You will be redirected to Stripe to complete your payment securely.</p>
+                        <a href="#YOUR_STRIPE_PAYMENT_LINK_HERE" id="stripe-payment-link-button" class="checkout-button">
+                            <span id="button-text">Proceed to Payment - $20/month</span>
+                        </a>
+                        <small style="text-align:center; display:block; margin-top:10px;">Please ensure your email is correct before proceeding.</small>
                     </div>
-
-                    <!-- Submit Button -->
-                    <button id="submit-payment" class="checkout-button">
-                        <span id="button-text">Complete Purchase - $20/month</span>
-                        <div id="spinner" class="spinner hidden"></div>
-                    </button>
 
                     <!-- Security Info -->
                     <div class="security-info">
