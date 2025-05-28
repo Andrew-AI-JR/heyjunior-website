@@ -17,569 +17,330 @@ const paymentIntentId = urlParams.get('payment_intent');
 let downloadTriggered = false;
 let downloadToken = null;
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Update success message
-    document.querySelector('#customer-email').textContent = email || 'your email';
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', async () => {
+    // Get order data from session storage
+    const orderDataStr = sessionStorage.getItem('orderData');
     
-    // Verify payment if payment intent ID is present
-    if (paymentIntentId) {
-        verifyPaymentStatus();
+    if (!orderDataStr) {
+        // No order data - redirect to checkout
+        window.location.href = 'checkout.html';
+        return;
     }
     
-    // Set up download buttons
-    setupDownloadButtons();
+    const orderData = JSON.parse(orderDataStr);
     
-    // Add license display
-    addLicenseStyles();
-    displayLicenseInfo();
+    // Clear session storage
+    sessionStorage.removeItem('orderData');
+    
+    // Display order information
+    displayOrderInfo(orderData);
+    
+    // Start automatic download if no error
+    if (!orderData.error) {
+        setTimeout(() => {
+            startAutomaticDownload(orderData.platform);
+        }, 1500); // Small delay for user to see success message
+    }
 });
 
-async function verifyPaymentStatus() {
-    try {
-        const response = await fetch(`${API_BASE_URL}/payments/verify-payment`, {
-            method: 'POST',
-            headers: { 
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify({
-                payment_intent_id: paymentIntentId,
-                customer_email: email
-            })
-        });
+function displayOrderInfo(orderData) {
+    // Update email
+    const emailElements = document.querySelectorAll('.customer-email');
+    emailElements.forEach(el => {
+        el.textContent = orderData.email;
+    });
+    
+    // Update platform
+    const platformElements = document.querySelectorAll('.selected-platform');
+    platformElements.forEach(el => {
+        el.textContent = orderData.platform === 'windows' ? 'Windows' : 'macOS';
+    });
+    
+    // Display license key if available
+    if (orderData.license_key) {
+        displayLicenseKey(orderData.license_key);
+    } else if (orderData.error) {
+        // Show error message
+        showDelayedProcessing(orderData.error);
+    }
+    
+    // Update download buttons based on platform
+    updateDownloadButtons(orderData.platform);
+}
 
-        if (response.ok) {
-            const paymentData = await response.json();
-            console.log('✅ Payment verified:', paymentData);
-            
-            // Generate secure download token
-            await generateDownloadToken();
-            
-            // Show verified payment status
-            updatePaymentStatus('verified');
-            
-            // Trigger automatic download after payment verification
-            triggerAutomaticDownload();
-        } else {
-            console.warn('⚠️ Payment verification failed');
-            updatePaymentStatus('unverified');
-        }
-    } catch (error) {
-        console.error('❌ Payment verification error:', error);
-        updatePaymentStatus('error');
+function displayLicenseKey(licenseKey) {
+    // Update license key display
+    const licenseKeyElement = document.getElementById('license-key-display');
+    if (licenseKeyElement) {
+        licenseKeyElement.textContent = licenseKey;
+    }
+    
+    // Show license section
+    const licenseSection = document.querySelector('.license-section');
+    if (licenseSection) {
+        licenseSection.style.display = 'block';
+    }
+    
+    // Add copy functionality
+    const copyButton = document.getElementById('copy-license-key');
+    if (copyButton) {
+        copyButton.addEventListener('click', () => {
+            copyLicenseKey(licenseKey);
+        });
     }
 }
 
-async function generateDownloadToken() {
-    try {
-        const response = await fetch(`${SECURE_DOWNLOAD_API}/generate-token`, {
-            method: 'POST',
-            headers: { 
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify({
-                customer_email: email,
-                payment_intent_id: paymentIntentId,
-                platform: navigator.platform,
-                user_agent: navigator.userAgent
-            })
-        });
-
-        if (response.ok) {
-            const tokenData = await response.json();
-            downloadToken = tokenData.download_token;
-            console.log('🔑 Download token generated');
-        } else {
-            console.warn('⚠️ Could not generate download token, falling back to public downloads');
-        }
-    } catch (error) {
-        console.warn('⚠️ Download token generation failed:', error);
-    }
-}
-
-function triggerAutomaticDownload() {
-    // Prevent multiple downloads
-    if (downloadTriggered) return;
-    downloadTriggered = true;
-    
-    // Detect user's operating system
-    const userAgent = navigator.userAgent.toLowerCase();
-    const isMac = userAgent.includes('mac');
-    const isWindows = userAgent.includes('win');
-    
-    // Show download notification
-    showDownloadNotification();
-    
-    // Trigger download based on OS
-    if (isWindows) {
-        // Auto-download for Windows
+function copyLicenseKey(licenseKey) {
+    navigator.clipboard.writeText(licenseKey).then(() => {
+        // Show success message
+        const copyButton = document.getElementById('copy-license-key');
+        const originalText = copyButton.textContent;
+        copyButton.textContent = '✅ Copied!';
+        copyButton.style.background = '#10b981';
+        
         setTimeout(() => {
-            startWindowsDownload();
-        }, 2000); // 2 second delay to show notification
-    } else if (isMac) {
-        // For macOS, use secure download if token available, otherwise show instructions
-        setTimeout(() => {
-            if (downloadToken) {
-                startSecureMacOSDownload();
-            } else {
-                showMacOSAutoInstructions();
-            }
+            copyButton.textContent = originalText;
+            copyButton.style.background = '';
         }, 2000);
-    } else {
-        // For other OS, show both options
-        setTimeout(() => {
-            showDownloadOptions();
-        }, 2000);
-    }
+    }).catch(err => {
+        console.error('Failed to copy:', err);
+        alert('Failed to copy. Please select and copy manually.');
+    });
 }
 
-async function startSecureMacOSDownload() {
-    // Show auto-download indicator
-    const indicator = document.getElementById('macos-auto-indicator');
-    if (indicator) {
-        indicator.style.display = 'block';
-        indicator.innerHTML = '<span class="pulse-dot"></span>Preparing secure download...';
-    }
-    
-    try {
-        // Request secure macOS download
-        const response = await fetch(`${SECURE_DOWNLOAD_API}/macos`, {
-            method: 'POST',
-            headers: { 
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify({
-                download_token: downloadToken,
-                customer_email: email
-            })
-        });
-
-        if (response.ok) {
-            const downloadData = await response.json();
-            
-            if (downloadData.download_url) {
-                // Update indicator
-                if (indicator) {
-                    indicator.innerHTML = '<span class="pulse-dot"></span>Starting download...';
-                }
-                
-                // Start secure download
-                const downloadLink = document.createElement('a');
-                downloadLink.href = downloadData.download_url;
-                downloadLink.download = downloadData.filename || 'LinkedIn_Automation_Tool_v3.1.0-beta_macOS.dmg';
-                downloadLink.style.display = 'none';
-                document.body.appendChild(downloadLink);
-                downloadLink.click();
-                document.body.removeChild(downloadLink);
-                
-                // Track the download
-                trackDownload('macos-secure-auto');
-                
-                // Show macOS instructions
-                showSecureMacOSInstructions(downloadData);
-                
-                // Update notification
-                updateDownloadNotification('Secure macOS download started! Check your Downloads folder.');
-            } else {
-                throw new Error('No download URL provided');
-            }
-        } else {
-            throw new Error(`Download request failed: ${response.status}`);
-        }
-    } catch (error) {
-        console.warn('Secure download failed, falling back to GitHub Actions:', error);
-        showMacOSAutoInstructions();
-    } finally {
-        // Hide indicator after 3 seconds
-        setTimeout(() => {
-            if (indicator) {
-                indicator.style.display = 'none';
-            }
-        }, 3000);
-    }
-}
-
-function showSecureMacOSInstructions(downloadData) {
-    const instructionsDiv = document.querySelector('#download-instructions');
-    if (instructionsDiv) {
-        instructionsDiv.innerHTML = `
-            <div class="instructions-box">
-                <h3>📥 macOS Installation v3.1.0-beta (Secure Download)</h3>
-                <p>✅ Your secure macOS download has started automatically!</p>
-                
-                <div style="background: #d4edda; border: 1px solid #c3e6cb; border-radius: 5px; padding: 10px; margin: 10px 0;">
-                    <strong>🔒 Secure Download:</strong> This is a personalized download link tied to your purchase.
-                    <br>File: ${downloadData.filename || 'LinkedIn_Automation_Tool_v3.1.0-beta_macOS.dmg'}
-                    <br>Valid until: ${downloadData.expires_at || 'N/A'}
-                </div>
-                
-                <h4>🎯 Installation Steps:</h4>
-                <ol>
-                    <li>Wait for the DMG file to finish downloading</li>
-                    <li>Double-click the DMG file to mount it</li>
-                    <li>Drag the app to your Applications folder</li>
-                    <li>Right-click the app and select "Open" (first time only)</li>
-                    <li>🔑 Enter your license key when prompted (check your email or copy from above)</li>
-                    <li>Follow the setup wizard instructions</li>
-                    <li>Configure your LinkedIn credentials</li>
-                    <li>Start with conservative automation settings!</li>
-                </ol>
-                
-                <div style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 5px; padding: 10px; margin: 10px 0;">
-                    <strong>🔑 License Required:</strong> This version requires a valid license key to run automation features.
-                    <br>Your license key should be displayed above or sent to your email.
-                </div>
-                
-                <p><strong>Need help?</strong> Contact support at <a href="mailto:amalinow1973@gmail.com">amalinow1973@gmail.com</a></p>
-            </div>
-        `;
-    }
-}
-
-function showDownloadNotification() {
-    // Create and show download notification
-    const notification = document.createElement('div');
-    notification.id = 'download-notification';
-    notification.innerHTML = `
-        <div class="download-notification">
-            <div class="notification-content">
-                <h3>🎉 Payment Verified!</h3>
-                <p>Your download will start automatically...</p>
-                <div class="loading-spinner"></div>
-            </div>
+function showDelayedProcessing(message) {
+    const delayedMessage = document.createElement('div');
+    delayedMessage.className = 'delayed-processing-message';
+    delayedMessage.innerHTML = `
+        <div style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 8px; padding: 20px; margin: 20px 0; text-align: center;">
+            <h3 style="color: #856404; margin-bottom: 10px;">⏳ Processing Your Order</h3>
+            <p style="color: #856404; margin: 0;">${message}</p>
         </div>
     `;
     
-    // Add notification styles
-    const style = document.createElement('style');
-    style.textContent = `
-        .download-notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            z-index: 1000;
-            animation: slideIn 0.5s ease-out;
-            max-width: 300px;
+    const paymentStatus = document.querySelector('.payment-status');
+    if (paymentStatus) {
+        paymentStatus.appendChild(delayedMessage);
+    }
+}
+
+function updateDownloadButtons(platform) {
+    // Hide all download options first
+    document.querySelectorAll('.download-option').forEach(option => {
+        option.style.display = 'none';
+    });
+    
+    // Show the selected platform
+    if (platform === 'windows') {
+        const windowsOption = document.querySelector('.download-option.windows');
+        if (windowsOption) {
+            windowsOption.style.display = 'block';
+            windowsOption.classList.add('recommended');
         }
-        
-        .notification-content h3 {
-            margin: 0 0 10px 0;
-            font-size: 1.2em;
+    } else {
+        const macOption = document.querySelector('.download-option.macos');
+        if (macOption) {
+            macOption.style.display = 'block';
+            macOption.classList.add('recommended');
         }
+    }
+    
+    // Update instructions
+    updateInstructions(platform);
+}
+
+function updateInstructions(platform) {
+    const instructionsBox = document.querySelector('.instructions-box');
+    if (!instructionsBox) return;
+    
+    if (platform === 'windows') {
+        instructionsBox.innerHTML = `
+            <h3>🖥️ Windows Installation Instructions</h3>
+            <ol>
+                <li>Your download should start automatically. If not, click the download button above.</li>
+                <li>Locate the downloaded ZIP file (usually in your Downloads folder)</li>
+                <li>Right-click the ZIP file and select "Extract All"</li>
+                <li>Open the extracted folder and run "LinkedIn_Automation_Tool.exe"</li>
+                <li>When prompted, enter your license key (sent to your email)</li>
+                <li>Follow the setup wizard to complete installation</li>
+            </ol>
+            <p><strong>Note:</strong> Windows may show a security warning. Click "More info" then "Run anyway" to proceed.</p>
+        `;
+    } else {
+        instructionsBox.innerHTML = `
+            <h3>🍎 macOS Installation Instructions</h3>
+            <ol>
+                <li>Your download should start automatically. If not, click the download button above.</li>
+                <li>Open the downloaded DMG file</li>
+                <li>Drag the LinkedIn Automation Tool to your Applications folder</li>
+                <li>Open the app from Applications (you may need to right-click and select "Open" the first time)</li>
+                <li>When prompted, enter your license key (sent to your email)</li>
+                <li>Grant necessary permissions when asked</li>
+            </ol>
+            <p><strong>Note:</strong> If macOS blocks the app, go to System Preferences > Security & Privacy and click "Open Anyway".</p>
+        `;
+    }
+}
+
+function startAutomaticDownload(platform) {
+    // Show download notification
+    showDownloadNotification(platform);
+    
+    if (platform === 'windows') {
+        // Download Windows version
+        const downloadUrl = 'https://github.com/amalinow1973/linkedin-automation-tool/releases/download/v3.1.0-beta/LinkedIn_Automation_Tool_v3.1.0-beta.zip';
+        startDownload(downloadUrl, 'LinkedIn_Automation_Tool_v3.1.0-beta.zip');
+    } else {
+        // For macOS, check if DMG is available via API first
+        checkMacOSDownload();
+    }
+}
+
+async function checkMacOSDownload() {
+    try {
+        // Check if secure download is available
+        const response = await fetch('https://junior-api-915940312680.us-west1.run.app/api/v1/downloads/check-availability', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                platform: 'macos',
+                version: 'v3.1.0-beta'
+            })
+        });
         
-        .notification-content p {
-            margin: 0 0 15px 0;
-        }
-        
-        .loading-spinner {
-            width: 20px;
-            height: 20px;
-            border: 2px solid rgba(255,255,255,0.3);
-            border-top: 2px solid white;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto;
-        }
-        
-        @keyframes slideIn {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
+        if (response.ok) {
+            const data = await response.json();
+            if (data.available && data.download_url) {
+                startDownload(data.download_url, 'LinkedIn_Automation_Tool_v3.1.0-beta_macOS.dmg');
+                return;
             }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
         }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        @media (max-width: 768px) {
-            .download-notification {
-                top: 10px;
-                right: 10px;
-                left: 10px;
-                max-width: none;
-            }
-        }
+    } catch (error) {
+        console.error('Error checking macOS download:', error);
+    }
+    
+    // Fallback to GitHub Actions
+    const githubUrl = 'https://github.com/amalinow1973/linkedin-automation-tool/actions/workflows/build-macos.yml';
+    showMacOSInstructions(githubUrl);
+}
+
+function startDownload(url, filename) {
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    link.style.display = 'none';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+function showDownloadNotification(platform) {
+    const notification = document.createElement('div');
+    notification.className = 'download-notification';
+    notification.innerHTML = `
+        <div style="position: fixed; top: 20px; right: 20px; background: #10b981; color: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.2); z-index: 1000; animation: slideIn 0.3s ease-out;">
+            <h4 style="margin: 0 0 5px 0;">✅ Download Started!</h4>
+            <p style="margin: 0; font-size: 0.9rem;">Your ${platform === 'windows' ? 'Windows' : 'macOS'} download has begun...</p>
+        </div>
     `;
-    document.head.appendChild(style);
+    
     document.body.appendChild(notification);
     
-    // Remove notification after 5 seconds
+    // Remove after 5 seconds
     setTimeout(() => {
-        notification.remove();
+        notification.style.animation = 'slideOut 0.3s ease-out';
+        setTimeout(() => {
+            document.body.removeChild(notification);
+        }, 300);
     }, 5000);
 }
 
-function startWindowsDownload() {
-    // Show auto-download indicator
-    const indicator = document.getElementById('windows-auto-indicator');
-    if (indicator) {
-        indicator.style.display = 'block';
-    }
+function showMacOSInstructions(githubUrl) {
+    const instructionsModal = document.createElement('div');
+    instructionsModal.className = 'macos-instructions-modal';
+    instructionsModal.innerHTML = `
+        <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 30px; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); z-index: 1000; max-width: 500px;">
+            <h3 style="color: #1f2937; margin-bottom: 15px;">🍎 macOS Download Instructions</h3>
+            <p style="color: #4b5563; margin-bottom: 20px;">The macOS version is being built. Please follow these steps:</p>
+            <ol style="color: #4b5563; margin-bottom: 20px;">
+                <li>Click the button below to go to GitHub Actions</li>
+                <li>Look for the latest successful build</li>
+                <li>Download the DMG file from the artifacts section</li>
+            </ol>
+            <a href="${githubUrl}" target="_blank" class="primary-button" style="display: inline-block; width: 100%; text-align: center; margin-bottom: 10px;">Go to GitHub Actions</a>
+            <button onclick="this.parentElement.parentElement.remove()" style="background: #f3f4f6; color: #4b5563; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; width: 100%;">Close</button>
+        </div>
+        <div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 999;" onclick="this.parentElement.remove()"></div>
+    `;
     
-    // Create invisible download link and trigger it
-    const downloadLink = document.createElement('a');
-    downloadLink.href = WINDOWS_DOWNLOAD_URL;
-    downloadLink.download = 'LinkedIn_Automation_Tool_v3.1.0-beta.zip';
-    downloadLink.style.display = 'none';
-    document.body.appendChild(downloadLink);
-    downloadLink.click();
-    document.body.removeChild(downloadLink);
-    
-    // Track the download
-    trackDownload('windows-auto');
-    
-    // Show Windows instructions
-    showWindowsInstructions();
-    
-    // Update notification
-    updateDownloadNotification('Windows download started! Check your Downloads folder.');
-    
-    // Hide indicator after 3 seconds
-    setTimeout(() => {
-        if (indicator) {
-            indicator.style.display = 'none';
+    document.body.appendChild(instructionsModal);
+}
+
+// Add CSS for animations
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes slideIn {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
         }
-    }, 3000);
-}
-
-function showMacOSAutoInstructions() {
-    // Show auto-download indicator
-    const indicator = document.getElementById('macos-auto-indicator');
-    if (indicator) {
-        indicator.style.display = 'block';
-    }
-    
-    // For macOS, we can't auto-download from GitHub Actions, so show instructions
-    showMacOSInstructions();
-    
-    // Track the attempt
-    trackDownload('macos-auto');
-    
-    // Update notification
-    updateDownloadNotification('macOS instructions displayed below. Click the download link to proceed.');
-    
-    // Hide indicator after 3 seconds
-    setTimeout(() => {
-        if (indicator) {
-            indicator.style.display = 'none';
-        }
-    }, 3000);
-}
-
-function showDownloadOptions() {
-    // Show both download options for unknown OS
-    const downloadSection = document.querySelector('.download-section');
-    if (downloadSection) {
-        downloadSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-    
-    // Update notification
-    updateDownloadNotification('Please select your operating system below to download.');
-}
-
-function updateDownloadNotification(message) {
-    const notification = document.getElementById('download-notification');
-    if (notification) {
-        const content = notification.querySelector('.notification-content');
-        content.innerHTML = `
-            <h3>✅ Ready to Download</h3>
-            <p>${message}</p>
-        `;
-        
-        // Change notification color to success
-        notification.querySelector('.download-notification').style.background = 
-            'linear-gradient(135deg, #10b981 0%, #059669 100%)';
-    }
-}
-
-function updatePaymentStatus(status) {
-    const statusElement = document.querySelector('#payment-status');
-    if (!statusElement) return;
-
-    switch (status) {
-        case 'verified':
-            statusElement.innerHTML = `
-                <h2>✅ Payment Verified!</h2>
-                <p>Your payment has been confirmed and your beta access is active.</p>
-                <p>Confirmation email sent to <span id="customer-email">${email}</span></p>
-                <div class="auto-download-notice">
-                    <p><strong>🚀 Your download will start automatically!</strong></p>
-                </div>
-            `;
-            break;
-        case 'unverified':
-            statusElement.innerHTML = `
-                <h2>⚠️ Payment Pending Verification</h2>
-                <p>Your payment is being processed. You should receive confirmation shortly.</p>
-                <p>If you don't receive confirmation within 10 minutes, please contact support.</p>
-            `;
-            break;
-        case 'error':
-            statusElement.innerHTML = `
-                <h2>❌ Verification Error</h2>
-                <p>Unable to verify payment status. Please contact support if you were charged.</p>
-                <p>Email: <a href="mailto:amalinow1973@gmail.com">amalinow1973@gmail.com</a></p>
-            `;
-            break;
-    }
-}
-
-function setupDownloadButtons() {
-    // Detect user's operating system
-    const userAgent = navigator.userAgent.toLowerCase();
-    const isMac = userAgent.includes('mac');
-    const isWindows = userAgent.includes('win');
-    
-    // Update the large download buttons with proper URLs and event listeners
-    const windowsButton = document.querySelector('#windows-download-large');
-    const macosButton = document.querySelector('#macos-download-large');
-    
-    if (windowsButton) {
-        windowsButton.href = WINDOWS_DOWNLOAD_URL;
-        windowsButton.addEventListener('click', function(e) {
-            trackDownload('windows-manual');
-            showWindowsInstructions();
-        });
-        
-        // Add recommended badge for Windows users
-        if (isWindows) {
-            const windowsOption = document.querySelector('.windows-option');
-            if (windowsOption && !windowsOption.querySelector('.recommended-badge')) {
-                const badge = document.createElement('div');
-                badge.className = 'recommended-badge';
-                badge.textContent = 'Recommended for you';
-                windowsOption.appendChild(badge);
-                windowsOption.classList.add('recommended');
-            }
+        to {
+            transform: translateX(0);
+            opacity: 1;
         }
     }
     
-    if (macosButton) {
-        macosButton.href = MACOS_DOWNLOAD_URL;
-        macosButton.addEventListener('click', function(e) {
-            trackDownload('macos-manual');
-            showMacOSInstructions();
-        });
-        
-        // Add recommended badge for Mac users
-        if (isMac) {
-            const macosOption = document.querySelector('.macos-option');
-            if (macosOption && !macosOption.querySelector('.recommended-badge')) {
-                const badge = document.createElement('div');
-                badge.className = 'recommended-badge';
-                badge.textContent = 'Recommended for you';
-                macosOption.appendChild(badge);
-                macosOption.classList.add('recommended');
-            }
+    @keyframes slideOut {
+        from {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        to {
+            transform: translateX(100%);
+            opacity: 0;
         }
     }
-}
-
-function showWindowsInstructions() {
-    const instructionsDiv = document.querySelector('#download-instructions');
-    if (instructionsDiv) {
-        instructionsDiv.innerHTML = `
-            <div class="instructions-box">
-                <h3>📥 Windows Installation v3.1.0-beta</h3>
-                <p>Your download should begin automatically. If it doesn't:</p>
-                <ol>
-                    <li>Click the download button again</li>
-                    <li>Or <a href="${WINDOWS_DOWNLOAD_URL}" target="_blank">click here</a></li>
-                </ol>
-                
-                <h4>🎯 Installation Steps:</h4>
-                <ol>
-                    <li>Extract the ZIP file to a permanent location</li>
-                    <li>Run the LinkedIn_Automation_Tool_v3.1.0-beta.exe file</li>
-                    <li>🔑 Enter your license key when prompted (check your email or copy from above)</li>
-                    <li>Follow the setup wizard instructions</li>
-                    <li>Configure your LinkedIn credentials</li>
-                    <li>Start with conservative automation settings!</li>
-                </ol>
-                
-                <div style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 5px; padding: 10px; margin: 10px 0;">
-                    <strong>🔑 License Required:</strong> This version requires a valid license key to run automation features.
-                    <br>Your license key should be displayed above or sent to your email.
-                </div>
-                
-                <p><strong>Need help?</strong> Check the installation guide included in the download.</p>
-            </div>
-        `;
-    }
-}
-
-function showMacOSInstructions() {
-    const instructionsDiv = document.querySelector('#download-instructions');
-    if (instructionsDiv) {
-        instructionsDiv.innerHTML = `
-            <div class="instructions-box">
-                <h3>📥 macOS Installation v3.1.0-beta</h3>
-                <p>The macOS version v3.1.0-beta is available through GitHub Actions:</p>
-                <ol>
-                    <li>Click the link above to go to GitHub Actions</li>
-                    <li>Look for the latest successful "Build LinkedIn Automation Tool v3.1.0-beta - macOS" workflow run</li>
-                    <li>Click on the workflow run to view details</li>
-                    <li>Scroll down to "Artifacts" section</li>
-                    <li>Download the "linkedin-automation-macos-v3.1.0-beta" artifact</li>
-                    <li>Unzip the downloaded file to get the DMG</li>
-                </ol>
-                
-                <h4>🎯 Installation Steps:</h4>
-                <ol>
-                    <li>Double-click the DMG file to mount it</li>
-                    <li>Drag the app to your Applications folder</li>
-                    <li>Right-click the app and select "Open" (first time only)</li>
-                    <li>🔑 Enter your license key when prompted (check your email or copy from above)</li>
-                    <li>Follow the setup wizard instructions</li>
-                    <li>Configure your LinkedIn credentials</li>
-                    <li>Start with conservative automation settings!</li>
-                </ol>
-                
-                <div style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 5px; padding: 10px; margin: 10px 0;">
-                    <strong>🔑 License Required:</strong> This version requires a valid license key to run automation features.
-                    <br>Your license key should be displayed above or sent to your email.
-                </div>
-                
-                <p><strong>Need help?</strong> Contact support at <a href="mailto:amalinow1973@gmail.com">amalinow1973@gmail.com</a></p>
-            </div>
-        `;
-    }
-}
-
-function trackDownload(platform) {
-    console.log(`🔄 Download started: ${platform}`);
     
-    // Google Analytics
-    if (typeof gtag !== 'undefined') {
-        gtag('event', 'download', {
-            'event_category': 'Beta Release',
-            'event_label': `v3.1.0-beta-${platform}`,
-            'value': 1
-        });
+    .license-section {
+        background: #f0f9ff;
+        border: 2px solid #3b82f6;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 20px 0;
+        text-align: center;
     }
     
-    // Facebook Pixel
-    if (typeof fbq !== 'undefined') {
-        fbq('track', 'Download', {
-            content_name: `LinkedIn Automation Tool Beta - ${platform}`,
-            content_type: 'product',
-            content_ids: [`v3.1.0-beta-${platform}`]
-        });
+    #license-key-display {
+        font-family: monospace;
+        font-size: 1.2rem;
+        background: white;
+        padding: 15px;
+        border-radius: 6px;
+        margin: 15px 0;
+        word-break: break-all;
+        user-select: all;
     }
-}
+    
+    #copy-license-key {
+        background: #3b82f6;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    
+    #copy-license-key:hover {
+        background: #2563eb;
+        transform: translateY(-1px);
+    }
+`;
+document.head.appendChild(style);
 
 // Auto-scroll to download section (only if no automatic download was triggered)
 setTimeout(() => {

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Get LinkedIn Automation Tool - Beta Access">
+    <title>Checkout - LinkedIn Automation Tool</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <img src="./images/junior-logo.png" alt="Junior Logo" class="logo-img">
+            </div>
+            <ul class="nav-links">
+                <div class="nav-group">
+                    <li><a href="index.html#features">Features</a></li>
+                    <li><a href="index.html#how-it-works">How It Works</a></li>
+                    <li><a href="index.html#pricing">Pricing</a></li>
+                </div>
+                <div class="nav-actions">
+                    <li><a href="index.html" class="my-story-link">← Back to Home</a></li>
+                </div>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Checkout Section -->
+    <section class="purchase-section">
+        <div class="container">
+            <div class="checkout-container">
+                <!-- Product Summary -->
+                <div class="product-summary">
+                    <div class="product-header">
+                        <h1>🚀 LinkedIn Automation Tool</h1>
+                        <div class="beta-badge">BETA ACCESS - LIMITED TIME</div>
+                    </div>
+                    
+                    <div class="product-image">
+                        <img src="./images/linkedin-automation-preview.png" alt="LinkedIn Automation Tool Preview" onerror="this.style.display='none'">
+                    </div>
+                    
+                    <div class="product-features">
+                        <h3>What's Included:</h3>
+                        <ul>
+                            <li>✅ LinkedIn Automation Tool (Windows & macOS)</li>
+                            <li>✅ AI-Powered Comment Generation</li>
+                            <li>✅ Hiring Manager Targeting</li>
+                            <li>✅ Automatic Headless Mode</li>
+                            <li>✅ Performance Analytics</li>
+                            <li>✅ Priority Email Support</li>
+                            <li>✅ Early Access to New Features</li>
+                            <li>✅ Setup Assistance Included</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="pricing-summary">
+                        <div class="price-display">
+                            <span class="currency">$</span>
+                            <span class="amount">20</span>
+                            <span class="period">/month</span>
+                        </div>
+                        <p class="price-note">Special beta pricing • Cancel anytime</p>
+                        <div class="savings-badge">
+                            <span class="save-amount">Save 80%</span>
+                            <span class="regular-text">Regular price: $100/month</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Checkout Form -->
+                <div class="checkout-form">
+                    <h2>Complete Your Order</h2>
+                    
+                    <!-- Platform Selection -->
+                    <div class="platform-selection">
+                        <h3>Select Your Platform:</h3>
+                        <div class="platform-options">
+                            <label class="platform-option" for="windows">
+                                <input type="radio" id="windows" name="platform" value="windows" checked>
+                                <div class="platform-info">
+                                    <span class="platform-icon">🖥️</span>
+                                    <div>
+                                        <strong>Windows</strong>
+                                        <small>Windows 10 or later</small>
+                                    </div>
+                                </div>
+                            </label>
+                            
+                            <label class="platform-option" for="macos">
+                                <input type="radio" id="macos" name="platform" value="macos">
+                                <div class="platform-info">
+                                    <span class="platform-icon">🍎</span>
+                                    <div>
+                                        <strong>macOS</strong>
+                                        <small>macOS 10.14 or later</small>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Email Input -->
+                    <div class="email-section">
+                        <label for="customer-email">Email Address:</label>
+                        <input type="email" id="customer-email" placeholder="your@email.com" required>
+                        <small>Your license key will be sent to this email</small>
+                    </div>
+
+                    <!-- Stripe Payment -->
+                    <div class="payment-section">
+                        <h3>Payment Information</h3>
+                        <div id="payment-element">
+                            <!-- Stripe Elements will create form elements here -->
+                        </div>
+                        <div id="payment-errors" role="alert"></div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button id="submit-payment" class="checkout-button">
+                        <span id="button-text">Complete Purchase - $20/month</span>
+                        <div id="spinner" class="spinner hidden"></div>
+                    </button>
+
+                    <!-- Security Info -->
+                    <div class="security-info">
+                        <div class="security-badges">
+                            <div class="badge">
+                                <span>🔒</span>
+                                <small>SSL Secured</small>
+                            </div>
+                            <div class="badge">
+                                <span>💳</span>
+                                <small>Stripe Protected</small>
+                            </div>
+                            <div class="badge">
+                                <span>🛡️</span>
+                                <small>Money Back Guarantee</small>
+                            </div>
+                        </div>
+                        <p>Your payment information is secure and encrypted. Cancel anytime.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="checkout.js"></script>
+</body>
+</html> 
