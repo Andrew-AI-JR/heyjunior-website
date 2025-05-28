@@ -109,6 +109,20 @@
                         <small>Your license key will be sent to this email</small>
                     </div>
 
+                    <!-- Coupon Code Section -->
+                    <div class="coupon-section">
+                        <label for="coupon-code">Coupon Code (Optional):</label>
+                        <div class="coupon-input-group">
+                            <input type="text" id="coupon-code" placeholder="Enter coupon code" maxlength="50">
+                            <button type="button" id="apply-coupon-btn" class="apply-coupon-btn">Apply</button>
+                        </div>
+                        <div id="coupon-message" class="coupon-message"></div>
+                        <div id="coupon-discount" class="coupon-discount" style="display: none;">
+                            <span class="discount-text">Discount Applied: </span>
+                            <span class="discount-amount" id="discount-amount"></span>
+                        </div>
+                    </div>
+
                     <!-- Stripe Payment Link Button -->
                     <div class="payment-section">
                         <h3>Complete Your Purchase</h3>
