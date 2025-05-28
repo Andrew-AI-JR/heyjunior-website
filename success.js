@@ -135,6 +135,13 @@ function triggerAutomaticDownload() {
 }
 
 async function startSecureMacOSDownload() {
+    // Show auto-download indicator
+    const indicator = document.getElementById('macos-auto-indicator');
+    if (indicator) {
+        indicator.style.display = 'block';
+        indicator.innerHTML = '<span class="pulse-dot"></span>Preparing secure download...';
+    }
+    
     try {
         // Request secure macOS download
         const response = await fetch(`${SECURE_DOWNLOAD_API}/macos`, {
@@ -153,6 +160,11 @@ async function startSecureMacOSDownload() {
             const downloadData = await response.json();
             
             if (downloadData.download_url) {
+                // Update indicator
+                if (indicator) {
+                    indicator.innerHTML = '<span class="pulse-dot"></span>Starting download...';
+                }
+                
                 // Start secure download
                 const downloadLink = document.createElement('a');
                 downloadLink.href = downloadData.download_url;
@@ -179,6 +191,13 @@ async function startSecureMacOSDownload() {
     } catch (error) {
         console.warn('Secure download failed, falling back to GitHub Actions:', error);
         showMacOSAutoInstructions();
+    } finally {
+        // Hide indicator after 3 seconds
+        setTimeout(() => {
+            if (indicator) {
+                indicator.style.display = 'none';
+            }
+        }, 3000);
     }
 }
 
@@ -304,6 +323,12 @@ function showDownloadNotification() {
 }
 
 function startWindowsDownload() {
+    // Show auto-download indicator
+    const indicator = document.getElementById('windows-auto-indicator');
+    if (indicator) {
+        indicator.style.display = 'block';
+    }
+    
     // Create invisible download link and trigger it
     const downloadLink = document.createElement('a');
     downloadLink.href = WINDOWS_DOWNLOAD_URL;
@@ -321,9 +346,22 @@ function startWindowsDownload() {
     
     // Update notification
     updateDownloadNotification('Windows download started! Check your Downloads folder.');
+    
+    // Hide indicator after 3 seconds
+    setTimeout(() => {
+        if (indicator) {
+            indicator.style.display = 'none';
+        }
+    }, 3000);
 }
 
 function showMacOSAutoInstructions() {
+    // Show auto-download indicator
+    const indicator = document.getElementById('macos-auto-indicator');
+    if (indicator) {
+        indicator.style.display = 'block';
+    }
+    
     // For macOS, we can't auto-download from GitHub Actions, so show instructions
     showMacOSInstructions();
     
@@ -332,6 +370,13 @@ function showMacOSAutoInstructions() {
     
     // Update notification
     updateDownloadNotification('macOS instructions displayed below. Click the download link to proceed.');
+    
+    // Hide indicator after 3 seconds
+    setTimeout(() => {
+        if (indicator) {
+            indicator.style.display = 'none';
+        }
+    }, 3000);
 }
 
 function showDownloadOptions() {
@@ -398,50 +443,49 @@ function setupDownloadButtons() {
     const isMac = userAgent.includes('mac');
     const isWindows = userAgent.includes('win');
     
-    const downloadSection = document.querySelector('.download-section');
-    if (!downloadSection) return;
-
-    // Update download section with OS-specific content
-    downloadSection.innerHTML = `
-        <h2>📥 Download Your Software</h2>
-        <p>Choose your operating system:</p>
+    // Update the large download buttons with proper URLs and event listeners
+    const windowsButton = document.querySelector('#windows-download-large');
+    const macosButton = document.querySelector('#macos-download-large');
+    
+    if (windowsButton) {
+        windowsButton.href = WINDOWS_DOWNLOAD_URL;
+        windowsButton.addEventListener('click', function(e) {
+            trackDownload('windows-manual');
+            showWindowsInstructions();
+        });
         
-        <div class="download-options">
-            <div class="download-option ${isWindows ? 'recommended' : ''}">
-                <h3>🪟 Windows</h3>
-                <p>Windows 10/11 • 51 MB</p>
-                <a href="${WINDOWS_DOWNLOAD_URL}" class="download-button" id="windows-download">
-                    Download for Windows
-                </a>
-                ${isWindows ? '<span class="recommended-badge">Recommended for you</span>' : ''}
-            </div>
-            
-            <div class="download-option ${isMac ? 'recommended' : ''}">
-                <h3>🍎 macOS</h3>
-                <p>macOS 10.13+ • Universal Binary</p>
-                <a href="${MACOS_DOWNLOAD_URL}" class="download-button" id="macos-download">
-                    Download for macOS
-                </a>
-                ${isMac ? '<span class="recommended-badge">Recommended for you</span>' : ''}
-                <p class="note">Note: macOS v3.1.0-beta available via GitHub Actions artifacts</p>
-            </div>
-        </div>
+        // Add recommended badge for Windows users
+        if (isWindows) {
+            const windowsOption = document.querySelector('.windows-option');
+            if (windowsOption && !windowsOption.querySelector('.recommended-badge')) {
+                const badge = document.createElement('div');
+                badge.className = 'recommended-badge';
+                badge.textContent = 'Recommended for you';
+                windowsOption.appendChild(badge);
+                windowsOption.classList.add('recommended');
+            }
+        }
+    }
+    
+    if (macosButton) {
+        macosButton.href = MACOS_DOWNLOAD_URL;
+        macosButton.addEventListener('click', function(e) {
+            trackDownload('macos-manual');
+            showMacOSInstructions();
+        });
         
-        <div id="download-instructions" class="instructions-container">
-            <!-- Download instructions will be inserted here -->
-        </div>
-    `;
-
-    // Add event listeners
-    document.querySelector('#windows-download').addEventListener('click', function(e) {
-        trackDownload('windows-manual');
-        showWindowsInstructions();
-    });
-
-    document.querySelector('#macos-download').addEventListener('click', function(e) {
-        trackDownload('macos-manual');
-        showMacOSInstructions();
-    });
+        // Add recommended badge for Mac users
+        if (isMac) {
+            const macosOption = document.querySelector('.macos-option');
+            if (macosOption && !macosOption.querySelector('.recommended-badge')) {
+                const badge = document.createElement('div');
+                badge.className = 'recommended-badge';
+                badge.textContent = 'Recommended for you';
+                macosOption.appendChild(badge);
+                macosOption.classList.add('recommended');
+            }
+        }
+    }
 }
 
 function showWindowsInstructions() {
@@ -615,6 +659,274 @@ function copyLicenseKey() {
 function addLicenseStyles() {
     const style = document.createElement('style');
     style.textContent = `
+        /* Prominent Download Section Styles */
+        .download-section-prominent {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 30px 0;
+            color: white;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+        
+        .download-header h2 {
+            font-size: 2.2em;
+            margin: 0 0 10px 0;
+            color: white;
+        }
+        
+        .download-subtitle {
+            font-size: 1.2em;
+            margin: 0 0 30px 0;
+            opacity: 0.9;
+        }
+        
+        .download-buttons-large {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 30px 0;
+        }
+        
+        .download-option-large {
+            background: rgba(255,255,255,0.15);
+            border-radius: 15px;
+            padding: 30px;
+            min-width: 280px;
+            position: relative;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .download-option-large:hover {
+            transform: translateY(-5px);
+            background: rgba(255,255,255,0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .download-option-large.recommended {
+            border-color: #fbbf24;
+            background: rgba(255,255,255,0.25);
+        }
+        
+        .download-icon-large {
+            font-size: 4em;
+            margin-bottom: 15px;
+        }
+        
+        .download-option-large h3 {
+            font-size: 1.8em;
+            margin: 0 0 10px 0;
+            color: white;
+        }
+        
+        .download-option-large p {
+            margin: 0 0 20px 0;
+            opacity: 0.8;
+            font-size: 1.1em;
+        }
+        
+        .download-button-large {
+            display: inline-block;
+            background: #10b981;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2em;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
+        .download-button-large:hover {
+            background: #059669;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .recommended-badge {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: #fbbf24;
+            color: #1f2937;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+        
+        .auto-download-indicator {
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(16, 185, 129, 0.2);
+            border-radius: 8px;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background: #10b981;
+            border-radius: 50%;
+            animation: pulse-dot 1.5s infinite;
+        }
+        
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+        
+        /* Collapsible Sections */
+        .license-info-collapsible,
+        .quick-start-collapsible,
+        .beta-benefits-collapsible {
+            background: #f8f9fa;
+            border-radius: 12px;
+            margin: 20px 0;
+            overflow: hidden;
+            border: 1px solid #e9ecef;
+        }
+        
+        .collapsible-header {
+            background: #e9ecef;
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s ease;
+        }
+        
+        .collapsible-header:hover {
+            background: #dee2e6;
+        }
+        
+        .collapsible-header h3 {
+            margin: 0;
+            color: #495057;
+            font-size: 1.3em;
+        }
+        
+        .toggle-icon {
+            font-size: 1.2em;
+            color: #6c757d;
+            transition: transform 0.3s ease;
+        }
+        
+        .collapsible-content {
+            padding: 20px;
+        }
+        
+        /* Quick Start Steps */
+        .quick-start-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .step {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+        
+        .step-number {
+            background: #667eea;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        
+        .step-content h4 {
+            margin: 0 0 5px 0;
+            color: #495057;
+        }
+        
+        .step-content p {
+            margin: 0;
+            color: #6c757d;
+        }
+        
+        /* Benefits List */
+        .benefits-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 10px;
+        }
+        
+        .benefits-list li {
+            padding: 8px 0;
+            color: #495057;
+            font-size: 1.1em;
+        }
+        
+        /* Support Section */
+        .support-section-compact {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .support-section-compact h3 {
+            margin: 0 0 20px 0;
+            color: #495057;
+        }
+        
+        .support-links-compact {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .support-link {
+            display: inline-block;
+            padding: 12px 20px;
+            background: #6c757d;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .support-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .support-link.primary {
+            background: #667eea;
+        }
+        
+        .support-link.primary:hover {
+            background: #5a67d8;
+        }
+        
+        /* Auto-download notice from previous styles */
         .auto-download-notice {
             background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             color: white;
@@ -636,6 +948,7 @@ function addLicenseStyles() {
             100% { transform: scale(1); }
         }
         
+        /* License info styles (existing) */
         .license-info {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border-radius: 15px;
@@ -732,56 +1045,37 @@ function addLicenseStyles() {
             border-left: 4px solid #fbbf24;
         }
         
-        .download-buttons {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 20px;
-        }
-        
-        .download-btn {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px 30px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            text-decoration: none;
-            border-radius: 12px;
-            transition: all 0.3s ease;
-            min-width: 200px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-        
-        .download-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-        }
-        
-        .download-icon {
-            font-size: 2em;
-            margin-bottom: 8px;
-        }
-        
-        .download-size {
-            font-size: 0.85em;
-            opacity: 0.8;
-            margin-top: 5px;
-        }
-        
+        /* Mobile responsiveness */
         @media (max-width: 768px) {
+            .download-buttons-large {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .download-option-large {
+                min-width: 100%;
+                max-width: 350px;
+            }
+            
+            .download-section-prominent {
+                padding: 25px 20px;
+            }
+            
+            .download-header h2 {
+                font-size: 1.8em;
+            }
+            
+            .support-links-compact {
+                flex-direction: column;
+                align-items: center;
+            }
+            
             .license-key-container {
                 flex-direction: column;
             }
             
             .copy-btn {
                 align-self: flex-start;
-            }
-            
-            .download-buttons {
-                flex-direction: column;
-                align-items: center;
             }
         }
     `;

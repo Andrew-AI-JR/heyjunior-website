@@ -30,80 +30,157 @@
     <section class="success-section">
         <div class="container">
             <div class="success-container">
+                <!-- Success Header -->
                 <div class="success-header">
                     <div class="success-icon">✅</div>
-                    <h1>🎉 Thank You for Your Purchase!</h1>
-                    <p class="success-subtitle">Welcome to the LinkedIn Automation Tool Beta Program</p>
+                    <h1>🎉 Payment Successful!</h1>
+                    <p class="success-subtitle">Your LinkedIn Automation Tool is ready to download</p>
                 </div>
 
+                <!-- Payment Status -->
                 <div id="payment-status" class="payment-status">
-                    <h2>Payment Successful!</h2>
-                    <p>A confirmation email has been sent to <span id="customer-email">your email</span></p>
+                    <h2>✅ Payment Confirmed</h2>
+                    <p>Confirmation email sent to <span id="customer-email">your email</span></p>
                 </div>
 
-                <!-- Add license information section -->
-                <div class="license-info" id="licenseInfo" style="display: none;">
-                    <h3>🔑 Your License Information</h3>
-                    <div class="license-details">
-                        <p><strong>License ID:</strong> <span id="licenseId"></span></p>
-                        <p><strong>Email:</strong> <span id="customerEmail"></span></p>
-                        <p><strong>Status:</strong> <span class="status-active">Active</span></p>
+                <!-- PROMINENT DOWNLOAD SECTION - MOVED TO TOP -->
+                <div class="download-section-prominent">
+                    <div class="download-header">
+                        <h2>📥 Download Your Software Now</h2>
+                        <p class="download-subtitle">Choose your operating system to start downloading:</p>
                     </div>
                     
-                    <div class="license-key-section">
-                        <h4>License Key:</h4>
-                        <div class="license-key-container">
-                            <textarea id="licenseKey" readonly class="license-key-display"></textarea>
-                            <button onclick="copyLicenseKey()" class="copy-btn">📋 Copy</button>
+                    <div class="download-buttons-large">
+                        <div class="download-option-large windows-option">
+                            <div class="download-icon-large">🪟</div>
+                            <h3>Windows</h3>
+                            <p>Windows 10/11 • 51 MB</p>
+                            <a href="#" class="download-button-large" id="windows-download-large">
+                                Download for Windows
+                            </a>
+                            <div class="auto-download-indicator" id="windows-auto-indicator" style="display: none;">
+                                <span class="pulse-dot"></span>
+                                Download starting automatically...
+                            </div>
                         </div>
-                        <p class="license-note">
-                            ⚠️ <strong>Important:</strong> Save this license key securely. You'll need it to activate the software on your computer.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="download-section">
-                    <h2>📥 Download Your Software</h2>
-                    <p>Your LinkedIn Automation Tool is ready for download:</p>
-                    
-                    <div class="download-buttons">
-                        <a href="downloads/LinkedIn_Automation_Tool_v3.1.0-beta_Windows.exe" 
-                           class="download-btn windows-btn" id="windowsDownload">
-                            <span class="download-icon">🪟</span>
-                            Download for Windows
-                            <span class="download-size">(~26 MB)</span>
-                        </a>
                         
-                        <a href="https://github.com/amalinow1973/linkedin-automation-tool/actions/workflows/build-macos.yml" 
-                           class="download-btn mac-btn" id="macDownload">
-                            <span class="download-icon">🍎</span>
-                            Download for macOS
-                            <span class="download-size">(~28 MB)</span>
-                        </a>
+                        <div class="download-option-large macos-option">
+                            <div class="download-icon-large">🍎</div>
+                            <h3>macOS</h3>
+                            <p>macOS 10.14+ • Universal Binary</p>
+                            <a href="#" class="download-button-large" id="macos-download-large">
+                                Download for macOS
+                            </a>
+                            <div class="auto-download-indicator" id="macos-auto-indicator" style="display: none;">
+                                <span class="pulse-dot"></span>
+                                Preparing download...
+                            </div>
+                        </div>
                     </div>
 
+                    <!-- Download Instructions -->
                     <div id="download-instructions" class="instructions-container">
                         <!-- Download instructions will be inserted here by JavaScript -->
                     </div>
                 </div>
 
-                <div class="beta-benefits">
-                    <h2>🚀 Beta Program Benefits</h2>
-                    <ul>
-                        <li>✅ Early access to new features</li>
-                        <li>✅ Locked-in $20/month pricing</li>
-                        <li>✅ Priority support access</li>
-                        <li>✅ Shape the product's future</li>
-                    </ul>
+                <!-- License Information (Collapsible) -->
+                <div class="license-info-collapsible" id="licenseInfo" style="display: none;">
+                    <div class="collapsible-header" onclick="toggleLicenseInfo()">
+                        <h3>🔑 Your License Information</h3>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="collapsible-content" id="licenseContent">
+                        <div class="license-details">
+                            <p><strong>License ID:</strong> <span id="licenseId"></span></p>
+                            <p><strong>Email:</strong> <span id="customerEmail"></span></p>
+                            <p><strong>Status:</strong> <span class="status-active">Active</span></p>
+                        </div>
+                        
+                        <div class="license-key-section">
+                            <h4>License Key:</h4>
+                            <div class="license-key-container">
+                                <textarea id="licenseKey" readonly class="license-key-display"></textarea>
+                                <button onclick="copyLicenseKey()" class="copy-btn">📋 Copy</button>
+                            </div>
+                            <p class="license-note">
+                                ⚠️ <strong>Important:</strong> Save this license key securely. You'll need it to activate the software.
+                            </p>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="support-section">
-                    <h2>Need Help?</h2>
-                    <p>Check the installation guide included in your download or contact our support team.</p>
-                    <div class="support-links">
-                        <a href="https://github.com/Andrew-AI-JR/heyjunior-website/issues" target="_blank">Report Issues</a>
-                        <a href="https://github.com/Andrew-AI-JR/heyjunior-website/discussions" target="_blank">Community</a>
-                        <a href="mailto:support@example.com">Email Support</a>
+                <!-- Quick Start Guide (Collapsible) -->
+                <div class="quick-start-collapsible">
+                    <div class="collapsible-header" onclick="toggleQuickStart()">
+                        <h3>🚀 Quick Start Guide</h3>
+                        <span class="toggle-icon" id="quickStartToggle">▼</span>
+                    </div>
+                    <div class="collapsible-content" id="quickStartContent" style="display: none;">
+                        <div class="quick-start-steps">
+                            <div class="step">
+                                <div class="step-number">1</div>
+                                <div class="step-content">
+                                    <h4>Download & Install</h4>
+                                    <p>Click the download button above for your operating system</p>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">2</div>
+                                <div class="step-content">
+                                    <h4>Enter License Key</h4>
+                                    <p>Use the license key provided above when prompted</p>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">3</div>
+                                <div class="step-content">
+                                    <h4>Configure LinkedIn</h4>
+                                    <p>Add your LinkedIn credentials and customize settings</p>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">4</div>
+                                <div class="step-content">
+                                    <h4>Start Automating</h4>
+                                    <p>Begin with conservative settings and monitor results</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Beta Benefits (Collapsible) -->
+                <div class="beta-benefits-collapsible">
+                    <div class="collapsible-header" onclick="toggleBetaBenefits()">
+                        <h3>🎯 Beta Program Benefits</h3>
+                        <span class="toggle-icon" id="benefitsToggle">▼</span>
+                    </div>
+                    <div class="collapsible-content" id="benefitsContent" style="display: none;">
+                        <ul class="benefits-list">
+                            <li>✅ Early access to new features</li>
+                            <li>✅ Locked-in $20/month pricing</li>
+                            <li>✅ Priority support access</li>
+                            <li>✅ Shape the product's future</li>
+                            <li>✅ Direct feedback channel</li>
+                            <li>✅ Exclusive beta community access</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Support Section -->
+                <div class="support-section-compact">
+                    <h3>Need Help?</h3>
+                    <div class="support-links-compact">
+                        <a href="mailto:amalinow1973@gmail.com" class="support-link primary">
+                            📧 Email Support
+                        </a>
+                        <a href="https://github.com/Andrew-AI-JR/heyjunior-website/discussions" target="_blank" class="support-link">
+                            💬 Community
+                        </a>
+                        <a href="https://github.com/Andrew-AI-JR/heyjunior-website/issues" target="_blank" class="support-link">
+                            🐛 Report Issues
+                        </a>
                     </div>
                 </div>
             </div>
@@ -131,5 +208,43 @@
     </footer>
 
     <script src="success.js"></script>
+    <script>
+        // Collapsible functionality
+        function toggleLicenseInfo() {
+            const content = document.getElementById('licenseContent');
+            const icon = document.querySelector('#licenseInfo .toggle-icon');
+            if (content.style.display === 'none' || !content.style.display) {
+                content.style.display = 'block';
+                icon.textContent = '▲';
+            } else {
+                content.style.display = 'none';
+                icon.textContent = '▼';
+            }
+        }
+
+        function toggleQuickStart() {
+            const content = document.getElementById('quickStartContent');
+            const icon = document.getElementById('quickStartToggle');
+            if (content.style.display === 'none' || !content.style.display) {
+                content.style.display = 'block';
+                icon.textContent = '▲';
+            } else {
+                content.style.display = 'none';
+                icon.textContent = '▼';
+            }
+        }
+
+        function toggleBetaBenefits() {
+            const content = document.getElementById('benefitsContent');
+            const icon = document.getElementById('benefitsToggle');
+            if (content.style.display === 'none' || !content.style.display) {
+                content.style.display = 'block';
+                icon.textContent = '▲';
+            } else {
+                content.style.display = 'none';
+                icon.textContent = '▼';
+            }
+        }
+    </script>
 </body>
 </html> 
