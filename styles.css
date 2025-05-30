@@ -1559,7 +1559,6 @@ body {
     border-radius: 0 12px 0 12px;
     font-size: 0.8rem;
     font-weight: 600;
-    text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
@@ -2460,7 +2459,6 @@ body {
     border-radius: 6px;
     font-size: 1rem;
     transition: border-color 0.3s ease;
-    text-transform: uppercase;
 }
 
 .coupon-input-group input:focus {

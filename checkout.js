@@ -32,7 +32,7 @@ async function handleApplyCoupon() {
     const messageDiv = document.getElementById('coupon-message');
     const discountDiv = document.getElementById('coupon-discount');
     
-    const couponCode = couponInput.value.trim().toUpperCase();
+    const couponCode = couponInput.value.trim();
     
     if (!couponCode) {
         showCouponMessage('Please enter a coupon code', 'error');
