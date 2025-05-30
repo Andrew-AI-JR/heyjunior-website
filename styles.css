@@ -666,7 +666,7 @@ body {
 .product-features li {
     padding: 8px 0;
     font-size: 1.1rem;
-    color: #ffffff;
+    color: #ffffff !important;
 }
 
 .testimonial {
@@ -891,7 +891,7 @@ body {
 }
 
 .faq-item p {
-    color: #ffffff;
+    color: #ffffff !important;
     margin: 0;
 }
 
@@ -1317,7 +1317,7 @@ body {
 .email-input-container label {
     display: block;
     margin-bottom: 5px;
-    color: #ffffff;
+    color: #ffffff !important;
     font-weight: 500;
 }
 
@@ -1394,7 +1394,7 @@ body {
 }
 
 .beta-cta-section p {
-    color: #ffffff;
+    color: #ffffff !important;
     margin-bottom: 25px;
     font-size: 1.1rem;
 }
@@ -2016,7 +2016,7 @@ body {
     margin-bottom: 12px;
     padding: 8px 0;
     font-size: 1rem;
-    color: #ffffff;
+    color: #ffffff !important;
 }
 
 .beta-offer-card li:before {
@@ -2047,7 +2047,7 @@ body {
     margin-bottom: 10px;
     padding: 6px 0;
     font-size: 0.95rem;
-    color: #ffffff;
+    color: #ffffff !important;
     line-height: 1.4;
 }
 
@@ -2070,7 +2070,7 @@ body {
     margin-bottom: 10px;
     padding: 6px 0;
     font-size: 0.95rem;
-    color: #ffffff;
+    color: #ffffff !important;
     line-height: 1.4;
 }
 
