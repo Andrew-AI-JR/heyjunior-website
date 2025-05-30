@@ -1,3 +1,4 @@
+/* Updated: Coupon case sensitivity fix - Version 1.1 */
 // checkout.js - Enhanced for Account Creation Integration with Coupon Support
 document.addEventListener('DOMContentLoaded', () => {
     // Add event listeners
