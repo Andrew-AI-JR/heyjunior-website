@@ -2617,6 +2617,7 @@ body {
         padding: 10px;
         font-size: 0.9rem;
     }
-} / *   E n s u r e   c o u p o n   i n p u t   p r e s e r v e s   c a s e   * /  
+}  
+ / *   E n s u r e   c o u p o n   i n p u t   p r e s e r v e s   c a s e   * /  
  # c o u p o n - c o d e   {   t e x t - t r a n s f o r m :   n o n e   ! i m p o r t a n t ;   }  
  
