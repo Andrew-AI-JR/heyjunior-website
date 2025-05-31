@@ -412,35 +412,55 @@ function startFreeDownload(platform, email) {
             throw new Error(`No download URL found for platform: ${platform}`);
         }
         
-        // Update button text to show success
+        // Update button text to show ready state
         const buttonText = document.getElementById('button-text');
         if (buttonText) {
-            buttonText.textContent = '🎉 Download Starting!';
+            buttonText.textContent = '🎉 Ready to Download!';
         }
         
-        // Start the download
-        const link = document.createElement('a');
-        link.href = downloadUrl;
-        link.download = downloadUrl.split('/').pop(); // Extract filename
-        link.style.display = 'none';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        // Show download confirmation dialog instead of automatic download
+        const confirmDownload = confirm(`🎉 Your free account is ready!\n\nClick OK to download Junior for ${platform === 'windows' ? 'Windows' : 'macOS'}.`);
         
-        // Show success message and redirect after download starts
-        setTimeout(() => {
-            // Generate a simple API key for offline mode
-            const apiKey = generateOfflineApiKey(email);
+        if (confirmDownload) {
+            // User confirmed - start the download
+            const link = document.createElement('a');
+            link.href = downloadUrl;
+            link.download = downloadUrl.split('/').pop(); // Extract filename
+            link.style.display = 'none';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
             
-            // Redirect to success page with free account info
-            const successUrl = new URL('/success.html', window.location.origin);
-            successUrl.searchParams.set('free_account', 'true');
-            successUrl.searchParams.set('coupon', 'tacos');
-            successUrl.searchParams.set('download_started', 'true');
-            successUrl.searchParams.set('api_key', apiKey);
+            // Update button text to show success
+            if (buttonText) {
+                buttonText.textContent = '🎉 Download Started!';
+            }
             
-            window.location.href = successUrl.toString();
-        }, 2000);
+            // Show success message and redirect after download starts
+            setTimeout(() => {
+                // Generate a simple API key for offline mode
+                const apiKey = generateOfflineApiKey(email);
+                
+                // Redirect to success page with free account info
+                const successUrl = new URL('/success.html', window.location.origin);
+                successUrl.searchParams.set('free_account', 'true');
+                successUrl.searchParams.set('coupon', 'tacos');
+                successUrl.searchParams.set('download_started', 'true');
+                successUrl.searchParams.set('api_key', apiKey);
+                
+                window.location.href = successUrl.toString();
+            }, 2000);
+        } else {
+            // User cancelled - reset button
+            if (buttonText) {
+                buttonText.textContent = 'Start Free Download';
+            }
+            const stripeLinkButton = document.getElementById('stripe-payment-link-button');
+            if (stripeLinkButton) {
+                stripeLinkButton.style.opacity = '1';
+                stripeLinkButton.style.pointerEvents = 'auto';
+            }
+        }
         
     } catch (error) {
         console.error('Download failed:', error);

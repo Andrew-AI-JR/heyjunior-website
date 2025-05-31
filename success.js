@@ -194,16 +194,21 @@ function showFreeAccountMessage(couponCode) {
 async function startDirectDownload(platform) {
     const downloadUrl = platform === 'windows' ? WINDOWS_DIRECT_DOWNLOAD_URL : MACOS_DIRECT_DOWNLOAD_URL;
     
-    // Create a temporary link and trigger download
-    const link = document.createElement('a');
-    link.href = downloadUrl;
-    link.download = '';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    // Show download confirmation dialog instead of automatic download
+    const confirmDownload = confirm(`🎉 Your free account is ready!\n\nClick OK to download Junior for ${platform === 'windows' ? 'Windows' : 'macOS'}.`);
     
-    // Show download notification
-    showDownloadNotification(platform);
+    if (confirmDownload) {
+        // Create a temporary link and trigger download
+        const link = document.createElement('a');
+        link.href = downloadUrl;
+        link.download = '';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        // Show download notification
+        showDownloadNotification(platform);
+    }
 }
 
 async function createAccountAndApiKey(email) {
@@ -339,19 +344,24 @@ window.copyApiKey = function() {
 
 async function startSecureDownload(downloadUrl, platform) {
     try {
-        showDownloadNotification(platform);
+        // Show download confirmation dialog instead of automatic download
+        const confirmDownload = confirm(`🎉 Your account is ready!\n\nClick OK to download Junior for ${platform === 'windows' ? 'Windows' : 'macOS'}.`);
         
-        // Create a temporary link and click it
-        const link = document.createElement('a');
-        link.href = downloadUrl;
-        link.download = platform === 'windows' ? 'Junior-Setup-1.0.0.exe' : 'Junior-1.0.0.dmg';
-        link.style.display = 'none';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        
-        console.log('Started secure download from:', downloadUrl);
-        accountCreationComplete = true;
+        if (confirmDownload) {
+            showDownloadNotification(platform);
+            
+            // Create a temporary link and click it
+            const link = document.createElement('a');
+            link.href = downloadUrl;
+            link.download = platform === 'windows' ? 'Junior-Setup-1.0.0.exe' : 'Junior-1.0.0.dmg';
+            link.style.display = 'none';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            console.log('Started secure download from:', downloadUrl);
+            accountCreationComplete = true;
+        }
     } catch (error) {
         console.error('Error with secure download:', error);
         showAccountCreationStatus('Download failed. Please try the manual download button.', 'error');
@@ -589,15 +599,20 @@ function startAutomaticDownload(platform) {
     }
 
     if (downloadUrl) {
-        showDownloadNotification(platform);
-        const link = document.createElement('a');
-        link.href = downloadUrl;
-        link.download = filename;
-        link.style.display = 'none';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        console.log('Attempting automatic download for:', platform, 'from:', downloadUrl);
+        // Show download confirmation dialog instead of automatic download
+        const confirmDownload = confirm(`🎉 Ready to download Junior!\n\nClick OK to download Junior for ${platform === 'windows' ? 'Windows' : 'macOS'}.`);
+        
+        if (confirmDownload) {
+            showDownloadNotification(platform);
+            const link = document.createElement('a');
+            link.href = downloadUrl;
+            link.download = filename;
+            link.style.display = 'none';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            console.log('Attempting automatic download for:', platform, 'from:', downloadUrl);
+        }
     }
 }
 
