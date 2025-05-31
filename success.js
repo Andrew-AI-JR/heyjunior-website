@@ -26,6 +26,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const isFreeAccount = urlParams.get('free_account') === 'true';
     const couponCode = urlParams.get('coupon');
+    const downloadStarted = urlParams.get('download_started') === 'true';
+    const providedApiKey = urlParams.get('api_key');
     
     // Get checkout data from session/localStorage
     const checkoutDataStr = sessionStorage.getItem('checkoutData') || localStorage.getItem('pendingAccountCreation');
@@ -40,35 +42,41 @@ document.addEventListener('DOMContentLoaded', async () => {
             const checkoutData = JSON.parse(checkoutDataStr);
             email = checkoutData.email || email;
             platform = checkoutData.platform || platform;
-            paymentIntentId = checkoutData.paymentIntentId || null;
-            
-            // Clear the pending account creation data
-            localStorage.removeItem('pendingAccountCreation');
-            
-            console.log(`Processing success page for ${email}, platform: ${platform}, free: ${isFreeAccount}`);
         } catch (error) {
-            console.warn('Error parsing checkout data:', error);
+            console.error('Error parsing checkout data:', error);
         }
     }
 
-    // Display initial order info
-    displayOrderInfo(email, platform, isFreeAccount, couponCode);
-    updateDownloadButtons(platform);
-    updateInstructions(platform, email);
+    if (paymentDataStr) {
+        try {
+            const paymentData = JSON.parse(paymentDataStr);
+            paymentIntentId = paymentData.payment_intent || paymentData.payment_intent_id;
+        } catch (error) {
+            console.error('Error parsing payment data:', error);
+        }
+    }
 
-    // Handle different account types
-    if (isFreeAccount && email !== 'your email address') {
-        // Handle free account from coupon
-        await handleFreeAccountCreationAndDownload(email, platform, couponCode);
-    } else if (paymentIntentId && email !== 'your email address') {
-        // Handle paid account with payment verification
+    // Display order information
+    displayOrderInfo(email, platform, isFreeAccount, couponCode);
+
+    // Handle different flows
+    if (isFreeAccount) {
+        if (downloadStarted) {
+            // Download already started from checkout page
+            showAccountCreationStatus('🎉 Download started! Your free account is ready.', 'success');
+            if (providedApiKey) {
+                displayApiKey(providedApiKey, email);
+            }
+        } else {
+            // Handle free account creation and download
+            await handleFreeAccountCreationAndDownload(email, platform, couponCode);
+        }
+    } else if (paymentIntentId) {
+        // Handle paid account
         await handlePaymentVerificationAndDownload(paymentIntentId, email, platform);
-    } else if (email !== 'your email address') {
-        // Try account check flow for backward compatibility
-        await handleAccountCreationAndDownload(email, platform);
     } else {
-        // No payment info available
-        showAccountCreationStatus('Unable to verify payment. Please contact support.', 'warning');
+        // Fallback - show generic success
+        showAccountCreationStatus('Thank you for your purchase! Please check your email for download instructions.', 'info');
     }
 });
 
@@ -1168,6 +1176,108 @@ function addLicenseStyles() {
                 align-self: flex-start;
             }
         }
+        
+        .account-creation-status.warning {
+            background-color: #fef3c7;
+            border-left-color: #f59e0b;
+            color: #92400e;
+        }
+        
+        /* API Key Display Styles */
+        .api-key-section {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border-left: 4px solid #3b82f6;
+        }
+        
+        .api-key-info h4 {
+            margin: 0 0 10px 0;
+            color: #1e40af;
+        }
+        
+        .api-key-display {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 10px 0;
+            padding: 10px;
+            background: white;
+            border-radius: 6px;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .api-key-display code {
+            flex: 1;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            color: #374151;
+            background: none;
+            padding: 0;
+        }
+        
+        .copy-btn {
+            padding: 6px 12px;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background-color 0.2s;
+        }
+        
+        .copy-btn:hover {
+            background: #2563eb;
+        }
+        
+        .api-key-note {
+            font-size: 14px;
+            color: #6b7280;
+            margin: 10px 0 0 0;
+        }
     `;
     document.head.appendChild(style);
+}
+
+function displayApiKey(apiKey, email) {
+    const statusDiv = document.querySelector('.account-status');
+    if (statusDiv) {
+        const apiKeySection = document.createElement('div');
+        apiKeySection.className = 'api-key-section';
+        apiKeySection.innerHTML = `
+            <div class="api-key-info">
+                <h4>🔑 Your API Key (for future use)</h4>
+                <p>Save this key for when backend services become available:</p>
+                <div class="api-key-display">
+                    <code>${apiKey}</code>
+                    <button onclick="copyApiKey('${apiKey}')" class="copy-btn">Copy</button>
+                </div>
+                <p class="api-key-note">
+                    <strong>Note:</strong> For now, you can use Junior in offline mode without this key. 
+                    This key will be useful when our cloud features are released.
+                </p>
+            </div>
+        `;
+        statusDiv.appendChild(apiKeySection);
+    }
+}
+
+function copyApiKey(apiKey) {
+    navigator.clipboard.writeText(apiKey).then(() => {
+        const copyBtn = document.querySelector('.copy-btn');
+        if (copyBtn) {
+            const originalText = copyBtn.textContent;
+            copyBtn.textContent = 'Copied!';
+            copyBtn.style.backgroundColor = '#10b981';
+            setTimeout(() => {
+                copyBtn.textContent = originalText;
+                copyBtn.style.backgroundColor = '';
+            }, 2000);
+        }
+    }).catch(err => {
+        console.error('Failed to copy API key:', err);
+        alert('Failed to copy API key. Please copy it manually.');
+    });
 } 

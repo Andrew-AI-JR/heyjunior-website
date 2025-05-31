@@ -283,14 +283,14 @@ function handleProceedToPayment(e) {
     // Also store in localStorage as backup (in case session is lost during redirect)
     localStorage.setItem('pendingAccountCreation', JSON.stringify(checkoutData));
 
-    // Handle 100% discount (free) case - bypass Stripe
+    // Handle 100% discount (free) case - bypass Stripe and start download immediately
     if (appliedCoupon && discountedPrice === 0) {
         e.preventDefault(); // Prevent default Stripe redirect
         
         // Show loading state
         const buttonText = document.getElementById('button-text');
         if (buttonText) {
-            buttonText.textContent = 'Processing free account...';
+            buttonText.textContent = 'Starting your free download...';
             stripeLinkButton.style.opacity = '0.7';
             stripeLinkButton.style.pointerEvents = 'none';
         }
@@ -310,9 +310,9 @@ function handleProceedToPayment(e) {
         sessionStorage.setItem('paymentData', JSON.stringify(freeAccountData));
         localStorage.setItem('paymentData', JSON.stringify(freeAccountData));
         
-        // Redirect to success page after a short delay
+        // Start download immediately
         setTimeout(() => {
-            window.location.href = '/success.html?free_account=true&coupon=tacos';
+            startFreeDownload(platform, email);
         }, 1000);
         
         return;
@@ -388,4 +388,83 @@ window.addEventListener('beforeunload', () => {
     if (stripeLinkButton && !stripeLinkButton.href.includes('stripe.com')) {
         localStorage.removeItem('pendingAccountCreation');
     }
-}); 
+});
+
+// Platform mapping for download URLs
+const PLATFORM_MAPPING = {
+    'windows': 'windows',
+    'macos': 'macos'
+};
+
+// Download URLs for v1.0.1 (with API key + offline mode support)
+const DOWNLOAD_URLS = {
+    'windows': 'https://github.com/heyjunior/junior-desktop/releases/download/v1.0.1/Junior-LinkedIn-Automation-1.0.1-windows.exe',
+    'macos': 'https://github.com/heyjunior/junior-desktop/releases/download/v1.0.1/Junior-LinkedIn-Automation-1.0.1-macos.dmg'
+};
+
+function startFreeDownload(platform, email) {
+    try {
+        // Normalize platform name
+        const normalizedPlatform = PLATFORM_MAPPING[platform] || 'windows';
+        const downloadUrl = DOWNLOAD_URLS[normalizedPlatform];
+        
+        if (!downloadUrl) {
+            throw new Error(`No download URL found for platform: ${platform}`);
+        }
+        
+        // Update button text to show success
+        const buttonText = document.getElementById('button-text');
+        if (buttonText) {
+            buttonText.textContent = '🎉 Download Starting!';
+        }
+        
+        // Start the download
+        const link = document.createElement('a');
+        link.href = downloadUrl;
+        link.download = downloadUrl.split('/').pop(); // Extract filename
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        // Show success message and redirect after download starts
+        setTimeout(() => {
+            // Generate a simple API key for offline mode
+            const apiKey = generateOfflineApiKey(email);
+            
+            // Redirect to success page with free account info
+            const successUrl = new URL('/success.html', window.location.origin);
+            successUrl.searchParams.set('free_account', 'true');
+            successUrl.searchParams.set('coupon', 'tacos');
+            successUrl.searchParams.set('download_started', 'true');
+            successUrl.searchParams.set('api_key', apiKey);
+            
+            window.location.href = successUrl.toString();
+        }, 2000);
+        
+    } catch (error) {
+        console.error('Download failed:', error);
+        
+        // Reset button state
+        const buttonText = document.getElementById('button-text');
+        const stripeLinkButton = document.getElementById('stripe-payment-link-button');
+        
+        if (buttonText) {
+            buttonText.textContent = 'Download Failed - Try Again';
+        }
+        if (stripeLinkButton) {
+            stripeLinkButton.style.opacity = '1';
+            stripeLinkButton.style.pointerEvents = 'auto';
+        }
+        
+        alert('Download failed. Please try again or contact support.');
+    }
+}
+
+function generateOfflineApiKey(email) {
+    // Generate a simple API key for offline mode
+    const timestamp = Date.now();
+    const emailHash = btoa(email).substring(0, 8);
+    const randomSuffix = Math.random().toString(36).substring(2, 10);
+    return `offline_${emailHash}_${timestamp}_${randomSuffix}`;
+} 
