@@ -3,9 +3,19 @@ const API_BASE_URL = 'https://junior-api-915940312680.us-west1.run.app';
 
 // GitHub Release Download URLs for working LinkedIn automation tool
 const GITHUB_RELEASE_BASE = 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.2';
+
+// Legacy URLs (to be removed)
 const WINDOWS_DIRECT_DOWNLOAD_URL = 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.2/Junior-Desktop-Setup-1.0.2.exe';
 const MACOS_DIRECT_DOWNLOAD_URL = 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.2/Junior-Desktop-1.0.2.dmg';
 const MACOS_ARM_DOWNLOAD_URL = 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.2/Junior-Desktop-1.0.2-arm64.dmg';
+
+// Platform-specific download URLs pointing to latest release
+const downloadUrls = {
+    'windows': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.3/Junior-Desktop-Setup-1.0.3.exe',
+    'macos-intel': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.3/Junior-Desktop-1.0.3.dmg',
+    'macos-arm': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.3/Junior-Desktop-1.0.3-arm64.dmg',
+    'linux': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.3/Junior-Desktop-1.0.3.AppImage'
+};
 
 // Platform detection and mapping
 const PLATFORM_MAPPING = {
@@ -106,7 +116,7 @@ async function handlePaymentVerificationAndDownload(paymentIntentId, email, plat
                 showAccountCreationStatus('Payment verified! Starting download...', 'success');
                 
                 // Start download using the secure URL
-                const downloadUrl = `${API_BASE_URL}${result.download_url}`;
+                const downloadUrl = getDownloadUrl(platform);
                 await startSecureDownload(downloadUrl, platform);
                 
                 // Also create account and API key
@@ -235,12 +245,12 @@ async function startDirectDownload(platform) {
     
     // Add download functionality
     document.getElementById('direct-download-btn').addEventListener('click', function() {
-        const downloadUrl = platform === 'windows' ? WINDOWS_DIRECT_DOWNLOAD_URL : MACOS_DIRECT_DOWNLOAD_URL;
+        const actualDownloadUrl = getDownloadUrl(platform);
         
         // User-initiated download
         const link = document.createElement('a');
-        link.href = downloadUrl;
-        link.download = downloadUrl.split('/').pop();
+        link.href = actualDownloadUrl;
+        link.download = actualDownloadUrl.split('/').pop();
         link.style.display = 'none';
         document.body.appendChild(link);
         link.click();
@@ -429,7 +439,7 @@ async function startAutomaticDownload(downloadUrl, platform) {
         
         // Add download functionality
         document.getElementById('auto-download-btn').addEventListener('click', function() {
-            const actualDownloadUrl = platform === 'windows' ? WINDOWS_DIRECT_DOWNLOAD_URL : MACOS_DIRECT_DOWNLOAD_URL;
+            const actualDownloadUrl = getDownloadUrl(platform);
             
             // User-initiated download
             const link = document.createElement('a');
@@ -497,7 +507,7 @@ async function startSecureDownload(downloadUrl, platform) {
         
         // Add download functionality
         document.getElementById('secure-download-btn').addEventListener('click', function() {
-            const actualDownloadUrl = platform === 'windows' ? WINDOWS_DIRECT_DOWNLOAD_URL : MACOS_DIRECT_DOWNLOAD_URL;
+            const actualDownloadUrl = getDownloadUrl(platform);
             
             // User-initiated download
             const link = document.createElement('a');
@@ -702,7 +712,7 @@ function updateDownloadButtons(platform) {
             windowsOption.style.display = 'block';
             windowsOption.classList.add('recommended');
             const button = windowsOption.querySelector('.download-button');
-            if (button) button.href = WINDOWS_DIRECT_DOWNLOAD_URL;
+            if (button) button.href = getDownloadUrl('windows');
         }
     } else { 
         const macOption = document.querySelector('.download-option.macos');
@@ -1445,4 +1455,16 @@ function copyApiKey(apiKey) {
         console.error('Failed to copy API key:', err);
         alert('Failed to copy API key. Please copy it manually.');
     });
+}
+
+// Helper function to get download URL based on platform
+function getDownloadUrl(platform) {
+    // Detect macOS architecture
+    if (platform === 'macos') {
+        // Check for Apple Silicon
+        const isAppleSilicon = navigator.userAgent.includes('Mac OS') && navigator.userAgent.includes('ARM');
+        return isAppleSilicon ? downloadUrls['macos-arm'] : downloadUrls['macos-intel'];
+    }
+    
+    return downloadUrls[platform] || downloadUrls['windows']; // Default to Windows
 } 

@@ -418,17 +418,19 @@ const PLATFORM_MAPPING = {
     'macos': 'macos'
 };
 
-// Download URLs for actual working releases (updated to working URLs)
-const DOWNLOAD_URLS = {
-    'windows': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.2/Junior-Desktop-Setup-1.0.2.exe',
-    'macos': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.2/Junior-Desktop-1.0.2.dmg'
+// Platform-specific download URLs pointing to latest release
+const downloadUrls = {
+    'windows': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.3/Junior-Desktop-Setup-1.0.3.exe',
+    'macos-intel': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.3/Junior-Desktop-1.0.3.dmg',
+    'macos-arm': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.3/Junior-Desktop-1.0.3-arm64.dmg',
+    'linux': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.3/Junior-Desktop-1.0.3.AppImage'
 };
 
 function startFreeDownload(platform, email) {
     try {
         // Normalize platform name
         const normalizedPlatform = PLATFORM_MAPPING[platform] || 'windows';
-        const downloadUrl = DOWNLOAD_URLS[normalizedPlatform];
+        const downloadUrl = downloadUrls[normalizedPlatform];
         
         if (!downloadUrl) {
             throw new Error(`No download URL found for platform: ${platform}`);
