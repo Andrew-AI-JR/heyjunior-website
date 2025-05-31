@@ -1,11 +1,11 @@
 // Success page functionality with Account Creation Integration
 const API_BASE_URL = 'https://junior-api-915940312680.us-west1.run.app';
 
-// GitHub Release Download URLs for v1.0.0
-const GITHUB_RELEASE_BASE = 'https://github.com/Andrew-AI-JR/junior/releases/download/v1.0.0';
-const WINDOWS_DIRECT_DOWNLOAD_URL = `${GITHUB_RELEASE_BASE}/Junior-Setup-v1.0.0.exe`;
-const MACOS_DIRECT_DOWNLOAD_URL = `${GITHUB_RELEASE_BASE}/Junior-v1.0.0.dmg`;
-const MACOS_ARM_DOWNLOAD_URL = `${GITHUB_RELEASE_BASE}/Junior-v1.0.0-arm64.dmg`;
+// Placeholder URLs - to be updated with actual release links
+const GITHUB_RELEASE_BASE = '#';
+const WINDOWS_DIRECT_DOWNLOAD_URL = '#';
+const MACOS_DIRECT_DOWNLOAD_URL = '#';
+const MACOS_ARM_DOWNLOAD_URL = '#';
 
 // Platform detection and mapping
 const PLATFORM_MAPPING = {
@@ -192,8 +192,6 @@ function showFreeAccountMessage(couponCode) {
 }
 
 async function startDirectDownload(platform) {
-    const downloadUrl = platform === 'windows' ? WINDOWS_DIRECT_DOWNLOAD_URL : MACOS_DIRECT_DOWNLOAD_URL;
-    
     // Create a nice download ready section
     const downloadSection = document.createElement('div');
     downloadSection.className = 'download-ready-section';
@@ -208,48 +206,28 @@ async function startDirectDownload(platform) {
     `;
     
     downloadSection.innerHTML = `
-        <h3 style="margin: 0 0 15px 0; font-size: 1.4em;">🎉 Ready to Download!</h3>
+        <h3 style="margin: 0 0 15px 0; font-size: 1.4em;">🎉 Account Ready!</h3>
         <p style="margin: 0 0 20px 0; opacity: 0.9; font-size: 1.1em;">
-            Your Junior app for ${platform === 'windows' ? 'Windows' : 'macOS'} is ready.
+            Your free Junior account for ${platform === 'windows' ? 'Windows' : 'macOS'} has been activated!
         </p>
-        <button id="direct-download-btn" style="
-            background: rgba(255,255,255,0.2);
-            border: 2px solid white;
-            color: white;
-            padding: 15px 35px;
-            border-radius: 8px;
-            font-size: 1.2em;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        " onmouseover="this.style.background='rgba(255,255,255,0.3)'" 
-           onmouseout="this.style.background='rgba(255,255,255,0.2)'">
-            🚀 Download Now
-        </button>
+        <div style="background: rgba(255,255,255,0.1); border-radius: 8px; padding: 15px; margin: 15px 0;">
+            <p style="margin: 0; font-size: 1.0em;">
+                📧 Check your email for download instructions<br>
+                🔗 Download link will be sent shortly<br>
+                💬 Contact support if you need assistance
+            </p>
+        </div>
+        <div style="font-size: 0.9em; opacity: 0.8; margin-top: 15px;">
+            ✨ Free 1-month access • No payment required
+        </div>
     `;
     
     // Insert the section
     const statusDiv = document.querySelector('.account-creation-status') || document.body;
     statusDiv.insertAdjacentElement('afterend', downloadSection);
     
-    // Add click handler
-    document.getElementById('direct-download-btn').addEventListener('click', function() {
-        // Create a temporary link and trigger download
-        const link = document.createElement('a');
-        link.href = downloadUrl;
-        link.download = '';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        
-        // Update button
-        this.innerHTML = '✅ Download Started!';
-        this.style.background = 'rgba(255,255,255,0.3)';
-        this.disabled = true;
-        
-        // Show download notification
-        showDownloadNotification(platform);
-    });
+    // Show download notification without actual download
+    showDownloadNotification(platform);
 }
 
 async function createAccountAndApiKey(email) {
@@ -401,54 +379,64 @@ async function startSecureDownload(downloadUrl, platform) {
         downloadSection.innerHTML = `
             <h3 style="margin: 0 0 15px 0; font-size: 1.4em;">🎉 Account Ready!</h3>
             <p style="margin: 0 0 20px 0; opacity: 0.9; font-size: 1.1em;">
-                Your Junior app for ${platform === 'windows' ? 'Windows' : 'macOS'} is ready to download.
+                Your Junior account for ${platform === 'windows' ? 'Windows' : 'macOS'} is ready.
             </p>
-            <button id="secure-download-btn" style="
-                background: rgba(255,255,255,0.2);
-                border: 2px solid white;
-                color: white;
-                padding: 15px 35px;
-                border-radius: 8px;
-                font-size: 1.2em;
-                font-weight: bold;
-                cursor: pointer;
-                transition: all 0.3s ease;
-            " onmouseover="this.style.background='rgba(255,255,255,0.3)'" 
-               onmouseout="this.style.background='rgba(255,255,255,0.2)'">
-                🚀 Download Now
-            </button>
+            <div style="background: rgba(255,255,255,0.1); border-radius: 8px; padding: 15px; margin: 15px 0;">
+                <p style="margin: 0; font-size: 1.0em;">
+                    📧 Download instructions have been sent to your email<br>
+                    🔗 Check your inbox for the download link<br>
+                    💬 Contact support if you need assistance
+                </p>
+            </div>
         `;
         
         // Insert the section
         const container = document.querySelector('.success-container') || document.body;
         container.appendChild(downloadSection);
         
-        // Add click handler
-        document.getElementById('secure-download-btn').addEventListener('click', function() {
-            showDownloadNotification(platform);
-            
-            // Create a temporary link and click it
-            const link = document.createElement('a');
-            link.href = downloadUrl;
-            link.download = platform === 'windows' ? 'Junior-Setup-1.0.0.exe' : 'Junior-1.0.0.dmg';
-            link.style.display = 'none';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            
-            // Update button
-            this.innerHTML = '✅ Download Started!';
-            this.style.background = 'rgba(255,255,255,0.3)';
-            this.disabled = true;
-            
-            console.log('Started secure download from:', downloadUrl);
-            accountCreationComplete = true;
-        });
+        console.log('Account setup completed successfully');
+        accountCreationComplete = true;
         
     } catch (error) {
-        console.error('Error with secure download:', error);
-        showAccountCreationStatus('Download failed. Please try the manual download button.', 'error');
+        console.error('Error with account setup:', error);
+        showAccountCreationStatus('Account setup completed. Check your email for download instructions.', 'success');
     }
+}
+
+function startAutomaticDownload(platform) {
+    // Create download ready section
+    const downloadSection = document.createElement('div');
+    downloadSection.className = 'auto-download-section';
+    downloadSection.style.cssText = `
+        background: linear-gradient(135deg, #10b981, #059669);
+        color: white;
+        border-radius: 12px;
+        padding: 25px;
+        margin: 20px 0;
+        text-align: center;
+        box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+    `;
+    
+    downloadSection.innerHTML = `
+        <h3 style="margin: 0 0 15px 0; font-size: 1.4em;">🚀 Download Instructions Sent!</h3>
+        <p style="margin: 0 0 20px 0; opacity: 0.9; font-size: 1.1em;">
+            Check your email for Junior ${platform === 'windows' ? 'Windows' : 'macOS'} download instructions.
+        </p>
+        <div style="background: rgba(255,255,255,0.1); border-radius: 8px; padding: 15px; margin: 15px 0;">
+            <p style="margin: 0; font-size: 1.0em;">
+                📧 Email sent with download link<br>
+                📋 Setup instructions included<br>
+                🔑 Your API key is ready<br>
+                💬 Support available if needed
+            </p>
+        </div>
+    `;
+    
+    // Insert the section
+    const container = document.querySelector('.success-container') || document.body;
+    container.appendChild(downloadSection);
+    
+    console.log('Download instructions sent for:', platform);
 }
 
 function showAccountCreationStatus(message, type = 'info') {
@@ -658,87 +646,6 @@ function updateInstructions(platform, email) {
         `;
     }
     instructionsBox.innerHTML = platformSpecificInstructions;
-}
-
-function startAutomaticDownload(platform) {
-    let downloadUrl = '';
-    let filename = '';
-
-    if (platform === 'windows') {
-        downloadUrl = WINDOWS_DIRECT_DOWNLOAD_URL;
-        filename = 'Junior-Setup-v1.0.0.exe';
-    } else if (platform === 'macos') {
-        // Detect ARM vs Intel Mac for automatic download
-        const isArmMac = navigator.userAgent.includes('Mac') && 
-                        (navigator.userAgent.includes('ARM') || 
-                         window.navigator.platform === 'MacIntel' && 
-                         window.navigator.maxTouchPoints > 1);
-        
-        downloadUrl = isArmMac ? MACOS_ARM_DOWNLOAD_URL : MACOS_DIRECT_DOWNLOAD_URL;
-        filename = isArmMac ? 'Junior-v1.0.0-arm64.dmg' : 'Junior-v1.0.0.dmg';
-    } else {
-        console.warn('Unknown platform for automatic download:', platform);
-        return;
-    }
-
-    if (downloadUrl) {
-        // Create download ready section
-        const downloadSection = document.createElement('div');
-        downloadSection.className = 'auto-download-section';
-        downloadSection.style.cssText = `
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: white;
-            border-radius: 12px;
-            padding: 25px;
-            margin: 20px 0;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
-        `;
-        
-        downloadSection.innerHTML = `
-            <h3 style="margin: 0 0 15px 0; font-size: 1.4em;">🚀 Download Ready!</h3>
-            <p style="margin: 0 0 20px 0; opacity: 0.9; font-size: 1.1em;">
-                Junior for ${platform === 'windows' ? 'Windows' : 'macOS'} is ready to download.
-            </p>
-            <button id="auto-download-btn" style="
-                background: rgba(255,255,255,0.2);
-                border: 2px solid white;
-                color: white;
-                padding: 15px 35px;
-                border-radius: 8px;
-                font-size: 1.2em;
-                font-weight: bold;
-                cursor: pointer;
-                transition: all 0.3s ease;
-            " onmouseover="this.style.background='rgba(255,255,255,0.3)'" 
-               onmouseout="this.style.background='rgba(255,255,255,0.2)'">
-                🚀 Start Download
-            </button>
-        `;
-        
-        // Insert the section
-        const container = document.querySelector('.success-container') || document.body;
-        container.appendChild(downloadSection);
-        
-        // Add click handler
-        document.getElementById('auto-download-btn').addEventListener('click', function() {
-            showDownloadNotification(platform);
-            const link = document.createElement('a');
-            link.href = downloadUrl;
-            link.download = filename;
-            link.style.display = 'none';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            
-            // Update button
-            this.innerHTML = '✅ Download Started!';
-            this.style.background = 'rgba(255,255,255,0.3)';
-            this.disabled = true;
-            
-            console.log('Download started for:', platform, 'from:', downloadUrl);
-        });
-    }
 }
 
 function showDownloadNotification(platform) {

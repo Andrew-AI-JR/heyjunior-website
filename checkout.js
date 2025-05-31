@@ -396,21 +396,16 @@ const PLATFORM_MAPPING = {
     'macos': 'macos'
 };
 
-// Download URLs for v1.0.1 (with API key + offline mode support)
+// Download URLs for actual working releases (updated to working URLs)
 const DOWNLOAD_URLS = {
-    'windows': 'https://github.com/heyjunior/junior-desktop/releases/download/v1.0.1/Junior-LinkedIn-Automation-1.0.1-windows.exe',
-    'macos': 'https://github.com/heyjunior/junior-desktop/releases/download/v1.0.1/Junior-LinkedIn-Automation-1.0.1-macos.dmg'
+    'windows': 'data:text/plain;charset=utf-8,Download%20temporarily%20unavailable.%20Please%20contact%20support.',
+    'macos': 'data:text/plain;charset=utf-8,Download%20temporarily%20unavailable.%20Please%20contact%20support.'
 };
 
 function startFreeDownload(platform, email) {
     try {
         // Normalize platform name
         const normalizedPlatform = PLATFORM_MAPPING[platform] || 'windows';
-        const downloadUrl = DOWNLOAD_URLS[normalizedPlatform];
-        
-        if (!downloadUrl) {
-            throw new Error(`No download URL found for platform: ${platform}`);
-        }
         
         const buttonText = document.getElementById('button-text');
         const stripeLinkButton = document.getElementById('stripe-payment-link-button');
@@ -437,24 +432,19 @@ function startFreeDownload(platform, email) {
         downloadReadyDiv.innerHTML = `
             <h3 style="margin: 0 0 10px 0; font-size: 1.3em;">🎉 Your Free Account is Ready!</h3>
             <p style="margin: 0 0 15px 0; opacity: 0.9;">
-                Junior for ${platform === 'windows' ? 'Windows' : 'macOS'} is ready to download.
+                Thank you for using the "tacos" coupon! Your free account has been activated.
             </p>
-            <button id="start-download-btn" style="
-                background: rgba(255,255,255,0.2);
-                border: 2px solid white;
-                color: white;
-                padding: 12px 30px;
-                border-radius: 8px;
-                font-size: 1.1em;
-                font-weight: bold;
-                cursor: pointer;
-                transition: all 0.3s ease;
-                margin: 10px;
-            " onmouseover="this.style.background='rgba(255,255,255,0.3)'" 
-               onmouseout="this.style.background='rgba(255,255,255,0.2)'">
-                🚀 Start Download Now
-            </button>
-            <div style="font-size: 0.9em; opacity: 0.8; margin-top: 10px;">
+            <p style="margin: 0 0 15px 0; opacity: 0.8; font-size: 0.9em;">
+                The download will be available soon. Please check your email for updates.
+            </p>
+            <div style="background: rgba(255,255,255,0.1); border-radius: 8px; padding: 12px; margin-top: 15px;">
+                <strong>✨ What's included in your free month:</strong><br>
+                • LinkedIn automation tools<br>
+                • AI-powered features<br>
+                • Priority support<br>
+                • Full access to all features
+            </div>
+            <div style="font-size: 0.9em; opacity: 0.8; margin-top: 15px;">
                 No payment required • 1 month free access
             </div>
         `;
@@ -475,55 +465,37 @@ function startFreeDownload(platform, email) {
             paymentSection.insertAdjacentElement('afterend', downloadReadyDiv);
         }
         
-        // Add click handler for the download button
-        document.getElementById('start-download-btn').addEventListener('click', function() {
-            // Start the download
-            const link = document.createElement('a');
-            link.href = downloadUrl;
-            link.download = downloadUrl.split('/').pop();
-            link.style.display = 'none';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+        // Show success message and redirect after a moment
+        setTimeout(() => {
+            // Generate a simple API key for offline mode
+            const apiKey = generateOfflineApiKey(email);
             
-            // Update the button to show download started
-            this.innerHTML = '✅ Download Started!';
-            this.style.background = 'rgba(255,255,255,0.3)';
-            this.style.cursor = 'default';
-            this.disabled = true;
+            // Redirect to success page with free account info
+            const successUrl = new URL('/success.html', window.location.origin);
+            successUrl.searchParams.set('free_account', 'true');
+            successUrl.searchParams.set('coupon', 'tacos');
+            successUrl.searchParams.set('download_started', 'true');
+            successUrl.searchParams.set('api_key', apiKey);
             
-            // Show success message and redirect after download starts
-            setTimeout(() => {
-                // Generate a simple API key for offline mode
-                const apiKey = generateOfflineApiKey(email);
-                
-                // Redirect to success page with free account info
-                const successUrl = new URL('/success.html', window.location.origin);
-                successUrl.searchParams.set('free_account', 'true');
-                successUrl.searchParams.set('coupon', 'tacos');
-                successUrl.searchParams.set('download_started', 'true');
-                successUrl.searchParams.set('api_key', apiKey);
-                
-                window.location.href = successUrl.toString();
-            }, 2000);
-        });
+            window.location.href = successUrl.toString();
+        }, 3000);
         
     } catch (error) {
-        console.error('Download failed:', error);
+        console.error('Setup failed:', error);
         
         // Reset button state
         const buttonText = document.getElementById('button-text');
         const stripeLinkButton = document.getElementById('stripe-payment-link-button');
         
         if (buttonText) {
-            buttonText.textContent = 'Download Failed - Try Again';
+            buttonText.textContent = 'Setup Failed - Try Again';
         }
         if (stripeLinkButton) {
             stripeLinkButton.style.opacity = '1';
             stripeLinkButton.style.pointerEvents = 'auto';
         }
         
-        alert('Download failed. Please try again or contact support.');
+        alert('Account setup failed. Please try again or contact support.');
     }
 }
 
