@@ -141,21 +141,10 @@ function showCouponDiscount(coupon) {
     
     // Update payment section for free accounts
     if (coupon.percent_off === 100 || discountedPrice === 0) {
+        // Hide the payment section entirely for 100% discount
         const paymentSection = document.querySelector('.payment-section');
         if (paymentSection) {
-            const heading = paymentSection.querySelector('h3');
-            const description = paymentSection.querySelector('p');
-            
-            if (heading) {
-                heading.textContent = '🎉 Start Your Free Trial';
-                heading.style.color = '#10b981';
-            }
-            
-            if (description) {
-                description.textContent = 'Click below to start your free 1-month trial and download Junior immediately!';
-                description.style.color = '#059669';
-                description.style.fontWeight = '500';
-            }
+            paymentSection.style.display = 'none';
         }
     }
 }
@@ -174,6 +163,9 @@ function removeCoupon() {
     // Reset payment section
     const paymentSection = document.querySelector('.payment-section');
     if (paymentSection) {
+        // Show the payment section again
+        paymentSection.style.display = 'block';
+        
         const heading = paymentSection.querySelector('h3');
         const description = paymentSection.querySelector('p');
         
