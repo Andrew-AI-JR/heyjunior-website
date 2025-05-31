@@ -201,28 +201,26 @@ function showCouponDiscount(coupon) {
         const platform = document.querySelector('input[name="platform"]:checked')?.value;
         
         if (email && platform) {
-            // Create download section if it doesn't exist
-            let downloadSection = document.getElementById('free-download-section');
-            if (!downloadSection) {
-                downloadSection = document.createElement('div');
-                downloadSection.id = 'free-download-section';
-                downloadSection.className = 'download-ready-message';
-                downloadSection.style.cssText = `
-                    background: linear-gradient(135deg, #10b981, #059669);
-                    color: white;
-                    border-radius: 12px;
-                    padding: 20px;
-                    margin: 20px 0;
-                    text-align: center;
-                    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
-                    animation: slideIn 0.5s ease-out;
-                `;
-                
-                // Insert after payment section
-                if (paymentSection) {
-                    paymentSection.insertAdjacentElement('afterend', downloadSection);
-                }
+            // Remove any existing download sections first
+            const existingDownloadSection = document.getElementById('free-download-section');
+            if (existingDownloadSection) {
+                existingDownloadSection.remove();
             }
+            
+            // Create new download section
+            const downloadSection = document.createElement('div');
+            downloadSection.id = 'free-download-section';
+            downloadSection.className = 'download-ready-message';
+            downloadSection.style.cssText = `
+                background: linear-gradient(135deg, #10b981, #059669);
+                color: white;
+                border-radius: 12px;
+                padding: 20px;
+                margin: 20px 0;
+                text-align: center;
+                box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+                animation: slideIn 0.5s ease-out;
+            `;
             
             downloadSection.innerHTML = `
                 <h3 style="margin: 0 0 10px 0; font-size: 1.3em;">🎉 Your Free Account is Ready!</h3>
@@ -241,14 +239,33 @@ function showCouponDiscount(coupon) {
                     transition: all 0.3s ease;
                     margin: 10px;
                 " onmouseover="this.style.background='rgba(255,255,255,0.3)'" 
-                   onmouseout="this.style.background='rgba(255,255,255,0.2)'"
-                   onclick="startFreeDownloadFromButton()">
+                   onmouseout="this.style.background='rgba(255,255,255,0.2)'">
                     🚀 Download Now
                 </button>
                 <div style="font-size: 0.9em; opacity: 0.8; margin-top: 10px;">
                     No payment required • 1 month free access
                 </div>
             `;
+            
+            // Insert after payment section or at end of form
+            if (paymentSection) {
+                paymentSection.insertAdjacentElement('afterend', downloadSection);
+            } else {
+                const formElement = document.querySelector('.checkout-form');
+                if (formElement) {
+                    formElement.appendChild(downloadSection);
+                }
+            }
+            
+            // Add click handler directly
+            const downloadBtn = downloadSection.querySelector('#start-download-btn');
+            if (downloadBtn) {
+                downloadBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    startFreeDownload(platform, email);
+                });
+            }
         } else {
             // Show message to complete form
             let downloadSection = document.getElementById('free-download-section');
@@ -269,6 +286,11 @@ function showCouponDiscount(coupon) {
                 const paymentSection = document.querySelector('.payment-section');
                 if (paymentSection) {
                     paymentSection.insertAdjacentElement('afterend', downloadSection);
+                } else {
+                    const formElement = document.querySelector('.checkout-form');
+                    if (formElement) {
+                        formElement.appendChild(downloadSection);
+                    }
                 }
             }
             
@@ -703,14 +725,4 @@ function handleFullAutoDetection() {
     window.selectedPlatform = detectedPlatform;
     updateButtonText();
 }
-*/
-
-// Add this helper function for the download button
-window.startFreeDownloadFromButton = function() {
-    const email = document.getElementById('customer-email').value;
-    const platform = document.querySelector('input[name="platform"]:checked')?.value;
-    
-    if (email && platform) {
-        startFreeDownload(platform, email);
-    }
-}; 
+*/ 
