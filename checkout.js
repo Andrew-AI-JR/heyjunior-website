@@ -50,6 +50,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize button text
     updateButtonText();
+
+    // Add listeners for email and platform changes when coupon is applied
+    const emailInput = document.getElementById('customer-email');
+    if (emailInput) {
+        emailInput.addEventListener('input', () => {
+            if (appliedCoupon && discountedPrice === 0) {
+                showCouponDiscount(appliedCoupon);
+            }
+        });
+    }
+    
+    document.querySelectorAll('input[name="platform"]').forEach(radio => {
+        radio.addEventListener('change', () => {
+            updateButtonText();
+            if (appliedCoupon && discountedPrice === 0) {
+                showCouponDiscount(appliedCoupon);
+            }
+        });
+    });
 });
 
 // Global variables for coupon state
@@ -171,10 +190,93 @@ function showCouponDiscount(coupon) {
     
     // Update payment section for free accounts
     if (coupon.percent_off === 100 || discountedPrice === 0) {
-        // Hide the payment section entirely for 100% discount
+        // Hide the payment section for 100% discount
         const paymentSection = document.querySelector('.payment-section');
         if (paymentSection) {
             paymentSection.style.display = 'none';
+        }
+        
+        // Show download button for free accounts
+        const email = document.getElementById('customer-email').value;
+        const platform = document.querySelector('input[name="platform"]:checked')?.value;
+        
+        if (email && platform) {
+            // Create download section if it doesn't exist
+            let downloadSection = document.getElementById('free-download-section');
+            if (!downloadSection) {
+                downloadSection = document.createElement('div');
+                downloadSection.id = 'free-download-section';
+                downloadSection.className = 'download-ready-message';
+                downloadSection.style.cssText = `
+                    background: linear-gradient(135deg, #10b981, #059669);
+                    color: white;
+                    border-radius: 12px;
+                    padding: 20px;
+                    margin: 20px 0;
+                    text-align: center;
+                    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+                    animation: slideIn 0.5s ease-out;
+                `;
+                
+                // Insert after payment section
+                if (paymentSection) {
+                    paymentSection.insertAdjacentElement('afterend', downloadSection);
+                }
+            }
+            
+            downloadSection.innerHTML = `
+                <h3 style="margin: 0 0 10px 0; font-size: 1.3em;">🎉 Your Free Account is Ready!</h3>
+                <p style="margin: 0 0 15px 0; opacity: 0.9;">
+                    Junior for ${platform === 'windows' ? 'Windows' : 'macOS'} is ready to download.
+                </p>
+                <button id="start-download-btn" style="
+                    background: rgba(255,255,255,0.2);
+                    border: 2px solid white;
+                    color: white;
+                    padding: 12px 30px;
+                    border-radius: 8px;
+                    font-size: 1.1em;
+                    font-weight: bold;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    margin: 10px;
+                " onmouseover="this.style.background='rgba(255,255,255,0.3)'" 
+                   onmouseout="this.style.background='rgba(255,255,255,0.2)'"
+                   onclick="startFreeDownloadFromButton()">
+                    🚀 Download Now
+                </button>
+                <div style="font-size: 0.9em; opacity: 0.8; margin-top: 10px;">
+                    No payment required • 1 month free access
+                </div>
+            `;
+        } else {
+            // Show message to complete form
+            let downloadSection = document.getElementById('free-download-section');
+            if (!downloadSection) {
+                downloadSection = document.createElement('div');
+                downloadSection.id = 'free-download-section';
+                downloadSection.className = 'download-ready-message';
+                downloadSection.style.cssText = `
+                    background: #fef3c7;
+                    border: 1px solid #f59e0b;
+                    color: #92400e;
+                    border-radius: 12px;
+                    padding: 20px;
+                    margin: 20px 0;
+                    text-align: center;
+                `;
+                
+                const paymentSection = document.querySelector('.payment-section');
+                if (paymentSection) {
+                    paymentSection.insertAdjacentElement('afterend', downloadSection);
+                }
+            }
+            
+            downloadSection.innerHTML = `
+                <p style="margin: 0; font-weight: 500;">
+                    Please enter your email and select your platform above to continue with your free download.
+                </p>
+            `;
         }
     }
 }
@@ -601,4 +703,14 @@ function handleFullAutoDetection() {
     window.selectedPlatform = detectedPlatform;
     updateButtonText();
 }
-*/ 
+*/
+
+// Add this helper function for the download button
+window.startFreeDownloadFromButton = function() {
+    const email = document.getElementById('customer-email').value;
+    const platform = document.querySelector('input[name="platform"]:checked')?.value;
+    
+    if (email && platform) {
+        startFreeDownload(platform, email);
+    }
+}; 
