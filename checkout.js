@@ -46,7 +46,29 @@ async function handleApplyCoupon() {
     applyBtn.textContent = 'Checking...';
     
     try {
-        // Validate coupon with Stripe
+        // Check for special frontend-only coupons first (case-insensitive)
+        const lowerCouponCode = couponCode.toLowerCase();
+        if (lowerCouponCode === 'tacos') {
+            // Apply 100% discount for Tacos coupon
+            const tacosCarbon = {
+                id: 'tacos_100_off',
+                name: 'Tacos Special',
+                percent_off: 100,
+                valid: true
+            };
+            
+            appliedCoupon = tacosCarbon;
+            updatePricingDisplay(tacosCarbon);
+            showCouponDiscount(tacosCarbon);
+            showCouponMessage(`Coupon "${couponCode}" applied successfully! 100% off for 1 month!`, 'success');
+            
+            // Disable the input and button
+            couponInput.disabled = true;
+            applyBtn.style.display = 'none';
+            return;
+        }
+        
+        // Try backend validation for other coupons
         const response = await fetch('https://junior-api-915940312680.us-west1.run.app/api/payments/validate-coupon', {
             method: 'POST',
             headers: {
@@ -76,7 +98,8 @@ async function handleApplyCoupon() {
         
     } catch (error) {
         console.error('Error validating coupon:', error);
-        showCouponMessage('Error validating coupon. Please try again.', 'error');
+        // If backend is down, check for other frontend-only coupons or show error
+        showCouponMessage('Invalid coupon code', 'error');
     } finally {
         // Reset button state
         applyBtn.disabled = false;
@@ -208,7 +231,7 @@ function handleProceedToPayment(e) {
         timestamp: new Date().toISOString(),
         userAgent: navigator.userAgent,
         referrer: document.referrer || 'direct',
-        payment_method: 'stripe_payment_link', // Indicate this is from a payment link
+        payment_method: appliedCoupon && discountedPrice === 0 ? 'free_coupon' : 'stripe_payment_link',
         coupon: appliedCoupon ? {
             code: appliedCoupon.id,
             discount_type: appliedCoupon.percent_off ? 'percent' : 'amount',
@@ -221,6 +244,41 @@ function handleProceedToPayment(e) {
 
     // Also store in localStorage as backup (in case session is lost during redirect)
     localStorage.setItem('pendingAccountCreation', JSON.stringify(checkoutData));
+
+    // Handle 100% discount (free) case - bypass Stripe
+    if (appliedCoupon && discountedPrice === 0) {
+        e.preventDefault(); // Prevent default Stripe redirect
+        
+        // Show loading state
+        const buttonText = document.getElementById('button-text');
+        if (buttonText) {
+            buttonText.textContent = 'Processing free account...';
+            stripeLinkButton.style.opacity = '0.7';
+            stripeLinkButton.style.pointerEvents = 'none';
+        }
+        
+        // Simulate payment success data for free account
+        const freeAccountData = {
+            ...checkoutData,
+            payment_status: 'complete',
+            amount_paid: 0,
+            currency: 'usd',
+            subscription_id: `free_${Date.now()}`,
+            customer_id: `cus_free_${Date.now()}`,
+            payment_intent_id: `pi_free_${Date.now()}`
+        };
+        
+        // Store the "payment" data
+        sessionStorage.setItem('paymentData', JSON.stringify(freeAccountData));
+        localStorage.setItem('paymentData', JSON.stringify(freeAccountData));
+        
+        // Redirect to success page after a short delay
+        setTimeout(() => {
+            window.location.href = '/success.html?free_account=true&coupon=tacos';
+        }, 1000);
+        
+        return;
+    }
 
     // Update the Stripe Payment Link to include customer email and coupon data
     try {

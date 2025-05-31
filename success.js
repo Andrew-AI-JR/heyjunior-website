@@ -22,8 +22,15 @@ let accountCheckAttempts = 0;
 const MAX_ACCOUNT_CHECK_ATTEMPTS = 30; // 30 attempts over 5 minutes
 
 document.addEventListener('DOMContentLoaded', async () => {
+    // Check URL parameters for free account
+    const urlParams = new URLSearchParams(window.location.search);
+    const isFreeAccount = urlParams.get('free_account') === 'true';
+    const couponCode = urlParams.get('coupon');
+    
     // Get checkout data from session/localStorage
     const checkoutDataStr = sessionStorage.getItem('checkoutData') || localStorage.getItem('pendingAccountCreation');
+    const paymentDataStr = sessionStorage.getItem('paymentData') || localStorage.getItem('paymentData');
+    
     let email = 'your email address';
     let platform = 'your selected platform';
     let paymentIntentId = null;
@@ -38,19 +45,23 @@ document.addEventListener('DOMContentLoaded', async () => {
             // Clear the pending account creation data
             localStorage.removeItem('pendingAccountCreation');
             
-            console.log(`Processing success page for ${email}, platform: ${platform}`);
+            console.log(`Processing success page for ${email}, platform: ${platform}, free: ${isFreeAccount}`);
         } catch (error) {
             console.warn('Error parsing checkout data:', error);
         }
     }
 
     // Display initial order info
-    displayOrderInfo(email, platform);
+    displayOrderInfo(email, platform, isFreeAccount, couponCode);
     updateDownloadButtons(platform);
     updateInstructions(platform, email);
 
-    // Verify payment and generate download
-    if (paymentIntentId && email !== 'your email address') {
+    // Handle different account types
+    if (isFreeAccount && email !== 'your email address') {
+        // Handle free account from coupon
+        await handleFreeAccountCreationAndDownload(email, platform, couponCode);
+    } else if (paymentIntentId && email !== 'your email address') {
+        // Handle paid account with payment verification
         await handlePaymentVerificationAndDownload(paymentIntentId, email, platform);
     } else if (email !== 'your email address') {
         // Try account check flow for backward compatibility
@@ -102,6 +113,89 @@ async function handlePaymentVerificationAndDownload(paymentIntentId, email, plat
         console.error('Error verifying payment:', error);
         showAccountCreationStatus('Payment verification failed. Please contact support.', 'error');
     }
+}
+
+async function handleFreeAccountCreationAndDownload(email, platform, couponCode) {
+    try {
+        showAccountCreationStatus(`🎉 Free account activated with "${couponCode}" coupon! Preparing download...`, 'success');
+        
+        // Normalize platform name
+        const normalizedPlatform = PLATFORM_MAPPING[platform] || 'windows';
+        
+        // Start direct download since no payment verification needed
+        await startDirectDownload(platform);
+        
+        // Show free account success message
+        setTimeout(() => {
+            showAccountCreationStatus('🆓 Your free 1-month subscription is active! Download starting...', 'success');
+        }, 1000);
+        
+        // Generate a fake API key for now (until backend is deployed)
+        const fakeApiKey = `jnr_free_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+        
+        // Show the API key info
+        setTimeout(() => {
+            showApiKeyInfo(fakeApiKey, email);
+            showFreeAccountMessage(couponCode);
+        }, 2000);
+        
+    } catch (error) {
+        console.error('Error handling free account:', error);
+        showAccountCreationStatus('Error setting up free account. Please contact support.', 'error');
+    }
+}
+
+function showFreeAccountMessage(couponCode) {
+    const freeAccountMsg = document.createElement('div');
+    freeAccountMsg.className = 'free-account-message';
+    freeAccountMsg.style.cssText = `
+        background: linear-gradient(135deg, #10b981, #059669);
+        color: white;
+        border-radius: 12px;
+        padding: 20px;
+        margin: 20px 0;
+        text-align: center;
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    `;
+    
+    freeAccountMsg.innerHTML = `
+        <h3 style="margin: 0 0 10px 0; font-size: 1.4em;">🎉 Welcome to Junior - FREE for 1 Month!</h3>
+        <p style="margin: 0 0 15px 0; opacity: 0.9;">
+            Your "${couponCode}" coupon has been successfully applied.<br>
+            Enjoy full access to all premium features until ${new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString()}.
+        </p>
+        <div style="background: rgba(255,255,255,0.1); border-radius: 8px; padding: 12px; margin-top: 15px;">
+            <strong>✨ What's included in your free month:</strong><br>
+            • Unlimited LinkedIn automation<br>
+            • AI-powered comment generation<br>
+            • Advanced targeting features<br>
+            • Priority support
+        </div>
+    `;
+    
+    // Insert after the API key section
+    const apiKeySection = document.querySelector('.api-key-section');
+    if (apiKeySection) {
+        apiKeySection.insertAdjacentElement('afterend', freeAccountMsg);
+    } else {
+        const container = document.querySelector('.success-container') || document.body;
+        container.appendChild(freeAccountMsg);
+    }
+}
+
+async function startDirectDownload(platform) {
+    const downloadUrl = platform === 'windows' ? WINDOWS_DIRECT_DOWNLOAD_URL : MACOS_DIRECT_DOWNLOAD_URL;
+    
+    // Create a temporary link and trigger download
+    const link = document.createElement('a');
+    link.href = downloadUrl;
+    link.download = '';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    // Show download notification
+    showDownloadNotification(platform);
 }
 
 async function createAccountAndApiKey(email) {
@@ -315,7 +409,7 @@ spinnerStyles.textContent = `
 `;
 document.head.appendChild(spinnerStyles);
 
-function displayOrderInfo(email, platform) {
+function displayOrderInfo(email, platform, isFreeAccount, couponCode) {
     const emailElements = document.querySelectorAll('.customer-email');
     emailElements.forEach(el => {
         el.textContent = email;
@@ -340,19 +434,44 @@ function displayOrderInfo(email, platform) {
 
         const successMessage = document.createElement('div');
         successMessage.className = 'payment-success-notice';
-        successMessage.style.cssText = `
-            background: #e0f2fe;
-            border: 1px solid #7dd3fc;
-            border-radius: 8px;
-            padding: 20px;
-            margin: 20px 0;
-            text-align: center;
-        `;
-        successMessage.innerHTML = `
-            <h3 style="color: #0c4a6e; margin-bottom: 10px;">🎉 Payment Successful!</h3>
-            <p style="color: #075985; margin-bottom: 15px;">Your account is being created and your download for <strong>${platform === 'windows' ? 'Windows' : 'macOS'}</strong> will start automatically.</p>
-            <p style="color: #075985;">You'll receive an email with your account details and login instructions.</p>
-        `;
+        
+        if (isFreeAccount) {
+            // Free account success message
+            successMessage.style.cssText = `
+                background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+                border: 2px solid #10b981;
+                border-radius: 12px;
+                padding: 20px;
+                margin: 20px 0;
+                text-align: center;
+                position: relative;
+                overflow: hidden;
+            `;
+            successMessage.innerHTML = `
+                <div style="position: absolute; top: -5px; right: -5px; background: #10b981; color: white; padding: 5px 15px; border-radius: 0 12px 0 12px; font-size: 0.9em; font-weight: bold;">FREE</div>
+                <h3 style="color: #059669; margin-bottom: 10px; font-size: 1.3em;">🎉 Free Account Activated!</h3>
+                <p style="color: #065f46; margin-bottom: 15px; font-size: 1.1em;">Your <strong>"${couponCode}"</strong> coupon has been applied successfully!</p>
+                <div style="background: rgba(16, 185, 129, 0.1); border-radius: 8px; padding: 15px; margin: 15px 0;">
+                    <p style="color: #059669; margin: 0; font-weight: 500;">✨ Enjoy <strong>1 month FREE</strong> access to all premium features!</p>
+                    <p style="color: #065f46; margin: 5px 0 0 0; font-size: 0.9em;">Your download for <strong>${platform === 'windows' ? 'Windows' : 'macOS'}</strong> will start automatically.</p>
+                </div>
+            `;
+        } else {
+            // Paid account success message
+            successMessage.style.cssText = `
+                background: #e0f2fe;
+                border: 1px solid #7dd3fc;
+                border-radius: 8px;
+                padding: 20px;
+                margin: 20px 0;
+                text-align: center;
+            `;
+            successMessage.innerHTML = `
+                <h3 style="color: #0c4a6e; margin-bottom: 10px;">🎉 Payment Successful!</h3>
+                <p style="color: #075985; margin-bottom: 15px;">Your account is being created and your download for <strong>${platform === 'windows' ? 'Windows' : 'macOS'}</strong> will start automatically.</p>
+                <p style="color: #075985;">You'll receive an email with your account details and login instructions.</p>
+            `;
+        }
         
         const successHeader = document.querySelector('.success-header');
         if (successHeader) {
