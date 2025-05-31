@@ -138,6 +138,26 @@ function showCouponDiscount(coupon) {
     }
     
     discountDiv.style.display = 'flex';
+    
+    // Update payment section for free accounts
+    if (coupon.percent_off === 100 || discountedPrice === 0) {
+        const paymentSection = document.querySelector('.payment-section');
+        if (paymentSection) {
+            const heading = paymentSection.querySelector('h3');
+            const description = paymentSection.querySelector('p');
+            
+            if (heading) {
+                heading.textContent = '🎉 Start Your Free Trial';
+                heading.style.color = '#10b981';
+            }
+            
+            if (description) {
+                description.textContent = 'Click below to start your free 1-month trial and download Junior immediately!';
+                description.style.color = '#059669';
+                description.style.fontWeight = '500';
+            }
+        }
+    }
 }
 
 function removeCoupon() {
@@ -150,6 +170,24 @@ function removeCoupon() {
     document.getElementById('apply-coupon-btn').style.display = 'inline-block';
     document.getElementById('coupon-message').className = 'coupon-message';
     document.getElementById('coupon-discount').style.display = 'none';
+    
+    // Reset payment section
+    const paymentSection = document.querySelector('.payment-section');
+    if (paymentSection) {
+        const heading = paymentSection.querySelector('h3');
+        const description = paymentSection.querySelector('p');
+        
+        if (heading) {
+            heading.textContent = 'Complete Your Purchase';
+            heading.style.color = '';
+        }
+        
+        if (description) {
+            description.textContent = 'You will be redirected to Stripe to complete your payment securely.';
+            description.style.color = '';
+            description.style.fontWeight = '';
+        }
+    }
     
     // Reset pricing display
     updatePricingDisplay(null);
@@ -321,13 +359,24 @@ function updateButtonText() {
     const platform = document.querySelector('input[name="platform"]:checked')?.value;
     const buttonTextElement = document.getElementById('button-text');
     if (buttonTextElement) {
-        if (platform) {
-            const platformName = platform.charAt(0).toUpperCase() + platform.slice(1);
-            const price = appliedCoupon ? `$${Math.round(discountedPrice)}` : '$20';
-            buttonTextElement.textContent = `Proceed to Payment for ${platformName} - ${price}/month`;
+        if (appliedCoupon && discountedPrice === 0) {
+            // Free account - different button text
+            if (platform) {
+                const platformName = platform.charAt(0).toUpperCase() + platform.slice(1);
+                buttonTextElement.textContent = `Start Free Download for ${platformName}`;
+            } else {
+                buttonTextElement.textContent = `Start Free Download`;
+            }
         } else {
-            const price = appliedCoupon ? `$${Math.round(discountedPrice)}` : '$20';
-            buttonTextElement.textContent = `Proceed to Payment - ${price}/month`;
+            // Paid account - normal payment flow
+            if (platform) {
+                const platformName = platform.charAt(0).toUpperCase() + platform.slice(1);
+                const price = appliedCoupon ? `$${Math.round(discountedPrice)}` : '$20';
+                buttonTextElement.textContent = `Proceed to Payment for ${platformName} - ${price}/month`;
+            } else {
+                const price = appliedCoupon ? `$${Math.round(discountedPrice)}` : '$20';
+                buttonTextElement.textContent = `Proceed to Payment - ${price}/month`;
+            }
         }
     }
 }
