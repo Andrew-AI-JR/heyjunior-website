@@ -1,9 +1,19 @@
 // Success page functionality with Account Creation Integration
 const API_BASE_URL = 'https://junior-api-915940312680.us-west1.run.app';
 
-// Download URLs (fallback for direct download if API fails)
-const WINDOWS_DIRECT_DOWNLOAD_URL = 'downloads/LinkedIn_Automation_Tool_v3.0.1-beta.zip';
-const MACOS_DIRECT_DOWNLOAD_URL = 'https://drive.google.com/uc?export=download&id=1Q0AuZYSlMealm5B-iDEhO5oW1VO7x8dM';
+// GitHub Release Download URLs for v1.0.0
+const GITHUB_RELEASE_BASE = 'https://github.com/Andrew-AI-JR/junior/releases/download/v1.0.0';
+const WINDOWS_DIRECT_DOWNLOAD_URL = `${GITHUB_RELEASE_BASE}/Junior-Setup-v1.0.0.exe`;
+const MACOS_DIRECT_DOWNLOAD_URL = `${GITHUB_RELEASE_BASE}/Junior-v1.0.0.dmg`;
+const MACOS_ARM_DOWNLOAD_URL = `${GITHUB_RELEASE_BASE}/Junior-v1.0.0-arm64.dmg`;
+
+// Platform detection and mapping
+const PLATFORM_MAPPING = {
+    'windows': 'windows',
+    'mac': 'mac',
+    'mac-arm': 'mac-arm',
+    'macos': 'mac'  // Handle different naming conventions
+};
 
 // Track download and account status
 let accountCreationComplete = false;
@@ -16,17 +26,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     const checkoutDataStr = sessionStorage.getItem('checkoutData') || localStorage.getItem('pendingAccountCreation');
     let email = 'your email address';
     let platform = 'your selected platform';
+    let paymentIntentId = null;
 
     if (checkoutDataStr) {
         try {
             const checkoutData = JSON.parse(checkoutDataStr);
             email = checkoutData.email || email;
             platform = checkoutData.platform || platform;
+            paymentIntentId = checkoutData.paymentIntentId || null;
             
             // Clear the pending account creation data
             localStorage.removeItem('pendingAccountCreation');
             
-            app_logger.info(`Processing success page for ${email}, platform: ${platform}`);
+            console.log(`Processing success page for ${email}, platform: ${platform}`);
         } catch (error) {
             console.warn('Error parsing checkout data:', error);
         }
@@ -37,156 +49,210 @@ document.addEventListener('DOMContentLoaded', async () => {
     updateDownloadButtons(platform);
     updateInstructions(platform, email);
 
-    // Check account creation status and handle download
-    if (email !== 'your email address') {
+    // Verify payment and generate download
+    if (paymentIntentId && email !== 'your email address') {
+        await handlePaymentVerificationAndDownload(paymentIntentId, email, platform);
+    } else if (email !== 'your email address') {
+        // Try account check flow for backward compatibility
         await handleAccountCreationAndDownload(email, platform);
     } else {
-        // Fallback to direct download if no email
-        setTimeout(() => startAutomaticDownload(platform), 2000);
+        // No payment info available
+        showAccountCreationStatus('Unable to verify payment. Please contact support.', 'warning');
     }
 });
 
-async function handleAccountCreationAndDownload(email, platform) {
+async function handlePaymentVerificationAndDownload(paymentIntentId, email, platform) {
     try {
-        showAccountCreationStatus('Checking account status...', 'info');
+        showAccountCreationStatus('Verifying payment and preparing download...', 'info');
         
-        // Check if account creation is complete
-        const accountStatus = await checkAccountStatus(email);
+        // Normalize platform name
+        const normalizedPlatform = PLATFORM_MAPPING[platform] || 'windows';
         
-        if (accountStatus.account_exists && accountStatus.download_ready) {
-            // Account is ready, generate download token
-            showAccountCreationStatus('Account ready! Generating download link...', 'success');
-            await generateAndUseDownloadToken(email, platform);
-        } else if (accountStatus.account_exists && !accountStatus.download_ready) {
-            // Account exists but subscription not ready
-            showAccountCreationStatus('Account created, finalizing subscription...', 'info');
-            await waitForSubscriptionActivation(email, platform);
-        } else {
-            // Account doesn't exist yet, wait for webhook processing
-            showAccountCreationStatus('Creating your account...', 'info');
-            await waitForAccountCreation(email, platform);
-        }
-    } catch (error) {
-        console.error('Error in account creation flow:', error);
-        showAccountCreationStatus('Account creation in progress. Starting download...', 'warning');
-        // Fallback to direct download
-        setTimeout(() => startAutomaticDownload(platform), 2000);
-    }
-}
-
-async function checkAccountStatus(email) {
-    try {
-        const response = await fetch(`${API_BASE_URL}/api/payments/download-status/${encodeURIComponent(email)}`, {
-            method: 'GET',
+        // Verify payment and get download link
+        const response = await fetch(`${API_BASE_URL}/api/downloads/verify-payment-and-generate-download`, {
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
-            }
+            },
+            body: JSON.stringify({
+                payment_intent: paymentIntentId,
+                platform: normalizedPlatform
+            })
         });
         
         if (response.ok) {
-            return await response.json();
+            const result = await response.json();
+            
+            if (result.verified) {
+                showAccountCreationStatus('Payment verified! Starting download...', 'success');
+                
+                // Start download using the secure URL
+                const downloadUrl = `${API_BASE_URL}${result.download_url}`;
+                await startSecureDownload(downloadUrl, platform);
+                
+                // Also create account and API key
+                await createAccountAndApiKey(email);
+            } else {
+                throw new Error(result.error || 'Payment verification failed');
+            }
         } else {
             throw new Error(`HTTP ${response.status}`);
         }
     } catch (error) {
-        console.warn('Error checking account status:', error);
-        return { account_exists: false, download_ready: false };
+        console.error('Error verifying payment:', error);
+        showAccountCreationStatus('Payment verification failed. Please contact support.', 'error');
     }
 }
 
-async function generateAndUseDownloadToken(email, platform) {
+async function createAccountAndApiKey(email) {
     try {
-        const response = await fetch(`${API_BASE_URL}/api/accounts/generate-download-token`, {
+        // Create user account if it doesn't exist
+        const createAccountResponse = await fetch(`${API_BASE_URL}/api/users/create-from-payment`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email: email,
+                source: 'heyjunior-website'
+            })
+        });
+        
+        if (createAccountResponse.ok) {
+            const accountData = await createAccountResponse.json();
+            
+            // Generate API key for the user
+            const apiKeyResponse = await fetch(`${API_BASE_URL}/api/users/generate-api-key`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accountData.access_token}`
+                },
+                body: JSON.stringify({
+                    key_name: 'Junior Desktop Client'
+                })
+            });
+            
+            if (apiKeyResponse.ok) {
+                const apiKeyData = await apiKeyResponse.json();
+                
+                // Show API key to user
+                showApiKeyInfo(apiKeyData.api_key, email);
+                
+                // Send email with API key and instructions
+                await sendAccountEmail(email, apiKeyData.api_key);
+            }
+        }
+    } catch (error) {
+        console.error('Error creating account:', error);
+        // Non-blocking - download still works
+    }
+}
+
+async function sendAccountEmail(email, apiKey) {
+    try {
+        await fetch(`${API_BASE_URL}/api/downloads/send-download-email`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 customer_email: email,
-                platform: platform
+                api_key: apiKey
             })
         });
-        
-        if (response.ok) {
-            const tokenData = await response.json();
-            downloadToken = tokenData.download_token;
-            
-            showAccountCreationStatus('Download ready! Starting secure download...', 'success');
-            
-            // Start secure download with token
-            await startSecureDownload(platform, downloadToken);
-        } else {
-            throw new Error(`Failed to generate download token: ${response.status}`);
-        }
     } catch (error) {
-        console.error('Error generating download token:', error);
-        showAccountCreationStatus('Using direct download...', 'warning');
-        startAutomaticDownload(platform);
+        console.error('Error sending email:', error);
     }
 }
 
-async function waitForAccountCreation(email, platform) {
-    const checkInterval = setInterval(async () => {
-        accountCheckAttempts++;
-        
-        if (accountCheckAttempts >= MAX_ACCOUNT_CHECK_ATTEMPTS) {
-            clearInterval(checkInterval);
-            showAccountCreationStatus('Account creation taking longer than expected. Starting download...', 'warning');
-            startAutomaticDownload(platform);
-            return;
-        }
-        
-        const status = await checkAccountStatus(email);
-        
-        if (status.account_exists) {
-            clearInterval(checkInterval);
-            
-            if (status.download_ready) {
-                await generateAndUseDownloadToken(email, platform);
-            } else {
-                await waitForSubscriptionActivation(email, platform);
-            }
-        } else {
-            // Update status message
-            const remainingAttempts = MAX_ACCOUNT_CHECK_ATTEMPTS - accountCheckAttempts;
-            showAccountCreationStatus(
-                `Creating your account... (${Math.ceil(remainingAttempts / 6)} minutes remaining)`, 
-                'info'
-            );
-        }
-    }, 10000); // Check every 10 seconds
-}
-
-async function waitForSubscriptionActivation(email, platform) {
-    const checkInterval = setInterval(async () => {
-        const status = await checkAccountStatus(email);
-        
-        if (status.download_ready) {
-            clearInterval(checkInterval);
-            await generateAndUseDownloadToken(email, platform);
-        }
-    }, 5000); // Check every 5 seconds
+function showApiKeyInfo(apiKey, email) {
+    const apiKeySection = document.createElement('div');
+    apiKeySection.className = 'api-key-section';
+    apiKeySection.style.cssText = `
+        background: #f0f9ff;
+        border: 1px solid #0ea5e9;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 20px 0;
+        position: relative;
+    `;
     
-    // Timeout after 2 minutes
-    setTimeout(() => {
-        clearInterval(checkInterval);
-        if (!accountCreationComplete) {
-            showAccountCreationStatus('Subscription activation taking longer than expected. Starting download...', 'warning');
-            startAutomaticDownload(platform);
-        }
-    }, 120000);
+    apiKeySection.innerHTML = `
+        <h3 style="color: #0369a1; margin-bottom: 10px;">🔑 Your API Key</h3>
+        <p style="color: #075985; margin-bottom: 15px;">Save this API key - you'll need it to log into the Junior desktop app:</p>
+        <div style="display: flex; gap: 10px; align-items: center;">
+            <input type="text" value="${apiKey}" readonly style="
+                flex: 1;
+                padding: 10px;
+                border: 1px solid #cbd5e1;
+                border-radius: 4px;
+                font-family: monospace;
+                background: white;
+            " id="apiKeyInput">
+            <button onclick="copyApiKey()" style="
+                background: #0ea5e9;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 4px;
+                cursor: pointer;
+            ">Copy</button>
+        </div>
+        <p style="color: #64748b; font-size: 0.875rem; margin-top: 10px;">
+            An email with this API key and setup instructions has been sent to ${email}
+        </p>
+    `;
+    
+    const instructionsBox = document.querySelector('.instructions-box');
+    if (instructionsBox) {
+        instructionsBox.parentNode.insertBefore(apiKeySection, instructionsBox);
+    }
 }
 
-async function startSecureDownload(platform, token) {
+// Global function for copy button
+window.copyApiKey = function() {
+    const input = document.getElementById('apiKeyInput');
+    input.select();
+    document.execCommand('copy');
+    
+    // Show copied notification
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #10b981;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 4px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        z-index: 9999;
+    `;
+    notification.textContent = 'API Key copied to clipboard!';
+    document.body.appendChild(notification);
+    
+    setTimeout(() => notification.remove(), 3000);
+};
+
+async function startSecureDownload(downloadUrl, platform) {
     try {
-        // TODO: Implement secure download with token
-        // For now, fall back to direct download
         showDownloadNotification(platform);
-        startAutomaticDownload(platform);
+        
+        // Create a temporary link and click it
+        const link = document.createElement('a');
+        link.href = downloadUrl;
+        link.download = platform === 'windows' ? 'Junior-Setup-1.0.0.exe' : 'Junior-1.0.0.dmg';
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        console.log('Started secure download from:', downloadUrl);
         accountCreationComplete = true;
     } catch (error) {
         console.error('Error with secure download:', error);
-        startAutomaticDownload(platform);
+        showAccountCreationStatus('Download failed. Please try the manual download button.', 'error');
     }
 }
 
@@ -319,8 +385,21 @@ function updateDownloadButtons(platform) {
             macOption.classList.add('recommended');
             const button = macOption.querySelector('.download-button');
             if (button) {
-                button.href = MACOS_DIRECT_DOWNLOAD_URL;
+                // Detect if user is on ARM Mac for better experience
+                const isArmMac = navigator.userAgent.includes('Mac') && 
+                                (navigator.userAgent.includes('ARM') || 
+                                 window.navigator.platform === 'MacIntel' && 
+                                 window.navigator.maxTouchPoints > 1);
+                
+                button.href = isArmMac ? MACOS_ARM_DOWNLOAD_URL : MACOS_DIRECT_DOWNLOAD_URL;
                 button.target = '_self';
+                
+                // Update button text to indicate architecture
+                if (isArmMac) {
+                    button.textContent = 'Download for macOS (Apple Silicon)';
+                } else {
+                    button.textContent = 'Download for macOS (Intel)';
+                }
             }
         }
     }
@@ -367,10 +446,16 @@ function startAutomaticDownload(platform) {
 
     if (platform === 'windows') {
         downloadUrl = WINDOWS_DIRECT_DOWNLOAD_URL;
-        filename = 'LinkedIn_Automation_Tool_v3.0.1-beta.zip';
+        filename = 'Junior-Setup-v1.0.0.exe';
     } else if (platform === 'macos') {
-        downloadUrl = MACOS_DIRECT_DOWNLOAD_URL;
-        filename = 'LinkedIn_Automation_Tool_macOS_beta.dmg';
+        // Detect ARM vs Intel Mac for automatic download
+        const isArmMac = navigator.userAgent.includes('Mac') && 
+                        (navigator.userAgent.includes('ARM') || 
+                         window.navigator.platform === 'MacIntel' && 
+                         window.navigator.maxTouchPoints > 1);
+        
+        downloadUrl = isArmMac ? MACOS_ARM_DOWNLOAD_URL : MACOS_DIRECT_DOWNLOAD_URL;
+        filename = isArmMac ? 'Junior-v1.0.0-arm64.dmg' : 'Junior-v1.0.0.dmg';
     } else {
         console.warn('Unknown platform for automatic download:', platform);
         return;

@@ -208,6 +208,7 @@ function handleProceedToPayment(e) {
         timestamp: new Date().toISOString(),
         userAgent: navigator.userAgent,
         referrer: document.referrer || 'direct',
+        payment_method: 'stripe_payment_link', // Indicate this is from a payment link
         coupon: appliedCoupon ? {
             code: appliedCoupon.id,
             discount_type: appliedCoupon.percent_off ? 'percent' : 'amount',
