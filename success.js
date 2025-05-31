@@ -194,10 +194,46 @@ function showFreeAccountMessage(couponCode) {
 async function startDirectDownload(platform) {
     const downloadUrl = platform === 'windows' ? WINDOWS_DIRECT_DOWNLOAD_URL : MACOS_DIRECT_DOWNLOAD_URL;
     
-    // Show download confirmation dialog instead of automatic download
-    const confirmDownload = confirm(`🎉 Your free account is ready!\n\nClick OK to download Junior for ${platform === 'windows' ? 'Windows' : 'macOS'}.`);
+    // Create a nice download ready section
+    const downloadSection = document.createElement('div');
+    downloadSection.className = 'download-ready-section';
+    downloadSection.style.cssText = `
+        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        color: white;
+        border-radius: 12px;
+        padding: 25px;
+        margin: 20px 0;
+        text-align: center;
+        box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+    `;
     
-    if (confirmDownload) {
+    downloadSection.innerHTML = `
+        <h3 style="margin: 0 0 15px 0; font-size: 1.4em;">🎉 Ready to Download!</h3>
+        <p style="margin: 0 0 20px 0; opacity: 0.9; font-size: 1.1em;">
+            Your Junior app for ${platform === 'windows' ? 'Windows' : 'macOS'} is ready.
+        </p>
+        <button id="direct-download-btn" style="
+            background: rgba(255,255,255,0.2);
+            border: 2px solid white;
+            color: white;
+            padding: 15px 35px;
+            border-radius: 8px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        " onmouseover="this.style.background='rgba(255,255,255,0.3)'" 
+           onmouseout="this.style.background='rgba(255,255,255,0.2)'">
+            🚀 Download Now
+        </button>
+    `;
+    
+    // Insert the section
+    const statusDiv = document.querySelector('.account-creation-status') || document.body;
+    statusDiv.insertAdjacentElement('afterend', downloadSection);
+    
+    // Add click handler
+    document.getElementById('direct-download-btn').addEventListener('click', function() {
         // Create a temporary link and trigger download
         const link = document.createElement('a');
         link.href = downloadUrl;
@@ -206,9 +242,14 @@ async function startDirectDownload(platform) {
         link.click();
         document.body.removeChild(link);
         
+        // Update button
+        this.innerHTML = '✅ Download Started!';
+        this.style.background = 'rgba(255,255,255,0.3)';
+        this.disabled = true;
+        
         // Show download notification
         showDownloadNotification(platform);
-    }
+    });
 }
 
 async function createAccountAndApiKey(email) {
@@ -344,10 +385,46 @@ window.copyApiKey = function() {
 
 async function startSecureDownload(downloadUrl, platform) {
     try {
-        // Show download confirmation dialog instead of automatic download
-        const confirmDownload = confirm(`🎉 Your account is ready!\n\nClick OK to download Junior for ${platform === 'windows' ? 'Windows' : 'macOS'}.`);
+        // Create download ready section
+        const downloadSection = document.createElement('div');
+        downloadSection.className = 'secure-download-section';
+        downloadSection.style.cssText = `
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            color: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+        `;
         
-        if (confirmDownload) {
+        downloadSection.innerHTML = `
+            <h3 style="margin: 0 0 15px 0; font-size: 1.4em;">🎉 Account Ready!</h3>
+            <p style="margin: 0 0 20px 0; opacity: 0.9; font-size: 1.1em;">
+                Your Junior app for ${platform === 'windows' ? 'Windows' : 'macOS'} is ready to download.
+            </p>
+            <button id="secure-download-btn" style="
+                background: rgba(255,255,255,0.2);
+                border: 2px solid white;
+                color: white;
+                padding: 15px 35px;
+                border-radius: 8px;
+                font-size: 1.2em;
+                font-weight: bold;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            " onmouseover="this.style.background='rgba(255,255,255,0.3)'" 
+               onmouseout="this.style.background='rgba(255,255,255,0.2)'">
+                🚀 Download Now
+            </button>
+        `;
+        
+        // Insert the section
+        const container = document.querySelector('.success-container') || document.body;
+        container.appendChild(downloadSection);
+        
+        // Add click handler
+        document.getElementById('secure-download-btn').addEventListener('click', function() {
             showDownloadNotification(platform);
             
             // Create a temporary link and click it
@@ -359,9 +436,15 @@ async function startSecureDownload(downloadUrl, platform) {
             link.click();
             document.body.removeChild(link);
             
+            // Update button
+            this.innerHTML = '✅ Download Started!';
+            this.style.background = 'rgba(255,255,255,0.3)';
+            this.disabled = true;
+            
             console.log('Started secure download from:', downloadUrl);
             accountCreationComplete = true;
-        }
+        });
+        
     } catch (error) {
         console.error('Error with secure download:', error);
         showAccountCreationStatus('Download failed. Please try the manual download button.', 'error');
@@ -599,10 +682,46 @@ function startAutomaticDownload(platform) {
     }
 
     if (downloadUrl) {
-        // Show download confirmation dialog instead of automatic download
-        const confirmDownload = confirm(`🎉 Ready to download Junior!\n\nClick OK to download Junior for ${platform === 'windows' ? 'Windows' : 'macOS'}.`);
+        // Create download ready section
+        const downloadSection = document.createElement('div');
+        downloadSection.className = 'auto-download-section';
+        downloadSection.style.cssText = `
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        `;
         
-        if (confirmDownload) {
+        downloadSection.innerHTML = `
+            <h3 style="margin: 0 0 15px 0; font-size: 1.4em;">🚀 Download Ready!</h3>
+            <p style="margin: 0 0 20px 0; opacity: 0.9; font-size: 1.1em;">
+                Junior for ${platform === 'windows' ? 'Windows' : 'macOS'} is ready to download.
+            </p>
+            <button id="auto-download-btn" style="
+                background: rgba(255,255,255,0.2);
+                border: 2px solid white;
+                color: white;
+                padding: 15px 35px;
+                border-radius: 8px;
+                font-size: 1.2em;
+                font-weight: bold;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            " onmouseover="this.style.background='rgba(255,255,255,0.3)'" 
+               onmouseout="this.style.background='rgba(255,255,255,0.2)'">
+                🚀 Start Download
+            </button>
+        `;
+        
+        // Insert the section
+        const container = document.querySelector('.success-container') || document.body;
+        container.appendChild(downloadSection);
+        
+        // Add click handler
+        document.getElementById('auto-download-btn').addEventListener('click', function() {
             showDownloadNotification(platform);
             const link = document.createElement('a');
             link.href = downloadUrl;
@@ -611,8 +730,14 @@ function startAutomaticDownload(platform) {
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-            console.log('Attempting automatic download for:', platform, 'from:', downloadUrl);
-        }
+            
+            // Update button
+            this.innerHTML = '✅ Download Started!';
+            this.style.background = 'rgba(255,255,255,0.3)';
+            this.disabled = true;
+            
+            console.log('Download started for:', platform, 'from:', downloadUrl);
+        });
     }
 }
 

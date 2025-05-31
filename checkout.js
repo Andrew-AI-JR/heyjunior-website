@@ -412,29 +412,85 @@ function startFreeDownload(platform, email) {
             throw new Error(`No download URL found for platform: ${platform}`);
         }
         
-        // Update button text to show ready state
         const buttonText = document.getElementById('button-text');
+        const stripeLinkButton = document.getElementById('stripe-payment-link-button');
+        
+        // Show success message
         if (buttonText) {
             buttonText.textContent = '🎉 Ready to Download!';
         }
         
-        // Show download confirmation dialog instead of automatic download
-        const confirmDownload = confirm(`🎉 Your free account is ready!\n\nClick OK to download Junior for ${platform === 'windows' ? 'Windows' : 'macOS'}.`);
+        // Create a nice download ready message
+        const downloadReadyDiv = document.createElement('div');
+        downloadReadyDiv.className = 'download-ready-message';
+        downloadReadyDiv.style.cssText = `
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+            animation: slideIn 0.5s ease-out;
+        `;
         
-        if (confirmDownload) {
-            // User confirmed - start the download
+        downloadReadyDiv.innerHTML = `
+            <h3 style="margin: 0 0 10px 0; font-size: 1.3em;">🎉 Your Free Account is Ready!</h3>
+            <p style="margin: 0 0 15px 0; opacity: 0.9;">
+                Junior for ${platform === 'windows' ? 'Windows' : 'macOS'} is ready to download.
+            </p>
+            <button id="start-download-btn" style="
+                background: rgba(255,255,255,0.2);
+                border: 2px solid white;
+                color: white;
+                padding: 12px 30px;
+                border-radius: 8px;
+                font-size: 1.1em;
+                font-weight: bold;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                margin: 10px;
+            " onmouseover="this.style.background='rgba(255,255,255,0.3)'" 
+               onmouseout="this.style.background='rgba(255,255,255,0.2)'">
+                🚀 Start Download Now
+            </button>
+            <div style="font-size: 0.9em; opacity: 0.8; margin-top: 10px;">
+                No payment required • 1 month free access
+            </div>
+        `;
+        
+        // Add animation CSS
+        const animationStyle = document.createElement('style');
+        animationStyle.textContent = `
+            @keyframes slideIn {
+                from { transform: translateY(20px); opacity: 0; }
+                to { transform: translateY(0); opacity: 1; }
+            }
+        `;
+        document.head.appendChild(animationStyle);
+        
+        // Insert the message after the payment section
+        const paymentSection = document.querySelector('.payment-section');
+        if (paymentSection) {
+            paymentSection.insertAdjacentElement('afterend', downloadReadyDiv);
+        }
+        
+        // Add click handler for the download button
+        document.getElementById('start-download-btn').addEventListener('click', function() {
+            // Start the download
             const link = document.createElement('a');
             link.href = downloadUrl;
-            link.download = downloadUrl.split('/').pop(); // Extract filename
+            link.download = downloadUrl.split('/').pop();
             link.style.display = 'none';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
             
-            // Update button text to show success
-            if (buttonText) {
-                buttonText.textContent = '🎉 Download Started!';
-            }
+            // Update the button to show download started
+            this.innerHTML = '✅ Download Started!';
+            this.style.background = 'rgba(255,255,255,0.3)';
+            this.style.cursor = 'default';
+            this.disabled = true;
             
             // Show success message and redirect after download starts
             setTimeout(() => {
@@ -450,17 +506,7 @@ function startFreeDownload(platform, email) {
                 
                 window.location.href = successUrl.toString();
             }, 2000);
-        } else {
-            // User cancelled - reset button
-            if (buttonText) {
-                buttonText.textContent = 'Start Free Download';
-            }
-            const stripeLinkButton = document.getElementById('stripe-payment-link-button');
-            if (stripeLinkButton) {
-                stripeLinkButton.style.opacity = '1';
-                stripeLinkButton.style.pointerEvents = 'auto';
-            }
-        }
+        });
         
     } catch (error) {
         console.error('Download failed:', error);
