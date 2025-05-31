@@ -2,10 +2,10 @@
 const API_BASE_URL = 'https://junior-api-915940312680.us-west1.run.app';
 
 // GitHub Release Download URLs for working LinkedIn automation tool
-const GITHUB_RELEASE_BASE = './downloads';
-const WINDOWS_DIRECT_DOWNLOAD_URL = './downloads/Junior-LinkedIn-Automation-Windows.exe';
-const MACOS_DIRECT_DOWNLOAD_URL = './downloads/Junior-LinkedIn-Automation-macOS.zip';
-const MACOS_ARM_DOWNLOAD_URL = './downloads/Junior-LinkedIn-Automation-macOS.zip';
+const GITHUB_RELEASE_BASE = 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.2';
+const WINDOWS_DIRECT_DOWNLOAD_URL = 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.2/Junior-Desktop-Setup-1.0.2.exe';
+const MACOS_DIRECT_DOWNLOAD_URL = 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.2/Junior-Desktop-1.0.2.dmg';
+const MACOS_ARM_DOWNLOAD_URL = 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.2/Junior-Desktop-1.0.2-arm64.dmg';
 
 // Platform detection and mapping
 const PLATFORM_MAPPING = {

@@ -390,8 +390,8 @@ const PLATFORM_MAPPING = {
 
 // Download URLs for actual working releases (updated to working URLs)
 const DOWNLOAD_URLS = {
-    'windows': './downloads/Junior-LinkedIn-Automation-Windows.exe',
-    'macos': './downloads/Junior-LinkedIn-Automation-macOS.zip'
+    'windows': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.2/Junior-Desktop-Setup-1.0.2.exe',
+    'macos': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.2/Junior-Desktop-1.0.2.dmg'
 };
 
 function startFreeDownload(platform, email) {
