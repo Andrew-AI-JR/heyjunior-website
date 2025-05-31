@@ -420,10 +420,10 @@ const PLATFORM_MAPPING = {
 
 // Platform-specific download URLs pointing to latest release
 const downloadUrls = {
-    'windows': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.7/Junior-Desktop-Setup-1.0.7.exe',
-    'macos-intel': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.7/Junior-Desktop-1.0.7.dmg',
-    'macos-arm': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.7/Junior-Desktop-1.0.7-arm64.dmg',
-    'linux': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.7/Junior-Desktop-1.0.7.AppImage'
+    'windows': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.8/Junior-Desktop-Setup-1.0.8.exe',
+    'macos-intel': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.8/Junior-Desktop-1.0.8.dmg',
+    'macos-arm': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.8/Junior-Desktop-1.0.8-arm64.dmg',
+    'linux': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.8/Junior-Desktop-1.0.8.AppImage'
 };
 
 function startFreeDownload(platform, email) {
