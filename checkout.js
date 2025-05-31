@@ -18,6 +18,36 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Auto-detect and pre-select platform
+    const detectedPlatform = detectUserPlatform();
+    const platformRadio = document.querySelector(`input[name="platform"][value="${detectedPlatform}"]`);
+    if (platformRadio) {
+        platformRadio.checked = true;
+        updateButtonText(); // Update button with detected platform
+    }
+    
+    // Show what was detected
+    const platformSection = document.querySelector('.platform-selection');
+    if (platformSection) {
+        const detectedLabel = document.createElement('div');
+        detectedLabel.className = 'platform-detected';
+        detectedLabel.style.cssText = `
+            background: #f0f9ff;
+            border: 1px solid #0ea5e9;
+            border-radius: 6px;
+            padding: 8px 12px;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+            color: #0369a1;
+        `;
+        detectedLabel.innerHTML = `
+            <span style="color: #059669;">✓</span> We detected you're using 
+            <strong>${detectedPlatform === 'macos' ? 'macOS' : 'Windows'}</strong>
+            <span style="opacity: 0.8; font-size: 0.85em;">(You can change this below if needed)</span>
+        `;
+        platformSection.insertBefore(detectedLabel, platformSection.firstChild);
+    }
+
     // Initialize button text
     updateButtonText();
 });
@@ -525,4 +555,48 @@ function generateOfflineApiKey(email) {
     const emailHash = btoa(email).substring(0, 8);
     const randomSuffix = Math.random().toString(36).substring(2, 10);
     return `offline_${emailHash}_${timestamp}_${randomSuffix}`;
-} 
+}
+
+// Auto-detect user's platform
+function detectUserPlatform() {
+    const userAgent = navigator.userAgent.toLowerCase();
+    const platform = navigator.platform.toLowerCase();
+    
+    if (platform.includes('mac') || userAgent.includes('mac')) {
+        return 'macos';
+    } else if (platform.includes('win') || userAgent.includes('windows')) {
+        return 'windows';
+    } else {
+        // Default to Windows for other platforms (Linux users often know what they want)
+        return 'windows';
+    }
+}
+
+// Alternative: Complete auto-detection (uncomment to use)
+/*
+// For completely automatic platform detection, replace platform selection HTML with:
+// <div class="platform-auto-detected">
+//   <span id="detected-platform-display">Detecting your platform...</span>
+// </div>
+
+function handleFullAutoDetection() {
+    const detectedPlatform = detectUserPlatform();
+    const displayElement = document.getElementById('detected-platform-display');
+    
+    if (displayElement) {
+        displayElement.innerHTML = `
+            <span style="color: #059669;">✓</span> Download for 
+            <strong>${detectedPlatform === 'macos' ? 'macOS' : 'Windows'}</strong>
+            <button onclick="togglePlatform()" style="
+                background: none; border: none; color: #0ea5e9; 
+                text-decoration: underline; cursor: pointer; font-size: inherit;
+                margin-left: 8px;
+            ">Change</button>
+        `;
+    }
+    
+    // Set the platform without radio buttons
+    window.selectedPlatform = detectedPlatform;
+    updateButtonText();
+}
+*/ 
