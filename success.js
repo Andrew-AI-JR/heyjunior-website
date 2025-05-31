@@ -11,10 +11,10 @@ const MACOS_ARM_DOWNLOAD_URL = 'https://github.com/Andrew-AI-JR/junior-desktop/r
 
 // Platform-specific download URLs pointing to latest release
 const downloadUrls = {
-    'windows': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.3/Junior-Desktop-Setup-1.0.3.exe',
-    'macos-intel': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.3/Junior-Desktop-1.0.3.dmg',
-    'macos-arm': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.3/Junior-Desktop-1.0.3-arm64.dmg',
-    'linux': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.3/Junior-Desktop-1.0.3.AppImage'
+    'windows': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.4/Junior-Desktop-Setup-1.0.4.exe',
+    'macos-intel': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.4/Junior-Desktop-1.0.4.dmg',
+    'macos-arm': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.4/Junior-Desktop-1.0.4-arm64.dmg',
+    'linux': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.4/Junior-Desktop-1.0.4.AppImage'
 };
 
 // Platform detection and mapping
