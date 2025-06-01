@@ -237,6 +237,17 @@ async function startDirectDownload(platform) {
         <div style="font-size: 0.9em; opacity: 0.8; margin-top: 15px;">
             Standard plan • Secure download
         </div>
+        ${platform === 'windows' ? `
+        <div style="background: rgba(255,255,255,0.1); border-radius: 8px; padding: 15px; margin-top: 20px; text-align: left;">
+            <p style="margin: 0 0 10px 0; font-weight: bold; text-align: center;">⚠️ Windows SmartScreen Notice</p>
+            <p style="margin: 0 0 10px 0; font-size: 0.85em; opacity: 0.9;">
+                Windows may show a security warning because Junior is new. This is normal for new software.
+            </p>
+            <p style="margin: 0; font-size: 0.85em; opacity: 0.9;">
+                <strong>To install:</strong> Click "More info" → "Run anyway"
+            </p>
+        </div>
+        ` : ''}
     `;
     
     // Insert into page
