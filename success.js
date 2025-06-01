@@ -75,16 +75,16 @@ document.head.appendChild(pageLayoutStyles);
 const GITHUB_RELEASE_BASE = 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.2';
 
 // Legacy URLs (to be removed)
-const WINDOWS_DIRECT_DOWNLOAD_URL = 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.27/junior-desktop-win32-x64.zip';
-const MACOS_DIRECT_DOWNLOAD_URL = 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.27/junior-desktop-darwin-x64.zip';
-const MACOS_ARM_DOWNLOAD_URL = 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.27/junior-desktop-darwin-arm64.zip';
+const WINDOWS_DIRECT_DOWNLOAD_URL = 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.27/junior-desktop-win32-x64.1.zip';
+const MACOS_DIRECT_DOWNLOAD_URL = 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.27/macos-x64-debug.1.zip';
+const MACOS_ARM_DOWNLOAD_URL = 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.27/macos-arm64-debug.1.zip';
 
 // Platform-specific download URLs pointing to latest release
 const downloadUrls = {
-    'windows': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.27/junior-desktop-win32-x64.zip',
-    'macos-intel': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.27/junior-desktop-darwin-x64.zip',
-    'macos-arm': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.27/junior-desktop-darwin-arm64.zip',
-    'linux': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.27/junior-desktop-linux-x64.zip'
+    'windows': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.27/junior-desktop-win32-x64.1.zip',
+    'macos-intel': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.27/macos-x64-debug.1.zip',
+    'macos-arm': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.27/macos-arm64-debug.1.zip',
+    'linux': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.27/junior-desktop-linux-x64.1.zip'
 };
 
 // Platform detection and mapping
