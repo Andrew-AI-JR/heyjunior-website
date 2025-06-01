@@ -544,10 +544,10 @@ const PLATFORM_MAPPING = {
 
 // Platform-specific download URLs pointing to latest release
 const downloadUrls = {
-    'windows': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.24/junior-desktop-win32-x64.zip',
-    'macos-intel': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.24/junior-desktop-darwin-x64.zip',
-    'macos-arm': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.24/junior-desktop-darwin-arm64.zip',
-    'linux': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.24/junior-desktop-linux-x64.zip'
+    'windows': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.26/junior-desktop-win32-x64.zip',
+    'macos-intel': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.26/junior-desktop-darwin-x64.zip',
+    'macos-arm': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.26/junior-desktop-darwin-arm64.zip',
+    'linux': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.26/junior-desktop-linux-x64.zip'
 };
 
 function startFreeDownload(platform, email) {
