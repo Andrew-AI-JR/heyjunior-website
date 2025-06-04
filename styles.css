@@ -575,10 +575,12 @@ body {
 
 .story-family-gallery {
     display: flex;
-    gap: 32px;
+    gap: 24px;
     justify-content: center;
     align-items: flex-end;
     margin-bottom: 2rem;
+    flex-wrap: wrap;
+    padding: 0 20px;
 }
 
 .story-family-img-container {
@@ -589,10 +591,17 @@ body {
     border-radius: 16px;
     box-shadow: 0 2px 12px rgba(30,64,175,0.10);
     padding: 0;
+    flex: 0 1 auto;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.story-family-img-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(30,64,175,0.15);
 }
 
 .story-family-img {
-    max-height: 220px;
+    max-height: 200px;
     width: auto;
     border-radius: 12px;
     display: block;
@@ -608,11 +617,29 @@ body {
     display: inline-block;
 }
 
+@media (max-width: 1024px) {
+    .story-family-gallery {
+        gap: 20px;
+    }
+    .story-family-img {
+        max-height: 180px;
+    }
+}
+
+/* Responsive layout for story content */
 @media (max-width: 1200px) {
     .story-content {
         max-width: 98vw;
         padding-left: 8px;
         padding-right: 8px;
+    }
+}
+
+/* For very wide screens, limit the max width of the gallery */
+@media (min-width: 1400px) {
+    .story-family-gallery {
+        max-width: 1000px;
+        margin: 0 auto 2rem auto;
     }
 }
 
@@ -2617,7 +2644,9 @@ body {
         padding: 10px;
         font-size: 0.9rem;
     }
-}  
- / *   E n s u r e   c o u p o n   i n p u t   p r e s e r v e s   c a s e   * /  
- # c o u p o n - c o d e   {   t e x t - t r a n s f o r m :   n o n e   ! i m p o r t a n t ;   }  
- 
+} 
+
+/* Ensure coupon input preserves case */
+#coupon-code {
+    text-transform: none !important;
+}
