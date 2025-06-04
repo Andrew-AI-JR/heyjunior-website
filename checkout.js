@@ -536,11 +536,11 @@ window.addEventListener('beforeunload', () => {
     }
 });
 
-// Download URLs for v1.0.0
+// Download URLs for v1.0.1
 const DOWNLOAD_URLS = {
-    windows: 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.0/Junior-Setup-v1.0.0.exe',
-    macos: 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.0/Junior-v1.0.0.dmg',
-    macos_arm: 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.0/Junior-v1.0.0-arm64.dmg'
+    windows: 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.1/Junior-Setup-v1.0.1.exe',
+    macos: 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.1/Junior-v1.0.1.dmg',
+    macos_arm: 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.1/Junior-v1.0.1-arm64.dmg'
 };
 
 function startFreeDownload(platform, email) {

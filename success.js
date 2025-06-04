@@ -2,19 +2,19 @@
 const API_BASE_URL = 'https://junior-api-915940312680.us-west1.run.app';
 
 // GitHub Release Download URLs for working LinkedIn automation tool
-const GITHUB_RELEASE_BASE = 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.28';
+const GITHUB_RELEASE_BASE = 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.1';
 
 // Legacy URLs (to be removed)
-const WINDOWS_DIRECT_DOWNLOAD_URL = 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.28/Junior-Setup-v1.0.28.exe';
-const MACOS_DIRECT_DOWNLOAD_URL = 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.28/Junior-v1.0.28.dmg';
-const MACOS_ARM_DOWNLOAD_URL = 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.28/Junior-v1.0.28-arm64.dmg';
+const WINDOWS_DIRECT_DOWNLOAD_URL = 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.1/Junior-Setup-v1.0.1.exe';
+const MACOS_DIRECT_DOWNLOAD_URL = 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.1/Junior-v1.0.1.dmg';
+const MACOS_ARM_DOWNLOAD_URL = 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.1/Junior-v1.0.1-arm64.dmg';
 
 // Platform-specific download URLs pointing to latest release
 const downloadUrls = {
-    'windows': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.28/Junior-Setup-v1.0.28.exe',
-    'macos-intel': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.28/Junior-v1.0.28.dmg',
-    'macos-arm': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.28/Junior-v1.0.28-arm64.dmg',
-    'linux': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.28/Junior-v1.0.28.AppImage'
+    'windows': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.1/Junior-Setup-v1.0.1.exe',
+    'macos-intel': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.1/Junior-v1.0.1.dmg',
+    'macos-arm': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.1/Junior-v1.0.1-arm64.dmg',
+    'linux': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.1/Junior-v1.0.1.AppImage'
 };
 
 // Platform detection and mapping
@@ -715,27 +715,35 @@ function updateDownloadButtons(platform) {
             if (button) button.href = getDownloadUrl('windows');
         }
     } else { 
-        const macOption = document.querySelector('.download-option.macos');
-        if (macOption) {
-            macOption.style.display = 'block';
-            macOption.classList.add('recommended');
-            const button = macOption.querySelector('.download-button');
+        // Show both macOS options for user to choose
+        const macIntelOption = document.querySelector('.download-option.macos');
+        const macArmOption = document.querySelector('.download-option.macos-arm');
+        
+        // Detect if user is on ARM Mac for recommendations
+        const isArmMac = navigator.userAgent.includes('Mac') && 
+                        (navigator.userAgent.includes('ARM') || 
+                         window.navigator.platform === 'MacIntel' && 
+                         window.navigator.maxTouchPoints > 1);
+        
+        if (macIntelOption) {
+            macIntelOption.style.display = 'block';
+            if (!isArmMac) {
+                macIntelOption.classList.add('recommended');
+            }
+            const button = macIntelOption.querySelector('.download-button');
             if (button) {
-                // Detect if user is on ARM Mac for better experience
-                const isArmMac = navigator.userAgent.includes('Mac') && 
-                                (navigator.userAgent.includes('ARM') || 
-                                 window.navigator.platform === 'MacIntel' && 
-                                 window.navigator.maxTouchPoints > 1);
-                
-                button.href = isArmMac ? MACOS_ARM_DOWNLOAD_URL : MACOS_DIRECT_DOWNLOAD_URL;
-                button.target = '_self';
-                
-                // Update button text to indicate architecture
-                if (isArmMac) {
-                    button.textContent = 'Download for macOS (Apple Silicon)';
-                } else {
-                    button.textContent = 'Download for macOS (Intel)';
-                }
+                button.href = getDownloadUrl('macos-intel');
+            }
+        }
+        
+        if (macArmOption) {
+            macArmOption.style.display = 'block';
+            if (isArmMac) {
+                macArmOption.classList.add('recommended');
+            }
+            const button = macArmOption.querySelector('.download-button');
+            if (button) {
+                button.href = getDownloadUrl('macos-arm');
             }
         }
     }
