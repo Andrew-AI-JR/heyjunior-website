@@ -1,90 +1,20 @@
 // Success page functionality with Account Creation Integration
 const API_BASE_URL = 'https://junior-api-915940312680.us-west1.run.app';
 
-// Add page layout styles to prevent content cutoff
-const pageLayoutStyles = document.createElement('style');
-pageLayoutStyles.textContent = `
-    /* Ensure proper page layout and spacing */
-    body {
-        margin: 0;
-        padding: 20px 0 0 0;
-        min-height: 100vh;
-        box-sizing: border-box;
-    }
-    
-    /* Main container spacing */
-    .success-container, .main-content {
-        margin-top: 20px;
-        padding-top: 20px;
-        min-height: calc(100vh - 40px);
-    }
-    
-    /* Header spacing */
-    .success-header, h1, .page-title {
-        margin-top: 20px !important;
-        padding-top: 10px;
-    }
-    
-    /* Prevent any fixed positioning issues */
-    .success-page {
-        position: relative;
-        z-index: 1;
-        padding-top: 30px;
-    }
-    
-    /* Ensure all sections have proper spacing */
-    .payment-success-notice,
-    .free-account-message,
-    .download-ready-section,
-    .auto-download-section,
-    .secure-download-section {
-        margin-top: 20px !important;
-    }
-    
-    /* Navigation spacing if present */
-    nav, .navbar, .header {
-        margin-bottom: 20px;
-    }
-    
-    /* Responsive spacing */
-    @media (max-width: 768px) {
-        body {
-            padding-top: 15px;
-        }
-        .success-container, .main-content {
-            margin-top: 15px;
-            padding-top: 15px;
-        }
-        .success-header, h1, .page-title {
-            margin-top: 15px !important;
-        }
-    }
-    
-    /* Ensure content is visible on all screen sizes */
-    .content-wrapper {
-        width: 100%;
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 20px;
-        box-sizing: border-box;
-    }
-`;
-document.head.appendChild(pageLayoutStyles);
-
 // GitHub Release Download URLs for working LinkedIn automation tool
-const GITHUB_RELEASE_BASE = 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.2';
+const GITHUB_RELEASE_BASE = 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.28';
 
 // Legacy URLs (to be removed)
-const WINDOWS_DIRECT_DOWNLOAD_URL = 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.27/junior-desktop-win32-x64.1.zip';
-const MACOS_DIRECT_DOWNLOAD_URL = 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.27/macos-x64-debug.1.zip';
-const MACOS_ARM_DOWNLOAD_URL = 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.27/macos-arm64-debug.1.zip';
+const WINDOWS_DIRECT_DOWNLOAD_URL = 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.28/Junior-Setup-v1.0.28.exe';
+const MACOS_DIRECT_DOWNLOAD_URL = 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.28/Junior-v1.0.28.dmg';
+const MACOS_ARM_DOWNLOAD_URL = 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.28/Junior-v1.0.28-arm64.dmg';
 
 // Platform-specific download URLs pointing to latest release
 const downloadUrls = {
-    'windows': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.27/junior-desktop-win32-x64.1.zip',
-    'macos-intel': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.27/macos-x64-debug.1.zip',
-    'macos-arm': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.27/macos-arm64-debug.1.zip',
-    'linux': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.27/junior-desktop-linux-x64.1.zip'
+    'windows': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.28/Junior-Setup-v1.0.28.exe',
+    'macos-intel': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.28/Junior-v1.0.28.dmg',
+    'macos-arm': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.28/Junior-v1.0.28-arm64.dmg',
+    'linux': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.28/Junior-v1.0.28.AppImage'
 };
 
 // Platform detection and mapping
@@ -102,9 +32,6 @@ let accountCheckAttempts = 0;
 const MAX_ACCOUNT_CHECK_ATTEMPTS = 30; // 30 attempts over 5 minutes
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // Ensure proper page layout and prevent content cutoff
-    ensureProperPageLayout();
-    
     // Check URL parameters for free account
     const urlParams = new URLSearchParams(window.location.search);
     const isFreeAccount = urlParams.get('free_account') === 'true';
@@ -310,17 +237,6 @@ async function startDirectDownload(platform) {
         <div style="font-size: 0.9em; opacity: 0.8; margin-top: 15px;">
             Standard plan • Secure download
         </div>
-        ${platform === 'windows' ? `
-        <div style="background: rgba(255,255,255,0.1); border-radius: 8px; padding: 15px; margin-top: 20px; text-align: left;">
-            <p style="margin: 0 0 10px 0; font-weight: bold; text-align: center;">⚠️ Windows SmartScreen Notice</p>
-            <p style="margin: 0 0 10px 0; font-size: 0.85em; opacity: 0.9;">
-                Windows may show a security warning because Junior is new. This is normal for new software.
-            </p>
-            <p style="margin: 0; font-size: 0.85em; opacity: 0.9;">
-                <strong>To install:</strong> Click "More info" → "Run anyway"
-            </p>
-        </div>
-        ` : ''}
     `;
     
     // Insert into page
@@ -1551,80 +1467,4 @@ function getDownloadUrl(platform) {
     }
     
     return downloadUrls[platform] || downloadUrls['windows']; // Default to Windows
-}
-
-// Function to ensure proper page layout and prevent content cutoff
-function ensureProperPageLayout() {
-    // Scroll to top to ensure proper positioning
-    window.scrollTo(0, 0);
-    
-    // Wait for DOM to be fully loaded
-    setTimeout(() => {
-        // Check if content is cut off at the top
-        const firstVisibleElement = document.querySelector('.success-container, .main-content, h1, .page-title');
-        if (firstVisibleElement) {
-            const rect = firstVisibleElement.getBoundingClientRect();
-            if (rect.top < 0) {
-                // Content is cut off, add more spacing
-                document.body.style.paddingTop = '40px';
-            }
-        }
-        
-        // Ensure all main sections are properly spaced
-        const mainSections = document.querySelectorAll('.payment-success-notice, .free-account-message, .download-ready-section');
-        mainSections.forEach(section => {
-            if (section && section.getBoundingClientRect().top < 20) {
-                section.style.marginTop = '30px';
-                section.style.paddingTop = '20px';
-            }
-        });
-        
-        // Add wrapper if content is directly in body
-        const bodyChildren = Array.from(document.body.children);
-        const hasWrapper = bodyChildren.some(child => 
-            child.classList.contains('success-container') || 
-            child.classList.contains('main-content') ||
-            child.classList.contains('content-wrapper')
-        );
-        
-        if (!hasWrapper) {
-            const wrapper = document.createElement('div');
-            wrapper.className = 'content-wrapper';
-            wrapper.style.cssText = `
-                width: 100%;
-                max-width: 1200px;
-                margin: 0 auto;
-                padding: 30px 20px 20px 20px;
-                box-sizing: border-box;
-                min-height: calc(100vh - 60px);
-            `;
-            
-            // Move all visible content into wrapper
-            const contentElements = bodyChildren.filter(child => 
-                child.tagName !== 'SCRIPT' && 
-                child.tagName !== 'STYLE' && 
-                !child.classList.contains('account-creation-status')
-            );
-            
-            contentElements.forEach(element => {
-                wrapper.appendChild(element);
-            });
-            
-            document.body.appendChild(wrapper);
-        }
-    }, 100);
-    
-    // Additional check after a longer delay
-    setTimeout(() => {
-        const viewportHeight = window.innerHeight;
-        const firstElement = document.querySelector('h1, .success-header, .page-title');
-        if (firstElement) {
-            const rect = firstElement.getBoundingClientRect();
-            if (rect.top < 20) {
-                // Still cut off, force proper positioning
-                firstElement.style.marginTop = '30px';
-                firstElement.style.paddingTop = '20px';
-            }
-        }
-    }, 500);
 } 
