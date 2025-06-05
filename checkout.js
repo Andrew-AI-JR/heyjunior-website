@@ -554,7 +554,7 @@ window.addEventListener('beforeunload', () => {
 
 // GitHub configuration for private repository access
 const GITHUB_CONFIG = {
-    token: atob('Z2hwX3BCRUlwdFFKZ2t0Y09rVWNjYU5wekZSeVd1TWlrbzIzM0ZScA=='),
+    token: atob('Z2hwX1Rqc09lVFpqVVh1WFZzMU4xcGV5VlZLRGdMdUs5czRVNTdrOQ=='),
     repo: 'Andrew-AI-JR/junior-desktop',
     releaseTag: 'v1.0.1'
 };
