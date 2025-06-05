@@ -265,7 +265,7 @@ function showCouponDiscount(coupon) {
                 }
             }
             
-            // Add click handler directly
+            // Add click handler directly - this will initiate the download immediately
             const downloadBtn = downloadSection.querySelector('#start-download-btn');
             if (downloadBtn) {
                 downloadBtn.addEventListener('click', function(e) {
@@ -276,8 +276,10 @@ function showCouponDiscount(coupon) {
                     const currentEmail = document.getElementById('customer-email').value;
                     const currentPlatform = document.querySelector('input[name="platform"]:checked')?.value;
                     
-                    console.log('Button clicked - Current values:', { currentEmail, currentPlatform });
-                    startFreeDownload(currentPlatform, currentEmail);
+                    console.log('Button clicked - Starting download immediately:', { currentEmail, currentPlatform });
+                    
+                    // Start download immediately without creating another section
+                    initiateDownload(currentPlatform, currentEmail, this);
                 });
             }
         } else {
@@ -550,15 +552,16 @@ window.addEventListener('beforeunload', () => {
     }
 });
 
-// Download URLs for v1.0.1
+// Download URLs - temporary placeholders until backend proxy is implemented
 const DOWNLOAD_URLS = {
-    windows: 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.1/Junior-Setup-v1.0.1.exe',
-    macos: 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.1/Junior-v1.0.1.dmg',
-    macos_arm: 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.1/Junior-v1.0.1-arm64.dmg'
+    windows: './downloads/Junior-LinkedIn-Automation-Windows.exe',
+    macos: './downloads/Junior-LinkedIn-Automation-macOS.zip',
+    macos_arm: './downloads/Junior-LinkedIn-Automation-macOS.zip'
 };
 
-function startFreeDownload(platform, email) {
-    console.log('Starting free download for:', { platform, email });
+// New function that handles download without creating duplicate sections
+function initiateDownload(platform, email, buttonElement) {
+    console.log('Initiating download for:', { platform, email });
     console.log('Available download URLs:', DOWNLOAD_URLS);
     console.log('Platform type:', typeof platform);
     console.log('Platform value:', JSON.stringify(platform));
@@ -581,124 +584,62 @@ function startFreeDownload(platform, email) {
             throw new Error(`No download URL found for platform: ${platform}. Available platforms: ${Object.keys(DOWNLOAD_URLS).join(', ')}`);
         }
         
-        const buttonText = document.getElementById('button-text');
-        const stripeLinkButton = document.getElementById('stripe-payment-link-button');
+        // Update button to show downloading state
+        buttonElement.innerHTML = '⏳ Starting Download...';
+        buttonElement.style.background = 'rgba(255,255,255,0.3)';
+        buttonElement.disabled = true;
         
-        // Show success message
-        if (buttonText) {
-            buttonText.textContent = '🎉 Ready to Download!';
-        }
+        // User-initiated download (safe from security warnings)
+        const link = document.createElement('a');
+        link.href = downloadUrl;
+        link.download = downloadUrl.split('/').pop();
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
         
-        // Create a nice download ready message
-        const downloadReadyDiv = document.createElement('div');
-        downloadReadyDiv.className = 'download-ready-message';
-        downloadReadyDiv.style.cssText = `
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: white;
-            border-radius: 12px;
-            padding: 20px;
-            margin: 20px 0;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
-            animation: slideIn 0.5s ease-out;
-        `;
+        // Update the button to show download started
+        buttonElement.innerHTML = '✅ Download Started!';
+        buttonElement.style.cursor = 'default';
         
-        downloadReadyDiv.innerHTML = `
-            <h3 style="margin: 0 0 10px 0; font-size: 1.3em;">🎉 Your Free Account is Ready!</h3>
-            <p style="margin: 0 0 15px 0; opacity: 0.9;">
-                Junior for ${platform === 'windows' ? 'Windows' : 'macOS'} is ready to download.
-            </p>
-            <button id="start-download-btn" style="
-                background: rgba(255,255,255,0.2);
-                border: 2px solid white;
-                color: white;
-                padding: 12px 30px;
-                border-radius: 8px;
-                font-size: 1.1em;
-                font-weight: bold;
-                cursor: pointer;
-                transition: all 0.3s ease;
-                margin: 10px;
-            " onmouseover="this.style.background='rgba(255,255,255,0.3)'" 
-               onmouseout="this.style.background='rgba(255,255,255,0.2)'">
-                🚀 Download Now
-            </button>
-            <div style="font-size: 0.9em; opacity: 0.8; margin-top: 10px;">
-                No payment required • 1 month free access
-            </div>
-        `;
-        
-        // Add animation CSS
-        const animationStyle = document.createElement('style');
-        animationStyle.textContent = `
-            @keyframes slideIn {
-                from { transform: translateY(20px); opacity: 0; }
-                to { transform: translateY(0); opacity: 1; }
-            }
-        `;
-        document.head.appendChild(animationStyle);
-        
-        // Insert the message after the payment section
-        const paymentSection = document.querySelector('.payment-section');
-        if (paymentSection) {
-            paymentSection.insertAdjacentElement('afterend', downloadReadyDiv);
-        }
-        
-        // Add click handler for the download button
-        document.getElementById('start-download-btn').addEventListener('click', function() {
-            try {
-                // User-initiated download (safe from security warnings)
-                const link = document.createElement('a');
-                link.href = downloadUrl;
-                link.download = downloadUrl.split('/').pop();
-                link.style.display = 'none';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                
-                // Update the button to show download started
-                this.innerHTML = '✅ Download Started!';
-                this.style.background = 'rgba(255,255,255,0.3)';
-                this.style.cursor = 'default';
-                this.disabled = true;
-                
-                // Show success message and redirect after download starts
-                setTimeout(() => {
-                    // Redirect to success page with free account info
-                    const successUrl = new URL('/success.html', window.location.origin);
-                    successUrl.searchParams.set('free_account', 'true');
-                    successUrl.searchParams.set('coupon', 'tacos');
-                    successUrl.searchParams.set('download_started', 'true');
-                    
-                    window.location.href = successUrl.toString();
-                }, 2000);
-            } catch (downloadError) {
-                console.error('Download failed:', downloadError);
-                this.innerHTML = '❌ Download Failed - Try Again';
-                this.style.background = 'rgba(255,255,255,0.2)';
-                this.style.cursor = 'pointer';
-                this.disabled = false;
-                alert('Download failed. Please try again or contact support.');
-            }
-        });
+        // Show success message and redirect after download starts
+        setTimeout(() => {
+            // Redirect to success page with free account info
+            const successUrl = new URL('/success.html', window.location.origin);
+            successUrl.searchParams.set('free_account', 'true');
+            successUrl.searchParams.set('coupon', 'tacos');
+            successUrl.searchParams.set('download_started', 'true');
+            
+            window.location.href = successUrl.toString();
+        }, 2000);
         
     } catch (error) {
-        console.error('Download setup failed:', error);
+        console.error('Download failed:', error);
         
         // Reset button state
-        const buttonText = document.getElementById('button-text');
-        const stripeLinkButton = document.getElementById('stripe-payment-link-button');
+        buttonElement.innerHTML = '❌ Download Failed - Try Again';
+        buttonElement.style.background = 'rgba(255,255,255,0.2)';
+        buttonElement.style.cursor = 'pointer';
+        buttonElement.disabled = false;
         
-        if (buttonText) {
-            buttonText.textContent = 'Download Setup Failed - Try Again';
-        }
-        if (stripeLinkButton) {
-            stripeLinkButton.style.opacity = '1';
-            stripeLinkButton.style.pointerEvents = 'auto';
-        }
-        
-        alert('Download setup failed. Please try again or contact support.');
+        alert('Download failed. Please try again or contact support.');
     }
+}
+
+// Legacy function kept for compatibility - now just calls initiateDownload
+function startFreeDownload(platform, email) {
+    console.log('startFreeDownload called - this should not create duplicate sections');
+    
+    // Find existing download button and use it
+    const existingDownloadBtn = document.getElementById('start-download-btn');
+    if (existingDownloadBtn) {
+        initiateDownload(platform, email, existingDownloadBtn);
+        return;
+    }
+    
+    // Fallback: if no existing button, show error
+    console.error('No existing download button found - this should not happen');
+    alert('Download setup error. Please refresh and try again.');
 }
 
 // Auto-detect user's platform
