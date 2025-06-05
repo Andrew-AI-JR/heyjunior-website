@@ -1,0 +1,30 @@
+<svg width="400" height="300" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="300" fill="#f8f9fa" stroke="#dee2e6" stroke-width="2"/>
+  <rect x="20" y="20" width="360" height="40" fill="#0077b5" rx="5"/>
+  <text x="200" y="45" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="16" font-weight="bold">LinkedIn Automation Tool</text>
+  
+  <!-- Simulated interface elements -->
+  <rect x="20" y="80" width="100" height="30" fill="#e9ecef" rx="3"/>
+  <text x="70" y="100" text-anchor="middle" fill="#495057" font-family="Arial, sans-serif" font-size="12">Dashboard</text>
+  
+  <rect x="140" y="80" width="100" height="30" fill="#0077b5" rx="3"/>
+  <text x="190" y="100" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="12">Auto Comment</text>
+  
+  <rect x="260" y="80" width="100" height="30" fill="#e9ecef" rx="3"/>
+  <text x="310" y="100" text-anchor="middle" fill="#495057" font-family="Arial, sans-serif" font-size="12">Analytics</text>
+  
+  <!-- Simulated content area -->
+  <rect x="20" y="130" width="360" height="140" fill="white" stroke="#dee2e6" stroke-width="1" rx="5"/>
+  
+  <!-- AI Comment Generation -->
+  <text x="30" y="155" fill="#495057" font-family="Arial, sans-serif" font-size="14" font-weight="bold">🤖 AI Comment Generation</text>
+  <text x="30" y="175" fill="#6c757d" font-family="Arial, sans-serif" font-size="12">Automatically generates engaging comments</text>
+  
+  <!-- Hiring Manager Targeting -->
+  <text x="30" y="200" fill="#495057" font-family="Arial, sans-serif" font-size="14" font-weight="bold">🎯 Hiring Manager Targeting</text>
+  <text x="30" y="220" fill="#6c757d" font-family="Arial, sans-serif" font-size="12">Smart targeting of potential employers</text>
+  
+  <!-- Performance Analytics -->
+  <text x="30" y="245" fill="#495057" font-family="Arial, sans-serif" font-size="14" font-weight="bold">📊 Performance Analytics</text>
+  <text x="30" y="265" fill="#6c757d" font-family="Arial, sans-serif" font-size="12">Track engagement and success rates</text>
+</svg> 

@@ -118,6 +118,9 @@ async function handleApplyCoupon() {
         }
         
         // Try backend validation for other coupons
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+        
         const response = await fetch('https://junior-api-915940312680.us-west1.run.app/api/payments/validate-coupon', {
             method: 'POST',
             headers: {
@@ -125,8 +128,11 @@ async function handleApplyCoupon() {
             },
             body: JSON.stringify({
                 coupon_code: couponCode
-            })
+            }),
+            signal: controller.signal
         });
+        
+        clearTimeout(timeoutId);
         
         const result = await response.json();
         
@@ -147,8 +153,12 @@ async function handleApplyCoupon() {
         
     } catch (error) {
         console.error('Error validating coupon:', error);
-        // If backend is down, check for other frontend-only coupons or show error
-        showCouponMessage('Invalid coupon code', 'error');
+        // If backend is down, check for other frontend-only coupons or show more helpful error
+        if (error.name === 'TypeError' || error.message.includes('fetch')) {
+            showCouponMessage('Unable to validate coupon - please try again later', 'error');
+        } else {
+            showCouponMessage('Invalid coupon code', 'error');
+        }
     } finally {
         // Reset button state
         applyBtn.disabled = false;
@@ -202,10 +212,8 @@ function showCouponDiscount(coupon) {
         
         if (email && platform) {
             // Remove any existing download sections first
-            const existingDownloadSection = document.getElementById('free-download-section');
-            if (existingDownloadSection) {
-                existingDownloadSection.remove();
-            }
+            const existingDownloadSections = document.querySelectorAll('#free-download-section, .download-ready-message');
+            existingDownloadSections.forEach(section => section.remove());
             
             // Create new download section
             const downloadSection = document.createElement('div');
@@ -263,7 +271,13 @@ function showCouponDiscount(coupon) {
                 downloadBtn.addEventListener('click', function(e) {
                     e.preventDefault();
                     e.stopPropagation();
-                    startFreeDownload(platform, email);
+                    
+                    // Re-read current values to avoid stale closures
+                    const currentEmail = document.getElementById('customer-email').value;
+                    const currentPlatform = document.querySelector('input[name="platform"]:checked')?.value;
+                    
+                    console.log('Button clicked - Current values:', { currentEmail, currentPlatform });
+                    startFreeDownload(currentPlatform, currentEmail);
                 });
             }
         } else {
@@ -544,13 +558,27 @@ const DOWNLOAD_URLS = {
 };
 
 function startFreeDownload(platform, email) {
+    console.log('Starting free download for:', { platform, email });
+    console.log('Available download URLs:', DOWNLOAD_URLS);
+    console.log('Platform type:', typeof platform);
+    console.log('Platform value:', JSON.stringify(platform));
+    
     try {
-        // Normalize platform name
-        const normalizedPlatform = DOWNLOAD_URLS[platform] || 'windows';
-        const downloadUrl = DOWNLOAD_URLS[normalizedPlatform];
+        // Get download URL for the platform
+        let downloadUrl = DOWNLOAD_URLS[platform];
+        console.log('Direct lookup result:', downloadUrl);
+        
+        // Fallback to windows if not found
+        if (!downloadUrl) {
+            console.log('Platform not found, using windows fallback');
+            downloadUrl = DOWNLOAD_URLS['windows'];
+        }
+        
+        console.log('Final download URL:', downloadUrl);
         
         if (!downloadUrl) {
-            throw new Error(`No download URL found for platform: ${platform}`);
+            console.error('DOWNLOAD_URLS object:', DOWNLOAD_URLS);
+            throw new Error(`No download URL found for platform: ${platform}. Available platforms: ${Object.keys(DOWNLOAD_URLS).join(', ')}`);
         }
         
         const buttonText = document.getElementById('button-text');
@@ -618,31 +646,40 @@ function startFreeDownload(platform, email) {
         
         // Add click handler for the download button
         document.getElementById('start-download-btn').addEventListener('click', function() {
-            // User-initiated download (safe from security warnings)
-            const link = document.createElement('a');
-            link.href = downloadUrl;
-            link.download = downloadUrl.split('/').pop();
-            link.style.display = 'none';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            
-            // Update the button to show download started
-            this.innerHTML = '✅ Download Started!';
-            this.style.background = 'rgba(255,255,255,0.3)';
-            this.style.cursor = 'default';
-            this.disabled = true;
-            
-            // Show success message and redirect after download starts
-            setTimeout(() => {
-                // Redirect to success page with free account info
-                const successUrl = new URL('/success.html', window.location.origin);
-                successUrl.searchParams.set('free_account', 'true');
-                successUrl.searchParams.set('coupon', 'tacos');
-                successUrl.searchParams.set('download_started', 'true');
+            try {
+                // User-initiated download (safe from security warnings)
+                const link = document.createElement('a');
+                link.href = downloadUrl;
+                link.download = downloadUrl.split('/').pop();
+                link.style.display = 'none';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
                 
-                window.location.href = successUrl.toString();
-            }, 2000);
+                // Update the button to show download started
+                this.innerHTML = '✅ Download Started!';
+                this.style.background = 'rgba(255,255,255,0.3)';
+                this.style.cursor = 'default';
+                this.disabled = true;
+                
+                // Show success message and redirect after download starts
+                setTimeout(() => {
+                    // Redirect to success page with free account info
+                    const successUrl = new URL('/success.html', window.location.origin);
+                    successUrl.searchParams.set('free_account', 'true');
+                    successUrl.searchParams.set('coupon', 'tacos');
+                    successUrl.searchParams.set('download_started', 'true');
+                    
+                    window.location.href = successUrl.toString();
+                }, 2000);
+            } catch (downloadError) {
+                console.error('Download failed:', downloadError);
+                this.innerHTML = '❌ Download Failed - Try Again';
+                this.style.background = 'rgba(255,255,255,0.2)';
+                this.style.cursor = 'pointer';
+                this.disabled = false;
+                alert('Download failed. Please try again or contact support.');
+            }
         });
         
     } catch (error) {
