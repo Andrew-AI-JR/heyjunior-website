@@ -75,7 +75,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             // Download already started from checkout page
             showAccountCreationStatus('🎉 Download started! Your free account is ready.', 'success');
             if (providedApiKey) {
-                displayApiKey(providedApiKey, email);
+                // Show account setup instead of API key
+                showAccountSetupInfo(email, 'tacos');
             }
         } else {
             // Handle free account creation and download
@@ -120,7 +121,7 @@ async function handlePaymentVerificationAndDownload(paymentIntentId, email, plat
                 await startSecureDownload(downloadUrl, platform);
                 
                 // Also create account and API key
-                await createAccountAndApiKey(email);
+                await createUserAccount(email);
             } else {
                 throw new Error(result.error || 'Payment verification failed');
             }
@@ -148,13 +149,9 @@ async function handleFreeAccountCreationAndDownload(email, platform, couponCode)
             showAccountCreationStatus('🆓 Your free 1-month subscription is active! Download starting...', 'success');
         }, 1000);
         
-        // Generate a fake API key for now (until backend is deployed)
-        const fakeApiKey = `jnr_free_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-        
-        // Show the API key info
+        // Show account setup info (no API key needed - using JWT/OAuth)
         setTimeout(() => {
-            showApiKeyInfo(fakeApiKey, email);
-            showFreeAccountMessage(couponCode);
+            showAccountSetupInfo(email, couponCode);
         }, 2000);
         
     } catch (error) {
@@ -163,10 +160,10 @@ async function handleFreeAccountCreationAndDownload(email, platform, couponCode)
     }
 }
 
-function showFreeAccountMessage(couponCode) {
-    const freeAccountMsg = document.createElement('div');
-    freeAccountMsg.className = 'free-account-message';
-    freeAccountMsg.style.cssText = `
+function showAccountSetupInfo(email, couponCode) {
+    const accountSetupMsg = document.createElement('div');
+    accountSetupMsg.className = 'account-setup-message';
+    accountSetupMsg.style.cssText = `
         background: linear-gradient(135deg, #10b981, #059669);
         color: white;
         border-radius: 12px;
@@ -176,29 +173,47 @@ function showFreeAccountMessage(couponCode) {
         box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
     `;
     
-    freeAccountMsg.innerHTML = `
-        <h3 style="margin: 0 0 10px 0; font-size: 1.4em;">🎉 Welcome to Junior - FREE for 1 Month!</h3>
-        <p style="margin: 0 0 15px 0; opacity: 0.9;">
-            Your "${couponCode}" coupon has been successfully applied.<br>
-            Enjoy full access to all premium features until ${new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString()}.
-        </p>
-        <div style="background: rgba(255,255,255,0.1); border-radius: 8px; padding: 12px; margin-top: 15px;">
-            <strong>✨ What's included in your free month:</strong><br>
-            • Unlimited LinkedIn automation<br>
-            • AI-powered comment generation<br>
-            • Advanced targeting features<br>
-            • Priority support
-        </div>
-    `;
-    
-    // Insert after the API key section
-    const apiKeySection = document.querySelector('.api-key-section');
-    if (apiKeySection) {
-        apiKeySection.insertAdjacentElement('afterend', freeAccountMsg);
+    if (couponCode) {
+        accountSetupMsg.innerHTML = `
+            <h3 style="margin: 0 0 10px 0; font-size: 1.4em;">🎉 Welcome to Junior - FREE for 1 Month!</h3>
+            <p style="margin: 0 0 15px 0; opacity: 0.9;">
+                Your "${couponCode}" coupon has been successfully applied.<br>
+                Enjoy full access to all premium features until ${new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString()}.
+            </p>
+            <div style="background: rgba(255,255,255,0.1); border-radius: 8px; padding: 12px; margin-top: 15px;">
+                <strong>✨ What's included in your free month:</strong><br>
+                • Unlimited LinkedIn automation<br>
+                • AI-powered comment generation<br>
+                • Advanced targeting features<br>
+                • Priority support
+            </div>
+            <div style="background: rgba(255,255,255,0.1); border-radius: 8px; padding: 12px; margin-top: 15px;">
+                <strong>🔧 Setup Instructions:</strong><br>
+                1. Download and install the app<br>
+                2. On first launch, create your username and password<br>
+                3. Use email: <strong>${email}</strong><br>
+                4. Your account is already created and ready!
+            </div>
+        `;
     } else {
-        const container = document.querySelector('.success-container') || document.body;
-        container.appendChild(freeAccountMsg);
+        accountSetupMsg.innerHTML = `
+            <h3 style="margin: 0 0 10px 0; font-size: 1.4em;">🎉 Account Successfully Created!</h3>
+            <p style="margin: 0 0 15px 0; opacity: 0.9;">
+                Your Junior account has been set up and is ready to use.
+            </p>
+            <div style="background: rgba(255,255,255,0.1); border-radius: 8px; padding: 12px; margin-top: 15px;">
+                <strong>🔧 Setup Instructions:</strong><br>
+                1. Download and install the app<br>
+                2. On first launch, create your username and password<br>
+                3. Use email: <strong>${email}</strong><br>
+                4. Your account is already created and ready!
+            </div>
+        `;
     }
+    
+    // Insert after any existing API key section or at the container
+    const container = document.querySelector('.success-container') || document.body;
+    container.appendChild(accountSetupMsg);
 }
 
 async function startDirectDownload(platform) {
@@ -263,309 +278,38 @@ async function startDirectDownload(platform) {
     });
 }
 
-async function createAccountAndApiKey(email) {
+async function createUserAccount(email) {
     try {
-        // Create user account if it doesn't exist
-        const createAccountResponse = await fetch(`${API_BASE_URL}/api/users/create-from-payment`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                email: email,
-                source: 'heyjunior-website'
-            })
-        });
+        // The account was already created by the Stripe webhook
+        // Just show setup instructions to the user
+        showAccountSetupInfo(email);
         
-        if (createAccountResponse.ok) {
-            const accountData = await createAccountResponse.json();
-            
-            // Generate API key for the user
-            const apiKeyResponse = await fetch(`${API_BASE_URL}/api/users/generate-api-key`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${accountData.access_token}`
-                },
-                body: JSON.stringify({
-                    key_name: 'Junior Desktop Client'
-                })
-            });
-            
-            if (apiKeyResponse.ok) {
-                const apiKeyData = await apiKeyResponse.json();
-                
-                // Show API key to user
-                showApiKeyInfo(apiKeyData.api_key, email);
-                
-                // Send email with API key and instructions
-                await sendAccountEmail(email, apiKeyData.api_key);
-            }
-        }
+        // Send welcome email 
+        await sendWelcomeEmail(email);
     } catch (error) {
-        console.error('Error creating account:', error);
+        console.error('Error setting up account info:', error);
         // Non-blocking - download still works
     }
 }
 
-async function sendAccountEmail(email, apiKey) {
+async function sendWelcomeEmail(email) {
     try {
-        await fetch(`${API_BASE_URL}/api/downloads/send-download-email`, {
+        await fetch(`${API_BASE_URL}/api/downloads/send-welcome-email`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                customer_email: email,
-                api_key: apiKey
+                customer_email: email
             })
         });
     } catch (error) {
-        console.error('Error sending email:', error);
+        console.error('Error sending welcome email:', error);
     }
 }
 
-function showApiKeyInfo(apiKey, email) {
-    const apiKeySection = document.createElement('div');
-    apiKeySection.className = 'api-key-section';
-    apiKeySection.style.cssText = `
-        background: #f0f9ff;
-        border: 1px solid #0ea5e9;
-        border-radius: 8px;
-        padding: 20px;
-        margin: 20px 0;
-        position: relative;
-    `;
-    
-    apiKeySection.innerHTML = `
-        <h3 style="color: #0369a1; margin-bottom: 10px;">🔑 Your API Key</h3>
-        <p style="color: #075985; margin-bottom: 15px;">Save this API key - you'll need it to log into the Junior desktop app:</p>
-        <div style="display: flex; gap: 10px; align-items: center;">
-            <input type="text" value="${apiKey}" readonly style="
-                flex: 1;
-                padding: 10px;
-                border: 1px solid #cbd5e1;
-                border-radius: 4px;
-                font-family: monospace;
-                background: white;
-            " id="apiKeyInput">
-            <button onclick="copyApiKey()" style="
-                background: #0ea5e9;
-                color: white;
-                border: none;
-                padding: 10px 20px;
-                border-radius: 4px;
-                cursor: pointer;
-            ">Copy</button>
-        </div>
-        <p style="color: #64748b; font-size: 0.875rem; margin-top: 10px;">
-            An email with this API key and setup instructions has been sent to ${email}
-        </p>
-    `;
-    
-    const instructionsBox = document.querySelector('.instructions-box');
-    if (instructionsBox) {
-        instructionsBox.parentNode.insertBefore(apiKeySection, instructionsBox);
-    }
-}
-
-// Global function for copy button
-window.copyApiKey = function() {
-    const input = document.getElementById('apiKeyInput');
-    input.select();
-    document.execCommand('copy');
-    
-    // Show copied notification
-    const notification = document.createElement('div');
-    notification.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: #10b981;
-        color: white;
-        padding: 10px 20px;
-        border-radius: 4px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        z-index: 9999;
-    `;
-    notification.textContent = 'API Key copied to clipboard!';
-    document.body.appendChild(notification);
-    
-    setTimeout(() => notification.remove(), 3000);
-};
-
-async function startAutomaticDownload(downloadUrl, platform) {
-    try {
-        // Create automatic download ready section
-        const downloadSection = document.createElement('div');
-        downloadSection.className = 'auto-download-section';
-        downloadSection.style.cssText = `
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: white;
-            border-radius: 12px;
-            padding: 25px;
-            margin: 20px 0;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
-        `;
-        
-        downloadSection.innerHTML = `
-            <h3 style="margin: 0 0 15px 0; font-size: 1.4em;">✨ Premium Download Ready!</h3>
-            <p style="margin: 0 0 20px 0; opacity: 0.9; font-size: 1.1em;">
-                Your Junior Premium for ${platform === 'windows' ? 'Windows' : 'macOS'} is ready to download.
-            </p>
-            <button id="auto-download-btn" style="
-                background: rgba(255,255,255,0.2);
-                border: 2px solid white;
-                color: white;
-                padding: 15px 40px;
-                border-radius: 8px;
-                font-size: 1.2em;
-                font-weight: bold;
-                cursor: pointer;
-                transition: all 0.3s ease;
-            " onmouseover="this.style.background='rgba(255,255,255,0.3)'" 
-               onmouseout="this.style.background='rgba(255,255,255,0.2)'">
-                🚀 Start Download
-            </button>
-            <div style="font-size: 0.9em; opacity: 0.8; margin-top: 15px;">
-                Premium features included • Priority support
-            </div>
-        `;
-        
-        // Insert into page
-        const container = document.querySelector('.main-content') || document.body;
-        container.appendChild(downloadSection);
-        
-        // Add download functionality
-        document.getElementById('auto-download-btn').addEventListener('click', function() {
-            const actualDownloadUrl = getDownloadUrl(platform);
-            
-            // User-initiated download
-            const link = document.createElement('a');
-            link.href = actualDownloadUrl;
-            link.download = actualDownloadUrl.split('/').pop();
-            link.style.display = 'none';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            
-            // Update button
-            this.innerHTML = '✅ Download Started!';
-            this.style.background = 'rgba(255,255,255,0.3)';
-            this.disabled = true;
-        });
-        
-    } catch (error) {
-        console.error('Automatic download setup failed:', error);
-        showDownloadNotification(platform);
-    }
-}
-
-async function startSecureDownload(downloadUrl, platform) {
-    try {
-        // Create download ready section
-        const downloadSection = document.createElement('div');
-        downloadSection.className = 'secure-download-section';
-        downloadSection.style.cssText = `
-            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
-            color: white;
-            border-radius: 12px;
-            padding: 25px;
-            margin: 20px 0;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
-        `;
-        
-        downloadSection.innerHTML = `
-            <h3 style="margin: 0 0 15px 0; font-size: 1.4em;">🎉 Account Ready!</h3>
-            <p style="margin: 0 0 20px 0; opacity: 0.9; font-size: 1.1em;">
-                Your Junior account for ${platform === 'windows' ? 'Windows' : 'macOS'} has been created successfully!
-            </p>
-            <button id="secure-download-btn" style="
-                background: rgba(255,255,255,0.2);
-                border: 2px solid white;
-                color: white;
-                padding: 15px 40px;
-                border-radius: 8px;
-                font-size: 1.2em;
-                font-weight: bold;
-                cursor: pointer;
-                transition: all 0.3s ease;
-            " onmouseover="this.style.background='rgba(255,255,255,0.3)'" 
-               onmouseout="this.style.background='rgba(255,255,255,0.2)'">
-                🔐 Secure Download
-            </button>
-            <div style="font-size: 0.9em; opacity: 0.8; margin-top: 15px;">
-                Enterprise security • Full access
-            </div>
-        `;
-        
-        // Insert into page
-        const container = document.querySelector('.main-content') || document.body;
-        container.appendChild(downloadSection);
-        
-        // Add download functionality
-        document.getElementById('secure-download-btn').addEventListener('click', function() {
-            const actualDownloadUrl = getDownloadUrl(platform);
-            
-            // User-initiated download
-            const link = document.createElement('a');
-            link.href = actualDownloadUrl;
-            link.download = actualDownloadUrl.split('/').pop();
-            link.style.display = 'none';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            
-            // Update button
-            this.innerHTML = '✅ Download Started!';
-            this.style.background = 'rgba(255,255,255,0.3)';
-            this.disabled = true;
-        });
-        
-    } catch (error) {
-        console.error('Secure download setup failed:', error);
-        console.error('Error with account setup:', error);
-        showAccountCreationStatus('Account setup completed. Check your email for download instructions.', 'success');
-    }
-}
-
-function startAutomaticDownload(platform) {
-    // Create download ready section
-    const downloadSection = document.createElement('div');
-    downloadSection.className = 'auto-download-section';
-    downloadSection.style.cssText = `
-        background: linear-gradient(135deg, #10b981, #059669);
-        color: white;
-        border-radius: 12px;
-        padding: 25px;
-        margin: 20px 0;
-        text-align: center;
-        box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
-    `;
-    
-    downloadSection.innerHTML = `
-        <h3 style="margin: 0 0 15px 0; font-size: 1.4em;">🚀 Download Instructions Sent!</h3>
-        <p style="margin: 0 0 20px 0; opacity: 0.9; font-size: 1.1em;">
-            Check your email for Junior ${platform === 'windows' ? 'Windows' : 'macOS'} download instructions.
-        </p>
-        <div style="background: rgba(255,255,255,0.1); border-radius: 8px; padding: 15px; margin: 15px 0;">
-            <p style="margin: 0; font-size: 1.0em;">
-                📧 Email sent with download link<br>
-                📋 Setup instructions included<br>
-                🔑 Your API key is ready<br>
-                💬 Support available if needed
-            </p>
-        </div>
-    `;
-    
-    // Insert the section
-    const container = document.querySelector('.success-container') || document.body;
-    container.appendChild(downloadSection);
-    
-    console.log('Download instructions sent for:', platform);
-}
+// JWT/OAuth Authentication - Account setup handled on first app launch
+// No API keys needed - users create username/password during installation
 
 function showAccountCreationStatus(message, type = 'info') {
     // Remove existing status
@@ -1422,47 +1166,6 @@ function addLicenseStyles() {
         }
     `;
     document.head.appendChild(style);
-}
-
-function displayApiKey(apiKey, email) {
-    const statusDiv = document.querySelector('.account-status');
-    if (statusDiv) {
-        const apiKeySection = document.createElement('div');
-        apiKeySection.className = 'api-key-section';
-        apiKeySection.innerHTML = `
-            <div class="api-key-info">
-                <h4>🔑 Your API Key (for future use)</h4>
-                <p>Save this key for when backend services become available:</p>
-                <div class="api-key-display">
-                    <code>${apiKey}</code>
-                    <button onclick="copyApiKey('${apiKey}')" class="copy-btn">Copy</button>
-                </div>
-                <p class="api-key-note">
-                    <strong>Note:</strong> For now, you can use Junior in offline mode without this key. 
-                    This key will be useful when our cloud features are released.
-                </p>
-            </div>
-        `;
-        statusDiv.appendChild(apiKeySection);
-    }
-}
-
-function copyApiKey(apiKey) {
-    navigator.clipboard.writeText(apiKey).then(() => {
-        const copyBtn = document.querySelector('.copy-btn');
-        if (copyBtn) {
-            const originalText = copyBtn.textContent;
-            copyBtn.textContent = 'Copied!';
-            copyBtn.style.backgroundColor = '#10b981';
-            setTimeout(() => {
-                copyBtn.textContent = originalText;
-                copyBtn.style.backgroundColor = '';
-            }, 2000);
-        }
-    }).catch(err => {
-        console.error('Failed to copy API key:', err);
-        alert('Failed to copy API key. Please copy it manually.');
-    });
 }
 
 // Helper function to get download URL based on platform

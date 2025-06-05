@@ -635,15 +635,11 @@ function startFreeDownload(platform, email) {
             
             // Show success message and redirect after download starts
             setTimeout(() => {
-                // Generate a simple API key for offline mode
-                const apiKey = generateOfflineApiKey(email);
-                
                 // Redirect to success page with free account info
                 const successUrl = new URL('/success.html', window.location.origin);
                 successUrl.searchParams.set('free_account', 'true');
                 successUrl.searchParams.set('coupon', 'tacos');
                 successUrl.searchParams.set('download_started', 'true');
-                successUrl.searchParams.set('api_key', apiKey);
                 
                 window.location.href = successUrl.toString();
             }, 2000);
@@ -666,14 +662,6 @@ function startFreeDownload(platform, email) {
         
         alert('Download setup failed. Please try again or contact support.');
     }
-}
-
-function generateOfflineApiKey(email) {
-    // Generate a simple API key for offline mode
-    const timestamp = Date.now();
-    const emailHash = btoa(email).substring(0, 8);
-    const randomSuffix = Math.random().toString(36).substring(2, 10);
-    return `offline_${emailHash}_${timestamp}_${randomSuffix}`;
 }
 
 // Auto-detect user's platform
