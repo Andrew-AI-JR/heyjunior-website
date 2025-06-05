@@ -567,18 +567,14 @@ const GITHUB_ASSETS = {
 // New function that handles download without creating duplicate sections
 async function initiateDownload(platform, email, buttonElement) {
     console.log('Initiating download from public release for:', { platform, email });
-    // console.log('Platform type:', typeof platform); // Kept for debugging if needed
-    // console.log('Platform value:', JSON.stringify(platform)); // Kept for debugging if needed
     
     try {
-        // Update button to show fetching state (though it's much faster now)
         buttonElement.innerHTML = '🚀 Preparing download...';
         buttonElement.style.background = 'rgba(255,255,255,0.3)';
         buttonElement.disabled = true;
         
-        const assetName = GITHUB_ASSETS[platform] || GITHUB_ASSETS['windows']; // Default to windows if platform is somehow invalid
+        const assetName = GITHUB_ASSETS[platform] || GITHUB_ASSETS['windows'];
         if (!assetName) {
-            // This case should ideally not be reached if platform selection is robust
             console.error('Invalid platform detected:', platform);
             throw new Error(`Invalid platform: ${platform}. Could not determine asset name.`);
         }
@@ -588,57 +584,28 @@ async function initiateDownload(platform, email, buttonElement) {
         console.log('Constructed public download URL:', directDownloadUrl);
         console.log('Attempting to download asset:', assetName);
         
-        // Update button to show downloading state
         buttonElement.innerHTML = '⏳ Starting download...';
         
-        // Fetch the public asset to get it as a blob
-        // No Authorization header is needed for public repositories
-        const downloadResponse = await fetch(directDownloadUrl);
-        
-        if (!downloadResponse.ok) {
-            let errorText = `Download failed: ${downloadResponse.status} ${downloadResponse.statusText}`;
-            // Try to get more specific error if asset is not found (GitHub returns HTML for 404 on release assets)
-            if (downloadResponse.status === 404) {
-                 errorText = `Download failed: Asset "${assetName}" not found at ${directDownloadUrl}. Please ensure the release and assets are correctly published in the 'Desktop-Releases' repository. (Status: 404)`;
-            } else {
-                // For other errors, try to read response body if possible
-                try {
-                    const responseBody = await downloadResponse.text();
-                    console.error('GitHub download error response body:', responseBody);
-                } catch (e) {
-                    console.warn('Could not read error response body:', e);
-                }
-            }
-            throw new Error(errorText);
-        }
-        
-        const blob = await downloadResponse.blob();
-        const downloadUrl = window.URL.createObjectURL(blob);
-        
-        // User-initiated download (safe from security warnings)
+        // Create an invisible anchor element to trigger the download
         const link = document.createElement('a');
-        link.href = downloadUrl;
-        link.download = assetName; // Use the actual determined filename
+        link.href = directDownloadUrl;
+        link.setAttribute('download', assetName); // Suggests a filename to the browser
         link.style.display = 'none';
+        
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
         
-        // Clean up the blob URL after a short delay
-        setTimeout(() => {
-            window.URL.revokeObjectURL(downloadUrl);
-        }, 1000);
-        
         // Update the button to show download started
+        // Note: We can't reliably track actual download completion with this method
         buttonElement.innerHTML = '✅ Download Started!';
         buttonElement.style.cursor = 'default';
         
         // Show success message and redirect after download starts
         setTimeout(() => {
-            // Redirect to success page with free account info
             const successUrl = new URL('/success.html', window.location.origin);
             successUrl.searchParams.set('free_account', 'true');
-            successUrl.searchParams.set('coupon', 'tacos'); // Or the actual applied coupon if dynamic
+            successUrl.searchParams.set('coupon', 'tacos'); // Or the actual applied coupon
             successUrl.searchParams.set('download_started', 'true');
             successUrl.searchParams.set('platform', platform);
             successUrl.searchParams.set('version', GITHUB_RELEASE_TAG);
@@ -649,15 +616,12 @@ async function initiateDownload(platform, email, buttonElement) {
     } catch (error) {
         console.error('Download failed:', error);
         
-        // Reset button state and provide more specific error if possible
         let userErrorMessage = 'Download failed. Please try again or contact support.';
-        if (error.message.includes("Asset") && error.message.includes("not found")) {
-            userErrorMessage = "Download file not found. Please contact support if this issue persists.";
-            buttonElement.innerHTML = '❌ File Not Found';
-        } else if (error.message.includes("Invalid platform")) {
+        if (error.message.includes("Invalid platform")) {
             userErrorMessage = "Invalid platform selected. Please refresh and try again.";
             buttonElement.innerHTML = '❌ Invalid Platform';
         } else {
+            // Generic error for other issues, including potential click setup issues
             buttonElement.innerHTML = '❌ Download Failed - Try Again';
         }
         
