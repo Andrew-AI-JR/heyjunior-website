@@ -268,7 +268,7 @@ function showCouponDiscount(coupon) {
             // Add click handler directly - this will initiate the download immediately
             const downloadBtn = downloadSection.querySelector('#start-download-btn');
             if (downloadBtn) {
-                downloadBtn.addEventListener('click', function(e) {
+                downloadBtn.addEventListener('click', async function(e) {
                     e.preventDefault();
                     e.stopPropagation();
                     
@@ -279,7 +279,7 @@ function showCouponDiscount(coupon) {
                     console.log('Button clicked - Starting download immediately:', { currentEmail, currentPlatform });
                     
                     // Start download immediately without creating another section
-                    initiateDownload(currentPlatform, currentEmail, this);
+                    await initiateDownload(currentPlatform, currentEmail, this);
                 });
             }
         } else {
@@ -473,8 +473,8 @@ function handleProceedToPayment(e) {
         localStorage.setItem('paymentData', JSON.stringify(freeAccountData));
         
         // Start download immediately
-        setTimeout(() => {
-            startFreeDownload(platform, email);
+        setTimeout(async () => {
+            await startFreeDownload(platform, email);
         }, 1000);
         
         return;
@@ -552,51 +552,111 @@ window.addEventListener('beforeunload', () => {
     }
 });
 
-// Download URLs - temporary placeholders until backend proxy is implemented
-const DOWNLOAD_URLS = {
-    windows: './downloads/Junior-LinkedIn-Automation-Windows.exe',
-    macos: './downloads/Junior-LinkedIn-Automation-macOS.zip',
-    macos_arm: './downloads/Junior-LinkedIn-Automation-macOS.zip'
+// GitHub configuration for private repository access
+const GITHUB_CONFIG = {
+    token: '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',
+    repo: 'Andrew-AI-JR/junior-desktop',
+    releaseTag: 'v1.0.1'
 };
 
+// Asset names in the GitHub release
+const GITHUB_ASSETS = {
+    windows: 'Junior-Setup-v1.0.1.exe',
+    macos: 'Junior-v1.0.1.dmg',
+    macos_arm: 'Junior-v1.0.1-arm64.dmg'
+};
+
+// Function to get authenticated download URL from GitHub API
+async function getGitHubDownloadUrl(platform) {
+    const assetName = GITHUB_ASSETS[platform] || GITHUB_ASSETS['windows'];
+    console.log('Looking for GitHub asset:', assetName);
+    
+    try {
+        // Get release information from GitHub API
+        const releaseUrl = `https://api.github.com/repos/${GITHUB_CONFIG.repo}/releases/tags/${GITHUB_CONFIG.releaseTag}`;
+        const response = await fetch(releaseUrl, {
+            headers: {
+                'Authorization': `token ${GITHUB_CONFIG.token}`,
+                'Accept': 'application/vnd.github.v3+json'
+            }
+        });
+        
+        if (!response.ok) {
+            throw new Error(`GitHub API error: ${response.status} ${response.statusText}`);
+        }
+        
+        const release = await response.json();
+        console.log('GitHub release found:', release.name);
+        
+        // Find the asset for this platform
+        const asset = release.assets.find(asset => asset.name === assetName);
+        if (!asset) {
+            throw new Error(`Asset "${assetName}" not found in release. Available assets: ${release.assets.map(a => a.name).join(', ')}`);
+        }
+        
+        console.log('GitHub asset found:', asset.name, 'Size:', asset.size, 'bytes');
+        
+        // Return the authenticated download URL
+        return {
+            url: asset.url,
+            name: asset.name,
+            size: asset.size
+        };
+        
+    } catch (error) {
+        console.error('Failed to get GitHub download URL:', error);
+        throw error;
+    }
+}
+
 // New function that handles download without creating duplicate sections
-function initiateDownload(platform, email, buttonElement) {
+async function initiateDownload(platform, email, buttonElement) {
     console.log('Initiating download for:', { platform, email });
-    console.log('Available download URLs:', DOWNLOAD_URLS);
     console.log('Platform type:', typeof platform);
     console.log('Platform value:', JSON.stringify(platform));
     
     try {
-        // Get download URL for the platform
-        let downloadUrl = DOWNLOAD_URLS[platform];
-        console.log('Direct lookup result:', downloadUrl);
-        
-        // Fallback to windows if not found
-        if (!downloadUrl) {
-            console.log('Platform not found, using windows fallback');
-            downloadUrl = DOWNLOAD_URLS['windows'];
-        }
-        
-        console.log('Final download URL:', downloadUrl);
-        
-        if (!downloadUrl) {
-            console.error('DOWNLOAD_URLS object:', DOWNLOAD_URLS);
-            throw new Error(`No download URL found for platform: ${platform}. Available platforms: ${Object.keys(DOWNLOAD_URLS).join(', ')}`);
-        }
-        
-        // Update button to show downloading state
-        buttonElement.innerHTML = '⏳ Starting Download...';
+        // Update button to show fetching state
+        buttonElement.innerHTML = '🔍 Getting download link...';
         buttonElement.style.background = 'rgba(255,255,255,0.3)';
         buttonElement.disabled = true;
+        
+        // Get authenticated download URL from GitHub
+        const downloadInfo = await getGitHubDownloadUrl(platform);
+        console.log('Download info received:', downloadInfo);
+        
+        // Update button to show downloading state
+        buttonElement.innerHTML = '⏳ Starting download...';
+        
+        // Create authenticated download request
+        const downloadResponse = await fetch(downloadInfo.url, {
+            headers: {
+                'Authorization': `token ${GITHUB_CONFIG.token}`,
+                'Accept': 'application/octet-stream'
+            }
+        });
+        
+        if (!downloadResponse.ok) {
+            throw new Error(`Download failed: ${downloadResponse.status} ${downloadResponse.statusText}`);
+        }
+        
+        // Get the blob and create download URL
+        const blob = await downloadResponse.blob();
+        const downloadUrl = window.URL.createObjectURL(blob);
         
         // User-initiated download (safe from security warnings)
         const link = document.createElement('a');
         link.href = downloadUrl;
-        link.download = downloadUrl.split('/').pop();
+        link.download = downloadInfo.name; // Use the actual filename from GitHub
         link.style.display = 'none';
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+        
+        // Clean up the blob URL after a short delay
+        setTimeout(() => {
+            window.URL.revokeObjectURL(downloadUrl);
+        }, 1000);
         
         // Update the button to show download started
         buttonElement.innerHTML = '✅ Download Started!';
@@ -627,13 +687,13 @@ function initiateDownload(platform, email, buttonElement) {
 }
 
 // Legacy function kept for compatibility - now just calls initiateDownload
-function startFreeDownload(platform, email) {
+async function startFreeDownload(platform, email) {
     console.log('startFreeDownload called - this should not create duplicate sections');
     
     // Find existing download button and use it
     const existingDownloadBtn = document.getElementById('start-download-btn');
     if (existingDownloadBtn) {
-        initiateDownload(platform, email, existingDownloadBtn);
+        await initiateDownload(platform, email, existingDownloadBtn);
         return;
     }
     
