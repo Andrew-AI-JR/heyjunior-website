@@ -552,102 +552,73 @@ window.addEventListener('beforeunload', () => {
     }
 });
 
-// GitHub configuration for private repository access
-const GITHUB_CONFIG = {
-    token: atob('Z2hwX094a1RjaWxDWmRsNGFMa3p1M1V0bjRhYzdHbzMzcjFCbUJCdg=='),
-    repo: 'Andrew-AI-JR/junior-desktop',
-    releaseTag: 'v1.0.1'
-};
+// NEW: Configuration for public GitHub releases
+const GITHUB_RELEASES_REPO_OWNER = 'Andrew-AI-JR';
+const GITHUB_RELEASES_REPO_NAME = 'Desktop-Releases';
+const GITHUB_RELEASE_TAG = 'v1.0.1';
 
-// Asset names in the GitHub release
+// Asset names in the GitHub release (ensure these match your uploaded assets)
 const GITHUB_ASSETS = {
     windows: 'Junior-Setup-v1.0.1.exe',
     macos: 'Junior-v1.0.1.dmg',
-    macos_arm: 'Junior-v1.0.1-arm64.dmg'
+    macos_arm: 'Junior-v1.0.1-arm64.dmg' // For M1/M2 Macs
 };
-
-// Function to get authenticated download URL from GitHub API
-async function getGitHubDownloadUrl(platform) {
-    const assetName = GITHUB_ASSETS[platform] || GITHUB_ASSETS['windows'];
-    console.log('Looking for GitHub asset:', assetName);
-    
-    try {
-        // Get release information from GitHub API
-        const releaseUrl = `https://api.github.com/repos/${GITHUB_CONFIG.repo}/releases/tags/${GITHUB_CONFIG.releaseTag}`;
-        const response = await fetch(releaseUrl, {
-            headers: {
-                'Authorization': `token ${GITHUB_CONFIG.token}`,
-                'Accept': 'application/vnd.github.v3+json'
-            }
-        });
-        
-        if (!response.ok) {
-            throw new Error(`GitHub API error: ${response.status} ${response.statusText}`);
-        }
-        
-        const release = await response.json();
-        console.log('GitHub release found:', release.name);
-        
-        // Find the asset for this platform
-        const asset = release.assets.find(asset => asset.name === assetName);
-        if (!asset) {
-            throw new Error(`Asset "${assetName}" not found in release. Available assets: ${release.assets.map(a => a.name).join(', ')}`);
-        }
-        
-        console.log('GitHub asset found:', asset.name, 'Size:', asset.size, 'bytes');
-        
-        // Return the authenticated download URL
-        return {
-            url: asset.url,
-            name: asset.name,
-            size: asset.size
-        };
-        
-    } catch (error) {
-        console.error('Failed to get GitHub download URL:', error);
-        throw error;
-    }
-}
 
 // New function that handles download without creating duplicate sections
 async function initiateDownload(platform, email, buttonElement) {
-    console.log('Initiating download for:', { platform, email });
-    console.log('Platform type:', typeof platform);
-    console.log('Platform value:', JSON.stringify(platform));
+    console.log('Initiating download from public release for:', { platform, email });
+    // console.log('Platform type:', typeof platform); // Kept for debugging if needed
+    // console.log('Platform value:', JSON.stringify(platform)); // Kept for debugging if needed
     
     try {
-        // Update button to show fetching state
-        buttonElement.innerHTML = '🔍 Getting download link...';
+        // Update button to show fetching state (though it's much faster now)
+        buttonElement.innerHTML = '🚀 Preparing download...';
         buttonElement.style.background = 'rgba(255,255,255,0.3)';
         buttonElement.disabled = true;
         
-        // Get authenticated download URL from GitHub
-        const downloadInfo = await getGitHubDownloadUrl(platform);
-        console.log('Download info received:', downloadInfo);
+        const assetName = GITHUB_ASSETS[platform] || GITHUB_ASSETS['windows']; // Default to windows if platform is somehow invalid
+        if (!assetName) {
+            // This case should ideally not be reached if platform selection is robust
+            console.error('Invalid platform detected:', platform);
+            throw new Error(`Invalid platform: ${platform}. Could not determine asset name.`);
+        }
+
+        const directDownloadUrl = `https://github.com/${GITHUB_RELEASES_REPO_OWNER}/${GITHUB_RELEASES_REPO_NAME}/releases/download/${GITHUB_RELEASE_TAG}/${assetName}`;
+        
+        console.log('Constructed public download URL:', directDownloadUrl);
+        console.log('Attempting to download asset:', assetName);
         
         // Update button to show downloading state
         buttonElement.innerHTML = '⏳ Starting download...';
         
-        // Create authenticated download request
-        const downloadResponse = await fetch(downloadInfo.url, {
-            headers: {
-                'Authorization': `token ${GITHUB_CONFIG.token}`,
-                'Accept': 'application/octet-stream'
-            }
-        });
+        // Fetch the public asset to get it as a blob
+        // No Authorization header is needed for public repositories
+        const downloadResponse = await fetch(directDownloadUrl);
         
         if (!downloadResponse.ok) {
-            throw new Error(`Download failed: ${downloadResponse.status} ${downloadResponse.statusText}`);
+            let errorText = `Download failed: ${downloadResponse.status} ${downloadResponse.statusText}`;
+            // Try to get more specific error if asset is not found (GitHub returns HTML for 404 on release assets)
+            if (downloadResponse.status === 404) {
+                 errorText = `Download failed: Asset "${assetName}" not found at ${directDownloadUrl}. Please ensure the release and assets are correctly published in the 'Desktop-Releases' repository. (Status: 404)`;
+            } else {
+                // For other errors, try to read response body if possible
+                try {
+                    const responseBody = await downloadResponse.text();
+                    console.error('GitHub download error response body:', responseBody);
+                } catch (e) {
+                    console.warn('Could not read error response body:', e);
+                }
+            }
+            throw new Error(errorText);
         }
         
-        // Get the blob and create download URL
         const blob = await downloadResponse.blob();
         const downloadUrl = window.URL.createObjectURL(blob);
         
         // User-initiated download (safe from security warnings)
         const link = document.createElement('a');
         link.href = downloadUrl;
-        link.download = downloadInfo.name; // Use the actual filename from GitHub
+        link.download = assetName; // Use the actual determined filename
         link.style.display = 'none';
         document.body.appendChild(link);
         link.click();
@@ -667,8 +638,10 @@ async function initiateDownload(platform, email, buttonElement) {
             // Redirect to success page with free account info
             const successUrl = new URL('/success.html', window.location.origin);
             successUrl.searchParams.set('free_account', 'true');
-            successUrl.searchParams.set('coupon', 'tacos');
+            successUrl.searchParams.set('coupon', 'tacos'); // Or the actual applied coupon if dynamic
             successUrl.searchParams.set('download_started', 'true');
+            successUrl.searchParams.set('platform', platform);
+            successUrl.searchParams.set('version', GITHUB_RELEASE_TAG);
             
             window.location.href = successUrl.toString();
         }, 2000);
@@ -676,13 +649,23 @@ async function initiateDownload(platform, email, buttonElement) {
     } catch (error) {
         console.error('Download failed:', error);
         
-        // Reset button state
-        buttonElement.innerHTML = '❌ Download Failed - Try Again';
+        // Reset button state and provide more specific error if possible
+        let userErrorMessage = 'Download failed. Please try again or contact support.';
+        if (error.message.includes("Asset") && error.message.includes("not found")) {
+            userErrorMessage = "Download file not found. Please contact support if this issue persists.";
+            buttonElement.innerHTML = '❌ File Not Found';
+        } else if (error.message.includes("Invalid platform")) {
+            userErrorMessage = "Invalid platform selected. Please refresh and try again.";
+            buttonElement.innerHTML = '❌ Invalid Platform';
+        } else {
+            buttonElement.innerHTML = '❌ Download Failed - Try Again';
+        }
+        
         buttonElement.style.background = 'rgba(255,255,255,0.2)';
         buttonElement.style.cursor = 'pointer';
         buttonElement.disabled = false;
         
-        alert('Download failed. Please try again or contact support.');
+        alert(userErrorMessage + "\n\nDetails: " + error.message);
     }
 }
 
