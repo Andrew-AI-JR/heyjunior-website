@@ -278,6 +278,35 @@ async function startDirectDownload(platform) {
     });
 }
 
+// Secure download for paid accounts. Shows the same download UI but uses
+// the signed/secure URL returned by backend verification instead of the
+// public GitHub link. Keeps one click so browsers allow redirect.
+async function startSecureDownload(downloadUrl, platform) {
+    // Reuse the UI creation from startDirectDownload
+    await startDirectDownload(platform);
+    // Replace click handler to use secure URL
+    const btn = document.getElementById('direct-download-btn');
+    if (!btn) return;
+
+    // Remove previous listeners by cloning
+    const newBtn = btn.cloneNode(true);
+    btn.parentNode.replaceChild(newBtn, btn);
+
+    newBtn.addEventListener('click', function () {
+        const link = document.createElement('a');
+        link.href = downloadUrl;
+        link.download = downloadUrl.split('/').pop();
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        this.innerHTML = '✅ Download Started!';
+        this.style.background = 'rgba(255,255,255,0.3)';
+        this.disabled = true;
+    });
+}
+
 async function createUserAccount(email) {
     try {
         // The account was already created by the Stripe webhook
