@@ -555,11 +555,11 @@ window.addEventListener('beforeunload', () => {
 // NEW: Configuration for public GitHub releases
 const GITHUB_RELEASES_REPO_OWNER = 'Andrew-AI-JR';
 const GITHUB_RELEASES_REPO_NAME = 'Desktop-Releases';
-const GITHUB_RELEASE_TAG = 'v1.0.1';
+const GITHUB_RELEASE_TAG = 'v1.0.0-beta';
 
 // Asset names in the GitHub release (ensure these match your uploaded assets)
 const GITHUB_ASSETS = {
-    windows: 'Junior-Setup-v1.0.1.exe',
+    windows: 'Junior.Setup.1.0.0.exe',
     macos: 'Junior-v1.0.1.dmg',
     macos_arm: 'Junior-v1.0.1-arm64.dmg' // For M1/M2 Macs
 };
