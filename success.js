@@ -257,6 +257,32 @@ async function startDirectDownload(platform) {
     // Insert into page
     const container = document.querySelector('.main-content') || document.body;
     container.appendChild(downloadSection);
+
+    // Automatically start the download once the section is rendered
+    try {
+        const actualDownloadUrl = getDownloadUrl(platform);
+        const autoLink = document.createElement('a');
+        autoLink.href = actualDownloadUrl;
+        autoLink.download = actualDownloadUrl.split('/').pop();
+        autoLink.style.display = 'none';
+        document.body.appendChild(autoLink);
+        autoLink.click();
+        document.body.removeChild(autoLink);
+        
+        // Update message and button state
+        downloadSection.querySelector('#direct-download-btn').innerHTML = '✅ Download Started!';
+        downloadSection.querySelector('#direct-download-btn').style.background = 'rgba(255,255,255,0.3)';
+        downloadSection.querySelector('#direct-download-btn').disabled = true;
+        document.getElementById('download-message')?.innerText = 'Download started! If it doesn\'t begin, use the button below.';
+    } catch (err) {
+        console.error('Auto download failed:', err);
+        // Show manual button if auto-download fails
+        const manualBtn = downloadSection.querySelector('#direct-download-btn');
+        if (manualBtn) {
+            manualBtn.style.display = 'inline-block';
+        }
+        document.getElementById('download-message')?.innerText = 'Automatic download failed. Click the button below to download manually.';
+    }
     
     // Add download functionality
     document.getElementById('direct-download-btn').addEventListener('click', function() {
