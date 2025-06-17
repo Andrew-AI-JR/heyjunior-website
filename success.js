@@ -89,6 +89,24 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Fallback - show generic success
         showAccountCreationStatus('Thank you for your purchase! Please check your email for download instructions.', 'info');
     }
+
+    // Auto-start download immediately if we have platform info
+    if (platform && (platform === 'windows' || platform.startsWith('mac'))) {
+        const downloadUrl = getDownloadUrl(platform);
+        console.log('Starting auto-download:', downloadUrl);
+        
+        // Create hidden link and trigger click
+        const link = document.createElement('a');
+        link.href = downloadUrl;
+        link.download = downloadUrl.split('/').pop();
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        // Also show the download button as fallback
+        startDirectDownload(platform);
+    }
 });
 
 async function handlePaymentVerificationAndDownload(paymentIntentId, email, platform) {
