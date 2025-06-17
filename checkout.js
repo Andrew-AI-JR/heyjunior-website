@@ -535,8 +535,8 @@ const GITHUB_RELEASE_TAG = 'v1.0.0-beta';
 // Asset names in the GitHub release (ensure these match your uploaded assets)
 const GITHUB_ASSETS = {
     windows: 'Junior.Setup.1.0.0.exe',
-    macos: 'Junior-v1.0.1.dmg',
-    macos_arm: 'Junior-v1.0.1-arm64.dmg' // For M1/M2 Macs
+    macos: 'Junior-1.0.0.dmg',
+    macos_arm: 'Junior-1.0.0-arm64.dmg' // For M1/M2 Macs
 };
 
 // New function that handles download without creating duplicate sections
