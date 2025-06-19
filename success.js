@@ -154,27 +154,58 @@ async function handlePaymentVerificationAndDownload(paymentIntentId, email, plat
 
 async function handleFreeAccountCreationAndDownload(email, platform, couponCode) {
     try {
+        showAccountCreationStatus(`Validating your coupon "${couponCode}"...`, 'info');
+        
+        // First validate the coupon with the backend
+        const validationResponse = await fetch(`${API_BASE_URL}/api/payments/validate-coupon`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ coupon_code: couponCode })
+        });
+        
+        const validationResult = await validationResponse.json();
+        
+        if (!validationResponse.ok || !validationResult.valid) {
+            throw new Error(validationResult.message || 'Invalid or expired coupon');
+        }
+        
+        // Only proceed with download if coupon is valid
         showAccountCreationStatus(`🎉 Free account activated with "${couponCode}" coupon! Preparing download...`, 'success');
         
         // Normalize platform name
         const normalizedPlatform = PLATFORM_MAPPING[platform] || 'windows';
         
-        // Start direct download since no payment verification needed
+        // Create user account first
+        const accountCreated = await createUserAccount(email, couponCode);
+        if (!accountCreated) {
+            throw new Error('Failed to create user account');
+        }
+        
+        // Start download
         await startDirectDownload(platform);
         
-        // Show free account success message
-        setTimeout(() => {
-            showAccountCreationStatus('🆓 Your free 1-month subscription is active! Download starting...', 'success');
-        }, 1000);
+        // Show success message
+        showAccountCreationStatus('🆓 Your free 1-month subscription is active! Download starting...', 'success');
         
-        // Show account setup info (no API key needed - using JWT/OAuth)
-        setTimeout(() => {
-            showAccountSetupInfo(email, couponCode);
-        }, 2000);
+        // Show account setup info
+        showAccountSetupInfo(email, couponCode);
         
     } catch (error) {
         console.error('Error handling free account:', error);
-        showAccountCreationStatus('Error setting up free account. Please contact support.', 'error');
+        showAccountCreationStatus(`Error: ${error.message || 'Failed to process free account. Please contact support.'}`, 'error');
+        
+        // Show a button to go back to the homepage
+        const errorContainer = document.querySelector('.account-creation-status.error');
+        if (errorContainer) {
+            const backButton = document.createElement('a');
+            backButton.href = '/pricing';
+            backButton.className = 'btn btn-primary';
+            backButton.textContent = 'Return to Pricing';
+            backButton.style.marginTop = '20px';
+            backButton.style.display = 'inline-block';
+            errorContainer.appendChild(document.createElement('br'));
+            errorContainer.appendChild(backButton);
+        }
     }
 }
 
@@ -325,17 +356,47 @@ async function startSecureDownload(downloadUrl, platform) {
     });
 }
 
-async function createUserAccount(email) {
+async function createUserAccount(email, couponCode = null) {
     try {
-        // The account was already created by the Stripe webhook
-        // Just show setup instructions to the user
-        showAccountSetupInfo(email);
+        if (!email) {
+            console.error('Email is required to create an account');
+            return false;
+        }
+
+        // If no coupon code, just send welcome email and return
+        if (!couponCode) {
+            await sendWelcomeEmail(email);
+            return true;
+        }
+
+        // Create the user account with the coupon code
+        const response = await fetch(`${API_BASE_URL}/api/payments/create-free-account`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                email: email,
+                coupon_code: couponCode,
+                source: 'website_checkout'
+            })
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            console.error('Failed to create account:', result);
+            throw new Error(result.detail?.message || 'Failed to create free account');
+        }
+
+        // Show setup instructions to the user
+        showAccountSetupInfo(email, couponCode);
         
-        // Send welcome email 
+        // Send welcome email
         await sendWelcomeEmail(email);
+        
+        return true;
     } catch (error) {
-        console.error('Error setting up account info:', error);
-        // Non-blocking - download still works
+        console.error('Error creating user account:', error);
+        throw error; // Re-throw to be handled by the caller
     }
 }
 

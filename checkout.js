@@ -445,13 +445,57 @@ function handleProceedToPayment(e) {
     // Also store in localStorage as backup (in case session is lost during redirect)
     localStorage.setItem('pendingAccountCreation', JSON.stringify(checkoutData));
 
-    // Handle 100% discount (free) case - redirect through $0 Stripe Payment Link so webhook fires
+    // Handle 100% discount (free) case - validate with backend first
     if (appliedCoupon && discountedPrice === 0) {
-        // Use dedicated free-payment link generated in Stripe Dashboard
-        const FREE_PAYMENT_LINK = 'https://buy.stripe.com/6oUdRbalf3FidjFcWU3cc02';
-        // Prefill customer email if desired (Stripe supports this via query parameter)
-        stripeLinkButton.href = `${FREE_PAYMENT_LINK}?prefilled_email=${encodeURIComponent(email)}`;
-        // Let the browser follow the link (do NOT prevent default)
+        e.preventDefault(); // Prevent default link behavior
+        
+        // Show loading state
+        const buttonText = document.getElementById('button-text');
+        if (buttonText) {
+            buttonText.textContent = 'Validating coupon...';
+            stripeLinkButton.style.opacity = '0.7';
+            stripeLinkButton.style.pointerEvents = 'none';
+        }
+        
+        // First validate the coupon with the backend
+        fetch('https://junior-api-915940312680.us-west1.run.app/api/payments/validate-coupon', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ coupon_code: appliedCoupon.id })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.valid) {
+                // If coupon is valid, proceed with free account creation
+                const FREE_PAYMENT_LINK = 'https://buy.stripe.com/6oUdRbalf3FidjFcWU3cc02';
+                const successUrl = new URL(window.location.origin + '/success.html');
+                successUrl.searchParams.set('free_account', 'true');
+                successUrl.searchParams.set('coupon', appliedCoupon.id);
+                
+                // Redirect to success page with coupon info
+                window.location.href = successUrl.toString();
+            } else {
+                // Show error if coupon is invalid
+                alert(`Coupon error: ${data.message || 'This coupon is no longer valid'}`);
+                // Reset button state
+                if (buttonText) {
+                    buttonText.textContent = 'Continue to Payment';
+                    stripeLinkButton.style.opacity = '1';
+                    stripeLinkButton.style.pointerEvents = 'auto';
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Error validating coupon:', error);
+            alert('Error validating coupon. Please try again or contact support.');
+            // Reset button state
+            if (buttonText) {
+                buttonText.textContent = 'Continue to Payment';
+                stripeLinkButton.style.opacity = '1';
+                stripeLinkButton.style.pointerEvents = 'auto';
+            }
+        });
+        
         return;
     }
 
