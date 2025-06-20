@@ -1,13 +1,22 @@
 /* Updated: Coupon case sensitivity fix - Version 1.1 */
 // checkout.js - Enhanced for Account Creation Integration with Coupon Support
+
 document.addEventListener('DOMContentLoaded', () => {
     // Add event listeners
     document.getElementById('stripe-payment-link-button')?.addEventListener('click', handleProceedToPayment);
     document.getElementById('apply-coupon-btn')?.addEventListener('click', handleApplyCoupon);
     
+    // Initialize button text
+    updateButtonText();
+    
     // Platform selection listeners
     document.querySelectorAll('input[name="platform"]').forEach(radio => {
-        radio.addEventListener('change', updateButtonText);
+        radio.addEventListener('change', () => {
+            updateButtonText();
+            if (appliedCoupon) {
+                showCouponDiscount(appliedCoupon);
+            }
+        });
     });
 
     // Coupon code input listener
@@ -73,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Global variables for coupon state
 let appliedCoupon = null;
-let originalPrice = 20; // Base price in dollars
+const originalPrice = 20; // Base price in dollars
 let discountedPrice = 20;
 
 async function handleApplyCoupon() {
@@ -406,129 +415,125 @@ function updatePricingDisplay(coupon) {
     }
 }
 
-function handleProceedToPayment(e) {
+async function handleProceedToPayment(e) {
+    e.preventDefault(); // Always prevent default to handle the flow ourselves
+    
     const email = document.getElementById('customer-email').value;
     const platform = document.querySelector('input[name="platform"]:checked')?.value;
     const stripeLinkButton = document.getElementById('stripe-payment-link-button');
-    let paymentLink = stripeLinkButton.href; // Get the base link
+    const buttonText = document.getElementById('button-text');
 
+    // Basic validation
     if (!email || !validateEmail(email)) {
-        e.preventDefault(); // Prevent redirect if email is invalid
         alert('Please enter a valid email address. This email will be used for your account creation and license key.');
         return;
     }
 
     if (!platform) {
-        e.preventDefault(); // Prevent redirect if platform is not selected
         alert('Please select your platform (Windows or macOS).');
         return;
     }
 
-    // Store checkout data for account creation after payment
-    const checkoutData = {
-        email: email,
-        platform: platform,
-        timestamp: new Date().toISOString(),
-        userAgent: navigator.userAgent,
-        referrer: document.referrer || 'direct',
-        payment_method: appliedCoupon && discountedPrice === 0 ? 'free_coupon' : 'stripe_payment_link',
-        coupon: appliedCoupon ? {
-            code: appliedCoupon.id,
-            discount_type: appliedCoupon.percent_off ? 'percent' : 'amount',
-            discount_value: appliedCoupon.percent_off || appliedCoupon.amount_off
-        } : null
-    };
-
-    // Store in sessionStorage for success page
-    sessionStorage.setItem('checkoutData', JSON.stringify(checkoutData));
-
-    // Also store in localStorage as backup (in case session is lost during redirect)
-    localStorage.setItem('pendingAccountCreation', JSON.stringify(checkoutData));
-
-    // Handle 100% discount (free) case - validate with backend first
-    if (appliedCoupon && discountedPrice === 0) {
-        e.preventDefault(); // Prevent default link behavior
-        
-        // Show loading state
-        const buttonText = document.getElementById('button-text');
-        if (buttonText) {
-            buttonText.textContent = 'Validating coupon...';
-            stripeLinkButton.style.opacity = '0.7';
-            stripeLinkButton.style.pointerEvents = 'none';
-        }
-        
-        // First validate the coupon with the backend
-        fetch('https://junior-api-915940312680.us-west1.run.app/api/payments/validate-coupon', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ coupon_code: appliedCoupon.id })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.valid) {
-                // If coupon is valid, proceed with free account creation
-                const FREE_PAYMENT_LINK = 'https://buy.stripe.com/6oUdRbalf3FidjFcWU3cc02';
-                const successUrl = new URL(window.location.origin + '/success.html');
-                successUrl.searchParams.set('free_account', 'true');
-                successUrl.searchParams.set('coupon', appliedCoupon.id);
-                
-                // Redirect to success page with coupon info
-                window.location.href = successUrl.toString();
-            } else {
-                // Show error if coupon is invalid
-                alert(`Coupon error: ${data.message || 'This coupon is no longer valid'}`);
-                // Reset button state
-                if (buttonText) {
-                    buttonText.textContent = 'Continue to Payment';
-                    stripeLinkButton.style.opacity = '1';
-                    stripeLinkButton.style.pointerEvents = 'auto';
-                }
-            }
-        })
-        .catch(error => {
-            console.error('Error validating coupon:', error);
-            alert('Error validating coupon. Please try again or contact support.');
-            // Reset button state
-            if (buttonText) {
-                buttonText.textContent = 'Continue to Payment';
-                stripeLinkButton.style.opacity = '1';
-                stripeLinkButton.style.pointerEvents = 'auto';
-            }
-        });
-        
-        return;
-    }
-
-    // Update the Stripe Payment Link to include customer email and coupon data
-    try {
-        const url = new URL(paymentLink);
-        url.searchParams.set('prefilled_email', email);
-        url.searchParams.set('client_reference_id', `platform_${platform}_${Date.now()}`);
-        
-        // Add coupon to the payment link if applied
-        if (appliedCoupon) {
-            // Note: You'll need to create a new Stripe Payment Link with the coupon applied
-            // or use Stripe Checkout Sessions instead for dynamic coupon application
-            url.searchParams.set('coupon', appliedCoupon.id);
-        }
-        
-        stripeLinkButton.href = url.toString();
-    } catch (error) {
-        console.warn('Could not modify payment link URL:', error);
-        // Continue with original link if URL modification fails
-    }
-
     // Show loading state
-    const buttonText = document.getElementById('button-text');
     if (buttonText) {
-        buttonText.textContent = 'Redirecting to secure payment...';
+        buttonText.textContent = 'Preparing checkout...';
         stripeLinkButton.style.opacity = '0.7';
         stripeLinkButton.style.pointerEvents = 'none';
     }
 
-    // The <a> tag's default behavior will handle the redirect to the Stripe Payment Link
-    // After successful payment, Stripe will redirect to success.html with payment details
-    // The webhook will handle account creation automatically
+    try {
+        // Store checkout data for account creation after payment
+        const checkoutData = {
+            email: email,
+            platform: platform,
+            timestamp: new Date().toISOString(),
+            userAgent: navigator.userAgent,
+            referrer: document.referrer || 'direct',
+            payment_method: 'stripe_checkout',
+            coupon: appliedCoupon ? {
+                code: appliedCoupon.id,
+                discount_type: appliedCoupon.percent_off ? 'percent' : 'amount',
+                discount_value: appliedCoupon.percent_off || appliedCoupon.amount_off
+            } : null
+        };
+
+        // Store in sessionStorage for success page
+        sessionStorage.setItem('checkoutData', JSON.stringify(checkoutData));
+        // Also store in localStorage as backup
+        localStorage.setItem('pendingAccountCreation', JSON.stringify(checkoutData));
+
+        // Handle free coupon case (100% discount)
+        if (appliedCoupon && discountedPrice === 0) {
+            if (buttonText) {
+                buttonText.textContent = 'Validating coupon...';
+            }
+            
+            // First validate the coupon with the backend
+            const validationResponse = await fetch('https://junior-api-915940312680.us-west1.run.app/api/payments/validate-coupon', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ coupon_code: appliedCoupon.id })
+            });
+            
+            const validationData = await validationResponse.json();
+            
+            if (!validationData.valid) {
+                throw new Error(validationData.message || 'This coupon is no longer valid');
+            }
+            
+            // If we get here, the coupon is valid - proceed with free account creation
+            const successUrl = new URL(window.location.origin + '/success.html');
+            successUrl.searchParams.set('free_account', 'true');
+            successUrl.searchParams.set('coupon', appliedCoupon.id);
+            
+            // Redirect to success page with coupon info
+            window.location.href = successUrl.toString();
+            return;
+        }
+
+        // For paid subscriptions, create a Checkout Session
+        if (buttonText) {
+            buttonText.textContent = 'Creating checkout session...';
+        }
+
+        // Determine the price ID based on the platform and any coupon
+        // TODO: Replace with your actual price IDs from Stripe
+        const priceId = 'price_xxxxxxxxxxxxxxxx';
+        
+        // Create a Checkout Session
+        const response = await fetch('https://junior-api-915940312680.us-west1.run.app/api/payments/create-checkout-session', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                price_id: priceId,
+                success_url: `${window.location.origin}/success.html?session_id={CHECKOUT_SESSION_ID}`,
+                cancel_url: window.location.href,
+                coupon_code: appliedCoupon?.id,
+                email: email
+            })
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}));
+            throw new Error(errorData.detail || 'Failed to create checkout session');
+        }
+
+        const { sessionId, url } = await response.json();
+        
+        // Redirect to Stripe Checkout
+        window.location.href = url;
+        
+    } catch (error) {
+        console.error('Checkout error:', error);
+        alert(`Error: ${error.message || 'Failed to proceed to checkout. Please try again.'}`);
+        
+        // Reset button state on error
+        if (buttonText) {
+            buttonText.textContent = 'Continue to Payment';
+            stripeLinkButton.style.opacity = '1';
+            stripeLinkButton.style.pointerEvents = 'auto';
+        }
+    }
 }
 
 function validateEmail(email) {
@@ -539,27 +544,54 @@ function validateEmail(email) {
 function updateButtonText() {
     const platform = document.querySelector('input[name="platform"]:checked')?.value;
     const buttonTextElement = document.getElementById('button-text');
-    if (buttonTextElement) {
-        if (appliedCoupon && discountedPrice === 0) {
-            // Free account - different button text
-            if (platform) {
-                const platformName = platform.charAt(0).toUpperCase() + platform.slice(1);
-                buttonTextElement.textContent = `Start Free Download for ${platformName}`;
-            } else {
-                buttonTextElement.textContent = `Start Free Download`;
+    const stripeButton = document.getElementById('stripe-payment-link-button');
+    
+    if (!buttonTextElement) return;
+    
+    let buttonText = '';
+    
+    if (appliedCoupon && discountedPrice === 0) {
+        // Free account - different button text
+        if (platform) {
+            const platformName = platform === 'macos' ? 'macOS' : 'Windows';
+            buttonText = `Start Free Download for ${platformName}`;
+        } else {
+            buttonText = 'Start Free Download';
+        }
+        
+        // Update button text and href for free download
+        if (stripeButton) {
+            stripeButton.href = '#';
+            stripeButton.onclick = (e) => {
+                e.preventDefault();
+                const email = document.getElementById('customer-email')?.value;
+                if (email && validateEmail(email)) {
+                    initiateDownload(platform, email, stripeButton);
+                } else {
+                    alert('Please enter a valid email address');
+                }
+            };
+        }
+    } else {
+        // Paid account - normal payment flow
+        if (platform) {
+            const platformName = platform === 'macos' ? 'macOS' : 'Windows';
+            const price = appliedCoupon ? `$${Math.round(discountedPrice)}` : '$20';
+            buttonText = `Create Account & Subscribe - ${price}/month (${platformName})`;
+            
+            // Update Stripe URL with platform parameter
+            if (stripeButton) {
+                const baseUrl = 'https://buy.stripe.com/aFabJ3alfcbOcfB8GE3cc01';
+                stripeButton.href = `${baseUrl}?prefilled_email=${encodeURIComponent(document.getElementById('customer-email')?.value || '')}&client_reference_id=${platform}`;
+                stripeButton.onclick = null; // Remove any previous click handlers
             }
         } else {
-            // Paid account - normal payment flow
-            if (platform) {
-                const platformName = platform.charAt(0).toUpperCase() + platform.slice(1);
-                const price = appliedCoupon ? `$${Math.round(discountedPrice)}` : '$20';
-                buttonTextElement.textContent = `Proceed to Payment for ${platformName} - ${price}/month`;
-            } else {
-                const price = appliedCoupon ? `$${Math.round(discountedPrice)}` : '$20';
-                buttonTextElement.textContent = `Proceed to Payment - ${price}/month`;
-            }
+            const price = appliedCoupon ? `$${Math.round(discountedPrice)}` : '$20';
+            buttonText = `Create Account & Subscribe - ${price}/month`;
         }
     }
+    
+    buttonTextElement.textContent = buttonText;
 }
 
 // Clean up any pending account creation data when leaving the page
