@@ -31,62 +31,81 @@
     <!-- Success Content -->
     <section class="success-container">
         <div class="container">
-            <div class="success-header">
+            <!-- Loading State -->
+            <div id="loading-state" class="success-header">
+                <div class="success-icon">⏳</div>
+                <h1>Verifying Your Payment...</h1>
+                <p>Please wait while we confirm your payment and set up your account.</p>
+            </div>
+
+            <!-- Success State -->
+            <div id="success-state" class="success-header" style="display: none;">
                 <div class="success-icon">✅</div>
-                <h1>Thank You for Your Purchase!</h1>
-                <p>Welcome to the LinkedIn Automation Tool Beta Program</p>
+                <h1>Welcome to Junior!</h1>
+                <p>Your account has been created and your subscription is active.</p>
             </div>
 
-            <!-- Payment Status -->
-            <div class="payment-status">
-                <h2>✅ Payment Confirmed</h2>
-                <p>Your payment has been processed successfully.</p>
-                <p>Confirmation email sent to: <strong class="customer-email">your email</strong></p>
+            <!-- Error State -->
+            <div id="error-state" class="success-header" style="display: none;">
+                <div class="success-icon">❌</div>
+                <h1>Payment Verification Failed</h1>
+                <p>We couldn't verify your payment. Please contact support.</p>
             </div>
 
-            <!-- License Key Section -->
-            <div class="license-section" style="display: none;">
-                <h2>🔑 Your License Key</h2>
-                <div id="license-key-display">Loading...</div>
-                <button id="copy-license-key">📋 Copy License Key</button>
-                <p><small>This license key has also been sent to your email.</small></p>
+            <!-- Account Details -->
+            <div id="account-details" class="payment-status" style="display: none;">
+                <h2>🎉 Account Created Successfully</h2>
+                <p>Your account has been created and your subscription is active.</p>
+                <p>Account email: <strong id="user-email">Loading...</strong></p>
+                <p>Subscription status: <strong id="subscription-status">Loading...</strong></p>
+            </div>
+
+            <!-- API Access Section -->
+            <div id="api-access-section" class="license-section" style="display: none;">
+                <h2>🔑 Your API Access</h2>
+                <div class="api-key-container">
+                    <label for="api-key-display">API Key:</label>
+                    <div id="api-key-display">Loading...</div>
+                    <button id="copy-api-key">📋 Copy API Key</button>
+                </div>
+                <p><small>Keep this API key secure. You'll need it to authenticate with the desktop application.</small></p>
             </div>
 
             <!-- Download Section -->
-            <div class="download-section">
+            <div id="download-section" class="download-section" style="display: none;">
                 <h2>📥 Download Your Software</h2>
-                <p>Your download should start automatically. If not, click the button below:</p>
-                
+                <p>Your subscription is active! Download the application for your platform:</p>
+
                 <div class="download-options">
                     <!-- Windows Download -->
                     <div class="download-option windows" style="display: none;">
                         <h3>🖥️ Windows Version</h3>
                         <p>For Windows 10 or later</p>
-                        <a href="https://github.com/Andrew-AI-JR/Desktop-Releases/releases/download/v1.0.0-beta/Junior.Setup.1.0.0.exe" 
+                        <a href="https://github.com/Andrew-AI-JR/Desktop-Releases/releases/download/v1.0.0-beta/Junior.Setup.1.0.0.exe"
                            class="download-button">
                             Download for Windows
                         </a>
                         <p class="note">File size: ~25 MB • EXE installer</p>
                     </div>
-                    
+
                     <!-- macOS Intel Download -->
                     <div class="download-option macos" style="display: none;">
                         <h3>🍎 macOS Version (Intel)</h3>
                         <p>For macOS 10.14 or later (Intel Macs)</p>
-                        <a href="https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.1/Junior-v1.0.1.dmg" 
-                           target="_self" 
+                        <a href="https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.1/Junior-v1.0.1.dmg"
+                           target="_self"
                            class="download-button">
                             Download for macOS Intel
                         </a>
                         <p class="note">DMG file • For Intel-based Macs</p>
                     </div>
-                    
+
                     <!-- macOS ARM Download -->
                     <div class="download-option macos-arm" style="display: none;">
                         <h3>🍎 macOS Version (Apple Silicon)</h3>
                         <p>For macOS 11.0 or later (M1/M2/M3 Macs)</p>
-                        <a href="https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.1/Junior-v1.0.1-arm64.dmg" 
-                           target="_self" 
+                        <a href="https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.1/Junior-v1.0.1-arm64.dmg"
+                           target="_self"
                            class="download-button">
                             Download for macOS Apple Silicon
                         </a>
@@ -116,12 +135,27 @@
             </div>
 
             <!-- Support Section -->
-            <div class="support-section">
+            <div id="support-section" class="support-section" style="display: none;">
                 <h3>Need Help?</h3>
                 <p>Our support team is here to assist you with setup and any questions.</p>
                 <div class="support-links">
                     <a href="mailto:support@heyjunior.ai">📧 Email Support</a>
                     <a href="https://www.linkedin.com/company/hey-junior/" target="_blank">💼 LinkedIn</a>
+                </div>
+            </div>
+
+            <!-- Error Support Section -->
+            <div id="error-support-section" class="support-section" style="display: none;">
+                <h3>⚠️ Payment Issue</h3>
+                <p>There was an issue verifying your payment. This could be due to:</p>
+                <ul>
+                    <li>Payment is still processing (please wait a few minutes and refresh)</li>
+                    <li>Payment was declined by your bank</li>
+                    <li>Technical issue with the payment processor</li>
+                </ul>
+                <div class="support-links">
+                    <a href="mailto:support@heyjunior.ai">📧 Contact Support</a>
+                    <a href="checkout.html">🔄 Try Again</a>
                 </div>
             </div>
         </div>
@@ -147,6 +181,6 @@
         </div>
     </footer>
 
-    <script src="success.js"></script>
+    <script src="success.js?v=2.0"></script>
 </body>
-</html> 
+</html>
