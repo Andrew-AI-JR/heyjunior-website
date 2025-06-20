@@ -41,11 +41,11 @@
                         <h1>🚀 LinkedIn Automation Tool</h1>
                         <div class="beta-badge">BETA ACCESS - LIMITED TIME</div>
                     </div>
-                    
+
                     <div class="product-image">
                         <img src="./images/linkedin-automation-preview.svg?v=1.1" alt="LinkedIn Automation Tool Preview" onerror="this.src='./images/junior-logo.png'; this.style.maxWidth='200px'; this.style.margin='20px auto';">
                     </div>
-                    
+
                     <div class="product-features">
                         <h3>What's Included:</h3>
                         <ul>
@@ -59,7 +59,7 @@
                             <li>✅ Setup Assistance Included</li>
                         </ul>
                     </div>
-                    
+
                     <div class="pricing-summary">
                         <div class="price-display">
                             <span class="currency">$</span>
@@ -73,7 +73,7 @@
                 <!-- Checkout Form -->
                 <div class="checkout-form">
                     <h2>Complete Your Order</h2>
-                    
+
                     <!-- Platform Selection -->
                     <div class="platform-selection">
                         <h3>Select Your Platform:</h3>
@@ -88,7 +88,7 @@
                                     </div>
                                 </div>
                             </label>
-                            
+
                             <label class="platform-option" for="macos">
                                 <input type="radio" id="macos" name="platform" value="macos">
                                 <div class="platform-info">
@@ -103,34 +103,35 @@
                         <small class="platform-note">We'll automatically detect if you have an M1/M2 Mac and provide the correct version.</small>
                     </div>
 
-                    <!-- Email Input -->
-                    <div class="email-section">
-                        <label for="customer-email">Email Address:</label>
-                        <input type="email" id="customer-email" placeholder="your@email.com" required>
-                    </div>
-
-                    <!-- Coupon Code Section -->
-                    <div class="coupon-section">
-                        <label for="coupon-code">Coupon Code (Optional):</label>
-                        <div class="coupon-input-group">
-                            <input type="text" id="coupon-code" placeholder="Enter coupon code" maxlength="50">
-                            <button type="button" id="apply-coupon-btn" class="apply-coupon-btn">Apply</button>
+                    <!-- Account Creation Form -->
+                    <div class="account-creation-section">
+                        <h3>Create Your Account</h3>
+                        <div class="form-group">
+                            <label for="customer-email">Email Address:</label>
+                            <input type="email" id="customer-email" placeholder="your@email.com" required>
                         </div>
-                        <div id="coupon-message" class="coupon-message"></div>
-                        <div id="coupon-discount" class="coupon-discount" style="display: none;">
-                            <span class="discount-text">Discount Applied: </span>
-                            <span class="discount-amount" id="discount-amount"></span>
+                        <div class="form-group">
+                            <label for="customer-password">Password:</label>
+                            <input type="password" id="customer-password" placeholder="Create a secure password" required minlength="8">
+                            <small class="password-help">Minimum 8 characters</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirm-password">Confirm Password:</label>
+                            <input type="password" id="confirm-password" placeholder="Confirm your password" required>
                         </div>
                     </div>
 
-                    <!-- Stripe Payment Link Button -->
+
+
+                    <!-- Integrated Payment Button -->
                     <div class="payment-section">
                         <h3>Complete Your Purchase</h3>
-                        <p style="text-align: center; margin-bottom: 20px;">You will be redirected to Stripe to complete your payment securely.</p>
-                        <a href="https://buy.stripe.com/aFabJ3alfcbOcfB8GE3cc01" id="stripe-payment-link-button" class="checkout-button">
-                            <span id="button-text">Proceed to Payment - $20/month</span>
-                        </a>
-                        <small style="text-align:center; display:block; margin-top:10px;">Please ensure your email is correct before proceeding.</small>
+                        <p style="text-align: center; margin-bottom: 20px;">Create your account and start your subscription in one step.</p>
+                        <button type="button" id="create-account-button">
+                            <span id="button-text">Create Account & Subscribe - $20/month (Windows)</span>
+                        </button>
+                        <div id="checkout-error" class="error-message" style="display: none; margin-top: 10px; color: #dc2626; text-align: center;"></div>
+                        <small style="text-align:center; display:block; margin-top:10px;">Your account will be created and you'll be redirected to Stripe for secure payment.</small>
                     </div>
 
                     <!-- Security Info -->
@@ -156,6 +157,45 @@
         </div>
     </section>
 
+    <!-- Development Testing Section (remove in production) -->
+    <div id="dev-testing" style="position: fixed; bottom: 10px; right: 10px; background: #f0f0f0; padding: 10px; border-radius: 5px; font-size: 12px; display: none;">
+        <div>API Base URL: <span id="api-url-display"></span></div>
+        <button onclick="window.testAccountCreation()" style="margin-top: 5px; font-size: 11px;">Test Account Creation</button>
+        <button onclick="window.showDebugInfo()" style="margin-top: 5px; font-size: 11px;">Debug Info</button>
+    </div>
+
+    <script>
+        // Show dev panel if on localhost
+        if (window.location.hostname === 'localhost') {
+            document.getElementById('dev-testing').style.display = 'block';
+            document.getElementById('api-url-display').textContent =
+                window.location.hostname === 'localhost' ? 'http://localhost:8000' : 'https://api.heyjunior.ai';
+        }
+
+        // Test functions for development
+        window.testAccountCreation = function() {
+            const email = document.getElementById('customer-email');
+            const password = document.getElementById('customer-password');
+            const confirmPassword = document.getElementById('confirm-password');
+
+            if (!email.value) email.value = 'test@example.com';
+            if (!password.value) password.value = 'testpassword123';
+            if (!confirmPassword.value) confirmPassword.value = 'testpassword123';
+
+            console.log('Test data filled in checkout form');
+        };
+
+        window.showDebugInfo = function() {
+            console.log('Checkout Debug Info:', {
+                email: document.getElementById('customer-email').value,
+                platform: document.querySelector('input[name="platform"]:checked')?.value,
+
+                appliedCoupon: window.appliedCoupon || null,
+                discountedPrice: window.discountedPrice || null
+            });
+        };
+    </script>
+
     <script src="checkout.js?v=1.7"></script>
 </body>
-</html> 
+</html>

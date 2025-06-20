@@ -20,7 +20,7 @@ body {
 /* Navigation */
 .navbar {
     background: white;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     position: fixed;
     width: 100%;
     top: 0;
@@ -92,7 +92,7 @@ body {
     font-weight: 600;
     text-decoration: none;
     transition: background 0.3s, color 0.3s;
-    box-shadow: 0 2px 8px rgba(37,99,235,0.06);
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.06);
 }
 
 .my-story-link:hover {
@@ -170,7 +170,7 @@ body {
     background: white;
     padding: 30px;
     border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 }
 
 .benefit .icon {
@@ -369,7 +369,7 @@ body {
     display: flex;
     align-items: center;
     gap: 10px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
     transition: transform 0.3s;
 }
 
@@ -460,7 +460,7 @@ body {
 .footer-bottom {
     text-align: center;
     padding-top: 40px;
-    border-top: 1px solid rgba(255,255,255,0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* Responsive Design */
@@ -468,15 +468,15 @@ body {
     .benefits {
         grid-template-columns: repeat(2, 1fr);
     }
-    
+
     .steps {
         grid-template-columns: repeat(2, 1fr);
     }
-    
+
     .pricing-grid {
         grid-template-columns: repeat(2, 1fr);
     }
-    
+
     .pricing-card.featured {
         grid-column: span 2;
     }
@@ -486,28 +486,29 @@ body {
     .hero h1 {
         font-size: 36px;
     }
-    
+
     .features-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .footer-content {
         grid-template-columns: 1fr;
     }
-    
+
     .cta-buttons {
         flex-direction: column;
     }
-    
+
     .download-buttons {
         flex-direction: column;
     }
-    
+
     .story-family-gallery {
         flex-direction: column;
         align-items: center;
         gap: 20px;
     }
+
     .story-family-img {
         max-width: 90vw;
         max-height: 60vw;
@@ -518,15 +519,15 @@ body {
     .benefits {
         grid-template-columns: 1fr;
     }
-    
+
     .steps {
         grid-template-columns: 1fr;
     }
-    
+
     .pricing-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .pricing-card.featured {
         grid-column: span 1;
     }
@@ -544,7 +545,7 @@ body {
     margin: 0 auto;
     background: white;
     border-radius: 12px;
-    box-shadow: 0 4px 24px rgba(30,64,175,0.08);
+    box-shadow: 0 4px 24px rgba(30, 64, 175, 0.08);
     padding: 48px 32px 40px 32px;
     line-height: 1.8;
     font-size: 1.1rem;
@@ -589,7 +590,7 @@ body {
     justify-content: center;
     background: #f8f9fa;
     border-radius: 16px;
-    box-shadow: 0 2px 12px rgba(30,64,175,0.10);
+    box-shadow: 0 2px 12px rgba(30, 64, 175, 0.10);
     padding: 0;
     flex: 0 1 auto;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -597,7 +598,7 @@ body {
 
 .story-family-img-container:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(30,64,175,0.15);
+    box-shadow: 0 8px 25px rgba(30, 64, 175, 0.15);
 }
 
 .story-family-img {
@@ -621,6 +622,7 @@ body {
     .story-family-gallery {
         gap: 20px;
     }
+
     .story-family-img {
         max-height: 180px;
     }
@@ -848,7 +850,9 @@ body {
 }
 
 @keyframes spin {
-    to { transform: rotate(360deg); }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .security-badges {
@@ -951,7 +955,7 @@ body {
     background: white;
     border-radius: 10px;
     padding: 30px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     margin-bottom: 30px;
 }
 
@@ -974,7 +978,7 @@ body {
 .download-button:hover {
     background: #27ae60;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(46,204,113,0.2);
+    box-shadow: 0 4px 12px rgba(46, 204, 113, 0.2);
 }
 
 .file-info {
@@ -1071,7 +1075,7 @@ body {
     display: inline-block;
     width: 20px;
     height: 20px;
-    border: 3px solid rgba(255,255,255,.3);
+    border: 3px solid rgba(255, 255, 255, .3);
     border-radius: 50%;
     border-top-color: #fff;
     animation: spin 1s ease-in-out infinite;
@@ -1079,7 +1083,9 @@ body {
 }
 
 @keyframes spin {
-    to { transform: rotate(360deg); }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .security-info {
@@ -1140,8 +1146,15 @@ body {
 }
 
 @keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
 }
 
 .beta-card {
@@ -1173,7 +1186,8 @@ body {
     background: linear-gradient(135deg, #ffffff 0%, #fff5f5 100%);
 }
 
-.beta-discount, .beta-savings {
+.beta-discount,
+.beta-savings {
     background: #fff5f5;
     border: 1px solid #ffb3b3;
     border-radius: 8px;
@@ -1206,7 +1220,8 @@ body {
     margin-left: 10px;
 }
 
-.beta-cta, .beta-submit {
+.beta-cta,
+.beta-submit {
     background: linear-gradient(45deg, #ff6b6b, #ffa500);
     border: none;
     color: white;
@@ -1215,7 +1230,8 @@ body {
     transition: all 0.3s ease;
 }
 
-.beta-cta:hover, .beta-submit:hover {
+.beta-cta:hover,
+.beta-submit:hover {
     background: linear-gradient(45deg, #ff5252, #ff9800);
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6);
@@ -1360,13 +1376,13 @@ body {
         grid-template-columns: 1fr;
         gap: 20px;
     }
-    
+
     .feature-item {
         flex-direction: column;
         align-items: center;
         text-align: center;
     }
-    
+
     .beta-offer-card {
         padding: 30px 20px;
         margin: 0 20px;
@@ -1498,6 +1514,7 @@ body {
         opacity: 0;
         transform: translateY(-20px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -1687,20 +1704,20 @@ body {
         grid-template-columns: 1fr;
         gap: 15px;
     }
-    
+
     .download-option {
         padding: 20px;
     }
-    
+
     .download-option h3 {
         font-size: 1.2rem;
     }
-    
+
     .recommended-badge {
         font-size: 0.7rem;
         padding: 4px 8px;
     }
-    
+
     .instructions-box {
         padding: 20px;
     }
@@ -1710,16 +1727,16 @@ body {
     .download-option {
         padding: 15px;
     }
-    
+
     .download-option .download-button {
         padding: 12px 20px;
         font-size: 0.9rem;
     }
-    
+
     .instructions-box {
         padding: 15px;
     }
-    
+
     .instructions-box h3 {
         font-size: 1.1rem;
     }
@@ -1785,11 +1802,11 @@ body {
         grid-template-columns: 1fr;
         gap: 10px;
     }
-    
+
     .platform-badge {
         padding: 12px;
     }
-    
+
     .platform-icon {
         font-size: 1.3rem;
     }
@@ -1918,12 +1935,12 @@ body {
     .payment-option {
         padding: 15px;
     }
-    
+
     .contact-button {
         padding: 10px 15px;
         font-size: 0.9rem;
     }
-    
+
     .alternative-payment-options h4 {
         font-size: 1.1rem;
     }
@@ -2016,12 +2033,12 @@ body {
         grid-template-columns: 1fr;
         gap: 15px;
     }
-    
+
     .stripe-buy-button-container,
     .stripe-link-container {
         padding: 15px;
     }
-    
+
     .alternative-payment-section {
         padding: 20px;
     }
@@ -2046,7 +2063,8 @@ body {
 }
 
 .beta-offer-card li:before {
-    content: none; /* Remove any default bullet points */
+    content: none;
+    /* Remove any default bullet points */
 }
 
 /* Ensure checkmarks are properly aligned */
@@ -2078,7 +2096,8 @@ body {
 }
 
 .beta-card li:before {
-    content: none; /* Remove any default bullet points */
+    content: none;
+    /* Remove any default bullet points */
 }
 
 /* Purchase page beta card styling */
@@ -2101,7 +2120,8 @@ body {
 }
 
 .beta-purchase li:before {
-    content: none; /* Remove any default bullet points */
+    content: none;
+    /* Remove any default bullet points */
 }
 
 /* Simplified Checkout Styles */
@@ -2113,7 +2133,7 @@ body {
     background: #ffffff;
     padding: 30px;
     border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
 .product-summary {
@@ -2155,7 +2175,7 @@ body {
 .product-summary .product-image img {
     max-width: 180px;
     border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .product-summary .product-features {
@@ -2287,12 +2307,12 @@ body {
     display: none;
 }
 
-.platform-option input[type="radio"]:checked + .platform-info {
+.platform-option input[type="radio"]:checked+.platform-info {
     color: #2563eb;
 }
 
 .platform-option input[type="radio"]:checked {
-    & ~ * {
+    &~* {
         border-color: #2563eb;
     }
 }
@@ -2422,24 +2442,24 @@ body {
         flex-direction: column;
         gap: 20px;
     }
-    
+
     .product-summary {
         order: 2;
     }
-    
+
     .checkout-form {
         order: 1;
     }
-    
+
     .platform-options {
         grid-template-columns: 1fr;
         gap: 10px;
     }
-    
+
     .platform-option {
         padding: 12px;
     }
-    
+
     .security-info .security-badges {
         flex-direction: column;
         gap: 10px;
@@ -2447,15 +2467,16 @@ body {
 }
 
 @media (max-width: 480px) {
+
     .product-summary,
     .checkout-form {
         padding: 20px;
     }
-    
+
     .checkout-form h2 {
         font-size: 1.5rem;
     }
-    
+
     .price-display .amount {
         font-size: 2.5rem;
     }
@@ -2622,11 +2643,11 @@ body {
         flex-direction: column;
         gap: 8px;
     }
-    
+
     .apply-coupon-btn {
         width: 100%;
     }
-    
+
     .coupon-discount {
         flex-direction: column;
         align-items: flex-start;
@@ -2638,15 +2659,146 @@ body {
     .coupon-section {
         margin-bottom: 20px;
     }
-    
+
     .coupon-input-group input,
     .apply-coupon-btn {
         padding: 10px;
         font-size: 0.9rem;
     }
-} 
+}
 
 /* Ensure coupon input preserves case */
 #coupon-code {
     text-transform: none !important;
+}
+
+/* Account Creation Form Styles */
+.account-creation-section {
+    margin: 30px 0;
+    padding: 25px;
+    background: #f8fafc;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+}
+
+.account-creation-section h3 {
+    font-size: 1.4rem;
+    color: #2d3748;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+}
+
+.form-group input[type="email"],
+.form-group input[type="password"] {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    background: white;
+}
+
+.form-group input[type="email"]:focus,
+.form-group input[type="password"]:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.form-group input[type="email"]:invalid,
+.form-group input[type="password"]:invalid {
+    border-color: #ef4444;
+}
+
+.password-help {
+    display: block;
+    margin-top: 5px;
+    font-size: 0.85rem;
+    color: #6b7280;
+}
+
+.error-message {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #dc2626;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+/* Create Account Button Styling */
+#create-account-button {
+    width: 100%;
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    border: none;
+    padding: 16px 32px;
+    border-radius: 10px;
+    cursor: pointer;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    margin: 0;
+    display: block;
+    min-height: 54px;
+    line-height: 1.2;
+}
+
+#create-account-button:hover {
+    background: linear-gradient(135deg, #2563eb, #1e40af);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+}
+
+#create-account-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+}
+
+#create-account-button #button-text {
+    display: inline-block;
+    width: 100%;
+    color: white;
+    font-weight: 600;
+    font-size: inherit;
+    text-align: center;
+}
+
+/* Loading state for checkout button */
+#create-account-button:disabled {
+    background: #9ca3af !important;
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+/* Responsive adjustments for account creation form */
+@media (max-width: 768px) {
+    .account-creation-section {
+        padding: 20px;
+        margin: 20px 0;
+    }
+
+    .form-group input[type="email"],
+    .form-group input[type="password"] {
+        padding: 10px 14px;
+        font-size: 0.95rem;
+    }
 }
