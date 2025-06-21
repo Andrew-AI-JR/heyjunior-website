@@ -1,4 +1,14 @@
 /* checkout.js - Integrated Account Creation and Payment Flow */
+
+// Prevent extension communication errors from breaking the page
+window.addEventListener('error', function (e) {
+  if (e.message && e.message.includes('Could not establish connection')) {
+    console.warn('Extension communication error ignored:', e.message);
+    e.preventDefault();
+    return true;
+  }
+});
+
 document.addEventListener('DOMContentLoaded', () => {
   // Add event listeners
   document.getElementById('create-account-button')?.addEventListener('click', handleAccountCreationWithPayment);
@@ -71,7 +81,6 @@ async function handleAccountCreationWithPayment(e) {
   const confirmPassword = document.getElementById('confirm-password').value;
   const platform = document.querySelector('input[name="platform"]:checked')?.value;
 
-
   // Clear previous errors
   errorDiv.style.display = 'none';
 
@@ -90,6 +99,12 @@ async function handleAccountCreationWithPayment(e) {
     // Store platform selection for later
     sessionStorage.setItem('selectedPlatform', platform);
 
+    console.log('Sending request to:', `${API_BASE_URL}/api/users/create-with-payment`);
+
+    // Create abort controller for timeout handling
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+
     // Call the integrated API endpoint
     const response = await fetch(`${API_BASE_URL}/api/users/create-with-payment`, {
       method: 'POST',
@@ -103,13 +118,40 @@ async function handleAccountCreationWithPayment(e) {
         success_url: `${window.location.origin}/success.html`,
         cancel_url: `${window.location.origin}/checkout.html`,
         coupon_code: null
-      })
+      }),
+      signal: controller.signal
     });
+
+    // Clear timeout if request completes
+    clearTimeout(timeoutId);
 
     const data = await response.json();
 
+    console.log('API Response:', {
+      status: response.status,
+      statusText: response.statusText,
+      data: data
+    });
+
     if (!response.ok) {
-      throw new Error(data.detail || 'Account creation failed');
+      // Handle 422 validation errors specifically
+      if (response.status === 422 && data.detail && Array.isArray(data.detail)) {
+        const validationErrors = data.detail.map(error => {
+          const field = error.loc ? error.loc[error.loc.length - 1] : 'field';
+          return `${field}: ${error.msg}`;
+        }).join('\n');
+        throw new Error(`Validation failed:\n${validationErrors}`);
+      }
+
+      // Handle 409 account already exists error
+      if (response.status === 409) {
+        const errorMessage = data.detail || 'An account with this email address already exists.';
+        throw new Error(errorMessage);
+      }
+
+      // Handle other error formats
+      const errorMessage = data.detail || data.message || `Server error (${response.status})`;
+      throw new Error(errorMessage);
     }
 
     if (data.success) {
@@ -143,13 +185,50 @@ async function handleAccountCreationWithPayment(e) {
 
   } catch (error) {
     console.error('Account creation error:', error);
-    showError(error.message || 'Failed to create account. Please try again.');
+
+    // Format error message for better user experience
+    let userMessage = error.message || 'Failed to create account. Please try again.';
+
+    // Handle network errors
+    if (error.name === 'TypeError' && error.message.includes('fetch')) {
+      userMessage = 'Network error. Please check your internet connection and try again.';
+    }
+
+    // Handle timeout errors
+    if (error.name === 'AbortError') {
+      userMessage = 'Request timed out. Please try again.';
+    }
+
+    // Handle validation errors (preserve line breaks for multiple validation errors)
+    if (userMessage.includes('Validation failed:')) {
+      userMessage = userMessage.replace(/\n/g, '<br>');
+    }
+
+    showError(userMessage);
 
     // Reset button state
     button.disabled = false;
     updateButtonText();
   }
 }
+
+// Add global error handler for unhandled promise rejections
+window.addEventListener('unhandledrejection', function (event) {
+  console.error('Unhandled promise rejection:', event.reason);
+
+  // Prevent the error from appearing in console as unhandled
+  event.preventDefault();
+
+  // Show user-friendly error if it's related to our checkout
+  if (event.reason && event.reason.message &&
+    (event.reason.message.includes('fetch') ||
+      event.reason.message.includes('create-with-payment'))) {
+    const errorDiv = document.getElementById('checkout-error');
+    if (errorDiv) {
+      showError('An unexpected error occurred. Please refresh the page and try again.');
+    }
+  }
+});
 
 function validateForm(email, password, confirmPassword, platform) {
   if (!email || !validateEmail(email)) {
@@ -158,6 +237,11 @@ function validateForm(email, password, confirmPassword, platform) {
 
   if (!password || password.length < 8) {
     return 'Password must be at least 8 characters long.';
+  }
+
+  // Check for uppercase letter requirement
+  if (!password.match(/[A-Z]/)) {
+    return 'Password must contain at least one uppercase letter.';
   }
 
   if (password !== confirmPassword) {
@@ -192,7 +276,14 @@ function validatePasswordMatch() {
 
 function showError(message) {
   const errorDiv = document.getElementById('checkout-error');
-  errorDiv.textContent = message;
+
+  // Use innerHTML for formatted messages, but sanitize first
+  if (message.includes('<br>')) {
+    errorDiv.innerHTML = message;
+  } else {
+    errorDiv.textContent = message;
+  }
+
   errorDiv.style.display = 'block';
 
   // Scroll to error message
