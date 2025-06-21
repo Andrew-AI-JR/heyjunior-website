@@ -6,13 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Junior - AI-Powered LinkedIn Automation tool for job seekers">
     <title>Junior - AI-Powered LinkedIn Automation</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Simple i18n system -->
+
     <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "c7e2267943804acdb5bfcd009f02f537"}'></script><!-- End Cloudflare Web Analytics -->
 </head>
-<body>
+<body data-page="home">
     <!-- Navigation -->
     <nav class="navbar">
         <div class="container">
@@ -21,14 +24,14 @@
             </div>
             <ul class="nav-links">
                 <div class="nav-group">
-                    <li><a href="#features">Features</a></li>
-                    <li><a href="#how-it-works">How It Works</a></li>
-                    <li><a href="#pricing">Pricing</a></li>
+                    <li><a href="#features" data-i18n="navigation.features">Features</a></li>
+                    <li><a href="#how-it-works" data-i18n="navigation.howItWorks">How It Works</a></li>
+                    <li><a href="#pricing" data-i18n="navigation.pricing">Pricing</a></li>
                 </div>
                 <div class="nav-actions">
-                    <li><a href="checkout.html" class="cta-button">Download</a></li>
+                    <li><a href="checkout.html" class="cta-button" data-i18n="navigation.download">Download</a></li>
                     <span class="nav-separator">|</span>
-                    <li><a href="my-story.html" class="my-story-link">My Story</a></li>
+                    <li><a href="my-story.html" class="my-story-link" data-i18n="navigation.myStory">My Story</a></li>
                 </div>
             </ul>
         </div>
@@ -37,24 +40,24 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="container">
-            <h1>Land Your Dream Job with AI-Powered LinkedIn Automation</h1>
-            <p class="subtitle">Junior helps you engage with hiring posts automatically, saving you hours while making meaningful connections with recruiters and hiring managers.</p>
+            <h1 data-i18n="hero.title">Land Your Dream Job with AI-Powered LinkedIn Automation</h1>
+            <p class="subtitle" data-i18n="hero.subtitle">Junior helps you engage with hiring posts automatically, saving you hours while making meaningful connections with recruiters and hiring managers.</p>
             <div class="cta-buttons">
-                <a href="checkout.html" class="primary-button">Download Desktop App</a>
-                <a href="#pricing" class="secondary-button">View Pricing</a>
+                <a href="checkout.html" class="primary-button" data-i18n="hero.downloadApp">Download Desktop App</a>
+                <a href="#pricing" class="secondary-button" data-i18n="hero.viewPricing">View Pricing</a>
             </div>
             <div class="benefits">
                 <div class="benefit">
                     <span class="icon">⏱️</span>
-                    <p>Save 10+ hours per week on LinkedIn engagement</p>
+                    <p data-i18n="hero.benefits.saveTime">Save 10+ hours per week on LinkedIn engagement</p>
                 </div>
                 <div class="benefit">
                     <span class="icon">📈</span>
-                    <p>Get 3x more responses from hiring managers</p>
+                    <p data-i18n="hero.benefits.moreResponses">Get 3x more responses from hiring managers</p>
                 </div>
                 <div class="benefit">
                     <span class="icon">🎯</span>
-                    <p>Starting at just $20/month for 1200-1500 comments</p>
+                    <p data-i18n="hero.benefits.affordablePrice">Starting at just $20/month for 1200-1500 comments</p>
                 </div>
             </div>
         </div>
@@ -63,39 +66,39 @@
     <!-- Features Section -->
     <section id="features" class="features">
         <div class="container">
-            <h2>Intelligent Engagement Features</h2>
+            <h2 data-i18n="features.title">Intelligent Engagement Features</h2>
             <div class="features-grid">
                 <div class="feature-card">
-                    <h3>AI-Powered Comment Generation</h3>
-                    <p>Generates personalized, context-aware comments that add value to conversations with hiring managers and recruiters.</p>
+                    <h3 data-i18n="features.aiComments.title">AI-Powered Comment Generation</h3>
+                    <p data-i18n="features.aiComments.description">Generates personalized, context-aware comments that add value to conversations with hiring managers and recruiters.</p>
                 </div>
                 <div class="feature-card">
-                    <h3>Natural Interaction Patterns</h3>
-                    <p>Mimics human-like engagement with variable response times and natural interaction flows for authentic conversations.</p>
+                    <h3 data-i18n="features.naturalPatterns.title">Natural Interaction Patterns</h3>
+                    <p data-i18n="features.naturalPatterns.description">Mimics human-like engagement with variable response times and natural interaction flows for authentic conversations.</p>
                 </div>
                 <div class="feature-card">
-                    <h3>Smart Post Prioritization</h3>
-                    <p>Advanced algorithms identify and prioritize the most relevant job opportunities based on your skills and preferences.</p>
+                    <h3 data-i18n="features.smartPrioritization.title">Smart Post Prioritization</h3>
+                    <p data-i18n="features.smartPrioritization.description">Advanced algorithms identify and prioritize the most relevant job opportunities based on your skills and preferences.</p>
                 </div>
                 <div class="feature-card">
-                    <h3>Network Optimization</h3>
-                    <p>Intelligently manages your engagement to build meaningful connections without overwhelming your network.</p>
+                    <h3 data-i18n="features.networkOptimization.title">Network Optimization</h3>
+                    <p data-i18n="features.networkOptimization.description">Intelligently manages your engagement to build meaningful connections without overwhelming your network.</p>
                 </div>
                 <div class="feature-card">
-                    <h3>Adaptive Engagement</h3>
-                    <p>Continuously learns from your interactions to improve response quality and engagement strategies.</p>
+                    <h3 data-i18n="features.adaptiveEngagement.title">Adaptive Engagement</h3>
+                    <p data-i18n="features.adaptiveEngagement.description">Continuously learns from your interactions to improve response quality and engagement strategies.</p>
                 </div>
                 <div class="feature-card">
-                    <h3>Secure Session Management</h3>
-                    <p>Maintains secure, persistent connections while respecting platform guidelines and best practices.</p>
+                    <h3 data-i18n="features.secureSession.title">Secure Session Management</h3>
+                    <p data-i18n="features.secureSession.description">Maintains secure, persistent connections while respecting platform guidelines and best practices.</p>
                 </div>
                 <div class="feature-card">
-                    <h3>Performance Analytics</h3>
-                    <p>Tracks engagement metrics and response rates to help you refine your job search strategy.</p>
+                    <h3 data-i18n="features.analytics.title">Performance Analytics</h3>
+                    <p data-i18n="features.analytics.description">Tracks engagement metrics and response rates to help you refine your job search strategy.</p>
                 </div>
                 <div class="feature-card">
-                    <h3>Customizable Settings</h3>
-                    <p>Tailor the automation to match your personal brand and job search goals with flexible configuration options.</p>
+                    <h3 data-i18n="features.customizable.title">Customizable Settings</h3>
+                    <p data-i18n="features.customizable.description">Tailor the automation to match your personal brand and job search goals with flexible configuration options.</p>
                 </div>
             </div>
         </div>
@@ -104,27 +107,27 @@
     <!-- How It Works Section -->
     <section id="how-it-works" class="how-it-works">
         <div class="container">
-            <h2>How It Works</h2>
+            <h2 data-i18n="howItWorks.title">How It Works</h2>
             <div class="steps">
                 <div class="step">
                     <div class="step-number">1</div>
-                    <h3>Download & Install</h3>
-                    <p>Simple one-click installation for Windows and Mac.</p>
+                    <h3 data-i18n="howItWorks.step1.title">Download & Install</h3>
+                    <p data-i18n="howItWorks.step1.description">Simple one-click installation for Windows and Mac.</p>
                 </div>
                 <div class="step">
                     <div class="step-number">2</div>
-                    <h3>Connect LinkedIn</h3>
-                    <p>Secure OAuth connection with one-time setup.</p>
+                    <h3 data-i18n="howItWorks.step2.title">Connect LinkedIn</h3>
+                    <p data-i18n="howItWorks.step2.description">Secure OAuth connection with one-time setup.</p>
                 </div>
                 <div class="step">
                     <div class="step-number">3</div>
-                    <h3>Configure Settings</h3>
-                    <p>Set your preferences and customize engagement style.</p>
+                    <h3 data-i18n="howItWorks.step3.title">Configure Settings</h3>
+                    <p data-i18n="howItWorks.step3.description">Set your preferences and customize engagement style.</p>
                 </div>
                 <div class="step">
                     <div class="step-number">4</div>
-                    <h3>Start Automating</h3>
-                    <p>Let Junior work in the background while you focus on your job search.</p>
+                    <h3 data-i18n="howItWorks.step4.title">Start Automating</h3>
+                    <p data-i18n="howItWorks.step4.description">Let Junior work in the background while you focus on your job search.</p>
                 </div>
             </div>
         </div>
@@ -133,36 +136,36 @@
     <!-- Pricing Section -->
     <section id="pricing" class="pricing">
         <div class="container">
-            <h2>Beta Launch - Special Pricing</h2>
+            <h2 data-i18n="pricing.title">Beta Launch - Special Pricing</h2>
             <div class="pricing-grid single-plan">
                 <div class="pricing-card featured beta-card">
-                    <div class="beta-badge">🚀 BETA LAUNCH</div>
-                    <h3>LinkedIn Automation Tool</h3>
+                    <div class="beta-badge" data-i18n="pricing.betaLaunch">🚀 BETA LAUNCH</div>
+                    <h3 data-i18n="pricing.productName">LinkedIn Automation Tool</h3>
                     <div class="price">
                         <span class="currency">$</span>
                         <span class="amount">20</span>
-                        <span class="period">/month</span>
+                        <span class="period" data-i18n="pricing.period">/month</span>
                     </div>
-                    <div class="price-note">Special beta pricing • Cancel anytime</div>
+                    <div class="price-note" data-i18n="pricing.priceNote">Special beta pricing • Cancel anytime</div>
                     <ul>
-                        <li>✅ Hiring manager targeting</li>
-                        <li>✅ Performance analytics</li>
-                        <li>✅ Email support</li>
-                        <li>✅ Cancel anytime</li>
-                        <li>✅ Early access to new features</li>
+                        <li>✅ <span data-i18n="pricing.features.targeting">Hiring manager targeting</span></li>
+                        <li>✅ <span data-i18n="pricing.features.analytics">Performance analytics</span></li>
+                        <li>✅ <span data-i18n="pricing.features.support">Email support</span></li>
+                        <li>✅ <span data-i18n="pricing.features.cancelAnytime">Cancel anytime</span></li>
+                        <li>✅ <span data-i18n="pricing.features.earlyAccess">Early access to new features</span></li>
                     </ul>
-                    <small class="beta-note">⚡ Price will increase after beta period</small>
+                    <small class="beta-note" data-i18n="pricing.betaNote">⚡ Price will increase after beta period</small>
                 </div>
             </div>
 
             <!-- Beta Selection CTA -->
             <div class="beta-cta-section">
-                <h3>🎯 Ready to Start Your Beta Journey?</h3>
-                <p>Join our exclusive beta program and get premium LinkedIn automation at an unbeatable price.</p>
+                <h3 data-i18n="pricing.ctaTitle">🎯 Ready to Start Your Beta Journey?</h3>
+                <p data-i18n="pricing.ctaDescription">Join our exclusive beta program and get premium LinkedIn automation at an unbeatable price.</p>
                 <a href="checkout.html" class="beta-selection-button">
                     <span class="button-icon">🚀</span>
-                    <span class="button-text">Choose Beta Access - $20/month</span>
-                    <span class="button-subtitle">Cancel anytime • Secure payment</span>
+                    <span class="button-text" data-i18n="pricing.ctaButton">Choose Beta Access - $20/month</span>
+                    <span class="button-subtitle" data-i18n="pricing.ctaSubtitle">Cancel anytime • Secure payment</span>
                 </a>
             </div>
         </div>
@@ -174,31 +177,34 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h4>Contact</h4>
-                    <p>Email: support@heyjunior.ai</p>
-                    <p>LinkedIn: <a href="https://www.linkedin.com/company/hey-junior/" target="_blank">linkedin.com/company/hey-junior</a></p>
+                    <h4 data-i18n="footer.contact.title">Contact</h4>
+                    <p data-i18n="footer.contact.email">Email: support@heyjunior.ai</p>
+                    <p>LinkedIn: <a href="https://www.linkedin.com/company/hey-junior/" target="_blank" data-i18n="footer.contact.linkedin">linkedin.com/company/hey-junior</a></p>
                 </div>
                 <div class="footer-section">
-                    <h4>Legal</h4>
+                    <h4 data-i18n="footer.legal.title">Legal</h4>
                     <ul>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms of Service</a></li>
-                        <li><a href="#">Cookie Policy</a></li>
+                        <li><a href="#" data-i18n="footer.legal.privacy">Privacy Policy</a></li>
+                        <li><a href="#" data-i18n="footer.legal.terms">Terms of Service</a></li>
+                        <li><a href="#" data-i18n="footer.legal.cookies">Cookie Policy</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
-                    <h4>Newsletter</h4>
-                    <p>Stay updated with the latest features and job search tips</p>
+                    <h4 data-i18n="footer.newsletter.title">Newsletter</h4>
+                    <p data-i18n="footer.newsletter.description">Stay updated with the latest features and job search tips</p>
                     <form class="newsletter-form">
-                        <input type="email" placeholder="Enter your email">
-                        <button type="submit">Subscribe</button>
+                        <input type="email" data-i18n="footer.newsletter.placeholder" placeholder="Enter your email">
+                        <button type="submit" data-i18n="footer.newsletter.subscribe">Subscribe</button>
                     </form>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2024 Junior. All rights reserved.</p>
+                <p data-i18n="footer.copyright">&copy; 2024 Junior. All rights reserved.</p>
             </div>
         </div>
     </footer>
+
+    <!-- Simple i18n initialization script -->
+    <script src="js/i18n-simple.js"></script>
 </body>
 </html>

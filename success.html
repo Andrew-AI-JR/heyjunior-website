@@ -5,14 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Thank you for your purchase - LinkedIn Automation Tool">
     <title>Success - LinkedIn Automation Tool</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Simple i18n system -->
+
     <!-- Google Analytics & Facebook Pixel codes here -->
     <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "c7e2267943804acdb5bfcd009f02f537"}'></script><!-- End Cloudflare Web Analytics -->
 </head>
-<body>
+<body data-page="success">
     <!-- Navigation -->
     <nav class="navbar">
         <div class="container">
@@ -21,9 +24,9 @@
             </div>
             <ul class="nav-links">
                 <div class="nav-group">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="index.html#features">Features</a></li>
-                    <li><a href="index.html#pricing">Pricing</a></li>
+                    <li><a href="index.html" data-i18n="navigation.home">Home</a></li>
+                    <li><a href="index.html#features" data-i18n="navigation.features">Features</a></li>
+                    <li><a href="index.html#pricing" data-i18n="navigation.pricing">Pricing</a></li>
                 </div>
             </ul>
         </div>
@@ -35,82 +38,82 @@
             <!-- Loading State -->
             <div id="loading-state" class="success-header">
                 <div class="success-icon">⏳</div>
-                <h1>Verifying Your Payment...</h1>
-                <p>Please wait while we confirm your payment and set up your account.</p>
+                <h1 data-i18n="success.title">Verifying Your Payment...</h1>
+                <p data-i18n="success.subtitle">Please wait while we confirm your payment and set up your account.</p>
             </div>
 
             <!-- Success State -->
             <div id="success-state" class="success-header" style="display: none;">
                 <div class="success-icon">✅</div>
-                <h1>Welcome to Junior!</h1>
-                <p>Your account has been created and your subscription is active.</p>
+                <h1 data-i18n="success.title">Welcome to Junior!</h1>
+                <p data-i18n="success.subtitle">Your account has been created and your subscription is active.</p>
             </div>
 
             <!-- Error State -->
             <div id="error-state" class="success-header" style="display: none;">
                 <div class="success-icon">❌</div>
-                <h1>Payment Verification Failed</h1>
-                <p>We couldn't verify your payment. Please contact support.</p>
+                <h1 data-i18n="success.errorTitle">Payment Verification Failed</h1>
+                <p data-i18n="success.errorMessage">We couldn't verify your payment. Please contact support.</p>
             </div>
 
             <!-- Account Details -->
             <div id="account-details" class="payment-status" style="display: none;">
-                <h2>🎉 Account Created Successfully</h2>
-                <p>Your account has been created and your subscription is active.</p>
-                <p>Account email: <strong id="user-email">Loading...</strong></p>
-                <p>Subscription status: <strong id="subscription-status">Loading...</strong></p>
+                <h2 data-i18n="success.title">🎉 Account Created Successfully</h2>
+                <p data-i18n="success.subtitle">Your account has been created and your subscription is active.</p>
+                <p><span data-i18n="success.accountEmail">Account email:</span> <strong id="user-email">Loading...</strong></p>
+                <p><span data-i18n="success.subscriptionStatus">Subscription status:</span> <strong id="subscription-status">Loading...</strong></p>
             </div>
 
             <!-- API Access Section -->
             <div id="api-access-section" class="license-section" style="display: none;">
-                <h2>🔑 Your API Access</h2>
+                <h2 data-i18n="success.apiAccess">🔑 Your API Access</h2>
                 <div class="api-key-container">
-                    <label for="api-key-display">API Key:</label>
+                    <label for="api-key-display" data-i18n="success.apiKey">API Key:</label>
                     <div id="api-key-display">Loading...</div>
-                    <button id="copy-api-key">📋 Copy API Key</button>
+                    <button id="copy-api-key" data-i18n="success.copyApiKey">📋 Copy API Key</button>
                 </div>
-                <p><small>Keep this API key secure. You'll need it to authenticate with the desktop application.</small></p>
+                <p><small data-i18n="success.apiKeyNote">Keep this API key secure. You'll need it to authenticate with the desktop application.</small></p>
             </div>
 
             <!-- Download Section -->
             <div id="download-section" class="download-section" style="display: none;">
-                <h2>📥 Download Your Software</h2>
-                <p>Your subscription is active! Download the application for your platform:</p>
+                <h2 data-i18n="success.downloadReady">📥 Download Your Software</h2>
+                <p data-i18n="success.downloadButton">Your subscription is active! Download the application for your platform:</p>
 
                 <div class="download-options">
                     <!-- Windows Download -->
                     <div class="download-option windows" style="display: none;">
-                        <h3>🖥️ Windows Version</h3>
-                        <p>For Windows 10 or later</p>
+                        <h3 data-i18n="success.windowsVersion">🖥️ Windows Version</h3>
+                        <p data-i18n="success.windowsDescription">For Windows 10 or later</p>
                         <a href="https://github.com/Andrew-AI-JR/Desktop-Releases/releases/download/v1.0.0-beta/Junior.Setup.1.0.0.exe"
-                           class="download-button">
+                           class="download-button" data-i18n="success.downloadWindows">
                             Download for Windows
                         </a>
-                        <p class="note">File size: ~25 MB • EXE installer</p>
+                        <p class="note" data-i18n="success.windowsNote">File size: ~25 MB • EXE installer</p>
                     </div>
 
                     <!-- macOS Intel Download -->
                     <div class="download-option macos" style="display: none;">
-                        <h3>🍎 macOS Version (Intel)</h3>
-                        <p>For macOS 10.14 or later (Intel Macs)</p>
+                        <h3 data-i18n="success.macIntelVersion">🍎 macOS Version (Intel)</h3>
+                        <p data-i18n="success.macIntelDescription">For macOS 10.14 or later (Intel Macs)</p>
                         <a href="https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.1/Junior-v1.0.1.dmg"
                            target="_self"
-                           class="download-button">
+                           class="download-button" data-i18n="success.downloadMacIntel">
                             Download for macOS Intel
                         </a>
-                        <p class="note">DMG file • For Intel-based Macs</p>
+                        <p class="note" data-i18n="success.macIntelNote">DMG file • For Intel-based Macs</p>
                     </div>
 
                     <!-- macOS ARM Download -->
                     <div class="download-option macos-arm" style="display: none;">
-                        <h3>🍎 macOS Version (Apple Silicon)</h3>
-                        <p>For macOS 11.0 or later (M1/M2/M3 Macs)</p>
+                        <h3 data-i18n="success.macArmVersion">🍎 macOS Version (Apple Silicon)</h3>
+                        <p data-i18n="success.macArmDescription">For macOS 11.0 or later (M1/M2/M3 Macs)</p>
                         <a href="https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.1/Junior-v1.0.1-arm64.dmg"
                            target="_self"
-                           class="download-button">
+                           class="download-button" data-i18n="success.downloadMacArm">
                             Download for macOS Apple Silicon
                         </a>
-                        <p class="note">DMG file • For Apple Silicon Macs (M1/M2/M3)</p>
+                        <p class="note" data-i18n="success.macArmNote">DMG file • For Apple Silicon Macs (M1/M2/M3)</p>
                     </div>
                 </div>
             </div>
@@ -124,39 +127,39 @@
 
             <!-- Beta Benefits -->
             <div class="beta-benefits">
-                <h2>🚀 Your Beta Benefits</h2>
+                <h2 data-i18n="success.nextSteps">🚀 Your Beta Benefits</h2>
                 <ul>
-                    <li>✅ Early access to new features</li>
-                    <li>✅ Locked-in $20/month pricing</li>
-                    <li>✅ Priority support access</li>
-                    <li>✅ Shape the product's future</li>
-                    <li>✅ Direct feedback channel</li>
-                    <li>✅ Exclusive beta community access</li>
+                    <li>✅ <span data-i18n="success.step1">Early access to new features</span></li>
+                    <li>✅ <span data-i18n="success.step2">Locked-in $20/month pricing</span></li>
+                    <li>✅ <span data-i18n="success.step3">Priority support access</span></li>
+                    <li>✅ <span data-i18n="success.step4">Shape the product's future</span></li>
+                    <li>✅ <span data-i18n="success.step5">Direct feedback channel</span></li>
+                    <li>✅ <span data-i18n="success.step6">Exclusive beta community access</span></li>
                 </ul>
             </div>
 
             <!-- Support Section -->
             <div id="support-section" class="support-section" style="display: none;">
-                <h3>Need Help?</h3>
-                <p>Our support team is here to assist you with setup and any questions.</p>
+                <h3 data-i18n="success.needHelp">Need Help?</h3>
+                <p data-i18n="success.support">Our support team is here to assist you with setup and any questions.</p>
                 <div class="support-links">
-                    <a href="mailto:support@heyjunior.ai">📧 Email Support</a>
-                    <a href="https://www.linkedin.com/company/hey-junior/" target="_blank">💼 LinkedIn</a>
+                    <a href="mailto:support@heyjunior.ai" data-i18n="success.emailSupport">📧 Email Support</a>
+                    <a href="https://www.linkedin.com/company/hey-junior/" target="_blank" data-i18n="success.linkedinSupport">💼 LinkedIn</a>
                 </div>
             </div>
 
             <!-- Error Support Section -->
             <div id="error-support-section" class="support-section" style="display: none;">
-                <h3>⚠️ Payment Issue</h3>
-                <p>There was an issue verifying your payment. This could be due to:</p>
+                <h3 data-i18n="success.paymentIssue">⚠️ Payment Issue</h3>
+                <p data-i18n="success.paymentIssueDescription">There was an issue verifying your payment. This could be due to:</p>
                 <ul>
-                    <li>Payment is still processing (please wait a few minutes and refresh)</li>
-                    <li>Payment was declined by your bank</li>
-                    <li>Technical issue with the payment processor</li>
+                    <li data-i18n="success.paymentProcessing">Payment is still processing (please wait a few minutes and refresh)</li>
+                    <li data-i18n="success.paymentDeclined">Payment was declined by your bank</li>
+                    <li data-i18n="success.technicalIssue">Technical issue with the payment processor</li>
                 </ul>
                 <div class="support-links">
-                    <a href="mailto:support@heyjunior.ai">📧 Contact Support</a>
-                    <a href="checkout.html">🔄 Try Again</a>
+                    <a href="mailto:support@heyjunior.ai" data-i18n="success.contactSupport">📧 Contact Support</a>
+                    <a href="checkout.html" data-i18n="success.tryAgain">🔄 Try Again</a>
                 </div>
             </div>
         </div>
@@ -167,21 +170,23 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h4>Contact</h4>
-                    <p>Email: support@heyjunior.ai</p>
+                    <h4 data-i18n="footer.contact.title">Contact</h4>
+                    <p data-i18n="footer.contact.email">Email: support@heyjunior.ai</p>
                 </div>
                 <div class="footer-section">
-                    <h4>Legal</h4>
+                    <h4 data-i18n="footer.legal.title">Legal</h4>
                     <ul>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms of Service</a></li>
-                        <li><a href="#">Refund Policy</a></li>
+                        <li><a href="#" data-i18n="footer.legal.privacy">Privacy Policy</a></li>
+                        <li><a href="#" data-i18n="footer.legal.terms">Terms of Service</a></li>
+                        <li><a href="#" data-i18n="footer.legal.cookies">Cookie Policy</a></li>
                     </ul>
                 </div>
             </div>
         </div>
     </footer>
 
-    <script src="success.js?v=2.0"></script>
+    <script src="js/success.js?v=2.0"></script>
+    <!-- Simple i18n initialization script -->
+    <script src="js/i18n-simple.js"></script>
 </body>
 </html>

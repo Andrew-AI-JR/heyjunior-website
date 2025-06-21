@@ -5,13 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="The story behind Junior - How one person's job search struggle led to an AI-powered solution">
     <title>My Story - Junior</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Pacifico&display=swap" rel="stylesheet">
+
+    <!-- Simple i18n system -->
+
     <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "c7e2267943804acdb5bfcd009f02f537"}'></script><!-- End Cloudflare Web Analytics -->
 </head>
-<body>
+<body data-page="my-story">
     <!-- Navigation -->
     <nav class="navbar">
         <div class="container">
@@ -20,15 +23,15 @@
             </div>
             <ul class="nav-links">
                 <div class="nav-group">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="index.html#features">Features</a></li>
-                    <li><a href="index.html#how-it-works">How It Works</a></li>
-                    <li><a href="index.html#pricing">Pricing</a></li>
+                    <li><a href="index.html" data-i18n="navigation.home">Home</a></li>
+                    <li><a href="index.html#features" data-i18n="navigation.features">Features</a></li>
+                    <li><a href="index.html#how-it-works" data-i18n="navigation.howItWorks">How It Works</a></li>
+                    <li><a href="index.html#pricing" data-i18n="navigation.pricing">Pricing</a></li>
                 </div>
                 <div class="nav-actions">
-                    <li><a href="index.html#download" class="cta-button">Download</a></li>
+                    <li><a href="index.html#download" class="cta-button" data-i18n="navigation.download">Download</a></li>
                     <span class="nav-separator">|</span>
-                    <li><a href="my-story.html" class="my-story-link">My Story</a></li>
+                    <li><a href="my-story.html" class="my-story-link" data-i18n="navigation.myStory">My Story</a></li>
                 </div>
             </ul>
         </div>
@@ -37,28 +40,28 @@
     <!-- Story Section -->
     <section class="story">
         <div class="container">
-            <h1>My Story</h1>
+            <h1 data-i18n="story.title">My Story</h1>
             <div class="story-content">
-                <p>I want to share how I found success in this terrible job market.</p>
+                <p data-i18n="story.paragraph1">I want to share how I found success in this terrible job market.</p>
 
-                <p>After being laid off twice since 2022 and having to sell my house, I know firsthand how brutal this job market is. I'm not alone - it's really difficult out there for so many people.</p>
+                <p data-i18n="story.paragraph2">After being laid off twice since 2022 and having to sell my house, I know firsthand how brutal this job market is. I'm not alone - it's really difficult out there for so many people.</p>
 
-                <p>Success in job hunting isn't about volume resume blasts. It's about conversations with real people who can connect you to real opportunities.</p>
+                <p data-i18n="story.paragraph3">Success in job hunting isn't about volume resume blasts. It's about conversations with real people who can connect you to real opportunities.</p>
 
-                <p>The problem I faced was simple: I couldn't get enough conversations with the right people. In six weeks, I had just one interview. That interview came from a single comment I left on a post about a company hiring. The person replied the same day, we spoke the next day, and a week later I was talking to the hiring manager.</p>
+                <p data-i18n="story.paragraph4">The problem I faced was simple: I couldn't get enough conversations with the right people. In six weeks, I had just one interview. That interview came from a single comment I left on a post about a company hiring. The person replied the same day, we spoke the next day, and a week later I was talking to the hiring manager.</p>
 
-                <p>Job seeking shouldn't be about hoping for a conversation - it should start with one.</p>
+                <p data-i18n="story.paragraph5">Job seeking shouldn't be about hoping for a conversation - it should start with one.</p>
 
-                <p>That's why I built Junior. It's an automated inbound personal marketing engine that helped me turn things around. It worked so well that I decided to start a company so you can have your own Junior.</p>
+                <p data-i18n="story.paragraph6">That's why I built Junior. It's an automated inbound personal marketing engine that helped me turn things around. It worked so well that I decided to start a company so you can have your own Junior.</p>
 
-                <p>If you're struggling to start conversations with the right people, I encourage you to give Junior a try.</p>
+                <p data-i18n="story.paragraph7">If you're struggling to start conversations with the right people, I encourage you to give Junior a try.</p>
 
-                <p>Have the right conversation, at the right time. Unlock new opportunities that can change your life. It changed mine.</p>
+                <p data-i18n="story.paragraph8">Have the right conversation, at the right time. Unlock new opportunities that can change your life. It changed mine.</p>
 
                 <div class="signature">
-                    <p>Warm regards,</p>
+                    <p data-i18n="story.warmRegards">Warm regards,</p>
                     <p class="signature-handwritten">Andrew</p>
-                    <p>Andrew Malinow, PhD<br>Founder, Junior</p>
+                    <p><span data-i18n="story.signature">Andrew Malinow, PhD</span><br><span data-i18n="story.title2">Founder, Junior</span></p>
                 </div>
             </div>
         </div>
@@ -74,31 +77,34 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h4>Contact</h4>
-                    <p>Email: support@heyjunior.ai</p>
-                    <p>LinkedIn: <a href="https://www.linkedin.com/company/hey-junior/" target="_blank">linkedin.com/company/hey-junior</a></p>
+                    <h4 data-i18n="footer.contact.title">Contact</h4>
+                    <p data-i18n="footer.contact.email">Email: support@heyjunior.ai</p>
+                    <p>LinkedIn: <a href="https://www.linkedin.com/company/hey-junior/" target="_blank" data-i18n="footer.contact.linkedin">linkedin.com/company/hey-junior</a></p>
                 </div>
                 <div class="footer-section">
-                    <h4>Legal</h4>
+                    <h4 data-i18n="footer.legal.title">Legal</h4>
                     <ul>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms of Service</a></li>
-                        <li><a href="#">Cookie Policy</a></li>
+                        <li><a href="#" data-i18n="footer.legal.privacy">Privacy Policy</a></li>
+                        <li><a href="#" data-i18n="footer.legal.terms">Terms of Service</a></li>
+                        <li><a href="#" data-i18n="footer.legal.cookies">Cookie Policy</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
-                    <h4>Newsletter</h4>
-                    <p>Stay updated with the latest features and job search tips</p>
+                    <h4 data-i18n="footer.newsletter.title">Newsletter</h4>
+                    <p data-i18n="footer.newsletter.description">Stay updated with the latest features and job search tips</p>
                     <form class="newsletter-form">
-                        <input type="email" placeholder="Enter your email">
-                        <button type="submit">Subscribe</button>
+                        <input type="email" data-i18n="footer.newsletter.placeholder" placeholder="Enter your email">
+                        <button type="submit" data-i18n="footer.newsletter.subscribe">Subscribe</button>
                     </form>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2024 Junior. All rights reserved.</p>
+                <p data-i18n="footer.copyright">&copy; 2024 Junior. All rights reserved.</p>
             </div>
         </div>
     </footer>
+
+    <!-- Simple i18n initialization script -->
+    <script src="js/i18n-simple.js"></script>
 </body>
 </html>

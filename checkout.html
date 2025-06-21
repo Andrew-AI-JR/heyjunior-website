@@ -5,14 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Get LinkedIn Automation Tool - Beta Access">
     <title>Checkout - LinkedIn Automation Tool</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <script src="https://js.stripe.com/v3/"></script>
+
+    <!-- Simple i18n system -->
+
     <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "c7e2267943804acdb5bfcd009f02f537"}'></script><!-- End Cloudflare Web Analytics -->
 </head>
-<body>
+<body data-page="checkout">
     <!-- Navigation -->
     <nav class="navbar">
         <div class="container">
@@ -21,12 +24,12 @@
             </div>
             <ul class="nav-links">
                 <div class="nav-group">
-                    <li><a href="index.html#features">Features</a></li>
-                    <li><a href="index.html#how-it-works">How It Works</a></li>
-                    <li><a href="index.html#pricing">Pricing</a></li>
+                    <li><a href="index.html#features" data-i18n="navigation.features">Features</a></li>
+                    <li><a href="index.html#how-it-works" data-i18n="navigation.howItWorks">How It Works</a></li>
+                    <li><a href="index.html#pricing" data-i18n="navigation.pricing">Pricing</a></li>
                 </div>
                 <div class="nav-actions">
-                    <li><a href="index.html" class="my-story-link">← Back to Home</a></li>
+                    <li><a href="index.html" class="my-story-link" data-i18n="navigation.backToHome">← Back to Home</a></li>
                 </div>
             </ul>
         </div>
@@ -39,8 +42,8 @@
                 <!-- Product Summary -->
                 <div class="product-summary">
                     <div class="product-header">
-                        <h1>🚀 LinkedIn Automation Tool</h1>
-                        <div class="beta-badge">BETA ACCESS - LIMITED TIME</div>
+                        <h1 data-i18n="checkout.title">🚀 LinkedIn Automation Tool</h1>
+                        <div class="beta-badge" data-i18n="checkout.betaBadge">BETA ACCESS - LIMITED TIME</div>
                     </div>
 
                     <div class="product-image">
@@ -48,16 +51,14 @@
                     </div>
 
                     <div class="product-features">
-                        <h3>What's Included:</h3>
+                        <h3 data-i18n="checkout.whatYouGet">What's Included:</h3>
                         <ul>
-                            <li>✅ LinkedIn Automation Tool (Windows & macOS)</li>
-                            <li>✅ AI-Powered Comment Generation</li>
-                            <li>✅ Hiring Manager Targeting</li>
-                            <li>✅ Automatic Headless Mode</li>
-                            <li>✅ Performance Analytics</li>
-                            <li>✅ Priority Email Support</li>
-                            <li>✅ Early Access to New Features</li>
-                            <li>✅ Setup Assistance Included</li>
+                            <li>✅ <span data-i18n="checkout.features.unlimited">LinkedIn Automation Tool (Windows & macOS)</span></li>
+                            <li>✅ <span data-i18n="checkout.features.aiComments">AI-Powered Comment Generation</span></li>
+                            <li>✅ <span data-i18n="checkout.features.targeting">Hiring Manager Targeting</span></li>
+                            <li>✅ <span data-i18n="checkout.features.analytics">Performance Analytics</span></li>
+                            <li>✅ <span data-i18n="checkout.features.support">Priority Email Support</span></li>
+                            <li>✅ <span data-i18n="checkout.features.updates">Early Access to New Features</span></li>
                         </ul>
                     </div>
 
@@ -65,27 +66,27 @@
                         <div class="price-display">
                             <span class="currency">$</span>
                             <span class="amount">20</span>
-                            <span class="period">/month</span>
+                            <span class="period" data-i18n="pricing.period">/month</span>
                         </div>
-                        <p class="price-note">Special beta pricing • Cancel anytime</p>
+                        <p class="price-note" data-i18n="pricing.priceNote">Special beta pricing • Cancel anytime</p>
                     </div>
                 </div>
 
                 <!-- Checkout Form -->
                 <div class="checkout-form">
-                    <h2>Complete Your Order</h2>
+                    <h2 data-i18n="checkout.totalPrice">Complete Your Order</h2>
 
                     <!-- Platform Selection -->
                     <div class="platform-selection">
-                        <h3>Select Your Platform:</h3>
+                        <h3 data-i18n="checkout.platform">Select Your Platform:</h3>
                         <div class="platform-options">
                             <label class="platform-option" for="windows">
                                 <input type="radio" id="windows" name="platform" value="windows" checked>
                                 <div class="platform-info">
                                     <span class="platform-icon">🖥️</span>
                                     <div>
-                                        <strong>Windows</strong>
-                                        <small>Windows 10 or later</small>
+                                        <strong data-i18n="checkout.windows">Windows</strong>
+                                        <small data-i18n="checkout.windowsVersion">Windows 10 or later</small>
                                     </div>
                                 </div>
                             </label>
@@ -95,30 +96,30 @@
                                 <div class="platform-info">
                                     <span class="platform-icon">🍎</span>
                                     <div>
-                                        <strong>macOS</strong>
-                                        <small>Intel & Apple Silicon (M1/M2)</small>
+                                        <strong data-i18n="checkout.mac">macOS</strong>
+                                        <small data-i18n="checkout.macVersion">Intel & Apple Silicon (M1/M2)</small>
                                     </div>
                                 </div>
                             </label>
                         </div>
-                        <small class="platform-note">We'll automatically detect if you have an M1/M2 Mac and provide the correct version.</small>
+                        <small class="platform-note" data-i18n="checkout.platformNote">We'll automatically detect if you have an M1/M2 Mac and provide the correct version.</small>
                     </div>
 
                     <!-- Account Creation Form -->
                     <div class="account-creation-section">
-                        <h3>Create Your Account</h3>
+                        <h3 data-i18n="checkout.accountDetails">Create Your Account</h3>
                         <div class="form-group">
-                            <label for="customer-email">Email Address:</label>
-                            <input type="email" id="customer-email" placeholder="your@email.com" required>
+                            <label for="customer-email" data-i18n="checkout.email">Email Address:</label>
+                            <input type="email" id="customer-email" data-i18n="checkout.email" placeholder="your@email.com" required>
                         </div>
                         <div class="form-group">
-                            <label for="customer-password">Password:</label>
-                            <input type="password" id="customer-password" placeholder="Create a secure password" required minlength="8">
-                            <small class="password-help">Minimum 8 characters, must contain at least one uppercase letter</small>
+                            <label for="customer-password" data-i18n="checkout.password">Password:</label>
+                            <input type="password" id="customer-password" data-i18n="checkout.password" placeholder="Create a secure password" required minlength="8">
+                            <small class="password-help" data-i18n="checkout.passwordHelp">Minimum 8 characters, must contain at least one uppercase letter</small>
                         </div>
                         <div class="form-group">
-                            <label for="confirm-password">Confirm Password:</label>
-                            <input type="password" id="confirm-password" placeholder="Confirm your password" required>
+                            <label for="confirm-password" data-i18n="checkout.confirmPassword">Confirm Password:</label>
+                            <input type="password" id="confirm-password" data-i18n="checkout.confirmPassword" placeholder="Confirm your password" required>
                         </div>
                     </div>
 
@@ -126,13 +127,13 @@
 
                     <!-- Integrated Payment Button -->
                     <div class="payment-section">
-                        <h3>Complete Your Purchase</h3>
-                        <p style="text-align: center; margin-bottom: 20px;">Create your account and start your subscription in one step.</p>
+                        <h3 data-i18n="checkout.paymentInfo">Complete Your Purchase</h3>
+                        <p style="text-align: center; margin-bottom: 20px;" data-i18n="checkout.oneStepText">Create your account and start your subscription in one step.</p>
                         <button type="button" id="create-account-button">
-                            <span id="button-text">Create Account & Subscribe - $20/month (Windows)</span>
+                            <span id="button-text" data-i18n="checkout.createAccount">Create Account & Subscribe - $20/month (Windows)</span>
                         </button>
                         <div id="checkout-error" class="error-message" style="display: none; margin-top: 10px; color: #dc2626; text-align: center;"></div>
-                        <small style="text-align:center; display:block; margin-top:10px;">Your account will be created and you'll be redirected to Stripe for secure payment.</small>
+                        <small style="text-align:center; display:block; margin-top:10px;" data-i18n="checkout.securePayment">Your account will be created and you'll be redirected to Stripe for secure payment.</small>
                     </div>
 
                     <!-- Security Info -->
@@ -140,18 +141,18 @@
                         <div class="security-badges">
                             <div class="badge">
                                 <span>🔒</span>
-                                <small>SSL Secured</small>
+                                <small data-i18n="checkout.sslSecured">SSL Secured</small>
                             </div>
                             <div class="badge">
                                 <span>💳</span>
-                                <small>Stripe Protected</small>
+                                <small data-i18n="checkout.stripeProtected">Stripe Protected</small>
                             </div>
                             <div class="badge">
                                 <span>🛡️</span>
-                                <small>Money Back Guarantee</small>
+                                <small data-i18n="checkout.moneyBackGuarantee">Money Back Guarantee</small>
                             </div>
                         </div>
-                        <p>Your payment information is secure and encrypted. Cancel anytime.</p>
+                        <p data-i18n="checkout.securityInfo">Your payment information is secure and encrypted. Cancel anytime.</p>
                     </div>
                 </div>
             </div>
@@ -161,8 +162,8 @@
     <!-- Development Testing Section (remove in production) -->
     <div id="dev-testing" style="position: fixed; bottom: 10px; right: 10px; background: #f0f0f0; padding: 10px; border-radius: 5px; font-size: 12px; display: none;">
         <div>API Base URL: <span id="api-url-display"></span></div>
-        <button onclick="window.testAccountCreation()" style="margin-top: 5px; font-size: 11px;">Test Account Creation</button>
-        <button onclick="window.showDebugInfo()" style="margin-top: 5px; font-size: 11px;">Debug Info</button>
+        <button onclick="window.testAccountCreation()" style="margin-top: 5px; font-size: 11px;" data-i18n="checkout.testAccount">Test Account Creation</button>
+        <button onclick="window.showDebugInfo()" style="margin-top: 5px; font-size: 11px;" data-i18n="checkout.debugInfo">Debug Info</button>
     </div>
 
     <script>
@@ -197,6 +198,8 @@
         };
     </script>
 
-    <script src="checkout.js?v=1.7"></script>
+    <script src="js/checkout.js?v=1.7"></script>
+    <!-- Simple i18n initialization script -->
+    <script src="js/i18n-simple.js"></script>
 </body>
 </html>
