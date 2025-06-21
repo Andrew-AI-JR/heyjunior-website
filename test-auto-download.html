@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Test Auto Download</title>
+    <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "c7e2267943804acdb5bfcd009f02f537"}'></script><!-- End Cloudflare Web Analytics -->
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -44,18 +45,18 @@
     <div class="test-container">
         <h1>🧪 Auto Download Test</h1>
         <p>This page tests the automatic download functionality that will be triggered after payment verification.</p>
-        
+
         <div class="test-controls">
             <button class="test-button" onclick="testWindowsAutoDownload()">Test Windows Auto Download</button>
             <button class="test-button" onclick="testMacOSAutoInstructions()">Test macOS Auto Instructions</button>
             <button class="test-button" onclick="testPaymentVerification()">Test Full Payment Flow</button>
         </div>
-        
+
         <div id="test-status" class="status" style="display: none;">
             <h3>Test Status</h3>
             <p id="status-message">Ready to test...</p>
         </div>
-        
+
         <div id="download-instructions" class="instructions-container">
             <!-- Instructions will appear here -->
         </div>
@@ -65,7 +66,7 @@
         // Copy the relevant functions from success.js for testing
         const WINDOWS_DOWNLOAD_URL = 'https://github.com/Andrew-AI-JR/heyjunior-website/releases/download/v3.1.0-beta/LinkedIn_Automation_Tool_v3.1.0-beta.zip';
         const MACOS_DOWNLOAD_URL = 'https://github.com/amalinow1973/linkedin-automation-tool/actions/workflows/build-macos.yml';
-        
+
         let downloadTriggered = false;
 
         function showStatus(message) {
@@ -96,13 +97,13 @@
         function triggerAutomaticDownload() {
             if (downloadTriggered) return;
             downloadTriggered = true;
-            
+
             const userAgent = navigator.userAgent.toLowerCase();
             const isMac = userAgent.includes('mac');
             const isWindows = userAgent.includes('win');
-            
+
             showDownloadNotification();
-            
+
             if (isWindows) {
                 setTimeout(() => {
                     startWindowsDownload();
@@ -130,7 +131,7 @@
                     </div>
                 </div>
             `;
-            
+
             const style = document.createElement('style');
             style.textContent = `
                 .download-notification {
@@ -146,16 +147,16 @@
                     animation: slideIn 0.5s ease-out;
                     max-width: 300px;
                 }
-                
+
                 .notification-content h3 {
                     margin: 0 0 10px 0;
                     font-size: 1.2em;
                 }
-                
+
                 .notification-content p {
                     margin: 0 0 15px 0;
                 }
-                
+
                 .loading-spinner {
                     width: 20px;
                     height: 20px;
@@ -165,12 +166,12 @@
                     animation: spin 1s linear infinite;
                     margin: 0 auto;
                 }
-                
+
                 @keyframes slideIn {
                     from { transform: translateX(100%); opacity: 0; }
                     to { transform: translateX(0); opacity: 1; }
                 }
-                
+
                 @keyframes spin {
                     0% { transform: rotate(0deg); }
                     100% { transform: rotate(360deg); }
@@ -178,7 +179,7 @@
             `;
             document.head.appendChild(style);
             document.body.appendChild(notification);
-            
+
             setTimeout(() => {
                 notification.remove();
             }, 5000);
@@ -192,7 +193,7 @@
             document.body.appendChild(downloadLink);
             downloadLink.click();
             document.body.removeChild(downloadLink);
-            
+
             showStatus('✅ Windows download started! Check your Downloads folder.');
             showWindowsInstructions();
         }
@@ -213,7 +214,7 @@
                             <li>Click the download button again</li>
                             <li>Or <a href="${WINDOWS_DOWNLOAD_URL}" target="_blank">click here</a></li>
                         </ol>
-                        
+
                         <h4>🎯 Installation Steps:</h4>
                         <ol>
                             <li>Extract the ZIP file to a permanent location</li>
@@ -243,7 +244,7 @@
                             <li>Download the "linkedin-automation-macos-v3.1.0-beta" artifact</li>
                             <li>Unzip the downloaded file to get the DMG</li>
                         </ol>
-                        
+
                         <h4>🎯 Installation Steps:</h4>
                         <ol>
                             <li>Double-click the DMG file to mount it</li>
@@ -258,4 +259,4 @@
         }
     </script>
 </body>
-</html> 
+</html>
