@@ -47,9 +47,10 @@ document.addEventListener('DOMContentLoaded', () => {
             font-size: 0.9em;
             color: #0369a1;
         `;
-    detectedLabel.innerHTML = `
-            <span style="color: #059669;">✓</span> We detected you're using
-            <strong>${detectedPlatform === 'macos' ? 'macOS' : 'Windows'}</strong>
+    const detectedText = window.i18nUtils ?
+      `<span style="color: #059669;">✓</span> ${window.i18nUtils.translate('checkout.platformDetected')} <strong>${detectedPlatform === 'macos' ? 'macOS' : 'Windows'}</strong>` :
+      `<span style="color: #059669;">✓</span> We detected you're using <strong>${detectedPlatform === 'macos' ? 'macOS' : 'Windows'}</strong>`;
+    detectedLabel.innerHTML = `${detectedText}
             <span style="opacity: 0.8; font-size: 0.85em;">(You can change this below if needed)</span>
         `;
     platformSection.insertBefore(detectedLabel, platformSection.firstChild);
@@ -93,7 +94,7 @@ async function handleAccountCreationWithPayment(e) {
 
   // Show loading state
   button.disabled = true;
-  buttonText.textContent = 'Creating account...';
+  buttonText.textContent = window.i18nUtils ? window.i18nUtils.translate('checkout.processing') : 'Creating account...';
 
   try {
     // Store platform selection for later
@@ -175,7 +176,7 @@ async function handleAccountCreationWithPayment(e) {
       localStorage.setItem('pendingAccountCreation', JSON.stringify(checkoutData));
 
       // Update button text
-      buttonText.textContent = 'Redirecting to payment...';
+      buttonText.textContent = window.i18nUtils ? window.i18nUtils.translate('checkout.processing') : 'Redirecting to payment...';
 
       // Redirect to Stripe Checkout
       window.location.href = data.checkout_url;
@@ -310,7 +311,8 @@ function updateButtonText() {
   const platform = document.querySelector('input[name="platform"]:checked')?.value;
   const platformName = platform === 'macos' ? 'macOS' : 'Windows';
 
-  const newText = `Create Account & Subscribe - $20/month (${platformName})`;
+  const baseText = window.i18nUtils ? window.i18nUtils.translate('checkout.createAccount') : 'Create Account & Subscribe - $20/month';
+  const newText = `${baseText} (${platformName})`;
 
   buttonText.textContent = newText;
   console.log('Button text updated to:', newText);

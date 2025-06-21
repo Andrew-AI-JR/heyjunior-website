@@ -1,0 +1,224 @@
+{
+  "navigation": {
+    "features": "Features",
+    "howItWorks": "How It Works",
+    "pricing": "Pricing",
+    "download": "Download",
+    "myStory": "My Story",
+    "backToHome": "← Back to Home",
+    "home": "Home"
+  },
+  "hero": {
+    "title": "Land Your Dream Job with AI-Powered LinkedIn Automation",
+    "subtitle": "Junior helps you engage with hiring posts automatically, saving you hours while making meaningful connections with recruiters and hiring managers.",
+    "downloadApp": "Download Desktop App",
+    "viewPricing": "View Pricing",
+    "benefits": {
+      "saveTime": "Save 10+ hours per week on LinkedIn engagement",
+      "moreResponses": "Get 3x more responses from hiring managers",
+      "affordablePrice": "Starting at just $20/month for 1200-1500 comments"
+    }
+  },
+  "features": {
+    "title": "Intelligent Engagement Features",
+    "aiComments": {
+      "title": "AI-Powered Comment Generation",
+      "description": "Generates personalized, context-aware comments that add value to conversations with hiring managers and recruiters."
+    },
+    "naturalPatterns": {
+      "title": "Natural Interaction Patterns",
+      "description": "Mimics human-like engagement with variable response times and natural interaction flows for authentic conversations."
+    },
+    "smartPrioritization": {
+      "title": "Smart Post Prioritization",
+      "description": "Advanced algorithms identify and prioritize the most relevant job opportunities based on your skills and preferences."
+    },
+    "networkOptimization": {
+      "title": "Network Optimization",
+      "description": "Intelligently manages your engagement to build meaningful connections without overwhelming your network."
+    },
+    "adaptiveEngagement": {
+      "title": "Adaptive Engagement",
+      "description": "Continuously learns from your interactions to improve response quality and engagement strategies."
+    },
+    "secureSession": {
+      "title": "Secure Session Management",
+      "description": "Maintains secure, persistent connections while respecting platform guidelines and best practices."
+    },
+    "analytics": {
+      "title": "Performance Analytics",
+      "description": "Tracks engagement metrics and response rates to help you refine your job search strategy."
+    },
+    "customizable": {
+      "title": "Customizable Settings",
+      "description": "Tailor the automation to match your personal brand and job search goals with flexible configuration options."
+    }
+  },
+  "howItWorks": {
+    "title": "How It Works",
+    "step1": {
+      "title": "Download & Install",
+      "description": "Simple one-click installation for Windows and Mac."
+    },
+    "step2": {
+      "title": "Connect LinkedIn",
+      "description": "Secure OAuth connection with one-time setup."
+    },
+    "step3": {
+      "title": "Configure Settings",
+      "description": "Set your preferences and customize engagement style."
+    },
+    "step4": {
+      "title": "Start Automating",
+      "description": "Let Junior work in the background while you focus on your job search."
+    }
+  },
+  "pricing": {
+    "title": "Beta Launch - Special Pricing",
+    "betaLaunch": "🚀 BETA LAUNCH",
+    "productName": "LinkedIn Automation Tool",
+    "price": "$20",
+    "period": "/month",
+    "priceNote": "Special beta pricing • Cancel anytime",
+    "features": {
+      "targeting": "Hiring manager targeting",
+      "analytics": "Performance analytics",
+      "support": "Email support",
+      "cancelAnytime": "Cancel anytime",
+      "earlyAccess": "Early access to new features"
+    },
+    "betaNote": "⚡ Price will increase after beta period",
+    "ctaTitle": "🎯 Ready to Start Your Beta Journey?",
+    "ctaDescription": "Join our exclusive beta program and get premium LinkedIn automation at an unbeatable price.",
+    "ctaButton": "Choose Beta Access - $20/month",
+    "ctaSubtitle": "Cancel anytime • Secure payment"
+  },
+  "footer": {
+    "contact": {
+      "title": "Contact",
+      "email": "Email: support@heyjunior.ai",
+      "linkedin": "LinkedIn: linkedin.com/company/hey-junior"
+    },
+    "legal": {
+      "title": "Legal",
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service",
+      "cookies": "Cookie Policy"
+    },
+    "newsletter": {
+      "title": "Newsletter",
+      "description": "Stay updated with the latest features and job search tips",
+      "placeholder": "Enter your email",
+      "subscribe": "Subscribe"
+    },
+    "copyright": "© 2024 Junior. All rights reserved."
+  },
+  "checkout": {
+    "title": "🚀 LinkedIn Automation Tool",
+    "betaBadge": "BETA ACCESS - LIMITED TIME",
+    "features": {
+      "unlimited": "Unlimited LinkedIn engagement",
+      "aiComments": "AI-generated personalized comments",
+      "targeting": "Smart hiring manager targeting",
+      "analytics": "Performance analytics dashboard",
+      "support": "Priority email support",
+      "updates": "Free updates during beta"
+    },
+    "whatYouGet": "What You Get:",
+    "totalPrice": "Total: $20.00/month",
+    "createAccount": "Create Account & Subscribe",
+    "accountDetails": "Account Details",
+    "email": "Email Address",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "platform": "Select Your Platform:",
+    "windows": "Windows",
+    "mac": "macOS",
+    "paymentInfo": "Payment Information",
+    "securePayment": "🔒 Secure payment powered by Stripe",
+    "processing": "Processing...",
+    "error": "Error: Please try again",
+    "passwordMismatch": "Passwords do not match",
+    "invalidEmail": "Please enter a valid email address",
+    "platformDetected": "We detected you're using",
+    "windowsVersion": "Windows 10 or later",
+    "macVersion": "Intel & Apple Silicon (M1/M2)",
+    "platformNote": "We'll automatically detect if you have an M1/M2 Mac and provide the correct version.",
+    "passwordHelp": "Minimum 8 characters, must contain at least one uppercase letter",
+    "oneStepText": "Create your account and start your subscription in one step.",
+    "sslSecured": "SSL Secured",
+    "stripeProtected": "Stripe Protected",
+    "moneyBackGuarantee": "Money Back Guarantee",
+    "securityInfo": "Your payment information is secure and encrypted. Cancel anytime.",
+    "testAccount": "Test Account Creation",
+    "debugInfo": "Debug Info"
+  },
+  "success": {
+    "title": "🎉 Welcome to Junior Beta!",
+    "subtitle": "Your account has been created and payment processed successfully.",
+    "downloadReady": "Your download is ready:",
+    "downloadButton": "Download LinkedIn Automation Tool",
+    "nextSteps": "Next Steps:",
+    "step1": "Install the application on your computer",
+    "step2": "Log in with your account credentials",
+    "step3": "Connect your LinkedIn account",
+    "step4": "Start automating your job search!",
+    "step5": "Direct feedback channel",
+    "step6": "Exclusive beta community access",
+    "support": "Need help? Contact us at support@heyjunior.ai",
+    "errorTitle": "Payment Verification Failed",
+    "errorMessage": "We couldn't verify your payment. Please contact support.",
+    "accountEmail": "Account email:",
+    "subscriptionStatus": "Subscription status:",
+    "apiAccess": "🔑 Your API Access",
+    "apiKey": "API Key:",
+    "copyApiKey": "📋 Copy API Key",
+    "apiKeyNote": "Keep this API key secure. You'll need it to authenticate with the desktop application.",
+    "windowsVersion": "🖥️ Windows Version",
+    "windowsDescription": "For Windows 10 or later",
+    "downloadWindows": "Download for Windows",
+    "windowsNote": "File size: ~25 MB • EXE installer",
+    "macIntelVersion": "🍎 macOS Version (Intel)",
+    "macIntelDescription": "For macOS 10.14 or later (Intel Macs)",
+    "downloadMacIntel": "Download for macOS Intel",
+    "macIntelNote": "DMG file • For Intel-based Macs",
+    "macArmVersion": "🍎 macOS Version (Apple Silicon)",
+    "macArmDescription": "For macOS 11.0 or later (M1/M2/M3 Macs)",
+    "downloadMacArm": "Download for macOS Apple Silicon",
+    "macArmNote": "DMG file • For Apple Silicon Macs (M1/M2/M3)",
+    "needHelp": "Need Help?",
+    "emailSupport": "📧 Email Support",
+    "linkedinSupport": "💼 LinkedIn",
+    "paymentIssue": "⚠️ Payment Issue",
+    "paymentIssueDescription": "There was an issue verifying your payment. This could be due to:",
+    "paymentProcessing": "Payment is still processing (please wait a few minutes and refresh)",
+    "paymentDeclined": "Payment was declined by your bank",
+    "technicalIssue": "Technical issue with the payment processor",
+    "contactSupport": "📧 Contact Support",
+    "tryAgain": "🔄 Try Again"
+  },
+  "story": {
+    "title": "My Story",
+    "paragraph1": "I want to share how I found success in this terrible job market.",
+    "paragraph2": "After being laid off twice since 2022 and having to sell my house, I know firsthand how brutal this job market is. I'm not alone - it's really difficult out there for so many people.",
+    "paragraph3": "Success in job hunting isn't about volume resume blasts. It's about conversations with real people who can connect you to real opportunities.",
+    "paragraph4": "The problem I faced was simple: I couldn't get enough conversations with the right people. In six weeks, I had just one interview. That interview came from a single comment I left on a post about a company hiring. The person replied the same day, we spoke the next day, and a week later I was talking to the hiring manager.",
+    "paragraph5": "Job seeking shouldn't be about hoping for a conversation - it should start with one.",
+    "paragraph6": "That's why I built Junior. It's an automated inbound personal marketing engine that helped me turn things around. It worked so well that I decided to start a company so you can have your own Junior.",
+    "paragraph7": "If you're struggling to start conversations with the right people, I encourage you to give Junior a try.",
+    "paragraph8": "Have the right conversation, at the right time. Unlock new opportunities that can change your life. It changed mine.",
+    "warmRegards": "Warm regards,",
+    "signature": "Andrew Malinow, PhD",
+    "title2": "Founder, Junior"
+  },
+  "meta": {
+    "description": "Junior - AI-Powered LinkedIn Automation tool for job seekers",
+    "checkoutDescription": "Get LinkedIn Automation Tool - Beta Access",
+    "successDescription": "Download your LinkedIn Automation Tool - Junior",
+    "myStoryDescription": "The story behind Junior - AI-Powered LinkedIn Automation",
+    "title": "Junior - AI-Powered LinkedIn Automation",
+    "checkoutTitle": "Checkout - LinkedIn Automation Tool",
+    "successTitle": "Success - LinkedIn Automation Tool",
+    "myStoryTitle": "My Story - Junior"
+  }
+}

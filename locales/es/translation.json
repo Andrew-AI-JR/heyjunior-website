@@ -1,0 +1,224 @@
+{
+  "navigation": {
+    "features": "Características",
+    "howItWorks": "Cómo Funciona",
+    "pricing": "Precios",
+    "download": "Descargar",
+    "myStory": "Mi Historia",
+    "backToHome": "← Volver al Inicio",
+    "home": "Inicio"
+  },
+  "hero": {
+    "title": "Consigue el Trabajo de tus Sueños con Automatización de LinkedIn Impulsada por IA",
+    "subtitle": "Junior te ayuda a interactuar automáticamente con publicaciones de contratación, ahorrándote horas mientras haces conexiones significativas con reclutadores y gerentes de contratación.",
+    "downloadApp": "Descargar Aplicación de Escritorio",
+    "viewPricing": "Ver Precios",
+    "benefits": {
+      "saveTime": "Ahorra más de 10 horas por semana en interacción en LinkedIn",
+      "moreResponses": "Obtén 3 veces más respuestas de gerentes de contratación",
+      "affordablePrice": "Comenzando desde solo $20/mes por 1200-1500 comentarios"
+    }
+  },
+  "features": {
+    "title": "Características de Interacción Inteligente",
+    "aiComments": {
+      "title": "Generación de Comentarios Impulsada por IA",
+      "description": "Genera comentarios personalizados y conscientes del contexto que agregan valor a las conversaciones con gerentes de contratación y reclutadores."
+    },
+    "naturalPatterns": {
+      "title": "Patrones de Interacción Natural",
+      "description": "Imita la interacción similar a la humana con tiempos de respuesta variables y flujos de interacción naturales para conversaciones auténticas."
+    },
+    "smartPrioritization": {
+      "title": "Priorización Inteligente de Publicaciones",
+      "description": "Algoritmos avanzados identifican y priorizan las oportunidades laborales más relevantes basadas en tus habilidades y preferencias."
+    },
+    "networkOptimization": {
+      "title": "Optimización de Red",
+      "description": "Gestiona inteligentemente tu participación para construir conexiones significativas sin abrumar tu red."
+    },
+    "adaptiveEngagement": {
+      "title": "Participación Adaptativa",
+      "description": "Aprende continuamente de tus interacciones para mejorar la calidad de respuesta y las estrategias de participación."
+    },
+    "secureSession": {
+      "title": "Gestión Segura de Sesiones",
+      "description": "Mantiene conexiones seguras y persistentes mientras respeta las pautas de la plataforma y las mejores prácticas."
+    },
+    "analytics": {
+      "title": "Análisis de Rendimiento",
+      "description": "Rastrea métricas de participación y tasas de respuesta para ayudarte a refinar tu estrategia de búsqueda de empleo."
+    },
+    "customizable": {
+      "title": "Configuraciones Personalizables",
+      "description": "Adapta la automatización para que coincida con tu marca personal y objetivos de búsqueda de empleo con opciones de configuración flexibles."
+    }
+  },
+  "howItWorks": {
+    "title": "Cómo Funciona",
+    "step1": {
+      "title": "Descargar e Instalar",
+      "description": "Instalación simple de un clic para Windows y Mac."
+    },
+    "step2": {
+      "title": "Conectar LinkedIn",
+      "description": "Conexión OAuth segura con configuración única."
+    },
+    "step3": {
+      "title": "Configurar Ajustes",
+      "description": "Establece tus preferencias y personaliza el estilo de participación."
+    },
+    "step4": {
+      "title": "Comenzar Automatización",
+      "description": "Deja que Junior trabaje en segundo plano mientras te enfocas en tu búsqueda de empleo."
+    }
+  },
+  "pricing": {
+    "title": "Lanzamiento Beta - Precios Especiales",
+    "betaLaunch": "🚀 LANZAMIENTO BETA",
+    "productName": "Herramienta de Automatización de LinkedIn",
+    "price": "$20",
+    "period": "/mes",
+    "priceNote": "Precio especial beta • Cancela cuando quieras",
+    "features": {
+      "targeting": "Segmentación de gerentes de contratación",
+      "analytics": "Análisis de rendimiento",
+      "support": "Soporte por email",
+      "cancelAnytime": "Cancela cuando quieras",
+      "earlyAccess": "Acceso temprano a nuevas características"
+    },
+    "betaNote": "⚡ El precio aumentará después del período beta",
+    "ctaTitle": "🎯 ¿Listo para Comenzar tu Aventura Beta?",
+    "ctaDescription": "Únete a nuestro programa beta exclusivo y obtén automatización premium de LinkedIn a un precio inmejorable.",
+    "ctaButton": "Elegir Acceso Beta - $20/mes",
+    "ctaSubtitle": "Cancela cuando quieras • Pago seguro"
+  },
+  "footer": {
+    "contact": {
+      "title": "Contacto",
+      "email": "Email: support@heyjunior.ai",
+      "linkedin": "LinkedIn: linkedin.com/company/hey-junior"
+    },
+    "legal": {
+      "title": "Legal",
+      "privacy": "Política de Privacidad",
+      "terms": "Términos de Servicio",
+      "cookies": "Política de Cookies"
+    },
+    "newsletter": {
+      "title": "Boletín",
+      "description": "Mantente actualizado con las últimas características y consejos de búsqueda de empleo",
+      "placeholder": "Ingresa tu email",
+      "subscribe": "Suscribirse"
+    },
+    "copyright": "© 2024 Junior. Todos los derechos reservados."
+  },
+  "checkout": {
+    "title": "🚀 Herramienta de Automatización de LinkedIn",
+    "betaBadge": "ACCESO BETA - TIEMPO LIMITADO",
+    "features": {
+      "unlimited": "Participación ilimitada en LinkedIn",
+      "aiComments": "Comentarios personalizados generados por IA",
+      "targeting": "Segmentación inteligente de gerentes de contratación",
+      "analytics": "Panel de análisis de rendimiento",
+      "support": "Soporte prioritario por email",
+      "updates": "Actualizaciones gratuitas durante la beta"
+    },
+    "whatYouGet": "Lo Que Obtienes:",
+    "totalPrice": "Total: $20.00/mes",
+    "createAccount": "Crear Cuenta y Suscribirse",
+    "accountDetails": "Detalles de la Cuenta",
+    "email": "Dirección de Email",
+    "password": "Contraseña",
+    "confirmPassword": "Confirmar Contraseña",
+    "platform": "Selecciona tu Plataforma:",
+    "windows": "Windows",
+    "mac": "macOS",
+    "paymentInfo": "Información de Pago",
+    "securePayment": "🔒 Pago seguro impulsado por Stripe",
+    "processing": "Procesando...",
+    "error": "Error: Por favor intenta de nuevo",
+    "passwordMismatch": "Las contraseñas no coinciden",
+    "invalidEmail": "Por favor ingresa una dirección de email válida",
+    "platformDetected": "Detectamos que estás usando",
+    "windowsVersion": "Windows 10 o posterior",
+    "macVersion": "Intel y Apple Silicon (M1/M2)",
+    "platformNote": "Detectaremos automáticamente si tienes una Mac M1/M2 y proporcionaremos la versión correcta.",
+    "passwordHelp": "Mínimo 8 caracteres, debe contener al menos una letra mayúscula",
+    "oneStepText": "Crea tu cuenta e inicia tu suscripción en un solo paso.",
+    "sslSecured": "Protegido SSL",
+    "stripeProtected": "Protegido por Stripe",
+    "moneyBackGuarantee": "Garantía de Devolución de Dinero",
+    "securityInfo": "Tu información de pago está segura y encriptada. Cancela cuando quieras.",
+    "testAccount": "Probar Creación de Cuenta",
+    "debugInfo": "Información de Depuración"
+  },
+  "success": {
+    "title": "🎉 ¡Bienvenido a Junior Beta!",
+    "subtitle": "Tu cuenta ha sido creada y el pago procesado exitosamente.",
+    "downloadReady": "Tu descarga está lista:",
+    "downloadButton": "Descargar Herramienta de Automatización de LinkedIn",
+    "nextSteps": "Próximos Pasos:",
+    "step1": "Instala la aplicación en tu computadora",
+    "step2": "Inicia sesión con las credenciales de tu cuenta",
+    "step3": "Conecta tu cuenta de LinkedIn",
+    "step4": "¡Comienza a automatizar tu búsqueda de empleo!",
+    "step5": "Canal de retroalimentación directo",
+    "step6": "Acceso exclusivo a la comunidad beta",
+    "support": "¿Necesitas ayuda? Contáctanos en support@heyjunior.ai",
+    "errorTitle": "Fallo en la Verificación del Pago",
+    "errorMessage": "No pudimos verificar tu pago. Por favor contacta soporte.",
+    "accountEmail": "Email de la cuenta:",
+    "subscriptionStatus": "Estado de la suscripción:",
+    "apiAccess": "🔑 Tu Acceso API",
+    "apiKey": "Clave API:",
+    "copyApiKey": "📋 Copiar Clave API",
+    "apiKeyNote": "Mantén esta clave API segura. La necesitarás para autenticarte con la aplicación de escritorio.",
+    "windowsVersion": "🖥️ Versión Windows",
+    "windowsDescription": "Para Windows 10 o posterior",
+    "downloadWindows": "Descargar para Windows",
+    "windowsNote": "Tamaño del archivo: ~25 MB • Instalador EXE",
+    "macIntelVersion": "🍎 Versión macOS (Intel)",
+    "macIntelDescription": "Para macOS 10.14 o posterior (Macs Intel)",
+    "downloadMacIntel": "Descargar para macOS Intel",
+    "macIntelNote": "Archivo DMG • Para Macs basadas en Intel",
+    "macArmVersion": "🍎 Versión macOS (Apple Silicon)",
+    "macArmDescription": "Para macOS 11.0 o posterior (Macs M1/M2/M3)",
+    "downloadMacArm": "Descargar para macOS Apple Silicon",
+    "macArmNote": "Archivo DMG • Para Macs Apple Silicon (M1/M2/M3)",
+    "needHelp": "¿Necesitas Ayuda?",
+    "emailSupport": "📧 Soporte por Email",
+    "linkedinSupport": "💼 LinkedIn",
+    "paymentIssue": "⚠️ Problema de Pago",
+    "paymentIssueDescription": "Hubo un problema verificando tu pago. Esto podría deberse a:",
+    "paymentProcessing": "El pago aún se está procesando (por favor espera unos minutos y actualiza)",
+    "paymentDeclined": "El pago fue rechazado por tu banco",
+    "technicalIssue": "Problema técnico con el procesador de pagos",
+    "contactSupport": "📧 Contactar Soporte",
+    "tryAgain": "🔄 Intentar de Nuevo"
+  },
+  "story": {
+    "title": "Mi Historia",
+    "paragraph1": "Quiero compartir cómo encontré el éxito en este terrible mercado laboral.",
+    "paragraph2": "Después de ser despedido dos veces desde 2022 y tener que vender mi casa, sé de primera mano lo brutal que es este mercado laboral. No estoy solo - es realmente difícil para muchas personas.",
+    "paragraph3": "El éxito en la búsqueda de empleo no se trata de enviar currículums en masa. Se trata de conversaciones con personas reales que pueden conectarte con oportunidades reales.",
+    "paragraph4": "El problema que enfrenté fue simple: no podía tener suficientes conversaciones con las personas correctas. En seis semanas, tuve solo una entrevista. Esa entrevista vino de un solo comentario que dejé en una publicación sobre una empresa que estaba contratando. La persona respondió el mismo día, hablamos al día siguiente, y una semana después estaba hablando con el gerente de contratación.",
+    "paragraph5": "La búsqueda de empleo no debería ser sobre esperar una conversación - debería comenzar con una.",
+    "paragraph6": "Por eso construí Junior. Es un motor automatizado de marketing personal entrante que me ayudó a cambiar las cosas. Funcionó tan bien que decidí comenzar una empresa para que puedas tener tu propio Junior.",
+    "paragraph7": "Si estás luchando para comenzar conversaciones con las personas correctas, te animo a que pruebes Junior.",
+    "paragraph8": "Ten la conversación correcta, en el momento correcto. Desbloquea nuevas oportunidades que pueden cambiar tu vida. Cambió la mía.",
+    "warmRegards": "Saludos cordiales,",
+    "signature": "Andrew Malinow, PhD",
+    "title2": "Fundador, Junior"
+  },
+  "meta": {
+    "description": "Junior - Herramienta de Automatización de LinkedIn Impulsada por IA para buscadores de empleo",
+    "checkoutDescription": "Obtén la Herramienta de Automatización de LinkedIn - Acceso Beta",
+    "successDescription": "Descarga tu Herramienta de Automatización de LinkedIn - Junior",
+    "myStoryDescription": "La historia detrás de Junior - Automatización de LinkedIn Impulsada por IA",
+    "title": "Junior - Automatización de LinkedIn Impulsada por IA",
+    "checkoutTitle": "Checkout - Herramienta de Automatización de LinkedIn",
+    "successTitle": "Éxito - Herramienta de Automatización de LinkedIn",
+    "myStoryTitle": "Mi Historia - Junior"
+  }
+}

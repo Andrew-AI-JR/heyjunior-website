@@ -9,6 +9,12 @@ body {
     font-family: 'Roboto', sans-serif;
     line-height: 1.6;
     color: #333;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+body.i18n-ready {
+    opacity: 1;
 }
 
 .container {
@@ -2800,5 +2806,58 @@ body {
     .form-group input[type="password"] {
         padding: 10px 14px;
         font-size: 0.95rem;
+    }
+}
+
+/* Language Switcher Styles */
+.language-switcher {
+    display: flex;
+    gap: 8px;
+    margin-left: 20px;
+    align-items: center;
+}
+
+.lang-btn {
+    background: #f8fafc;
+    border: 2px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.lang-btn:hover {
+    background: #e2e8f0;
+    border-color: #cbd5e1;
+    color: #475569;
+}
+
+.lang-btn.active {
+    background: #2563eb;
+    border-color: #2563eb;
+    color: white;
+}
+
+.lang-btn.active:hover {
+    background: #1d4ed8;
+    border-color: #1d4ed8;
+}
+
+/* Mobile Language Switcher */
+@media (max-width: 768px) {
+    .language-switcher {
+        margin-left: 12px;
+        gap: 6px;
+    }
+
+    .lang-btn {
+        padding: 4px 8px;
+        font-size: 0.8rem;
     }
 }
