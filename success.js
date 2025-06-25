@@ -1,39 +1,193 @@
-// Success page functionality with Account Creation Integration
+// Success page functionality for download only
 const API_BASE_URL = 'https://junior-api-915940312680.us-west1.run.app';
 
-// GitHub Release Download URLs for working LinkedIn automation tool
-const GITHUB_RELEASE_BASE = 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.1';
-
-// Legacy URLs (to be removed)
-const WINDOWS_DIRECT_DOWNLOAD_URL = 'https://github.com/Andrew-AI-JR/Desktop-Releases/releases/download/v1.0.0-beta/Junior.Setup.1.0.0.exe';
-const MACOS_DIRECT_DOWNLOAD_URL = 'https://github.com/Andrew-AI-JR/Desktop-Releases/releases/download/v1.0.0-beta/Junior-1.0.0.dmg';
-const MACOS_ARM_DOWNLOAD_URL = 'https://github.com/Andrew-AI-JR/Desktop-Releases/releases/download/v1.0.0-beta/Junior-1.0.0-arm64.dmg';
-
-// Platform-specific download URLs pointing to latest release
+// Platform-specific download URLs
 const downloadUrls = {
     'windows': 'https://github.com/Andrew-AI-JR/Desktop-Releases/releases/download/v1.0.0-beta/Junior.Setup.1.0.0.exe',
     'macos-intel': 'https://github.com/Andrew-AI-JR/Desktop-Releases/releases/download/v1.0.0-beta/Junior-1.0.0.dmg',
-    'macos-arm': 'https://github.com/Andrew-AI-JR/Desktop-Releases/releases/download/v1.0.0-beta/Junior-1.0.0-arm64.dmg',
-    'linux': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.1/Junior-v1.0.1.AppImage'
+    'macos-arm': 'https://github.com/Andrew-AI-JR/Desktop-Releases/releases/download/v1.0.0-beta/Junior-1.0.0-arm64.dmg'
 };
 
-// Platform detection and mapping
-const PLATFORM_MAPPING = {
-    'windows': 'windows',
-    'mac': 'mac',
-    'mac-arm': 'mac-arm',
-    'macos': 'mac'  // Handle different naming conventions
-};
+// Track if download was initiated
+let downloadInitiated = false;
 
-// Track download and account status
-let accountCreationComplete = false;
-let downloadToken = null;
-let accountCheckAttempts = 0;
-const MAX_ACCOUNT_CHECK_ATTEMPTS = 30; // 30 attempts over 5 minutes
+// Helper function to show loading state
+function showLoading(message = 'Loading...') {
+    document.body.innerHTML = `
+        <div style="text-align: center; padding: 2rem; max-width: 600px; margin: 0 auto;">
+            <h2>${message}</h2>
+            <div class="spinner" style="margin: 2rem auto;"></div>
+        </div>
+    `;
+}
+
+// Helper function to show error message
+function showError(message, showBackButton = true) {
+    document.body.innerHTML = `
+        <div style="text-align: center; padding: 2rem; max-width: 600px; margin: 0 auto;">
+            <h2>Error</h2>
+            <p>${message}</p>
+            ${showBackButton ? '<p><a href="/pricing.html" class="button">Back to Pricing</a></p>' : ''}
+        </div>`;
+}
+
+// Helper function to update all email placeholders in the page
+function updateAllEmailPlaceholders(email) {
+    const emailElements = document.querySelectorAll('.user-email, .customer-email');
+    emailElements.forEach(el => {
+        el.textContent = email || 'your email address';
+    });
+}
+
+// Handle account creation with proper loading and error states
+async function handleAccountCreation(checkoutData, isFromStripeCheckout = false) {
+    showLoading('Creating your account...');
+    
+    try {
+        const response = await createUserAccount(checkoutData.email, checkoutData.coupon);
+        
+        if (response.success) {
+            // Clear the checkout data from storage
+            sessionStorage.removeItem('checkoutData');
+            localStorage.removeItem('pendingAccountCreation');
+            
+            // Store the API key for download
+            if (response.api_key) {
+                sessionStorage.setItem('apiKey', response.api_key);
+                localStorage.setItem('apiKey', response.api_key);
+            }
+            
+            // If this is from Stripe Checkout, we might already be on the success page
+            if (isFromStripeCheckout) {
+                showSuccess(checkoutData.email, true);
+            } else {
+                // Redirect to success page with account created state
+                window.location.href = `/success.html?account_created=true&email=${encodeURIComponent(checkoutData.email)}`;
+            }
+        } else {
+            throw new Error(response.message || 'Failed to create account');
+        }
+    } catch (error) {
+        console.error('Error creating account:', error);
+        showError(
+            `Account creation failed: ${error.message || 'An error occurred while creating your account. Please try again or contact support.'}`,
+            true
+        );
+    }
+}
+
+// Show success message with download options
+function showSuccess(email, showDownloadButton = true) {
+    document.body.innerHTML = `
+        <div class="success-container" style="text-align: center; padding: 2rem; max-width: 800px; margin: 0 auto;">
+            <div class="success-icon" style="font-size: 72px; color: #4CAF50; margin-bottom: 1.5rem;">✓</div>
+            <h1>Thank You for Your Purchase!</h1>
+            <p>Your account has been successfully created with the email: <strong>${email}</strong></p>
+            
+            ${showDownloadButton ? `
+            <div class="download-section" style="margin: 2rem 0;">
+                <h2>Ready to Get Started?</h2>
+                <p>Download the application and start using it right away.</p>
+                <a href="/download.html" class="button" style="margin: 1rem 0;">Download Now</a>
+            </div>
+            ` : ''}
+            
+            <div class="next-steps" style="margin-top: 2rem; text-align: left; max-width: 600px; margin-left: auto; margin-right: auto;">
+                <h3>Next Steps:</h3>
+                <ol style="text-align: left; padding-left: 1.5rem;">
+                    <li>Download and install the application</li>
+                    <li>Launch the application and sign in with your email</li>
+                    <li>Start using all the premium features</li>
+                </ol>
+            </div>
+            
+            <div class="support" style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid #eee;">
+                <p>Need help? <a href="/support.html">Contact our support team</a></p>
+            </div>
+        </div>`;
+}
+
+// Helper function to update all email placeholders in the page
+function updateAllEmailPlaceholders(email) {
+    const emailElements = document.querySelectorAll('.user-email');
+    emailElements.forEach(el => {
+        el.textContent = email;
+    });
+}
+
+// Handle account creation with proper loading and error states
+async function handleAccountCreation(checkoutData, isFromStripeCheckout = false) {
+    showLoading('Creating your account...');
+    
+    try {
+        const response = await createUserAccount(checkoutData.email, checkoutData.coupon);
+        
+        if (response.success) {
+            // Clear the checkout data from storage
+            sessionStorage.removeItem('checkoutData');
+            localStorage.removeItem('pendingAccountCreation');
+            
+            // Store the API key for download
+            if (response.api_key) {
+                sessionStorage.setItem('apiKey', response.api_key);
+                localStorage.setItem('apiKey', response.api_key);
+            }
+            
+            // If this is from Stripe Checkout, we might already be on the success page
+            if (isFromStripeCheckout) {
+                showSuccess(checkoutData.email, true);
+            } else {
+                // Redirect to success page with account created state
+                window.location.href = `/success.html?account_created=true&email=${encodeURIComponent(checkoutData.email)}`;
+            }
+        } else {
+            throw new Error(response.message || 'Failed to create account');
+        }
+    } catch (error) {
+        console.error('Error creating account:', error);
+        showError(
+            `Account creation failed: ${error.message || 'An error occurred while creating your account. Please try again or contact support.'}`,
+            true
+        );
+    }
+}
+
+// Show success message with download options
+function showSuccess(email, showDownloadButton = true) {
+    document.body.innerHTML = `
+        <div class="success-container" style="text-align: center; padding: 2rem; max-width: 800px; margin: 0 auto;">
+            <div class="success-icon" style="font-size: 72px; color: #4CAF50; margin-bottom: 1.5rem;">✓</div>
+            <h1>Thank You for Your Purchase!</h1>
+            <p>Your account has been successfully created with the email: <strong>${email}</strong></p>
+            
+            ${showDownloadButton ? `
+            <div class="download-section" style="margin: 2rem 0;">
+                <h2>Ready to Get Started?</h2>
+                <p>Download the application and start using it right away.</p>
+                <a href="/download.html" class="button" style="margin: 1rem 0;">Download Now</a>
+            </div>
+            ` : ''}
+            
+            <div class="next-steps" style="margin-top: 2rem; text-align: left; max-width: 600px; margin-left: auto; margin-right: auto;">
+                <h3>Next Steps:</h3>
+                <ol style="text-align: left; padding-left: 1.5rem;">
+                    <li>Download and install the application</li>
+                    <li>Launch the application and sign in with your email</li>
+                    <li>Start using all the premium features</li>
+                </ol>
+            </div>
+            
+            <div class="support" style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid #eee;">
+                <p>Need help? <a href="/support.html">Contact our support team</a></p>
+            </div>
+        </div>
+    `;
+}
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // Check URL parameters for free account
+    // Check URL parameters for free account and session ID
     const urlParams = new URLSearchParams(window.location.search);
+    const sessionId = urlParams.get('session_id');
     const isFreeAccount = urlParams.get('free_account') === 'true';
     const couponCode = urlParams.get('coupon');
     const downloadStarted = urlParams.get('download_started') === 'true';
@@ -46,6 +200,60 @@ document.addEventListener('DOMContentLoaded', async () => {
     let email = 'your email address';
     let platform = 'your selected platform';
     let paymentIntentId = null;
+    let stripeSessionId = null;
+    
+    // If we have a session ID from Stripe Checkout, verify it
+    if (sessionId) {
+        try {
+            showLoading('Verifying your payment...');
+            
+            // Verify the session with the backend
+            const response = await fetch(`${API_BASE_URL}/api/payments/verify-session?session_id=${sessionId}`);
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => ({}));
+                throw new Error(errorData.detail || 'Failed to verify payment');
+            }
+            
+            const sessionData = await response.json();
+            
+            // Store the verified session data
+            if (sessionData.customer_email) {
+                email = sessionData.customer_email;
+                
+                // Update the checkout data with the verified email
+                if (checkoutData) {
+                    checkoutData.email = sessionData.customer_email;
+                    sessionStorage.setItem('checkoutData', JSON.stringify(checkoutData));
+                    localStorage.setItem('pendingAccountCreation', JSON.stringify(checkoutData));
+                }
+                
+                // Update the UI with the verified email
+                updateAllEmailPlaceholders(sessionData.customer_email);
+            }
+            
+            // Store the session ID for later use
+            stripeSessionId = sessionId;
+            
+            // If subscription is active, set flag
+            if (sessionData.status === 'complete' || sessionData.payment_status === 'paid') {
+                subscriptionActive = true;
+                
+                // If we have checkout data, proceed with account creation
+                if (checkoutData) {
+                    await handleAccountCreation(checkoutData, true);
+                    return;
+                }
+            }
+            
+        } catch (error) {
+            console.error('Error verifying session:', error);
+            showError(
+                `We couldn't verify your payment: ${error.message || 'Please try again or contact support.'}`,
+                true
+            );
+            return;
+        }
+    }
 
     if (checkoutDataStr) {
         try {
@@ -696,18 +904,80 @@ dynamicNotificationStyles.textContent = `
         to { transform: translateX(0); opacity: 1; }
     }
     @keyframes slideOutNotification {
-        from { transform: translateX(0); opacity: 1; }
-        to { transform: translateX(100%); opacity: 0; }
-    }
-    .license-section { display: none !important; }
-`;
-document.head.appendChild(dynamicNotificationStyles);
-
 function updateAllEmailPlaceholders(email) {
-    const emailElements = document.querySelectorAll('.customer-email');
+    const emailElements = document.querySelectorAll('.user-email');
     emailElements.forEach(el => {
-        el.textContent = email || 'your email address';
+        el.textContent = email;
     });
+}
+
+// Handle account creation with proper loading and error states
+async function handleAccountCreation(checkoutData, isFromStripeCheckout = false) {
+    showLoading('Creating your account...');
+    
+    try {
+        const response = await createUserAccount(checkoutData.email, checkoutData.coupon);
+        
+        if (response.success) {
+            // Clear the checkout data from storage
+            sessionStorage.removeItem('checkoutData');
+            localStorage.removeItem('pendingAccountCreation');
+            
+            // Store the API key for download
+            if (response.api_key) {
+                sessionStorage.setItem('apiKey', response.api_key);
+                localStorage.setItem('apiKey', response.api_key);
+            }
+            
+            // If this is from Stripe Checkout, we might already be on the success page
+            if (isFromStripeCheckout) {
+                showSuccess(checkoutData.email, true);
+            } else {
+                // Redirect to success page with account created state
+                window.location.href = `/success.html?account_created=true&email=${encodeURIComponent(checkoutData.email)}`;
+            }
+        } else {
+            throw new Error(response.message || 'Failed to create account');
+        }
+    } catch (error) {
+        console.error('Error creating account:', error);
+        showError(
+            `Account creation failed: ${error.message || 'An error occurred while creating your account. Please try again or contact support.'}`,
+            true
+        );
+    }
+}
+
+// Show success message with download options
+function showSuccess(email, showDownloadButton = true) {
+    document.body.innerHTML = `
+        <div class="success-container" style="text-align: center; padding: 2rem; max-width: 800px; margin: 0 auto;">
+            <div class="success-icon" style="font-size: 72px; color: #4CAF50; margin-bottom: 1.5rem;">✓</div>
+            <h1>Thank You for Your Purchase!</h1>
+            <p>Your account has been successfully created with the email: <strong>${email}</strong></p>
+            
+            ${showDownloadButton ? `
+            <div class="download-section" style="margin: 2rem 0;">
+                <h2>Ready to Get Started?</h2>
+                <p>Download the application and start using it right away.</p>
+                <a href="/download.html" class="button" style="margin: 1rem 0;">Download Now</a>
+            </div>
+            ` : ''}
+            
+            <div class="next-steps" style="margin-top: 2rem; text-align: left; max-width: 600px; margin-left: auto; margin-right: auto;">
+                <h3>Next Steps:</h3>
+                <ol style="text-align: left; padding-left: 1.5rem;">
+                    <li>Download and install the application</li>
+                    <li>Launch the application and sign in with your email</li>
+                    <li>Start using all the premium features</li>
+                </ol>
+            </div>
+            
+            <div class="support" style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid #eee;">
+                <p>Need help? <a href="/support.html">Contact our support team</a></p>
+            </div>
+        </div>
+    `;
 }
 
 if (sessionStorage.getItem('checkoutData')) {
