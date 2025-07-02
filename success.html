@@ -46,7 +46,16 @@
             <div id="success-state" class="success-header" style="display: none;">
                 <div class="success-icon">✅</div>
                 <h1>Thank You for Your Purchase!</h1>
-                <p>Your download will start automatically. If it doesn't, please use the buttons below.</p>
+                <div id="auto-download-message">
+                    <p>Your download will start automatically in <span id="countdown">5</span> seconds...</p>
+                    <div class="progress-container">
+                        <div class="progress-bar" id="download-progress"></div>
+                    </div>
+                </div>
+                <div id="manual-download-prompt" style="display: none; margin-top: 20px; padding: 15px; background-color: #f8f9fa; border-radius: 8px; text-align: center;">
+                    <p>If your download hasn't started, please click the button below:</p>
+                    <button id="manual-download-btn" class="download-now-btn">Download Now</button>
+                </div>
             </div>
 
             <!-- Error State -->
@@ -164,7 +173,51 @@
         </div>
     </footer>
 
-    <script src="js/success.js?v=2.0"></script>
+    <style>
+        .download-now-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px 0;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        .download-now-btn:hover {
+            background-color: #45a049;
+        }
+        
+        .progress-container {
+            width: 100%;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: #4CAF50;
+            width: 0%;
+            transition: width 0.3s;
+        }
+        
+        #manual-download-prompt {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+    <script src="js/success.js?v=2.1"></script>
     <!-- Simple i18n initialization script -->
     <script src="js/i18n-simple.js"></script>
 </body>
