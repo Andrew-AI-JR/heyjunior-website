@@ -45,8 +45,17 @@
             <!-- Success State -->
             <div id="success-state" class="success-header" style="display: none;">
                 <div class="success-icon">✅</div>
-                <h1 data-i18n="success.title">Welcome to Junior!</h1>
-                <p data-i18n="success.subtitle">Your account has been created and your subscription is active.</p>
+                <h1>Thank You for Your Purchase!</h1>
+                <div id="auto-download-message">
+                    <p>Your download will start automatically in <span id="countdown">5</span> seconds...</p>
+                    <div class="progress-container">
+                        <div class="progress-bar" id="download-progress"></div>
+                    </div>
+                </div>
+                <div id="manual-download-prompt" style="display: none; margin-top: 20px; padding: 15px; background-color: #f8f9fa; border-radius: 8px; text-align: center;">
+                    <p>If your download hasn't started, please click the button below:</p>
+                    <button id="manual-download-btn" class="download-now-btn">Download Now</button>
+                </div>
             </div>
 
             <!-- Error State -->
@@ -54,25 +63,6 @@
                 <div class="success-icon">❌</div>
                 <h1 data-i18n="success.errorTitle">Payment Verification Failed</h1>
                 <p data-i18n="success.errorMessage">We couldn't verify your payment. Please contact support.</p>
-            </div>
-
-            <!-- Account Details -->
-            <div id="account-details" class="payment-status" style="display: none;">
-                <h2 data-i18n="success.title">🎉 Account Created Successfully</h2>
-                <p data-i18n="success.subtitle">Your account has been created and your subscription is active.</p>
-                <p><span data-i18n="success.accountEmail">Account email:</span> <strong id="user-email">Loading...</strong></p>
-                <p><span data-i18n="success.subscriptionStatus">Subscription status:</span> <strong id="subscription-status">Loading...</strong></p>
-            </div>
-
-            <!-- API Access Section -->
-            <div id="api-access-section" class="license-section" style="display: none;">
-                <h2 data-i18n="success.apiAccess">🔑 Your API Access</h2>
-                <div class="api-key-container">
-                    <label for="api-key-display" data-i18n="success.apiKey">API Key:</label>
-                    <div id="api-key-display">Loading...</div>
-                    <button id="copy-api-key" data-i18n="success.copyApiKey">📋 Copy API Key</button>
-                </div>
-                <p><small data-i18n="success.apiKeyNote">Keep this API key secure. You'll need it to authenticate with the desktop application.</small></p>
             </div>
 
             <!-- Download Section -->
@@ -125,17 +115,15 @@
                 </div>
             </div>
 
-            <!-- Beta Benefits -->
-            <div class="beta-benefits">
-                <h2 data-i18n="success.nextSteps">🚀 Your Beta Benefits</h2>
-                <ul>
-                    <li>✅ <span data-i18n="success.step1">Early access to new features</span></li>
-                    <li>✅ <span data-i18n="success.step2">Locked-in $20/month pricing</span></li>
-                    <li>✅ <span data-i18n="success.step3">Priority support access</span></li>
-                    <li>✅ <span data-i18n="success.step4">Shape the product's future</span></li>
-                    <li>✅ <span data-i18n="success.step5">Direct feedback channel</span></li>
-                    <li>✅ <span data-i18n="success.step6">Exclusive beta community access</span></li>
-                </ul>
+            <!-- Next Steps -->
+            <div class="next-steps">
+                <h2>🚀 Next Steps</h2>
+                <ol>
+                    <li><strong>Download</strong> - The installer for your platform should start automatically</li>
+                    <li><strong>Install</strong> - Run the installer and follow the on-screen instructions</li>
+                    <li><strong>Launch</strong> - Open the application after installation completes</li>
+                    <li><strong>Start Using</strong> - The app will guide you through the setup process</li>
+                </ol>
             </div>
 
             <!-- Support Section -->

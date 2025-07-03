@@ -129,14 +129,98 @@ function showSuccess(paymentData) {
 
   // Show success state
   document.getElementById('success-state').style.display = 'block';
-  document.getElementById('account-details').style.display = 'block';
   document.getElementById('support-section').style.display = 'block';
 
-  // Update account details
-  document.getElementById('user-email').textContent = paymentData.email;
-  document.getElementById('subscription-status').textContent = 'Active';
+  // Start the countdown and automatic download
+  startDownloadCountdown();
 
   console.log('Success state displayed');
+}
+
+function startDownloadCountdown() {
+  let countdown = 5;
+  const countdownElement = document.getElementById('countdown');
+  const progressBar = document.getElementById('download-progress');
+  const manualDownloadPrompt = document.getElementById('manual-download-prompt');
+  const manualDownloadBtn = document.getElementById('manual-download-btn');
+  
+  // Detect user's platform
+  const platform = detectUserPlatform();
+  
+  // Setup manual download button
+  if (manualDownloadBtn) {
+    manualDownloadBtn.addEventListener('click', () => {
+      initiateDownload(platform);
+    });
+  }
+  
+  // Start countdown
+  const countdownInterval = setInterval(() => {
+    countdown--;
+    countdownElement.textContent = countdown;
+    const progress = 100 - (countdown * 20); // 20% per second
+    progressBar.style.width = `${progress}%`;
+    
+    if (countdown <= 0) {
+      clearInterval(countdownInterval);
+      document.getElementById('auto-download-message').style.display = 'none';
+      manualDownloadPrompt.style.display = 'block';
+      initiateDownload(platform);
+    }
+  }, 1000);
+}
+
+function initiateDownload(platform) {
+  // Hide the manual download prompt if it's visible
+  const manualDownloadPrompt = document.getElementById('manual-download-prompt');
+  if (manualDownloadPrompt) {
+    manualDownloadPrompt.style.display = 'none';
+  }
+  
+  // Show download in progress
+  document.getElementById('auto-download-message').style.display = 'block';
+  document.getElementById('countdown').textContent = 'Starting download...';
+  
+  // Start the download
+  const downloadUrls = {
+    'windows': 'https://github.com/Andrew-AI-JR/Desktop-Releases/releases/download/v1.0.0-beta/Junior.Setup.1.0.0.exe',
+    'macos': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.1/Junior-v1.0.1.dmg',
+    'macos_arm': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.1/Junior-v1.0.1-arm64.dmg'
+  };
+  
+  const downloadUrl = downloadUrls[platform] || downloadUrls['windows'];
+  
+  // Create a hidden iframe to trigger the download
+  const iframe = document.createElement('iframe');
+  iframe.style.display = 'none';
+  document.body.appendChild(iframe);
+  
+  // Simulate download progress
+  let progress = 0;
+  const progressBar = document.getElementById('download-progress');
+  const progressInterval = setInterval(() => {
+    progress += 5;
+    if (progress > 90) {
+      clearInterval(progressInterval);
+      // Complete the progress when the download starts
+      setTimeout(() => {
+        progressBar.style.width = '100%';
+        document.getElementById('countdown').textContent = 'Download started!';
+      }, 500);
+    } else {
+      progressBar.style.width = `${progress}%`;
+    }
+  }, 100);
+  
+  // Start the download
+  iframe.src = downloadUrl;
+  
+  // Clean up the iframe after a delay
+  setTimeout(() => {
+    if (document.body.contains(iframe)) {
+      document.body.removeChild(iframe);
+    }
+  }, 30000); // Remove iframe after 30 seconds
 }
 
 function showError(message) {
