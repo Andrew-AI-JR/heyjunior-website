@@ -116,11 +116,24 @@ async function handleAccountCreationWithPayment(e) {
         email: email,
         password: password,
         price_id: STRIPE_PRICE_ID,
-        success_url: `${window.location.origin}/success.html?session_id={CHECKOUT_SESSION_ID}`,
+        success_url: `${window.location.origin}/success.html?session_id={CHECKOUT_SESSION_ID}&user_id=${encodeURIComponent(email)}`,
         cancel_url: `${window.location.origin}/checkout.html`,
         coupon_code: null,
         metadata: {
-          platform: platform
+          platform: platform,
+          user_email: email
+        },
+        payment_intent_data: {
+          metadata: {
+            user_email: email,
+            platform: platform
+          }
+        },
+        subscription_data: {
+          metadata: {
+            user_email: email,
+            platform: platform
+          }
         }
       }),
       signal: controller.signal

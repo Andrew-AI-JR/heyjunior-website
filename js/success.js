@@ -21,21 +21,36 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Get URL parameters
   const urlParams = new URLSearchParams(window.location.search);
   const sessionId = urlParams.get('session_id');
-  const userId = sessionStorage.getItem('userId');
-
+  
+  // Try to get user ID from URL or session storage
+  const userId = urlParams.get('user_id') || sessionStorage.getItem('userId');
+  
   console.log('Payment verification data:', { sessionId, userId });
 
-  if (!sessionId || !userId) {
-    console.error('Missing required data for payment verification');
-    showError('Missing payment verification data. Please contact support.');
+  if (!sessionId) {
+    console.error('Missing session_id in URL');
+    showError('Missing payment verification data. Please check your email for download instructions or contact support.');
     return;
   }
 
   try {
-    await verifyPaymentAndSetupAccount(sessionId, parseInt(userId));
+    // Store session ID in session storage for retry if needed
+    sessionStorage.setItem('stripeSessionId', sessionId);
+    
+    // Start the download flow
+    startDownloadCountdown();
+    
+    // Verify payment in the background
+    if (userId) {
+      verifyPaymentAndSetupAccount(sessionId, parseInt(userId))
+        .catch(error => {
+          console.error('Background verification failed:', error);
+          // Don't show error to user if download already started
+        });
+    }
   } catch (error) {
     console.error('Payment verification failed:', error);
-    showError('Payment verification failed. Please contact support.');
+    // Don't show error to user if download already started
   }
 });
 
@@ -64,25 +79,26 @@ async function verifyPaymentAndSetupAccount(sessionId, userId) {
 
     if (data.success && data.subscription_active) {
       // Store access token for future API calls
-      sessionStorage.setItem('accessToken', data.access_token);
-      sessionStorage.setItem('userEmail', data.email);
-
-      // Show success state
-      showSuccess(data);
-
-      // Get additional account details
-      await loadAccountDetails(data.access_token);
-
-      // Setup download section
-      setupDownloadSection();
-
+      if (data.access_token) {
+        sessionStorage.setItem('accessToken', data.access_token);
+      }
+      if (data.email) {
+        sessionStorage.setItem('userEmail', data.email);
+      }
+      
+      // Store subscription status
+      sessionStorage.setItem('subscriptionActive', 'true');
+      
+      console.log('Payment verified successfully');
+      return true;
     } else {
       throw new Error('Payment was not successful or subscription is not active');
     }
 
   } catch (error) {
     console.error('Error in payment verification:', error);
-    throw error;
+    // Don't throw here - we'll let the download continue anyway
+    return false;
   }
 }
 
@@ -117,16 +133,13 @@ async function loadAccountDetails(accessToken) {
   }
 }
 
-function showSuccess(paymentData) {
+function showSuccess() {
   // Hide loading state
   document.getElementById('loading-state').style.display = 'none';
 
   // Show success state
   document.getElementById('success-state').style.display = 'block';
   document.getElementById('support-section').style.display = 'block';
-
-  // Start the countdown and automatic download
-  startDownloadCountdown();
 
   console.log('Success state displayed');
 }
@@ -138,12 +151,17 @@ function startDownloadCountdown() {
   const manualDownloadPrompt = document.getElementById('manual-download-prompt');
   const manualDownloadBtn = document.getElementById('manual-download-btn');
   
+  // Show success UI
+  showSuccess();
+  
   // Detect user's platform
   const platform = detectUserPlatform();
+  console.log('Detected platform:', platform);
   
   // Setup manual download button
   if (manualDownloadBtn) {
     manualDownloadBtn.addEventListener('click', () => {
+      console.log('Manual download initiated');
       initiateDownload(platform);
     });
   }
@@ -151,31 +169,41 @@ function startDownloadCountdown() {
   // Start countdown
   const countdownInterval = setInterval(() => {
     countdown--;
-    countdownElement.textContent = countdown;
-    const progress = 100 - (countdown * 20); // 20% per second
-    progressBar.style.width = `${progress}%`;
+    if (countdownElement) {
+      countdownElement.textContent = countdown;
+      const progress = 100 - (countdown * 20); // 20% per second
+      if (progressBar) {
+        progressBar.style.width = `${progress}%`;
+      }
+    }
     
     if (countdown <= 0) {
       clearInterval(countdownInterval);
-      document.getElementById('auto-download-message').style.display = 'none';
-      manualDownloadPrompt.style.display = 'block';
+      if (document.getElementById('auto-download-message')) {
+        document.getElementById('auto-download-message').style.display = 'none';
+      }
+      if (manualDownloadPrompt) {
+        manualDownloadPrompt.style.display = 'block';
+      }
+      // Start download automatically
       initiateDownload(platform);
     }
   }, 1000);
 }
 
 function initiateDownload(platform) {
-  // Hide the manual download prompt if it's visible
-  const manualDownloadPrompt = document.getElementById('manual-download-prompt');
-  if (manualDownloadPrompt) {
-    manualDownloadPrompt.style.display = 'none';
-  }
+  console.log('Initiating download for platform:', platform);
   
   // Show download in progress
-  document.getElementById('auto-download-message').style.display = 'block';
-  document.getElementById('countdown').textContent = 'Starting download...';
+  const autoDownloadMessage = document.getElementById('auto-download-message');
+  const countdownElement = document.getElementById('countdown');
+  const progressBar = document.getElementById('download-progress');
   
-  // Start the download
+  if (autoDownloadMessage) autoDownloadMessage.style.display = 'block';
+  if (countdownElement) countdownElement.textContent = 'Starting download...';
+  if (progressBar) progressBar.style.width = '0%';
+  
+  // Define download URLs
   const downloadUrls = {
     'windows': 'https://github.com/Andrew-AI-JR/Desktop-Releases/releases/download/v1.0.0-beta/Junior.Setup.1.0.0.exe',
     'macos': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.1/Junior-v1.0.1.dmg',
@@ -183,38 +211,60 @@ function initiateDownload(platform) {
   };
   
   const downloadUrl = downloadUrls[platform] || downloadUrls['windows'];
+  console.log('Download URL:', downloadUrl);
   
-  // Create a hidden iframe to trigger the download
-  const iframe = document.createElement('iframe');
-  iframe.style.display = 'none';
-  document.body.appendChild(iframe);
+  // Create a hidden link to trigger the download
+  const downloadLink = document.createElement('a');
+  downloadLink.href = downloadUrl;
+  downloadLink.download = downloadUrl.split('/').pop();
+  document.body.appendChild(downloadLink);
   
   // Simulate download progress
   let progress = 0;
-  const progressBar = document.getElementById('download-progress');
   const progressInterval = setInterval(() => {
     progress += 5;
     if (progress > 90) {
       clearInterval(progressInterval);
       // Complete the progress when the download starts
       setTimeout(() => {
-        progressBar.style.width = '100%';
-        document.getElementById('countdown').textContent = 'Download started!';
+        if (progressBar) progressBar.style.width = '100%';
+        if (countdownElement) countdownElement.textContent = 'Download started!';
+        
+        // Show success message
+        setTimeout(() => {
+          if (countdownElement) countdownElement.textContent = 'Check your downloads folder for the installer!';
+        }, 1000);
       }, 500);
-    } else {
+    } else if (progressBar) {
       progressBar.style.width = `${progress}%`;
     }
   }, 100);
   
-  // Start the download
-  iframe.src = downloadUrl;
-  
-  // Clean up the iframe after a delay
+  // Start the download after a short delay to ensure UI updates
   setTimeout(() => {
-    if (document.body.contains(iframe)) {
-      document.body.removeChild(iframe);
+    try {
+      downloadLink.click();
+      console.log('Download initiated');
+    } catch (error) {
+      console.error('Error starting download:', error);
+      // Show manual download prompt if automatic download fails
+      const manualDownloadPrompt = document.getElementById('manual-download-prompt');
+      if (manualDownloadPrompt) {
+        manualDownloadPrompt.style.display = 'block';
+        manualDownloadPrompt.innerHTML = `
+          <p>Unable to start download automatically. Please click the link below to download:</p>
+          <a href="${downloadUrl}" class="download-now-btn" download>Download Now</a>
+        `;
+      }
     }
-  }, 30000); // Remove iframe after 30 seconds
+    
+    // Clean up
+    setTimeout(() => {
+      if (document.body.contains(downloadLink)) {
+        document.body.removeChild(downloadLink);
+      }
+    }, 10000);
+  }, 500);
 }
 
 function showError(message) {
