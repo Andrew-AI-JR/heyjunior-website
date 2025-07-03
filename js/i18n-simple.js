@@ -49,10 +49,14 @@ async function loadTranslations() {
       enResponse.json(),
       esResponse.json()
     ]);
+    console.log('Raw translation data (enData):', enData);
+    console.log('Raw translation data (esData):', esData);
 
     // Convert nested objects to dot notation
     translations.en = flattenObject(enData);
     translations.es = flattenObject(esData);
+    console.log('Flattened translations (en):', translations.en);
+    console.log('Flattened translations (es):', translations.es);
 
     // Translation files loaded successfully
 
@@ -313,6 +317,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Language changed event fired
       });
 
+      // Dispatch event to signal i18n is ready
+      window.dispatchEvent(new Event('i18nInitialized'));
+
       // I18n system setup completed successfully
     } else {
       // I18n initialization failed, using fallback
@@ -351,3 +358,6 @@ window.i18nDebug = {
   currentLocale: () => currentLocale,
   getTranslations: (locale) => translations[locale] || {}
 };
+
+// Simple GlobalizeJS Configuration without complex CLDR requirements
+// This script provides internationalization for the static website

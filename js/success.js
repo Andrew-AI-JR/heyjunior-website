@@ -1,7 +1,7 @@
 /* success.js - Integrated Payment Verification and Account Setup */
 
 // API Configuration
-const API_BASE_URL = window.location.hostname === 'localhost' ? 'http://localhost:8000' : 'https://api.heyjunior.ai';
+const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? window.location.origin.replace(/:\d+$/, ':8000') : 'https://api.heyjunior.ai';
 
 // GitHub Release Configuration
 const GITHUB_RELEASES = {
@@ -59,11 +59,17 @@ async function verifyPaymentAndSetupAccount(sessionId, userId) {
     console.log('Verifying payment success...');
 
     // Call the payment verification endpoint
+    const userToken = sessionStorage.getItem('userToken');
+    const headers = {
+      'Content-Type': 'application/json'
+    };
+    if (userToken) {
+      headers['Authorization'] = `Bearer ${userToken}`;
+    }
+
     const response = await fetch(`${API_BASE_URL}/api/payments/verify-success`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: headers,
       body: JSON.stringify({
         session_id: sessionId,
         user_id: userId
