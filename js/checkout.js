@@ -297,13 +297,11 @@ async function handleCheckoutAction(e) {
       };
       console.log('Sending account creation request to:', apiUrl);
     } else if (isBuyingNewSubscription) {
-      apiUrl = `${API_BASE_URL}/api/users/create-checkout-session`; // New endpoint for logged-in users
+      apiUrl = `${API_BASE_URL}/api/payments/create-checkout-session`; // New endpoint for logged-in users
       requestBody = {
-        email: email,
         price_id: STRIPE_PRICE_ID,
         success_url: `${window.location.origin}/success.html`,
         cancel_url: `${window.location.origin}/checkout.html`,
-        coupon_code: null
       };
       console.log('Sending new subscription request to:', apiUrl);
     }
@@ -351,33 +349,36 @@ async function handleCheckoutAction(e) {
       throw new Error(errorMessage);
     }
 
-    if (data.success) {
-      sessionStorage.setItem('userId', data.user_id);
-      sessionStorage.setItem('customerId', data.customer_id);
-      sessionStorage.setItem('userEmail', email);
-      if (data.token) { // Save token if provided (e.g., after login)
-        sessionStorage.setItem('userToken', data.token);
-        currentUserToken = data.token;
+    if (isCreatingAccount) {
+      if (data.success) {
+        sessionStorage.setItem('userId', data.user_id);
+        sessionStorage.setItem('customerId', data.customer_id);
+        sessionStorage.setItem('userEmail', email);
+        if (data.token) { // Save token if provided (e.g., after login)
+          sessionStorage.setItem('userToken', data.token);
+          currentUserToken = data.token;
+        }
+      } else {
+        throw new Error('Operation failed');
       }
-
-      const checkoutData = {
-        email: email,
-        platform: platform,
-        timestamp: new Date().toISOString(),
-        userAgent: navigator.userAgent,
-        referrer: document.referrer || 'direct',
-        payment_method: 'integrated_checkout',
-        coupon: null
-      };
-
-      sessionStorage.setItem('checkoutData', JSON.stringify(checkoutData));
-      localStorage.setItem('pendingAccountCreation', JSON.stringify(checkoutData));
-
-      buttonTextElement.textContent = window.i18nUtils ? window.i18nUtils.translate('checkout.redirecting') : 'Redirecting to payment...';
-      window.location.href = data.checkout_url;
-    } else {
-      throw new Error('Operation failed');
     }
+
+    const checkoutData = {
+      email: email,
+      platform: platform,
+      timestamp: new Date().toISOString(),
+      userAgent: navigator.userAgent,
+      referrer: document.referrer || 'direct',
+      payment_method: 'integrated_checkout',
+      coupon: null
+    };
+
+
+    sessionStorage.setItem('checkoutData', JSON.stringify(checkoutData));
+    localStorage.setItem('pendingAccountCreation', JSON.stringify(checkoutData));
+
+    buttonTextElement.textContent = window.i18nUtils ? window.i18nUtils.translate('checkout.redirecting') : 'Redirecting to payment...';
+    window.location.href = data.checkout_url;
 
   } catch (error) {
     console.error('Checkout action error:', error);
@@ -595,7 +596,7 @@ function toggleForm(formType) {
     mainCheckoutButton.style.display = 'block';
     paymentSection.style.display = 'block'; // Show payment section
     checkoutForm.classList.remove('subscriptions-active'); // Remove class
-    
+
     updateButtonText(mainCheckoutButton); // Ensure platform text is updated
   } else if (formType === 'login') {
     loginForm.style.display = 'block';
