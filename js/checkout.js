@@ -282,8 +282,12 @@ async function handleCheckoutAction(e) {
   try {
     sessionStorage.setItem('selectedPlatform', platform); // Store platform selection for later
 
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 30000);
+
     let apiUrl = '';
     let requestBody = {};
+    let response;
 
     if (isCreatingAccount) {
       apiUrl = `${API_BASE_URL}/api/users/create-with-payment`;
@@ -310,9 +314,43 @@ async function handleCheckoutAction(e) {
             platform: platform
           }
         }
-      }),
-      signal: controller.signal
-    });
+      };
+      response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(requestBody),
+        signal: controller.signal
+      });
+    } else if (isBuyingNewSubscription) {
+      apiUrl = `${API_BASE_URL}/api/subscription/create-checkout-session`;
+      requestBody = {
+        price_id: STRIPE_PRICE_ID,
+        success_url: `${window.location.origin}/success.html?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${window.location.origin}/checkout.html`,
+        metadata: {
+          platform: platform,
+          user_email: email
+        },
+        payment_intent_data: {
+            metadata: {
+                user_email: email,
+                platform: platform
+            }
+        },
+        subscription_data: {
+            metadata: {
+                user_email: email,
+                platform: platform
+            }
+        }
+      };
+      response = await fetchWithAuth(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(requestBody),
+        signal: controller.signal
+      });
+    }
 
     clearTimeout(timeoutId);
 
