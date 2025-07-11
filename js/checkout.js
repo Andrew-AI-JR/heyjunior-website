@@ -322,7 +322,7 @@ async function handleCheckoutAction(e) {
         signal: controller.signal
       });
     } else if (isBuyingNewSubscription) {
-      apiUrl = `${API_BASE_URL}/api/subscription/create-checkout-session`;
+      apiUrl = `${API_BASE_URL}/api/payments/create-checkout-session`;
       requestBody = {
         price_id: STRIPE_PRICE_ID,
         success_url: `${window.location.origin}/success.html?session_id={CHECKOUT_SESSION_ID}`,
@@ -332,16 +332,16 @@ async function handleCheckoutAction(e) {
           user_email: email
         },
         payment_intent_data: {
-            metadata: {
-                user_email: email,
-                platform: platform
-            }
+          metadata: {
+            user_email: email,
+            platform: platform
+          }
         },
         subscription_data: {
-            metadata: {
-                user_email: email,
-                platform: platform
-            }
+          metadata: {
+            user_email: email,
+            platform: platform
+          }
         }
       };
       response = await fetchWithAuth(apiUrl, {
