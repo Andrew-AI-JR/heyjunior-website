@@ -206,8 +206,8 @@ function initiateDownload(platform) {
   // Define download URLs
   const downloadUrls = {
     'windows': 'https://github.com/Andrew-AI-JR/Desktop-Releases/releases/download/v1.0.0-beta/Junior.Setup.1.0.0.exe',
-    'macos': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.1/Junior-v1.0.1.dmg',
-    'macos_arm': 'https://github.com/Andrew-AI-JR/junior-desktop/releases/download/v1.0.1/Junior-v1.0.1-arm64.dmg'
+    'macos': 'https://github.com/Andrew-AI-JR/Desktop-Releases/releases/download/v1.0.0-beta/Junior-1.0.0.dmg',
+    'macos_arm': 'https://github.com/Andrew-AI-JR/Desktop-Releases/releases/download/v1.0.0-beta/Junior-1.0.0-arm64.dmg'
   };
   
   const downloadUrl = downloadUrls[platform] || downloadUrls['windows'];
