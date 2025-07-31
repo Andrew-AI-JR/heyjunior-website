@@ -497,7 +497,8 @@ async function handleLogin(e) {
     let userMessage = error.message || (window.i18nUtils ? window.i18nUtils.translate('checkout.genericError') : 'An error occurred during login.');
     showError(userMessage, 'login-error');
     button.disabled = false;
-    updateButtonText(button);
+    // Reset login button text to original
+    button.textContent = window.i18nUtils ? window.i18nUtils.translate('checkout.loginButtonText') : 'Login';
   }
 }
 
@@ -551,9 +552,17 @@ async function fetchUserSubscriptions(token) {
       if (statsResponse.ok && statsData.has_subscription) {
         // Display a generic message if has_subscription is true but no details from /all
         subscriptionListDiv.innerHTML += window.i18nUtils ? window.i18nUtils.translate('checkout.activeSubscriptionFound') : '<p>An active subscription was found.</p>';
+
+        // Add download section for users with subscription from stats
+        addDownloadSection(subscriptionListDiv);
       } else {
         subscriptionListDiv.innerHTML += window.i18nUtils ? window.i18nUtils.translate('checkout.noActiveSubscriptions') : '<p>No active subscriptions found.</p>';
       }
+    }
+
+    // Add download section if user has active subscriptions from the /all endpoint
+    if (allSubscriptionsData.subscriptions && allSubscriptionsData.subscriptions.length > 0) {
+      addDownloadSection(subscriptionListDiv);
     }
 
     // Fetch and display subscription stats
@@ -604,6 +613,119 @@ async function fetchUserSubscriptions(token) {
     subscriptionListDiv.innerHTML = window.i18nUtils ? window.i18nUtils.translate('checkout.fetchSubscriptionsError') : '<p>Error loading subscriptions. Please try again.</p>';
     buyNewSubscriptionButton.disabled = false;
   }
+}
+
+// Function to add download section with platform detection
+function addDownloadSection(container) {
+  const downloadDiv = document.createElement('div');
+  downloadDiv.className = 'download-section-checkout';
+  downloadDiv.innerHTML = `
+    <h4>📥 Download Your Software</h4>
+    <p>Your subscription is active! Download the application for your platform:</p>
+    <div class="download-options-checkout">
+      <div class="download-option-checkout windows-download" style="display: none;">
+        <div class="download-info">
+          <span class="platform-icon">🖥️</span>
+          <div class="download-details">
+            <strong>Windows Version</strong>
+            <small>For Windows 10 or later</small>
+          </div>
+        </div>
+        <a href="https://github.com/Andrew-AI-JR/Desktop-Releases/releases/download/v1.0.0-beta/Junior.Setup.1.0.0.exe"
+           class="download-button-checkout" target="_self">
+          Download for Windows
+        </a>
+      </div>
+
+      <div class="download-option-checkout macos-intel-download" style="display: none;">
+        <div class="download-info">
+          <span class="platform-icon">🍎</span>
+          <div class="download-details">
+            <strong>macOS (Intel)</strong>
+            <small>For Intel-based Macs</small>
+          </div>
+        </div>
+        <a href="https://github.com/Andrew-AI-JR/Desktop-Releases/releases/download/v1.0.0-beta/Junior-1.0.0.dmg"
+           class="download-button-checkout" target="_self">
+          Download for macOS Intel
+        </a>
+      </div>
+
+      <div class="download-option-checkout macos-arm-download" style="display: none;">
+        <div class="download-info">
+          <span class="platform-icon">🍎</span>
+          <div class="download-details">
+            <strong>macOS (Apple Silicon)</strong>
+            <small>For M1/M2/M3 Macs</small>
+          </div>
+        </div>
+        <a href="https://github.com/Andrew-AI-JR/Desktop-Releases/releases/download/v1.0.0-beta/Junior-1.0.0-arm64.dmg"
+           class="download-button-checkout" target="_self">
+          Download for macOS Apple Silicon
+        </a>
+      </div>
+
+      <div class="download-option-checkout all-platforms-download">
+        <div class="download-info">
+          <span class="platform-icon">💻</span>
+          <div class="download-details">
+            <strong>All Platforms</strong>
+            <small>Choose your platform manually</small>
+          </div>
+        </div>
+        <button class="download-button-checkout show-all-platforms" onclick="showAllPlatformDownloads()">
+          Show All Downloads
+        </button>
+      </div>
+    </div>
+
+    <div class="download-instructions">
+      <p><strong>Next Steps:</strong></p>
+      <ol>
+        <li>Download the installer for your platform</li>
+        <li>Run the installer and follow the setup instructions</li>
+        <li>Launch the application and start automating your LinkedIn outreach</li>
+      </ol>
+    </div>
+  `;
+
+  container.appendChild(downloadDiv);
+
+  // Detect and show appropriate platform download
+  detectAndShowPlatformDownload();
+}
+
+// Function to detect user platform and show appropriate download
+function detectAndShowPlatformDownload() {
+  const userAgent = navigator.userAgent.toLowerCase();
+  const isMac = userAgent.includes('mac');
+  const isWindows = userAgent.includes('win');
+
+  if (isMac) {
+    // Try to detect if it's Apple Silicon
+    const isAppleSilicon = userAgent.includes('arm') ||
+      (navigator.userAgentData && navigator.userAgentData.getHighEntropyValues &&
+        navigator.userAgentData.getHighEntropyValues(['architecture']).then(ua => ua.architecture === 'arm'));
+
+    if (isAppleSilicon) {
+      document.querySelector('.macos-arm-download').style.display = 'block';
+    } else {
+      document.querySelector('.macos-intel-download').style.display = 'block';
+    }
+  } else if (isWindows) {
+    document.querySelector('.windows-download').style.display = 'block';
+  } else {
+    // Show all platforms option for unknown platforms
+    document.querySelector('.all-platforms-download').style.display = 'block';
+  }
+}
+
+// Function to show all platform downloads
+window.showAllPlatformDownloads = function () {
+  document.querySelector('.windows-download').style.display = 'block';
+  document.querySelector('.macos-intel-download').style.display = 'block';
+  document.querySelector('.macos-arm-download').style.display = 'block';
+  document.querySelector('.all-platforms-download').style.display = 'none';
 }
 
 function toggleForm(formType) {
