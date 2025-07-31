@@ -10,8 +10,8 @@ const GITHUB_RELEASES = {
   tag: 'v1.0.0-beta',
   assets: {
     windows: 'Junior.Setup.1.0.0.exe',
-    macos: 'Junior-v1.0.1.dmg',
-    macos_arm: 'Junior-v1.0.1-arm64.dmg'
+    macos: 'Junior-v1.0.0.dmg',
+    macos_arm: 'Junior-v1.0.0-arm64.dmg'
   }
 };
 
@@ -21,10 +21,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Get URL parameters
   const urlParams = new URLSearchParams(window.location.search);
   const sessionId = urlParams.get('session_id');
-  
+
   // Try to get user ID from URL or session storage
   const userId = urlParams.get('user_id') || sessionStorage.getItem('userId');
-  
+
   console.log('Payment verification data:', { sessionId, userId });
 
   if (!sessionId) {
@@ -36,10 +36,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   try {
     // Store session ID in session storage for retry if needed
     sessionStorage.setItem('stripeSessionId', sessionId);
-    
+
     // Start the download flow
     startDownloadCountdown();
-    
+
     // Verify payment in the background
     if (userId) {
       verifyPaymentAndSetupAccount(sessionId, parseInt(userId))
@@ -91,10 +91,10 @@ async function verifyPaymentAndSetupAccount(sessionId, userId) {
       if (data.email) {
         sessionStorage.setItem('userEmail', data.email);
       }
-      
+
       // Store subscription status
       sessionStorage.setItem('subscriptionActive', 'true');
-      
+
       console.log('Payment verified successfully');
       return true;
     } else {
@@ -156,14 +156,14 @@ function startDownloadCountdown() {
   const progressBar = document.getElementById('download-progress');
   const manualDownloadPrompt = document.getElementById('manual-download-prompt');
   const manualDownloadBtn = document.getElementById('manual-download-btn');
-  
+
   // Show success UI
   showSuccess();
-  
+
   // Detect user's platform
   const platform = detectUserPlatform();
   console.log('Detected platform:', platform);
-  
+
   // Setup manual download button
   if (manualDownloadBtn) {
     manualDownloadBtn.addEventListener('click', () => {
@@ -171,7 +171,7 @@ function startDownloadCountdown() {
       initiateDownload(platform);
     });
   }
-  
+
   // Start countdown
   const countdownInterval = setInterval(() => {
     countdown--;
@@ -182,7 +182,7 @@ function startDownloadCountdown() {
         progressBar.style.width = `${progress}%`;
       }
     }
-    
+
     if (countdown <= 0) {
       clearInterval(countdownInterval);
       if (document.getElementById('auto-download-message')) {
@@ -199,32 +199,32 @@ function startDownloadCountdown() {
 
 function initiateDownload(platform) {
   console.log('Initiating download for platform:', platform);
-  
+
   // Show download in progress
   const autoDownloadMessage = document.getElementById('auto-download-message');
   const countdownElement = document.getElementById('countdown');
   const progressBar = document.getElementById('download-progress');
-  
+
   if (autoDownloadMessage) autoDownloadMessage.style.display = 'block';
   if (countdownElement) countdownElement.textContent = 'Starting download...';
   if (progressBar) progressBar.style.width = '0%';
-  
+
   // Define download URLs
   const downloadUrls = {
     'windows': 'https://github.com/Andrew-AI-JR/Desktop-Releases/releases/download/v1.0.0-beta/Junior.Setup.1.0.0.exe',
     'macos': 'https://github.com/Andrew-AI-JR/Desktop-Releases/releases/download/v1.0.0-beta/Junior-1.0.0.dmg',
     'macos_arm': 'https://github.com/Andrew-AI-JR/Desktop-Releases/releases/download/v1.0.0-beta/Junior-1.0.0-arm64.dmg'
   };
-  
+
   const downloadUrl = downloadUrls[platform] || downloadUrls['windows'];
   console.log('Download URL:', downloadUrl);
-  
+
   // Create a hidden link to trigger the download
   const downloadLink = document.createElement('a');
   downloadLink.href = downloadUrl;
   downloadLink.download = downloadUrl.split('/').pop();
   document.body.appendChild(downloadLink);
-  
+
   // Simulate download progress
   let progress = 0;
   const progressInterval = setInterval(() => {
@@ -235,7 +235,7 @@ function initiateDownload(platform) {
       setTimeout(() => {
         if (progressBar) progressBar.style.width = '100%';
         if (countdownElement) countdownElement.textContent = 'Download started!';
-        
+
         // Show success message
         setTimeout(() => {
           if (countdownElement) countdownElement.textContent = 'Check your downloads folder for the installer!';
@@ -245,7 +245,7 @@ function initiateDownload(platform) {
       progressBar.style.width = `${progress}%`;
     }
   }, 100);
-  
+
   // Start the download after a short delay to ensure UI updates
   setTimeout(() => {
     try {
@@ -263,7 +263,7 @@ function initiateDownload(platform) {
         `;
       }
     }
-    
+
     // Clean up
     setTimeout(() => {
       if (document.body.contains(downloadLink)) {
