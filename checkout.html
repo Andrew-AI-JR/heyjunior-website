@@ -105,71 +105,34 @@
                         <small class="platform-note" data-i18n="checkout.platformNote">We'll automatically detect if you have an M1/M2 Mac and provide the correct version.</small>
                     </div>
 
-                    <!-- Account/Login Section -->
-                    <div class="account-login-section">
-                        <div class="toggle-container">
-                            <button id="show-create-account" class="toggle-button active" data-i18n="checkout.createAccountButton">Create Account</button>
-                            <button id="show-login" class="toggle-button" data-i18n="checkout.loginButton">Login</button>
+                    <!-- Account Creation Section -->
+                    <div class="account-creation-section">
+                        <h3 data-i18n="checkout.accountDetails">Create Your Account</h3>
+                        <p style="text-align: center; color: #6b7280; margin-bottom: 25px;">You'll use this to login to the desktop app and manage your subscription</p>
+                        
+                        <div class="form-group">
+                            <label for="customer-email" data-i18n="checkout.email">Email Address:</label>
+                            <input type="email" id="customer-email" placeholder="your@email.com" required>
                         </div>
-
-                        <!-- Create Account Form -->
-                        <div id="create-account-form" class="form-section active">
-                            <h3 data-i18n="checkout.accountDetails">Create Your Account</h3>
-                            <div class="form-group">
-                                <label for="customer-email" data-i18n="checkout.email">Email Address:</label>
-                                <input type="email" id="customer-email" data-i18n="checkout.email" placeholder="your@email.com" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="customer-password" data-i18n="checkout.password">Password:</label>
-                                <input type="password" id="customer-password" data-i18n="checkout.password" placeholder="Create a secure password" required minlength="8">
-                                <small class="password-help" data-i18n="checkout.passwordHelp">Minimum 8 characters, must contain at least one uppercase letter</small>
-                            </div>
-                            <div class="form-group">
-                                <label for="confirm-password" data-i18n="checkout.confirmPassword">Confirm Password:</label>
-                                <input type="password" id="confirm-password" data-i18n="checkout.confirmPassword" placeholder="Confirm your password" required>
-                            </div>
+                        <div class="form-group">
+                            <label for="customer-password" data-i18n="checkout.password">Password:</label>
+                            <input type="password" id="customer-password" placeholder="Create a secure password" required minlength="8">
+                            <small class="password-help" data-i18n="checkout.passwordHelp">Minimum 8 characters, must contain at least one uppercase letter</small>
                         </div>
-
-                        <!-- Login Form -->
-                        <div id="login-form" class="form-section" style="display: none;">
-                            <h3 data-i18n="checkout.loginDetails">Login to Your Account</h3>
-                            <div class="form-group">
-                                <label for="login-email" data-i18n="checkout.email">Email Address:</label>
-                                <input type="email" id="login-email" data-i18n="checkout.email" placeholder="your@email.com" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="login-password" data-i18n="checkout.password">Password:</label>
-                                <input type="password" id="login-password" data-i18n="checkout.password" placeholder="Your password" required>
-                            </div>
-                            <button type="button" id="login-button" class="login-action-button" data-i18n="checkout.loginButtonText" disabled>Login</button>
-                            <div id="login-error" class="error-message" style="display: none; margin-top: 10px; color: #dc2626; text-align: center;"></div>
-                        </div>
-
-                        <!-- Subscriptions Display (initially hidden) -->
-                        <div id="subscriptions-display" class="form-section" style="display: none;">
-                            <h3 data-i18n="checkout.yourSubscriptions">Your Subscriptions</h3>
-                            <div id="subscription-list">
-                                <!-- Subscriptions will be loaded here by JavaScript -->
-                                <p data-i18n="checkout.noActiveSubscriptions">No active subscriptions found.</p>
-                            </div>
-                            <div id="subscription-stats-container">
-                                <!-- Stats will be loaded here by JavaScript -->
-                            </div>
-                            <button type="button" id="buy-new-subscription-button" class="login-action-button" data-i18n="checkout.buyNewSubscription" disabled>Buy New Subscription</button>
+                        <div class="form-group">
+                            <label for="confirm-password" data-i18n="checkout.confirmPassword">Confirm Password:</label>
+                            <input type="password" id="confirm-password" placeholder="Confirm your password" required>
                         </div>
                     </div>
 
-
-
-                    <!-- Integrated Payment Button -->
+                    <!-- Payment Button -->
                     <div class="payment-section">
                         <h3 data-i18n="checkout.paymentInfo">Complete Your Purchase</h3>
-                        <p style="text-align: center; margin-bottom: 20px;" data-i18n="checkout.oneStepText">Create your account and start your subscription in one step.</p>
                         <button type="button" id="create-account-button" disabled>
-                            <span id="button-text" data-i18n="checkout.createAccount">Create Account & Subscribe - $20/month (Windows)</span>
+                            <span id="button-text" data-i18n="checkout.createAccount">Continue to Payment - $20/month</span>
                         </button>
                         <div id="checkout-error" class="error-message" style="display: none; margin-top: 10px; color: #dc2626; text-align: center;"></div>
-                        <small style="text-align:center; display:block; margin-top:10px;" data-i18n="checkout.securePayment">Your account will be created and you'll be redirected to Stripe for secure payment.</small>
+                        <small style="text-align:center; display:block; margin-top:10px; color: #6b7280;">After payment, you'll be redirected to download the app</small>
                     </div>
 
                     <!-- Security Info -->
