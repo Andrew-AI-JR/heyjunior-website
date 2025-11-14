@@ -401,32 +401,6 @@
     </section>
 
 
-    <!-- Lead Capture Section -->
-    <section class="lead-capture-section">
-        <div class="container">
-            <div class="lead-capture-box">
-                <div class="lead-capture-content">
-                    <span class="lead-capture-icon">🎁</span>
-                    <h2>Free Download: LinkedIn Success Templates</h2>
-                    <p>Get our collection of "10 LinkedIn Comments That Actually Got Responses from Hiring Managers" - proven templates you can use today, even without Junior.</p>
-                    <ul class="lead-capture-benefits">
-                        <li>✅ Real examples that led to interview offers</li>
-                        <li>✅ Templates for different industries</li>
-                        <li>✅ Expert tips on LinkedIn engagement</li>
-                        <li>✅ Bonus: The #1 mistake job seekers make on LinkedIn</li>
-                    </ul>
-                </div>
-                <div class="lead-capture-form">
-                    <form id="leadCaptureForm" action="https://api.heyjunior.ai/api/leads/subscribe" method="POST">
-                        <input type="email" name="email" placeholder="Enter your email address" required>
-                        <button type="submit" class="lead-capture-button">Download Free Templates</button>
-                        <small class="lead-capture-privacy">🔒 We respect your privacy. Unsubscribe anytime. No spam, ever.</small>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
@@ -461,58 +435,5 @@
 
     <!-- Simple i18n initialization script -->
     <script src="js/i18n-simple.js"></script>
-    
-    <!-- Lead Capture Form Handler -->
-    <script>
-        document.getElementById('leadCaptureForm')?.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const form = e.target;
-            const email = form.querySelector('input[type="email"]').value;
-            const button = form.querySelector('.lead-capture-button');
-            const originalText = button.textContent;
-            
-            // Update button state
-            button.disabled = true;
-            button.textContent = 'Sending...';
-            
-            try {
-                const response = await fetch(form.action, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ 
-                        email: email,
-                        source: 'lead_magnet',
-                        lead_magnet: 'linkedin_templates'
-                    })
-                });
-                
-                if (response.ok) {
-                    button.textContent = '✅ Success! Check your email';
-                    button.style.background = '#10b981';
-                    form.querySelector('input[type="email"]').value = '';
-                    
-                    // Optional: Redirect to a thank you page or show modal
-                    setTimeout(() => {
-                        alert('Thank you! Check your email for the LinkedIn templates. (If you don\'t see it, check your spam folder)');
-                    }, 500);
-                } else {
-                    throw new Error('Failed to subscribe');
-                }
-            } catch (error) {
-                button.textContent = '❌ Error - Please try again';
-                button.style.background = '#ef4444';
-                console.error('Lead capture error:', error);
-                
-                setTimeout(() => {
-                    button.textContent = originalText;
-                    button.style.background = '';
-                    button.disabled = false;
-                }, 3000);
-            }
-        });
-    </script>
 </body>
 </html>
