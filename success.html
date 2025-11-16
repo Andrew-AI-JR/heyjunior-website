@@ -75,18 +75,20 @@
                     <div class="download-option windows" style="display: none;">
                         <h3 data-i18n="success.windowsVersion">🖥️ Windows Version</h3>
                         <p data-i18n="success.windowsDescription">For Windows 10 or later</p>
-                        <a href="https://github.com/Andrew-AI-JR/Desktop-Releases/releases/download/v1.0.0-beta/Junior.Setup.1.0.0.exe"
+                        <a href="#"
+                           id="windows-download-link"
                            class="download-button" data-i18n="success.downloadWindows">
                             Download for Windows
                         </a>
-                        <p class="note" data-i18n="success.windowsNote">File size: ~25 MB • EXE installer</p>
+                        <p class="note" data-i18n="success.windowsNote">File size: ~1.4 GB • EXE installer</p>
                     </div>
 
                     <!-- macOS Intel Download -->
                     <div class="download-option macos" style="display: none;">
                         <h3 data-i18n="success.macIntelVersion">🍎 macOS Version (Intel)</h3>
                         <p data-i18n="success.macIntelDescription">For macOS 10.14 or later (Intel Macs)</p>
-                        <a href="https://github.com/Andrew-AI-JR/Desktop-Releases/releases/download/v1.0.0-beta/Junior-1.0.0.dmg"
+                        <a href="#"
+                           id="macos-intel-download-link"
                            target="_self"
                            class="download-button" data-i18n="success.downloadMacIntel">
                             Download for macOS Intel
@@ -97,8 +99,10 @@
                     <!-- macOS ARM Download -->
                     <div class="download-option macos-arm" style="display: none;">
                         <h3 data-i18n="success.macArmVersion">🍎 macOS Version (Apple Silicon)</h3>
+                        <p class="note" id="macos-version-info">Loading latest version...</p>
                         <p data-i18n="success.macArmDescription">For macOS 11.0 or later (M1/M2/M3 Macs)</p>
-                        <a href="https://github.com/Andrew-AI-JR/Desktop-Releases/releases/download/v1.0.0-beta/Junior-1.0.0-arm64.dmg"
+                        <a href="#"
+                           id="macos-arm-download-link"
                            target="_self"
                            class="download-button" data-i18n="success.downloadMacArm">
                             Download for macOS Apple Silicon
@@ -217,7 +221,9 @@
             to { opacity: 1; }
         }
     </style>
-    <script src="js/success.js?v=2.1"></script>
+    <!-- Load release manager first (must load before success.js) -->
+    <script src="js/release-manager.js"></script>
+    <script src="js/success.js?v=2.2"></script>
     <!-- Simple i18n initialization script -->
     <script src="js/i18n-simple.js"></script>
 </body>

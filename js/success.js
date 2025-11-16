@@ -3,7 +3,9 @@
 // API Configuration
 const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? window.location.origin.replace(/:\d+$/, ':8000') : 'https://api.heyjunior.ai';
 
-// GitHub Release Configuration
+// GitHub Release Configuration - DEPRECATED (now using dynamic fetching)
+// This is kept as fallback only. The actual URLs are fetched from:
+// https://raw.githubusercontent.com/Andrew-AI-JR/Desktop-Releases/main/latest.json
 const GITHUB_RELEASES = {
   owner: 'Andrew-AI-JR',
   repo: 'Desktop-Releases',
@@ -15,8 +17,14 @@ const GITHUB_RELEASES = {
   }
 };
 
+// NOTE: Download URLs are now fetched dynamically via release-manager.js
+// No need to update this file when releasing new versions!
+
 document.addEventListener('DOMContentLoaded', async () => {
   console.log('Success page loaded, starting payment verification...');
+
+  // Initialize download links with latest release URLs
+  await updateDownloadLinks();
 
   // Get URL parameters
   const urlParams = new URLSearchParams(window.location.search);
@@ -53,6 +61,57 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Don't show error to user if download already started
   }
 });
+
+/**
+ * Update all download links with latest release URLs
+ */
+async function updateDownloadLinks() {
+  try {
+    if (!window.juniorReleaseManager) {
+      console.warn('[UpdateLinks] Release manager not available');
+      return;
+    }
+
+    console.log('[UpdateLinks] Fetching latest release URLs...');
+    const urls = await window.juniorReleaseManager.getAllDownloadUrls();
+    const version = await window.juniorReleaseManager.getVersionString();
+
+    console.log('[UpdateLinks] Latest version:', version);
+    console.log('[UpdateLinks] Download URLs:', urls);
+
+    // Update Windows link
+    const windowsLink = document.getElementById('windows-download-link');
+    if (windowsLink && urls.windows) {
+      windowsLink.href = urls.windows;
+      console.log('[UpdateLinks] ✅ Updated Windows link');
+    }
+
+    // Update macOS Intel link
+    const macosIntelLink = document.getElementById('macos-intel-download-link');
+    if (macosIntelLink && urls.macos_intel) {
+      macosIntelLink.href = urls.macos_intel;
+      console.log('[UpdateLinks] ✅ Updated macOS Intel link');
+    }
+
+    // Update macOS ARM link
+    const macosArmLink = document.getElementById('macos-arm-download-link');
+    if (macosArmLink && urls.macos_arm) {
+      macosArmLink.href = urls.macos_arm;
+      console.log('[UpdateLinks] ✅ Updated macOS ARM link');
+    }
+
+    // Update version display if element exists
+    const versionInfo = document.getElementById('macos-version-info');
+    if (versionInfo) {
+      versionInfo.textContent = `Latest version: ${version}`;
+    }
+
+    console.log('[UpdateLinks] ✅ All download links updated successfully');
+  } catch (error) {
+    console.error('[UpdateLinks] Failed to update download links:', error);
+    // Links will fall back to hardcoded URLs
+  }
+}
 
 async function verifyPaymentAndSetupAccount(sessionId, userId) {
   try {
@@ -197,7 +256,7 @@ function startDownloadCountdown() {
   }, 1000);
 }
 
-function initiateDownload(platform) {
+async function initiateDownload(platform) {
   console.log('Initiating download for platform:', platform);
 
   // Show download in progress
@@ -206,18 +265,40 @@ function initiateDownload(platform) {
   const progressBar = document.getElementById('download-progress');
 
   if (autoDownloadMessage) autoDownloadMessage.style.display = 'block';
-  if (countdownElement) countdownElement.textContent = 'Starting download...';
+  if (countdownElement) countdownElement.textContent = 'Fetching latest version...';
   if (progressBar) progressBar.style.width = '0%';
 
-  // Define download URLs
-  const downloadUrls = {
-    'windows': 'https://github.com/Andrew-AI-JR/Desktop-Releases/releases/download/v1.0.0-beta/Junior.Setup.1.0.0.exe',
-    'macos': 'https://github.com/Andrew-AI-JR/Desktop-Releases/releases/download/v1.0.0-beta/Junior-1.0.0.dmg',
-    'macos_arm': 'https://github.com/Andrew-AI-JR/Desktop-Releases/releases/download/v1.0.0-beta/Junior-1.0.0-arm64.dmg'
-  };
+  // Get download URLs dynamically from the release manager
+  let downloadUrl;
+  try {
+    if (window.juniorReleaseManager) {
+      console.log('[Download] Using dynamic release manager');
+      downloadUrl = await window.juniorReleaseManager.getDownloadUrl(platform);
+      const version = await window.juniorReleaseManager.getVersionString();
+      console.log('[Download] Latest version:', version);
+      console.log('[Download] Download URL:', downloadUrl);
+    } else {
+      throw new Error('Release manager not available');
+    }
+  } catch (error) {
+    console.warn('[Download] Dynamic fetch failed, using hardcoded fallback:', error);
+    // Fallback to hardcoded URLs (DEPRECATED - only used if API fails)
+    const downloadUrls = {
+      'windows': 'https://github.com/Andrew-AI-JR/Desktop-Releases/releases/download/v1.0.0-beta/Junior.Setup.1.0.0.exe',
+      'macos': 'https://github.com/Andrew-AI-JR/Desktop-Releases/releases/download/v1.0.0-beta/Junior-1.0.0.dmg',
+      'macos_arm': 'https://github.com/Andrew-AI-JR/Desktop-Releases/releases/download/v1.0.0-beta/Junior-1.0.0-arm64.dmg'
+    };
+    downloadUrl = downloadUrls[platform] || downloadUrls['windows'];
+  }
 
-  const downloadUrl = downloadUrls[platform] || downloadUrls['windows'];
-  console.log('Download URL:', downloadUrl);
+  if (!downloadUrl) {
+    console.error('[Download] No download URL available');
+    if (countdownElement) countdownElement.textContent = 'Download failed - please contact support';
+    return;
+  }
+
+  if (countdownElement) countdownElement.textContent = 'Starting download...';
+  console.log('[Download] Final download URL:', downloadUrl);
 
   // Create a hidden link to trigger the download
   const downloadLink = document.createElement('a');
