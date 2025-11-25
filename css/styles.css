@@ -37,12 +37,20 @@
     box-sizing: border-box;
 }
 
+html {
+    overflow-x: hidden;
+    width: 100%;
+}
+
 body {
     font-family: 'Roboto', sans-serif;
     line-height: 1.6;
     color: #333;
     opacity: 0;
     transition: opacity 0.3s ease-in-out;
+    overflow-x: hidden;
+    max-width: 100vw;
+    width: 100%;
 }
 
 body.i18n-ready {
@@ -53,6 +61,23 @@ body.i18n-ready {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
+    width: 100%;
+}
+
+/* Prevent all images from overflowing */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Prevent all sections and divs from overflowing */
+section, div {
+    max-width: 100%;
+}
+
+/* Ensure all content boxes don't exceed viewport */
+* {
+    max-width: 100vw;
 }
 
 /* Navigation */
@@ -138,6 +163,41 @@ body.i18n-ready {
     color: #fff;
 }
 
+/* Mobile Menu Toggle Button */
+.mobile-menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 30px;
+    height: 25px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 1001;
+}
+
+.mobile-menu-toggle span {
+    width: 30px;
+    height: 3px;
+    background: #333;
+    border-radius: 3px;
+    transition: all 0.3s ease;
+    transform-origin: center;
+}
+
+.mobile-menu-toggle.active span:nth-child(1) {
+    transform: translateY(11px) rotate(45deg);
+}
+
+.mobile-menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.mobile-menu-toggle.active span:nth-child(3) {
+    transform: translateY(-11px) rotate(-45deg);
+}
+
 /* Urgency Banner */
 .urgency-banner {
     background: linear-gradient(90deg, #fbbf24, #f59e0b);
@@ -206,6 +266,8 @@ body.i18n-ready {
     padding: 160px 0 100px;
     background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
     text-align: center;
+    width: 100%;
+    overflow-x: hidden;
 }
 
 .hero h1 {
@@ -584,6 +646,79 @@ body.i18n-ready {
 }
 
 @media (max-width: 768px) {
+    /* Mobile Navigation */
+    .mobile-menu-toggle {
+        display: flex;
+    }
+
+    .navbar .container {
+        height: 70px;
+    }
+
+    .logo-img {
+        height: 45px;
+    }
+
+    .nav-links {
+        position: fixed;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background: white;
+        flex-direction: column;
+        align-items: stretch;
+        padding: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-in-out;
+    }
+
+    .nav-links.active {
+        max-height: 500px;
+    }
+
+    .nav-group {
+        flex-direction: column;
+        gap: 0;
+        width: 100%;
+    }
+
+    .nav-actions {
+        flex-direction: column;
+        margin-left: 0;
+        margin-top: 10px;
+        gap: 10px;
+        width: 100%;
+    }
+
+    .nav-links li {
+        width: 100%;
+    }
+
+    .nav-links a {
+        display: block;
+        padding: 12px 15px;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .my-story-link {
+        text-align: center;
+        display: block;
+        width: 100%;
+    }
+
+    .cta-button {
+        text-align: center;
+        display: block;
+        width: 100%;
+    }
+
+    .nav-separator {
+        display: none;
+    }
+
+    /* Content Styles */
     .hero h1 {
         font-size: 32px;
     }
@@ -2989,14 +3124,23 @@ body.i18n-ready {
     .checkout-container {
         flex-direction: column;
         gap: 20px;
+        padding: 15px;
+        width: 100%;
+        box-sizing: border-box;
     }
 
     .product-summary {
         order: 2;
+        width: 100%;
+        padding: 15px;
+        box-sizing: border-box;
     }
 
     .checkout-form {
         order: 1;
+        width: 100%;
+        padding: 20px 15px;
+        box-sizing: border-box;
     }
 
     .platform-options {
@@ -3011,6 +3155,19 @@ body.i18n-ready {
     .security-info .security-badges {
         flex-direction: column;
         gap: 10px;
+    }
+
+    /* Ensure all form elements fit on mobile */
+    input, button, select, textarea {
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    /* Fix any fixed-width elements */
+    .product-image img {
+        max-width: 100%;
+        width: 100%;
+        height: auto;
     }
 }
 

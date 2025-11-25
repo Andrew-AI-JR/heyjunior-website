@@ -226,3 +226,6 @@ class JuniorReleaseManager {
 window.juniorReleaseManager = new JuniorReleaseManager();
 
 console.log('[ReleaseManager] Global instance created and ready');
+
+
+
