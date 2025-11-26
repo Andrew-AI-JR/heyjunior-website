@@ -25,6 +25,11 @@ function setupEventListeners() {
   document.querySelectorAll('input[name="platform"]').forEach(radio => {
     radio.addEventListener('change', () => updateButtonText(document.getElementById('create-account-button')));
   });
+  
+  // Plan selection listeners - update button text when plan changes
+  document.querySelectorAll('input[name="plan"]').forEach(radio => {
+    radio.addEventListener('change', () => updateButtonText(document.getElementById('create-account-button')));
+  });
 }
 
 // Function to initialize UI elements that depend on i18n
@@ -415,8 +420,12 @@ function showError(message) {
 function updateButtonText(buttonElement) {
   const platform = document.querySelector('input[name="platform"]:checked')?.value;
   const platformName = platform === 'macos' ? 'macOS' : (platform === 'linux' ? 'Linux' : 'Windows');
+  
+  // Get the selected plan and price
+  const selectedPlan = document.querySelector('input[name="plan"]:checked')?.value || 'standard';
+  const price = selectedPlan === 'standard' ? '29.99' : '49.99';
 
-  const baseText = 'Continue to Payment - $20/month';
+  const baseText = `Continue to Payment - $${price}/month`;
   const newText = `${baseText} (${platformName})`;
 
   const textSpan = buttonElement.querySelector('#button-text');
