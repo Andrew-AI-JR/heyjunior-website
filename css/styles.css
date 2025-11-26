@@ -467,6 +467,17 @@ section, div {
     transform: scale(1.05);
 }
 
+.pricing-card.featured h3,
+.pricing-card.featured .price,
+.pricing-card.featured .price .currency,
+.pricing-card.featured .price .amount,
+.pricing-card.featured .price .period,
+.pricing-card.featured .price-note,
+.pricing-card.featured li,
+.pricing-card.featured li span {
+    color: white !important;
+}
+
 .pricing-card h3 {
     font-size: 24px;
     margin-bottom: 20px;
