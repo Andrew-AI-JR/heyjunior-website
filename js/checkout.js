@@ -78,7 +78,7 @@ const API_BASE_URL = window.location.hostname === 'localhost' || window.location
 
 // Stripe Price IDs for different plans
 const STRIPE_PRICE_IDS = {
-  'standard': 'price_1RNwNFRxE6F23RwQe0JfuKZz', // Standard plan ($29.99/month, 50 comments/day) - was beta plan
+  'standard': 'price_1RJMCrRxE6F23RwQEnHUwvFq', // Standard plan ($29.99/month, 50 comments/day)
   'pro': 'price_1SX1LrRxE6F23RwQgWgIV1NK'       // Pro plan ($49.99/month, 80 comments/day)
 };
 
