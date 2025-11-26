@@ -54,15 +54,15 @@
                     <div class="plan-selection" style="margin: 20px 0; padding: 15px; background: white; border-radius: 8px; border: 1px solid #d1e9ff;">
                         <h3 style="font-size: 1em; color: #1e40af; margin-bottom: 10px; text-align: center;">Select Your Plan:</h3>
                         <div style="display: flex; gap: 10px; flex-direction: column;">
-                            <label class="plan-option" style="display: block; padding: 12px; border: 2px solid #e2e8f0; border-radius: 6px; cursor: pointer; transition: all 0.3s;">
-                                <input type="radio" name="plan" value="standard" id="plan-standard" style="margin-right: 8px;">
-                                <strong>Standard - $29.99/month</strong>
-                                <small style="display: block; color: #6b7280; margin-left: 24px;">50 AI comments per day</small>
-                            </label>
                             <label class="plan-option" style="display: block; padding: 12px; border: 2px solid #10b981; border-radius: 6px; cursor: pointer; background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);">
-                                <input type="radio" name="plan" value="pro" id="plan-pro" checked style="margin-right: 8px;">
-                                <strong style="color: #059669;">Pro - $49.99/month ⭐ MOST POPULAR</strong>
-                                <small style="display: block; color: #059669; margin-left: 24px;">80 AI comments per day + Priority Support</small>
+                                <input type="radio" name="plan" value="standard" id="plan-standard" checked style="margin-right: 8px;">
+                                <strong style="color: #059669;">Standard - $29.99/month ⭐ MOST POPULAR</strong>
+                                <small style="display: block; color: #059669; margin-left: 24px;">50 AI comments per day - Perfect for most job seekers</small>
+                            </label>
+                            <label class="plan-option" style="display: block; padding: 12px; border: 2px solid #e2e8f0; border-radius: 6px; cursor: pointer; transition: all 0.3s;">
+                                <input type="radio" name="plan" value="pro" id="plan-pro" style="margin-right: 8px;">
+                                <strong>Pro - $49.99/month</strong>
+                                <small style="display: block; color: #6b7280; margin-left: 24px;">80 AI comments per day + Priority Support</small>
                             </label>
                         </div>
                     </div>
@@ -94,10 +94,10 @@
                     <div class="pricing-summary">
                         <div class="price-display">
                             <span class="currency">$</span>
-                            <span class="amount" id="price-amount">49.99</span>
+                            <span class="amount" id="price-amount">29.99</span>
                             <span class="period" data-i18n="pricing.period">/month</span>
                         </div>
-                        <p class="price-note" id="price-note" data-i18n="pricing.priceNote">Maximum visibility • Cancel anytime</p>
+                        <p class="price-note" id="price-note" data-i18n="pricing.priceNote">Perfect for job seekers • Cancel anytime</p>
                     </div>
                 </div>
 
@@ -158,7 +158,7 @@
                     <div class="payment-section">
                         <h3 data-i18n="checkout.paymentInfo">Complete Your Purchase</h3>
                         <button type="button" id="create-account-button" disabled>
-                            <span id="button-text" data-i18n="checkout.createAccount">Continue to Payment - $49.99/month</span>
+                            <span id="button-text" data-i18n="checkout.createAccount">Continue to Payment - $29.99/month</span>
                         </button>
                         <div id="checkout-error" class="error-message" style="display: none; margin-top: 10px; color: #dc2626; text-align: center;"></div>
                         <small style="text-align:center; display:block; margin-top:10px; color: #6b7280;">After payment, you'll be redirected to download the app</small>

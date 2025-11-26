@@ -181,7 +181,7 @@ async function handleCheckoutAction(e) {
   const password = document.getElementById('customer-password').value;
   const confirmPassword = document.getElementById('confirm-password').value;
   const platform = document.querySelector('input[name="platform"]:checked')?.value;
-  const selectedPlan = document.querySelector('input[name="plan"]:checked')?.value || 'pro'; // Default to pro if not selected
+  const selectedPlan = document.querySelector('input[name="plan"]:checked')?.value || 'standard'; // Default to standard if not selected
 
   // Get the correct Stripe price ID for the selected plan
   const stripePriceId = STRIPE_PRICE_IDS[selectedPlan];
