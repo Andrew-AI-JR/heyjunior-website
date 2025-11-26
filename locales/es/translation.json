@@ -74,24 +74,26 @@
     }
   },
   "pricing": {
-    "title": "Lanzamiento Beta - Precios Especiales",
-    "betaLaunch": "🚀 LANZAMIENTO BETA",
-    "productName": "Herramienta de Automatización de LinkedIn",
-    "price": "$20",
+    "title": "Elige Tu Plan",
+    "standardName": "Estándar",
+    "proName": "Pro",
     "period": "/mes",
-    "priceNote": "Precio especial beta • Cancela cuando quieras",
+    "priceNote": "Perfecto para buscadores de empleo • Cancela cuando quieras",
+    "proNote": "Máxima visibilidad • Cancela cuando quieras",
     "features": {
+      "standard": {
+        "comments": "50 comentarios IA por día"
+      },
+      "pro": {
+        "comments": "80 comentarios IA por día"
+      },
       "targeting": "Segmentación de gerentes de contratación",
       "analytics": "Análisis de rendimiento",
       "support": "Soporte por email",
+      "prioritySupport": "Soporte prioritario por email",
       "cancelAnytime": "Cancela cuando quieras",
       "earlyAccess": "Acceso temprano a nuevas características"
-    },
-    "betaNote": "⚡ El precio aumentará después del período beta",
-    "ctaTitle": "🎯 ¿Listo para Comenzar tu Aventura Beta?",
-    "ctaDescription": "Únete a nuestro programa beta exclusivo y obtén automatización premium de LinkedIn a un precio inmejorable.",
-    "ctaButton": "Elegir Acceso Beta - $20/mes",
-    "ctaSubtitle": "Cancela cuando quieras • Pago seguro"
+    }
   },
   "footer": {
     "contact": {

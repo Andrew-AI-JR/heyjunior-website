@@ -74,24 +74,26 @@
     }
   },
   "pricing": {
-    "title": "Beta Launch - Special Pricing",
-    "betaLaunch": "🚀 BETA LAUNCH",
-    "productName": "LinkedIn Automation Tool",
-    "price": "$20",
+    "title": "Choose Your Plan",
+    "standardName": "Standard",
+    "proName": "Pro",
     "period": "/month",
-    "priceNote": "Special beta pricing • Cancel anytime",
+    "priceNote": "Perfect for job seekers • Cancel anytime",
+    "proNote": "Maximum visibility • Cancel anytime",
     "features": {
+      "standard": {
+        "comments": "50 AI comments per day"
+      },
+      "pro": {
+        "comments": "80 AI comments per day"
+      },
       "targeting": "Hiring manager targeting",
       "analytics": "Performance analytics",
       "support": "Email support",
+      "prioritySupport": "Priority email support",
       "cancelAnytime": "Cancel anytime",
       "earlyAccess": "Early access to new features"
-    },
-    "betaNote": "⚡ Price will increase after beta period",
-    "ctaTitle": "🎯 Ready to Start Your Beta Journey?",
-    "ctaDescription": "Join our exclusive beta program and get premium LinkedIn automation at an unbeatable price.",
-    "ctaButton": "Choose Beta Access - $20/month",
-    "ctaSubtitle": "Cancel anytime • Secure payment"
+    }
   },
   "footer": {
     "contact": {
