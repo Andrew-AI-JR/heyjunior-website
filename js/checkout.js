@@ -75,7 +75,12 @@ window.addEventListener('i18nInitialized', () => {
 
 // API Configuration
 const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? window.location.origin.replace(/:\d+$/, ':8000') : 'https://api.heyjunior.ai';
-const STRIPE_PRICE_ID = 'price_1RNwNFRxE6F23RwQe0JfuKZz'; // Replace with your actual Stripe price ID
+
+// Stripe Price IDs for different plans
+const STRIPE_PRICE_IDS = {
+  'standard': 'price_1RNwNFRxE6F23RwQe0JfuKZz', // Standard plan ($29.99/month, 50 comments/day) - was beta plan
+  'pro': 'price_1SX1LrRxE6F23RwQgWgIV1NK'       // Pro plan ($49.99/month, 80 comments/day)
+};
 
 // Global variables to manage token refresh state
 let isRefreshingToken = false;
@@ -176,6 +181,14 @@ async function handleCheckoutAction(e) {
   const password = document.getElementById('customer-password').value;
   const confirmPassword = document.getElementById('confirm-password').value;
   const platform = document.querySelector('input[name="platform"]:checked')?.value;
+  const selectedPlan = document.querySelector('input[name="plan"]:checked')?.value || 'pro'; // Default to pro if not selected
+
+  // Get the correct Stripe price ID for the selected plan
+  const stripePriceId = STRIPE_PRICE_IDS[selectedPlan];
+  if (!stripePriceId) {
+    showError('Invalid plan selected. Please refresh and try again.');
+    return;
+  }
 
   // Validate form
   const validationError = validateForm(email, password, confirmPassword, platform);
@@ -190,6 +203,7 @@ async function handleCheckoutAction(e) {
 
   try {
     sessionStorage.setItem('selectedPlatform', platform); // Store platform selection for later
+    sessionStorage.setItem('selectedPlan', selectedPlan); // Store plan selection
 
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 30000);
@@ -198,24 +212,27 @@ async function handleCheckoutAction(e) {
     const requestBody = {
       email: email,
       password: password,
-      price_id: STRIPE_PRICE_ID,
+      price_id: stripePriceId,
       success_url: `${window.location.origin}/success.html?session_id={CHECKOUT_SESSION_ID}&user_id=${encodeURIComponent(email)}`,
       cancel_url: `${window.location.origin}/checkout.html`,
       coupon_code: null,
       metadata: {
         platform: platform,
-        user_email: email
+        user_email: email,
+        plan: selectedPlan
       },
       payment_intent_data: {
         metadata: {
           user_email: email,
-          platform: platform
+          platform: platform,
+          plan: selectedPlan
         }
       },
       subscription_data: {
         metadata: {
           user_email: email,
-          platform: platform
+          platform: platform,
+          plan: selectedPlan
         }
       }
     };
