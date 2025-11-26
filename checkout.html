@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Get LinkedIn Automation Tool - Beta Access">
+    <meta name="description" content="Get LinkedIn Automation Tool - Choose Your Plan">
     <title>Checkout - LinkedIn Automation Tool</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -48,7 +48,23 @@
                 <div class="product-summary">
                     <div class="product-header">
                         <h1 data-i18n="checkout.title">🚀 LinkedIn Automation Tool</h1>
-                        <div class="beta-badge" data-i18n="checkout.betaBadge">BETA ACCESS - LIMITED TIME</div>
+                    </div>
+
+                    <!-- Plan Selection -->
+                    <div class="plan-selection" style="margin: 20px 0; padding: 15px; background: white; border-radius: 8px; border: 1px solid #d1e9ff;">
+                        <h3 style="font-size: 1em; color: #1e40af; margin-bottom: 10px; text-align: center;">Select Your Plan:</h3>
+                        <div style="display: flex; gap: 10px; flex-direction: column;">
+                            <label class="plan-option" style="display: block; padding: 12px; border: 2px solid #e2e8f0; border-radius: 6px; cursor: pointer; transition: all 0.3s;">
+                                <input type="radio" name="plan" value="standard" id="plan-standard" style="margin-right: 8px;">
+                                <strong>Standard - $29.99/month</strong>
+                                <small style="display: block; color: #6b7280; margin-left: 24px;">50 AI comments per day</small>
+                            </label>
+                            <label class="plan-option" style="display: block; padding: 12px; border: 2px solid #10b981; border-radius: 6px; cursor: pointer; background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);">
+                                <input type="radio" name="plan" value="pro" id="plan-pro" checked style="margin-right: 8px;">
+                                <strong style="color: #059669;">Pro - $49.99/month ⭐ MOST POPULAR</strong>
+                                <small style="display: block; color: #059669; margin-left: 24px;">80 AI comments per day + Priority Support</small>
+                            </label>
+                        </div>
                     </div>
 
                     <div class="product-image">
@@ -78,10 +94,10 @@
                     <div class="pricing-summary">
                         <div class="price-display">
                             <span class="currency">$</span>
-                            <span class="amount">20</span>
+                            <span class="amount" id="price-amount">49.99</span>
                             <span class="period" data-i18n="pricing.period">/month</span>
                         </div>
-                        <p class="price-note" data-i18n="pricing.priceNote">Special beta pricing • Cancel anytime</p>
+                        <p class="price-note" id="price-note" data-i18n="pricing.priceNote">Maximum visibility • Cancel anytime</p>
                     </div>
                 </div>
 
@@ -142,7 +158,7 @@
                     <div class="payment-section">
                         <h3 data-i18n="checkout.paymentInfo">Complete Your Purchase</h3>
                         <button type="button" id="create-account-button" disabled>
-                            <span id="button-text" data-i18n="checkout.createAccount">Continue to Payment - $20/month</span>
+                            <span id="button-text" data-i18n="checkout.createAccount">Continue to Payment - $49.99/month</span>
                         </button>
                         <div id="checkout-error" class="error-message" style="display: none; margin-top: 10px; color: #dc2626; text-align: center;"></div>
                         <small style="text-align:center; display:block; margin-top:10px; color: #6b7280;">After payment, you'll be redirected to download the app</small>
@@ -246,6 +262,46 @@
                     }
                 });
             }
+
+            // Plan selection pricing update
+            const planRadios = document.querySelectorAll('input[name="plan"]');
+            const priceAmount = document.getElementById('price-amount');
+            const priceNote = document.getElementById('price-note');
+            const buttonText = document.getElementById('button-text');
+
+            function updatePricing() {
+                const selectedPlan = document.querySelector('input[name="plan"]:checked');
+                if (selectedPlan) {
+                    if (selectedPlan.value === 'standard') {
+                        priceAmount.textContent = '29.99';
+                        priceNote.textContent = 'Perfect for job seekers • Cancel anytime';
+                        if (buttonText) buttonText.textContent = 'Continue to Payment - $29.99/month';
+                    } else {
+                        priceAmount.textContent = '49.99';
+                        priceNote.textContent = 'Maximum visibility • Cancel anytime';
+                        if (buttonText) buttonText.textContent = 'Continue to Payment - $49.99/month';
+                    }
+                }
+            }
+
+            // Update pricing on plan change
+            planRadios.forEach(radio => {
+                radio.addEventListener('change', updatePricing);
+            });
+
+            // Check URL params for pre-selected plan
+            const urlParams = new URLSearchParams(window.location.search);
+            const planParam = urlParams.get('plan');
+            if (planParam && (planParam === 'standard' || planParam === 'pro')) {
+                const planRadio = document.getElementById('plan-' + planParam);
+                if (planRadio) {
+                    planRadio.checked = true;
+                    updatePricing();
+                }
+            }
+
+            // Initial update
+            updatePricing();
         });
     </script>
 </body>
