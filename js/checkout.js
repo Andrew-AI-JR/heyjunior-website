@@ -210,6 +210,9 @@ async function handleCheckoutAction(e) {
     sessionStorage.setItem('selectedPlatform', platform); // Store platform selection for later
     sessionStorage.setItem('selectedPlan', selectedPlan); // Store plan selection
 
+    // Get applied coupon code if any
+    const appliedCoupon = sessionStorage.getItem('appliedCoupon') || null;
+
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 30000);
 
@@ -220,7 +223,7 @@ async function handleCheckoutAction(e) {
       price_id: stripePriceId,
       success_url: `${window.location.origin}/success.html?session_id={CHECKOUT_SESSION_ID}&user_id=${encodeURIComponent(email)}`,
       cancel_url: `${window.location.origin}/checkout.html`,
-      coupon_code: null,
+      coupon_code: appliedCoupon,
       metadata: {
         platform: platform,
         user_email: email,

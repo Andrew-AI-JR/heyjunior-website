@@ -43,6 +43,31 @@
     <!-- Checkout Section -->
     <section class="purchase-section">
         <div class="container">
+            <!-- Limited Time Offer Banner -->
+            <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 12px; padding: 20px 30px; margin-bottom: 30px; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3); border: 2px solid #34d399;">
+                <div style="text-align: center;">
+                    <div style="display: inline-block; background: rgba(255, 255, 255, 0.25); padding: 4px 12px; border-radius: 20px; font-size: 0.85em; font-weight: 600; color: white; margin-bottom: 8px; letter-spacing: 0.5px;">
+                        ⭐ LIMITED TIME OFFER
+                    </div>
+                    <h2 style="color: white; font-size: 1.8em; margin: 10px 0; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        Get Your First Month FREE!
+                    </h2>
+                    <p style="color: rgba(255, 255, 255, 0.95); font-size: 1.1em; margin: 12px 0 16px 0; line-height: 1.5;">
+                        Start your job search journey risk-free. Use coupon code below at checkout.
+                    </p>
+                    <div style="background: white; display: inline-flex; align-items: center; padding: 12px 24px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.15); margin-top: 8px;">
+                        <span style="color: #6b7280; font-size: 0.95em; margin-right: 12px; font-weight: 500;">Coupon Code:</span>
+                        <code id="promo-code-display" style="background: #f3f4f6; color: #059669; padding: 8px 16px; border-radius: 6px; font-size: 1.2em; font-weight: 700; letter-spacing: 1px; font-family: 'Courier New', monospace; border: 2px dashed #10b981;">TEST</code>
+                        <button onclick="copyPromoCode()" style="background: #10b981; color: white; border: none; padding: 8px 16px; border-radius: 6px; margin-left: 12px; cursor: pointer; font-weight: 600; transition: all 0.2s; font-size: 0.9em;" onmouseover="this.style.background='#059669'" onmouseout="this.style.background='#10b981'">
+                            📋 Copy
+                        </button>
+                    </div>
+                    <p style="color: rgba(255, 255, 255, 0.85); font-size: 0.9em; margin-top: 12px; font-style: italic;">
+                        💡 Apply the code in the payment section below
+                    </p>
+                </div>
+            </div>
+
             <div class="checkout-container">
                 <!-- Product Summary -->
                 <div class="product-summary">
@@ -96,6 +121,9 @@
                             <span class="currency">$</span>
                             <span class="amount" id="price-amount">29.99</span>
                             <span class="period" data-i18n="pricing.period">/month</span>
+                        </div>
+                        <div id="savings-badge" style="display: none; background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 12px 20px; border-radius: 8px; margin: 15px 0; text-align: center; font-weight: 600; box-shadow: 0 4px 8px rgba(16, 185, 129, 0.3);">
+                            💰 You're saving $<span id="savings-amount">29.99</span> with code TEST!
                         </div>
                         <p class="price-note" id="price-note" data-i18n="pricing.priceNote">Perfect for job seekers • Cancel anytime</p>
                     </div>
@@ -154,14 +182,35 @@
                         </div>
                     </div>
 
+                    <!-- Coupon Code Section -->
+                    <div class="coupon-section" style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border: 2px solid #10b981; border-radius: 8px; padding: 20px; margin: 20px 0;">
+                        <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 12px;">
+                            <span style="font-size: 1.5em; margin-right: 8px;">🎁</span>
+                            <h3 style="margin: 0; color: #059669; font-size: 1.1em;">Have a Coupon Code?</h3>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <div style="display: flex; gap: 10px; align-items: flex-start;">
+                                <div style="flex: 1;">
+                                    <input type="text" id="coupon-code" placeholder="Enter coupon code (e.g., test)" style="width: 100%; padding: 12px; border: 2px solid #10b981; border-radius: 6px; font-size: 1em; text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px;">
+                                    <small id="coupon-message" style="display: none; margin-top: 8px; font-weight: 600;"></small>
+                                </div>
+                                <button type="button" id="apply-coupon-btn" onclick="applyCouponCode()" style="background: #10b981; color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-weight: 600; white-space: nowrap; transition: all 0.2s; font-size: 1em;" onmouseover="this.style.background='#059669'" onmouseout="this.style.background='#10b981'">
+                                    Apply Code
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Payment Button -->
+                    <!-- Stripe Link (One-Click Checkout) is enabled on the backend -->
+                    <!-- Returning customers will see a one-click payment option -->
                     <div class="payment-section">
                         <h3 data-i18n="checkout.paymentInfo">Complete Your Purchase</h3>
                         <button type="button" id="create-account-button" disabled>
                             <span id="button-text" data-i18n="checkout.createAccount">Continue to Payment - $29.99/month</span>
                         </button>
                         <div id="checkout-error" class="error-message" style="display: none; margin-top: 10px; color: #dc2626; text-align: center;"></div>
-                        <small style="text-align:center; display:block; margin-top:10px; color: #6b7280;">After payment, you'll be redirected to download the app</small>
+                        <small style="text-align:center; display:block; margin-top:10px; color: #6b7280;">⚡ One-click checkout with Stripe Link • After payment, you'll be redirected to download the app</small>
                     </div>
 
                     <!-- Security Info -->
@@ -303,6 +352,119 @@
             // Initial update
             updatePricing();
         });
+
+        // Coupon Code Functionality
+        window.copyPromoCode = function() {
+            const promoCode = 'TEST';
+            const couponInput = document.getElementById('coupon-code');
+            
+            // Copy to clipboard
+            navigator.clipboard.writeText(promoCode).then(() => {
+                // Update the coupon input field
+                if (couponInput) {
+                    couponInput.value = promoCode;
+                }
+                
+                // Show success feedback
+                const copyBtn = event.target;
+                const originalText = copyBtn.innerHTML;
+                copyBtn.innerHTML = '✓ Copied!';
+                copyBtn.style.background = '#059669';
+                
+                setTimeout(() => {
+                    copyBtn.innerHTML = originalText;
+                    copyBtn.style.background = '#10b981';
+                }, 2000);
+                
+                // Scroll to coupon section
+                document.querySelector('.coupon-section')?.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'center' 
+                });
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+                // Fallback: just fill the input
+                if (couponInput) {
+                    couponInput.value = promoCode;
+                    couponInput.focus();
+                }
+            });
+        };
+
+        window.applyCouponCode = function() {
+            const couponInput = document.getElementById('coupon-code');
+            const couponMessage = document.getElementById('coupon-message');
+            const applyBtn = document.getElementById('apply-coupon-btn');
+            const couponCode = couponInput.value.trim().toUpperCase();
+            
+            if (!couponCode) {
+                showCouponMessage('Please enter a coupon code', 'error');
+                return;
+            }
+            
+            // Case-insensitive validation - accepts 'test', 'TEST', 'Test', etc.
+            if (couponCode === 'TEST') {
+                // Update input to show uppercase version
+                couponInput.value = couponCode;
+                
+                showCouponMessage('✓ Coupon "' + couponCode + '" applied! First month FREE!', 'success');
+                applyBtn.innerHTML = '✓ Applied';
+                applyBtn.style.background = '#059669';
+                applyBtn.disabled = true;
+                
+                // Store coupon for checkout (uppercase for Stripe)
+                sessionStorage.setItem('appliedCoupon', couponCode);
+                
+                // Update pricing display to show discount
+                updatePricingWithCoupon();
+            } else {
+                showCouponMessage('Invalid coupon code. Please check and try again.', 'error');
+            }
+        };
+
+        function showCouponMessage(message, type) {
+            const couponMessage = document.getElementById('coupon-message');
+            couponMessage.textContent = message;
+            couponMessage.style.display = 'block';
+            couponMessage.style.color = type === 'success' ? '#059669' : '#dc2626';
+        }
+
+        function updatePricingWithCoupon() {
+            const priceNote = document.getElementById('price-note');
+            const savingsBadge = document.getElementById('savings-badge');
+            const savingsAmount = document.getElementById('savings-amount');
+            const selectedPlan = document.querySelector('input[name="plan"]:checked')?.value || 'standard';
+            const price = selectedPlan === 'standard' ? '29.99' : '49.99';
+            
+            if (priceNote) {
+                priceNote.innerHTML = '🎉 <strong>First month FREE</strong> with coupon • Then regular price • Cancel anytime';
+                priceNote.style.color = '#059669';
+            }
+            
+            if (savingsBadge && savingsAmount) {
+                savingsAmount.textContent = price;
+                savingsBadge.style.display = 'block';
+            }
+        }
+
+        // Allow Enter key to apply coupon
+        const couponCodeInput = document.getElementById('coupon-code');
+        if (couponCodeInput) {
+            // Auto-uppercase as user types
+            couponCodeInput.addEventListener('input', function(e) {
+                // The CSS text-transform: uppercase handles the display
+                // This just ensures the value is uppercase too
+                this.value = this.value.toUpperCase();
+            });
+            
+            // Allow Enter key to apply coupon
+            couponCodeInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    applyCouponCode();
+                }
+            });
+        }
     </script>
 </body>
 </html>
