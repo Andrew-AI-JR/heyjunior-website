@@ -117,13 +117,19 @@
                     </div>
 
                     <div class="pricing-summary">
-                        <div class="price-display">
-                            <span class="currency">$</span>
-                            <span class="amount" id="price-amount">29.99</span>
-                            <span class="period" data-i18n="pricing.period">/month</span>
+                        <div class="price-display" style="position: relative;">
+                            <div id="original-price" style="display: flex; align-items: center; justify-content: center;">
+                                <span class="currency">$</span>
+                                <span class="amount" id="price-amount">29.99</span>
+                                <span class="period" data-i18n="pricing.period">/month</span>
+                            </div>
+                            <div id="free-price" style="display: none; font-size: 3em; font-weight: 700; color: #059669; margin: 10px 0;">
+                                FREE
+                                <div style="font-size: 0.3em; color: #6b7280; font-weight: 400; margin-top: 5px;">First Month</div>
+                            </div>
                         </div>
                         <div id="savings-badge" style="display: none; background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 12px 20px; border-radius: 8px; margin: 15px 0; text-align: center; font-weight: 600; box-shadow: 0 4px 8px rgba(16, 185, 129, 0.3);">
-                            💰 You're saving $<span id="savings-amount">29.99</span> with code TEST!
+                            🎉 You're saving $<span id="savings-amount">29.99</span> on your first month!
                         </div>
                         <p class="price-note" id="price-note" data-i18n="pricing.priceNote">Perfect for job seekers • Cancel anytime</p>
                     </div>
@@ -320,15 +326,45 @@
 
             function updatePricing() {
                 const selectedPlan = document.querySelector('input[name="plan"]:checked');
+                const appliedCoupon = sessionStorage.getItem('appliedCoupon');
+                
                 if (selectedPlan) {
-                    if (selectedPlan.value === 'standard') {
-                        priceAmount.textContent = '29.99';
-                        priceNote.textContent = 'Perfect for job seekers • Cancel anytime';
-                        if (buttonText) buttonText.textContent = 'Continue to Payment - $29.99/month';
+                    const price = selectedPlan.value === 'standard' ? '29.99' : '49.99';
+                    const note = selectedPlan.value === 'standard' ? 
+                        'Perfect for job seekers • Cancel anytime' : 
+                        'Maximum visibility • Cancel anytime';
+                    
+                    priceAmount.textContent = price;
+                    
+                    // If coupon is applied, update with coupon pricing
+                    if (appliedCoupon) {
+                        updatePricingWithCoupon();
                     } else {
-                        priceAmount.textContent = '49.99';
-                        priceNote.textContent = 'Maximum visibility • Cancel anytime';
-                        if (buttonText) buttonText.textContent = 'Continue to Payment - $49.99/month';
+                        // Reset to normal pricing display
+                        const originalPrice = document.getElementById('original-price');
+                        const freePrice = document.getElementById('free-price');
+                        const savingsBadge = document.getElementById('savings-badge');
+                        
+                        if (originalPrice) {
+                            originalPrice.style.textDecoration = 'none';
+                            originalPrice.style.opacity = '1';
+                            originalPrice.style.fontSize = '';
+                        }
+                        if (freePrice) {
+                            freePrice.style.display = 'none';
+                        }
+                        if (savingsBadge) {
+                            savingsBadge.style.display = 'none';
+                        }
+                        
+                        priceNote.textContent = note;
+                        priceNote.style.color = '';
+                        
+                        if (buttonText) {
+                            const platform = document.querySelector('input[name="platform"]:checked')?.value;
+                            const platformName = platform === 'macos' ? 'macOS' : (platform === 'linux' ? 'Linux' : 'Windows');
+                            buttonText.textContent = `Continue to Payment - $${price}/month (${platformName})`;
+                        }
                     }
                 }
             }
@@ -433,17 +469,38 @@
             const priceNote = document.getElementById('price-note');
             const savingsBadge = document.getElementById('savings-badge');
             const savingsAmount = document.getElementById('savings-amount');
+            const originalPrice = document.getElementById('original-price');
+            const freePrice = document.getElementById('free-price');
+            const buttonText = document.getElementById('button-text');
             const selectedPlan = document.querySelector('input[name="plan"]:checked')?.value || 'standard';
             const price = selectedPlan === 'standard' ? '29.99' : '49.99';
+            const platform = document.querySelector('input[name="platform"]:checked')?.value;
+            const platformName = platform === 'macos' ? 'macOS' : (platform === 'linux' ? 'Linux' : 'Windows');
             
-            if (priceNote) {
-                priceNote.innerHTML = '🎉 <strong>First month FREE</strong> with coupon • Then regular price • Cancel anytime';
-                priceNote.style.color = '#059669';
+            // Hide original price and show FREE
+            if (originalPrice) {
+                originalPrice.style.textDecoration = 'line-through';
+                originalPrice.style.opacity = '0.4';
+                originalPrice.style.fontSize = '0.8em';
+            }
+            if (freePrice) {
+                freePrice.style.display = 'block';
             }
             
+            // Update price note with clear messaging
+            if (priceNote) {
+                priceNote.innerHTML = '<span style="font-size: 0.95em; color: #6b7280;">Then $' + price + '/month • Cancel anytime before renewal</span>';
+            }
+            
+            // Show savings badge
             if (savingsBadge && savingsAmount) {
                 savingsAmount.textContent = price;
                 savingsBadge.style.display = 'block';
+            }
+            
+            // Update button text to be clear about the free trial
+            if (buttonText) {
+                buttonText.textContent = `Start Your FREE Month (${platformName})`;
             }
         }
 
