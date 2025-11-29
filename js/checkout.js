@@ -288,6 +288,11 @@ async function handleCheckoutAction(e) {
       });
     }
 
+    // Safety check: ensure we have a response
+    if (!response) {
+      throw new Error('No API response received. Please try again.');
+    }
+
     clearTimeout(timeoutId);
 
     const data = await response.json();
