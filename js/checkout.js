@@ -195,8 +195,9 @@ async function handleCheckoutAction(e) {
     return;
   }
 
-  // Get applied coupon code
+  // Get applied coupon code and Stripe promotion code ID
   const appliedCoupon = window.appliedCoupon || sessionStorage.getItem('appliedCoupon') || null;
+  const stripePromoCodeId = window.stripePromotionCodeId || sessionStorage.getItem('stripePromotionCodeId') || appliedCoupon;
 
   // Determine checkout action type
   const isCreatingAccount = !!(password && password.length > 0);
@@ -240,7 +241,7 @@ async function handleCheckoutAction(e) {
         price_id: stripePriceId,
         success_url: `${window.location.origin}/success.html?session_id={CHECKOUT_SESSION_ID}&user_id=${encodeURIComponent(email)}`,
         cancel_url: `${window.location.origin}/checkout.html`,
-        coupon_code: appliedCoupon,
+        coupon_code: stripePromoCodeId, // Use Stripe promotion code ID, not the code name
         metadata: {
           platform: platform,
           user_email: email,
@@ -273,7 +274,7 @@ async function handleCheckoutAction(e) {
         price_id: stripePriceId,
         success_url: `${window.location.origin}/success.html?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${window.location.origin}/checkout.html`,
-        coupon_code: appliedCoupon,
+        coupon_code: stripePromoCodeId, // Use Stripe promotion code ID, not the code name
         metadata: {
           user_email: email,
           platform: platform,
@@ -554,9 +555,28 @@ async function applyCouponCode() {
       return;
     }
     
-    // Coupon is valid - store it
-    window.appliedCoupon = couponCode;
+    // Coupon is valid - store both the code name and Stripe promotion code ID
+    window.appliedCoupon = couponCode; // Store code name for display
     sessionStorage.setItem('appliedCoupon', couponCode);
+    
+    // Store the Stripe promotion code ID if provided by the backend
+    // IMPORTANT: The backend validation endpoint MUST return the Stripe promotion code ID (e.g., "Md3yl42o" or "promo_Md3yl42o")
+    // NOT the code name. The backend should look up the promotion code by name in Stripe and return its ID.
+    // The backend validation response should include one of these fields:
+    const stripePromoCodeId = validationResult.promotion_code_id || 
+                              validationResult.promo_code_id || 
+                              validationResult.stripe_promotion_code_id ||
+                              validationResult.promotionCodeId ||
+                              validationResult.id;
+    
+    if (stripePromoCodeId) {
+      sessionStorage.setItem('stripePromotionCodeId', stripePromoCodeId);
+      window.stripePromotionCodeId = stripePromoCodeId;
+    } else {
+      console.warn('Validation response did not include Stripe promotion code ID. Using code name as fallback.');
+      // Fallback: store the code name as the ID (backend should handle conversion)
+      sessionStorage.setItem('stripePromotionCodeId', couponCode);
+    }
     
     // Show success message
     couponMessage.textContent = `✅ Coupon "${couponCode}" applied successfully!`;
