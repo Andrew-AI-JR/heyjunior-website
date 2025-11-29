@@ -195,8 +195,23 @@ async function handleCheckoutAction(e) {
     return;
   }
 
-  // Validate form
-  const validationError = validateForm(email, password, confirmPassword, platform);
+  // Get applied coupon code
+  const appliedCoupon = window.appliedCoupon || sessionStorage.getItem('appliedCoupon') || null;
+
+  // Determine checkout action type
+  const isCreatingAccount = !!(password && password.length > 0);
+  const isBuyingNewSubscription = !isCreatingAccount;
+
+  // Validate form based on current action
+  let validationError = null;
+  if (isCreatingAccount) {
+    validationError = validateForm(email, password, confirmPassword, platform);
+  } else if (isBuyingNewSubscription) {
+    if (!platform) {
+      validationError = window.i18nUtils ? window.i18nUtils.translate('checkout.platformRequired') : 'Please select your platform (Windows or macOS).';
+    }
+  }
+
   if (validationError) {
     showError(validationError);
     return;
@@ -210,47 +225,68 @@ async function handleCheckoutAction(e) {
     sessionStorage.setItem('selectedPlatform', platform); // Store platform selection for later
     sessionStorage.setItem('selectedPlan', selectedPlan); // Store plan selection
 
-    // Get applied coupon code if any
-    const appliedCoupon = sessionStorage.getItem('appliedCoupon') || null;
-
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 30000);
 
-    const apiUrl = `${API_BASE_URL}/api/users/create-with-payment`;
-    const requestBody = {
-      email: email,
-      password: password,
-      price_id: stripePriceId,
-      success_url: `${window.location.origin}/success.html?session_id={CHECKOUT_SESSION_ID}&user_id=${encodeURIComponent(email)}`,
-      cancel_url: `${window.location.origin}/checkout.html`,
-      coupon_code: appliedCoupon,
-      metadata: {
-        platform: platform,
-        user_email: email,
-        plan: selectedPlan
-      },
-      payment_intent_data: {
+    let apiUrl = '';
+    let requestBody = {};
+    let response;
+
+    if (isCreatingAccount) {
+      apiUrl = `${API_BASE_URL}/api/users/create-with-payment`;
+      requestBody = {
+        email: email,
+        password: password,
+        price_id: stripePriceId,
+        success_url: `${window.location.origin}/success.html?session_id={CHECKOUT_SESSION_ID}&user_id=${encodeURIComponent(email)}`,
+        cancel_url: `${window.location.origin}/checkout.html`,
+        coupon_code: appliedCoupon,
+        metadata: {
+          platform: platform,
+          user_email: email,
+          plan: selectedPlan
+        },
+        payment_intent_data: {
+          metadata: {
+            user_email: email,
+            platform: platform,
+            plan: selectedPlan
+          }
+        },
+        subscription_data: {
+          metadata: {
+            user_email: email,
+            platform: platform,
+            plan: selectedPlan
+          }
+        }
+      };
+      response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(requestBody),
+        signal: controller.signal
+      });
+    } else if (isBuyingNewSubscription) {
+      apiUrl = `${API_BASE_URL}/api/payments/create-checkout-session`;
+      requestBody = {
+        price_id: stripePriceId,
+        success_url: `${window.location.origin}/success.html?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${window.location.origin}/checkout.html`,
+        coupon_code: appliedCoupon,
         metadata: {
           user_email: email,
           platform: platform,
           plan: selectedPlan
         }
-      },
-      subscription_data: {
-        metadata: {
-          user_email: email,
-          platform: platform,
-          plan: selectedPlan
-        }
-      }
-    };
-    
-    const response = await fetch(apiUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(requestBody),
-      signal: controller.signal
-    });
+      };
+      response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(requestBody),
+        signal: controller.signal
+      });
+    }
 
     clearTimeout(timeoutId);
 
@@ -301,7 +337,7 @@ async function handleCheckoutAction(e) {
       userAgent: navigator.userAgent,
       referrer: document.referrer || 'direct',
       payment_method: 'integrated_checkout',
-      coupon: null
+      coupon: appliedCoupon
     };
 
 
@@ -453,4 +489,117 @@ function detectUserPlatform() {
 
   // Default to Windows if can't detect
   return 'windows';
+}
+
+// Coupon Code Functionality
+async function applyCouponCode() {
+  const couponInput = document.getElementById('coupon-code');
+  const couponMessage = document.getElementById('coupon-message');
+  const applyButton = document.getElementById('apply-coupon-btn');
+  
+  if (!couponInput || !couponMessage) {
+    console.error('Coupon input elements not found');
+    return;
+  }
+  
+  const couponCode = couponInput.value.trim().toUpperCase();
+  
+  if (!couponCode) {
+    couponMessage.textContent = 'Please enter a coupon code';
+    couponMessage.style.display = 'block';
+    couponMessage.style.color = '#991b1b';
+    couponMessage.style.background = '#fee2e2';
+    couponMessage.style.border = '1px solid #fca5a5';
+    couponMessage.style.padding = '8px 12px';
+    couponMessage.style.borderRadius = '4px';
+    return;
+  }
+  
+  // Show loading state
+  if (applyButton) {
+    applyButton.disabled = true;
+    applyButton.textContent = 'Validating...';
+  }
+  
+  try {
+    // Validate the coupon with the backend
+    const validationResponse = await fetch(`${API_BASE_URL}/api/payments/validate-coupon`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ coupon_code: couponCode })
+    });
+    
+    const validationResult = await validationResponse.json();
+    
+    if (!validationResponse.ok || !validationResult.valid) {
+      const errorMessage = validationResult.message || 'Coupon code not found. Please check the code and try again.';
+      couponMessage.textContent = `Coupon error: ${errorMessage}`;
+      couponMessage.style.display = 'block';
+      couponMessage.style.color = '#991b1b';
+      couponMessage.style.background = '#fee2e2';
+      couponMessage.style.border = '1px solid #fca5a5';
+      couponMessage.style.padding = '8px 12px';
+      couponMessage.style.borderRadius = '4px';
+      
+      // Reset button
+      if (applyButton) {
+        applyButton.disabled = false;
+        applyButton.textContent = 'Apply Code';
+      }
+      return;
+    }
+    
+    // Coupon is valid - store it
+    window.appliedCoupon = couponCode;
+    sessionStorage.setItem('appliedCoupon', couponCode);
+    
+    // Show success message
+    couponMessage.textContent = `✅ Coupon "${couponCode}" applied successfully!`;
+    couponMessage.style.display = 'block';
+    couponMessage.style.color = '#065f46';
+    couponMessage.style.background = '#d1fae5';
+    couponMessage.style.border = '1px solid #a7f3d0';
+    couponMessage.style.padding = '8px 12px';
+    couponMessage.style.borderRadius = '4px';
+    
+    // Disable input and button
+    couponInput.disabled = true;
+    if (applyButton) {
+      applyButton.disabled = true;
+      applyButton.textContent = 'Applied ✓';
+      applyButton.style.background = '#10b981';
+    }
+    
+    // Update pricing if needed
+    if (validationResult.discount_percent || validationResult.discount_amount) {
+      updatePricingWithCoupon(validationResult);
+    }
+    
+  } catch (error) {
+    console.error('Error validating coupon:', error);
+    couponMessage.textContent = 'Coupon error: Network error. Please try again.';
+    couponMessage.style.display = 'block';
+    couponMessage.style.color = '#991b1b';
+    couponMessage.style.background = '#fee2e2';
+    couponMessage.style.border = '1px solid #fca5a5';
+    couponMessage.style.padding = '8px 12px';
+    couponMessage.style.borderRadius = '4px';
+    
+    // Reset button
+    if (applyButton) {
+      applyButton.disabled = false;
+      applyButton.textContent = 'Apply Code';
+    }
+  }
+}
+
+// Make function globally available
+window.applyCouponCode = applyCouponCode;
+
+function updatePricingWithCoupon(couponData) {
+  // This function can be used to update the pricing display if needed
+  // For now, we'll just store the coupon data
+  if (couponData) {
+    sessionStorage.setItem('couponData', JSON.stringify(couponData));
+  }
 }
