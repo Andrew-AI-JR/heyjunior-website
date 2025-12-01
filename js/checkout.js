@@ -367,10 +367,17 @@ async function handleCheckoutAction(e) {
 
   } catch (error) {
     console.error('Checkout action error:', error);
+    console.error('API URL attempted:', `${API_BASE_URL}/api/users/create-with-payment`);
+    console.error('Error details:', {
+      name: error.name,
+      message: error.message,
+      stack: error.stack
+    });
+    
     let userMessage = error.message || (window.i18nUtils ? window.i18nUtils.translate('checkout.genericError') : 'Failed to complete action. Please try again.');
 
     if (error.name === 'TypeError' && userMessage.includes('fetch')) {
-      userMessage = window.i18nUtils ? window.i18nUtils.translate('checkout.networkError') : 'Network error. Please check your internet connection and try again.';
+      userMessage = window.i18nUtils ? window.i18nUtils.translate('checkout.networkError') : 'Network error. Unable to reach payment server at ' + API_BASE_URL + '. Please contact support.';
     }
     if (error.name === 'AbortError') {
       userMessage = window.i18nUtils ? window.i18nUtils.translate('checkout.timeoutError') : 'Request timed out. Please try again.';
