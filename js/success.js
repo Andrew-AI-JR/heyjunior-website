@@ -514,15 +514,23 @@ function updateInstallationInstructions(platform) {
       const chipType = platform === 'macos_arm' ? 'Apple Silicon (M1/M2/M3)' : 'Intel';
       instructions = `
                 <h3>🍎 macOS Installation (${chipType})</h3>
+                <div style="background: #fef3c7; border-left: 4px solid #f59e0b; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                    <p style="margin: 0; color: #92400e;">
+                        <strong>⚠️ Important:</strong> macOS will block Junior on first launch because it's unsigned. 
+                        <a href="mac-install-help.html" target="_blank" style="color: #b45309; font-weight: 600; text-decoration: underline;">See detailed instructions →</a>
+                    </p>
+                </div>
                 <ol>
                     <li>Download the DMG file</li>
                     <li>Double-click the DMG to mount it</li>
-                    <li>Drag Junior to your Applications folder</li>
-                    <li>Right-click Junior in Applications and select "Open"</li>
-                    <li>If macOS shows a security warning, go to System Preferences > Security & Privacy and click "Open Anyway"</li>
-                    <li>Enter your API key when prompted</li>
+                    <li>Drag Junior.app to your Applications folder</li>
+                    <li><strong>Right-click</strong> Junior.app and select "Open" (not double-click!)</li>
+                    <li>Click "Open" again in the security dialog</li>
+                    <li>Junior will now launch successfully ✅</li>
                 </ol>
-                <p><strong>Note:</strong> You may need to allow Junior in your Security & Privacy settings.</p>
+                <p style="margin-top: 15px; padding: 12px; background: #dbeafe; border-radius: 8px; color: #1e40af;">
+                    <strong>💡 Pro tip:</strong> You only need to do the right-click method once. After that, Junior opens normally.
+                </p>
             `;
       break;
   }
