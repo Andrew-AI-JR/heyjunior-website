@@ -166,6 +166,12 @@
                             </label>
                         </div>
                         <small class="platform-note" data-i18n="checkout.platformNote">We'll automatically detect if you have an M1/M2 Mac and provide the correct version.</small>
+                        <div id="mac-help-notice" style="display: none; margin-top: 12px; padding: 12px; background: #fef3c7; border-left: 4px solid #f59e0b; border-radius: 6px;">
+                            <p style="margin: 0; font-size: 0.9em; color: #92400e;">
+                                <strong>🍎 Mac Users:</strong> macOS will show a security warning on first launch. 
+                                <a href="mac-install-help.html" target="_blank" style="color: #b45309; font-weight: 600; text-decoration: underline;">Click here for install instructions</a>
+                            </p>
+                        </div>
                     </div>
 
                     <!-- Account Creation Section -->
@@ -373,6 +379,24 @@
             planRadios.forEach(radio => {
                 radio.addEventListener('change', updatePricing);
             });
+
+            // Show/hide Mac help notice based on platform selection
+            const platformRadios = document.querySelectorAll('input[name="platform"]');
+            const macHelpNotice = document.getElementById('mac-help-notice');
+            
+            function updateMacHelpVisibility() {
+                const selectedPlatform = document.querySelector('input[name="platform"]:checked')?.value;
+                if (macHelpNotice) {
+                    macHelpNotice.style.display = selectedPlatform === 'macos' ? 'block' : 'none';
+                }
+            }
+            
+            platformRadios.forEach(radio => {
+                radio.addEventListener('change', updateMacHelpVisibility);
+            });
+            
+            // Initial check
+            updateMacHelpVisibility();
 
             // Check URL params for pre-selected plan
             const urlParams = new URLSearchParams(window.location.search);
