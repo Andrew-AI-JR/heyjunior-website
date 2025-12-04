@@ -284,9 +284,9 @@ async function initiateDownload(platform) {
     console.warn('[Download] Dynamic fetch failed, using hardcoded fallback:', error);
     // Fallback to hardcoded URLs (DEPRECATED - only used if API fails)
     const downloadUrls = {
-      'windows': 'https://github.com/Andrew-AI-JR/Desktop-Releases/releases/download/v1.0.0-beta/Junior.Setup.1.0.0.exe',
-      'macos': 'https://github.com/Andrew-AI-JR/Desktop-Releases/releases/download/v1.0.0-beta/Junior-1.0.0.dmg',
-      'macos_arm': 'https://github.com/Andrew-AI-JR/Desktop-Releases/releases/download/v1.0.0-beta/Junior-1.0.0-arm64.dmg'
+      'windows': 'https://github.com/Andrew-AI-JR/Desktop-Releases/releases/download/v1.0.0-beta/Junior.Setup.1.0.0-beta.exe',
+      'macos': 'https://github.com/Andrew-AI-JR/Desktop-Releases/releases/download/v1.0.0-beta/Junior-1.0.0-beta-x64.dmg',
+      'macos_arm': 'https://github.com/Andrew-AI-JR/Desktop-Releases/releases/download/v1.0.0-beta/Junior-1.0.0-beta-arm64.dmg'
     };
     downloadUrl = downloadUrls[platform] || downloadUrls['windows'];
   }

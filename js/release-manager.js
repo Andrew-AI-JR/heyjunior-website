@@ -36,24 +36,8 @@ class JuniorReleaseManager {
 
     console.log('[ReleaseManager] Fetching latest release information...');
 
+    // PRIORITY: GitHub API first (has correct URLs from actual release assets)
     try {
-      // Try primary endpoint first (latest.json)
-      const response = await fetch(this.latestJsonUrl);
-      if (response.ok) {
-        const data = await response.json();
-        this.cache = data;
-        this.lastFetch = now;
-        console.log('[ReleaseManager] ✅ Fetched from latest.json:', data.version);
-        return data;
-      } else {
-        console.warn('[ReleaseManager] latest.json failed, trying GitHub API fallback');
-      }
-    } catch (error) {
-      console.warn('[ReleaseManager] Primary API failed:', error.message);
-    }
-
-    try {
-      // Fallback to GitHub API
       const response = await fetch(this.githubApiUrl);
       if (response.ok) {
         const githubData = await response.json();
@@ -61,6 +45,22 @@ class JuniorReleaseManager {
         this.cache = data;
         this.lastFetch = now;
         console.log('[ReleaseManager] ✅ Fetched from GitHub API:', data.version);
+        return data;
+      } else {
+        console.warn('[ReleaseManager] GitHub API failed, trying latest.json fallback');
+      }
+    } catch (error) {
+      console.warn('[ReleaseManager] GitHub API failed:', error.message);
+    }
+
+    // Fallback to latest.json (may have stale filenames)
+    try {
+      const response = await fetch(this.latestJsonUrl);
+      if (response.ok) {
+        const data = await response.json();
+        this.cache = data;
+        this.lastFetch = now;
+        console.log('[ReleaseManager] ✅ Fetched from latest.json:', data.version);
         return data;
       }
     } catch (error) {
@@ -87,10 +87,24 @@ class JuniorReleaseManager {
     const version = githubData.tag_name.replace(/^v/, '');
     const assets = githubData.assets;
     
+    console.log('[ReleaseManager] Available assets:', assets.map(a => a.name));
+    
     // Find the download URLs by matching file patterns
-    const windowsAsset = assets.find(a => a.name.match(/Junior.*Setup.*\.exe/i));
-    const macosIntelAsset = assets.find(a => a.name.match(/Junior.*\.dmg/i) && !a.name.match(/arm64/i));
-    const macosArmAsset = assets.find(a => a.name.match(/Junior.*arm64.*\.dmg/i));
+    // Windows: Junior.Setup.*.exe or Junior Setup *.exe
+    const windowsAsset = assets.find(a => a.name.match(/Junior[.\s]Setup.*\.exe$/i));
+    
+    // macOS Intel: Junior-*.dmg but NOT arm64 - look for x64 or no arch suffix
+    const macosIntelAsset = assets.find(a => a.name.match(/Junior.*-x64\.dmg$/i)) ||
+                            assets.find(a => a.name.match(/Junior.*\.dmg$/i) && !a.name.match(/arm64/i));
+    
+    // macOS ARM: Junior-*-arm64.dmg
+    const macosArmAsset = assets.find(a => a.name.match(/Junior.*arm64.*\.dmg$/i));
+    
+    console.log('[ReleaseManager] Matched assets:', {
+      windows: windowsAsset?.name,
+      macos_intel: macosIntelAsset?.name,
+      macos_arm: macosArmAsset?.name
+    });
     
     return {
       version: version,
@@ -111,13 +125,13 @@ class JuniorReleaseManager {
    */
   getHardcodedFallback() {
     return {
-      version: "1.0.0",
+      version: "1.0.0-beta",
       tag: "v1.0.0-beta",
       release_date: new Date().toISOString(),
       downloads: {
-        windows: "https://github.com/Andrew-AI-JR/Desktop-Releases/releases/download/v1.0.0-beta/Junior.Setup.1.0.0.exe",
-        macos_intel: "https://github.com/Andrew-AI-JR/Desktop-Releases/releases/download/v1.0.0-beta/Junior-1.0.0.dmg",
-        macos_arm: "https://github.com/Andrew-AI-JR/Desktop-Releases/releases/download/v1.0.0-beta/Junior-1.0.0-arm64.dmg"
+        windows: "https://github.com/Andrew-AI-JR/Desktop-Releases/releases/download/v1.0.0-beta/Junior.Setup.1.0.0-beta.exe",
+        macos_intel: "https://github.com/Andrew-AI-JR/Desktop-Releases/releases/download/v1.0.0-beta/Junior-1.0.0-beta-x64.dmg",
+        macos_arm: "https://github.com/Andrew-AI-JR/Desktop-Releases/releases/download/v1.0.0-beta/Junior-1.0.0-beta-arm64.dmg"
       },
       release_url: "https://github.com/Andrew-AI-JR/Desktop-Releases/releases/tag/v1.0.0-beta"
     };
