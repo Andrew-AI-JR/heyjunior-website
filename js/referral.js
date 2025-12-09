@@ -5,7 +5,7 @@
 // Partner payment links configuration
 // Add new partners here: 'code': 'stripe_payment_link_url'
 const PARTNER_LINKS = {
-  'qazi': '' // TODO: Add Qazi's Stripe payment link here after creating it
+  'qazi': 'https://buy.stripe.com/4gM3cxfFz6Ru0wTf523cc03'
 };
 
 (function() {
