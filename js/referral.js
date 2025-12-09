@@ -5,7 +5,8 @@
 // Partner payment links configuration
 // Add new partners here: 'code': 'stripe_payment_link_url'
 const PARTNER_LINKS = {
-  'qazi': 'https://buy.stripe.com/4gM3cxfFz6Ru0wTf523cc03'
+  'qazi': 'https://buy.stripe.com/4gM3cxfFz6Ru0wTf523cc03',
+  'taco': 'https://buy.stripe.com/cNidRbctn5Nq1AX7CA3cc04'
 };
 
 (function() {
