@@ -6,7 +6,8 @@
 // Add new partners here: 'code': 'stripe_payment_link_url'
 const PARTNER_LINKS = {
   'qazi': 'https://buy.stripe.com/4gM3cxfFz6Ru0wTf523cc03',
-  'taco': 'https://buy.stripe.com/cNidRbctn5Nq1AX7CA3cc04'
+  'taco': 'https://buy.stripe.com/cNidRbctn5Nq1AX7CA3cc04',
+  'chris-c': 'https://buy.stripe.com/3cI9AVgJD0t6enJ3mk3cc05'
 };
 
 (function() {
