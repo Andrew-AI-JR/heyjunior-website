@@ -7,7 +7,8 @@
 const PARTNER_LINKS = {
   'qazi': 'https://buy.stripe.com/4gM3cxfFz6Ru0wTf523cc03',
   'taco': 'https://buy.stripe.com/cNidRbctn5Nq1AX7CA3cc04',
-  'chris-c': 'https://buy.stripe.com/3cI9AVgJD0t6enJ3mk3cc05'
+  'chris-c': 'https://buy.stripe.com/3cI9AVgJD0t6enJ3mk3cc05',
+  'buki': 'https://buy.stripe.com/00w7sN2SNgs4a7tf523cc06'
 };
 
 (function() {
