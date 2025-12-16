@@ -10,7 +10,8 @@ const PARTNER_LINKS = {
   'chris-c': 'https://buy.stripe.com/3cI9AVgJD0t6enJ3mk3cc05',
   'buki': 'https://buy.stripe.com/00w7sN2SNgs4a7tf523cc06',
   'ellen': 'https://buy.stripe.com/00wdRb0KFdfS6Vh1ec3cc07',
-  'zach-wilson': 'https://buy.stripe.com/6oUfZjctn4JmgvRcWU3cc08'
+  'zach-wilson': 'https://buy.stripe.com/6oUfZjctn4JmgvRcWU3cc08',
+  '14-day-trial': 'https://buy.stripe.com/5kQcN7ctn2BedjF5us3cc09'
 };
 
 (function() {
