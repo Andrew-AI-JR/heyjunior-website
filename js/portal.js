@@ -463,7 +463,7 @@ function displayReferralInfo(referral) {
     const referralCode = referral.referral_code;
     if (referralCode) {
         const baseUrl = window.location.origin;
-        const referralLink = `${baseUrl}/index.html?ref=${referralCode}`;
+        const referralLink = `${baseUrl}?ref=${referralCode}`;
         document.getElementById('referral-link-input').value = referralLink;
     } else {
         document.getElementById('referral-link-input').value = 'Loading...';
