@@ -34,9 +34,10 @@
                     <li><a href="#pricing" data-i18n="navigation.pricing">Pricing</a></li>
                 </div>
                 <div class="nav-actions">
-                    <li><a href="checkout.html" class="cta-button" data-i18n="navigation.download">Download</a></li>
-                    <span class="nav-separator">|</span>
+                    <li><a href="register.html" class="cta-button" data-i18n="navigation.download">Download</a></li>
                     <li><a href="my-story.html" class="my-story-link" data-i18n="navigation.myStory">My Story</a></li>
+                    <li id="login-link"><a href="portal.html" class="login-button" data-i18n="navigation.login">Login</a></li>
+                    <li id="portal-link" style="display: none;"><a href="portal.html" class="login-button">My Account</a></li>
                 </div>
             </ul>
         </div>
@@ -66,7 +67,7 @@
             </div>
             
             <div class="cta-buttons">
-                <a href="checkout.html" class="primary-button" data-i18n="hero.downloadApp">Start Automating Your LinkedIn</a>
+                <a href="register.html" class="primary-button" data-i18n="hero.downloadApp">Start Automating Your LinkedIn</a>
             </div>
             
             <div class="benefits">
@@ -189,7 +190,7 @@
                 </div>
             </div>
             <div class="comparison-cta">
-                <a href="checkout.html" class="primary-button">Get Started with Junior</a>
+                <a href="register.html" class="primary-button">Get Started with Junior</a>
                 <p class="comparison-note">🔒 30-day money-back guarantee • Cancel anytime</p>
             </div>
         </div>
@@ -353,7 +354,7 @@
                         <li>✅ <span data-i18n="pricing.features.support">Email support</span></li>
                         <li>✅ <span data-i18n="pricing.features.cancelAnytime">Cancel anytime</span></li>
                     </ul>
-                    <a href="checkout.html?plan=standard" class="primary-button" style="margin-top: 20px;">Choose Standard</a>
+                    <a href="register.html?plan=standard" class="primary-button" style="margin-top: 20px;">Choose Standard</a>
                 </div>
                 
                 <div class="pricing-card">
@@ -372,7 +373,7 @@
                         <li>✅ <span data-i18n="pricing.features.earlyAccess">Early access to new features</span></li>
                         <li>✅ <span data-i18n="pricing.features.cancelAnytime">Cancel anytime</span></li>
                     </ul>
-                    <a href="checkout.html?plan=pro" class="primary-button" style="margin-top: 20px;">Choose Pro</a>
+                    <a href="register.html?plan=pro" class="primary-button" style="margin-top: 20px;">Choose Pro</a>
                 </div>
             </div>
         </div>
@@ -423,6 +424,25 @@
     
     <!-- Referral tracking system -->
     <script src="js/referral.js"></script>
+    
+    <!-- Show portal link if user is logged in, hide login link (they're in the same position) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const token = sessionStorage.getItem('userToken') || sessionStorage.getItem('accessToken');
+            const loginLink = document.getElementById('login-link');
+            const portalLink = document.getElementById('portal-link');
+            
+            if (token) {
+                // User is logged in - show My Account, hide Login
+                if (portalLink) portalLink.style.display = 'block';
+                if (loginLink) loginLink.style.display = 'none';
+            } else {
+                // User is not logged in - show Login, hide My Account
+                if (loginLink) loginLink.style.display = 'block';
+                if (portalLink) portalLink.style.display = 'none';
+            }
+        });
+    </script>
     
     <!-- Mobile Navigation Toggle -->
     <script>
