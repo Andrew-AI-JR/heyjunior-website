@@ -17,39 +17,71 @@ const PARTNER_LINKS = {
 (function() {
   // Check for referral code in URL
   const urlParams = new URLSearchParams(window.location.search);
-  const refCode = urlParams.get('ref')?.toLowerCase();
+  const refCode = urlParams.get('ref');
   
   if (refCode) {
-    console.log('Referral detected:', refCode);
+    const normalizedRefCode = refCode.toUpperCase(); // Store in uppercase for consistency
+    console.log('Referral detected:', normalizedRefCode);
     
-    // Store referral in localStorage (persists across pages)
-    localStorage.setItem('referralCode', refCode);
-    localStorage.setItem('referralTimestamp', Date.now());
+    // Check if we already have a referral code stored
+    const existingRefCode = localStorage.getItem('referralCode');
+    const existingTimestamp = localStorage.getItem('referralTimestamp');
     
-    // Check if this is a known partner
-    if (PARTNER_LINKS[refCode]) {
-      localStorage.setItem('partnerPaymentLink', PARTNER_LINKS[refCode]);
+    // Only store if we don't have one, or if the existing one is expired
+    let shouldStore = true;
+    if (existingRefCode && existingTimestamp) {
+      const daysSinceRef = (Date.now() - parseInt(existingTimestamp)) / (1000 * 60 * 60 * 24);
+      if (daysSinceRef <= 30) {
+        // We already have a valid referral code, keep the first one
+        console.log('Keeping existing referral code:', existingRefCode);
+        shouldStore = false;
+      } else {
+        // Existing referral is expired, clear it
+        console.log('Existing referral code expired, storing new one');
+        localStorage.removeItem('referralCode');
+        localStorage.removeItem('referralTimestamp');
+        localStorage.removeItem('partnerPaymentLink');
+      }
+    }
+    
+    if (shouldStore) {
+      // Store referral in localStorage (persists across pages)
+      // Keep for 30 days - this tracks who referred the user
+      localStorage.setItem('referralCode', normalizedRefCode);
+      localStorage.setItem('referralTimestamp', Date.now().toString());
+      console.log('Stored referral code:', normalizedRefCode, 'for 30 days');
+    }
+    
+    // Check if this is a known partner (for payment link redirects)
+    const lowerRefCode = normalizedRefCode.toLowerCase();
+    if (PARTNER_LINKS[lowerRefCode]) {
+      localStorage.setItem('partnerPaymentLink', PARTNER_LINKS[lowerRefCode]);
     }
   }
   
-  // Apply stored referral to checkout buttons
-  function applyReferralToLinks() {
-    const storedRef = localStorage.getItem('referralCode');
-    const partnerLink = localStorage.getItem('partnerPaymentLink');
-    
-    // Only apply if referral is less than 30 days old
+  // Clean up expired referral codes
+  function cleanupExpiredReferrals() {
     const refTimestamp = localStorage.getItem('referralTimestamp');
     if (refTimestamp) {
       const daysSinceRef = (Date.now() - parseInt(refTimestamp)) / (1000 * 60 * 60 * 24);
       if (daysSinceRef > 30) {
-        // Clear expired referral
+        // Clear expired referral after 30 days
+        console.log('Referral code expired, clearing...');
         localStorage.removeItem('referralCode');
         localStorage.removeItem('referralTimestamp');
         localStorage.removeItem('partnerPaymentLink');
-        return;
       }
     }
+  }
+  
+  // Apply stored referral to checkout buttons (for partner payment links only)
+  function applyReferralToLinks() {
+    cleanupExpiredReferrals();
     
+    const storedRef = localStorage.getItem('referralCode');
+    const partnerLink = localStorage.getItem('partnerPaymentLink');
+    
+    // Only redirect to partner links if it's a known partner
     if (storedRef && partnerLink) {
       // Replace checkout links with partner's payment link
       const checkoutLinks = document.querySelectorAll('a[href*="checkout.html"]');
@@ -57,15 +89,9 @@ const PARTNER_LINKS = {
         link.href = partnerLink;
         console.log('Redirecting checkout to partner link:', partnerLink);
       });
-      
-      // Add visual indicator (optional)
-      const ctaButtons = document.querySelectorAll('.primary-button, .cta-button');
-      ctaButtons.forEach(btn => {
-        if (btn.href && btn.href.includes(partnerLink)) {
-          // Could add a badge or modify text if desired
-        }
-      });
     }
+    // Note: Regular referral codes are stored and will be sent during signup
+    // They don't need to redirect checkout links
   }
   
   // Run when DOM is ready
