@@ -88,7 +88,7 @@ async function loadDashboardData() {
             loadSubscriptions(),
             loadStats(),
             loadReferralInfo(),
-            loadMyComments()
+            loadMyComments(1, 20) // Load only the first 20 comments
         ]);
         
         // Display the data
@@ -388,19 +388,19 @@ function displayComments(commentsData) {
     // Display total count
     document.getElementById('comments-total').textContent = commentsData.total || 0;
     
-    // Display each comment
-    commentsData.comments.forEach(comment => {
+    // Limit to only the last 20 comments (most recent first)
+    const commentsToShow = commentsData.comments.slice(0, 20);
+    
+    // Display each comment (limited to 20)
+    commentsToShow.forEach(comment => {
         const commentCard = createCommentCard(comment);
         commentsList.appendChild(commentCard);
     });
     
-    // Display pagination info if available
-    if (commentsData.total_pages > 1) {
-        const paginationInfo = document.getElementById('comments-pagination');
-        if (paginationInfo) {
-            paginationInfo.textContent = `Page ${commentsData.page} of ${commentsData.total_pages}`;
-            paginationInfo.style.display = 'block';
-        }
+    // Hide pagination info since we're only showing the last 20
+    const paginationInfo = document.getElementById('comments-pagination');
+    if (paginationInfo) {
+        paginationInfo.style.display = 'none';
     }
 }
 
@@ -425,6 +425,10 @@ function createCommentCard(comment) {
     else if (comment.status === 'pending') statusColor = '#f59e0b';
     else if (comment.status === 'failed') statusColor = '#ef4444';
     
+    // Determine which LinkedIn URL to use (prefer posted_linkedin_url, fallback to source_linkedin_url)
+    const linkedinUrl = comment.posted_linkedin_url || comment.source_linkedin_url;
+    const linkText = comment.posted_linkedin_url ? 'View on LinkedIn' : (comment.source_linkedin_url ? 'View Source' : '');
+    
     card.innerHTML = `
         <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 10px;">
             <div>
@@ -436,7 +440,7 @@ function createCommentCard(comment) {
         <div style="margin-bottom: 10px;">
             <p style="margin: 0; color: #1f2937; line-height: 1.5; word-wrap: break-word;">${escapeHtml(comment.generated_text || 'No text available')}</p>
         </div>
-        ${comment.source_linkedin_url ? `<div style="margin-top: 8px;"><a href="${comment.source_linkedin_url}" target="_blank" style="color: #2563eb; font-size: 0.85rem; text-decoration: none;">View Source →</a></div>` : ''}
+        ${linkedinUrl ? `<div style="margin-top: 8px;"><a href="${linkedinUrl}" target="_blank" rel="noopener noreferrer" style="color: #2563eb; font-size: 0.85rem; text-decoration: none; font-weight: 500;">${linkText} →</a></div>` : ''}
     `;
     
     return card;
