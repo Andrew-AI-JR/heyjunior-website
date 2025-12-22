@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Get Started with Junior - LinkedIn Automation">
+    <title>Get Started - Junior</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Simple i18n system -->
+
+    <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "c7e2267943804acdb5bfcd009f02f537"}'></script><!-- End Cloudflare Web Analytics -->
+</head>
+<body data-page="register" class="i18n-ready">
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <img src="./images/junior-logo.png" alt="Junior Logo" class="logo-img">
+            </div>
+            <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <div class="nav-group">
+                    <li><a href="index.html#features" data-i18n="navigation.features">Features</a></li>
+                    <li><a href="index.html#how-it-works" data-i18n="navigation.howItWorks">How It Works</a></li>
+                    <li><a href="index.html#pricing" data-i18n="navigation.pricing">Pricing</a></li>
+                </div>
+                <div class="nav-actions">
+                    <li><a href="index.html" class="my-story-link" data-i18n="navigation.backToHome">← Back to Home</a></li>
+                </div>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Register Section -->
+    <section class="purchase-section">
+        <div class="container">
+            <div class="checkout-container">
+                <!-- Product Summary -->
+                <div class="product-summary">
+                    <div class="product-header">
+                        <h1>🚀 Get Started with Junior</h1>
+                    </div>
+
+                    <div class="product-image">
+                        <img src="./images/linkedin-automation-preview.svg?v=1.1" alt="LinkedIn Automation Tool Preview" onerror="this.src='./images/junior-logo.png'; this.style.maxWidth='200px'; this.style.margin='20px auto';">
+                    </div>
+
+                    <div class="product-features">
+                        <h3>What's Included:</h3>
+                        <ul>
+                            <li>✅ LinkedIn Automation Tool (Windows & macOS)</li>
+                            <li>✅ AI-Powered Comment Generation</li>
+                            <li>✅ Hiring Manager Targeting</li>
+                            <li>✅ Performance Analytics</li>
+                            <li>✅ Priority Email Support</li>
+                            <li>✅ Early Access to New Features</li>
+                        </ul>
+                    </div>
+
+                    <div class="testimonial-section">
+                        <h3 style="text-align: center; margin-bottom: 15px; color: #1f2937;">✨ See It In Action</h3>
+                        <div class="testimonial-image-container">
+                            <img src="./images/testimonial.png" alt="Real AI-Generated Comments Example" style="width: 100%; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); border: 1px solid #e5e7eb;">
+                        </div>
+                        <p style="text-align: center; color: #6b7280; font-size: 0.9em; margin-top: 12px; font-style: italic;">Real examples of AI-generated comments from verified users</p>
+                    </div>
+                </div>
+
+                <!-- Registration Form -->
+                <div class="checkout-form">
+                    <h2>Get Started</h2>
+                    <p style="text-align: center; color: #6b7280; margin-bottom: 25px;">Register to get started with Junior. You can subscribe to a plan after registration.</p>
+
+                    <!-- Platform Selection -->
+                    <div class="platform-selection">
+                        <h3>Select Your Platform:</h3>
+                        <div class="platform-options">
+                            <label class="platform-option" for="reg-windows">
+                                <input type="radio" id="reg-windows" name="platform" value="windows" checked>
+                                <div class="platform-info">
+                                    <span class="platform-icon">🖥️</span>
+                                    <div>
+                                        <strong>Windows</strong>
+                                        <small>Windows 10 or later</small>
+                                    </div>
+                                </div>
+                            </label>
+
+                            <label class="platform-option" for="reg-macos">
+                                <input type="radio" id="reg-macos" name="platform" value="macos">
+                                <div class="platform-info">
+                                    <span class="platform-icon">🍎</span>
+                                    <div>
+                                        <strong>macOS</strong>
+                                        <small>Intel & Apple Silicon (M1/M2)</small>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                        <small class="platform-note">We'll automatically detect if you have an M1/M2 Mac and provide the correct version.</small>
+                        <div id="mac-help-notice" style="display: none; margin-top: 12px; padding: 12px; background: #fef3c7; border-left: 4px solid #f59e0b; border-radius: 6px;">
+                            <p style="margin: 0; font-size: 0.9em; color: #92400e;">
+                                <strong>🍎 Mac Users:</strong> macOS will show a security warning on first launch. 
+                                <a href="mac-install-help.html" target="_blank" style="color: #b45309; font-weight: 600; text-decoration: underline;">Click here for install instructions</a>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Account Creation Section -->
+                    <div class="account-creation-section">
+                        <h3>Account Details</h3>
+                        <p style="text-align: center; color: #6b7280; margin-bottom: 25px;">You'll use this to login to the desktop app and manage your subscription</p>
+                        
+                        <div class="form-group">
+                            <label for="reg-email">Email Address:</label>
+                            <input type="email" id="reg-email" placeholder="your@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-password">Password:</label>
+                            <input type="password" id="reg-password" placeholder="Create a secure password" required minlength="8">
+                            <small class="password-help">Minimum 8 characters, must contain at least one uppercase letter</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-confirm-password">Confirm Password:</label>
+                            <input type="password" id="reg-confirm-password" placeholder="Confirm your password" required>
+                        </div>
+                    </div>
+
+                    <!-- Hidden referral code field (pulled from storage automatically) -->
+                    <input type="hidden" id="referral-code-field">
+
+                    <!-- Register Button -->
+                    <button type="button" id="register-button" class="primary-button" style="width: 100%; margin-top: 20px;">
+                        <span id="register-button-text">Register</span>
+                    </button>
+                    <div id="register-error" class="error-message" style="display: none; margin-top: 10px; color: #dc2626; text-align: center;"></div>
+                    <p style="text-align:center; display:block; margin-top:15px; color: #6b7280; font-size: 0.9rem;">
+                        Already have an account? <a href="portal.html" style="color: #2563eb; font-weight: 600;">Login here</a>
+                    </p>
+
+                    <!-- Security Info -->
+                    <div class="security-info">
+                        <div class="security-badges">
+                            <div class="badge">
+                                <span>🔒</span>
+                                <small>SSL Secured</small>
+                            </div>
+                            <div class="badge">
+                                <span>🛡️</span>
+                                <small>Secure Registration</small>
+                            </div>
+                        </div>
+                        <p>Your information is secure and encrypted. After registration, you can subscribe to a plan from your account dashboard.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>Email: support@heyjunior.ai</p>
+                    <p>LinkedIn: <a href="https://www.linkedin.com/company/hey-junior/" target="_blank">linkedin.com/company/hey-junior</a></p>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="mac-install-help.html">macOS Install Help</a></li>
+                        <li><a href="portal.html">Login to Account</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Junior. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Simple i18n initialization script -->
+    <script src="js/i18n-simple.js"></script>
+    
+    <!-- Referral tracking system -->
+    <script src="js/referral.js"></script>
+    
+    <!-- Release manager for downloads -->
+    <script src="js/release-manager.js"></script>
+    
+    <!-- Registration JavaScript -->
+    <script src="js/register.js"></script>
+    
+    <!-- Mobile Navigation Toggle -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileToggle = document.querySelector('.mobile-menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            
+            if (mobileToggle) {
+                mobileToggle.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    navLinks.classList.toggle('active');
+                });
+
+                const links = navLinks.querySelectorAll('a');
+                links.forEach(link => {
+                    link.addEventListener('click', function() {
+                        mobileToggle.classList.remove('active');
+                        navLinks.classList.remove('active');
+                    });
+                });
+
+                document.addEventListener('click', function(event) {
+                    const isClickInsideNav = navLinks.contains(event.target);
+                    const isClickOnToggle = mobileToggle.contains(event.target);
+                    
+                    if (!isClickInsideNav && !isClickOnToggle && navLinks.classList.contains('active')) {
+                        mobileToggle.classList.remove('active');
+                        navLinks.classList.remove('active');
+                    }
+                });
+            }
+
+            // Show/hide Mac help notice based on platform selection
+            const platformRadios = document.querySelectorAll('input[name="platform"]');
+            const macHelpNotice = document.getElementById('mac-help-notice');
+            
+            function updateMacHelpVisibility() {
+                const selectedPlatform = document.querySelector('input[name="platform"]:checked')?.value;
+                if (macHelpNotice) {
+                    macHelpNotice.style.display = selectedPlatform === 'macos' ? 'block' : 'none';
+                }
+            }
+            
+            platformRadios.forEach(radio => {
+                radio.addEventListener('change', updateMacHelpVisibility);
+            });
+            
+            // Initial check
+            updateMacHelpVisibility();
+        });
+    </script>
+</body>
+</html>

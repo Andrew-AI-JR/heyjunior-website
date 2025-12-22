@@ -232,40 +232,41 @@ async function handleCheckoutAction(e) {
     let apiUrl = '';
     let requestBody = {};
     let response;
+    
+    // Get referral code if user was referred (stored for 30 days)
+    // This tracks which user referred this new signup (Amazon-style referral tracking)
+    let referralCode = null;
+    if (isCreatingAccount) {
+      referralCode = window.getReferralCode ? window.getReferralCode() : localStorage.getItem('referralCode');
+    }
 
     if (isCreatingAccount) {
-      apiUrl = `${API_BASE_URL}/api/users/create-with-payment`;
+      // Use the register endpoint to create the user account
+      apiUrl = `${API_BASE_URL}/api/users/register`;
       requestBody = {
         email: email,
-        password: password,
-        price_id: stripePriceId,
-        success_url: `${window.location.origin}/success.html?session_id={CHECKOUT_SESSION_ID}&user_id=${encodeURIComponent(email)}`,
-        cancel_url: `${window.location.origin}/checkout.html`,
-        metadata: {
-          platform: platform,
-          user_email: email,
-          plan: selectedPlan
-        },
-        payment_intent_data: {
-          metadata: {
-            user_email: email,
-            platform: platform,
-            plan: selectedPlan
-          }
-        },
-        subscription_data: {
-          metadata: {
-            user_email: email,
-            platform: platform,
-            plan: selectedPlan
-          }
-        }
+        password: password
       };
       
-      // Send the coupon code name to the backend
-      // The backend will look it up in Stripe and convert it to the promotion code ID
-      if (appliedCoupon) {
-        requestBody.coupon_code = appliedCoupon;
+      // Include referral code if valid (within 30 days)
+      if (referralCode) {
+        // Clean up expired referrals first
+        const refTimestamp = localStorage.getItem('referralTimestamp');
+        if (refTimestamp) {
+          const daysSinceRef = (Date.now() - parseInt(refTimestamp)) / (1000 * 60 * 60 * 24);
+          if (daysSinceRef <= 30) {
+            requestBody.referral_code = referralCode.toUpperCase();
+            console.log('Including referral code in signup:', referralCode);
+          } else {
+            // Referral expired, clear it
+            localStorage.removeItem('referralCode');
+            localStorage.removeItem('referralTimestamp');
+            referralCode = null; // Don't use expired code
+          }
+        } else {
+          requestBody.referral_code = referralCode.toUpperCase();
+          console.log('Including referral code in signup:', referralCode);
+        }
       }
       
       response = await fetch(apiUrl, {
@@ -335,39 +336,75 @@ async function handleCheckoutAction(e) {
       throw new Error(errorMessage);
     }
 
-    // Save account data
-    if (data.success) {
-      sessionStorage.setItem('userId', data.user_id);
-      sessionStorage.setItem('customerId', data.customer_id);
-      sessionStorage.setItem('userEmail', email);
-      if (data.token) {
-        sessionStorage.setItem('userToken', data.token);
-        currentUserToken = data.token;
+    // Save account data from registration response
+    // The register endpoint returns UserResponse with: id, email, is_active, is_admin, is_superuser, stripe_customer_id
+    if (data.id) {
+      sessionStorage.setItem('userId', data.id.toString());
+      sessionStorage.setItem('userEmail', data.email || email);
+    }
+    
+    // Note: Register endpoint doesn't return tokens, user will need to login
+    // But we can auto-login them with the credentials they just used
+    try {
+      const loginResponse = await fetch(`${API_BASE_URL}/api/users/token`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+          username: email,  // API expects 'username' field (email as username)
+          password: password
+        })
+      });
+      
+      if (loginResponse.ok) {
+        const loginData = await loginResponse.json();
+        if (loginData.access_token) {
+          sessionStorage.setItem('userToken', loginData.access_token);
+          currentUserToken = loginData.access_token;
+        }
+        if (loginData.refresh_token) {
+          sessionStorage.setItem('refreshToken', loginData.refresh_token);
+        }
       }
-    } else {
-      throw new Error('Account creation failed');
+    } catch (loginError) {
+      console.warn('Auto-login after registration failed, user will need to login manually:', loginError);
+      // Continue anyway - user can login manually
     }
 
+    // Store checkout data for later use
     const checkoutData = {
       email: email,
       platform: platform,
       timestamp: new Date().toISOString(),
       userAgent: navigator.userAgent,
       referrer: document.referrer || 'direct',
-      payment_method: 'integrated_checkout',
-      coupon: appliedCoupon
+      payment_method: 'separate_checkout',
+      coupon: appliedCoupon,
+      plan: selectedPlan
     };
-
 
     sessionStorage.setItem('checkoutData', JSON.stringify(checkoutData));
     localStorage.setItem('pendingAccountCreation', JSON.stringify(checkoutData));
 
-    buttonTextElement.textContent = window.i18nUtils ? window.i18nUtils.translate('checkout.redirecting') : 'Redirecting to payment...';
-    window.location.href = data.checkout_url;
+    // After successful registration, redirect to portal or show success
+    // User can then proceed to payment/subscription from their account
+    buttonTextElement.textContent = window.i18nUtils ? window.i18nUtils.translate('checkout.accountCreated') : 'Account created! Redirecting...';
+    
+    // Clear the referral code after successful signup (it's been used)
+    if (referralCode) {
+      localStorage.removeItem('referralCode');
+      localStorage.removeItem('referralTimestamp');
+    }
+    
+    // Redirect to portal where they can manage subscription
+    setTimeout(() => {
+      window.location.href = 'portal.html';
+    }, 1500);
 
   } catch (error) {
     console.error('Checkout action error:', error);
-    console.error('API URL attempted:', `${API_BASE_URL}/api/users/create-with-payment`);
+    console.error('API URL attempted:', `${API_BASE_URL}/api/users/register`);
     console.error('Error details:', {
       name: error.name,
       message: error.message,
@@ -403,7 +440,7 @@ window.addEventListener('unhandledrejection', function (event) {
   // Show user-friendly error if it's related to our checkout
   if (event.reason && event.reason.message &&
     (event.reason.message.includes('fetch') ||
-      event.reason.message.includes('create-with-payment'))) {
+      event.reason.message.includes('register') || event.reason.message.includes('create-with-payment'))) {
     const errorDiv = document.getElementById('checkout-error');
     if (errorDiv) {
       showError('An unexpected error occurred. Please refresh the page and try again.');

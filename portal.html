@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Junior - User Portal Dashboard">
+    <title>My Account - Junior</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body data-page="portal" class="i18n-ready">
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="./images/junior-logo.png" alt="Junior Logo" class="logo-img">
+                </a>
+            </div>
+            <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <div class="nav-group">
+                    <li><a href="index.html#features">Features</a></li>
+                    <li><a href="index.html#pricing">Pricing</a></li>
+                </div>
+                <div class="nav-actions">
+                    <li><a href="portal.html" class="cta-button active">My Account</a></li>
+                    <span id="logout-separator" class="nav-separator" style="display: none;">|</span>
+                    <li><a href="#" id="logout-link" class="my-story-link" onclick="handleLogout(event); return false;" style="display: none;">Logout</a></li>
+                </div>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Portal Content -->
+    <section class="portal-container">
+        <div class="container">
+            <div class="portal-header">
+                <h1>My Account</h1>
+                <p class="portal-subtitle">Manage your subscription, view stats, and track referrals</p>
+            </div>
+
+            <!-- Login Form (shown when not authenticated) -->
+            <div id="login-section" class="login-section" style="display: none; position: relative; z-index: 1;">
+                <div class="login-card">
+                    <h2>Login to Your Account</h2>
+                    <p class="login-subtitle">Enter your credentials to access your dashboard</p>
+                    <form id="login-form" onsubmit="return handleLogin(event)">
+                        <div class="form-group">
+                            <label for="login-email">Email Address</label>
+                            <input type="email" id="login-email" placeholder="your@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="login-password">Password</label>
+                            <input type="password" id="login-password" placeholder="Enter your password" required>
+                        </div>
+                        <div id="login-error" class="error-message" style="display: none;"></div>
+                        <button type="submit" class="primary-button" id="login-button">
+                            <span id="login-button-text">Login</span>
+                        </button>
+                    </form>
+                    <div class="login-footer">
+                        <p>Don't have an account? <a href="checkout.html">Create one here</a></p>
+                        <p><a href="#" onclick="alert('Password reset coming soon! Contact support@heyjunior.ai for help.'); return false;">Forgot password?</a></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loading State -->
+            <div id="loading-state" class="loading-state" style="display: none;">
+                <div class="spinner"></div>
+                <p>Loading your account information...</p>
+            </div>
+
+            <!-- Error State -->
+            <div id="error-state" class="error-state" style="display: none;">
+                <div class="error-icon">⚠️</div>
+                <h2>Unable to Load Account</h2>
+                <p id="error-message">Please try refreshing the page or contact support if the problem persists.</p>
+                <button class="primary-button" onclick="location.reload()">Retry</button>
+            </div>
+
+            <!-- Dashboard Content -->
+            <div id="dashboard-content" style="display: none;">
+                <!-- Account Info Section -->
+                <div class="portal-section">
+                    <div class="section-header">
+                        <h2>Account Information</h2>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-item">
+                            <span class="info-label">Email</span>
+                            <span class="info-value" id="user-email">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Account Status</span>
+                            <span class="info-value" id="account-status">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Member Since</span>
+                            <span class="info-value" id="member-since">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Subscription Section -->
+                <div class="portal-section">
+                    <div class="section-header">
+                        <h2>Subscription</h2>
+                    </div>
+                    <div id="subscription-content">
+                        <div class="subscription-card" id="no-subscription" style="display: none;">
+                            <div class="subscription-icon">📋</div>
+                            <h3>No Active Subscription</h3>
+                            <p>You don't have an active subscription. Subscribe to start using Junior.</p>
+                            <div style="display: flex; gap: 10px; flex-wrap: wrap; margin: 20px 0;">
+                                <button onclick="createCheckoutSession('standard')" class="primary-button" id="subscribe-standard-btn">Subscribe to Standard</button>
+                                <button onclick="createCheckoutSession('pro')" class="primary-button" id="subscribe-pro-btn">Subscribe to Pro</button>
+                            </div>
+                            <div id="subscribe-error" class="error-message" style="display: none; margin-top: 15px;"></div>
+                        </div>
+                        <div class="subscription-card" id="subscription-details" style="display: none;">
+                            <div class="subscription-header">
+                                <div>
+                                    <h3 id="subscription-plan">-</h3>
+                                    <p class="subscription-status" id="subscription-status">-</p>
+                                </div>
+                                <div class="subscription-badge" id="subscription-badge">Active</div>
+                            </div>
+                            <div class="subscription-info">
+                                <div class="subscription-item">
+                                    <span class="subscription-label">Status</span>
+                                    <span class="subscription-value" id="sub-status">-</span>
+                                </div>
+                                <div class="subscription-item">
+                                    <span class="subscription-label">Current Period</span>
+                                    <span class="subscription-value" id="sub-period">-</span>
+                                </div>
+                                <div class="subscription-item">
+                                    <span class="subscription-label">Next Billing Date</span>
+                                    <span class="subscription-value" id="sub-next-billing">-</span>
+                                </div>
+                                <div class="subscription-item">
+                                    <span class="subscription-label">Cancel Anytime</span>
+                                    <span class="subscription-value">✅ Yes</span>
+                                </div>
+                            </div>
+                            <div id="trial-message" class="trial-message" style="display: none; margin: 20px 0; padding: 15px; background: #fef3c7; border-left: 4px solid #f59e0b; border-radius: 8px;">
+                                <p style="margin: 0 0 15px 0; color: #92400e; font-weight: 500;">You're currently on a free trial. Subscribe now to continue enjoying all features after your trial ends!</p>
+                                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                                    <button onclick="createCheckoutSession('standard')" class="primary-button" id="trial-subscribe-standard-btn">Subscribe to Standard</button>
+                                    <button onclick="createCheckoutSession('pro')" class="primary-button" id="trial-subscribe-pro-btn">Subscribe to Pro</button>
+                                </div>
+                                <div id="trial-subscribe-error" class="error-message" style="display: none; margin-top: 10px;"></div>
+                            </div>
+                            <div class="subscription-actions">
+                                <button onclick="openManageSubscription()" class="secondary-button" id="manage-subscription-btn">Manage Subscription</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Section -->
+                <div class="portal-section">
+                    <div class="section-header">
+                        <h2>Usage Statistics</h2>
+                    </div>
+                    <div id="stats-content">
+                        <div class="stats-grid" id="stats-grid">
+                            <!-- Stats will be populated by JavaScript -->
+                        </div>
+                        <div id="no-stats" style="display: none; text-align: center; padding: 40px; color: #6b7280;">
+                            <p>No usage statistics available yet. Start using Junior to see your stats here!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Comments Section -->
+                <div class="portal-section">
+                    <div class="section-header">
+                        <h2>My Comments</h2>
+                    </div>
+                    <div id="comments-content">
+                        <div style="margin-bottom: 20px; color: #6b7280;">
+                            <span>Total Comments: <strong id="comments-total">0</strong></span>
+                            <span id="comments-pagination" style="margin-left: 15px; display: none;"></span>
+                        </div>
+                        <div id="comments-list">
+                            <!-- Comments will be populated by JavaScript -->
+                        </div>
+                        <div id="no-comments" style="display: none; text-align: center; padding: 40px; color: #6b7280;">
+                            <p>No comments generated yet. Start using Junior to see your comments here!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Referral Section -->
+                <div class="portal-section">
+                    <div class="section-header">
+                        <h2>Referral Program</h2>
+                    </div>
+                    <div class="referral-card">
+                        <div class="referral-header">
+                            <div class="referral-icon">🎁</div>
+                            <div>
+                                <h3>Share Junior</h3>
+                            </div>
+                        </div>
+                        <div class="referral-reward-box" style="margin: 0 0 30px 0; padding: 20px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 12px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                                <span style="font-size: 2rem;">💰</span>
+                                <h4 style="margin: 0; color: white; font-size: 1.25rem; font-weight: 600;">Earn 10% Commission</h4>
+                            </div>
+                            <p style="margin: 0; color: white; font-size: 1rem; line-height: 1.6; opacity: 0.95;">
+                                Share your referral link and earn <strong style="color: #fef3c7;">10% of all revenue</strong> generated from every person you refer. When someone signs up using your link and makes a payment, you'll be credited with 10% of their subscription revenue. The more people you refer, the more you can earn!
+                            </p>
+                        </div>
+                        <div class="referral-content">
+                            <div class="referral-stats">
+                                <div class="referral-stat">
+                                    <span class="referral-stat-value" id="referral-count">0</span>
+                                    <span class="referral-stat-label">Total Referrals</span>
+                                </div>
+                            </div>
+                            <div class="referral-link-section">
+                                <label for="referral-link-input">Your Referral Link</label>
+                                <div class="referral-link-container">
+                                    <input type="text" id="referral-link-input" readonly value="Loading...">
+                                    <button class="copy-button" id="copy-referral-btn" onclick="copyReferralLink()">
+                                        <span id="copy-btn-text">Copy</span>
+                                    </button>
+                                </div>
+                                
+                                <div class="referral-explanation" style="margin-top: 20px; padding: 15px; background: #f0f9ff; border-radius: 8px; border-left: 4px solid #2563eb;">
+                                    <h4 style="margin: 0 0 10px 0; color: #1e40af; font-size: 0.95rem;">How It Works</h4>
+                                    <ul style="margin: 0; padding-left: 20px; color: #374151; font-size: 0.9rem; line-height: 1.6;">
+                                        <li>When someone clicks your referral link (e.g., <code>?ref=YOURCODE</code>), we store it for 30 days</li>
+                                        <li>We always keep the <strong>first</strong> referral code they see - even if they visit multiple referral links</li>
+                                        <li>When they sign up within 30 days, you'll be credited as their referrer</li>
+                                        <li>Your referral counts if they sign up within 30 days from clicking your link, and you'll earn 10% of any payment they make</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>Email: support@heyjunior.ai</p>
+                    <p>LinkedIn: <a href="https://www.linkedin.com/company/hey-junior/" target="_blank">linkedin.com/company/hey-junior</a></p>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="mac-install-help.html">macOS Install Help</a></li>
+                        <li><a href="#" onclick="openManageSubscription(); return false;">Manage Subscription</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Junior. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Simple i18n initialization script (needed for body visibility) -->
+    <script src="js/i18n-simple.js"></script>
+    
+    <!-- Referral tracking system -->
+    <script src="js/referral.js"></script>
+    
+    <!-- Portal JavaScript -->
+    <script src="js/portal.js"></script>
+    
+    <!-- Ensure body is visible even if i18n hasn't loaded yet -->
+    <script>
+        // Fallback: ensure body is visible
+        document.body.classList.add('i18n-ready');
+    </script>
+    
+    <!-- Mobile Navigation Toggle -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileToggle = document.querySelector('.mobile-menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            
+            if (mobileToggle) {
+                mobileToggle.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    navLinks.classList.toggle('active');
+                });
+
+                const links = navLinks.querySelectorAll('a');
+                links.forEach(link => {
+                    link.addEventListener('click', function() {
+                        mobileToggle.classList.remove('active');
+                        navLinks.classList.remove('active');
+                    });
+                });
+
+                document.addEventListener('click', function(event) {
+                    const isClickInsideNav = navLinks.contains(event.target);
+                    const isClickOnToggle = mobileToggle.contains(event.target);
+                    
+                    if (!isClickInsideNav && !isClickOnToggle && navLinks.classList.contains('active')) {
+                        mobileToggle.classList.remove('active');
+                        navLinks.classList.remove('active');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
