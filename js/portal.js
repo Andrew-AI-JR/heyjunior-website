@@ -425,9 +425,33 @@ function createCommentCard(comment) {
     else if (comment.status === 'pending') statusColor = '#f59e0b';
     else if (comment.status === 'failed') statusColor = '#ef4444';
     
-    // Determine which LinkedIn URL to use (prefer posted_linkedin_url, fallback to source_linkedin_url)
-    const linkedinUrl = comment.posted_linkedin_url || comment.source_linkedin_url;
-    const linkText = comment.posted_linkedin_url ? 'View on LinkedIn' : (comment.source_linkedin_url ? 'View Source' : '');
+    // Determine which LinkedIn URL to use - prefer posted_linkedin_url, fallback to source_linkedin_url
+    // Handle null, undefined, empty string, and "null" string values
+    const postedUrlRaw = comment.posted_linkedin_url;
+    const sourceUrlRaw = comment.source_linkedin_url;
+    
+    const postedUrl = postedUrlRaw && 
+                     postedUrlRaw !== 'null' && 
+                     typeof postedUrlRaw === 'string' &&
+                     postedUrlRaw.trim() !== '' 
+                     ? postedUrlRaw.trim() 
+                     : null;
+    
+    const sourceUrl = sourceUrlRaw && 
+                     sourceUrlRaw !== 'null' && 
+                     typeof sourceUrlRaw === 'string' &&
+                     sourceUrlRaw.trim() !== '' 
+                     ? sourceUrlRaw.trim() 
+                     : null;
+    
+    const linkedinUrl = postedUrl || sourceUrl;
+    const linkText = postedUrl ? 'View on LinkedIn' : (sourceUrl ? 'View Source' : 'View on LinkedIn');
+    
+    // Build link HTML - show link if URL exists
+    let linkHtml = '';
+    if (linkedinUrl) {
+        linkHtml = `<div style="margin-top: 8px;"><a href="${escapeHtml(linkedinUrl)}" target="_blank" rel="noopener noreferrer" style="color: #2563eb; font-size: 0.85rem; text-decoration: none; font-weight: 500;">${linkText} →</a></div>`;
+    }
     
     card.innerHTML = `
         <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 10px;">
@@ -440,7 +464,7 @@ function createCommentCard(comment) {
         <div style="margin-bottom: 10px;">
             <p style="margin: 0; color: #1f2937; line-height: 1.5; word-wrap: break-word;">${escapeHtml(comment.generated_text || 'No text available')}</p>
         </div>
-        ${linkedinUrl ? `<div style="margin-top: 8px;"><a href="${linkedinUrl}" target="_blank" rel="noopener noreferrer" style="color: #2563eb; font-size: 0.85rem; text-decoration: none; font-weight: 500;">${linkText} →</a></div>` : ''}
+        ${linkHtml}
     `;
     
     return card;
