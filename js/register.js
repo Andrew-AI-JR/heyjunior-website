@@ -301,28 +301,9 @@ async function startAppDownload(platform) {
                 throw new Error('No download URL available');
             }
         } else {
-            // Fallback: use hardcoded URLs
-            console.warn('Release manager not available, using fallback URLs');
-            const fallbackUrls = {
-                'windows': 'https://github.com/Andrew-AI-JR/Desktop-Releases/releases/download/v1.0.0-beta/Junior.Setup.1.0.0-beta.exe',
-                'macos': 'https://github.com/Andrew-AI-JR/Desktop-Releases/releases/download/v1.0.0-beta/Junior-1.0.0-beta-arm64.dmg'
-            };
-            
-            const downloadUrl = fallbackUrls[platform] || fallbackUrls['windows'];
-            const downloadLink = document.createElement('a');
-            downloadLink.href = downloadUrl;
-            downloadLink.download = downloadUrl.split('/').pop();
-            downloadLink.style.display = 'none';
-            document.body.appendChild(downloadLink);
-            downloadLink.click();
-            
-            setTimeout(() => {
-                if (document.body.contains(downloadLink)) {
-                    document.body.removeChild(downloadLink);
-                }
-            }, 1000);
-            
-            return true;
+            // No hardcoded fallback - show error
+            console.error('Release manager not available');
+            throw new Error('Download service unavailable. Please refresh the page or contact support@heyjunior.ai');
         }
     } catch (error) {
         console.error('Error starting download:', error);

@@ -1,12 +1,8 @@
 // Success page functionality for download only
 const API_BASE_URL = 'https://junior-api-915940312680.us-west1.run.app';
 
-// Platform-specific download URLs
-const downloadUrls = {
-    'windows': 'https://github.com/Andrew-AI-JR/Desktop-Releases/releases/download/v1.0.0-beta/Junior.Setup.1.0.0.exe',
-    'macos-intel': 'https://github.com/Andrew-AI-JR/Desktop-Releases/releases/download/v1.0.0-beta/Junior-1.0.0.dmg',
-    'macos-arm': 'https://github.com/Andrew-AI-JR/Desktop-Releases/releases/download/v1.0.0-beta/Junior-1.0.0-arm64.dmg'
-};
+// Download URLs are fetched dynamically from release-manager.js
+// No hardcoded fallbacks - always use the latest release
 
 // Track if download was initiated
 let downloadInitiated = false;
@@ -300,20 +296,26 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Auto-start download immediately if we have platform info
     if (platform && (platform === 'windows' || platform.startsWith('mac'))) {
-        const downloadUrl = getDownloadUrl(platform);
-        console.log('Starting auto-download:', downloadUrl);
-        
-        // Create hidden link and trigger click
-        const link = document.createElement('a');
-        link.href = downloadUrl;
-        link.download = downloadUrl.split('/').pop();
-        link.style.display = 'none';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        
-        // Also show the download button as fallback
-        startDirectDownload(platform);
+        try {
+            const downloadUrl = await getDownloadUrl(platform);
+            console.log('Starting auto-download:', downloadUrl);
+            
+            // Create hidden link and trigger click
+            const link = document.createElement('a');
+            link.href = downloadUrl;
+            link.download = downloadUrl.split('/').pop();
+            link.style.display = 'none';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            // Also show the download button as fallback
+            startDirectDownload(platform);
+        } catch (error) {
+            console.error('Auto-download failed:', error);
+            // Show manual download section instead
+            startDirectDownload(platform);
+        }
     }
 });
 
@@ -343,7 +345,7 @@ async function handlePaymentVerificationAndDownload(paymentIntentId, email, plat
                 showAccountCreationStatus('Payment verified! Starting download...', 'success');
                 
                 // Start download using the secure URL
-                const downloadUrl = getDownloadUrl(platform);
+                const downloadUrl = await getDownloadUrl(platform);
                 await startSecureDownload(downloadUrl, platform);
                 
                 // Also create account and API key
@@ -516,22 +518,28 @@ async function startDirectDownload(platform) {
     container.appendChild(downloadSection);
     
     // Add download functionality
-    document.getElementById('direct-download-btn').addEventListener('click', function() {
-        const actualDownloadUrl = getDownloadUrl(platform);
-        
-        // User-initiated download
-        const link = document.createElement('a');
-        link.href = actualDownloadUrl;
-        link.download = actualDownloadUrl.split('/').pop();
-        link.style.display = 'none';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        
-        // Update button
-        this.innerHTML = '✅ Download Started!';
-        this.style.background = 'rgba(255,255,255,0.3)';
-        this.disabled = true;
+    document.getElementById('direct-download-btn').addEventListener('click', async function() {
+        try {
+            const actualDownloadUrl = await getDownloadUrl(platform);
+            
+            // User-initiated download
+            const link = document.createElement('a');
+            link.href = actualDownloadUrl;
+            link.download = actualDownloadUrl.split('/').pop();
+            link.style.display = 'none';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            // Update button
+            this.innerHTML = '✅ Download Started!';
+            this.style.background = 'rgba(255,255,255,0.3)';
+            this.disabled = true;
+        } catch (error) {
+            console.error('Download failed:', error);
+            this.innerHTML = '❌ Download Failed - Refresh Page';
+            this.style.background = '#dc2626';
+        }
     });
 }
 
@@ -759,53 +767,57 @@ function displayOrderInfo(email, platform, isFreeAccount, couponCode) {
     }
 }
 
-function updateDownloadButtons(platform) {
+async function updateDownloadButtons(platform) {
     document.querySelectorAll('.download-option').forEach(option => {
         option.style.display = 'none';
     });
 
     const effectivePlatform = platform || 'windows';
 
-    if (effectivePlatform === 'windows') {
-        const windowsOption = document.querySelector('.download-option.windows');
-        if (windowsOption) {
-            windowsOption.style.display = 'block';
-            windowsOption.classList.add('recommended');
-            const button = windowsOption.querySelector('.download-button');
-            if (button) button.href = getDownloadUrl('windows');
+    try {
+        if (effectivePlatform === 'windows') {
+            const windowsOption = document.querySelector('.download-option.windows');
+            if (windowsOption) {
+                windowsOption.style.display = 'block';
+                windowsOption.classList.add('recommended');
+                const button = windowsOption.querySelector('.download-button');
+                if (button) button.href = await getDownloadUrl('windows');
+            }
+        } else { 
+            // Show both macOS options for user to choose
+            const macIntelOption = document.querySelector('.download-option.macos');
+            const macArmOption = document.querySelector('.download-option.macos-arm');
+            
+            // Detect if user is on ARM Mac for recommendations
+            const isArmMac = navigator.userAgent.includes('Mac') && 
+                            (navigator.userAgent.includes('ARM') || 
+                             window.navigator.platform === 'MacIntel' && 
+                             window.navigator.maxTouchPoints > 1);
+            
+            if (macIntelOption) {
+                macIntelOption.style.display = 'block';
+                if (!isArmMac) {
+                    macIntelOption.classList.add('recommended');
+                }
+                const button = macIntelOption.querySelector('.download-button');
+                if (button) {
+                    button.href = await getDownloadUrl('macos-intel');
+                }
+            }
+            
+            if (macArmOption) {
+                macArmOption.style.display = 'block';
+                if (isArmMac) {
+                    macArmOption.classList.add('recommended');
+                }
+                const button = macArmOption.querySelector('.download-button');
+                if (button) {
+                    button.href = await getDownloadUrl('macos-arm');
+                }
+            }
         }
-    } else { 
-        // Show both macOS options for user to choose
-        const macIntelOption = document.querySelector('.download-option.macos');
-        const macArmOption = document.querySelector('.download-option.macos-arm');
-        
-        // Detect if user is on ARM Mac for recommendations
-        const isArmMac = navigator.userAgent.includes('Mac') && 
-                        (navigator.userAgent.includes('ARM') || 
-                         window.navigator.platform === 'MacIntel' && 
-                         window.navigator.maxTouchPoints > 1);
-        
-        if (macIntelOption) {
-            macIntelOption.style.display = 'block';
-            if (!isArmMac) {
-                macIntelOption.classList.add('recommended');
-            }
-            const button = macIntelOption.querySelector('.download-button');
-            if (button) {
-                button.href = getDownloadUrl('macos-intel');
-            }
-        }
-        
-        if (macArmOption) {
-            macArmOption.style.display = 'block';
-            if (isArmMac) {
-                macArmOption.classList.add('recommended');
-            }
-            const button = macArmOption.querySelector('.download-button');
-            if (button) {
-                button.href = getDownloadUrl('macos-arm');
-            }
-        }
+    } catch (error) {
+        console.error('Failed to update download buttons:', error);
     }
 }
 
@@ -1546,14 +1558,19 @@ function addLicenseStyles() {
     document.head.appendChild(style);
 }
 
-// Helper function to get download URL based on platform
-function getDownloadUrl(platform) {
-    // Detect macOS architecture
-    if (platform === 'macos') {
-        // Check for Apple Silicon
-        const isAppleSilicon = navigator.userAgent.includes('Mac OS') && navigator.userAgent.includes('ARM');
-        return isAppleSilicon ? downloadUrls['macos-arm'] : downloadUrls['macos-intel'];
+// Helper function to get download URL based on platform (uses release-manager.js)
+async function getDownloadUrl(platform) {
+    // Use release manager for dynamic URLs
+    if (window.juniorReleaseManager) {
+        try {
+            const url = await window.juniorReleaseManager.getDownloadUrl(platform);
+            if (url) return url;
+        } catch (error) {
+            console.error('[Download] Release manager failed:', error);
+        }
     }
     
-    return downloadUrls[platform] || downloadUrls['windows']; // Default to Windows
+    // No hardcoded fallback - show error to user
+    console.error('[Download] Could not fetch download URL. Please refresh the page or contact support.');
+    throw new Error('Download URL unavailable. Please refresh the page or contact support@heyjunior.ai');
 } 

@@ -120,21 +120,12 @@ class JuniorReleaseManager {
   }
 
   /**
-   * Hardcoded fallback for when all APIs fail
-   * @returns {Object} Fallback release data
+   * Error fallback when all APIs fail - no hardcoded URLs
+   * @throws {Error} Always throws - caller must handle
    */
   getHardcodedFallback() {
-    return {
-      version: "1.0.0-beta",
-      tag: "v1.0.0-beta",
-      release_date: new Date().toISOString(),
-      downloads: {
-        windows: "https://github.com/Andrew-AI-JR/Desktop-Releases/releases/download/v1.0.0-beta/Junior.Setup.1.0.0-beta.exe",
-        macos_intel: "https://github.com/Andrew-AI-JR/Desktop-Releases/releases/download/v1.0.0-beta/Junior-1.0.0-beta-x64.dmg",
-        macos_arm: "https://github.com/Andrew-AI-JR/Desktop-Releases/releases/download/v1.0.0-beta/Junior-1.0.0-beta-arm64.dmg"
-      },
-      release_url: "https://github.com/Andrew-AI-JR/Desktop-Releases/releases/tag/v1.0.0-beta"
-    };
+    // No hardcoded fallback - throw error so caller can show user-friendly message
+    throw new Error('Unable to fetch latest release. Please refresh the page or contact support@heyjunior.ai');
   }
 
   /**
