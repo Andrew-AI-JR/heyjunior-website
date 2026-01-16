@@ -4026,7 +4026,6 @@ section, div {
     }
 
     .stats-grid {
-        grid-template-columns: 1fr;
         gap: 15px;
     }
 
@@ -4035,7 +4034,7 @@ section, div {
     }
 
     .stat-card.summary-card {
-        grid-column: 1;
+        /* Flexbox doesn't use grid-column, no change needed */
     }
 
     .stat-value {
@@ -4169,11 +4168,15 @@ section, div {
 }
 
 /* Responsive adjustments for small download cards */
-@media (max-width: 480px) {
+/* Tablet and below: allow wrapping to prevent overflow */
+@media (max-width: 768px) {
     #downloads-list {
         flex-wrap: wrap;
     }
-    
+}
+
+/* Mobile: optimize for 2-column layout */
+@media (max-width: 480px) {
     .download-option {
         flex: 1 1 calc(50% - 5px);
         min-width: 120px;
@@ -5026,8 +5029,11 @@ section, div {
     }
 
     .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
         gap: 15px;
+    }
+    
+    .stats-group {
+        grid-template-columns: repeat(2, 1fr);
     }
 
     .stat-value {
