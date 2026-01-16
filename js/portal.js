@@ -1188,7 +1188,7 @@ async function loadDownloads() {
         
         // Hide loading, show downloads
         downloadsLoading.style.display = 'none';
-        downloadsList.style.display = 'block';
+        downloadsList.style.display = 'flex';
         downloadsList.innerHTML = '';
         
         // Create download cards
