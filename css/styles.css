@@ -3782,7 +3782,7 @@ section, div {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     transition: all 0.2s ease;
     flex: 1 1 auto;
-    min-width: 200px;
+    min-width: 0;
 }
 
 .stat-card:hover {
@@ -4043,7 +4043,7 @@ section, div {
 
     .stat-card {
         flex: 1 1 calc(50% - 8px);
-        min-width: 150px;
+        min-width: 0;
     }
 
     .stat-card.summary-card {
@@ -5053,7 +5053,11 @@ section, div {
     
     .stat-card {
         flex: 1 1 calc(50% - 8px);
-        min-width: 150px;
+        min-width: 0;
+    }
+    
+    .stat-card.summary-card {
+        flex: 1 1 100%;
     }
 
     .stat-value {
