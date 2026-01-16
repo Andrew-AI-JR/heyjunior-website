@@ -9,11 +9,11 @@ const API_BASE_URL = window.location.hostname === 'localhost' || window.location
 const GITHUB_RELEASES = {
   owner: 'Andrew-AI-JR',
   repo: 'Desktop-Releases',
-  tag: 'v1.0.0-beta',
+  tag: 'v1.0.40',
   assets: {
-    windows: 'Junior.Setup.1.0.0.exe',
-    macos: 'Junior-v1.0.0.dmg',
-    macos_arm: 'Junior-v1.0.0-arm64.dmg'
+    windows: 'Junior.Setup.1.0.40.exe',
+    macos: 'Junior-1.0.40.dmg',
+    macos_arm: 'Junior-1.0.40-arm64.dmg'
   }
 };
 
@@ -497,7 +497,7 @@ function updateInstallationInstructions(platform) {
       instructions = `
                 <h3>🖥️ Windows Installation</h3>
                 <ol>
-                    <li>Download the installer (Junior.Setup.1.0.0.exe)</li>
+                    <li>Download the installer (Junior.Setup.1.0.40.exe)</li>
                     <li>Right-click the downloaded file and select "Run as administrator"</li>
                     <li>If Windows shows a security warning, click "More info" then "Run anyway"</li>
                     <li>Follow the installation wizard</li>

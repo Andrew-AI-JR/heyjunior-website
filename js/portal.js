@@ -98,6 +98,9 @@ async function loadDashboardData() {
         displayReferralInfo(referral);
         displayComments(comments);
         
+        // Load download links (uses release manager, doesn't need API)
+        await loadDownloads();
+        
         hideLoading();
         showDashboard();
         
@@ -898,3 +901,134 @@ async function openManageSubscription() {
 
 // Make function globally accessible
 window.openManageSubscription = openManageSubscription;
+
+// SHA256 hashes for v1.0.40 (and future versions)
+const DOWNLOAD_HASHES = {
+    '1.0.40': {
+        'windows': '8da1ef96358ba61be31ce31d6430d3029cb01ee4bd780fc882f152b1ac8c2799',
+        'macos_intel': '2cf898f4feca13053a20cbca82115988d709f7beebb3df2d38f55e346b1664e9',
+        'macos_arm': '5bbdd3e72b1b8df32815d4aac17176b55ae86700b95bdd649ef10419261b705e'
+    }
+};
+
+async function loadDownloads() {
+    try {
+        const downloadsList = document.getElementById('downloads-list');
+        const downloadsLoading = document.querySelector('.downloads-loading');
+        
+        if (!downloadsList || !downloadsLoading) {
+            console.warn('Download section elements not found');
+            return;
+        }
+        
+        // Check if release manager is available
+        if (!window.juniorReleaseManager) {
+            console.warn('Release manager not available');
+            downloadsLoading.innerHTML = '<p style="color: #ef4444;">Unable to load download links. Please refresh the page.</p>';
+            return;
+        }
+        
+        // Fetch latest release info
+        const release = await window.juniorReleaseManager.getLatestRelease();
+        const version = release.version || '1.0.40';
+        const downloads = release.downloads || {};
+        
+        // Get hashes for this version (fallback to v1.0.40 if not found)
+        const versionHashes = DOWNLOAD_HASHES[version] || DOWNLOAD_HASHES['1.0.40'];
+        
+        // Hide loading, show downloads
+        downloadsLoading.style.display = 'none';
+        downloadsList.style.display = 'block';
+        downloadsList.innerHTML = '';
+        
+        // Create download cards
+        const downloadOptions = [
+            {
+                id: 'windows',
+                title: '🖥️ Windows',
+                description: 'For Windows 10 or later',
+                url: downloads.windows,
+                hash: versionHashes?.windows,
+                filename: `Junior.Setup.${version}.exe`,
+                size: '718 MB'
+            },
+            {
+                id: 'macos_intel',
+                title: '🍎 macOS (Intel)',
+                description: 'For Intel-based Macs (macOS 10.14+)',
+                url: downloads.macos_intel,
+                hash: versionHashes?.macos_intel,
+                filename: `Junior-${version}-x64.dmg`,
+                size: '619 MB'
+            },
+            {
+                id: 'macos_arm',
+                title: '🍎 macOS (Apple Silicon)',
+                description: 'For Apple Silicon Macs (M1/M2/M3, macOS 10.14+)',
+                url: downloads.macos_arm,
+                hash: versionHashes?.macos_arm,
+                filename: `Junior-${version}-arm64.dmg`,
+                size: '615 MB'
+            }
+        ];
+        
+        // Filter out downloads that don't have URLs
+        const availableDownloads = downloadOptions.filter(d => d.url);
+        
+        if (availableDownloads.length === 0) {
+            downloadsList.innerHTML = '<p style="text-align: center; color: #6b7280; padding: 20px;">No downloads available at this time. Please check back later.</p>';
+            return;
+        }
+        
+        // Create download cards
+        availableDownloads.forEach(download => {
+            const card = document.createElement('div');
+            card.className = 'download-option';
+            card.style.cssText = 'padding: 20px; margin-bottom: 20px; background: white; border-radius: 12px; border: 1px solid #e5e7eb; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);';
+            
+            const hashDisplay = download.hash 
+                ? `<div style="margin-top: 12px; padding: 10px; background: #f9fafb; border-radius: 6px; font-family: monospace; font-size: 0.85rem; word-break: break-all;">
+                    <strong style="color: #374151; display: block; margin-bottom: 4px;">SHA256:</strong>
+                    <code style="color: #059669;">${download.hash}</code>
+                   </div>`
+                : '';
+            
+            card.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
+                    <div>
+                        <h3 style="margin: 0 0 6px 0; color: #1f2937; font-size: 1.1rem;">${download.title}</h3>
+                        <p style="margin: 0; color: #6b7280; font-size: 0.9rem;">${download.description}</p>
+                    </div>
+                </div>
+                <div style="margin: 12px 0; color: #6b7280; font-size: 0.85rem;">
+                    <strong>File:</strong> ${download.filename}<br>
+                    <strong>Size:</strong> ${download.size}
+                </div>
+                ${hashDisplay}
+                <a href="${download.url}" 
+                   class="download-button" 
+                   style="display: inline-block; margin-top: 16px; padding: 12px 24px; background: #667eea; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; transition: background 0.2s;"
+                   onmouseover="this.style.background='#5568d3'"
+                   onmouseout="this.style.background='#667eea'"
+                   download>
+                    Download ${download.title.includes('Windows') ? 'for Windows' : download.title.includes('Intel') ? 'for macOS Intel' : 'for macOS (Apple Silicon)'}
+                </a>
+            `;
+            
+            downloadsList.appendChild(card);
+        });
+        
+        // Add version info
+        const versionInfo = document.createElement('div');
+        versionInfo.style.cssText = 'margin-top: 20px; padding: 12px; background: #f0f9ff; border-radius: 8px; border-left: 4px solid #2563eb; text-align: center;';
+        versionInfo.innerHTML = `<p style="margin: 0; color: #1e40af; font-size: 0.9rem;"><strong>Latest Version:</strong> v${version}</p>`;
+        downloadsList.appendChild(versionInfo);
+        
+    } catch (error) {
+        console.error('Error loading downloads:', error);
+        const downloadsLoading = document.querySelector('.downloads-loading');
+        if (downloadsLoading) {
+            downloadsLoading.innerHTML = '<p style="color: #ef4444;">Failed to load download links. Please refresh the page or contact support.</p>';
+        }
+    }
+}
