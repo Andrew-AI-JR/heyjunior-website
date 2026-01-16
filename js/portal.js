@@ -1005,14 +1005,13 @@ async function loadDownloads() {
                     <strong>Size:</strong> ${download.size}
                 </div>
                 ${hashDisplay}
-                <a href="${download.url}" 
-                   class="download-button" 
-                   style="display: inline-block; margin-top: 16px; padding: 12px 24px; background: #667eea; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; transition: background 0.2s;"
-                   onmouseover="this.style.background='#5568d3'"
-                   onmouseout="this.style.background='#667eea'"
-                   download>
+                <button 
+                   class="download-button-portal" 
+                   style="margin-top: 16px;"
+                   data-download-url="${download.url}"
+                   data-download-platform="${download.title}">
                     Download ${download.title.includes('Windows') ? 'for Windows' : download.title.includes('Intel') ? 'for macOS Intel' : 'for macOS (Apple Silicon)'}
-                </a>
+                </button>
             `;
             
             downloadsList.appendChild(card);
@@ -1024,6 +1023,9 @@ async function loadDownloads() {
         versionInfo.innerHTML = `<p style="margin: 0; color: #1e40af; font-size: 0.9rem;"><strong>Latest Version:</strong> v${version}</p>`;
         downloadsList.appendChild(versionInfo);
         
+        // Setup download button click handlers
+        setupDownloadButtons();
+        
     } catch (error) {
         console.error('Error loading downloads:', error);
         const downloadsLoading = document.querySelector('.downloads-loading');
@@ -1032,3 +1034,123 @@ async function loadDownloads() {
         }
     }
 }
+
+// Setup download button handlers with popup
+function setupDownloadButtons() {
+    const downloadButtons = document.querySelectorAll('.download-button-portal');
+    
+    downloadButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const downloadUrl = this.getAttribute('data-download-url');
+            const platform = this.getAttribute('data-download-platform');
+            
+            if (!downloadUrl) {
+                console.error('No download URL found');
+                return;
+            }
+            
+            // Show download confirmation popup
+            showDownloadPopup(downloadUrl, platform);
+        });
+    });
+}
+
+// Show download confirmation popup
+function showDownloadPopup(downloadUrl, platform) {
+    // Create modal if it doesn't exist
+    let modal = document.getElementById('download-modal');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'download-modal';
+        modal.className = 'download-modal';
+        modal.innerHTML = `
+            <div class="download-modal-content">
+                <div class="download-modal-header">
+                    <span style="font-size: 1.5rem;">📥</span>
+                    <h3>Confirm Download</h3>
+                </div>
+                <div class="download-modal-body">
+                    <p>You are about to download <strong id="modal-platform-name">${platform}</strong>.</p>
+                    <p>The download will start automatically. Make sure you have a stable internet connection.</p>
+                </div>
+                <div class="download-modal-footer">
+                    <button class="download-modal-close" onclick="closeDownloadModal()">Cancel</button>
+                    <button class="download-modal-confirm" id="confirm-download-btn">Start Download</button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        
+        // Setup close handlers
+        const closeBtn = modal.querySelector('.download-modal-close');
+        const confirmBtn = modal.querySelector('#confirm-download-btn');
+        
+        closeBtn.addEventListener('click', closeDownloadModal);
+        
+        // Close on backdrop click
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeDownloadModal();
+            }
+        });
+        
+        // Close on Escape key
+        const escapeHandler = function(e) {
+            if (e.key === 'Escape' && modal.classList.contains('show')) {
+                closeDownloadModal();
+            }
+        };
+        document.addEventListener('keydown', escapeHandler);
+    }
+    
+    // Update platform name
+    const platformName = modal.querySelector('#modal-platform-name');
+    if (platformName) {
+        platformName.textContent = platform;
+    }
+    
+    // Store download URL for confirmation
+    modal.setAttribute('data-download-url', downloadUrl);
+    
+    // Update confirm button handler with current download URL
+    const confirmBtn = modal.querySelector('#confirm-download-btn');
+    if (confirmBtn) {
+        // Remove old listeners by cloning
+        const newConfirmBtn = confirmBtn.cloneNode(true);
+        confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
+        
+        newConfirmBtn.addEventListener('click', function() {
+            const url = modal.getAttribute('data-download-url');
+            if (url) {
+                startDownload(url);
+                closeDownloadModal();
+            }
+        });
+    }
+    
+    // Show modal
+    modal.classList.add('show');
+}
+
+// Close download modal
+function closeDownloadModal() {
+    const modal = document.getElementById('download-modal');
+    if (modal) {
+        modal.classList.remove('show');
+    }
+}
+
+// Start the actual download
+function startDownload(downloadUrl) {
+    const link = document.createElement('a');
+    link.href = downloadUrl;
+    link.download = downloadUrl.split('/').pop();
+    link.style.display = 'none';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+// Make functions globally accessible
+window.closeDownloadModal = closeDownloadModal;
