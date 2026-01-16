@@ -464,135 +464,142 @@ function displayStats(stats) {
     
     let hasAnyStats = false;
     
-    // Display usage stats - per API docs, usage endpoint returns daily_usage and monthly_usage
-    if (stats.usage) {
-        // SubscriptionUsageResponse: { daily_usage: integer, monthly_usage: integer }
-        const usageStats = [
-            { 
-                label: 'Usage Today', 
-                value: stats.usage.daily_usage || stats.usage.today || 0 
-            },
-            { 
-                label: 'Usage This Month', 
-                value: stats.usage.monthly_usage || stats.usage.this_month || 0 
-            }
-        ];
+    // Get usage and limits
+    const dailyUsage = stats.usage?.daily_usage || 0;
+    const monthlyUsage = stats.usage?.monthly_usage || 0;
+    const dailyLimit = stats.limits?.daily_limit ? parseInt(stats.limits.daily_limit) : 0;
+    const monthlyLimit = stats.limits?.monthly_limit ? parseInt(stats.limits.monthly_limit) : 0;
+    const isUnlimited = stats.limits?.is_unlimited;
+    
+    // Calculate remaining
+    const remainingDaily = isUnlimited ? null : Math.max(0, dailyLimit - dailyUsage);
+    const remainingMonthly = isUnlimited ? null : Math.max(0, monthlyLimit - monthlyUsage);
+    
+    // Calculate progress percentages
+    const dailyProgress = dailyLimit > 0 ? (dailyUsage / dailyLimit) * 100 : 0;
+    const monthlyProgress = monthlyLimit > 0 ? (monthlyUsage / monthlyLimit) * 100 : 0;
+    
+    // Show total comments generated as summary card if available
+    if (stats.total_comments_generated) {
+        const totalComments = parseInt(stats.total_comments_generated) || 0;
+        if (totalComments > 0) {
+            const summaryCard = createStatCard('Total Comments Generated', totalComments, { type: 'total' });
+            summaryCard.className += ' summary-card';
+            statsGrid.appendChild(summaryCard);
+            hasAnyStats = true;
+        }
+    }
+    
+    // Daily Usage & Limits Section
+    if (stats.limits && !isUnlimited && dailyLimit > 0) {
+        const dailyGroup = document.createElement('div');
+        dailyGroup.className = 'stats-group';
+        dailyGroup.innerHTML = '<div class="stats-group-title">Daily Usage</div>';
         
-        // Also show total_comments_generated if available from stats endpoint
-        if (stats.total_comments_generated) {
-            usageStats.push({
-                label: 'Total Comments Generated',
-                value: parseInt(stats.total_comments_generated) || 0
+        // Daily Usage with progress
+        const dailyUsageCard = createStatCard('Used Today', dailyUsage, {
+            type: 'usage',
+            progress: dailyProgress,
+            maxValue: dailyLimit
+        });
+        dailyGroup.appendChild(dailyUsageCard);
+        
+        // Daily Remaining (only show if not equal to limit)
+        if (remainingDaily !== null && remainingDaily < dailyLimit) {
+            const dailyRemainingCard = createStatCard('Remaining Today', remainingDaily, {
+                type: 'remaining'
             });
+            dailyGroup.appendChild(dailyRemainingCard);
         }
         
-        usageStats.forEach(stat => {
-            if (stat.value > 0 || stat.label === 'Usage Today') {
-                const statCard = createStatCard(stat.label, stat.value);
-                statsGrid.appendChild(statCard);
-                hasAnyStats = true;
-            }
-        });
+        statsGrid.appendChild(dailyGroup);
+        hasAnyStats = true;
     }
     
-    // Display remaining - calculate from limits and usage if not provided
-    // Per API docs, remaining might come from stats.remaining (JSON string) or we calculate it
-    let remainingDaily = 0;
-    let remainingMonthly = 0;
-    
-    if (stats.remaining) {
-        remainingDaily = stats.remaining.daily || stats.remaining.today || 0;
-        remainingMonthly = stats.remaining.monthly || 0;
-    } else if (stats.limits && stats.usage) {
-        // Calculate remaining from limits and usage
-        const dailyLimit = parseInt(stats.limits.daily_limit) || 0;
-        const monthlyLimit = parseInt(stats.limits.monthly_limit) || 0;
-        const dailyUsage = stats.usage.daily_usage || 0;
-        const monthlyUsage = stats.usage.monthly_usage || 0;
+    // Monthly Usage & Limits Section
+    if (stats.limits && !isUnlimited && monthlyLimit > 0) {
+        const monthlyGroup = document.createElement('div');
+        monthlyGroup.className = 'stats-group';
+        monthlyGroup.innerHTML = '<div class="stats-group-title">Monthly Usage</div>';
         
-        remainingDaily = Math.max(0, dailyLimit - dailyUsage);
-        remainingMonthly = Math.max(0, monthlyLimit - monthlyUsage);
-    }
-    
-    // Always show remaining if we have limits (even if 0, so users know their status)
-    if (stats.limits && !stats.limits.is_unlimited) {
-        const remainingStats = [
-            { label: 'Remaining Today', value: remainingDaily },
-            { label: 'Remaining This Month', value: remainingMonthly }
-        ];
-        
-        remainingStats.forEach(stat => {
-            const statCard = createStatCard(stat.label, stat.value);
-            statsGrid.appendChild(statCard);
-            hasAnyStats = true;
+        // Monthly Usage with progress
+        const monthlyUsageCard = createStatCard('Used This Month', monthlyUsage, {
+            type: 'usage',
+            progress: monthlyProgress,
+            maxValue: monthlyLimit
         });
+        monthlyGroup.appendChild(monthlyUsageCard);
+        
+        // Monthly Remaining (only show if not equal to limit)
+        if (remainingMonthly !== null && remainingMonthly < monthlyLimit) {
+            const monthlyRemainingCard = createStatCard('Remaining This Month', remainingMonthly, {
+                type: 'remaining'
+            });
+            monthlyGroup.appendChild(monthlyRemainingCard);
+        }
+        
+        statsGrid.appendChild(monthlyGroup);
+        hasAnyStats = true;
     }
     
-    // Display limits if available - per API docs: SubscriptionLimitsResponse
+    // Plan Info Section (Tier, Warmup, etc.)
     if (stats.limits) {
-        // SubscriptionLimitsResponse: { daily_limit, monthly_limit, is_warmup, is_unlimited, tier, warmup_week, warmup_percentage }
-        const dailyLimit = stats.limits.daily_limit;
-        const monthlyLimit = stats.limits.monthly_limit;
-        const isUnlimited = stats.limits.is_unlimited;
-        const isWarmup = stats.limits.is_warmup;
-        const tier = stats.limits.tier;
+        const planInfo = [];
         
-        const limitStats = [];
+        if (stats.limits.tier) {
+            planInfo.push({ label: 'Plan Tier', value: stats.limits.tier, type: 'limit' });
+        }
+        
+        if (stats.limits.is_warmup && stats.limits.warmup_week) {
+            const warmupText = `Week ${stats.limits.warmup_week}${stats.limits.warmup_percentage ? ` (${stats.limits.warmup_percentage}%)` : ''}`;
+            planInfo.push({ label: 'Warmup Status', value: warmupText, type: 'limit' });
+        }
         
         if (isUnlimited) {
-            limitStats.push({ label: 'Daily Limit', value: 'Unlimited' });
-            limitStats.push({ label: 'Monthly Limit', value: 'Unlimited' });
-        } else {
-            if (dailyLimit) {
-                limitStats.push({ label: 'Daily Limit', value: dailyLimit });
-            }
-            if (monthlyLimit) {
-                limitStats.push({ label: 'Monthly Limit', value: monthlyLimit });
-            }
+            planInfo.push({ label: 'Plan Type', value: 'Unlimited', type: 'limit' });
         }
         
-        if (isWarmup && stats.limits.warmup_week) {
-            limitStats.push({ 
-                label: 'Warmup Status', 
-                value: `Week ${stats.limits.warmup_week}${stats.limits.warmup_percentage ? ` (${stats.limits.warmup_percentage}%)` : ''}` 
+        if (planInfo.length > 0) {
+            const planGroup = document.createElement('div');
+            planGroup.className = 'stats-group';
+            planGroup.innerHTML = '<div class="stats-group-title">Plan Information</div>';
+            
+            planInfo.forEach(info => {
+                const card = createStatCard(info.label, info.value, { type: info.type });
+                planGroup.appendChild(card);
             });
-        }
-        
-        if (tier) {
-            limitStats.push({ label: 'Tier', value: tier });
-        }
-        
-        limitStats.forEach(stat => {
-            const statCard = createStatCard(stat.label, stat.value);
-            statsGrid.appendChild(statCard);
+            
+            statsGrid.appendChild(planGroup);
             hasAnyStats = true;
-        });
+        }
     }
     
-    // Display analytics data if available - per API docs: UsageAnalyticsResponse
-    if (stats.analytics) {
-        // UsageAnalyticsResponse: { period_days, start_date, end_date, total_usage, average_daily, peak_day, daily_breakdown, content_type_breakdown, active_days }
-        const analyticsStats = [
-            { label: 'Total Usage (Period)', value: stats.analytics.total_usage || 0 },
+    // Analytics Section (if available)
+    if (stats.analytics && stats.analytics.total_usage > 0) {
+        const analyticsGroup = document.createElement('div');
+        analyticsGroup.className = 'stats-group';
+        analyticsGroup.innerHTML = '<div class="stats-group-title">Analytics</div>';
+        
+        const analyticsCards = [
             { label: 'Average Daily', value: stats.analytics.average_daily ? stats.analytics.average_daily.toFixed(1) : 0 },
             { label: 'Active Days', value: stats.analytics.active_days || 0 }
         ];
         
         if (stats.analytics.peak_day && stats.analytics.peak_day.date) {
             const peakDate = new Date(stats.analytics.peak_day.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-            analyticsStats.push({ 
+            analyticsCards.push({ 
                 label: 'Peak Day', 
                 value: `${stats.analytics.peak_day.usage || 0} (${peakDate})` 
             });
         }
         
-        analyticsStats.forEach(stat => {
-            if (stat.value > 0 || stat.label === 'Total Usage (Period)') {
-                const statCard = createStatCard(stat.label, stat.value);
-                statsGrid.appendChild(statCard);
-                hasAnyStats = true;
-            }
+        analyticsCards.forEach(stat => {
+            const card = createStatCard(stat.label, stat.value, { type: 'total' });
+            analyticsGroup.appendChild(card);
         });
+        
+        statsGrid.appendChild(analyticsGroup);
+        hasAnyStats = true;
     }
     
     // If no stats available, show message
@@ -604,12 +611,40 @@ function displayStats(stats) {
     }
 }
 
-function createStatCard(label, value) {
+function createStatCard(label, value, options = {}) {
     const card = document.createElement('div');
-    card.className = 'stat-card';
+    const cardType = options.type || 'default';
+    const progress = options.progress; // 0-100 percentage
+    const maxValue = options.maxValue;
+    const showProgress = progress !== undefined;
+    
+    let progressBar = '';
+    let progressText = '';
+    
+    if (showProgress && maxValue) {
+        const percentage = Math.min(100, Math.max(0, progress));
+        let progressClass = '';
+        if (percentage >= 90) progressClass = 'danger';
+        else if (percentage >= 75) progressClass = 'warning';
+        
+        progressBar = `
+            <div class="stat-progress">
+                <div class="stat-progress-bar ${progressClass}" style="width: ${percentage}%"></div>
+            </div>
+            <div class="stat-progress-text">
+                <span>${formatStatValue(value)} / ${formatStatValue(maxValue)}</span>
+                <span>${percentage.toFixed(0)}%</span>
+            </div>
+        `;
+    }
+    
+    card.className = `stat-card ${cardType}-card`;
     card.innerHTML = `
+        <div class="stat-card-header">
+            <div class="stat-label">${label}</div>
+        </div>
         <div class="stat-value">${formatStatValue(value)}</div>
-        <div class="stat-label">${label}</div>
+        ${progressBar}
     `;
     return card;
 }
@@ -1236,47 +1271,50 @@ async function loadDownloads() {
             return;
         }
         
-        // Create download cards
+        // Create compact download cards in a single row
         availableDownloads.forEach(download => {
             const card = document.createElement('div');
             card.className = 'download-option';
-            card.style.cssText = 'padding: 20px; margin-bottom: 20px; background: white; border-radius: 12px; border: 1px solid #e5e7eb; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);';
             
-            const hashDisplay = download.hash 
-                ? `<div style="margin-top: 12px; padding: 10px; background: #f9fafb; border-radius: 6px; font-family: monospace; font-size: 0.85rem; word-break: break-all;">
-                    <strong style="color: #374151; display: block; margin-bottom: 4px;">SHA256:</strong>
-                    <code style="color: #059669;">${download.hash}</code>
-                   </div>`
-                : '';
+            // Extract icon from title (e.g., "🖥️ Windows" -> "🖥️")
+            const iconMatch = download.title.match(/^(\S+)/);
+            const icon = iconMatch ? iconMatch[1] : '📦';
+            const titleWithoutIcon = download.title.replace(/^\S+\s+/, '');
+            
+            // Short button text
+            let buttonText = 'Download';
+            if (download.title.includes('Windows')) {
+                buttonText = 'Windows';
+            } else if (download.title.includes('Intel')) {
+                buttonText = 'Intel';
+            } else if (download.title.includes('Apple Silicon')) {
+                buttonText = 'Apple Silicon';
+            }
             
             card.innerHTML = `
-                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
-                    <div>
-                        <h3 style="margin: 0 0 6px 0; color: #1f2937; font-size: 1.1rem;">${download.title}</h3>
-                        <p style="margin: 0; color: #6b7280; font-size: 0.9rem;">${download.description}</p>
-                    </div>
+                <div class="download-option-header">
+                    <span class="download-option-icon">${icon}</span>
+                    <h3 class="download-option-title">${titleWithoutIcon}</h3>
                 </div>
-                <div style="margin: 12px 0; color: #6b7280; font-size: 0.85rem;">
-                    <strong>File:</strong> ${download.filename}<br>
-                    <strong>Size:</strong> ${download.size}
+                <p class="download-option-description">${download.description}</p>
+                <div class="download-option-info">${download.size}</div>
+                <div class="download-option-button-container">
+                    <button 
+                       class="download-button-portal" 
+                       data-download-url="${download.url}"
+                       data-download-platform="${download.title}">
+                        ${buttonText}
+                    </button>
                 </div>
-                ${hashDisplay}
-                <button 
-                   class="download-button-portal" 
-                   style="margin-top: 16px;"
-                   data-download-url="${download.url}"
-                   data-download-platform="${download.title}">
-                    Download ${download.title.includes('Windows') ? 'for Windows' : download.title.includes('Intel') ? 'for macOS Intel' : 'for macOS (Apple Silicon)'}
-                </button>
             `;
             
             downloadsList.appendChild(card);
         });
         
-        // Add version info
+        // Add version info at the end
         const versionInfo = document.createElement('div');
-        versionInfo.style.cssText = 'margin-top: 20px; padding: 12px; background: #f0f9ff; border-radius: 8px; border-left: 4px solid #2563eb; text-align: center;';
-        versionInfo.innerHTML = `<p style="margin: 0; color: #1e40af; font-size: 0.9rem;"><strong>Latest Version:</strong> v${version}</p>`;
+        versionInfo.className = 'downloads-version-info';
+        versionInfo.innerHTML = `<p><strong>Latest Version:</strong> v${version}</p>`;
         downloadsList.appendChild(versionInfo);
         
         // Setup download button click handlers
