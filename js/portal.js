@@ -129,7 +129,9 @@ async function loadSubscriptions() {
         if (!response || !response.ok) {
             throw new Error('Failed to load subscriptions');
         }
-        return await response.json();
+        const data = await response.json();
+        // Handle both array response and wrapped response (SubscriptionListResponse)
+        return Array.isArray(data) ? data : (data.subscriptions || []);
     } catch (error) {
         console.error('Error loading subscriptions:', error);
         return [];
@@ -138,11 +140,144 @@ async function loadSubscriptions() {
 
 async function loadStats() {
     try {
-        const response = await fetchWithAuth(`${API_BASE_URL}/api/subscription/stats`);
-        if (!response || !response.ok) {
-            throw new Error('Failed to load stats');
+        // Fetch from multiple endpoints in parallel
+        const [usageResponse, limitsResponse, statsResponse, analyticsResponse] = await Promise.allSettled([
+            fetchWithAuth(`${API_BASE_URL}/api/subscription/usage`),
+            fetchWithAuth(`${API_BASE_URL}/api/subscription/limits`),
+            fetchWithAuth(`${API_BASE_URL}/api/subscription/stats`),
+            fetchWithAuth(`${API_BASE_URL}/api/subscription/analytics`)
+        ]);
+        
+        // Helper function to safely extract JSON from response
+        const safeGetJson = async (responseResult) => {
+            if (responseResult.status === 'fulfilled' && responseResult.value && responseResult.value.ok) {
+                try {
+                    return await responseResult.value.json();
+                } catch (e) {
+                    console.warn('Error parsing JSON response:', e);
+                    return null;
+                }
+            }
+            return null;
+        };
+        
+        // Extract data from successful responses
+        const [usage, limits, stats, analytics] = await Promise.all([
+            safeGetJson(usageResponse),
+            safeGetJson(limitsResponse),
+            safeGetJson(statsResponse),
+            safeGetJson(analyticsResponse)
+        ]);
+        
+        // Parse stats response - API returns some fields as JSON strings per SubscriptionStatsResponse
+        let parsedStats = {};
+        if (stats) {
+            parsedStats = { ...stats };
+            // Parse string fields that might be JSON
+            if (typeof stats.usage === 'string') {
+                try {
+                    parsedStats.usage = JSON.parse(stats.usage);
+                } catch (e) {
+                    console.warn('Failed to parse stats.usage as JSON:', e);
+                }
+            }
+            if (typeof stats.limits === 'string') {
+                try {
+                    parsedStats.limits = JSON.parse(stats.limits);
+                } catch (e) {
+                    console.warn('Failed to parse stats.limits as JSON:', e);
+                }
+            }
+            if (typeof stats.remaining === 'string') {
+                try {
+                    parsedStats.remaining = JSON.parse(stats.remaining);
+                } catch (e) {
+                    console.warn('Failed to parse stats.remaining as JSON:', e);
+                }
+            }
+            if (typeof stats.progress === 'string') {
+                try {
+                    parsedStats.progress = JSON.parse(stats.progress);
+                } catch (e) {
+                    console.warn('Failed to parse stats.progress as JSON:', e);
+                }
+            }
         }
-        return await response.json();
+        
+        // Combine all data into a single stats object
+        // Per API docs:
+        // - usage endpoint returns: { daily_usage, monthly_usage }
+        // - limits endpoint returns: { daily_limit, monthly_limit, is_warmup, is_unlimited, tier, warmup_week, warmup_percentage }
+        // - stats endpoint returns: { has_subscription, subscription, limits, usage, remaining, progress, recent_activity, total_comments_generated, message }
+        // - analytics endpoint returns: { period_days, start_date, end_date, total_usage, average_daily, peak_day, daily_breakdown, content_type_breakdown, active_days }
+        const combinedStats = {
+            has_subscription: parsedStats?.has_subscription ?? true,
+            usage: {},
+            limits: limits || parsedStats?.limits || {},
+            remaining: parsedStats?.remaining || {},
+            analytics: analytics || {},
+            total_comments_generated: parsedStats?.total_comments_generated
+        };
+        
+        // Merge usage data - usage endpoint only has daily_usage and monthly_usage
+        if (usage) {
+            // SubscriptionUsageResponse: { daily_usage: integer, monthly_usage: integer }
+            combinedStats.usage = {
+                daily_usage: usage.daily_usage || 0,
+                monthly_usage: usage.monthly_usage || 0
+            };
+        }
+        
+        // Merge stats.usage if available (might have more detailed info)
+        if (parsedStats?.usage) {
+            combinedStats.usage = {
+                ...combinedStats.usage,
+                ...parsedStats.usage
+            };
+        }
+        
+        // Merge limits data - SubscriptionLimitsResponse structure
+        if (limits) {
+            // SubscriptionLimitsResponse: { daily_limit, monthly_limit, is_warmup, is_unlimited, tier, warmup_week, warmup_percentage }
+            combinedStats.limits = {
+                ...combinedStats.limits,
+                ...limits,
+                daily_limit: limits.daily_limit,
+                monthly_limit: limits.monthly_limit,
+                is_warmup: limits.is_warmup,
+                is_unlimited: limits.is_unlimited,
+                tier: limits.tier,
+                warmup_week: limits.warmup_week,
+                warmup_percentage: limits.warmup_percentage
+            };
+        }
+        
+        // Calculate remaining from limits and usage
+        if (combinedStats.limits && combinedStats.usage) {
+            const dailyLimit = parseInt(combinedStats.limits.daily_limit) || 0;
+            const monthlyLimit = parseInt(combinedStats.limits.monthly_limit) || 0;
+            const dailyUsage = combinedStats.usage.daily_usage || 0;
+            const monthlyUsage = combinedStats.usage.monthly_usage || 0;
+            
+            combinedStats.remaining = {
+                ...combinedStats.remaining,
+                daily: Math.max(0, dailyLimit - dailyUsage),
+                monthly: Math.max(0, monthlyLimit - monthlyUsage)
+            };
+        }
+        
+        // Merge remaining from stats if available
+        if (parsedStats?.remaining) {
+            combinedStats.remaining = {
+                ...combinedStats.remaining,
+                ...parsedStats.remaining
+            };
+        }
+        
+        // Log for debugging
+        console.log('Combined stats:', combinedStats);
+        
+        return combinedStats;
     } catch (error) {
         console.error('Error loading stats:', error);
         return null;
@@ -187,11 +322,28 @@ function displayUserData(userData) {
     document.getElementById('account-status').textContent = status;
 }
 
+// Store subscriptions globally for history modal
+let allSubscriptions = [];
+
 function displaySubscriptions(subscriptions) {
+    // Store subscriptions for history modal
+    allSubscriptions = subscriptions || [];
+    
     if (!subscriptions || subscriptions.length === 0) {
         document.getElementById('no-subscription').style.display = 'block';
         document.getElementById('subscription-details').style.display = 'none';
+        // Hide view all link if no subscriptions
+        const viewAllLink = document.getElementById('view-all-subscriptions-link');
+        if (viewAllLink) {
+            viewAllLink.style.display = 'none';
+        }
         return;
+    }
+    
+    // Show view all link if there are subscriptions (always show to view full history)
+    const viewAllLink = document.getElementById('view-all-subscriptions-link');
+    if (viewAllLink) {
+        viewAllLink.style.display = 'inline';
     }
     
     // Find active subscription (prioritize active, trialing, or past_due)
@@ -208,9 +360,10 @@ function displaySubscriptions(subscriptions) {
     document.getElementById('no-subscription').style.display = 'none';
     document.getElementById('subscription-details').style.display = 'block';
     
-    // Display subscription details
-    const planName = activeSub.plan_name || activeSub.price_id || 'Standard';
-    document.getElementById('subscription-plan').textContent = planName;
+    // Display subscription details - API returns 'plan' field (required)
+    const planName = activeSub.plan || activeSub.plan_name || 'Standard';
+    const tier = activeSub.tier ? ` (${activeSub.tier})` : '';
+    document.getElementById('subscription-plan').textContent = planName + tier;
     
     const status = activeSub.status || 'unknown';
     const statusText = status.charAt(0).toUpperCase() + status.slice(1).replace('_', ' ');
@@ -221,12 +374,27 @@ function displaySubscriptions(subscriptions) {
     const badge = document.getElementById('subscription-badge');
     const isTrialing = status.toLowerCase() === 'trialing';
     
-    if (['active', 'trialing'].includes(status.toLowerCase())) {
-        badge.textContent = isTrialing ? 'Trial' : 'Active';
+    // Handle all valid Stripe subscription statuses per API docs:
+    // incomplete, incomplete_expired, trialing, active, past_due, canceled, unpaid
+    const statusLower = status.toLowerCase();
+    if (statusLower === 'active') {
+        badge.textContent = 'Active';
         badge.className = 'subscription-badge active';
-    } else if (status.toLowerCase() === 'past_due') {
+    } else if (statusLower === 'trialing') {
+        badge.textContent = 'Trial';
+        badge.className = 'subscription-badge active';
+    } else if (statusLower === 'past_due') {
         badge.textContent = 'Past Due';
         badge.className = 'subscription-badge warning';
+    } else if (statusLower === 'canceled' || statusLower === 'cancelled') {
+        badge.textContent = 'Canceled';
+        badge.className = 'subscription-badge inactive';
+    } else if (statusLower === 'unpaid') {
+        badge.textContent = 'Unpaid';
+        badge.className = 'subscription-badge inactive';
+    } else if (statusLower === 'incomplete' || statusLower === 'incomplete_expired') {
+        badge.textContent = statusLower === 'incomplete' ? 'Incomplete' : 'Expired';
+        badge.className = 'subscription-badge inactive';
     } else {
         badge.textContent = statusText;
         badge.className = 'subscription-badge inactive';
@@ -285,66 +453,154 @@ function displaySubscriptions(subscriptions) {
 }
 
 function displayStats(stats) {
-    if (!stats || !stats.has_subscription) {
+    if (!stats) {
         document.getElementById('no-stats').style.display = 'block';
         document.getElementById('stats-grid').innerHTML = '';
         return;
     }
     
-    document.getElementById('no-stats').style.display = 'none';
     const statsGrid = document.getElementById('stats-grid');
     statsGrid.innerHTML = '';
     
-    // Display usage stats if available
+    let hasAnyStats = false;
+    
+    // Display usage stats - per API docs, usage endpoint returns daily_usage and monthly_usage
     if (stats.usage) {
+        // SubscriptionUsageResponse: { daily_usage: integer, monthly_usage: integer }
         const usageStats = [
-            { label: 'Comments Generated', value: stats.usage.comments_generated || stats.usage.comments || 0 },
-            { label: 'Posts Analyzed', value: stats.usage.posts_analyzed || stats.usage.posts || 0 },
-            { label: 'Connections Made', value: stats.usage.connections || 0 },
-            { label: 'Messages Sent', value: stats.usage.messages_sent || stats.usage.messages || 0 }
+            { 
+                label: 'Usage Today', 
+                value: stats.usage.daily_usage || stats.usage.today || 0 
+            },
+            { 
+                label: 'Usage This Month', 
+                value: stats.usage.monthly_usage || stats.usage.this_month || 0 
+            }
         ];
+        
+        // Also show total_comments_generated if available from stats endpoint
+        if (stats.total_comments_generated) {
+            usageStats.push({
+                label: 'Total Comments Generated',
+                value: parseInt(stats.total_comments_generated) || 0
+            });
+        }
         
         usageStats.forEach(stat => {
-            if (stat.value > 0 || stat.label === 'Comments Generated') {
+            if (stat.value > 0 || stat.label === 'Usage Today') {
                 const statCard = createStatCard(stat.label, stat.value);
                 statsGrid.appendChild(statCard);
+                hasAnyStats = true;
             }
         });
     }
     
-    // Display limits if available
-    if (stats.limits) {
-        const limitStats = [
-            { label: 'Daily Limit', value: stats.limits.daily_limit || stats.limits.daily || 'N/A' },
-            { label: 'Monthly Limit', value: stats.limits.monthly_limit || stats.limits.monthly || 'N/A' }
-        ];
-        
-        limitStats.forEach(stat => {
-            if (stat.value !== 'N/A') {
-                const statCard = createStatCard(stat.label, stat.value);
-                statsGrid.appendChild(statCard);
-            }
-        });
-    }
+    // Display remaining - calculate from limits and usage if not provided
+    // Per API docs, remaining might come from stats.remaining (JSON string) or we calculate it
+    let remainingDaily = 0;
+    let remainingMonthly = 0;
     
-    // Display remaining if available
     if (stats.remaining) {
+        remainingDaily = stats.remaining.daily || stats.remaining.today || 0;
+        remainingMonthly = stats.remaining.monthly || 0;
+    } else if (stats.limits && stats.usage) {
+        // Calculate remaining from limits and usage
+        const dailyLimit = parseInt(stats.limits.daily_limit) || 0;
+        const monthlyLimit = parseInt(stats.limits.monthly_limit) || 0;
+        const dailyUsage = stats.usage.daily_usage || 0;
+        const monthlyUsage = stats.usage.monthly_usage || 0;
+        
+        remainingDaily = Math.max(0, dailyLimit - dailyUsage);
+        remainingMonthly = Math.max(0, monthlyLimit - monthlyUsage);
+    }
+    
+    // Always show remaining if we have limits (even if 0, so users know their status)
+    if (stats.limits && !stats.limits.is_unlimited) {
         const remainingStats = [
-            { label: 'Remaining Today', value: stats.remaining.daily || stats.remaining.today || 0 },
-            { label: 'Remaining This Month', value: stats.remaining.monthly || 0 }
+            { label: 'Remaining Today', value: remainingDaily },
+            { label: 'Remaining This Month', value: remainingMonthly }
         ];
         
         remainingStats.forEach(stat => {
-            if (stat.value > 0 || stat.label === 'Remaining Today') {
+            const statCard = createStatCard(stat.label, stat.value);
+            statsGrid.appendChild(statCard);
+            hasAnyStats = true;
+        });
+    }
+    
+    // Display limits if available - per API docs: SubscriptionLimitsResponse
+    if (stats.limits) {
+        // SubscriptionLimitsResponse: { daily_limit, monthly_limit, is_warmup, is_unlimited, tier, warmup_week, warmup_percentage }
+        const dailyLimit = stats.limits.daily_limit;
+        const monthlyLimit = stats.limits.monthly_limit;
+        const isUnlimited = stats.limits.is_unlimited;
+        const isWarmup = stats.limits.is_warmup;
+        const tier = stats.limits.tier;
+        
+        const limitStats = [];
+        
+        if (isUnlimited) {
+            limitStats.push({ label: 'Daily Limit', value: 'Unlimited' });
+            limitStats.push({ label: 'Monthly Limit', value: 'Unlimited' });
+        } else {
+            if (dailyLimit) {
+                limitStats.push({ label: 'Daily Limit', value: dailyLimit });
+            }
+            if (monthlyLimit) {
+                limitStats.push({ label: 'Monthly Limit', value: monthlyLimit });
+            }
+        }
+        
+        if (isWarmup && stats.limits.warmup_week) {
+            limitStats.push({ 
+                label: 'Warmup Status', 
+                value: `Week ${stats.limits.warmup_week}${stats.limits.warmup_percentage ? ` (${stats.limits.warmup_percentage}%)` : ''}` 
+            });
+        }
+        
+        if (tier) {
+            limitStats.push({ label: 'Tier', value: tier });
+        }
+        
+        limitStats.forEach(stat => {
+            const statCard = createStatCard(stat.label, stat.value);
+            statsGrid.appendChild(statCard);
+            hasAnyStats = true;
+        });
+    }
+    
+    // Display analytics data if available - per API docs: UsageAnalyticsResponse
+    if (stats.analytics) {
+        // UsageAnalyticsResponse: { period_days, start_date, end_date, total_usage, average_daily, peak_day, daily_breakdown, content_type_breakdown, active_days }
+        const analyticsStats = [
+            { label: 'Total Usage (Period)', value: stats.analytics.total_usage || 0 },
+            { label: 'Average Daily', value: stats.analytics.average_daily ? stats.analytics.average_daily.toFixed(1) : 0 },
+            { label: 'Active Days', value: stats.analytics.active_days || 0 }
+        ];
+        
+        if (stats.analytics.peak_day && stats.analytics.peak_day.date) {
+            const peakDate = new Date(stats.analytics.peak_day.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+            analyticsStats.push({ 
+                label: 'Peak Day', 
+                value: `${stats.analytics.peak_day.usage || 0} (${peakDate})` 
+            });
+        }
+        
+        analyticsStats.forEach(stat => {
+            if (stat.value > 0 || stat.label === 'Total Usage (Period)') {
                 const statCard = createStatCard(stat.label, stat.value);
                 statsGrid.appendChild(statCard);
+                hasAnyStats = true;
             }
         });
     }
     
     // If no stats available, show message
-    if (statsGrid.children.length === 0) {
+    if (!hasAnyStats) {
         document.getElementById('no-stats').style.display = 'block';
+        document.getElementById('stats-grid').innerHTML = '';
+    } else {
+        document.getElementById('no-stats').style.display = 'none';
     }
 }
 
@@ -1154,3 +1410,204 @@ function startDownload(downloadUrl) {
 
 // Make functions globally accessible
 window.closeDownloadModal = closeDownloadModal;
+
+// Subscription History Modal Functions
+async function showSubscriptionHistory(event) {
+    if (event) {
+        event.preventDefault();
+    }
+    
+    // Create modal if it doesn't exist
+    let modal = document.getElementById('subscription-history-modal');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'subscription-history-modal';
+        modal.className = 'subscription-history-modal';
+        modal.innerHTML = `
+            <div class="subscription-history-modal-content">
+                <div class="subscription-history-header">
+                    <h3>Subscription History</h3>
+                    <button class="subscription-history-close" onclick="closeSubscriptionHistory()" aria-label="Close">×</button>
+                </div>
+                <div id="subscription-history-content">
+                    <div class="subscription-history-loading">
+                        <p>Loading subscription history...</p>
+                    </div>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        
+        // Setup close handlers
+        const closeBtn = modal.querySelector('.subscription-history-close');
+        closeBtn.addEventListener('click', closeSubscriptionHistory);
+        
+        // Close on backdrop click
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeSubscriptionHistory();
+            }
+        });
+        
+        // Close on Escape key
+        const escapeHandler = function(e) {
+            if (e.key === 'Escape' && modal.classList.contains('show')) {
+                closeSubscriptionHistory();
+            }
+        };
+        document.addEventListener('keydown', escapeHandler);
+    }
+    
+    // Show modal
+    modal.classList.add('show');
+    
+    // Load subscription history
+    await loadSubscriptionHistory();
+}
+
+async function loadSubscriptionHistory() {
+    const contentDiv = document.getElementById('subscription-history-content');
+    
+    try {
+        // Show loading state
+        contentDiv.innerHTML = '<div class="subscription-history-loading"><p>Loading subscription history...</p></div>';
+        
+        // Fetch all subscriptions
+        const response = await fetchWithAuth(`${API_BASE_URL}/api/subscription/all?status=all`);
+        
+        if (!response || !response.ok) {
+            throw new Error('Failed to load subscription history');
+        }
+        
+        const responseData = await response.json();
+        
+        // Handle both array response and wrapped response (SubscriptionListResponse)
+        let subscriptions = Array.isArray(responseData) 
+            ? responseData 
+            : (responseData.subscriptions || []);
+        
+        if (!subscriptions || subscriptions.length === 0) {
+            contentDiv.innerHTML = `
+                <div class="subscription-history-empty">
+                    <p>No subscription history found.</p>
+                </div>
+            `;
+            return;
+        }
+        
+        // Sort subscriptions by date (newest first)
+        // API returns: start_date (required), created_at (required) - both are ISO strings
+        const sortedSubscriptions = [...subscriptions].sort((a, b) => {
+            const dateA = a.start_date || a.created_at || a.current_period_start || 0;
+            const dateB = b.start_date || b.created_at || b.current_period_start || 0;
+            return new Date(dateB) - new Date(dateA);
+        });
+        
+        // Build table HTML
+        let tableHTML = `
+            <table class="subscription-history-table">
+                <thead>
+                    <tr>
+                        <th>Plan</th>
+                        <th>Status</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Next Billing</th>
+                        <th>Daily Limit</th>
+                    </tr>
+                </thead>
+                <tbody>
+        `;
+        
+        sortedSubscriptions.forEach(sub => {
+            // According to API docs: plan, status, tier are required fields
+            const planName = sub.plan || sub.plan_name || 'Unknown';
+            const tier = sub.tier || '';
+            const status = (sub.status || 'unknown').toLowerCase();
+            const statusText = status.charAt(0).toUpperCase() + status.slice(1).replace('_', ' ');
+            
+            // Format dates - API returns ISO strings
+            const formatDate = (dateValue) => {
+                if (!dateValue) return 'N/A';
+                let date;
+                if (typeof dateValue === 'string') {
+                    date = new Date(dateValue);
+                } else if (typeof dateValue === 'number') {
+                    // Unix timestamp (seconds) - convert to milliseconds
+                    date = new Date(dateValue * 1000);
+                } else {
+                    date = new Date(dateValue);
+                }
+                if (isNaN(date.getTime())) return 'N/A';
+                return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+            };
+            
+            // API fields: start_date (required), current_period_start (optional), current_period_end (optional)
+            const startDate = formatDate(sub.start_date || sub.current_period_start || sub.created_at);
+            const endDate = formatDate(sub.current_period_end);
+            const nextBilling = formatDate(sub.current_period_end);
+            
+            // Show cancel info if applicable
+            const cancelInfo = sub.cancel_at_period_end ? ' (Cancels at period end)' : '';
+            
+            // Determine status badge class - API supports: incomplete, incomplete_expired, trialing, active, past_due, canceled, unpaid
+            let statusBadgeClass = 'subscription-status-badge';
+            if (status === 'active') {
+                statusBadgeClass += ' active';
+            } else if (status === 'trialing') {
+                statusBadgeClass += ' trialing';
+            } else if (status === 'canceled' || status === 'cancelled') {
+                statusBadgeClass += ' canceled';
+            } else if (status === 'past_due') {
+                statusBadgeClass += ' past_due';
+            } else if (status === 'incomplete' || status === 'incomplete_expired') {
+                statusBadgeClass += ' incomplete';
+            } else if (status === 'unpaid') {
+                statusBadgeClass += ' canceled'; // Use canceled style for unpaid
+            }
+            
+            // Build plan display with tier if available
+            let planDisplay = escapeHtml(planName);
+            if (tier) {
+                planDisplay += ` <span style="color: #6b7280; font-size: 0.85em;">(${escapeHtml(tier)})</span>`;
+            }
+            
+            tableHTML += `
+                <tr>
+                    <td><strong>${planDisplay}</strong></td>
+                    <td><span class="${statusBadgeClass}">${statusText}</span>${cancelInfo ? `<br><small style="color: #6b7280;">${cancelInfo}</small>` : ''}</td>
+                    <td>${startDate}</td>
+                    <td>${endDate}</td>
+                    <td>${nextBilling}</td>
+                    <td>${sub.current_daily_limit ? `${sub.current_daily_limit}/day` : 'N/A'}</td>
+                </tr>
+            `;
+        });
+        
+        tableHTML += `
+                </tbody>
+            </table>
+        `;
+        
+        contentDiv.innerHTML = tableHTML;
+        
+    } catch (error) {
+        console.error('Error loading subscription history:', error);
+        contentDiv.innerHTML = `
+            <div class="subscription-history-empty">
+                <p style="color: #ef4444;">Failed to load subscription history. Please try again later.</p>
+            </div>
+        `;
+    }
+}
+
+function closeSubscriptionHistory() {
+    const modal = document.getElementById('subscription-history-modal');
+    if (modal) {
+        modal.classList.remove('show');
+    }
+}
+
+// Make functions globally accessible
+window.showSubscriptionHistory = showSubscriptionHistory;
+window.closeSubscriptionHistory = closeSubscriptionHistory;
