@@ -490,88 +490,47 @@ function displayStats(stats) {
         }
     }
     
-    // Daily Usage & Limits Section
-    if (stats.limits && !isUnlimited && dailyLimit > 0) {
-        const dailyGroup = document.createElement('div');
-        dailyGroup.className = 'stats-group';
-        dailyGroup.innerHTML = '<div class="stats-group-title">Daily Usage</div>';
+    // Daily & Monthly Usage Section - Combined, cleaner layout
+    if (stats.limits && !isUnlimited && (dailyLimit > 0 || monthlyLimit > 0)) {
+        const usageGroup = document.createElement('div');
+        usageGroup.className = 'stats-group';
         
         // Daily Usage with progress
-        const dailyUsageCard = createStatCard('Used Today', dailyUsage, {
-            type: 'usage',
-            progress: dailyProgress,
-            maxValue: dailyLimit
-        });
-        dailyGroup.appendChild(dailyUsageCard);
-        
-        // Daily Remaining (only show if not equal to limit)
-        if (remainingDaily !== null && remainingDaily < dailyLimit) {
-            const dailyRemainingCard = createStatCard('Remaining Today', remainingDaily, {
-                type: 'remaining'
+        if (dailyLimit > 0) {
+            const dailyUsageCard = createStatCard('Used Today', dailyUsage, {
+                type: 'usage',
+                progress: dailyProgress,
+                maxValue: dailyLimit
             });
-            dailyGroup.appendChild(dailyRemainingCard);
+            usageGroup.appendChild(dailyUsageCard);
         }
-        
-        statsGrid.appendChild(dailyGroup);
-        hasAnyStats = true;
-    }
-    
-    // Monthly Usage & Limits Section
-    if (stats.limits && !isUnlimited && monthlyLimit > 0) {
-        const monthlyGroup = document.createElement('div');
-        monthlyGroup.className = 'stats-group';
-        monthlyGroup.innerHTML = '<div class="stats-group-title">Monthly Usage</div>';
         
         // Monthly Usage with progress
-        const monthlyUsageCard = createStatCard('Used This Month', monthlyUsage, {
-            type: 'usage',
-            progress: monthlyProgress,
-            maxValue: monthlyLimit
-        });
-        monthlyGroup.appendChild(monthlyUsageCard);
-        
-        // Monthly Remaining (only show if not equal to limit)
-        if (remainingMonthly !== null && remainingMonthly < monthlyLimit) {
-            const monthlyRemainingCard = createStatCard('Remaining This Month', remainingMonthly, {
-                type: 'remaining'
+        if (monthlyLimit > 0) {
+            const monthlyUsageCard = createStatCard('Used This Month', monthlyUsage, {
+                type: 'usage',
+                progress: monthlyProgress,
+                maxValue: monthlyLimit
             });
-            monthlyGroup.appendChild(monthlyRemainingCard);
+            usageGroup.appendChild(monthlyUsageCard);
         }
         
-        statsGrid.appendChild(monthlyGroup);
+        statsGrid.appendChild(usageGroup);
         hasAnyStats = true;
     }
     
-    // Plan Info Section (Tier, Warmup, etc.)
-    if (stats.limits) {
-        const planInfo = [];
+    // Only show warmup status if in warmup period (not tier or unlimited info)
+    if (stats.limits && stats.limits.is_warmup && stats.limits.warmup_week) {
+        const warmupGroup = document.createElement('div');
+        warmupGroup.className = 'stats-group';
+        warmupGroup.innerHTML = '<div class="stats-group-title">Warmup Status</div>';
         
-        if (stats.limits.tier) {
-            planInfo.push({ label: 'Plan Tier', value: stats.limits.tier, type: 'limit' });
-        }
+        const warmupText = `Week ${stats.limits.warmup_week}${stats.limits.warmup_percentage ? ` (${stats.limits.warmup_percentage}%)` : ''}`;
+        const warmupCard = createStatCard('Current Warmup', warmupText, { type: 'limit' });
+        warmupGroup.appendChild(warmupCard);
         
-        if (stats.limits.is_warmup && stats.limits.warmup_week) {
-            const warmupText = `Week ${stats.limits.warmup_week}${stats.limits.warmup_percentage ? ` (${stats.limits.warmup_percentage}%)` : ''}`;
-            planInfo.push({ label: 'Warmup Status', value: warmupText, type: 'limit' });
-        }
-        
-        if (isUnlimited) {
-            planInfo.push({ label: 'Plan Type', value: 'Unlimited', type: 'limit' });
-        }
-        
-        if (planInfo.length > 0) {
-            const planGroup = document.createElement('div');
-            planGroup.className = 'stats-group';
-            planGroup.innerHTML = '<div class="stats-group-title">Plan Information</div>';
-            
-            planInfo.forEach(info => {
-                const card = createStatCard(info.label, info.value, { type: info.type });
-                planGroup.appendChild(card);
-            });
-            
-            statsGrid.appendChild(planGroup);
-            hasAnyStats = true;
-        }
+        statsGrid.appendChild(warmupGroup);
+        hasAnyStats = true;
     }
     
     // Analytics Section (if available)
