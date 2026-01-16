@@ -182,18 +182,6 @@ function displayUserData(userData) {
     // Display account status
     const status = userData.is_active !== false ? 'Active' : 'Inactive';
     document.getElementById('account-status').textContent = status;
-    
-    // Display member since
-    if (userData.created_at) {
-        const createdDate = new Date(userData.created_at);
-        document.getElementById('member-since').textContent = createdDate.toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-        });
-    } else {
-        document.getElementById('member-since').textContent = 'N/A';
-    }
 }
 
 function displaySubscriptions(subscriptions) {
