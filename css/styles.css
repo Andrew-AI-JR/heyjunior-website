@@ -3766,8 +3766,10 @@ section, div {
 
 .stats-grid {
     display: flex;
-    flex-direction: column;
-    gap: 24px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: stretch;
 }
 
 .stat-card {
@@ -3779,6 +3781,8 @@ section, div {
     flex-direction: column;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     transition: all 0.2s ease;
+    flex: 1 1 auto;
+    min-width: 200px;
 }
 
 .stat-card:hover {
@@ -3858,7 +3862,7 @@ section, div {
 
 /* Usage summary card - larger, more prominent */
 .stat-card.summary-card {
-    grid-column: 1 / -1;
+    flex: 1 1 100%;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     border: none;
@@ -3875,9 +3879,12 @@ section, div {
 
 /* Stats group wrapper */
 .stats-group {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
     gap: 16px;
+    flex: 1 1 auto;
+    min-width: 0;
 }
 
 .stats-group-title {
@@ -4030,11 +4037,17 @@ section, div {
     }
 
     .stats-group {
-        grid-template-columns: 1fr;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .stat-card {
+        flex: 1 1 calc(50% - 8px);
+        min-width: 150px;
     }
 
     .stat-card.summary-card {
-        /* Flexbox doesn't use grid-column, no change needed */
+        flex: 1 1 100%;
     }
 
     .stat-value {
@@ -5033,7 +5046,13 @@ section, div {
     }
     
     .stats-group {
-        grid-template-columns: repeat(2, 1fr);
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    
+    .stat-card {
+        flex: 1 1 calc(50% - 8px);
+        min-width: 150px;
     }
 
     .stat-value {
