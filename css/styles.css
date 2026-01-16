@@ -4062,6 +4062,7 @@ section, div {
 /* Downloads Section - Compact Horizontal Layout */
 #downloads-list {
     display: flex;
+    flex-direction: row;
     gap: 10px;
     flex-wrap: nowrap;
     align-items: stretch;

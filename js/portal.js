@@ -1270,11 +1270,12 @@ async function loadDownloads() {
             downloadsList.appendChild(card);
         });
         
-        // Add version info at the end
+        // Add version info after the downloads list (outside flex container)
+        const downloadsContent = document.getElementById('downloads-content');
         const versionInfo = document.createElement('div');
         versionInfo.className = 'downloads-version-info';
         versionInfo.innerHTML = `<p><strong>Latest Version:</strong> v${version}</p>`;
-        downloadsList.appendChild(versionInfo);
+        downloadsContent.appendChild(versionInfo);
         
         // Setup download button click handlers
         setupDownloadButtons();
