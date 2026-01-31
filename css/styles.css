@@ -254,12 +254,10 @@ section, div {
 
 /* Trust Indicators */
 .trust-indicators {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-    max-width: 600px;
+    display: inline-flex;
+    gap: 40px;
     margin: 40px auto 30px;
-    padding: 30px;
+    padding: 25px 50px;
     background: white;
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
