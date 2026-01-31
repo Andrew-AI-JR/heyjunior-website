@@ -114,7 +114,7 @@
       "placeholder": "Ingresa tu email",
       "subscribe": "Suscribirse"
     },
-    "copyright": "© 2024 Junior. Todos los derechos reservados."
+    "copyright": "© 2026 Junior. Todos los derechos reservados."
   },
   "checkout": {
     "title": "🚀 Herramienta de Automatización de LinkedIn",
@@ -164,7 +164,6 @@
     "loginButtonText": "Iniciar Sesión",
     "yourSubscriptions": "Tus Suscripciones",
     "noActiveSubscriptions": "No se encontraron suscripciones activas.",
-    "loadingSubscriptions": "Cargando suscripciones...",
     "loadingSubscriptions": "Cargando suscripciones...",
     "accountExistsLoginPrompt": "Ya existe una cuenta con este correo electrónico. Por favor, inicia sesión en su lugar.",
     "redirecting": "Redirigiendo al pago...",
