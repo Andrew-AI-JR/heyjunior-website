@@ -255,12 +255,18 @@ section, div {
 /* Trust Indicators */
 .trust-indicators {
     display: inline-flex;
-    gap: 40px;
+    justify-content: center;
+    gap: 60px;
     margin: 40px auto 30px;
-    padding: 25px 50px;
+    padding: 25px 60px;
     background: white;
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.hero .trust-indicators {
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .trust-item {
