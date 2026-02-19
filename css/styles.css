@@ -326,6 +326,118 @@ section, div {
     font-weight: 500;
 }
 
+/* Real Engagement Section */
+.real-engagement {
+    padding: 80px 0;
+    background: #f8fafc;
+}
+
+.real-engagement h2 {
+    text-align: center;
+    font-size: 36px;
+    color: #1e40af;
+    margin-bottom: 15px;
+}
+
+.engagement-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    margin-top: 40px;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.engagement-item {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.engagement-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+.engagement-screenshot {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Comment Carousel Section */
+.comment-carousel-section {
+    padding: 80px 0;
+    background: white;
+    overflow: hidden;
+}
+
+.comment-carousel-section h2 {
+    text-align: center;
+    font-size: 36px;
+    color: #1e40af;
+    margin-bottom: 15px;
+}
+
+.carousel-container {
+    width: 100%;
+    overflow: hidden;
+    margin-top: 40px;
+}
+
+.carousel-track {
+    display: flex;
+    gap: 25px;
+    animation: carousel-scroll 40s linear infinite;
+}
+
+.carousel-track:hover {
+    animation-play-state: paused;
+}
+
+.carousel-item {
+    flex-shrink: 0;
+    width: 500px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes carousel-scroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+/* Testimonial Section */
+.testimonial-section {
+    padding: 80px 0;
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+}
+
+.testimonial-section h2 {
+    text-align: center;
+    font-size: 36px;
+    color: #1e40af;
+    margin-bottom: 40px;
+}
+
+.testimonial-showcase {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.testimonial-screenshot {
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
 /* Trust Indicators (legacy) */
 .trust-indicators {
     display: inline-flex;
@@ -808,6 +920,31 @@ section, div {
 }
 
 @media (max-width: 768px) {
+    /* Mobile: Real Engagement Grid */
+    .engagement-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    /* Mobile: Comment Carousel */
+    .carousel-item {
+        width: 320px;
+    }
+    
+    .carousel-track {
+        animation-duration: 25s;
+    }
+    
+    /* Mobile: Use Case Badges */
+    .use-case-badges {
+        gap: 8px;
+    }
+    
+    .use-case-badge {
+        font-size: 0.8rem;
+        padding: 6px 12px;
+    }
+    
     /* Mobile Navigation */
     .mobile-menu-toggle {
         display: flex;
