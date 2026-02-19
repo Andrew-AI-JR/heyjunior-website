@@ -391,7 +391,7 @@ section, div {
 .carousel-track {
     display: flex;
     gap: 25px;
-    animation: carousel-scroll 40s linear infinite;
+    animation: carousel-scroll 60s linear infinite;
 }
 
 .carousel-track:hover {
