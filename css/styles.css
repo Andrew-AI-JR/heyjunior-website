@@ -288,7 +288,45 @@ section, div {
     font-size: 1.05em;
 }
 
-/* Trust Indicators */
+/* Comment Showcase */
+.comment-showcase {
+    margin: 30px auto;
+    text-align: center;
+}
+
+.comment-label {
+    font-size: 0.95rem;
+    color: #6b7280;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+.comment-screenshot {
+    max-width: 700px;
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Use Case Badges */
+.use-case-badges {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+.use-case-badge {
+    background: rgba(37, 99, 235, 0.1);
+    color: #1e40af;
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* Trust Indicators (legacy) */
 .trust-indicators {
     display: inline-flex;
     justify-content: center;
@@ -611,6 +649,14 @@ section, div {
 .pricing-card.featured .primary-button {
     background: white;
     color: #2563eb;
+}
+
+.pricing-guarantee {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 1rem;
+    color: #059669;
+    font-weight: 500;
 }
 
 /* Download Section */
