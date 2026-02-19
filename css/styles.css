@@ -230,6 +230,42 @@ section, div {
     transform: translateY(-11px) rotate(-45deg);
 }
 
+/* Free Month Banner */
+.free-month-banner {
+    background: linear-gradient(90deg, #10b981, #059669);
+    color: white;
+    padding: 14px 24px;
+    border-radius: 50px;
+    margin-bottom: 30px;
+    text-align: center;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.free-badge {
+    background: rgba(255, 255, 255, 0.25);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.85em;
+    letter-spacing: 0.5px;
+}
+
+.free-text {
+    font-size: 1.05em;
+}
+
+.free-text strong {
+    background: white;
+    color: #059669;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-family: monospace;
+    letter-spacing: 1px;
+}
+
 /* Urgency Banner */
 .urgency-banner {
     background: linear-gradient(90deg, #fbbf24, #f59e0b);
@@ -479,7 +515,40 @@ section, div {
     text-align: center;
     font-size: 36px;
     color: #1e40af;
-    margin-bottom: 60px;
+    margin-bottom: 20px;
+}
+
+.pricing-promo {
+    text-align: center;
+    font-size: 1.15rem;
+    color: #059669;
+    margin-bottom: 40px;
+    font-weight: 500;
+}
+
+.pricing-promo strong {
+    background: #10b981;
+    color: white;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-family: monospace;
+    letter-spacing: 1px;
+}
+
+.free-month-badge {
+    background: linear-gradient(90deg, #10b981, #059669);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    display: inline-block;
+}
+
+.pricing-card.featured .free-month-badge {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
 }
 
 .pricing-grid {
@@ -1339,6 +1408,21 @@ section, div {
     font-size: 36px;
     color: #1e40af;
     margin-bottom: 15px;
+}
+
+/* Demo Video */
+.demo-video-container {
+    max-width: 900px;
+    margin: 50px auto;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+}
+
+.demo-video {
+    width: 100%;
+    height: auto;
+    display: block;
 }
 
 .screenshots-grid {
