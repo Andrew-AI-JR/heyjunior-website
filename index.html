@@ -424,6 +424,19 @@
         });
     </script>
     
+    <!-- Force video autoplay -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const video = document.querySelector('.demo-video');
+            if (video) {
+                video.muted = true;
+                video.play().catch(function(error) {
+                    console.log('Video autoplay failed:', error);
+                });
+            }
+        });
+    </script>
+    
     <!-- Mobile Navigation Toggle -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
