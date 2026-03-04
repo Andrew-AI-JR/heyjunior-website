@@ -455,82 +455,8 @@
             });
         };
 
-        window.applyCouponCode = function() {
-            const couponInput = document.getElementById('coupon-code');
-            const couponMessage = document.getElementById('coupon-message');
-            const applyBtn = document.getElementById('apply-coupon-btn');
-            const couponCode = couponInput.value.trim().toUpperCase();
-            
-            if (!couponCode) {
-                showCouponMessage('Please enter a coupon code', 'error');
-                return;
-            }
-            
-            // Case-insensitive validation - accepts 'test', 'TEST', 'Test', etc.
-            if (couponCode === 'TEST') {
-                // Update input to show uppercase version
-                couponInput.value = couponCode;
-                
-                showCouponMessage('✓ Coupon "' + couponCode + '" applied! First month FREE!', 'success');
-                applyBtn.innerHTML = '✓ Applied';
-                applyBtn.style.background = '#059669';
-                applyBtn.disabled = true;
-                
-                // Store coupon for checkout (uppercase for Stripe)
-                sessionStorage.setItem('appliedCoupon', couponCode);
-                
-                // Update pricing display to show discount
-                updatePricingWithCoupon();
-            } else {
-                showCouponMessage('Invalid coupon code. Please check and try again.', 'error');
-            }
-        };
-
-        function showCouponMessage(message, type) {
-            const couponMessage = document.getElementById('coupon-message');
-            couponMessage.textContent = message;
-            couponMessage.style.display = 'block';
-            couponMessage.style.color = type === 'success' ? '#059669' : '#dc2626';
-        }
-
-        function updatePricingWithCoupon() {
-            const priceNote = document.getElementById('price-note');
-            const savingsBadge = document.getElementById('savings-badge');
-            const savingsAmount = document.getElementById('savings-amount');
-            const originalPrice = document.getElementById('original-price');
-            const freePrice = document.getElementById('free-price');
-            const buttonText = document.getElementById('button-text');
-            const selectedPlan = document.querySelector('input[name="plan"]:checked')?.value || 'standard';
-            const price = selectedPlan === 'standard' ? '29.99' : '49.99';
-            const platform = document.querySelector('input[name="platform"]:checked')?.value;
-            const platformName = platform === 'macos' ? 'macOS' : (platform === 'linux' ? 'Linux' : 'Windows');
-            
-            // Hide original price and show FREE
-            if (originalPrice) {
-                originalPrice.style.textDecoration = 'line-through';
-                originalPrice.style.opacity = '0.4';
-                originalPrice.style.fontSize = '0.8em';
-            }
-            if (freePrice) {
-                freePrice.style.display = 'block';
-            }
-            
-            // Update price note with clear messaging
-            if (priceNote) {
-                priceNote.innerHTML = '<span style="font-size: 0.95em; color: #6b7280;">Then $' + price + '/month • Cancel anytime before renewal</span>';
-            }
-            
-            // Show savings badge
-            if (savingsBadge && savingsAmount) {
-                savingsAmount.textContent = price;
-                savingsBadge.style.display = 'block';
-            }
-            
-            // Update button text to be clear about the free trial
-            if (buttonText) {
-                buttonText.textContent = `Start Your FREE Month (${platformName})`;
-            }
-        }
+        // Coupon validation is handled by the backend-validated applyCouponCode() in checkout.js.
+        // No inline override -- checkout.js sets window.applyCouponCode after loading.
 
         // Allow Enter key to apply coupon
         const couponCodeInput = document.getElementById('coupon-code');

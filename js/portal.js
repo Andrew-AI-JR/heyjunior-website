@@ -2,7 +2,7 @@
 
 // API Configuration
 const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
-    ? window.location.origin.replace(/:\d+$/, ':8001') 
+    ? window.location.origin.replace(/:\d+$/, ':8000') 
     : 'https://api.heyjunior.ai';
 
 // Stripe Price IDs for different plans

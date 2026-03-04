@@ -23,14 +23,10 @@ const GITHUB_RELEASES = {
 document.addEventListener('DOMContentLoaded', async () => {
   console.log('Success page loaded, starting payment verification...');
 
-  // Initialize download links with latest release URLs
   await updateDownloadLinks();
 
-  // Get URL parameters
   const urlParams = new URLSearchParams(window.location.search);
   const sessionId = urlParams.get('session_id');
-
-  // Try to get user ID from URL or session storage
   const userId = urlParams.get('user_id') || sessionStorage.getItem('userId');
 
   console.log('Payment verification data:', { sessionId, userId });
@@ -41,24 +37,29 @@ document.addEventListener('DOMContentLoaded', async () => {
     return;
   }
 
+  sessionStorage.setItem('stripeSessionId', sessionId);
+
+  // Verify payment first, then start download. Timeout after 10s so user is never stuck.
+  const VERIFY_TIMEOUT_MS = 10000;
+  let verified = false;
+
   try {
-    // Store session ID in session storage for retry if needed
-    sessionStorage.setItem('stripeSessionId', sessionId);
-
-    // Start the download flow
-    startDownloadCountdown();
-
-    // Verify payment in the background
-    if (userId) {
-      verifyPaymentAndSetupAccount(sessionId, parseInt(userId))
-        .catch(error => {
-          console.error('Background verification failed:', error);
-          // Don't show error to user if download already started
-        });
-    }
+    const verifyPromise = verifyPaymentAndSetupAccount(sessionId, userId ? parseInt(userId) : null);
+    const timeoutPromise = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error('Verification timed out')), VERIFY_TIMEOUT_MS)
+    );
+    verified = await Promise.race([verifyPromise, timeoutPromise]);
   } catch (error) {
-    console.error('Payment verification failed:', error);
-    // Don't show error to user if download already started
+    console.warn('Payment verification did not complete in time or failed:', error.message);
+  }
+
+  if (verified) {
+    console.log('Payment verified - starting auto-download countdown');
+    startDownloadCountdown();
+  } else {
+    console.warn('Verification incomplete - showing manual download option');
+    showSuccess();
+    showManualDownloadFallback();
   }
 });
 
@@ -114,57 +115,45 @@ async function updateDownloadLinks() {
 }
 
 async function verifyPaymentAndSetupAccount(sessionId, userId) {
-  try {
-    console.log('Verifying payment success...');
+  console.log('Verifying payment success...', { sessionId, userId });
 
-    // Call the payment verification endpoint
-    const userToken = sessionStorage.getItem('userToken');
-    const headers = {
-      'Content-Type': 'application/json'
-    };
-    if (userToken) {
-      headers['Authorization'] = `Bearer ${userToken}`;
-    }
-
-    const response = await fetch(`${API_BASE_URL}/api/payments/verify-success`, {
-      method: 'POST',
-      headers: headers,
-      body: JSON.stringify({
-        session_id: sessionId,
-        user_id: userId
-      })
-    });
-
-    const data = await response.json();
-    console.log('Payment verification response:', data);
-
-    if (!response.ok) {
-      throw new Error(data.detail || 'Payment verification failed');
-    }
-
-    if (data.success && data.subscription_active) {
-      // Store access token for future API calls
-      if (data.access_token) {
-        sessionStorage.setItem('accessToken', data.access_token);
-      }
-      if (data.email) {
-        sessionStorage.setItem('userEmail', data.email);
-      }
-
-      // Store subscription status
-      sessionStorage.setItem('subscriptionActive', 'true');
-
-      console.log('Payment verified successfully');
-      return true;
-    } else {
-      throw new Error('Payment was not successful or subscription is not active');
-    }
-
-  } catch (error) {
-    console.error('Error in payment verification:', error);
-    // Don't throw here - we'll let the download continue anyway
-    return false;
+  const userToken = sessionStorage.getItem('userToken');
+  const headers = { 'Content-Type': 'application/json' };
+  if (userToken) {
+    headers['Authorization'] = `Bearer ${userToken}`;
   }
+
+  const body = { session_id: sessionId };
+  if (userId != null) {
+    body.user_id = userId;
+  }
+
+  const response = await fetch(`${API_BASE_URL}/api/payments/verify-success`, {
+    method: 'POST',
+    headers: headers,
+    body: JSON.stringify(body)
+  });
+
+  const data = await response.json();
+  console.log('Payment verification response:', data);
+
+  if (!response.ok) {
+    throw new Error(data.detail || 'Payment verification failed');
+  }
+
+  if (data.success && data.subscription_active) {
+    if (data.access_token) {
+      sessionStorage.setItem('accessToken', data.access_token);
+    }
+    if (data.email) {
+      sessionStorage.setItem('userEmail', data.email);
+    }
+    sessionStorage.setItem('subscriptionActive', 'true');
+    console.log('Payment verified successfully');
+    return true;
+  }
+
+  throw new Error('Payment was not successful or subscription is not active');
 }
 
 async function loadAccountDetails(accessToken) {
@@ -259,97 +248,108 @@ function startDownloadCountdown() {
 async function initiateDownload(platform) {
   console.log('Initiating download for platform:', platform);
 
-  // Show download in progress
-  const autoDownloadMessage = document.getElementById('auto-download-message');
   const countdownElement = document.getElementById('countdown');
   const progressBar = document.getElementById('download-progress');
+  const manualDownloadPrompt = document.getElementById('manual-download-prompt');
 
-  if (autoDownloadMessage) autoDownloadMessage.style.display = 'block';
   if (countdownElement) countdownElement.textContent = 'Fetching latest version...';
   if (progressBar) progressBar.style.width = '0%';
 
-  // Get download URLs dynamically from the release manager
-  let downloadUrl;
-  try {
-    if (window.juniorReleaseManager) {
-      console.log('[Download] Using dynamic release manager');
-      downloadUrl = await window.juniorReleaseManager.getDownloadUrl(platform);
-      const version = await window.juniorReleaseManager.getVersionString();
-      console.log('[Download] Latest version:', version);
-      console.log('[Download] Download URL:', downloadUrl);
-    } else {
-      throw new Error('Release manager not available');
-    }
-  } catch (error) {
-    console.error('[Download] Dynamic fetch failed:', error);
-    // No hardcoded fallback - show error to user
-    if (countdownElement) {
-      countdownElement.textContent = 'Download failed - please refresh the page or contact support@heyjunior.ai';
-    }
-    return;
-  }
+  const downloadUrl = await resolveDownloadUrl(platform);
 
   if (!downloadUrl) {
     console.error('[Download] No download URL available');
-    if (countdownElement) countdownElement.textContent = 'Download failed - please contact support';
+    if (countdownElement) countdownElement.textContent = 'Could not fetch download link';
+    showManualDownloadFallback();
     return;
   }
 
   if (countdownElement) countdownElement.textContent = 'Starting download...';
   console.log('[Download] Final download URL:', downloadUrl);
 
-  // Create a hidden link to trigger the download
-  const downloadLink = document.createElement('a');
-  downloadLink.href = downloadUrl;
-  downloadLink.download = downloadUrl.split('/').pop();
-  document.body.appendChild(downloadLink);
+  if (progressBar) progressBar.style.width = '100%';
 
-  // Simulate download progress
-  let progress = 0;
-  const progressInterval = setInterval(() => {
-    progress += 5;
-    if (progress > 90) {
-      clearInterval(progressInterval);
-      // Complete the progress when the download starts
-      setTimeout(() => {
-        if (progressBar) progressBar.style.width = '100%';
-        if (countdownElement) countdownElement.textContent = 'Download started!';
+  // Use window.location.href for cross-origin GitHub URLs.
+  // GitHub release assets set Content-Disposition: attachment, triggering native download.
+  try {
+    window.location.href = downloadUrl;
+    console.log('[Download] Redirected to download URL');
+  } catch (error) {
+    console.error('[Download] window.location.href failed:', error);
+  }
 
-        // Show success message
-        setTimeout(() => {
-          if (countdownElement) countdownElement.textContent = 'Check your downloads folder for the installer!';
-        }, 1000);
-      }, 500);
-    } else if (progressBar) {
-      progressBar.style.width = `${progress}%`;
-    }
-  }, 100);
-
-  // Start the download after a short delay to ensure UI updates
+  // After 3s, show a manual CTA in case the browser blocked the redirect
   setTimeout(() => {
+    if (countdownElement) countdownElement.textContent = 'Check your downloads folder for the installer!';
+    if (manualDownloadPrompt) {
+      manualDownloadPrompt.style.display = 'block';
+      manualDownloadPrompt.innerHTML = `
+        <p>If your download didn't start, click below:</p>
+        <a href="${downloadUrl}" class="download-now-btn" target="_blank" rel="noopener">Download Now</a>
+      `;
+    }
+  }, 3000);
+}
+
+/**
+ * Resolve the download URL with one retry on failure.
+ */
+async function resolveDownloadUrl(platform) {
+  for (let attempt = 1; attempt <= 2; attempt++) {
     try {
-      downloadLink.click();
-      console.log('Download initiated');
+      if (!window.juniorReleaseManager) {
+        throw new Error('Release manager not available');
+      }
+      const url = await window.juniorReleaseManager.getDownloadUrl(platform);
+      if (url) {
+        const version = await window.juniorReleaseManager.getVersionString();
+        console.log(`[Download] Resolved (attempt ${attempt}): ${version} - ${url}`);
+        return url;
+      }
+      throw new Error('Empty download URL');
     } catch (error) {
-      console.error('Error starting download:', error);
-      // Show manual download prompt if automatic download fails
-      const manualDownloadPrompt = document.getElementById('manual-download-prompt');
-      if (manualDownloadPrompt) {
-        manualDownloadPrompt.style.display = 'block';
-        manualDownloadPrompt.innerHTML = `
-          <p>Unable to start download automatically. Please click the link below to download:</p>
-          <a href="${downloadUrl}" class="download-now-btn" download>Download Now</a>
-        `;
+      console.warn(`[Download] Attempt ${attempt} failed:`, error.message);
+      if (attempt < 2) {
+        await new Promise(r => setTimeout(r, 2000));
       }
     }
+  }
+  return null;
+}
 
-    // Clean up
-    setTimeout(() => {
-      if (document.body.contains(downloadLink)) {
-        document.body.removeChild(downloadLink);
-      }
-    }, 10000);
-  }, 500);
+/**
+ * Show a prominent manual download fallback with direct links.
+ */
+function showManualDownloadFallback() {
+  const manualDownloadPrompt = document.getElementById('manual-download-prompt');
+  if (!manualDownloadPrompt) return;
+
+  manualDownloadPrompt.style.display = 'block';
+
+  const platform = detectUserPlatform();
+  let primaryLabel = 'Download for Windows';
+  if (platform === 'macos_arm') primaryLabel = 'Download for macOS (Apple Silicon)';
+  else if (platform === 'macos') primaryLabel = 'Download for macOS (Intel)';
+
+  // Try to get URL from release manager cache, otherwise link to releases page
+  const releasesPageUrl = 'https://github.com/Andrew-AI-JR/Desktop-Releases/releases/latest';
+  let primaryUrl = releasesPageUrl;
+
+  if (window.juniorReleaseManager && window.juniorReleaseManager.cache) {
+    const cached = window.juniorReleaseManager.cache;
+    const urls = cached.downloads || {};
+    if (platform === 'windows' && urls.windows) primaryUrl = urls.windows;
+    else if (platform === 'macos_arm' && urls.macos_arm) primaryUrl = urls.macos_arm;
+    else if (platform === 'macos' && urls.macos_intel) primaryUrl = urls.macos_intel;
+  }
+
+  manualDownloadPrompt.innerHTML = `
+    <p style="margin-bottom: 12px;">Click below to download Junior:</p>
+    <a href="${primaryUrl}" class="download-now-btn" target="_blank" rel="noopener">${primaryLabel}</a>
+    <p style="margin-top: 12px; font-size: 0.9em; color: #6b7280;">
+      Or visit <a href="${releasesPageUrl}" target="_blank" rel="noopener">all downloads</a> to choose a different platform.
+    </p>
+  `;
 }
 
 function showError(message) {
