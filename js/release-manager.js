@@ -225,6 +225,37 @@ class JuniorReleaseManager {
     const release = await this.getLatestRelease();
     return release.downloads;
   }
+
+  /**
+   * Trigger download for the given platform (creates temporary link and clicks it).
+   * @param {string} platform - 'auto' (default, uses detectPlatform()) or 'windows', 'macos', 'macos_intel', 'macos_arm'
+   * @returns {Promise<boolean>} True if download was triggered, false otherwise
+   */
+  async triggerDownload(platform = 'auto') {
+    try {
+      const downloadUrl = await this.getDownloadUrl(platform);
+      if (!downloadUrl) {
+        console.warn('[ReleaseManager] No download URL available for platform:', platform);
+        return false;
+      }
+      console.log('[ReleaseManager] Triggering download for:', platform, downloadUrl);
+      const downloadLink = document.createElement('a');
+      downloadLink.href = downloadUrl;
+      downloadLink.download = downloadUrl.split('/').pop();
+      downloadLink.style.display = 'none';
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+      setTimeout(() => {
+        if (document.body.contains(downloadLink)) {
+          document.body.removeChild(downloadLink);
+        }
+      }, 1000);
+      return true;
+    } catch (error) {
+      console.error('[ReleaseManager] Error triggering download:', error);
+      throw error;
+    }
+  }
 }
 
 // Create global instance

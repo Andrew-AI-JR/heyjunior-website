@@ -387,20 +387,28 @@ async function handleCheckoutAction(e) {
     sessionStorage.setItem('checkoutData', JSON.stringify(checkoutData));
     localStorage.setItem('pendingAccountCreation', JSON.stringify(checkoutData));
 
-    // After successful registration, redirect to portal or show success
-    // User can then proceed to payment/subscription from their account
-    buttonTextElement.textContent = window.i18nUtils ? window.i18nUtils.translate('checkout.accountCreated') : 'Account created! Redirecting...';
-    
     // Clear the referral code after successful signup (it's been used)
     if (referralCode) {
       localStorage.removeItem('referralCode');
       localStorage.removeItem('referralTimestamp');
     }
-    
-    // Redirect to portal where they can manage subscription
+
+    // Start download for user's system, then redirect
+    buttonTextElement.textContent = window.i18nUtils ? window.i18nUtils.translate('checkout.startingDownload') : 'Account created! Starting download...';
+    try {
+      if (!window.juniorReleaseManager) {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+      }
+      if (window.juniorReleaseManager) {
+        await window.juniorReleaseManager.triggerDownload('auto');
+      }
+    } catch (downloadErr) {
+      console.warn('Download after registration failed:', downloadErr);
+    }
+    buttonTextElement.textContent = window.i18nUtils ? window.i18nUtils.translate('checkout.accountCreated') : 'Account created! Redirecting...';
     setTimeout(() => {
       window.location.href = 'portal.html';
-    }, 1500);
+    }, 2000);
 
   } catch (error) {
     console.error('Checkout action error:', error);

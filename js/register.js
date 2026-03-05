@@ -8,6 +8,13 @@ const API_BASE_URL = window.location.hostname === 'localhost' || window.location
 // Global variables
 let currentUserToken = null;
 
+function detectUserPlatform() {
+    const ua = navigator.userAgent.toLowerCase();
+    if (ua.includes('mac')) return 'macos';
+    if (ua.includes('win')) return 'windows';
+    return 'windows';
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
     console.log('Register page loaded');
     
@@ -15,6 +22,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (typeof JuniorReleaseManager !== 'undefined') {
         window.juniorReleaseManager = new JuniorReleaseManager();
         console.log('Release manager initialized');
+    }
+    
+    // Pre-select platform radio to match user's system
+    const detected = detectUserPlatform();
+    const radio = document.querySelector(`input[name="platform"][value="${detected}"]`);
+    if (radio) {
+        radio.checked = true;
     }
     
     // Setup form validation
@@ -196,15 +210,12 @@ async function handleRegistration(e) {
             console.log('Referral code cleared after successful registration');
         }
         
-        // Get selected platform
-        const platform = document.querySelector('input[name="platform"]:checked')?.value || 'windows';
-        
         // Show success message
         registerButtonText.textContent = 'Account Created! Starting download...';
         
-        // Start download
+        // Start download for user's system (detected platform)
         try {
-            await startAppDownload(platform);
+            await startAppDownload();
             
             // After download starts, redirect to portal
             setTimeout(() => {
@@ -254,59 +265,14 @@ function validateEmail(email) {
     return emailRegex.test(email);
 }
 
-async function startAppDownload(platform) {
-    try {
-        // Wait for release manager to be available
-        if (!window.juniorReleaseManager) {
-            // Release manager not loaded yet, wait a bit
-            await new Promise(resolve => setTimeout(resolve, 1000));
-        }
-        
-        if (window.juniorReleaseManager) {
-            console.log('Starting download for platform:', platform);
-            
-            // Map platform to release manager format
-            let downloadPlatform = platform;
-            if (platform === 'macos') {
-                // Let release manager auto-detect ARM vs Intel
-                downloadPlatform = 'macos';
-            }
-            
-            const downloadUrl = await window.juniorReleaseManager.getDownloadUrl(downloadPlatform);
-            
-            if (downloadUrl) {
-                console.log('Download URL:', downloadUrl);
-                
-                // Create download link and trigger download
-                const downloadLink = document.createElement('a');
-                downloadLink.href = downloadUrl;
-                downloadLink.download = downloadUrl.split('/').pop();
-                downloadLink.style.display = 'none';
-                document.body.appendChild(downloadLink);
-                
-                // Trigger download
-                downloadLink.click();
-                
-                console.log('Download started for:', downloadUrl);
-                
-                // Clean up after a delay
-                setTimeout(() => {
-                    if (document.body.contains(downloadLink)) {
-                        document.body.removeChild(downloadLink);
-                    }
-                }, 1000);
-                
-                return true;
-            } else {
-                throw new Error('No download URL available');
-            }
-        } else {
-            // No hardcoded fallback - show error
-            console.error('Release manager not available');
-            throw new Error('Download service unavailable. Please refresh the page or contact support@heyjunior.ai');
-        }
-    } catch (error) {
-        console.error('Error starting download:', error);
-        throw error;
+async function startAppDownload() {
+    // Wait for release manager to be available
+    if (!window.juniorReleaseManager) {
+        await new Promise(resolve => setTimeout(resolve, 1000));
     }
+    if (!window.juniorReleaseManager) {
+        throw new Error('Download service unavailable. Please refresh the page or contact support@heyjunior.ai');
+    }
+    // Use 'auto' so download is for user's detected system
+    await window.juniorReleaseManager.triggerDownload('auto');
 }

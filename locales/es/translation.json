@@ -176,6 +176,8 @@
     "fetchSubscriptionsFailed": "Error al obtener las suscripciones.",
     "fetchSubscriptionsError": "Error al cargar las suscripciones. Por favor, inténtalo de nuevo.",
     "platformRequired": "Por favor, selecciona tu plataforma (Windows o macOS).",
+    "startingDownload": "¡Cuenta creada! Iniciando descarga...",
+    "accountCreated": "¡Cuenta creada! Redirigiendo...",
     "status": "Estado",
     "startDate": "Fecha de Inicio",
     "endDate": "Fecha de Fin",

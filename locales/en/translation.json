@@ -177,6 +177,8 @@
     "fetchSubscriptionsFailed": "Failed to fetch subscriptions.",
     "fetchSubscriptionsError": "Error loading subscriptions. Please try again.",
     "platformRequired": "Please select your platform (Windows or macOS).",
+    "startingDownload": "Account created! Starting download...",
+    "accountCreated": "Account created! Redirecting...",
     "status": "Status",
     "startDate": "Start Date",
     "endDate": "End Date",
