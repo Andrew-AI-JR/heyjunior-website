@@ -90,8 +90,8 @@ class JuniorReleaseManager {
     console.log('[ReleaseManager] Available assets:', assets.map(a => a.name));
     
     // Find the download URLs by matching file patterns
-    // Windows: Junior.Setup.*.exe or Junior Setup *.exe
-    const windowsAsset = assets.find(a => a.name.match(/Junior[.\s]Setup.*\.exe$/i));
+    // Windows: Junior-Setup-*.exe, Junior.Setup.*.exe, or Junior Setup *.exe
+    const windowsAsset = assets.find(a => a.name.match(/Junior[-.\s]Setup.*\.exe$/i));
     
     // macOS Intel: Junior-*.dmg but NOT arm64 - look for x64 or no arch suffix
     const macosIntelAsset = assets.find(a => a.name.match(/Junior.*-x64\.dmg$/i)) ||
@@ -138,6 +138,7 @@ class JuniorReleaseManager {
     
     if (platform === 'auto') {
       platform = this.detectPlatform();
+      console.log('[ReleaseManager] getDownloadUrl: platform auto-detected as', platform);
     }
     
     switch (platform) {
@@ -227,29 +228,45 @@ class JuniorReleaseManager {
   }
 
   /**
-   * Trigger download for the given platform (creates temporary link and clicks it).
+   * Trigger download for the given platform.
+   * Uses window.open so the download works cross-origin (e.g. GitHub) and isn't blocked
+   * when triggered after async registration. Falls back to link click if open is blocked.
    * @param {string} platform - 'auto' (default, uses detectPlatform()) or 'windows', 'macos', 'macos_intel', 'macos_arm'
    * @returns {Promise<boolean>} True if download was triggered, false otherwise
    */
   async triggerDownload(platform = 'auto') {
     try {
+      console.log('[ReleaseManager] triggerDownload called with platform:', platform);
       const downloadUrl = await this.getDownloadUrl(platform);
       if (!downloadUrl) {
         console.warn('[ReleaseManager] No download URL available for platform:', platform);
         return false;
       }
-      console.log('[ReleaseManager] Triggering download for:', platform, downloadUrl);
-      const downloadLink = document.createElement('a');
-      downloadLink.href = downloadUrl;
-      downloadLink.download = downloadUrl.split('/').pop();
-      downloadLink.style.display = 'none';
-      document.body.appendChild(downloadLink);
-      downloadLink.click();
-      setTimeout(() => {
-        if (document.body.contains(downloadLink)) {
-          document.body.removeChild(downloadLink);
-        }
-      }, 1000);
+      const filename = downloadUrl.split('/').pop();
+      console.log('[ReleaseManager] Starting download:', { platform, url: downloadUrl, filename });
+      // Cross-origin URLs ignore <a download>; opening in a new window/tab lets the browser
+      // start the download. Prefer this over programmatic link click (which is often blocked after async).
+      const opened = window.open(downloadUrl, '_blank', 'noopener,noreferrer');
+      if (opened && !opened.closed) {
+        console.log('[ReleaseManager] Download opened in new tab/window successfully');
+      } else {
+        console.log('[ReleaseManager] window.open was blocked or failed, using fallback link click');
+        // Popup was blocked: fall back to programmatic link (may still download in same tab)
+        const downloadLink = document.createElement('a');
+        downloadLink.href = downloadUrl;
+        downloadLink.download = filename;
+        downloadLink.rel = 'noopener noreferrer';
+        downloadLink.target = '_blank';
+        downloadLink.style.display = 'none';
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        setTimeout(() => {
+          if (document.body.contains(downloadLink)) {
+            document.body.removeChild(downloadLink);
+          }
+        }, 1000);
+      }
+      console.log('[ReleaseManager] triggerDownload completed');
       return true;
     } catch (error) {
       console.error('[ReleaseManager] Error triggering download:', error);

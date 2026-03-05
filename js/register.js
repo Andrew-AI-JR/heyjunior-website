@@ -210,24 +210,43 @@ async function handleRegistration(e) {
             console.log('Referral code cleared after successful registration');
         }
         
-        // Show success message
+        // Show success message and start download for user's system (detected platform)
+        console.log('[Register] Registration successful, starting automatic download');
         registerButtonText.textContent = 'Account Created! Starting download...';
-        
-        // Start download for user's system (detected platform)
+        const downloadFallback = document.getElementById('register-download-fallback');
+        const downloadLink = document.getElementById('register-download-link');
         try {
             await startAppDownload();
-            
-            // After download starts, redirect to portal
+            console.log('[Register] startAppDownload completed');
+            // Show visible fallback link in case auto-download was blocked (e.g. popup blocker)
+            if (window.juniorReleaseManager && downloadFallback && downloadLink) {
+                const url = await window.juniorReleaseManager.getDownloadUrl('auto');
+                if (url) {
+                    downloadLink.href = url;
+                    downloadFallback.style.display = 'block';
+                    console.log('[Register] Fallback download link shown (user can click if download did not start)');
+                }
+            }
+            console.log('[Register] Redirecting to portal in 2s');
             setTimeout(() => {
                 window.location.href = 'portal.html';
             }, 2000);
         } catch (downloadError) {
-            console.error('Download error:', downloadError);
-            // Continue to portal even if download fails
-            registerButtonText.textContent = 'Account Created! Redirecting...';
+            console.error('[Register] Download error:', downloadError);
+            if (window.juniorReleaseManager && downloadFallback && downloadLink) {
+                window.juniorReleaseManager.getDownloadUrl('auto').then(url => {
+                    if (url) {
+                        downloadLink.href = url;
+                        downloadFallback.style.display = 'block';
+                        console.log('[Register] Fallback download link shown after error');
+                    }
+                }).catch(() => {});
+            }
+            registerButtonText.textContent = 'Account created! Redirecting...';
+            console.log('[Register] Redirecting to portal in 2s (after download error)');
             setTimeout(() => {
                 window.location.href = 'portal.html';
-            }, 1500);
+            }, 2000);
         }
         
     } catch (error) {
@@ -266,13 +285,14 @@ function validateEmail(email) {
 }
 
 async function startAppDownload() {
-    // Wait for release manager to be available
     if (!window.juniorReleaseManager) {
+        console.log('[Register] Release manager not ready, waiting 1s');
         await new Promise(resolve => setTimeout(resolve, 1000));
     }
     if (!window.juniorReleaseManager) {
+        console.error('[Register] Release manager unavailable');
         throw new Error('Download service unavailable. Please refresh the page or contact support@heyjunior.ai');
     }
-    // Use 'auto' so download is for user's detected system
+    console.log('[Register] Triggering download for detected system (platform: auto)');
     await window.juniorReleaseManager.triggerDownload('auto');
 }

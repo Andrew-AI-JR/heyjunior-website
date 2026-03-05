@@ -394,18 +394,25 @@ async function handleCheckoutAction(e) {
     }
 
     // Start download for user's system, then redirect
+    console.log('[Checkout] Registration successful, starting automatic download');
     buttonTextElement.textContent = window.i18nUtils ? window.i18nUtils.translate('checkout.startingDownload') : 'Account created! Starting download...';
     try {
       if (!window.juniorReleaseManager) {
+        console.log('[Checkout] Release manager not ready, waiting 1s');
         await new Promise(resolve => setTimeout(resolve, 1000));
       }
       if (window.juniorReleaseManager) {
+        console.log('[Checkout] Triggering download for detected system (platform: auto)');
         await window.juniorReleaseManager.triggerDownload('auto');
+        console.log('[Checkout] triggerDownload completed');
+      } else {
+        console.warn('[Checkout] Release manager unavailable, skipping download');
       }
     } catch (downloadErr) {
-      console.warn('Download after registration failed:', downloadErr);
+      console.warn('[Checkout] Download after registration failed:', downloadErr);
     }
     buttonTextElement.textContent = window.i18nUtils ? window.i18nUtils.translate('checkout.accountCreated') : 'Account created! Redirecting...';
+    console.log('[Checkout] Redirecting to portal in 2s');
     setTimeout(() => {
       window.location.href = 'portal.html';
     }, 2000);
