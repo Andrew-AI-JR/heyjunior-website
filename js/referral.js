@@ -1,9 +1,14 @@
 /* Referral Tracking System
- * Detects ?ref=CODE in URL and routes to partner payment links
+ * Detects ?ref=CODE in URL and stores attribution.
+ * Legacy partner payment links are being migrated to Stripe Connect.
+ * Partners in MIGRATED_TO_CONNECT bypass the payment link redirect
+ * and go through the standard checkout with automated revenue splitting.
  */
 
-// Partner payment links configuration
-// Add new partners here: 'code': 'stripe_payment_link_url'
+// Partners migrated to Stripe Connect (add codes here as each partner is onboarded)
+const MIGRATED_TO_CONNECT = [];
+
+// Legacy partner payment links (will be removed once all partners are on Connect)
 const PARTNER_LINKS = {
   'qazi': 'https://buy.stripe.com/4gM3cxfFz6Ru0wTf523cc03',
   'taco': 'https://buy.stripe.com/cNidRbctn5Nq1AX7CA3cc04',
@@ -52,10 +57,15 @@ const PARTNER_LINKS = {
       console.log('Stored referral code:', normalizedRefCode, 'for 30 days');
     }
     
-    // Check if this is a known partner (for payment link redirects)
+    // Check if this is a known partner (for legacy payment link redirects)
+    // Skip partners who have been migrated to Stripe Connect
     const lowerRefCode = normalizedRefCode.toLowerCase();
-    if (PARTNER_LINKS[lowerRefCode]) {
+    if (PARTNER_LINKS[lowerRefCode] && !MIGRATED_TO_CONNECT.includes(lowerRefCode)) {
       localStorage.setItem('partnerPaymentLink', PARTNER_LINKS[lowerRefCode]);
+    } else if (MIGRATED_TO_CONNECT.includes(lowerRefCode)) {
+      // Migrated partner: clear any stale payment link, let standard checkout handle the split
+      localStorage.removeItem('partnerPaymentLink');
+      console.log('Partner migrated to Connect, using standard checkout:', lowerRefCode);
     }
   }
   

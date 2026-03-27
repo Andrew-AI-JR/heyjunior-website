@@ -288,10 +288,14 @@ async function handleCheckoutAction(e) {
         }
       };
       
-      // Send the coupon code name to the backend
-      // The backend will look it up in Stripe and convert it to the promotion code ID
       if (appliedCoupon) {
         requestBody.coupon_code = appliedCoupon;
+      }
+
+      // Include referral code so backend can apply reseller revenue split
+      const checkoutRefCode = window.getReferralCode ? window.getReferralCode() : localStorage.getItem('referralCode');
+      if (checkoutRefCode) {
+        requestBody.referral_code = checkoutRefCode.toUpperCase();
       }
       
       response = await fetch(apiUrl, {

@@ -733,6 +733,12 @@ function displayReferralInfo(referral) {
     } else {
         document.getElementById('referral-link-input').value = 'Loading...';
     }
+
+    // Show reseller dashboard banner if user is a reseller
+    if (referral.is_reseller) {
+        const resellerBanner = document.getElementById('reseller-banner');
+        if (resellerBanner) resellerBanner.style.display = 'block';
+    }
 }
 
 function copyReferralLink() {
@@ -1047,12 +1053,17 @@ async function createCheckoutSession(planType) {
             cancel_url: `${window.location.origin}/portal.html`
         };
         
-        console.log('Creating checkout session with:', requestBody);
-        
-        // Add coupon code if available
         if (appliedCoupon) {
             requestBody.coupon_code = appliedCoupon;
         }
+
+        // Include referral code so backend can apply reseller revenue split
+        const refCode = window.getReferralCode ? window.getReferralCode() : localStorage.getItem('referralCode');
+        if (refCode) {
+            requestBody.referral_code = refCode.toUpperCase();
+        }
+        
+        console.log('Creating checkout session with:', requestBody);
         
         const response = await fetchWithAuth(`${API_BASE_URL}/api/payments/create-checkout-session`, {
             method: 'POST',
