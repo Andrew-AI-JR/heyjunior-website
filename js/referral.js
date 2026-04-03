@@ -1,8 +1,7 @@
-/* Referral Tracking System
- * Detects ?ref=CODE in URL and stores attribution.
- * Legacy partner payment links are being migrated to Stripe Connect.
- * Partners in MIGRATED_TO_CONNECT bypass the payment link redirect
- * and go through the standard checkout with automated revenue splitting.
+/* Referral tracking: ?ref=CODE stored 30d and sent as referral_code on register/checkout.
+ * Legacy partner payment links are being migrated to Stripe Connect; partners in
+ * MIGRATED_TO_CONNECT bypass the payment link redirect and use standard checkout with revenue split.
+ * Self-referral must be enforced in the API on register (not in this script).
  */
 
 // Partners migrated to Stripe Connect (add codes here as each partner is onboarded)

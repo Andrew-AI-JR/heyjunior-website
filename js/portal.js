@@ -1,9 +1,6 @@
 /* portal.js - User Portal Dashboard */
 
-// API Configuration
-const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
-    ? window.location.origin.replace(/:\d+$/, ':8000') 
-    : 'https://api.heyjunior.ai';
+const API_BASE_URL = window.getApiBaseUrl();
 
 // Stripe Price IDs for different plans
 const STRIPE_PRICE_IDS = {
@@ -56,26 +53,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 async function fetchWithAuth(url, options = {}) {
-    let token = currentUserToken || sessionStorage.getItem('userToken') || sessionStorage.getItem('accessToken');
-    let headers = { ...options.headers };
-    
-    if (!token) {
-        throw new Error('No authentication token available');
-    }
-    
-    headers['Authorization'] = `Bearer ${token}`;
-    headers['Content-Type'] = 'application/json';
-    
-    let response = await fetch(url, { ...options, headers });
-    
-    if (response.status === 401) {
-        console.warn('Access token expired. Redirecting to login...');
-        sessionStorage.clear();
-        window.location.href = 'checkout.html?redirect=portal';
-        return response;
-    }
-    
-    return response;
+    return window.juniorFetchWithAuth(url, {
+        ...options,
+        auth401Redirect: 'checkout.html?redirect=portal',
+    });
 }
 
 async function loadDashboardData() {
@@ -320,6 +301,21 @@ function displayUserData(userData) {
     // Display account status
     const status = userData.is_active !== false ? 'Active' : 'Inactive';
     document.getElementById('account-status').textContent = status;
+
+    const resellerNav = document.getElementById('reseller-nav-item');
+    if (resellerNav) {
+        resellerNav.style.display = userData.is_reseller ? 'list-item' : 'none';
+    }
+
+    const resellerRow = document.getElementById('reseller-status-row');
+    const resellerVal = document.getElementById('reseller-status-value');
+    if (userData.is_reseller && resellerRow && resellerVal) {
+        resellerRow.style.display = 'flex';
+        const rs = userData.reseller_status;
+        resellerVal.textContent = rs ? String(rs).replace(/_/g, ' ') : '—';
+    } else if (resellerRow) {
+        resellerRow.style.display = 'none';
+    }
 }
 
 // Store subscriptions globally for history modal
@@ -734,10 +730,20 @@ function displayReferralInfo(referral) {
         document.getElementById('referral-link-input').value = 'Loading...';
     }
 
-    // Show reseller dashboard banner if user is a reseller
-    if (referral.is_reseller) {
-        const resellerBanner = document.getElementById('reseller-banner');
-        if (resellerBanner) resellerBanner.style.display = 'block';
+    const referredRow = document.getElementById('referred-by-row');
+    const referredVal = document.getElementById('referred-by-value');
+    if (referredRow && referredVal) {
+        if (referral.referred_by) {
+            referredRow.style.display = 'flex';
+            referredVal.textContent = referral.referred_by;
+        } else {
+            referredRow.style.display = 'none';
+        }
+    }
+
+    const resellerBanner = document.getElementById('reseller-banner');
+    if (resellerBanner) {
+        resellerBanner.style.display = referral.is_reseller ? 'block' : 'none';
     }
 }
 

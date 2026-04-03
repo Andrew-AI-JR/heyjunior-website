@@ -78,8 +78,14 @@ window.addEventListener('i18nInitialized', () => {
 });
 
 
-// API Configuration
-const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? window.location.origin.replace(/:\d+$/, ':8000') : 'https://api.heyjunior.ai';
+const API_BASE_URL = window.getApiBaseUrl();
+
+/*
+ * Integrated payment: this flow uses POST /api/users/register (with referral_code) then
+ * POST /api/users/token, then the user subscribes from the portal via create-checkout-session.
+ * The API may also expose POST /api/users/create-with-payment for signup + Checkout in one step;
+ * we do not call it here. Revenue split for referred users is applied server-side on checkout.
+ */
 
 // Stripe Price IDs for different plans
 const STRIPE_PRICE_IDS = {

@@ -3,15 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Junior - Reseller Dashboard">
+    <meta name="robots" content="noindex">
     <title>Reseller Dashboard - Junior</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        .reseller-note { padding: 12px 16px; border-radius: 8px; margin-bottom: 16px; }
+        .reseller-note-success { background: #ecfdf5; border: 1px solid #10b981; color: #065f46; }
+        .reseller-note-error { background: #fef2f2; border: 1px solid #f87171; color: #991b1b; }
+        /* Override global .info-card grid so referral row stacks above metrics (full width each) */
+        #dashboard-stats.info-card {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 0;
+            grid-template-columns: unset;
+        }
+
+        .reseller-stat-grid {
+            display: grid;
+            width: 100%;
+            box-sizing: border-box;
+            gap: 12px;
+            margin: 0;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+        @media (max-width: 900px) {
+            .reseller-stat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+        @media (max-width: 420px) {
+            .reseller-stat-grid { grid-template-columns: 1fr; }
+        }
+        .reseller-stat { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px; min-width: 0; }
+        .reseller-stat-label { display: block; font-size: 0.75rem; color: #6b7280; text-transform: uppercase; letter-spacing: 0.03em; }
+        .reseller-stat-value { font-size: 1.25rem; font-weight: 700; color: #111827; }
+
+        /* Referral block: full row on top, blue theme (matches primary-button / site) */
+        #dashboard-stats .referral-link-section.reseller-ref-first {
+            width: 100%;
+            margin: 0 0 20px 0;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        #dashboard-stats .reseller-ref-first label {
+            color: #1e40af;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        #dashboard-stats .reseller-ref-first .referral-link-container input {
+            border: 2px solid #93c5fd;
+            border-radius: 8px;
+        }
+        #dashboard-stats .reseller-ref-first .referral-link-container input:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        }
+        #dashboard-stats .reseller-ref-first .copy-button {
+            background: #2563eb;
+            color: #fff;
+        }
+        #dashboard-stats .reseller-ref-first .copy-button:hover {
+            background: #1d4ed8;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+            transform: translateY(-1px);
+        }
+        #dashboard-stats .reseller-ref-first .copy-button.copied {
+            background: #059669;
+        }
+        @media (max-width: 768px) {
+            #dashboard-stats .reseller-ref-first .referral-link-container {
+                flex-direction: column;
+            }
+            #dashboard-stats .reseller-ref-first .copy-button {
+                width: 100%;
+            }
+        }
+        #referrals-table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 0.9rem; }
+        #referrals-table th, #referrals-table td { text-align: left; padding: 10px 12px; border-bottom: 1px solid #e5e7eb; }
+        #referrals-table th { background: #f3f4f6; font-weight: 600; }
+    </style>
 </head>
 <body data-page="reseller-dashboard" class="i18n-ready">
-    <!-- Navigation -->
     <nav class="navbar">
         <div class="container">
             <div class="logo">
@@ -20,244 +94,115 @@
                 </a>
             </div>
             <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
-                <span></span>
-                <span></span>
-                <span></span>
+                <span></span><span></span><span></span>
             </button>
             <ul class="nav-links">
                 <div class="nav-group">
-                    <li><a href="portal.html">My Account</a></li>
+                    <li><a href="index.html#features">Features</a></li>
+                    <li><a href="index.html#pricing">Pricing</a></li>
                 </div>
                 <div class="nav-actions">
-                    <li><a href="reseller-dashboard.html" class="cta-button active">Reseller Dashboard</a></li>
-                    <span id="logout-separator" class="nav-separator" style="display: none;">|</span>
-                    <li><a href="#" id="logout-link" class="my-story-link" onclick="handleLogout(event); return false;" style="display: none;">Logout</a></li>
+                    <li><a href="portal.html">My Account</a></li>
                 </div>
             </ul>
         </div>
     </nav>
 
-    <!-- Dashboard Content -->
     <section class="portal-container">
         <div class="container">
             <div class="portal-header">
-                <h1>Reseller Dashboard</h1>
-                <p class="portal-subtitle">Track your referrals, commissions, and payouts</p>
+                <h1>Reseller dashboard</h1>
+                <p class="portal-subtitle">Stripe Connect earnings and referral activity</p>
             </div>
 
-            <!-- Login Required -->
-            <div id="login-required" style="display: none;">
-                <div class="login-card" style="max-width: 500px; margin: 0 auto; background: white; border-radius: 12px; padding: 40px; box-shadow: 0 4px 6px rgba(0,0,0,0.07); text-align: center;">
-                    <h2>Login Required</h2>
-                    <p style="color: #6b7280; margin: 15px 0 25px;">Please log in to access your reseller dashboard.</p>
-                    <a href="portal.html" class="primary-button" style="display: inline-block; text-decoration: none; padding: 12px 30px;">Go to Login</a>
-                </div>
-            </div>
-
-            <!-- Loading State -->
-            <div id="loading-state" style="display: none; text-align: center; padding: 60px 20px;">
+            <div id="reseller-loading" class="loading-state">
                 <div class="spinner"></div>
-                <p style="color: #6b7280; margin-top: 15px;">Loading your reseller dashboard...</p>
+                <p>Loading…</p>
             </div>
 
-            <!-- Not a Reseller -->
-            <div id="not-reseller" style="display: none;">
-                <div class="portal-section" style="text-align: center; padding: 60px 20px;">
-                    <div style="font-size: 3rem; margin-bottom: 20px;">🤝</div>
-                    <h2 style="margin-bottom: 15px;">Become a Junior Reseller</h2>
-                    <p style="color: #6b7280; max-width: 500px; margin: 0 auto 25px; line-height: 1.6;">
-                        Earn <strong>20% commission</strong> on every subscription you refer, for the lifetime of each subscriber. Executive coaches, recruiters, and career professionals are ideal resellers.
-                    </p>
-                    <p style="color: #6b7280; margin-bottom: 25px;">
-                        Interested? Contact us to get approved.
-                    </p>
-                    <a href="mailto:support@heyjunior.ai?subject=Reseller Program Application" class="primary-button" style="display: inline-block; text-decoration: none; padding: 12px 30px;">
-                        Apply to Become a Reseller
-                    </a>
+            <div id="onboarding-result" style="display: none;" class="portal-section"></div>
+
+            <div id="reseller-main" style="display: none;">
+                <div id="reseller-error" style="display: none;" class="portal-section">
+                    <p id="reseller-error-text" class="reseller-note reseller-note-error"></p>
+                    <a href="portal.html" class="primary-button">Back to account</a>
                 </div>
-            </div>
 
-            <!-- Pending Approval -->
-            <div id="pending-approval" style="display: none;">
-                <div class="portal-section" style="text-align: center; padding: 60px 20px;">
-                    <div style="font-size: 3rem; margin-bottom: 20px;">⏳</div>
-                    <h2 style="margin-bottom: 15px;">Application Under Review</h2>
-                    <p style="color: #6b7280; max-width: 500px; margin: 0 auto; line-height: 1.6;">
-                        Your reseller application is being reviewed. We'll notify you by email once you're approved. This typically takes 1-2 business days.
-                    </p>
+                <div id="reseller-not-eligible" style="display: none;" class="portal-section">
+                    <div class="info-card">
+                        <p>This account is not enrolled in the reseller program. Contact <a href="mailto:support@heyjunior.ai">support@heyjunior.ai</a> for more information.</p>
+                        <p style="margin-top: 12px;"><a href="portal.html">Return to My Account</a></p>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Onboarding Required -->
-            <div id="onboarding-section" style="display: none;">
-                <div class="portal-section">
-                    <div style="text-align: center; padding: 40px 20px;">
-                        <div style="font-size: 3rem; margin-bottom: 20px;">🏦</div>
-                        <h2 style="margin-bottom: 15px;">Complete Your Payout Setup</h2>
-                        <p style="color: #6b7280; max-width: 500px; margin: 0 auto 25px; line-height: 1.6;">
-                            You've been approved as a reseller! To start earning commissions, connect your bank account through Stripe. This secure setup takes about 5 minutes.
+                <div id="reseller-suspended" style="display: none;" class="portal-section">
+                    <div class="info-card">
+                        <p><strong>Reseller account suspended.</strong> Contact <a href="mailto:support@heyjunior.ai">support@heyjunior.ai</a>.</p>
+                    </div>
+                </div>
+
+                <div id="reseller-pending" style="display: none;" class="portal-section">
+                    <div class="info-card">
+                        <p><strong>Application pending.</strong> We will notify you when your reseller application has been reviewed.</p>
+                    </div>
+                </div>
+
+                <div id="reseller-onboarding-panel" style="display: none;" class="portal-section">
+                    <div class="section-header"><h2>Connect Stripe</h2></div>
+                    <div class="info-card">
+                        <p>Complete Stripe Express onboarding to receive revenue share payouts.</p>
+                        <p style="margin-top: 16px;">
+                            <button type="button" class="primary-button" id="btn-connect-stripe">Connect Stripe or continue</button>
                         </p>
-                        <button id="start-onboarding-btn" class="primary-button" onclick="startOnboarding()" style="padding: 14px 32px; font-size: 1.05rem;">
-                            Set Up Payout Account
-                        </button>
-                        <p id="onboarding-error" style="display: none; color: #dc2626; margin-top: 15px;"></p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Suspended -->
-            <div id="suspended-section" style="display: none;">
-                <div class="portal-section" style="text-align: center; padding: 60px 20px;">
-                    <div style="font-size: 3rem; margin-bottom: 20px;">🚫</div>
-                    <h2 style="margin-bottom: 15px; color: #dc2626;">Account Suspended</h2>
-                    <p style="color: #6b7280; max-width: 500px; margin: 0 auto; line-height: 1.6;">
-                        Your reseller account has been suspended. Please contact support for more information.
-                    </p>
-                    <a href="mailto:support@heyjunior.ai?subject=Reseller Account Suspended" class="secondary-button" style="display: inline-block; text-decoration: none; padding: 12px 30px; margin-top: 20px;">
-                        Contact Support
-                    </a>
-                </div>
-            </div>
-
-            <!-- Active Reseller Dashboard -->
-            <div id="reseller-dashboard" style="display: none;">
-                <!-- Onboarding Return Banner -->
-                <div id="onboarding-return-banner" style="display: none; margin-bottom: 20px; padding: 16px 20px; background: #d1fae5; border-left: 4px solid #10b981; border-radius: 8px;">
-                    <p style="margin: 0; color: #065f46; font-weight: 500;" id="onboarding-return-message">Checking your payout account setup...</p>
-                </div>
-
-                <!-- Summary Cards -->
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px;">
-                    <div class="portal-section" style="padding: 24px; text-align: center; margin-bottom: 0;">
-                        <p style="color: #6b7280; font-size: 0.85rem; margin: 0 0 8px; text-transform: uppercase; letter-spacing: 0.5px;">Lifetime Earned</p>
-                        <p id="total-earned" style="font-size: 2rem; font-weight: 700; color: #059669; margin: 0;">$0.00</p>
-                    </div>
-                    <div class="portal-section" style="padding: 24px; text-align: center; margin-bottom: 0;">
-                        <p style="color: #6b7280; font-size: 0.85rem; margin: 0 0 8px; text-transform: uppercase; letter-spacing: 0.5px;">This Month</p>
-                        <p id="month-earned" style="font-size: 2rem; font-weight: 700; color: #2563eb; margin: 0;">$0.00</p>
-                    </div>
-                    <div class="portal-section" style="padding: 24px; text-align: center; margin-bottom: 0;">
-                        <p style="color: #6b7280; font-size: 0.85rem; margin: 0 0 8px; text-transform: uppercase; letter-spacing: 0.5px;">Active Subscribers</p>
-                        <p id="active-referrals" style="font-size: 2rem; font-weight: 700; color: #7c3aed; margin: 0;">0</p>
-                    </div>
-                    <div class="portal-section" style="padding: 24px; text-align: center; margin-bottom: 0;">
-                        <p style="color: #6b7280; font-size: 0.85rem; margin: 0 0 8px; text-transform: uppercase; letter-spacing: 0.5px;">Total Referrals</p>
-                        <p id="total-referrals" style="font-size: 2rem; font-weight: 700; color: #0ea5e9; margin: 0;">0</p>
                     </div>
                 </div>
 
-                <!-- Referral Link -->
-                <div class="portal-section">
-                    <div class="section-header">
-                        <h2>Your Referral Link</h2>
+                <div id="reseller-active" style="display: none;">
+                    <div class="portal-section">
+                        <div class="section-header">
+                            <h2>Earnings</h2>
+                        </div>
+                        <div id="dashboard-stats" class="info-card"></div>
+                        <p style="margin-top: 12px;">
+                            <button type="button" class="primary-button" id="btn-stripe-express">Open Stripe Express (payouts &amp; bank)</button>
+                        </p>
                     </div>
-                    <div style="padding: 5px 0;">
-                        <p style="color: #6b7280; margin: 0 0 15px; line-height: 1.5;">Share this link with your network. You earn <strong>20% commission</strong> on every subscription, every month, for the lifetime of each subscriber.</p>
-                        <div style="display: flex; gap: 10px; align-items: center;">
-                            <input type="text" id="reseller-referral-link" readonly value="Loading..." style="flex: 1; padding: 12px 16px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 0.95rem; background: #f8fafc; color: #1e293b;">
-                            <button onclick="copyResellerLink()" class="primary-button" id="copy-link-btn" style="padding: 12px 20px; white-space: nowrap;">Copy Link</button>
+                    <div class="portal-section">
+                        <div class="section-header"><h2>Referrals</h2></div>
+                        <div class="info-card" style="overflow-x: auto;">
+                            <table id="referrals-table">
+                                <thead>
+                                    <tr><th>Email</th><th>Signed up</th><th>Status</th></tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
-
-                <!-- Stripe Payout Access -->
-                <div class="portal-section">
-                    <div class="section-header">
-                        <h2>Payouts & Banking</h2>
-                    </div>
-                    <div style="padding: 5px 0;">
-                        <p style="color: #6b7280; margin: 0 0 15px; line-height: 1.5;">View detailed payout history, update your bank account, and manage tax information through your Stripe dashboard.</p>
-                        <button onclick="openStripeDashboard()" class="secondary-button" id="stripe-dashboard-btn" style="padding: 12px 24px;">
-                            Open Payout Dashboard
-                        </button>
-                        <p id="stripe-dashboard-error" style="display: none; color: #dc2626; margin-top: 10px; font-size: 0.9rem;"></p>
-                    </div>
-                </div>
-
-                <!-- Referred Users List -->
-                <div class="portal-section">
-                    <div class="section-header">
-                        <h2>Referred Users</h2>
-                    </div>
-                    <div id="referrals-list" style="padding: 5px 0;">
-                        <p style="color: #6b7280;">Loading referrals...</p>
-                    </div>
-                </div>
-
-                <!-- Commission Info -->
-                <div class="portal-section" style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);">
-                    <div style="padding: 5px 0;">
-                        <h3 style="color: #92400e; margin: 0 0 12px;">Commission Terms</h3>
-                        <ul style="color: #78350f; padding-left: 20px; margin: 0; line-height: 1.8; font-size: 0.95rem;">
-                            <li><strong>20%</strong> of net subscription revenue for the lifetime of each referred subscriber</li>
-                            <li>Commissions are calculated after refunds and disputes</li>
-                            <li>Payouts are handled automatically by Stripe to your connected bank account</li>
-                            <li>Referral attribution is locked at signup and persists indefinitely</li>
-                        </ul>
-                    </div>
-                </div>
             </div>
-
         </div>
     </section>
 
-    <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h4>Contact</h4>
-                    <p>Email: support@heyjunior.ai</p>
-                    <p>LinkedIn: <a href="https://www.linkedin.com/company/hey-junior/" target="_blank">linkedin.com/company/hey-junior</a></p>
-                </div>
-                <div class="footer-section">
-                    <h4>Support</h4>
-                    <ul>
-                        <li><a href="portal.html">My Account</a></li>
-                        <li><a href="mailto:support@heyjunior.ai">Contact Support</a></li>
-                    </ul>
-                </div>
-            </div>
             <div class="footer-bottom">
-                <p>&copy; 2024 Junior. All rights reserved.</p>
+                <p>&copy; 2026 Junior. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
-    <!-- Referral tracking system -->
+    <script src="js/api-config.js"></script>
+    <script src="js/api-auth.js"></script>
     <script src="js/referral.js"></script>
-
-    <!-- Reseller Dashboard JavaScript -->
     <script src="js/reseller-dashboard.js"></script>
-
-    <!-- Mobile Navigation Toggle -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const mobileToggle = document.querySelector('.mobile-menu-toggle');
             const navLinks = document.querySelector('.nav-links');
-
             if (mobileToggle) {
                 mobileToggle.addEventListener('click', function() {
                     this.classList.toggle('active');
                     navLinks.classList.toggle('active');
-                });
-
-                const links = navLinks.querySelectorAll('a');
-                links.forEach(link => {
-                    link.addEventListener('click', function() {
-                        mobileToggle.classList.remove('active');
-                        navLinks.classList.remove('active');
-                    });
-                });
-
-                document.addEventListener('click', function(event) {
-                    const isClickInsideNav = navLinks.contains(event.target);
-                    const isClickOnToggle = mobileToggle.contains(event.target);
-
-                    if (!isClickInsideNav && !isClickOnToggle && navLinks.classList.contains('active')) {
-                        mobileToggle.classList.remove('active');
-                        navLinks.classList.remove('active');
-                    }
                 });
             }
         });

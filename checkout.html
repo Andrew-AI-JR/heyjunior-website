@@ -260,7 +260,7 @@
         if (window.location.hostname === 'localhost') {
             document.getElementById('dev-testing').style.display = 'block';
             document.getElementById('api-url-display').textContent =
-                window.location.hostname === 'localhost' ? 'http://localhost:8000' : 'https://api.heyjunior.ai';
+                window.location.hostname === 'localhost' ? 'http://localhost:8001' : 'https://api.heyjunior.ai';
         }
 
         // Test functions for development
@@ -296,6 +296,7 @@
     <!-- Release manager for post-registration download -->
     <script src="js/release-manager.js"></script>
     
+    <script src="js/api-config.js"></script>
     <script src="js/checkout.js?v=1.7"></script>
     
     <!-- Mobile Navigation Toggle -->

@@ -1,7 +1,6 @@
 /* success.js - Integrated Payment Verification and Account Setup */
 
-// API Configuration
-const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? window.location.origin.replace(/:\d+$/, ':8000') : 'https://api.heyjunior.ai';
+const API_BASE_URL = window.getApiBaseUrl();
 
 // GitHub Release Configuration - DEPRECATED (now using dynamic fetching)
 // This is kept as fallback only. The actual URLs are fetched from:

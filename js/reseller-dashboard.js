@@ -1,379 +1,299 @@
-/* reseller-dashboard.js - Reseller Dashboard for Commission Tracking and Stripe Connect Management */
+/* Reseller dashboard — Stripe Connect (API /api/resellers/*). */
 
-const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-    ? window.location.origin.replace(/:\d+$/, ':8000')
-    : 'https://api.heyjunior.ai';
+const API_BASE_URL = window.getApiBaseUrl();
 
-let currentUserToken = null;
+async function parseApiError(response) {
+  try {
+    const data = await response.json();
+    if (typeof data.detail === 'string') return data.detail;
+    if (Array.isArray(data.detail)) {
+      return data.detail.map((d) => d.msg || JSON.stringify(d)).join('; ');
+    }
+    return data.message || `Request failed (${response.status})`;
+  } catch {
+    return `Request failed (${response.status})`;
+  }
+}
+
+function fetchAuth(url, options = {}) {
+  return window.juniorFetchWithAuth(url, {
+    ...options,
+    auth401Redirect: 'portal.html',
+  });
+}
+
+function showEl(id, show = true) {
+  const el = document.getElementById(id);
+  if (el) el.style.display = show ? 'block' : 'none';
+}
+
+function setLoading(loading) {
+  showEl('reseller-loading', loading);
+  showEl('reseller-main', !loading);
+}
 
 document.addEventListener('DOMContentLoaded', async () => {
-    const token = sessionStorage.getItem('userToken') || sessionStorage.getItem('accessToken');
+  const token = sessionStorage.getItem('userToken') || sessionStorage.getItem('accessToken');
+  if (!token) {
+    window.location.href = 'portal.html';
+    return;
+  }
 
-    const logoutLink = document.getElementById('logout-link');
-    const logoutSeparator = document.getElementById('logout-separator');
-    if (logoutLink) {
-        if (token) {
-            logoutLink.style.display = 'block';
-            if (logoutSeparator) logoutSeparator.style.display = 'inline';
+  const params = new URLSearchParams(window.location.search);
+  const onboarding = params.get('onboarding');
+
+  try {
+    if (onboarding === 'complete') {
+      const res = await fetchAuth(`${API_BASE_URL}/api/resellers/onboard/return`);
+      const wrap = document.getElementById('onboarding-result');
+      if (wrap) {
+        wrap.style.display = 'block';
+        if (res.ok) {
+          const data = await res.json();
+          wrap.innerHTML = `<p class="reseller-note reseller-note-success"><strong>Stripe status updated.</strong> Status: <code>${escapeHtml(
+            String(data.status || '')
+          )}</code>. Charges: ${data.charges_enabled ? 'yes' : 'no'} · Payouts: ${data.payouts_enabled ? 'yes' : 'no'}</p>`;
         } else {
-            logoutLink.style.display = 'none';
-            if (logoutSeparator) logoutSeparator.style.display = 'none';
+          wrap.innerHTML = `<p class="reseller-note reseller-note-error">${escapeHtml(await parseApiError(res))}</p>`;
         }
-    }
-
-    if (!token) {
-        document.getElementById('login-required').style.display = 'block';
-        return;
-    }
-
-    currentUserToken = token;
-    document.getElementById('loading-state').style.display = 'block';
-
-    try {
-        const userData = await fetchWithAuth(`${API_BASE_URL}/api/users/me`);
-        if (!userData) return;
-
-        const user = await userData.json();
-
-        document.getElementById('loading-state').style.display = 'none';
-
-        if (!user.is_reseller) {
-            document.getElementById('not-reseller').style.display = 'block';
-            return;
+      }
+      window.history.replaceState({}, '', 'reseller-dashboard.html');
+    } else if (onboarding === 'refresh') {
+      const res = await fetchAuth(`${API_BASE_URL}/api/resellers/onboard/refresh`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data.onboarding_url) {
+          window.location.href = data.onboarding_url;
+          return;
         }
-
-        switch (user.reseller_status) {
-            case 'pending':
-                document.getElementById('pending-approval').style.display = 'block';
-                return;
-            case 'approved':
-            case 'onboarding':
-                document.getElementById('onboarding-section').style.display = 'block';
-                return;
-            case 'suspended':
-                document.getElementById('suspended-section').style.display = 'block';
-                return;
-            case 'active':
-                await loadActiveDashboard(user);
-                break;
-            default:
-                document.getElementById('not-reseller').style.display = 'block';
-        }
-    } catch (error) {
-        console.error('Failed to load reseller dashboard:', error);
-        document.getElementById('loading-state').style.display = 'none';
-        document.getElementById('login-required').style.display = 'block';
+      }
+      const wrap = document.getElementById('onboarding-result');
+      if (wrap) {
+        wrap.style.display = 'block';
+        wrap.innerHTML = `<p class="reseller-note reseller-note-error">${escapeHtml(await parseApiError(res))}</p>`;
+      }
+      window.history.replaceState({}, '', 'reseller-dashboard.html');
     }
+  } catch (e) {
+    console.error(e);
+    const wrap = document.getElementById('onboarding-result');
+    if (wrap) {
+      wrap.style.display = 'block';
+      wrap.innerHTML = `<p class="reseller-note reseller-note-error">${escapeHtml(e.message || 'Something went wrong')}</p>`;
+    }
+    window.history.replaceState({}, '', 'reseller-dashboard.html');
+  }
 
-    handleOnboardingReturn();
+  await loadResellerView();
 });
 
-
-async function fetchWithAuth(url, options = {}) {
-    let token = currentUserToken || sessionStorage.getItem('userToken') || sessionStorage.getItem('accessToken');
-    let headers = { ...options.headers };
-
-    if (!token) {
-        throw new Error('No authentication token available');
-    }
-
-    headers['Authorization'] = `Bearer ${token}`;
-    headers['Content-Type'] = 'application/json';
-
-    let response = await fetch(url, { ...options, headers });
-
-    if (response.status === 401) {
-        sessionStorage.clear();
-        window.location.href = 'portal.html';
-        return null;
-    }
-
-    return response;
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
 }
 
+async function loadResellerView() {
+  const sectionIds = [
+    'reseller-error',
+    'reseller-not-eligible',
+    'reseller-suspended',
+    'reseller-pending',
+    'reseller-onboarding-panel',
+    'reseller-active',
+  ];
+  sectionIds.forEach((id) => showEl(id, false));
 
-async function loadActiveDashboard(user) {
-    document.getElementById('reseller-dashboard').style.display = 'block';
-
-    // Set referral link
-    const referralCode = user.referral_code || '';
-    if (referralCode) {
-        const baseUrl = window.location.origin;
-        document.getElementById('reseller-referral-link').value = `${baseUrl}?ref=${referralCode}`;
+  let me;
+  try {
+    const res = await fetchAuth(`${API_BASE_URL}/api/users/me`);
+    if (!res.ok) {
+      throw new Error(await parseApiError(res));
     }
+    me = await res.json();
+  } catch (e) {
+    document.getElementById('reseller-error-text').textContent = e.message || 'Failed to load profile';
+    showEl('reseller-error', true);
+    setLoading(false);
+    return;
+  }
 
-    // Load dashboard summary and referrals in parallel
-    const [dashboardData, referralsData] = await Promise.all([
-        loadDashboardSummary(),
-        loadReferralsList(),
-    ]);
+  if (!me.is_reseller) {
+    showEl('reseller-not-eligible', true);
+    setLoading(false);
+    return;
+  }
 
-    if (dashboardData) {
-        displaySummary(dashboardData);
-    }
-    if (referralsData) {
-        displayReferrals(referralsData);
-    }
+  const status = me.reseller_status;
+  if (status === 'suspended') {
+    showEl('reseller-suspended', true);
+    setLoading(false);
+    return;
+  }
+  if (status === 'pending') {
+    showEl('reseller-pending', true);
+    setLoading(false);
+    return;
+  }
+  if (status === 'approved' || status === 'onboarding') {
+    showEl('reseller-onboarding-panel', true);
+    wireOnboardingButtons();
+    setLoading(false);
+    return;
+  }
+  if (status === 'active') {
+    await loadActiveDashboard();
+    setLoading(false);
+    return;
+  }
+
+  showEl('reseller-onboarding-panel', true);
+  wireOnboardingButtons();
+  setLoading(false);
 }
 
-
-async function loadDashboardSummary() {
-    try {
-        const response = await fetchWithAuth(`${API_BASE_URL}/api/resellers/dashboard`);
-        if (!response || !response.ok) return null;
-        return await response.json();
-    } catch (error) {
-        console.error('Failed to load dashboard summary:', error);
-        return null;
-    }
-}
-
-
-async function loadReferralsList() {
-    try {
-        const response = await fetchWithAuth(`${API_BASE_URL}/api/resellers/referrals`);
-        if (!response || !response.ok) return null;
-        return await response.json();
-    } catch (error) {
-        console.error('Failed to load referrals list:', error);
-        return null;
-    }
-}
-
-
-function displaySummary(data) {
-    const formatCents = (cents) => {
-        const dollars = (cents || 0) / 100;
-        return '$' + dollars.toFixed(2);
+function wireOnboardingButtons() {
+  const connect = document.getElementById('btn-connect-stripe');
+  if (connect) {
+    connect.onclick = async () => {
+      connect.disabled = true;
+      try {
+        const res = await fetchAuth(`${API_BASE_URL}/api/resellers/onboard`, {
+          method: 'POST',
+          body: JSON.stringify({}),
+        });
+        if (res.status === 429) {
+          throw new Error('Too many requests. Please wait a minute and try again.');
+        }
+        if (!res.ok) {
+          throw new Error(await parseApiError(res));
+        }
+        const data = await res.json();
+        if (data.onboarding_url) {
+          window.location.href = data.onboarding_url;
+        }
+      } catch (e) {
+        alert(e.message || 'Could not start onboarding');
+      } finally {
+        connect.disabled = false;
+      }
     };
-
-    document.getElementById('total-earned').textContent = formatCents(data.total_earned_cents);
-    document.getElementById('month-earned').textContent = formatCents(data.current_month_cents);
-    document.getElementById('active-referrals').textContent = data.active_referrals || 0;
-    document.getElementById('total-referrals').textContent = data.total_referrals || 0;
-
-    // Update referral link if available from dashboard data
-    if (data.referral_code) {
-        const baseUrl = window.location.origin;
-        document.getElementById('reseller-referral-link').value = `${baseUrl}?ref=${data.referral_code}`;
-    }
+  }
 }
 
+async function loadActiveDashboard() {
+  showEl('reseller-active', true);
 
-function displayReferrals(data) {
-    const container = document.getElementById('referrals-list');
-    const referrals = data.referrals || [];
+  const [dashRes, refRes] = await Promise.all([
+    fetchAuth(`${API_BASE_URL}/api/resellers/dashboard`),
+    fetchAuth(`${API_BASE_URL}/api/resellers/referrals`),
+  ]);
 
-    if (referrals.length === 0) {
-        container.innerHTML = `
-            <div style="text-align: center; padding: 30px; color: #6b7280;">
-                <p style="font-size: 1.5rem; margin-bottom: 10px;">📋</p>
-                <p>No referrals yet. Share your link to start earning!</p>
-            </div>
-        `;
-        return;
-    }
+  if (!dashRes.ok) {
+    document.getElementById('dashboard-stats').innerHTML = `<p class="reseller-note reseller-note-error">${escapeHtml(
+      await parseApiError(dashRes)
+    )}</p>`;
+  } else {
+    const d = await dashRes.json();
+    const fmt = (cents) => '$' + (Number(cents || 0) / 100).toFixed(2);
+    const code = d.referral_code || '';
+    const shareLink = code ? `${window.location.origin}/?ref=${encodeURIComponent(code)}` : '';
 
-    let html = `
-        <div style="overflow-x: auto;">
-            <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
-                <thead>
-                    <tr style="border-bottom: 2px solid #e2e8f0;">
-                        <th style="text-align: left; padding: 10px 12px; color: #6b7280; font-weight: 600;">Email</th>
-                        <th style="text-align: left; padding: 10px 12px; color: #6b7280; font-weight: 600;">Signed Up</th>
-                        <th style="text-align: center; padding: 10px 12px; color: #6b7280; font-weight: 600;">Status</th>
-                    </tr>
-                </thead>
-                <tbody>
+    document.getElementById('dashboard-stats').innerHTML = `
+      <div class="referral-link-section reseller-ref-first">
+        <label for="reseller-referral-link-input">Your Referral Link</label>
+        <div class="referral-link-container">
+          <input type="text" id="reseller-referral-link-input" readonly value="${escapeHtml(shareLink || '—')}" placeholder="No referral code yet">
+          <button type="button" class="copy-button" id="reseller-copy-ref-btn" title="Copy referral link" ${shareLink ? '' : 'disabled'}>
+            <span id="reseller-copy-btn-text">Copy</span>
+          </button>
+        </div>
+      </div>
+      <div class="reseller-stat-grid">
+        <div class="reseller-stat"><span class="reseller-stat-label">Total earned</span><span class="reseller-stat-value">${fmt(
+          d.total_earned_cents
+        )}</span></div>
+        <div class="reseller-stat"><span class="reseller-stat-label">This month</span><span class="reseller-stat-value">${fmt(
+          d.current_month_cents
+        )}</span></div>
+        <div class="reseller-stat"><span class="reseller-stat-label">Active referrals</span><span class="reseller-stat-value">${Number(
+          d.active_referrals || 0
+        )}</span></div>
+        <div class="reseller-stat"><span class="reseller-stat-label">Total referrals</span><span class="reseller-stat-value">${Number(
+          d.total_referrals || 0
+        )}</span></div>
+      </div>
     `;
 
-    referrals.forEach(ref => {
-        const signedUp = new Date(ref.signed_up).toLocaleDateString('en-US', {
-            year: 'numeric', month: 'short', day: 'numeric'
-        });
-        const statusBadge = ref.is_active
-            ? '<span style="background: #d1fae5; color: #065f46; padding: 3px 10px; border-radius: 12px; font-size: 0.8rem; font-weight: 500;">Active</span>'
-            : '<span style="background: #fee2e2; color: #991b1b; padding: 3px 10px; border-radius: 12px; font-size: 0.8rem; font-weight: 500;">Inactive</span>';
-
-        html += `
-            <tr style="border-bottom: 1px solid #f1f5f9;">
-                <td style="padding: 12px; color: #374151;">${escapeHtml(ref.email)}</td>
-                <td style="padding: 12px; color: #6b7280;">${signedUp}</td>
-                <td style="padding: 12px; text-align: center;">${statusBadge}</td>
-            </tr>
-        `;
-    });
-
-    html += '</tbody></table></div>';
-    container.innerHTML = html;
-}
-
-
-function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
-}
-
-
-function copyResellerLink() {
-    const input = document.getElementById('reseller-referral-link');
-    const button = document.getElementById('copy-link-btn');
-
-    if (!input || input.value === 'Loading...') return;
-
-    navigator.clipboard.writeText(input.value).then(() => {
-        const original = button.textContent;
-        button.textContent = 'Copied!';
-        button.style.background = '#059669';
-        setTimeout(() => {
-            button.textContent = original;
-            button.style.background = '';
-        }, 2000);
-    }).catch(() => {
-        input.select();
-        document.execCommand('copy');
-    });
-}
-window.copyResellerLink = copyResellerLink;
-
-
-async function openStripeDashboard() {
-    const button = document.getElementById('stripe-dashboard-btn');
-    const errorEl = document.getElementById('stripe-dashboard-error');
-
-    button.disabled = true;
-    button.textContent = 'Opening...';
-    errorEl.style.display = 'none';
-
-    try {
-        const response = await fetchWithAuth(`${API_BASE_URL}/api/resellers/stripe-login`);
-        if (!response || !response.ok) {
-            const err = await response.json().catch(() => ({}));
-            throw new Error(err.detail || 'Failed to generate dashboard link');
-        }
-
-        const data = await response.json();
-        if (data.login_url) {
-            window.open(data.login_url, '_blank');
-        } else {
-            throw new Error('No login URL returned');
-        }
-    } catch (error) {
-        errorEl.textContent = error.message || 'Failed to open payout dashboard. Please try again.';
-        errorEl.style.display = 'block';
-    } finally {
-        button.disabled = false;
-        button.textContent = 'Open Payout Dashboard';
-    }
-}
-window.openStripeDashboard = openStripeDashboard;
-
-
-async function startOnboarding() {
-    const button = document.getElementById('start-onboarding-btn');
-    const errorEl = document.getElementById('onboarding-error');
-
-    button.disabled = true;
-    button.textContent = 'Setting up...';
-    errorEl.style.display = 'none';
-
-    try {
-        const response = await fetchWithAuth(`${API_BASE_URL}/api/resellers/onboard`, {
-            method: 'POST',
-        });
-
-        if (!response || !response.ok) {
-            const err = await response.json().catch(() => ({}));
-            throw new Error(err.detail || 'Failed to start onboarding');
-        }
-
-        const data = await response.json();
-        if (data.onboarding_url) {
-            window.location.href = data.onboarding_url;
-        } else {
-            throw new Error('No onboarding URL returned');
-        }
-    } catch (error) {
-        errorEl.textContent = error.message || 'Failed to start payout setup. Please try again.';
-        errorEl.style.display = 'block';
-        button.disabled = false;
-        button.textContent = 'Set Up Payout Account';
-    }
-}
-window.startOnboarding = startOnboarding;
-
-
-async function handleOnboardingReturn() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const onboarding = urlParams.get('onboarding');
-
-    if (!onboarding) return;
-
-    const banner = document.getElementById('onboarding-return-banner');
-    const message = document.getElementById('onboarding-return-message');
-
-    if (onboarding === 'refresh') {
-        // Onboarding link expired, generate a fresh one
-        banner.style.display = 'block';
-        message.textContent = 'Your setup link expired. Generating a new one...';
-        message.style.color = '#92400e';
-        banner.style.background = '#fef3c7';
-        banner.style.borderColor = '#f59e0b';
-
+    const copyBtn = document.getElementById('reseller-copy-ref-btn');
+    const copyBtnText = document.getElementById('reseller-copy-btn-text');
+    const linkInput = document.getElementById('reseller-referral-link-input');
+    if (copyBtn && shareLink) {
+      copyBtn.addEventListener('click', async () => {
         try {
-            const response = await fetchWithAuth(`${API_BASE_URL}/api/resellers/onboard/refresh`);
-            if (response && response.ok) {
-                const data = await response.json();
-                if (data.onboarding_url) {
-                    window.location.href = data.onboarding_url;
-                    return;
-                }
-            }
-            message.textContent = 'Could not generate a new setup link. Please try again.';
-        } catch {
-            message.textContent = 'Could not generate a new setup link. Please try again.';
+          await navigator.clipboard.writeText(shareLink);
+          if (linkInput) {
+            linkInput.select();
+            linkInput.setSelectionRange(0, 99999);
+          }
+          copyBtn.classList.add('copied');
+          if (copyBtnText) copyBtnText.textContent = 'Copied!';
+          setTimeout(() => {
+            copyBtn.classList.remove('copied');
+            if (copyBtnText) copyBtnText.textContent = 'Copy';
+          }, 2000);
+        } catch (err) {
+          if (linkInput) {
+            linkInput.select();
+            linkInput.setSelectionRange(0, 99999);
+          }
+          try {
+            document.execCommand('copy');
+          } catch (e2) {
+            prompt('Copy this link:', shareLink);
+          }
         }
+      });
     }
+  }
 
-    if (onboarding === 'complete') {
-        banner.style.display = 'block';
-        message.textContent = 'Verifying your payout account setup...';
+  const tbody = document.querySelector('#referrals-table tbody');
+  if (!refRes.ok) {
+    tbody.innerHTML = `<tr><td colspan="3">${escapeHtml(await parseApiError(refRes))}</td></tr>`;
+  } else {
+    const data = await refRes.json();
+    const rows = data.referrals || [];
+    if (rows.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="3">No referrals yet.</td></tr>';
+    } else {
+      tbody.innerHTML = rows
+        .map(
+          (r) =>
+            `<tr><td>${escapeHtml(r.email || '—')}</td><td>${escapeHtml(
+              r.signed_up ? new Date(r.signed_up).toLocaleString() : '—'
+            )}</td><td>${r.is_active ? 'Active' : 'Inactive'}</td></tr>`
+        )
+        .join('');
+    }
+  }
 
-        try {
-            const response = await fetchWithAuth(`${API_BASE_URL}/api/resellers/onboard/return`);
-            if (response && response.ok) {
-                const data = await response.json();
-                if (data.status === 'active') {
-                    message.textContent = 'Payout account setup complete! Your dashboard is ready.';
-                    // Reload after a moment to show full dashboard
-                    setTimeout(() => {
-                        window.location.href = 'reseller-dashboard.html';
-                    }, 2000);
-                } else if (data.details_submitted) {
-                    message.textContent = 'Your information has been submitted. Stripe is verifying your account. This may take a few minutes.';
-                } else {
-                    message.textContent = 'Your setup is not yet complete. Please finish all required steps.';
-                    message.style.color = '#92400e';
-                    banner.style.background = '#fef3c7';
-                    banner.style.borderColor = '#f59e0b';
-                }
-            }
-        } catch {
-            message.textContent = 'Could not verify account status. Please refresh the page.';
+  const stripeBtn = document.getElementById('btn-stripe-express');
+  if (stripeBtn) {
+    stripeBtn.onclick = async () => {
+      stripeBtn.disabled = true;
+      try {
+        const res = await fetchAuth(`${API_BASE_URL}/api/resellers/stripe-login`);
+        if (res.status === 429) {
+          throw new Error('Too many requests. Please wait a minute and try again.');
         }
-    }
-
-    // Clean up URL params
-    const cleanUrl = window.location.pathname;
-    window.history.replaceState({}, document.title, cleanUrl);
+        if (!res.ok) throw new Error(await parseApiError(res));
+        const data = await res.json();
+        if (data.login_url) window.open(data.login_url, '_blank', 'noopener,noreferrer');
+      } catch (e) {
+        alert(e.message || 'Could not open Stripe');
+      } finally {
+        stripeBtn.disabled = false;
+      }
+    };
+  }
 }
-
-
-function handleLogout(event) {
-    if (event) event.preventDefault();
-    sessionStorage.clear();
-    localStorage.removeItem('partnerPaymentLink');
-    window.location.href = 'portal.html';
-}
-window.handleLogout = handleLogout;

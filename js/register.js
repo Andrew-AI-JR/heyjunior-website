@@ -1,9 +1,6 @@
 /* register.js - User Registration */
 
-// API Configuration
-const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
-    ? window.location.origin.replace(/:\d+$/, ':8001') 
-    : 'https://api.heyjunior.ai';
+const API_BASE_URL = window.getApiBaseUrl();
 
 // Global variables
 let currentUserToken = null;
