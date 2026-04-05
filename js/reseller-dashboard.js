@@ -120,6 +120,7 @@ async function loadResellerView() {
 
   if (!me.is_reseller) {
     showEl('reseller-not-eligible', true);
+    wireSelfEnrollButton();
     setLoading(false);
     return;
   }
@@ -130,26 +131,50 @@ async function loadResellerView() {
     setLoading(false);
     return;
   }
-  if (status === 'pending') {
-    showEl('reseller-pending', true);
-    setLoading(false);
-    return;
-  }
-  if (status === 'approved' || status === 'onboarding') {
-    showEl('reseller-onboarding-panel', true);
-    wireOnboardingButtons();
-    setLoading(false);
-    return;
-  }
   if (status === 'active') {
     await loadActiveDashboard();
     setLoading(false);
     return;
   }
 
+  // Any other status (pending, approved, onboarding, null) → show Stripe setup
   showEl('reseller-onboarding-panel', true);
   wireOnboardingButtons();
   setLoading(false);
+}
+
+function wireSelfEnrollButton() {
+  const btn = document.getElementById('btn-self-enroll');
+  const errorEl = document.getElementById('self-enroll-error');
+  if (!btn) return;
+  btn.onclick = async () => {
+    btn.disabled = true;
+    btn.textContent = 'Setting up your account…';
+    if (errorEl) errorEl.style.display = 'none';
+    try {
+      const res = await fetchAuth(`${API_BASE_URL}/api/resellers/onboard`, {
+        method: 'POST',
+        body: JSON.stringify({}),
+      });
+      if (res.status === 429) {
+        throw new Error('Too many requests. Please wait a minute and try again.');
+      }
+      if (!res.ok) {
+        throw new Error(await parseApiError(res));
+      }
+      const data = await res.json();
+      if (data.onboarding_url) {
+        window.location.href = data.onboarding_url;
+      }
+    } catch (e) {
+      if (errorEl) {
+        errorEl.textContent = e.message || 'Something went wrong. Please try again.';
+        errorEl.style.display = 'block';
+      }
+      btn.disabled = false;
+      btn.textContent = 'Get Started — Set Up Payouts';
+    }
+  };
 }
 
 function wireOnboardingButtons() {
