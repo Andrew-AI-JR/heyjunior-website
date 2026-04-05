@@ -198,7 +198,14 @@ function wireOnboardingButtons() {
           window.location.href = data.onboarding_url;
         }
       } catch (e) {
-        alert(e.message || 'Could not start onboarding');
+        const msg = e.message || 'Could not start onboarding';
+        const wrap = document.getElementById('onboarding-result');
+        if (wrap) {
+          wrap.style.display = 'block';
+          wrap.innerHTML = `<p class="reseller-note reseller-note-error">${escapeHtml(msg)}</p>`;
+        } else {
+          alert(msg);
+        }
       } finally {
         connect.disabled = false;
       }
