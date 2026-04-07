@@ -192,6 +192,7 @@ async function handleCheckoutAction(e) {
   const password = document.getElementById('customer-password').value;
   const confirmPassword = document.getElementById('confirm-password').value;
   const platform = document.querySelector('input[name="platform"]:checked')?.value;
+  const termsAccepted = document.getElementById('terms-agree-checkout')?.checked === true;
   const selectedPlan = document.querySelector('input[name="plan"]:checked')?.value || 'standard'; // Default to standard if not selected
 
   // Get the correct Stripe price ID for the selected plan
@@ -212,7 +213,7 @@ async function handleCheckoutAction(e) {
   // Validate form based on current action
   let validationError = null;
   if (isCreatingAccount) {
-    validationError = validateForm(email, password, confirmPassword, platform);
+    validationError = validateForm(email, password, confirmPassword, platform, termsAccepted);
   } else if (isBuyingNewSubscription) {
     if (!platform) {
       validationError = window.i18nUtils ? window.i18nUtils.translate('checkout.platformRequired') : 'Please select your platform (Windows or macOS).';
@@ -473,7 +474,7 @@ window.addEventListener('unhandledrejection', function (event) {
   }
 });
 
-function validateForm(email, password, confirmPassword, platform) {
+function validateForm(email, password, confirmPassword, platform, termsAccepted) {
   if (!email || !validateEmail(email)) {
     return 'Please enter a valid email address.';
   }
@@ -493,6 +494,10 @@ function validateForm(email, password, confirmPassword, platform) {
 
   if (!platform) {
     return 'Please select your platform (Windows or macOS).';
+  }
+
+  if (!termsAccepted) {
+    return window.i18nUtils ? window.i18nUtils.translate('checkout.termsRequired') : 'You must agree to the Terms of Service to continue.';
   }
 
   return null;

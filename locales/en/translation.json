@@ -140,6 +140,8 @@
     "mac": "macOS",
     "linux": "Linux",
     "paymentInfo": "Payment Information",
+    "termsAgreement": "I agree to the",
+    "termsRequired": "You must agree to the Terms of Service to continue.",
     "securePayment": "🔒 Secure payment powered by Stripe",
     "processing": "Processing...",
     "error": "Error: Please try again",

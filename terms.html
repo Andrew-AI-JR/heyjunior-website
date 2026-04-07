@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Junior Terms of Service">
+    <title>Terms of Service - Junior</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body data-page="terms" class="i18n-ready">
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="./images/junior-logo.png" alt="Junior Logo" class="logo-img">
+                </a>
+            </div>
+            <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <div class="nav-group">
+                    <li><a href="index.html#features">Features</a></li>
+                    <li><a href="index.html#how-it-works">How It Works</a></li>
+                    <li><a href="index.html#pricing">Pricing</a></li>
+                </div>
+                <div class="nav-actions">
+                    <li><a href="index.html" class="my-story-link">Back to Home</a></li>
+                </div>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="portal-container">
+        <div class="container">
+            <div class="portal-section">
+                <div class="section-header">
+                    <h1>Terms of Service</h1>
+                </div>
+                <p style="color: #6b7280; margin-bottom: 16px;">
+                    Effective date: April 7, 2026
+                </p>
+                <p style="color: #6b7280; margin-bottom: 24px;">
+                    Terms version: v2026-04-07
+                </p>
+
+                <h3>1. Acceptance of Terms</h3>
+                <p>
+                    By creating an account, purchasing, downloading, or using Junior, you agree to these Terms of Service.
+                    If you do not agree, do not use the service.
+                </p>
+
+                <h3>2. LinkedIn Automation Risk and User Responsibility</h3>
+                <p>
+                    Junior is an automation tool that helps users perform LinkedIn engagement actions. LinkedIn may modify
+                    its policies at any time and may, in its sole discretion, limit, restrict, suspend, or ban accounts that
+                    use automation tools.
+                </p>
+                <p>
+                    You acknowledge and accept this risk. You are solely responsible for how you use Junior and for any
+                    consequences related to your LinkedIn account, including warnings, restrictions, suspensions, bans,
+                    loss of access, loss of data, or related business or career impact.
+                </p>
+
+                <h3>3. Disclaimer of Liability for LinkedIn Enforcement Actions</h3>
+                <p>
+                    To the maximum extent permitted by law, Junior, its owner, affiliates, employees, and contractors are
+                    not liable for any damages, losses, claims, or expenses arising out of or related to LinkedIn account
+                    restrictions, suspensions, bans, or enforcement actions connected to your use of Junior.
+                </p>
+
+                <h3>4. Indemnification</h3>
+                <p>
+                    You agree to defend, indemnify, and hold harmless Junior and its affiliates from and against any claims,
+                    liabilities, damages, judgments, awards, losses, costs, and expenses (including reasonable attorneys' fees)
+                    arising out of or related to your use of Junior, including claims related to platform policy violations.
+                </p>
+
+                <h3>5. Service Provided As-Is</h3>
+                <p>
+                    Junior is provided on an "as is" and "as available" basis, without warranties of any kind, express or implied,
+                    including warranties of merchantability, fitness for a particular purpose, or non-infringement.
+                    We do not guarantee uninterrupted availability or compatibility with third-party platforms.
+                </p>
+
+                <h3>6. Limitation of Liability</h3>
+                <p>
+                    To the maximum extent permitted by law, Junior's total liability for any claim arising from or related to
+                    the service will not exceed the total amount you paid to Junior in the twelve (12) months preceding the event
+                    giving rise to the claim.
+                </p>
+
+                <h3>7. Refunds</h3>
+                <p>
+                    Junior currently offers a 30-day money-back guarantee as described on the website pricing page.
+                    Refund eligibility and processing are subject to the terms in effect at the time of purchase.
+                </p>
+
+                <h3>8. Changes to These Terms</h3>
+                <p>
+                    We may update these Terms from time to time. Updated versions will be posted on this page with a new
+                    effective date and version. Continued use of Junior after updates means you accept the updated Terms.
+                </p>
+
+                <h3>9. Governing Law</h3>
+                <p>
+                    These Terms are governed by applicable laws in the jurisdiction where Junior operates, without regard to
+                    conflict of law rules.
+                </p>
+
+                <h3>10. Contact</h3>
+                <p>
+                    Questions about these Terms: <a href="mailto:support@heyjunior.ai">support@heyjunior.ai</a>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>Email: support@heyjunior.ai</p>
+                    <p>LinkedIn: <a href="https://www.linkedin.com/company/hey-junior/" target="_blank">linkedin.com/company/hey-junior</a></p>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms of Service</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Junior. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileToggle = document.querySelector('.mobile-menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            if (mobileToggle) {
+                mobileToggle.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    navLinks.classList.toggle('active');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

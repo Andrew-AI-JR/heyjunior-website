@@ -140,6 +140,8 @@
     "mac": "macOS",
     "linux": "Linux",
     "paymentInfo": "Información de Pago",
+    "termsAgreement": "Acepto los",
+    "termsRequired": "Debes aceptar los Términos de Servicio para continuar.",
     "securePayment": "🔒 Pago seguro impulsado por Stripe",
     "processing": "Procesando...",
     "error": "Error: Por favor intenta de nuevo",

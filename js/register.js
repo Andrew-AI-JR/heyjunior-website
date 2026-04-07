@@ -84,6 +84,7 @@ async function handleRegistration(e) {
     const email = document.getElementById('reg-email').value.trim();
     const password = document.getElementById('reg-password').value;
     const confirmPassword = document.getElementById('reg-confirm-password').value;
+    const termsAccepted = document.getElementById('terms-agree-register')?.checked === true;
     const registerButton = document.getElementById('register-button');
     const registerButtonText = document.getElementById('register-button-text');
     const registerError = document.getElementById('register-error');
@@ -92,7 +93,7 @@ async function handleRegistration(e) {
     registerError.style.display = 'none';
     
     // Validate form
-    const validationError = validateRegistrationForm(email, password, confirmPassword);
+    const validationError = validateRegistrationForm(email, password, confirmPassword, termsAccepted);
     if (validationError) {
         registerError.textContent = validationError;
         registerError.style.display = 'block';
@@ -255,7 +256,7 @@ async function handleRegistration(e) {
     }
 }
 
-function validateRegistrationForm(email, password, confirmPassword) {
+function validateRegistrationForm(email, password, confirmPassword, termsAccepted) {
     if (!email || !validateEmail(email)) {
         return 'Please enter a valid email address.';
     }
@@ -271,6 +272,10 @@ function validateRegistrationForm(email, password, confirmPassword) {
     
     if (password !== confirmPassword) {
         return 'Passwords do not match.';
+    }
+
+    if (!termsAccepted) {
+        return 'You must agree to the Terms of Service to continue.';
     }
     
     return null;
