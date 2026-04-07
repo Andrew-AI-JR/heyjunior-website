@@ -241,6 +241,7 @@
     "paragraph4": "El problema que enfrenté fue simple: no podía tener suficientes conversaciones con las personas correctas. En seis semanas, tuve solo una entrevista. Esa entrevista vino de un solo comentario que dejé en una publicación sobre una empresa que estaba contratando. La persona respondió el mismo día, hablamos al día siguiente, y una semana después estaba hablando con el gerente de contratación.",
     "paragraph5": "La búsqueda de empleo no debería ser sobre esperar una conversación - debería comenzar con una.",
     "paragraph6": "Por eso construí Junior. Es un motor automatizado de marketing personal entrante que me ayudó a cambiar las cosas. Funcionó tan bien que decidí comenzar una empresa para que puedas tener tu propio Junior.",
+    "paragraph6b": "Elegí construir Junior como una aplicación de escritorio por una razón específica: se ejecuta completamente en tu máquina, usando tu propio navegador y dirección IP. No hay un servidor central que pueda ser detectado o bloqueado. Desde la perspectiva de LinkedIn, simplemente eres una persona activa en la plataforma. Esa decisión arquitectónica es fundamental en todo lo que hace Junior.",
     "paragraph7": "Si estás luchando para comenzar conversaciones con las personas correctas, te animo a que pruebes Junior.",
     "paragraph8": "Ten la conversación correcta, en el momento correcto. Desbloquea nuevas oportunidades que pueden cambiar tu vida. Cambió la mía.",
     "warmRegards": "Saludos cordiales,",
