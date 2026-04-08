@@ -561,6 +561,13 @@ section, div {
     font-size: 48px;
     font-weight: 700;
     color: #1e40af;
+    margin-bottom: 8px;
+}
+
+.hero-audience-line {
+    font-size: 22px;
+    font-weight: 500;
+    color: #3b82f6;
     margin-bottom: 20px;
     line-height: 1.2;
 }
@@ -1093,6 +1100,9 @@ section, div {
     /* Content Styles */
     .hero h1 {
         font-size: 32px;
+    }
+    .hero-audience-line {
+        font-size: 17px;
     }
 
     .trust-indicators {
