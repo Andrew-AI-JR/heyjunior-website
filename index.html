@@ -52,8 +52,8 @@
                 <span class="free-text">14 Days FREE - <strong>No Credit Card Required</strong></span>
             </div>
             
-            <h1 data-i18n="hero.title">Land Your Dream Job with AI-Powered LinkedIn Automation</h1>
-            <p class="subtitle" data-i18n="hero.subtitle">Stop spending hours commenting on LinkedIn posts. Junior automatically engages with hiring managers while you focus on preparing for interviews and building your skills.</p>
+            <h1>AI-Powered LinkedIn Engagement for Job Seekers, Sales, Recruiters, and Coaches</h1>
+            <p class="subtitle" id="hero-dynamic-subtitle">Junior automatically engages hiring posts while you focus on interviews and preparation.</p>
             
             <!-- Real Comment Example -->
             <div class="comment-showcase">
@@ -64,14 +64,21 @@
             <div class="cta-buttons">
                 <a href="register.html" class="primary-button">🚀 Start Your FREE 14-Day Trial</a>
             </div>
+
+            <!-- Reseller Program Strip -->
+            <div class="hero-reseller-strip">
+                <span class="reseller-strip-lead">Earn while you grow Junior.</span>
+                <span class="reseller-strip-body">Join our self-service reseller program and earn 20% lifetime revenue on every customer you refer. Payouts go directly to your Stripe account.</span>
+                <a href="reseller-dashboard.html" class="reseller-strip-cta">Become a Reseller &rarr;</a>
+            </div>
             
-            <!-- Use Case Badges -->
-            <div class="use-case-badges">
-                <span class="use-case-badge">👔 Job Seekers</span>
-                <span class="use-case-badge">📈 Sales & Biz Dev</span>
-                <span class="use-case-badge">� Founders</span>
-                <span class="use-case-badge">🎓 New Grads</span>
-                <span class="use-case-badge">🔄 Career Changers</span>
+            <!-- Audience Tabs -->
+            <div class="use-case-badges" role="tablist">
+                <button class="use-case-badge is-active" data-audience="job-seekers" aria-pressed="true">👔 Job Seekers</button>
+                <button class="use-case-badge" data-audience="sales" aria-pressed="false">📈 Sales & Biz Dev</button>
+                <button class="use-case-badge" data-audience="recruiters" aria-pressed="false">🎯 Recruiters</button>
+                <button class="use-case-badge" data-audience="coaches" aria-pressed="false">🏆 Coaches & Consultants</button>
+                <button class="use-case-badge" data-audience="networking" aria-pressed="false">🔗 Networking</button>
             </div>
         </div>
     </section>
@@ -498,6 +505,66 @@
         });
     </script>
     
+    <!-- Hero Audience Rotation -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var audiences = {
+                'job-seekers': 'Junior automatically engages hiring posts while you focus on interviews and preparation.',
+                'sales': 'Junior helps you stay visible with prospects and decision-makers so you can focus on closing.',
+                'recruiters': 'Junior keeps you active in talent conversations so more candidates discover and trust your brand.',
+                'coaches': 'Junior helps you show up consistently in relevant discussions to build authority and attract clients.',
+                'networking': 'Junior keeps your LinkedIn presence active so you build meaningful relationships without a daily manual grind.'
+            };
+            var keys = Object.keys(audiences);
+            var currentIdx = 0;
+            var subtitleEl = document.getElementById('hero-dynamic-subtitle');
+            var badges = document.querySelectorAll('.use-case-badge[data-audience]');
+            var rotateTimer = null;
+            var resumeTimer = null;
+            var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+            function switchTo(idx) {
+                var key = keys[idx];
+                subtitleEl.classList.add('is-fading');
+                setTimeout(function() {
+                    subtitleEl.textContent = audiences[key];
+                    subtitleEl.classList.remove('is-fading');
+                }, 400);
+                badges.forEach(function(b) {
+                    var isMatch = b.getAttribute('data-audience') === key;
+                    b.classList.toggle('is-active', isMatch);
+                    b.setAttribute('aria-pressed', isMatch ? 'true' : 'false');
+                });
+                currentIdx = idx;
+            }
+
+            function startRotation() {
+                if (prefersReducedMotion) return;
+                stopRotation();
+                rotateTimer = setInterval(function() {
+                    switchTo((currentIdx + 1) % keys.length);
+                }, 5000);
+            }
+
+            function stopRotation() {
+                if (rotateTimer) { clearInterval(rotateTimer); rotateTimer = null; }
+                if (resumeTimer) { clearTimeout(resumeTimer); resumeTimer = null; }
+            }
+
+            badges.forEach(function(badge, i) {
+                badge.addEventListener('click', function() {
+                    var idx = keys.indexOf(badge.getAttribute('data-audience'));
+                    if (idx === -1) return;
+                    switchTo(idx);
+                    stopRotation();
+                    resumeTimer = setTimeout(startRotation, 10000);
+                });
+            });
+
+            startRotation();
+        });
+    </script>
+
     <!-- Mobile Navigation Toggle -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
