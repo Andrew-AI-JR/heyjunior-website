@@ -63,7 +63,7 @@
     },
     "step2": {
       "title": "Connect LinkedIn",
-      "description": "Secure OAuth connection with one-time setup."
+      "description": "Log in to LinkedIn via a secure browser window. One-time setup, takes 30 seconds."
     },
     "step3": {
       "title": "Configure Settings",

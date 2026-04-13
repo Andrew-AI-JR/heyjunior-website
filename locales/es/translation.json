@@ -63,7 +63,7 @@
     },
     "step2": {
       "title": "Conectar LinkedIn",
-      "description": "Conexión OAuth segura con configuración única."
+      "description": "Inicia sesión en LinkedIn a través de una ventana segura del navegador. Configuración única, toma 30 segundos."
     },
     "step3": {
       "title": "Configurar Ajustes",
