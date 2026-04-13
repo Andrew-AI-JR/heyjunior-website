@@ -501,8 +501,13 @@ function updateInstallationInstructions(platform) {
                     <li>If Windows shows a security warning, click "More info" then "Run anyway"</li>
                     <li>Follow the installation wizard</li>
                     <li>Launch Junior from your desktop or Start menu</li>
-                    <li>Enter your API key when prompted</li>
+                    <li>Check the <strong>"2FA"</strong> checkbox, then click <strong>"Start Automation"</strong></li>
+                    <li>A Chrome window will open — log in to LinkedIn, and Junior will close the window automatically</li>
                 </ol>
+                <p style="margin-top: 15px; padding: 12px; background: #dbeafe; border-radius: 8px; color: #1e40af;">
+                    <strong>💡 First run only:</strong> The LinkedIn login is a one-time setup. Future runs use your saved session.
+                    <a href="setup-guide.html" target="_blank" style="color: #3b82f6; font-weight: 600; text-decoration: underline;">Full setup guide →</a>
+                </p>
             `;
       break;
 
@@ -524,9 +529,12 @@ function updateInstallationInstructions(platform) {
                     <li><strong>Right-click</strong> Junior.app and select "Open" (not double-click!)</li>
                     <li>Click "Open" again in the security dialog</li>
                     <li>Junior will now launch successfully ✅</li>
+                    <li>Check the <strong>"2FA"</strong> checkbox, then click <strong>"Start Automation"</strong></li>
+                    <li>A Chrome window will open — log in to LinkedIn, and Junior will close the window automatically</li>
                 </ol>
                 <p style="margin-top: 15px; padding: 12px; background: #dbeafe; border-radius: 8px; color: #1e40af;">
-                    <strong>💡 Pro tip:</strong> You only need to do the right-click method once. After that, Junior opens normally.
+                    <strong>💡 First run only:</strong> The right-click and LinkedIn login are one-time steps. Future runs work normally.
+                    <a href="setup-guide.html" target="_blank" style="color: #3b82f6; font-weight: 600; text-decoration: underline;">Full setup guide →</a>
                 </p>
             `;
       break;
