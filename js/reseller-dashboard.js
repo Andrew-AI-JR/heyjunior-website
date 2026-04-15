@@ -168,7 +168,8 @@ function wireSelfEnrollButton() {
       }
     } catch (e) {
       if (errorEl) {
-        errorEl.textContent = e.message || 'Something went wrong. Please try again.';
+        const msg = e.message || 'Something went wrong. Please try again.';
+        errorEl.innerHTML = `<strong>Setup failed:</strong> ${escapeHtml(msg)}`;
         errorEl.style.display = 'block';
       }
       btn.disabled = false;
@@ -202,7 +203,7 @@ function wireOnboardingButtons() {
         const wrap = document.getElementById('onboarding-result');
         if (wrap) {
           wrap.style.display = 'block';
-          wrap.innerHTML = `<p class="reseller-note reseller-note-error">${escapeHtml(msg)}</p>`;
+          wrap.innerHTML = `<p class="reseller-note reseller-note-error"><strong>Onboarding failed:</strong> ${escapeHtml(msg)}</p>`;
         } else {
           alert(msg);
         }
