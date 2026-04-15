@@ -32,6 +32,52 @@ function setLoading(loading) {
   showEl('reseller-main', !loading);
 }
 
+function buildOnboardingSupportMessage(message) {
+  const details = message || 'Something went wrong while starting onboarding.';
+  return `${details} If this keeps happening, contact support@heyjunior.ai and include "reseller onboarding".`;
+}
+
+async function fetchOnboardingUrl() {
+  const startRes = await fetchAuth(`${API_BASE_URL}/api/resellers/onboard`, {
+    method: 'POST',
+  });
+
+  if (startRes.status === 429) {
+    throw new Error('Too many requests. Please wait a minute and try again.');
+  }
+
+  if (startRes.ok) {
+    const data = await startRes.json();
+    if (data.onboarding_url) return data.onboarding_url;
+    throw new Error('Onboarding link was not returned. Please try again.');
+  }
+
+  const startErr = await parseApiError(startRes);
+  const shouldTryRefresh =
+    startRes.status >= 500 || /set up reseller account/i.test(startErr) || /already onboarded/i.test(startErr);
+
+  if (!shouldTryRefresh) {
+    throw new Error(startErr);
+  }
+
+  const refreshRes = await fetchAuth(`${API_BASE_URL}/api/resellers/onboard/refresh`);
+  if (refreshRes.status === 429) {
+    throw new Error('Too many requests. Please wait a minute and try again.');
+  }
+  if (refreshRes.ok) {
+    const refreshData = await refreshRes.json();
+    if (refreshData.onboarding_url) return refreshData.onboarding_url;
+  }
+
+  const refreshErr = await parseApiError(refreshRes);
+  throw new Error(`${startErr} (refresh failed: ${refreshErr})`);
+}
+
+async function redirectToOnboarding() {
+  const onboardingUrl = await fetchOnboardingUrl();
+  window.location.href = onboardingUrl;
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
   const token = sessionStorage.getItem('userToken') || sessionStorage.getItem('accessToken');
   if (!token) {
@@ -131,6 +177,11 @@ async function loadResellerView() {
     setLoading(false);
     return;
   }
+  if (status === 'pending') {
+    showEl('reseller-pending', true);
+    setLoading(false);
+    return;
+  }
   if (status === 'active') {
     await loadActiveDashboard();
     setLoading(false);
@@ -152,23 +203,10 @@ function wireSelfEnrollButton() {
     btn.textContent = 'Setting up your account…';
     if (errorEl) errorEl.style.display = 'none';
     try {
-      const res = await fetchAuth(`${API_BASE_URL}/api/resellers/onboard`, {
-        method: 'POST',
-        body: JSON.stringify({}),
-      });
-      if (res.status === 429) {
-        throw new Error('Too many requests. Please wait a minute and try again.');
-      }
-      if (!res.ok) {
-        throw new Error(await parseApiError(res));
-      }
-      const data = await res.json();
-      if (data.onboarding_url) {
-        window.location.href = data.onboarding_url;
-      }
+      await redirectToOnboarding();
     } catch (e) {
       if (errorEl) {
-        const msg = e.message || 'Something went wrong. Please try again.';
+        const msg = buildOnboardingSupportMessage(e.message);
         errorEl.innerHTML = `<strong>Setup failed:</strong> ${escapeHtml(msg)}`;
         errorEl.style.display = 'block';
       }
@@ -184,22 +222,9 @@ function wireOnboardingButtons() {
     connect.onclick = async () => {
       connect.disabled = true;
       try {
-        const res = await fetchAuth(`${API_BASE_URL}/api/resellers/onboard`, {
-          method: 'POST',
-          body: JSON.stringify({}),
-        });
-        if (res.status === 429) {
-          throw new Error('Too many requests. Please wait a minute and try again.');
-        }
-        if (!res.ok) {
-          throw new Error(await parseApiError(res));
-        }
-        const data = await res.json();
-        if (data.onboarding_url) {
-          window.location.href = data.onboarding_url;
-        }
+        await redirectToOnboarding();
       } catch (e) {
-        const msg = e.message || 'Could not start onboarding';
+        const msg = buildOnboardingSupportMessage(e.message || 'Could not start onboarding');
         const wrap = document.getElementById('onboarding-result');
         if (wrap) {
           wrap.style.display = 'block';
