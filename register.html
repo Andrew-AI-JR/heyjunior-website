@@ -106,6 +106,12 @@
                             </label>
                         </div>
                         <small class="platform-note">We'll automatically detect if you have an M1/M2 Mac and provide the correct version.</small>
+                        <div id="windows-help-notice" style="margin-top: 12px; padding: 12px; background: #fef3c7; border-left: 4px solid #f59e0b; border-radius: 6px;">
+                            <p style="margin: 0; font-size: 0.9em; color: #92400e;">
+                                <strong>🖥️ Windows Users:</strong> Windows SmartScreen will show a security warning during install (code-signing certification in progress).
+                                <a href="windows-install-help.html" target="_blank" style="color: #b45309; font-weight: 600; text-decoration: underline;">Click here for install instructions</a>
+                            </p>
+                        </div>
                         <div id="mac-help-notice" style="display: none; margin-top: 12px; padding: 12px; background: #fef3c7; border-left: 4px solid #f59e0b; border-radius: 6px;">
                             <p style="margin: 0; font-size: 0.9em; color: #92400e;">
                                 <strong>🍎 Mac Users:</strong> macOS will show a security warning on first launch. 
@@ -186,6 +192,7 @@
                 <div class="footer-section">
                     <h4>Support</h4>
                     <ul>
+                        <li><a href="windows-install-help.html">Windows Install Help</a></li>
                         <li><a href="mac-install-help.html">macOS Install Help</a></li>
                         <li><a href="portal.html">Login to Account</a></li>
                         <li><a href="terms.html">Terms of Service</a></li>
@@ -242,23 +249,27 @@
                 });
             }
 
-            // Show/hide Mac help notice based on platform selection
+            // Show/hide platform help notices based on platform selection
             const platformRadios = document.querySelectorAll('input[name="platform"]');
             const macHelpNotice = document.getElementById('mac-help-notice');
-            
-            function updateMacHelpVisibility() {
+            const winHelpNotice = document.getElementById('windows-help-notice');
+
+            function updatePlatformHelpVisibility() {
                 const selectedPlatform = document.querySelector('input[name="platform"]:checked')?.value;
                 if (macHelpNotice) {
                     macHelpNotice.style.display = selectedPlatform === 'macos' ? 'block' : 'none';
                 }
+                if (winHelpNotice) {
+                    winHelpNotice.style.display = selectedPlatform === 'windows' ? 'block' : 'none';
+                }
             }
-            
+
             platformRadios.forEach(radio => {
-                radio.addEventListener('change', updateMacHelpVisibility);
+                radio.addEventListener('change', updatePlatformHelpVisibility);
             });
-            
+
             // Initial check
-            updateMacHelpVisibility();
+            updatePlatformHelpVisibility();
         });
     </script>
 </body>
