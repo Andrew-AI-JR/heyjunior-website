@@ -234,28 +234,111 @@
     "tryAgain": "🔄 Intentar de Nuevo"
   },
   "story": {
-    "title": "Mi Historia",
-    "paragraph1": "Quiero compartir cómo encontré el éxito en este terrible mercado laboral.",
-    "paragraph2": "Después de ser despedido dos veces desde 2022 y tener que vender mi casa, sé de primera mano lo brutal que es este mercado laboral. No estoy solo - es realmente difícil para muchas personas.",
-    "paragraph3": "El éxito en la búsqueda de empleo no se trata de enviar currículums en masa. Se trata de conversaciones con personas reales que pueden conectarte con oportunidades reales.",
-    "paragraph4": "El problema que enfrenté fue simple: no podía tener suficientes conversaciones con las personas correctas. En seis semanas, tuve solo una entrevista. Esa entrevista vino de un solo comentario que dejé en una publicación sobre una empresa que estaba contratando. La persona respondió el mismo día, hablamos al día siguiente, y una semana después estaba hablando con el gerente de contratación.",
-    "paragraph5": "La búsqueda de empleo no debería ser sobre esperar una conversación - debería comenzar con una.",
-    "paragraph6": "Por eso construí Junior. Es un motor automatizado de marketing personal entrante que me ayudó a cambiar las cosas. Funcionó tan bien que decidí comenzar una empresa para que puedas tener tu propio Junior.",
-    "paragraph6b": "Elegí construir Junior como una aplicación de escritorio por una razón específica: se ejecuta completamente en tu máquina, usando tu propio navegador y dirección IP. No hay un servidor central que pueda ser detectado o bloqueado. Desde la perspectiva de LinkedIn, simplemente eres una persona activa en la plataforma. Esa decisión arquitectónica es fundamental en todo lo que hace Junior.",
-    "paragraph7": "Si estás luchando para comenzar conversaciones con las personas correctas, te animo a que pruebes Junior.",
-    "paragraph8": "Ten la conversación correcta, en el momento correcto. Desbloquea nuevas oportunidades que pueden cambiar tu vida. Cambió la mía.",
-    "warmRegards": "Saludos cordiales,",
-    "signature": "Andrew Malinow, PhD",
-    "title2": "Fundador, Junior"
+    "hero": {
+      "headline": "Apliqué a 300 empleos y conseguí 1 entrevista",
+      "sub": "No exagero."
+    },
+    "pain": {
+      "intro": "Después de que me despidieran dos veces desde 2022, hacía lo que todos te dicen que hagas:",
+      "b1": "Arreglar tu currículum",
+      "b2": "Aplicar a todos lados",
+      "b3": "Personalizar cada aplicación",
+      "outro1": "Hice eso durante 6 semanas.",
+      "outro2": "Conseguí una entrevista."
+    },
+    "turningPoint": {
+      "title": "Esa entrevista no vino de un currículum",
+      "lead": "Vino de un comentario.",
+      "t1": "Respondí a la publicación de alguien que hablaba de contratar.",
+      "t2": "Me respondieron el mismo día.",
+      "t3": "Hablamos al día siguiente.",
+      "t4": "Una semana después estaba hablando con el gerente de contratación.",
+      "tail": "Esa fue mi única entrevista."
+    },
+    "insight": {
+      "title": "Ahí fue cuando algo hizo clic",
+      "p1": "Aplicar no estaba funcionando.",
+      "p2": "Las conversaciones sí."
+    },
+    "contrast": {
+      "title": "Y una vez que lo ves, no puedes dejar de verlo",
+      "p1": "Piénsalo:",
+      "p2": "Cada gerente de contratación ya está en LinkedIn.",
+      "p3": "Publicando. Comentando. Hablando.",
+      "p4": "Mientras tanto, todos los demás están:",
+      "bad": "subiendo currículums a un agujero negro"
+    },
+    "problem": {
+      "title": "El problema",
+      "p1": "Suena obvio en retrospectiva, pero hacerlo en realidad es horrible.",
+      "p2": "Tienes que:",
+      "b1": "Encontrar las publicaciones correctas",
+      "b2": "Saber qué decir",
+      "b3": "No sonar como un bot",
+      "b4": "Hacerlo de forma constante",
+      "p3": "Intenté hacerlo manualmente.",
+      "p4": "No escala."
+    },
+    "builder": {
+      "title": "Así que construí algo para mí",
+      "p1": "No como una idea de startup.",
+      "p2": "Solo porque lo necesitaba.",
+      "p3": "Algo que:",
+      "b1": "Encuentra publicaciones relevantes",
+      "b2": "Escribe comentarios bien pensados",
+      "b3": "Realmente suena humano",
+      "p4": "Eso se convirtió en Junior."
+    },
+    "whatItDoes": {
+      "title": "Qué hace exactamente (sin relleno)",
+      "b1": "Encuentra publicaciones de personas que están contratando o hablando de vacantes",
+      "b2": "Genera comentarios que inician conversaciones",
+      "b3": "Te ayuda a recibir respuestas en lugar de ser ignorado",
+      "tail": "Eso es todo.",
+      "t1": "Nada de envío masivo de currículums.",
+      "t2": "Nada de mensajes directos spam."
+    },
+    "after": {
+      "title": "Lo que pasó después",
+      "beforeLabel": "En lugar de esto:",
+      "before": "aplicar → esperar → nada",
+      "afterLabel": "Pasó a ser:",
+      "after": "comentar → respuesta → conversación",
+      "imageAlt": "Un comentario generado por Junior en una publicación de contratación, y la respuesta del reclutador agendando contacto",
+      "tail": "Y de ahí es de donde realmente vienen las oportunidades."
+    },
+    "skeptical": {
+      "title": "Si eres escéptico, está bien",
+      "p1": "Yo también lo era.",
+      "p2": "Pero también sé lo que se siente:",
+      "b1": "Aplicar a todo",
+      "b2": "No recibir respuestas",
+      "b3": "Preguntarte qué estás haciendo mal",
+      "tail": "Esto fue lo único que me funcionó."
+    },
+    "offer": {
+      "title": "Si quieres probarlo",
+      "p1": "Lo hice disponible como producto.",
+      "cta": "https://heyjunior.ai/register.html",
+      "bullet1": "Prueba gratis de 14 días",
+      "bullet2": "Sin tarjeta de crédito",
+      "button": "Comienza tu prueba gratis de 14 días"
+    },
+    "close": {
+      "title": "De cualquier forma",
+      "p1": "Deja de depender solo de las aplicaciones.",
+      "p2": "Empieza conversaciones.",
+      "p3": "Ese es todo el juego."
+    }
   },
   "meta": {
     "description": "Junior - Herramienta de Automatización de LinkedIn Impulsada por IA para buscadores de empleo",
     "checkoutDescription": "Obtén la Herramienta de Automatización de LinkedIn - Acceso Beta",
     "successDescription": "Descarga tu Herramienta de Automatización de LinkedIn - Junior",
-    "myStoryDescription": "La historia detrás de Junior - Automatización de LinkedIn Impulsada por IA",
+    "myStoryDescription": "Cómo un comentario llevó a mi única entrevista en 6 semanas — y por qué las conversaciones le ganan a los currículums. La historia detrás de Junior.",
     "title": "Junior - Automatización de LinkedIn Impulsada por IA",
     "checkoutTitle": "Checkout - Herramienta de Automatización de LinkedIn",
     "successTitle": "Éxito - Herramienta de Automatización de LinkedIn",
-    "myStoryTitle": "Mi Historia - Junior"
+    "myStoryTitle": "Apliqué a 300 empleos y conseguí 1 entrevista – Junior"
   }
 }

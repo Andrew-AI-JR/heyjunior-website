@@ -235,28 +235,111 @@
     "tryAgain": "🔄 Try Again"
   },
   "story": {
-    "title": "My Story",
-    "paragraph1": "I want to share how I found success in this terrible job market.",
-    "paragraph2": "After being laid off twice since 2022 and having to sell my house, I know firsthand how brutal this job market is. I'm not alone - it's really difficult out there for so many people.",
-    "paragraph3": "Success in job hunting isn't about volume resume blasts. It's about conversations with real people who can connect you to real opportunities.",
-    "paragraph4": "The problem I faced was simple: I couldn't get enough conversations with the right people. In six weeks, I had just one interview. That interview came from a single comment I left on a post about a company hiring. The person replied the same day, we spoke the next day, and a week later I was talking to the hiring manager.",
-    "paragraph5": "Job seeking shouldn't be about hoping for a conversation - it should start with one.",
-    "paragraph6": "That's why I built Junior. It's an automated inbound personal marketing engine that helped me turn things around. It worked so well that I decided to start a company so you can have your own Junior.",
-    "paragraph6b": "I chose to build Junior as a desktop application for a specific reason: it runs entirely on your machine, using your own browser and IP address. There's no central server that could be detected or blocked. From LinkedIn's perspective, you're just a person being active on the platform. That architectural decision is core to everything Junior does.",
-    "paragraph7": "If you're struggling to start conversations with the right people, I encourage you to give Junior a try.",
-    "paragraph8": "Have the right conversation, at the right time. Unlock new opportunities that can change your life. It changed mine.",
-    "warmRegards": "Warm regards,",
-    "signature": "Andrew Malinow, PhD",
-    "title2": "Founder, Junior"
+    "hero": {
+      "headline": "I applied to 300 jobs and got 1 interview",
+      "sub": "Not exaggerating."
+    },
+    "pain": {
+      "intro": "After being laid off twice since 2022, I was doing what everyone tells you to do:",
+      "b1": "Fix your resume",
+      "b2": "Apply everywhere",
+      "b3": "Tailor every application",
+      "outro1": "I did that for 6 weeks.",
+      "outro2": "I got one interview."
+    },
+    "turningPoint": {
+      "title": "That interview didn't come from a resume",
+      "lead": "It came from a comment.",
+      "t1": "I replied to a post from someone talking about hiring.",
+      "t2": "They responded the same day.",
+      "t3": "We talked the next day.",
+      "t4": "A week later I was speaking with the hiring manager.",
+      "tail": "That was my only interview."
+    },
+    "insight": {
+      "title": "That's when something clicked",
+      "p1": "Applying wasn't working.",
+      "p2": "Conversations were."
+    },
+    "contrast": {
+      "title": "And once you see it, you can't unsee it",
+      "p1": "Think about it:",
+      "p2": "Every hiring manager is already on LinkedIn.",
+      "p3": "They're posting. Commenting. Talking.",
+      "p4": "Meanwhile everyone else is:",
+      "bad": "uploading resumes into a black hole"
+    },
+    "problem": {
+      "title": "The problem",
+      "p1": "This sounds obvious in hindsight, but actually doing it sucks.",
+      "p2": "You have to:",
+      "b1": "Find the right posts",
+      "b2": "Know what to say",
+      "b3": "Not sound like a bot",
+      "b4": "Do it consistently",
+      "p3": "I tried doing it manually.",
+      "p4": "It doesn't scale."
+    },
+    "builder": {
+      "title": "So I built something for myself",
+      "p1": "Not as a startup idea.",
+      "p2": "Just because I needed it.",
+      "p3": "Something that:",
+      "b1": "Finds relevant posts",
+      "b2": "Writes thoughtful comments",
+      "b3": "Actually sounds like a human",
+      "p4": "That turned into Junior."
+    },
+    "whatItDoes": {
+      "title": "What it actually does (no fluff)",
+      "b1": "Finds posts from people hiring or talking about roles",
+      "b2": "Generates comments that start conversations",
+      "b3": "Helps you get replies instead of being ignored",
+      "tail": "That's it.",
+      "t1": "No resume blasting.",
+      "t2": "No spam DMs."
+    },
+    "after": {
+      "title": "What happened after",
+      "beforeLabel": "Instead of this:",
+      "before": "apply → wait → nothing",
+      "afterLabel": "It became:",
+      "after": "comment → reply → conversation",
+      "imageAlt": "A Junior-generated comment on a hiring post, and the recruiter's reply scheduling outreach",
+      "tail": "And that's where opportunities actually come from."
+    },
+    "skeptical": {
+      "title": "If you're skeptical, that's fair",
+      "p1": "I was too.",
+      "p2": "But I also know what it feels like to:",
+      "b1": "Apply to everything",
+      "b2": "Hear nothing back",
+      "b3": "Wonder what you're doing wrong",
+      "tail": "This was the only thing that worked for me."
+    },
+    "offer": {
+      "title": "If you want to try it",
+      "p1": "I made it available as a product.",
+      "cta": "https://heyjunior.ai/register.html",
+      "bullet1": "14-day free trial",
+      "bullet2": "No credit card",
+      "button": "Start your 14-day free trial"
+    },
+    "close": {
+      "title": "Either way",
+      "p1": "Stop relying only on applications.",
+      "p2": "Start conversations.",
+      "p3": "That's the whole game."
+    }
   },
   "meta": {
     "description": "Junior - AI-Powered LinkedIn Automation tool for job seekers",
     "checkoutDescription": "Get LinkedIn Automation Tool - Beta Access",
     "successDescription": "Download your LinkedIn Automation Tool - Junior",
-    "myStoryDescription": "The story behind Junior - AI-Powered LinkedIn Automation",
+    "myStoryDescription": "How one comment led to my only interview in 6 weeks — and why conversations beat resumes. The story behind Junior.",
     "title": "Junior - AI-Powered LinkedIn Automation",
     "checkoutTitle": "Checkout - LinkedIn Automation Tool",
     "successTitle": "Success - LinkedIn Automation Tool",
-    "myStoryTitle": "My Story - Junior"
+    "myStoryTitle": "I applied to 300 jobs and got 1 interview – Junior"
   }
 }
