@@ -20,6 +20,33 @@
       "affordablePrice": "Starting at $29.99/month - 50 AI comments daily (1500/month)"
     }
   },
+  "landingHome": {
+    "hero": {
+      "title": "Start getting interviews from comments — not resumes.",
+      "subtitle": "Junior comments on the right LinkedIn posts for you, in your voice. Real conversations. Real replies. No resume blasting.",
+      "cta": "Start Free Trial",
+      "microcopy": "14-day free trial · No credit card required",
+      "proofLabel": "Real reply from a real LinkedIn conversation:"
+    },
+    "whatItDoes": {
+      "title": "What Junior actually does",
+      "b1": "Finds posts where you should comment",
+      "b2": "Writes personalized comments in your voice",
+      "b3": "Gets people to respond",
+      "b4": "Turns conversations into interviews",
+      "cta": "Start Free Trial",
+      "microcopy": "14-day free trial · No credit card required"
+    },
+    "faqCta": {
+      "lead": "Still applying and hearing nothing back? Try Junior free — no credit card required.",
+      "button": "Start Free Trial"
+    },
+    "finalCta": {
+      "title": "Stop applying. Start conversations.",
+      "button": "Start Free Trial",
+      "microcopy": "14-day free trial · No credit card required"
+    }
+  },
   "features": {
     "title": "Intelligent Engagement Features",
     "aiComments": {
@@ -334,10 +361,12 @@
   },
   "meta": {
     "description": "Junior - AI-Powered LinkedIn Automation tool for job seekers",
+    "homeDescription": "Start getting interviews from conversations instead of resumes. Junior helps you find the right LinkedIn posts, write better comments, and turn replies into interviews.",
     "checkoutDescription": "Get LinkedIn Automation Tool - Beta Access",
     "successDescription": "Download your LinkedIn Automation Tool - Junior",
     "myStoryDescription": "How one comment led to my only interview in 6 weeks — and why conversations beat resumes. The story behind Junior.",
     "title": "Junior - AI-Powered LinkedIn Automation",
+    "homeTitle": "Start getting interviews from comments - Junior",
     "checkoutTitle": "Checkout - LinkedIn Automation Tool",
     "successTitle": "Success - LinkedIn Automation Tool",
     "myStoryTitle": "I applied to 300 jobs and got 1 interview – Junior"

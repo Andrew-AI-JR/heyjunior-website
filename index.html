@@ -4,8 +4,8 @@
     <!-- Junior Website - Version 1.0 - Deployment Test -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Junior - AI-Powered LinkedIn Automation tool for job seekers">
-    <title>Junior - AI-Powered LinkedIn Automation</title>
+    <meta name="description" content="Start getting interviews from conversations instead of resumes. Junior helps you find the right LinkedIn posts, write better comments, and turn replies into interviews.">
+    <title>Start getting interviews from comments - Junior</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,7 +13,9 @@
 
     <!-- Simple i18n system -->
 
+    <!-- Pixel slot: insert Meta / Google / Reddit pixel snippets here. juniorTrack() forwards events only when those globals exist. -->
     <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "c7e2267943804acdb5bfcd009f02f537"}'></script><!-- End Cloudflare Web Analytics -->
+    <script src="js/analytics.js"></script>
 </head>
 <body data-page="home">
     <!-- Navigation -->
@@ -44,43 +46,34 @@
     </nav>
 
     <!-- Hero Section -->
-    <section class="hero">
+    <section class="hero conversion-hero">
         <div class="container">
-            <!-- Free Trial Banner -->
-            <div class="free-month-banner">
-                <span class="free-badge">🎉 FREE TRIAL</span>
-                <span class="free-text">14 Days FREE - <strong>No Credit Card Required</strong></span>
-            </div>
-            
-            <h1>Get More LinkedIn Replies</h1>
-            <p class="hero-audience-line">For Job Seekers, Sales Teams, Recruiters, and Coaches</p>
-            <p class="subtitle" id="hero-dynamic-subtitle">Junior automatically engages hiring posts while you focus on interviews and preparation.</p>
-            
-            <!-- Real Comment Example -->
-            <div class="comment-showcase">
-                <p class="comment-label">Real AI-generated engagement:</p>
-                <img src="./images/comment-1.png" alt="Example AI-generated LinkedIn comment" class="comment-screenshot">
-            </div>
-            
-            <div class="cta-buttons">
-                <a href="register.html" class="primary-button">🚀 Start Your FREE 14-Day Trial</a>
-            </div>
+            <h1 data-i18n="landingHome.hero.title">Start getting interviews from comments — not resumes.</h1>
+            <p class="subtitle" data-i18n="landingHome.hero.subtitle">Junior comments on the right LinkedIn posts for you, in your voice. Real conversations. Real replies. No resume blasting.</p>
 
-            <!-- Reseller Program Strip -->
-            <div class="hero-reseller-strip">
-                <span class="reseller-strip-lead">Earn while you grow Junior.</span>
-                <span class="reseller-strip-body">Join our self-service reseller program and earn 20% lifetime revenue on every customer you refer. Payouts go directly to your Stripe account.</span>
-                <a href="reseller-dashboard.html" class="reseller-strip-cta">Become a Reseller &rarr;</a>
+            <div class="cta-buttons conversion-hero-ctas">
+                <a href="register.html" class="primary-button" data-cta="index-hero" data-i18n="landingHome.hero.cta">Start Free Trial</a>
             </div>
-            
-            <!-- Audience Tabs -->
-            <div class="use-case-badges" role="tablist">
-                <button class="use-case-badge is-active" data-audience="job-seekers" aria-pressed="true">👔 Job Seekers</button>
-                <button class="use-case-badge" data-audience="sales" aria-pressed="false">📈 Sales & Biz Dev</button>
-                <button class="use-case-badge" data-audience="recruiters" aria-pressed="false">🎯 Recruiters</button>
-                <button class="use-case-badge" data-audience="coaches" aria-pressed="false">🏆 Coaches & Consultants</button>
-                <button class="use-case-badge" data-audience="networking" aria-pressed="false">🔗 Networking</button>
+            <p class="hero-microcopy" data-i18n="landingHome.hero.microcopy">14-day free trial · No credit card required</p>
+
+            <div class="comment-showcase hero-proof">
+                <p class="comment-label" data-i18n="landingHome.hero.proofLabel">Real reply from a real LinkedIn conversation:</p>
+                <img src="./images/comment-7.png" alt="Emily Almani replied to a Junior-generated comment" class="comment-screenshot">
             </div>
+        </div>
+    </section>
+
+    <section class="what-it-does">
+        <div class="container narrow-container">
+            <h2 data-i18n="landingHome.whatItDoes.title">What Junior actually does</h2>
+            <ul class="what-list">
+                <li data-i18n="landingHome.whatItDoes.b1">Finds posts where you should comment</li>
+                <li data-i18n="landingHome.whatItDoes.b2">Writes personalized comments in your voice</li>
+                <li data-i18n="landingHome.whatItDoes.b3">Gets people to respond</li>
+                <li data-i18n="landingHome.whatItDoes.b4">Turns conversations into interviews</li>
+            </ul>
+            <a href="register.html" class="primary-button" data-cta="index-what" data-i18n="landingHome.whatItDoes.cta">Start Free Trial</a>
+            <p class="cta-microcopy" data-i18n="landingHome.whatItDoes.microcopy">14-day free trial · No credit card required</p>
         </div>
     </section>
 
@@ -204,7 +197,7 @@
                 </div>
             </div>
             <div class="comparison-cta">
-                <a href="register.html" class="primary-button">Get Started with Junior</a>
+                <a href="register.html" class="primary-button" data-cta="index-comparison">Get Started with Junior</a>
                 <p class="comparison-note">🔒 30-day money-back guarantee • Cancel anytime</p>
             </div>
         </div>
@@ -366,6 +359,10 @@
                     <p>Most users report their first hiring manager response within 3-7 days. By week 2, you should have multiple conversations going. Remember: networking is a numbers game, and Junior plays it better than manual effort ever could.</p>
                 </div>
             </div>
+            <div class="faq-cta">
+                <p data-i18n="landingHome.faqCta.lead">Still applying and hearing nothing back? Try Junior free — no credit card required.</p>
+                <a href="register.html" class="primary-button" data-cta="index-faq" data-i18n="landingHome.faqCta.button">Start Free Trial</a>
+            </div>
         </div>
     </section>
 
@@ -402,7 +399,7 @@
                         <li>✅ <span data-i18n="pricing.features.support">Email support</span></li>
                         <li>✅ <span data-i18n="pricing.features.cancelAnytime">Cancel anytime</span></li>
                     </ul>
-                    <a href="register.html?plan=standard" class="primary-button" style="margin-top: 20px;">Start FREE Trial</a>
+                    <a href="register.html?plan=standard" class="primary-button" data-cta="index-pricing-standard" style="margin-top: 20px;">Start FREE Trial</a>
                 </div>
                 
                 <div class="pricing-card">
@@ -422,10 +419,18 @@
                         <li>✅ <span data-i18n="pricing.features.earlyAccess">Early access to new features</span></li>
                         <li>✅ <span data-i18n="pricing.features.cancelAnytime">Cancel anytime</span></li>
                     </ul>
-                    <a href="register.html?plan=pro" class="primary-button" style="margin-top: 20px;">Start FREE Trial</a>
+                    <a href="register.html?plan=pro" class="primary-button" data-cta="index-pricing-pro" style="margin-top: 20px;">Start FREE Trial</a>
                 </div>
             </div>
             <p class="pricing-guarantee">🔒 30-Day Money-Back Guarantee • Cancel Anytime</p>
+        </div>
+    </section>
+
+    <section class="home-final-cta">
+        <div class="container narrow-container">
+            <h2 data-i18n="landingHome.finalCta.title">Stop applying. Start conversations.</h2>
+            <a href="register.html" class="primary-button" data-cta="index-final" data-i18n="landingHome.finalCta.button">Start Free Trial</a>
+            <p class="cta-microcopy" data-i18n="landingHome.finalCta.microcopy">14-day free trial · No credit card required</p>
         </div>
     </section>
 
@@ -453,6 +458,7 @@
                         <li><a href="setup-guide.html">First Launch Setup Guide</a></li>
                         <li><a href="windows-install-help.html">Windows Install Help</a></li>
                         <li><a href="mac-install-help.html">macOS Install Help</a></li>
+                        <li><a href="reseller-dashboard.html">Reseller Dashboard</a></li>
                         <li><a href="https://billing.stripe.com/p/login/28EfZjeBvdfSdjF5us3cc00" target="_blank">Manage Subscription</a></li>
                     </ul>
                 </div>
@@ -509,66 +515,6 @@
         });
     </script>
     
-    <!-- Hero Audience Rotation -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var audiences = {
-                'job-seekers': 'Junior automatically engages hiring posts while you focus on interviews and preparation.',
-                'sales': 'Junior helps you stay visible with prospects and decision-makers so you can focus on closing.',
-                'recruiters': 'Junior keeps you active in talent conversations so more candidates discover and trust your brand.',
-                'coaches': 'Junior helps you show up consistently in relevant discussions to build authority and attract clients.',
-                'networking': 'Junior keeps your LinkedIn presence active so you build meaningful relationships without a daily manual grind.'
-            };
-            var keys = Object.keys(audiences);
-            var currentIdx = 0;
-            var subtitleEl = document.getElementById('hero-dynamic-subtitle');
-            var badges = document.querySelectorAll('.use-case-badge[data-audience]');
-            var rotateTimer = null;
-            var resumeTimer = null;
-            var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-            function switchTo(idx) {
-                var key = keys[idx];
-                subtitleEl.classList.add('is-fading');
-                setTimeout(function() {
-                    subtitleEl.textContent = audiences[key];
-                    subtitleEl.classList.remove('is-fading');
-                }, 400);
-                badges.forEach(function(b) {
-                    var isMatch = b.getAttribute('data-audience') === key;
-                    b.classList.toggle('is-active', isMatch);
-                    b.setAttribute('aria-pressed', isMatch ? 'true' : 'false');
-                });
-                currentIdx = idx;
-            }
-
-            function startRotation() {
-                if (prefersReducedMotion) return;
-                stopRotation();
-                rotateTimer = setInterval(function() {
-                    switchTo((currentIdx + 1) % keys.length);
-                }, 5000);
-            }
-
-            function stopRotation() {
-                if (rotateTimer) { clearInterval(rotateTimer); rotateTimer = null; }
-                if (resumeTimer) { clearTimeout(resumeTimer); resumeTimer = null; }
-            }
-
-            badges.forEach(function(badge, i) {
-                badge.addEventListener('click', function() {
-                    var idx = keys.indexOf(badge.getAttribute('data-audience'));
-                    if (idx === -1) return;
-                    switchTo(idx);
-                    stopRotation();
-                    resumeTimer = setTimeout(startRotation, 10000);
-                });
-            });
-
-            startRotation();
-        });
-    </script>
-
     <!-- Mobile Navigation Toggle -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {

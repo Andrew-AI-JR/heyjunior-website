@@ -20,6 +20,33 @@
       "affordablePrice": "Comenzando desde $29.99/mes - 50 comentarios de IA diarios (1500/mes)"
     }
   },
+  "landingHome": {
+    "hero": {
+      "title": "Empieza a conseguir entrevistas a partir de comentarios — no de currículums.",
+      "subtitle": "Junior comenta en las publicaciones correctas de LinkedIn por ti, con tu voz. Conversaciones reales. Respuestas reales. Sin enviar currículums al vacío.",
+      "cta": "Comienza la prueba gratis",
+      "microcopy": "Prueba gratis de 14 días · Sin tarjeta de crédito",
+      "proofLabel": "Respuesta real de una conversación real en LinkedIn:"
+    },
+    "whatItDoes": {
+      "title": "Qué hace realmente Junior",
+      "b1": "Encuentra las publicaciones en las que deberías comentar",
+      "b2": "Escribe comentarios personalizados con tu voz",
+      "b3": "Consigue que la gente responda",
+      "b4": "Convierte conversaciones en entrevistas",
+      "cta": "Comienza la prueba gratis",
+      "microcopy": "Prueba gratis de 14 días · Sin tarjeta de crédito"
+    },
+    "faqCta": {
+      "lead": "¿Sigues aplicando y no recibes respuestas? Prueba Junior gratis — sin tarjeta de crédito.",
+      "button": "Comienza la prueba gratis"
+    },
+    "finalCta": {
+      "title": "Deja de aplicar. Empieza conversaciones.",
+      "button": "Comienza la prueba gratis",
+      "microcopy": "Prueba gratis de 14 días · Sin tarjeta de crédito"
+    }
+  },
   "features": {
     "title": "Características de Interacción Inteligente",
     "aiComments": {
@@ -333,10 +360,12 @@
   },
   "meta": {
     "description": "Junior - Herramienta de Automatización de LinkedIn Impulsada por IA para buscadores de empleo",
+    "homeDescription": "Empieza a conseguir entrevistas a partir de conversaciones en lugar de currículums. Junior te ayuda a encontrar las publicaciones correctas de LinkedIn, escribir mejores comentarios y convertir respuestas en entrevistas.",
     "checkoutDescription": "Obtén la Herramienta de Automatización de LinkedIn - Acceso Beta",
     "successDescription": "Descarga tu Herramienta de Automatización de LinkedIn - Junior",
     "myStoryDescription": "Cómo un comentario llevó a mi única entrevista en 6 semanas — y por qué las conversaciones le ganan a los currículums. La historia detrás de Junior.",
     "title": "Junior - Automatización de LinkedIn Impulsada por IA",
+    "homeTitle": "Empieza a conseguir entrevistas a partir de comentarios - Junior",
     "checkoutTitle": "Checkout - Herramienta de Automatización de LinkedIn",
     "successTitle": "Éxito - Herramienta de Automatización de LinkedIn",
     "myStoryTitle": "Apliqué a 300 empleos y conseguí 1 entrevista – Junior"

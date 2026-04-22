@@ -172,6 +172,12 @@ async function handleRegistration(e) {
             sessionStorage.setItem('userId', data.id.toString());
             sessionStorage.setItem('userEmail', data.email || email);
         }
+
+        if (window.juniorTrack) {
+            window.juniorTrack('register_completed', {
+                userId: data.id || null
+            });
+        }
         
         // Auto-login the user after registration
         try {

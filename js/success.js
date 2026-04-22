@@ -141,6 +141,12 @@ async function verifyPaymentAndSetupAccount(sessionId, userId) {
   }
 
   if (data.success && data.subscription_active) {
+    if (window.juniorTrack) {
+      window.juniorTrack('subscription_completed', {
+        sessionId: sessionId
+      });
+    }
+
     if (data.access_token) {
       sessionStorage.setItem('accessToken', data.access_token);
     }

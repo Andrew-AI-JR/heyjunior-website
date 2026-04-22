@@ -193,7 +193,9 @@ function updateMetaTags() {
     const pageType = document.body.getAttribute('data-page');
     let descKey = 'meta.description';
 
-    if (pageType === 'checkout') {
+    if (pageType === 'home') {
+      descKey = 'meta.homeDescription';
+    } else if (pageType === 'checkout') {
       descKey = 'meta.checkoutDescription';
     } else if (pageType === 'success') {
       descKey = 'meta.successDescription';
@@ -215,7 +217,9 @@ function updatePageTitle() {
     const pageType = document.body.getAttribute('data-page');
     let titleKey = 'meta.title';
 
-    if (pageType === 'checkout') {
+    if (pageType === 'home') {
+      titleKey = 'meta.homeTitle';
+    } else if (pageType === 'checkout') {
       titleKey = 'meta.checkoutTitle';
     } else if (pageType === 'success') {
       titleKey = 'meta.successTitle';
