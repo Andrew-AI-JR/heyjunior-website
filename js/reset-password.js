@@ -1,4 +1,4 @@
-/* reset-password.js — POST /api/users/reset-password */
+/* reset-password.js — POST /api/users/reset-password (token from ?token=) */
 
 const API_BASE_URL = window.getApiBaseUrl();
 
@@ -20,6 +20,13 @@ function parseErrorFromResponse(data) {
     return 'Something went wrong. Please try again.';
 }
 
+/** API returns 400 with invalid/expired reset token. */
+function isInvalidOrExpiredResetToken(status, message) {
+    if (status !== 400) return false;
+    const m = (message || '').toLowerCase();
+    return m.includes('invalid') && (m.includes('expired') || m.includes('token'));
+}
+
 function validatePasswordPair(password, confirmPassword) {
     if (!password || password.length < 8) {
         return 'Password must be at least 8 characters long.';
@@ -34,7 +41,7 @@ function validatePasswordPair(password, confirmPassword) {
 }
 
 function validatePasswordMatch() {
-    const password = document.getElementById('reset-password').value;
+    const password = document.getElementById('reset-password-field').value;
     const confirmPassword = document.getElementById('reset-confirm-password').value;
     const confirmField = document.getElementById('reset-confirm-password');
     if (confirmPassword && password !== confirmPassword) {
@@ -53,14 +60,20 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('reset-form-wrap').style.display = 'flex';
 
     document.getElementById('reset-confirm-password')?.addEventListener('input', validatePasswordMatch);
-    document.getElementById('reset-password')?.addEventListener('input', validatePasswordMatch);
+    document.getElementById('reset-password-field')?.addEventListener('input', validatePasswordMatch);
     document.getElementById('reset-form')?.addEventListener('submit', (e) => handleResetPassword(e, token));
 });
+
+function showExpiredTokenState() {
+    document.getElementById('reset-form-wrap').style.display = 'none';
+    document.getElementById('reset-error').style.display = 'none';
+    document.getElementById('reset-expired-wrap').style.display = 'flex';
+}
 
 async function handleResetPassword(event, token) {
     event.preventDefault();
 
-    const password = document.getElementById('reset-password').value;
+    const password = document.getElementById('reset-password-field').value;
     const confirmPassword = document.getElementById('reset-confirm-password').value;
     const btn = document.getElementById('reset-button');
     const btnText = document.getElementById('reset-button-text');
@@ -95,7 +108,12 @@ async function handleResetPassword(event, token) {
         }
 
         if (!response.ok) {
-            throw new Error(parseErrorFromResponse(data));
+            const errMsg = parseErrorFromResponse(data);
+            if (isInvalidOrExpiredResetToken(response.status, errMsg)) {
+                showExpiredTokenState();
+                return;
+            }
+            throw new Error(errMsg);
         }
 
         if (data.message) {

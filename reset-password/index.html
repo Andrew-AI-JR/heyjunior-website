@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Choose a new password for your Junior account">
+    <title>Set New Password - Junior</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body data-page="reset-password" class="i18n-ready">
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <a href="/">
+                    <img src="/images/junior-logo.png" alt="Junior Logo" class="logo-img">
+                </a>
+            </div>
+            <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <div class="nav-group">
+                    <li><a href="/#features">Features</a></li>
+                    <li><a href="/#pricing">Pricing</a></li>
+                </div>
+                <div class="nav-actions">
+                    <li><a href="/portal.html" class="cta-button">My Account</a></li>
+                </div>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="portal-container">
+        <div class="container">
+            <div id="reset-invalid-wrap" class="login-section" style="display: none;">
+                <div class="login-card">
+                    <h2>Invalid or expired link</h2>
+                    <p class="login-subtitle">This page needs a valid reset token in the link from your email. Request a new reset email if you need one.</p>
+                    <p style="margin-top: 20px;">
+                        <a href="/forgot-password.html" class="primary-button" style="display: inline-block; text-decoration: none; text-align: center;">Request reset email</a>
+                    </p>
+                    <div class="login-footer">
+                        <p><a href="/portal.html">Back to login</a></p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="reset-expired-wrap" class="login-section" style="display: none;">
+                <div class="login-card">
+                    <h2>Link no longer valid</h2>
+                    <p class="login-subtitle">This reset link is invalid or has expired. You can request a new one—we will email you if the account exists.</p>
+                    <p style="margin-top: 20px;">
+                        <a href="/forgot-password.html" class="primary-button" style="display: inline-block; text-decoration: none; text-align: center;">Request a new link</a>
+                    </p>
+                    <div class="login-footer">
+                        <p><a href="/portal.html">Back to login</a></p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="reset-form-wrap" class="login-section" style="display: none;">
+                <div class="login-card">
+                    <h2>Choose a new password</h2>
+                    <p class="login-subtitle">Enter and confirm your new password.</p>
+                    <form id="reset-form">
+                        <div class="form-group">
+                            <label for="reset-password-field">New password</label>
+                            <input type="password" id="reset-password-field" placeholder="New password" required minlength="8" autocomplete="new-password">
+                            <small class="password-help">Minimum 8 characters, must contain at least one uppercase letter</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="reset-confirm-password">Confirm password</label>
+                            <input type="password" id="reset-confirm-password" placeholder="Confirm password" required autocomplete="new-password">
+                        </div>
+                        <div id="reset-error" class="error-message" style="display: none;"></div>
+                        <button type="submit" class="primary-button" id="reset-button">
+                            <span id="reset-button-text">Update password</span>
+                        </button>
+                    </form>
+                    <div class="login-footer">
+                        <p><a href="/portal.html">Back to login</a></p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="reset-success-wrap" class="login-section" style="display: none;">
+                <div class="login-card">
+                    <h2>Password updated</h2>
+                    <p class="login-subtitle" id="reset-success-message">You can now sign in with your new password.</p>
+                    <p style="margin-top: 20px;">
+                        <a href="/portal.html" class="primary-button" style="display: inline-block; text-decoration: none; text-align: center;">Go to login</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 Junior. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/js/api-config.js"></script>
+    <script src="/js/reset-password.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const mobileToggle = document.querySelector('.mobile-menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            if (!mobileToggle || !navLinks) return;
+            mobileToggle.addEventListener('click', function () {
+                this.classList.toggle('active');
+                navLinks.classList.toggle('active');
+            });
+            navLinks.querySelectorAll('a').forEach(function (link) {
+                link.addEventListener('click', function () {
+                    mobileToggle.classList.remove('active');
+                    navLinks.classList.remove('active');
+                });
+            });
+            document.addEventListener('click', function (event) {
+                if (!navLinks.classList.contains('active')) return;
+                if (!navLinks.contains(event.target) && !mobileToggle.contains(event.target)) {
+                    mobileToggle.classList.remove('active');
+                    navLinks.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
