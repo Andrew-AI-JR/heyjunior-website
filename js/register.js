@@ -81,17 +81,17 @@ function loadReferralCode() {
 async function handleRegistration(e) {
     e.preventDefault();
     
-    const email = document.getElementById('reg-email').value.trim();
-    const password = document.getElementById('reg-password').value;
-    const confirmPassword = document.getElementById('reg-confirm-password').value;
-    const termsAccepted = document.getElementById('terms-agree-register')?.checked === true;
-    const registerButton = document.getElementById('register-button');
-    const registerButtonText = document.getElementById('register-button-text');
-    const registerError = document.getElementById('register-error');
+    var email = document.getElementById('reg-email').value.trim();
+    var password = document.getElementById('reg-password').value;
+    var confirmPassword = document.getElementById('reg-confirm-password').value;
+    var termsAccepted = document.getElementById('terms-agree-register')?.checked === true;
+    var registerButton = document.getElementById('register-button');
+    var registerButtonText = document.getElementById('register-button-text');
+    var registerError = document.getElementById('register-error');
     
     registerError.style.display = 'none';
     
-    const validationError = validateRegistrationForm(email, password, confirmPassword, termsAccepted);
+    var validationError = validateRegistrationForm(email, password, confirmPassword, termsAccepted);
     if (validationError) {
         registerError.textContent = validationError;
         registerError.style.display = 'block';
@@ -99,55 +99,50 @@ async function handleRegistration(e) {
     }
     
     registerButton.disabled = true;
-    registerButtonText.textContent = 'Registering...';
+    registerButtonText.textContent = 'Creating account...';
+    console.log('[Register] registration request started');
 
-    var registrationTimeout = setTimeout(function () {
-        console.error('[Register] Registration timed out after 15s');
-        registerError.textContent = 'Registration is taking too long. Please check your connection and try again.';
-        registerError.style.display = 'block';
-        registerButton.disabled = false;
-        registerButtonText.textContent = 'Register';
-    }, 15000);
+    var abortController = new AbortController();
+    var timeoutId = setTimeout(function () {
+        abortController.abort();
+    }, 12000);
     
     try {
-        const referralCode = document.getElementById('referral-code-field').value;
+        var referralCode = document.getElementById('referral-code-field').value;
         
-        const requestBody = {
-            email: email,
-            password: password
-        };
-        
+        var requestBody = { email: email, password: password };
         if (referralCode) {
             requestBody.referral_code = referralCode.toUpperCase();
-            console.log('Including referral code in registration:', referralCode);
+            console.log('[Register] including referral code:', referralCode);
         }
         
-        const response = await fetch(`${API_BASE_URL}/api/users/register`, {
+        var response = await fetch(API_BASE_URL + '/api/users/register', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(requestBody)
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(requestBody),
+            signal: abortController.signal
         });
 
-        clearTimeout(registrationTimeout);
+        clearTimeout(timeoutId);
+        console.log('[Register] registration response received, status:', response.status);
         
-        const contentType = response.headers.get('content-type');
-        let data;
+        var contentType = response.headers.get('content-type');
+        var data;
         
         if (contentType && contentType.includes('application/json')) {
             data = await response.json();
         } else {
-            const text = await response.text();
-            console.error('Non-JSON response:', text);
+            var text = await response.text();
+            console.error('[Register] non-JSON response:', text);
             throw new Error(text || 'Registration failed. Please try again.');
         }
         
         if (!response.ok) {
-            let errorMessage = 'Registration failed. Please try again.';
+            console.log('[Register] registration failed:', response.status, data);
+            var errorMessage = 'Registration failed. Please try again.';
             if (data.detail) {
                 if (Array.isArray(data.detail)) {
-                    errorMessage = data.detail.map(err => err.msg || err.message || 'Validation error').join('. ');
+                    errorMessage = data.detail.map(function (err) { return err.msg || err.message || 'Validation error'; }).join('. ');
                 } else if (typeof data.detail === 'string') {
                     errorMessage = data.detail;
                 } else {
@@ -164,9 +159,9 @@ async function handleRegistration(e) {
             throw new Error(errorMessage);
         }
         
-        // --- Registration succeeded. Show immediate confirmation. ---
-        console.log('Registration successful:', data);
-        registerButtonText.textContent = 'Account created!';
+        // --- Account created. Everything below is success-path only. ---
+        console.log('[Register] registration success:', data);
+        registerButtonText.textContent = 'Account created. Redirecting...';
         
         if (data.id) {
             sessionStorage.setItem('userId', data.id.toString());
@@ -174,83 +169,58 @@ async function handleRegistration(e) {
         }
 
         if (window.juniorTrack) {
-            window.juniorTrack('register_completed', {
-                userId: data.id || null
-            });
-        }
-        
-        // Auto-login (best-effort, non-blocking for the user)
-        try {
-            const loginResponse = await fetch(`${API_BASE_URL}/api/users/token`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: new URLSearchParams({
-                    username: email,
-                    password: password
-                })
-            });
-            
-            if (loginResponse.ok) {
-                const loginData = await loginResponse.json();
-                if (loginData.access_token) {
-                    sessionStorage.setItem('userToken', loginData.access_token);
-                    currentUserToken = loginData.access_token;
-                }
-                if (loginData.refresh_token) {
-                    sessionStorage.setItem('refreshToken', loginData.refresh_token);
-                }
-            }
-        } catch (loginError) {
-            console.warn('Auto-login after registration failed:', loginError);
+            window.juniorTrack('register_completed', { userId: data.id || null });
         }
         
         if (referralCode) {
             localStorage.removeItem('referralCode');
             localStorage.removeItem('referralTimestamp');
         }
-        
-        // --- Attempt download, then always redirect. Never block the user. ---
-        registerButtonText.textContent = 'Account created! Starting download...';
-        const downloadFallback = document.getElementById('register-download-fallback');
-        const downloadLink = document.getElementById('register-download-link');
 
-        try {
-            await startAppDownload();
-            console.log('[Register] startAppDownload completed');
-        } catch (downloadError) {
-            console.warn('[Register] Download failed or was blocked:', downloadError.message);
-        }
+        // Auto-login is fire-and-forget. Do NOT await it before redirecting.
+        autoLoginAfterRegister(email, password);
 
-        // Always show the fallback download link
-        try {
-            if (window.juniorReleaseManager && downloadFallback && downloadLink) {
-                const url = await window.juniorReleaseManager.getDownloadUrl('auto');
-                if (url) {
-                    downloadLink.href = url;
-                    downloadFallback.style.display = 'block';
-                }
-            }
-        } catch (fallbackError) {
-            console.warn('[Register] Could not build fallback link:', fallbackError.message);
-        }
-
-        // Always redirect to portal after a short delay
-        registerButtonText.textContent = 'Success! Redirecting...';
-        console.log('[Register] Redirecting to portal in 2s');
+        // Redirect to portal immediately. Download happens there, not here.
+        console.log('[Register] redirecting to portal in 1s');
         setTimeout(function () {
             window.location.href = 'portal.html';
-        }, 2000);
+        }, 1000);
         
     } catch (error) {
-        clearTimeout(registrationTimeout);
-        console.error('Registration error:', error);
-        registerError.textContent = error.message || 'Something went wrong. Please try again.';
+        clearTimeout(timeoutId);
+
+        var msg;
+        if (error.name === 'AbortError') {
+            msg = 'Registration is taking too long. Please check your connection and try again.';
+            console.error('[Register] registration request timed out');
+        } else {
+            msg = error.message || 'Something went wrong. Please try again.';
+            console.error('[Register] registration error:', error);
+        }
+
+        registerError.textContent = msg;
         registerError.style.display = 'block';
         registerButton.disabled = false;
         registerButtonText.textContent = 'Register';
     }
+}
+
+function autoLoginAfterRegister(email, password) {
+    console.log('[Register] auto-login started (fire-and-forget)');
+    fetch(API_BASE_URL + '/api/users/token', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({ username: email, password: password })
+    }).then(function (resp) {
+        if (!resp.ok) throw new Error('login response ' + resp.status);
+        return resp.json();
+    }).then(function (loginData) {
+        if (loginData.access_token) sessionStorage.setItem('userToken', loginData.access_token);
+        if (loginData.refresh_token) sessionStorage.setItem('refreshToken', loginData.refresh_token);
+        console.log('[Register] auto-login success');
+    }).catch(function (err) {
+        console.warn('[Register] auto-login failed (non-fatal):', err.message);
+    });
 }
 
 function validateRegistrationForm(email, password, confirmPassword, termsAccepted) {
@@ -283,15 +253,3 @@ function validateEmail(email) {
     return emailRegex.test(email);
 }
 
-async function startAppDownload() {
-    if (!window.juniorReleaseManager) {
-        console.log('[Register] Release manager not ready, waiting 1s');
-        await new Promise(resolve => setTimeout(resolve, 1000));
-    }
-    if (!window.juniorReleaseManager) {
-        console.error('[Register] Release manager unavailable');
-        throw new Error('Download service unavailable. Please refresh the page or contact support@heyjunior.ai');
-    }
-    console.log('[Register] Triggering download for detected system (platform: auto)');
-    await window.juniorReleaseManager.triggerDownload('auto');
-}
