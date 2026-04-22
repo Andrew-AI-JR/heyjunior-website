@@ -89,10 +89,8 @@ async function handleRegistration(e) {
     const registerButtonText = document.getElementById('register-button-text');
     const registerError = document.getElementById('register-error');
     
-    // Clear previous errors
     registerError.style.display = 'none';
     
-    // Validate form
     const validationError = validateRegistrationForm(email, password, confirmPassword, termsAccepted);
     if (validationError) {
         registerError.textContent = validationError;
@@ -100,27 +98,30 @@ async function handleRegistration(e) {
         return;
     }
     
-        // Show loading state
-        registerButton.disabled = true;
-        registerButtonText.textContent = 'Registering...';
+    registerButton.disabled = true;
+    registerButtonText.textContent = 'Registering...';
+
+    var registrationTimeout = setTimeout(function () {
+        console.error('[Register] Registration timed out after 15s');
+        registerError.textContent = 'Registration is taking too long. Please check your connection and try again.';
+        registerError.style.display = 'block';
+        registerButton.disabled = false;
+        registerButtonText.textContent = 'Register';
+    }, 15000);
     
     try {
-        // Get referral code from hidden field
         const referralCode = document.getElementById('referral-code-field').value;
         
-        // Build request body
         const requestBody = {
             email: email,
             password: password
         };
         
-        // Include referral code if available
         if (referralCode) {
             requestBody.referral_code = referralCode.toUpperCase();
             console.log('Including referral code in registration:', referralCode);
         }
         
-        // Register user
         const response = await fetch(`${API_BASE_URL}/api/users/register`, {
             method: 'POST',
             headers: {
@@ -128,8 +129,9 @@ async function handleRegistration(e) {
             },
             body: JSON.stringify(requestBody)
         });
+
+        clearTimeout(registrationTimeout);
         
-        // Check content type before parsing
         const contentType = response.headers.get('content-type');
         let data;
         
@@ -142,7 +144,6 @@ async function handleRegistration(e) {
         }
         
         if (!response.ok) {
-            // Handle validation errors (422) - detail is an array
             let errorMessage = 'Registration failed. Please try again.';
             if (data.detail) {
                 if (Array.isArray(data.detail)) {
@@ -156,7 +157,6 @@ async function handleRegistration(e) {
                 errorMessage = data.message;
             }
             
-            // Handle account already exists
             if (response.status === 409 || errorMessage.toLowerCase().includes('already exists')) {
                 errorMessage = 'An account with this email already exists. Please login instead.';
             }
@@ -164,10 +164,10 @@ async function handleRegistration(e) {
             throw new Error(errorMessage);
         }
         
-        // Registration successful
+        // --- Registration succeeded. Show immediate confirmation. ---
         console.log('Registration successful:', data);
+        registerButtonText.textContent = 'Account created!';
         
-        // Save user data
         if (data.id) {
             sessionStorage.setItem('userId', data.id.toString());
             sessionStorage.setItem('userEmail', data.email || email);
@@ -179,7 +179,7 @@ async function handleRegistration(e) {
             });
         }
         
-        // Auto-login the user after registration
+        // Auto-login (best-effort, non-blocking for the user)
         try {
             const loginResponse = await fetch(`${API_BASE_URL}/api/users/token`, {
                 method: 'POST',
@@ -203,59 +203,50 @@ async function handleRegistration(e) {
                 }
             }
         } catch (loginError) {
-            console.warn('Auto-login after registration failed, user will need to login manually:', loginError);
-            // Continue anyway - user can login manually
+            console.warn('Auto-login after registration failed:', loginError);
         }
         
-        // Clear referral code after successful registration (it's been used)
         if (referralCode) {
             localStorage.removeItem('referralCode');
             localStorage.removeItem('referralTimestamp');
-            console.log('Referral code cleared after successful registration');
         }
         
-        // Show success message and start download for user's system (detected platform)
-        console.log('[Register] Registration successful, starting automatic download');
-        registerButtonText.textContent = 'Account Created! Starting download...';
+        // --- Attempt download, then always redirect. Never block the user. ---
+        registerButtonText.textContent = 'Account created! Starting download...';
         const downloadFallback = document.getElementById('register-download-fallback');
         const downloadLink = document.getElementById('register-download-link');
+
         try {
             await startAppDownload();
             console.log('[Register] startAppDownload completed');
-            // Show visible fallback link in case auto-download was blocked (e.g. popup blocker)
+        } catch (downloadError) {
+            console.warn('[Register] Download failed or was blocked:', downloadError.message);
+        }
+
+        // Always show the fallback download link
+        try {
             if (window.juniorReleaseManager && downloadFallback && downloadLink) {
                 const url = await window.juniorReleaseManager.getDownloadUrl('auto');
                 if (url) {
                     downloadLink.href = url;
                     downloadFallback.style.display = 'block';
-                    console.log('[Register] Fallback download link shown (user can click if download did not start)');
                 }
             }
-            console.log('[Register] Redirecting to portal in 2s');
-            setTimeout(() => {
-                window.location.href = 'portal.html';
-            }, 2000);
-        } catch (downloadError) {
-            console.error('[Register] Download error:', downloadError);
-            if (window.juniorReleaseManager && downloadFallback && downloadLink) {
-                window.juniorReleaseManager.getDownloadUrl('auto').then(url => {
-                    if (url) {
-                        downloadLink.href = url;
-                        downloadFallback.style.display = 'block';
-                        console.log('[Register] Fallback download link shown after error');
-                    }
-                }).catch(() => {});
-            }
-            registerButtonText.textContent = 'Account created! Redirecting...';
-            console.log('[Register] Redirecting to portal in 2s (after download error)');
-            setTimeout(() => {
-                window.location.href = 'portal.html';
-            }, 2000);
+        } catch (fallbackError) {
+            console.warn('[Register] Could not build fallback link:', fallbackError.message);
         }
+
+        // Always redirect to portal after a short delay
+        registerButtonText.textContent = 'Success! Redirecting...';
+        console.log('[Register] Redirecting to portal in 2s');
+        setTimeout(function () {
+            window.location.href = 'portal.html';
+        }, 2000);
         
     } catch (error) {
+        clearTimeout(registrationTimeout);
         console.error('Registration error:', error);
-        registerError.textContent = error.message || 'Registration failed. Please check your information and try again.';
+        registerError.textContent = error.message || 'Something went wrong. Please try again.';
         registerError.style.display = 'block';
         registerButton.disabled = false;
         registerButtonText.textContent = 'Register';
