@@ -6025,3 +6025,23 @@ section, div {
     font-weight: 500;
     color: #475569;
 }
+
+.rl-demo-label {
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: #0f172a;
+    margin: 0 0 0.75rem;
+    text-align: center;
+}
+
+.rl-demo-container {
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+}
+
+.rl-demo-video {
+    display: block;
+    width: 100%;
+    height: auto;
+}

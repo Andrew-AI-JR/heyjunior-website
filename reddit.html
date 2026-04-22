@@ -31,6 +31,16 @@
             <p class="rl-microcopy">No credit card &#183; Takes 60 seconds &#183; Works immediately</p>
         </section>
 
+        <section class="rl-section rl-demo-section">
+            <p class="rl-demo-label">See exactly how this works in 30 seconds &#8595;</p>
+            <div class="rl-demo-container">
+                <video autoplay loop muted playsinline class="rl-demo-video">
+                    <source src="./demo.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </section>
+
         <section class="rl-section">
             <h2 class="rl-h2">What Junior does:</h2>
             <ul class="rl-list">
@@ -101,6 +111,16 @@
             <p class="rl-microcopy">No credit card &#183; Takes 60 seconds &#183; Works immediately</p>
         </section>
     </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var video = document.querySelector('.rl-demo-video');
+            if (video) {
+                video.muted = true;
+                video.play().catch(function() {});
+            }
+        });
+    </script>
 
     <footer class="reddit-footer">
         <div class="reddit-shell">
