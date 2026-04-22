@@ -6006,3 +6006,22 @@ section, div {
         padding: 56px 0;
     }
 }
+
+.rl-hero-h2 {
+    font-size: 1.45rem;
+    font-weight: 700;
+    margin: 0 0 0.75rem;
+    color: #0f172a;
+    line-height: 1.25;
+}
+
+.rl-below-fold-intro {
+    margin-top: 1.5rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid #e2e8f0;
+}
+
+.rl-below-fold-intro .rl-h2 {
+    font-weight: 500;
+    color: #475569;
+}
