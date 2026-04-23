@@ -5774,23 +5774,26 @@ section, div {
 .hero-proof-stack {
     position: relative;
     max-width: 560px;
-    height: 130px;
     margin: 0 auto;
-    overflow: hidden;
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
     background: #f8fafc;
 }
 
 .hero-proof-slide {
     position: absolute;
-    bottom: 0;
+    top: 0;
     left: 0;
     width: 100%;
     opacity: 0;
     transition: opacity 0.8s ease;
     border-radius: 0;
     box-shadow: none;
+}
+
+.hero-proof-slide:first-child {
+    position: relative;
 }
 
 .hero-proof-slide.hero-proof-active {
