@@ -6045,3 +6045,11 @@ section, div {
     width: 100%;
     height: auto;
 }
+
+.rl-trust-line {
+    font-size: 0.95rem;
+    color: #475569;
+    text-align: center;
+    margin: 0.75rem 0 0;
+    font-style: italic;
+}
