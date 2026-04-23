@@ -6092,7 +6092,7 @@ section, div {
 
 .register-hook-kicker {
     margin: 0 0 8px;
-    font-size: 1rem;
+    font-size: 1.1rem;
     color: #0f172a;
     font-weight: 600;
 }
@@ -6140,6 +6140,10 @@ section, div {
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
 }
 
+.register-form input:invalid {
+    border-color: #d1d5db;
+}
+
 .password-field {
     position: relative;
 }
@@ -6174,9 +6178,9 @@ section, div {
     gap: 10px;
     align-items: flex-start;
     margin: 10px 0 14px;
-    font-size: 0.92rem;
+    font-size: 0.85rem;
     line-height: 1.45;
-    color: #334155;
+    color: #64748b;
 }
 
 .register-terms input {
@@ -6229,11 +6233,18 @@ section, div {
 }
 
 .register-reassurance {
-    margin: 14px 0 10px;
+    margin: 8px 0 6px;
     text-align: center;
     font-size: 0.98rem;
     font-weight: 700;
     color: #0f172a;
+}
+
+.register-microcopy {
+    margin: 8px 0 0;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #475569;
 }
 
 .register-trust-list {

@@ -138,7 +138,7 @@ async function handleRegistration(e) {
                     window.juniorTrack('register_submit_error', { reason: 'duplicate_email' });
                 }
                 registerButton.disabled = false;
-                registerButtonText.textContent = 'Start Free Trial';
+                registerButtonText.textContent = 'Start Free Trial \u2014 Get Your First Comment';
                 return;
             }
 
@@ -205,7 +205,7 @@ async function handleRegistration(e) {
 
         showError(registerError, msg);
         registerButton.disabled = false;
-        registerButtonText.textContent = 'Start Free Trial';
+        registerButtonText.textContent = 'Start Free Trial \u2014 Get Your First Comment';
     }
 }
 
