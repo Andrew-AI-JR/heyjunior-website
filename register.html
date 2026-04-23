@@ -3,276 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Get Started with Junior - LinkedIn Automation">
-    <title>Get Started - Junior</title>
+    <meta name="description" content="Start your 14-day Junior trial and begin turning LinkedIn conversations into interviews.">
+    <title>Start Free Trial - Junior</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-
-    <!-- Simple i18n system -->
 
     <!-- Pixel slot: insert Meta / Google / Reddit pixel snippets here. juniorTrack() forwards events only when those globals exist. -->
     <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "c7e2267943804acdb5bfcd009f02f537"}'></script><!-- End Cloudflare Web Analytics -->
     <script src="js/analytics.js"></script>
 </head>
 <body data-page="register" class="i18n-ready">
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="container">
-            <div class="logo">
-                <img src="./images/junior-logo.png" alt="Junior Logo" class="logo-img">
-            </div>
-            <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            <ul class="nav-links">
-                <div class="nav-group">
-                    <li><a href="index.html#features" data-i18n="navigation.features">Features</a></li>
-                    <li><a href="index.html#how-it-works" data-i18n="navigation.howItWorks">How It Works</a></li>
-                    <li><a href="index.html#pricing" data-i18n="navigation.pricing">Pricing</a></li>
-                </div>
-                <div class="nav-actions">
-                    <li><a href="index.html" class="my-story-link" data-i18n="navigation.backToHome">← Back to Home</a></li>
-                </div>
-            </ul>
-        </div>
-    </nav>
+    <main class="register-page">
+        <div class="register-shell">
+            <header class="register-header" aria-label="Junior">
+                <img src="./images/junior-logo.png" alt="Junior Logo" class="register-logo">
+            </header>
 
-    <!-- Register Section -->
-    <section class="purchase-section">
-        <div class="container">
-            <div class="checkout-container">
-                <!-- Product Summary -->
-                <div class="product-summary">
-                    <div class="product-header">
-                        <h1>🚀 Get Started with Junior</h1>
-                    </div>
-
-                    <div class="product-image">
-                        <img src="./images/linkedin-automation-preview.svg?v=1.1" alt="LinkedIn Automation Tool Preview" onerror="this.src='./images/junior-logo.png'; this.style.maxWidth='200px'; this.style.margin='20px auto';">
-                    </div>
-
-                    <div class="product-features">
-                        <h3>What's Included:</h3>
-                        <ul>
-                            <li>✅ LinkedIn Automation Tool (Windows & macOS)</li>
-                            <li>✅ AI-Powered Comment Generation</li>
-                            <li>✅ Hiring Manager Targeting</li>
-                            <li>✅ Performance Analytics</li>
-                            <li>✅ Priority Email Support</li>
-                            <li>✅ Early Access to New Features</li>
-                        </ul>
-                    </div>
-
-                    <div class="testimonial-section">
-                        <h3 style="text-align: center; margin-bottom: 15px; color: #1f2937;">✨ See It In Action</h3>
-                        <div class="testimonial-image-container">
-                            <img src="./images/testimonial.png" alt="Real AI-Generated Comments Example" style="width: 100%; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); border: 1px solid #e5e7eb;">
-                        </div>
-                        <p style="text-align: center; color: #6b7280; font-size: 0.9em; margin-top: 12px; font-style: italic;">Real examples of AI-generated comments from verified users</p>
-                    </div>
+            <section class="register-card">
+                <div class="register-hook">
+                    <p class="register-hook-kicker">I applied to 300 jobs and got 1 interview.</p>
+                    <h1>That interview came from a comment -- not my resume.</h1>
+                    <p class="register-hook-outcome">Start getting interviews from conversations.</p>
                 </div>
 
-                <!-- Registration Form -->
-                <div class="checkout-form">
-                    <h2>Get Started</h2>
-                    <p style="text-align: center; color: #6b7280; margin-bottom: 25px;">Register to get started with Junior. You can subscribe to a plan after registration.</p>
-
-                    <!-- Platform Selection -->
-                    <div class="platform-selection">
-                        <h3>Select Your Platform:</h3>
-                        <div class="platform-options">
-                            <label class="platform-option" for="reg-windows">
-                                <input type="radio" id="reg-windows" name="platform" value="windows" checked>
-                                <div class="platform-info">
-                                    <span class="platform-icon">🖥️</span>
-                                    <div>
-                                        <strong>Windows</strong>
-                                        <small>Windows 10 or later</small>
-                                    </div>
-                                </div>
-                            </label>
-
-                            <label class="platform-option" for="reg-macos">
-                                <input type="radio" id="reg-macos" name="platform" value="macos">
-                                <div class="platform-info">
-                                    <span class="platform-icon">🍎</span>
-                                    <div>
-                                        <strong>macOS</strong>
-                                        <small>Intel & Apple Silicon (M1/M2)</small>
-                                    </div>
-                                </div>
-                            </label>
-                        </div>
-                        <small class="platform-note">We'll automatically detect if you have an M1/M2 Mac and provide the correct version.</small>
-                        <div id="windows-help-notice" style="margin-top: 12px; padding: 12px; background: #fef3c7; border-left: 4px solid #f59e0b; border-radius: 6px;">
-                            <p style="margin: 0; font-size: 0.9em; color: #92400e;">
-                                <strong>🖥️ Windows Users:</strong> Windows SmartScreen will show a security warning during install (code-signing certification in progress).
-                                <a href="windows-install-help.html" target="_blank" style="color: #b45309; font-weight: 600; text-decoration: underline;">Click here for install instructions</a>
-                            </p>
-                        </div>
-                        <div id="mac-help-notice" style="display: none; margin-top: 12px; padding: 12px; background: #fef3c7; border-left: 4px solid #f59e0b; border-radius: 6px;">
-                            <p style="margin: 0; font-size: 0.9em; color: #92400e;">
-                                <strong>🍎 Mac Users:</strong> macOS will show a security warning on first launch. 
-                                <a href="mac-install-help.html" target="_blank" style="color: #b45309; font-weight: 600; text-decoration: underline;">Click here for install instructions</a>
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Account Creation Section -->
-                    <div class="account-creation-section">
-                        <h3>Account Details</h3>
-                        <p style="text-align: center; color: #6b7280; margin-bottom: 25px;">You'll use this to login to the desktop app and manage your subscription</p>
-                        
-                        <div class="form-group">
-                            <label for="reg-email">Email Address:</label>
-                            <input type="email" id="reg-email" placeholder="your@email.com" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="reg-password">Password:</label>
-                            <input type="password" id="reg-password" placeholder="Create a secure password" required minlength="8">
-                            <small class="password-help">Minimum 8 characters, must contain at least one uppercase letter</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="reg-confirm-password">Confirm Password:</label>
-                            <input type="password" id="reg-confirm-password" placeholder="Confirm your password" required>
-                        </div>
-                    </div>
-
-                    <!-- Hidden referral code field (pulled from storage automatically) -->
+                <form id="register-form" class="register-form" novalidate>
                     <input type="hidden" id="referral-code-field">
 
-                    <label for="terms-agree-register" style="display: block; font-size: 0.9rem; color: #4b5563; margin: 6px 0 8px 0; line-height: 1.5;">
-                        <input type="checkbox" id="terms-agree-register" style="margin-right: 8px; vertical-align: middle;">
-                        I agree to the
-                        <a href="terms.html" target="_blank" rel="noopener" style="font-weight: 600;">Terms of Service</a>
+                    <div class="form-group">
+                        <label for="reg-email">Email</label>
+                        <input type="email" id="reg-email" placeholder="you@example.com" autocomplete="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reg-password">Password</label>
+                        <div class="password-field">
+                            <input type="password" id="reg-password" placeholder="Create a password" autocomplete="new-password" required minlength="8">
+                            <button type="button" id="password-toggle" class="password-toggle" aria-label="Show password">Show</button>
+                        </div>
+                        <small class="password-help">Minimum 8 characters, at least one uppercase letter.</small>
+                    </div>
+
+                    <label for="terms-agree-register" class="register-terms">
+                        <input type="checkbox" id="terms-agree-register">
+                        <span>I agree to the <a href="terms.html" target="_blank" rel="noopener">Terms of Service</a></span>
                     </label>
 
-                    <!-- Register Button -->
-                    <button type="button" id="register-button" class="primary-button" style="width: 100%; margin-top: 20px;">
-                        <span id="register-button-text">Register</span>
+                    <button type="submit" id="register-button" class="primary-button register-submit">
+                        <span id="register-button-text">Start Free Trial</span>
                     </button>
-                    <div id="register-download-fallback" style="display: none; margin-top: 12px; text-align: center;">
-                        <a id="register-download-link" href="#" target="_blank" rel="noopener noreferrer" class="primary-button" style="display: inline-block; text-decoration: none;">Download Junior for your system</a>
-                    </div>
-                    <div id="register-error" class="error-message" style="display: none; margin-top: 10px; color: #dc2626; text-align: center;"></div>
-                    <p style="text-align:center; display:block; margin-top:15px; color: #6b7280; font-size: 0.9rem;">
-                        Already have an account? <a href="portal.html" style="color: #2563eb; font-weight: 600;">Login here</a>
-                    </p>
 
-                    <!-- Security Info -->
-                    <div class="security-info">
-                        <div class="security-badges">
-                            <div class="badge">
-                                <span>🔒</span>
-                                <small>SSL Secured</small>
-                            </div>
-                            <div class="badge">
-                                <span>🛡️</span>
-                                <small>Secure Registration</small>
-                            </div>
-                        </div>
-                        <p>Your information is secure and encrypted. After registration, you can subscribe to a plan from your account dashboard.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+                    <div id="register-status" class="register-status" hidden aria-live="polite"></div>
+                    <div id="register-error" class="register-status register-status-error" hidden aria-live="polite"></div>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h4>Contact</h4>
-                    <p>Email: support@heyjunior.ai</p>
-                    <p>LinkedIn: <a href="https://www.linkedin.com/company/hey-junior/" target="_blank">linkedin.com/company/hey-junior</a></p>
-                </div>
-                <div class="footer-section">
-                    <h4>Support</h4>
-                    <ul>
-                        <li><a href="windows-install-help.html">Windows Install Help</a></li>
-                        <li><a href="mac-install-help.html">macOS Install Help</a></li>
-                        <li><a href="portal.html">Login to Account</a></li>
-                        <li><a href="terms.html">Terms of Service</a></li>
+                    <p class="register-reassurance">No credit card required to start your 14-day trial.</p>
+
+                    <ul class="register-trust-list">
+                        <li>14-day free trial</li>
+                        <li>No credit card required</li>
+                        <li>First comment in under 2 minutes</li>
                     </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2026 Junior. All rights reserved.</p>
-            </div>
+
+                    <p class="register-secondary-links">Already have an account? <a href="portal.html">Log in here</a></p>
+                    <p class="register-secondary-links">Forgot your password? <a href="forgot-password.html">Reset it here</a></p>
+                </form>
+            </section>
+
+            <footer class="register-footer">
+                <p><a href="mailto:support@heyjunior.ai">support@heyjunior.ai</a> · <a href="terms.html">Terms of Service</a></p>
+            </footer>
         </div>
-    </footer>
+    </main>
 
-    <!-- Simple i18n initialization script -->
-    <script src="js/i18n-simple.js"></script>
-    
-    <!-- Referral tracking system -->
     <script src="js/referral.js"></script>
-    
-    <!-- Release manager for downloads -->
-    <script src="js/release-manager.js"></script>
-    
     <script src="js/api-config.js"></script>
-    <!-- Registration JavaScript -->
     <script src="js/register.js"></script>
-    
-    <!-- Mobile Navigation Toggle -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const mobileToggle = document.querySelector('.mobile-menu-toggle');
-            const navLinks = document.querySelector('.nav-links');
-            
-            if (mobileToggle) {
-                mobileToggle.addEventListener('click', function() {
-                    this.classList.toggle('active');
-                    navLinks.classList.toggle('active');
-                });
-
-                const links = navLinks.querySelectorAll('a');
-                links.forEach(link => {
-                    link.addEventListener('click', function() {
-                        mobileToggle.classList.remove('active');
-                        navLinks.classList.remove('active');
-                    });
-                });
-
-                document.addEventListener('click', function(event) {
-                    const isClickInsideNav = navLinks.contains(event.target);
-                    const isClickOnToggle = mobileToggle.contains(event.target);
-                    
-                    if (!isClickInsideNav && !isClickOnToggle && navLinks.classList.contains('active')) {
-                        mobileToggle.classList.remove('active');
-                        navLinks.classList.remove('active');
-                    }
-                });
-            }
-
-            // Show/hide platform help notices based on platform selection
-            const platformRadios = document.querySelectorAll('input[name="platform"]');
-            const macHelpNotice = document.getElementById('mac-help-notice');
-            const winHelpNotice = document.getElementById('windows-help-notice');
-
-            function updatePlatformHelpVisibility() {
-                const selectedPlatform = document.querySelector('input[name="platform"]:checked')?.value;
-                if (macHelpNotice) {
-                    macHelpNotice.style.display = selectedPlatform === 'macos' ? 'block' : 'none';
-                }
-                if (winHelpNotice) {
-                    winHelpNotice.style.display = selectedPlatform === 'windows' ? 'block' : 'none';
-                }
-            }
-
-            platformRadios.forEach(radio => {
-                radio.addEventListener('change', updatePlatformHelpVisibility);
-            });
-
-            // Initial check
-            updatePlatformHelpVisibility();
-        });
-    </script>
 </body>
 </html>

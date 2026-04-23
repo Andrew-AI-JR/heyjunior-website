@@ -6053,3 +6053,240 @@ section, div {
     margin: 0.75rem 0 0;
     font-style: italic;
 }
+
+/* Register page conversion layout */
+.register-page {
+    min-height: 100vh;
+    background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
+    padding: 24px 16px 40px;
+}
+
+.register-shell {
+    max-width: 480px;
+    margin: 0 auto;
+}
+
+.register-header {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+.register-logo {
+    width: 180px;
+    height: auto;
+}
+
+.register-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    box-shadow: 0 12px 40px rgba(15, 23, 42, 0.08);
+    padding: 24px 20px;
+}
+
+.register-hook {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.register-hook-kicker {
+    margin: 0 0 8px;
+    font-size: 1rem;
+    color: #0f172a;
+    font-weight: 600;
+}
+
+.register-hook h1 {
+    margin: 0 0 10px;
+    font-size: clamp(1.6rem, 4vw, 2rem);
+    line-height: 1.2;
+    color: #0f172a;
+}
+
+.register-hook-outcome {
+    margin: 0;
+    font-size: 1.05rem;
+    color: #475569;
+}
+
+.register-form .form-group {
+    margin-bottom: 16px;
+}
+
+.register-form label {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #0f172a;
+    margin-bottom: 6px;
+}
+
+.register-form input[type="email"],
+.register-form input[type="password"],
+.register-form input[type="text"] {
+    width: 100%;
+    padding: 14px 16px;
+    font-size: 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    background: #ffffff;
+    color: #0f172a;
+}
+
+.register-form input:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.password-field {
+    position: relative;
+}
+
+.password-field input {
+    padding-right: 78px;
+}
+
+.password-toggle {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    border: none;
+    background: transparent;
+    color: #2563eb;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 4px 6px;
+}
+
+.register-form .password-help {
+    display: block;
+    margin-top: 6px;
+    color: #6b7280;
+    font-size: 0.85rem;
+}
+
+.register-terms {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    margin: 10px 0 14px;
+    font-size: 0.92rem;
+    line-height: 1.45;
+    color: #334155;
+}
+
+.register-terms input {
+    margin-top: 2px;
+}
+
+.register-terms a,
+.register-status a,
+.register-secondary-links a,
+.register-footer a {
+    color: #2563eb;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.register-terms a:hover,
+.register-status a:hover,
+.register-secondary-links a:hover,
+.register-footer a:hover {
+    text-decoration: underline;
+}
+
+.register-submit {
+    width: 100%;
+    min-height: 56px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 8px;
+}
+
+.register-status {
+    margin-top: 12px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    text-align: center;
+}
+
+.register-status-success {
+    background: #ecfdf5;
+    color: #166534;
+    border: 1px solid #bbf7d0;
+}
+
+.register-status-error {
+    background: #fef2f2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+}
+
+.register-reassurance {
+    margin: 14px 0 10px;
+    text-align: center;
+    font-size: 0.98rem;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.register-trust-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 14px;
+    text-align: center;
+}
+
+.register-trust-list li {
+    margin-bottom: 6px;
+    color: #475569;
+    font-size: 0.92rem;
+}
+
+.register-trust-list li::before {
+    content: "✓ ";
+    color: #16a34a;
+    font-weight: 700;
+}
+
+.register-secondary-links {
+    margin: 8px 0 0;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #64748b;
+}
+
+.register-footer {
+    text-align: center;
+    margin-top: 18px;
+    font-size: 0.9rem;
+    color: #64748b;
+}
+
+.register-footer p {
+    margin: 0;
+}
+
+@media (max-width: 480px) {
+    .register-page {
+        padding: 16px 12px 28px;
+    }
+
+    .register-logo {
+        width: 160px;
+    }
+
+    .register-card {
+        padding: 20px 16px;
+    }
+
+    .register-hook h1 {
+        font-size: 1.5rem;
+    }
+}

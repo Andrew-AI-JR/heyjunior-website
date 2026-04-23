@@ -2,54 +2,28 @@
 
 const API_BASE_URL = window.getApiBaseUrl();
 
-// Global variables
 let currentUserToken = null;
 
-function detectUserPlatform() {
-    const ua = navigator.userAgent.toLowerCase();
-    if (ua.includes('mac')) return 'macos';
-    if (ua.includes('win')) return 'windows';
-    return 'windows';
-}
-
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', () => {
     console.log('Register page loaded');
-    
-    // Initialize release manager if available
-    if (typeof JuniorReleaseManager !== 'undefined') {
-        window.juniorReleaseManager = new JuniorReleaseManager();
-        console.log('Release manager initialized');
+
+    if (window.juniorTrack) {
+        window.juniorTrack('register_page_view');
     }
-    
-    // Pre-select platform radio to match user's system
-    const detected = detectUserPlatform();
-    const radio = document.querySelector(`input[name="platform"][value="${detected}"]`);
-    if (radio) {
-        radio.checked = true;
-    }
-    
-    // Setup form validation
-    document.getElementById('reg-confirm-password')?.addEventListener('input', validatePasswordMatch);
-    document.getElementById('reg-password')?.addEventListener('input', validatePasswordMatch);
-    
-    // Setup register button
-    document.getElementById('register-button')?.addEventListener('click', handleRegistration);
-    
-    // Load referral code from storage (hidden field)
+
+    document.getElementById('register-form')?.addEventListener('submit', handleRegistration);
+
+    document.getElementById('password-toggle')?.addEventListener('click', function () {
+        const field = document.getElementById('reg-password');
+        if (!field) return;
+        const isPassword = field.type === 'password';
+        field.type = isPassword ? 'text' : 'password';
+        this.textContent = isPassword ? 'Hide' : 'Show';
+        this.setAttribute('aria-label', isPassword ? 'Hide password' : 'Show password');
+    });
+
     loadReferralCode();
 });
-
-function validatePasswordMatch() {
-    const password = document.getElementById('reg-password').value;
-    const confirmPassword = document.getElementById('reg-confirm-password').value;
-    const confirmField = document.getElementById('reg-confirm-password');
-    
-    if (confirmPassword && password !== confirmPassword) {
-        confirmField.setCustomValidity('Passwords do not match');
-    } else {
-        confirmField.setCustomValidity('');
-    }
-}
 
 function loadReferralCode() {
     // Get referral code from storage (stored for 30 days)
@@ -80,43 +54,49 @@ function loadReferralCode() {
 
 async function handleRegistration(e) {
     e.preventDefault();
-    
-    var email = document.getElementById('reg-email').value.trim();
-    var password = document.getElementById('reg-password').value;
-    var confirmPassword = document.getElementById('reg-confirm-password').value;
-    var termsAccepted = document.getElementById('terms-agree-register')?.checked === true;
-    var registerButton = document.getElementById('register-button');
-    var registerButtonText = document.getElementById('register-button-text');
-    var registerError = document.getElementById('register-error');
-    
-    registerError.style.display = 'none';
-    
-    var validationError = validateRegistrationForm(email, password, confirmPassword, termsAccepted);
+
+    if (window.juniorTrack) {
+        window.juniorTrack('register_submit_clicked');
+    }
+
+    const email = document.getElementById('reg-email').value.trim();
+    const password = document.getElementById('reg-password').value;
+    const termsAccepted = document.getElementById('terms-agree-register')?.checked === true;
+    const registerButton = document.getElementById('register-button');
+    const registerButtonText = document.getElementById('register-button-text');
+    const registerStatus = document.getElementById('register-status');
+    const registerError = document.getElementById('register-error');
+
+    clearStatus(registerStatus, registerError);
+
+    const validationError = validateRegistrationForm(email, password, termsAccepted);
     if (validationError) {
-        registerError.textContent = validationError;
-        registerError.style.display = 'block';
+        showError(registerError, validationError);
+        if (window.juniorTrack) {
+            window.juniorTrack('register_submit_error', { reason: 'validation' });
+        }
         return;
     }
-    
+
     registerButton.disabled = true;
     registerButtonText.textContent = 'Creating account...';
     console.log('[Register] registration request started');
 
-    var abortController = new AbortController();
-    var timeoutId = setTimeout(function () {
+    const abortController = new AbortController();
+    const timeoutId = setTimeout(function () {
         abortController.abort();
     }, 12000);
-    
+
     try {
-        var referralCode = document.getElementById('referral-code-field').value;
-        
-        var requestBody = { email: email, password: password };
+        const referralCode = document.getElementById('referral-code-field').value;
+
+        const requestBody = { email: email, password: password };
         if (referralCode) {
             requestBody.referral_code = referralCode.toUpperCase();
             console.log('[Register] including referral code:', referralCode);
         }
-        
-        var response = await fetch(API_BASE_URL + '/api/users/register', {
+
+        const response = await fetch(API_BASE_URL + '/api/users/register', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(requestBody),
@@ -126,20 +106,20 @@ async function handleRegistration(e) {
         clearTimeout(timeoutId);
         console.log('[Register] registration response received, status:', response.status);
         
-        var contentType = response.headers.get('content-type');
-        var data;
-        
+        const contentType = response.headers.get('content-type');
+        let data;
+
         if (contentType && contentType.includes('application/json')) {
             data = await response.json();
         } else {
-            var text = await response.text();
+            const text = await response.text();
             console.error('[Register] non-JSON response:', text);
             throw new Error(text || 'Registration failed. Please try again.');
         }
-        
+
         if (!response.ok) {
             console.log('[Register] registration failed:', response.status, data);
-            var errorMessage = 'Registration failed. Please try again.';
+            let errorMessage = 'Registration failed. Please try again.';
             if (data.detail) {
                 if (Array.isArray(data.detail)) {
                     errorMessage = data.detail.map(function (err) { return err.msg || err.message || 'Validation error'; }).join('. ');
@@ -153,15 +133,25 @@ async function handleRegistration(e) {
             }
             
             if (response.status === 409 || errorMessage.toLowerCase().includes('already exists')) {
-                errorMessage = 'An account with this email already exists. Please login instead.';
+                showDuplicateEmailError(registerError);
+                if (window.juniorTrack) {
+                    window.juniorTrack('register_submit_error', { reason: 'duplicate_email' });
+                }
+                registerButton.disabled = false;
+                registerButtonText.textContent = 'Start Free Trial';
+                return;
             }
-            
+
+            if (response.status >= 500) {
+                errorMessage = 'Something went wrong on our end. Please try again in a moment.';
+            }
+
             throw new Error(errorMessage);
         }
-        
-        // --- Account created. Everything below is success-path only. ---
+
         console.log('[Register] registration success:', data);
         registerButtonText.textContent = 'Account created. Redirecting...';
+        showSuccess(registerStatus, 'Account created. Redirecting...');
         
         if (data.id) {
             sessionStorage.setItem('userId', data.id.toString());
@@ -169,39 +159,53 @@ async function handleRegistration(e) {
         }
 
         if (window.juniorTrack) {
+            window.juniorTrack('register_submit_success', { userId: data.id || null });
             window.juniorTrack('register_completed', { userId: data.id || null });
         }
-        
+
         if (referralCode) {
             localStorage.removeItem('referralCode');
             localStorage.removeItem('referralTimestamp');
         }
 
-        // Auto-login is fire-and-forget. Do NOT await it before redirecting.
         autoLoginAfterRegister(email, password);
 
-        // Redirect to portal immediately. Download happens there, not here.
         console.log('[Register] redirecting to portal in 1s');
         setTimeout(function () {
+            if (window.juniorTrack) {
+                window.juniorTrack('register_redirect_to_portal');
+            }
             window.location.href = 'portal.html';
         }, 1000);
-        
+
     } catch (error) {
         clearTimeout(timeoutId);
 
-        var msg;
+        let msg;
         if (error.name === 'AbortError') {
             msg = 'Registration is taking too long. Please check your connection and try again.';
             console.error('[Register] registration request timed out');
+            if (window.juniorTrack) {
+                window.juniorTrack('register_timeout');
+                window.juniorTrack('register_submit_error', { reason: 'timeout' });
+            }
+        } else if (error instanceof TypeError) {
+            msg = "Can't reach the server. Please check your internet connection.";
+            console.error('[Register] network error:', error);
+            if (window.juniorTrack) {
+                window.juniorTrack('register_submit_error', { reason: 'network' });
+            }
         } else {
             msg = error.message || 'Something went wrong. Please try again.';
             console.error('[Register] registration error:', error);
+            if (window.juniorTrack) {
+                window.juniorTrack('register_submit_error', { reason: 'server' });
+            }
         }
 
-        registerError.textContent = msg;
-        registerError.style.display = 'block';
+        showError(registerError, msg);
         registerButton.disabled = false;
-        registerButtonText.textContent = 'Register';
+        registerButtonText.textContent = 'Start Free Trial';
     }
 }
 
@@ -223,7 +227,7 @@ function autoLoginAfterRegister(email, password) {
     });
 }
 
-function validateRegistrationForm(email, password, confirmPassword, termsAccepted) {
+function validateRegistrationForm(email, password, termsAccepted) {
     if (!email || !validateEmail(email)) {
         return 'Please enter a valid email address.';
     }
@@ -236,10 +240,6 @@ function validateRegistrationForm(email, password, confirmPassword, termsAccepte
     if (!password.match(/[A-Z]/)) {
         return 'Password must contain at least one uppercase letter.';
     }
-    
-    if (password !== confirmPassword) {
-        return 'Passwords do not match.';
-    }
 
     if (!termsAccepted) {
         return 'You must agree to the Terms of Service to continue.';
@@ -251,5 +251,59 @@ function validateRegistrationForm(email, password, confirmPassword, termsAccepte
 function validateEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
+}
+
+function clearStatus(successEl, errorEl) {
+    if (successEl) {
+        successEl.hidden = true;
+        successEl.textContent = '';
+    }
+    if (errorEl) {
+        errorEl.hidden = true;
+        errorEl.textContent = '';
+        errorEl.innerHTML = '';
+    }
+}
+
+function showSuccess(element, message) {
+    if (!element) return;
+    element.textContent = message;
+    element.hidden = false;
+    element.classList.remove('register-status-error');
+    element.classList.add('register-status-success');
+}
+
+function showError(element, message) {
+    if (!element) return;
+    element.textContent = message;
+    element.hidden = false;
+    element.classList.remove('register-status-success');
+    element.classList.add('register-status-error');
+}
+
+function showDuplicateEmailError(element) {
+    if (!element) return;
+    element.hidden = false;
+    element.classList.remove('register-status-success');
+    element.classList.add('register-status-error');
+
+    const intro = document.createElement('span');
+    intro.textContent = 'Looks like you already have an account. ';
+
+    const login = document.createElement('a');
+    login.href = 'portal.html';
+    login.textContent = 'Log in here';
+
+    const separator = document.createTextNode(' or ');
+
+    const forgot = document.createElement('a');
+    forgot.href = 'forgot-password.html';
+    forgot.textContent = 'reset your password';
+
+    element.appendChild(intro);
+    element.appendChild(login);
+    element.appendChild(separator);
+    element.appendChild(forgot);
+    element.appendChild(document.createTextNode('.'));
 }
 
