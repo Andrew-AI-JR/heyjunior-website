@@ -56,9 +56,15 @@
             </div>
             <p class="hero-microcopy" data-i18n="landingHome.hero.microcopy">14-day free trial · No credit card required</p>
 
-            <div class="comment-showcase hero-proof">
-                <p class="comment-label" data-i18n="landingHome.hero.proofLabel">Real reply from a real LinkedIn conversation:</p>
-                <img src="./images/comment-7.png" alt="Emily Almani replied to a Junior-generated comment" class="comment-screenshot">
+            <div class="comment-showcase hero-proof hero-proof-rotate">
+                <p class="comment-label" data-i18n="landingHome.hero.proofLabel">Real replies from real LinkedIn conversations:</p>
+                <div class="hero-proof-stack">
+                    <img src="./images/comment-7.png" alt="Emily Almani replied to a Junior-generated comment" class="comment-screenshot hero-proof-slide hero-proof-active">
+                    <img src="./images/comment-8.png" alt="Erin Margaret Murphy mentioned Andrew in a hiring post with 282 reactions" class="comment-screenshot hero-proof-slide">
+                    <img src="./images/comment-9.png" alt="Hayden Lloyd replied with interest to a Junior-generated comment" class="comment-screenshot hero-proof-slide">
+                    <img src="./images/junior6.png" alt="Recruiter Tasneem Hassan replied and scheduled outreach after a Junior-generated comment" class="comment-screenshot hero-proof-slide">
+                    <img src="./images/testimonial 2.png" alt="User testimonial: significant increase in connections and conversations within weeks" class="comment-screenshot hero-proof-slide">
+                </div>
             </div>
         </div>
     </section>
@@ -515,6 +521,21 @@
         });
     </script>
     
+    <!-- Hero proof rotation -->
+    <script>
+        (function () {
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            var slides = document.querySelectorAll('.hero-proof-slide');
+            if (slides.length < 2) return;
+            var current = 0;
+            setInterval(function () {
+                slides[current].classList.remove('hero-proof-active');
+                current = (current + 1) % slides.length;
+                slides[current].classList.add('hero-proof-active');
+            }, 3000);
+        })();
+    </script>
+
     <!-- Mobile Navigation Toggle -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
