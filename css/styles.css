@@ -6178,6 +6178,37 @@ section, div {
     color: #475569;
 }
 
+.register-flow-hint {
+    text-align: center;
+    margin: 0 0 18px;
+}
+
+.register-flow-cue {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #2563eb;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0 0 4px;
+}
+
+.register-flow-hint p:last-child {
+    font-size: 0.95rem;
+    color: #475569;
+    margin: 0;
+}
+
+.register-hook-speed {
+    margin: 8px 0 0;
+    font-size: 0.95rem;
+    color: #475569;
+}
+
+.register-submit-loading {
+    opacity: 0.85;
+    cursor: wait;
+}
+
 .register-form .form-group {
     margin-bottom: 16px;
 }

@@ -79,7 +79,10 @@ async function handleRegistration(e) {
     }
 
     registerButton.disabled = true;
+    registerButton.classList.add('register-submit-loading');
     registerButtonText.textContent = 'Creating account...';
+    document.getElementById('reg-email').disabled = true;
+    document.getElementById('reg-password').disabled = true;
     console.log('[Register] registration request started');
 
     const abortController = new AbortController();
@@ -138,7 +141,10 @@ async function handleRegistration(e) {
                     window.juniorTrack('register_submit_error', { reason: 'duplicate_email' });
                 }
                 registerButton.disabled = false;
+                registerButton.classList.remove('register-submit-loading');
                 registerButtonText.textContent = 'Start Free Trial \u2014 Get Your First Comment';
+                document.getElementById('reg-email').disabled = false;
+                document.getElementById('reg-password').disabled = false;
                 return;
             }
 
@@ -203,9 +209,12 @@ async function handleRegistration(e) {
             }
         }
 
-        showError(registerError, msg);
+        showErrorWithLoginFallback(registerError, msg);
         registerButton.disabled = false;
+        registerButton.classList.remove('register-submit-loading');
         registerButtonText.textContent = 'Start Free Trial \u2014 Get Your First Comment';
+        document.getElementById('reg-email').disabled = false;
+        document.getElementById('reg-password').disabled = false;
     }
 }
 
@@ -279,6 +288,29 @@ function showError(element, message) {
     element.hidden = false;
     element.classList.remove('register-status-success');
     element.classList.add('register-status-error');
+}
+
+function showErrorWithLoginFallback(element, message) {
+    if (!element) return;
+    element.hidden = false;
+    element.classList.remove('register-status-success');
+    element.classList.add('register-status-error');
+
+    var msg = document.createElement('span');
+    msg.textContent = message + ' ';
+
+    var fallback = document.createElement('span');
+    fallback.textContent = 'Already tried before? ';
+
+    var link = document.createElement('a');
+    link.href = 'portal.html';
+    link.textContent = 'Log in here';
+
+    fallback.appendChild(link);
+    fallback.appendChild(document.createTextNode('.'));
+
+    element.appendChild(msg);
+    element.appendChild(fallback);
 }
 
 function showDuplicateEmailError(element) {
