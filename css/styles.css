@@ -6178,30 +6178,61 @@ section, div {
     color: #475569;
 }
 
-.register-flow-hint {
-    text-align: center;
-    margin: 0 0 18px;
+.register-hook-speed {
+    margin: 8px 0 0;
+    font-size: 0.95rem;
+    color: #475569;
 }
 
-.register-flow-cue {
+.register-preview {
+    margin: 0 0 20px;
+}
+
+.register-demo-container {
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+    margin-bottom: 16px;
+}
+
+.register-demo-video {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.register-proof-example {
+    text-align: center;
+}
+
+.register-proof-label {
     font-size: 0.85rem;
     font-weight: 700;
     color: #2563eb;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    margin: 0 0 4px;
+    margin: 0 0 8px;
 }
 
-.register-flow-hint p:last-child {
-    font-size: 0.95rem;
-    color: #475569;
-    margin: 0;
+.register-proof-img {
+    width: 100%;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
 }
 
-.register-hook-speed {
+.register-proof-caption {
     margin: 8px 0 0;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     color: #475569;
+    font-weight: 500;
+}
+
+.register-transition {
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #0f172a;
+    margin: 0 0 16px;
 }
 
 .register-submit-loading {

@@ -26,13 +26,23 @@
                     <p class="register-hook-kicker">I applied to 300 jobs and got 1 interview.</p>
                     <h1>That interview came from a comment -- not my resume.</h1>
                     <p class="register-hook-outcome">Start getting interviews from conversations.</p>
-                    <p class="register-hook-speed">You'll be up and running in under 2 minutes.</p>
+                    <p class="register-hook-speed">See how this works in 30 seconds:</p>
                 </div>
 
-                <div class="register-flow-hint">
-                    <p class="register-flow-cue">Start here:</p>
-                    <p>Create your account, download the app, and start getting replies from hiring managers.</p>
+                <div class="register-preview">
+                    <div class="register-demo-container">
+                        <video autoplay loop muted playsinline class="register-demo-video">
+                            <source src="./demo.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="register-proof-example">
+                        <p class="register-proof-label">Real result:</p>
+                        <img src="./images/junior6.png" alt="A recruiter replied to a Junior-generated comment and scheduled outreach" class="register-proof-img">
+                        <p class="register-proof-caption">Comment posted. Recruiter replied. Call scheduled.</p>
+                    </div>
                 </div>
+
+                <p class="register-transition">Ready to try it? Create your free account below.</p>
 
                 <form id="register-form" class="register-form" novalidate>
                     <input type="hidden" id="referral-code-field">
@@ -85,5 +95,11 @@
     <script src="js/referral.js"></script>
     <script src="js/api-config.js"></script>
     <script src="js/register.js"></script>
+    <script>
+        (function () {
+            var v = document.querySelector('.register-demo-video');
+            if (v) { v.muted = true; v.play().catch(function () {}); }
+        })();
+    </script>
 </body>
 </html>
