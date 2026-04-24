@@ -6184,25 +6184,51 @@ section, div {
     color: #475569;
 }
 
-.register-preview {
-    margin: 0 0 20px;
-}
-
-.register-demo-container {
-    border-radius: 10px;
-    overflow: hidden;
+.register-conversation {
+    background: #f8fafc;
     border: 1px solid #e2e8f0;
-    margin-bottom: 16px;
+    border-radius: 12px;
+    padding: 16px 18px;
+    margin: 0 0 20px;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #334155;
 }
 
-.register-demo-video {
-    display: block;
-    width: 100%;
-    height: auto;
+.register-conv-label {
+    font-weight: 700;
+    color: #0f172a;
+    margin-right: 4px;
+}
+
+.register-conv-post {
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.register-conv-comment {
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.register-conv-reply {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-weight: 500;
+    color: #1e40af;
+}
+
+.register-conv-reply .register-conv-label {
+    color: #1e40af;
 }
 
 .register-proof-example {
     text-align: center;
+    margin-bottom: 16px;
 }
 
 .register-proof-label {

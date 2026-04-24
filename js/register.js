@@ -142,7 +142,7 @@ async function handleRegistration(e) {
                 }
                 registerButton.disabled = false;
                 registerButton.classList.remove('register-submit-loading');
-                registerButtonText.textContent = 'Start Free Trial \u2014 Get Your First Comment';
+                registerButtonText.textContent = 'Generate My First Comment';
                 document.getElementById('reg-email').disabled = false;
                 document.getElementById('reg-password').disabled = false;
                 return;
@@ -212,7 +212,7 @@ async function handleRegistration(e) {
         showErrorWithLoginFallback(registerError, msg);
         registerButton.disabled = false;
         registerButton.classList.remove('register-submit-loading');
-        registerButtonText.textContent = 'Start Free Trial \u2014 Get Your First Comment';
+        registerButtonText.textContent = 'Generate My First Comment';
         document.getElementById('reg-email').disabled = false;
         document.getElementById('reg-password').disabled = false;
     }
