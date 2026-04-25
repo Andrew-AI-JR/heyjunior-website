@@ -28,32 +28,122 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function initInstantCommentDemo() {
     const demoButton = document.getElementById('register-demo-button');
-    const demoInput = document.getElementById('register-demo-input');
+    const backgroundInput = document.getElementById('register-demo-background');
+    const postInput = document.getElementById('register-demo-post');
     const demoResult = document.getElementById('register-demo-result');
+    const demoComment = document.getElementById('register-demo-comment');
+    const demoNote = document.getElementById('register-demo-result-note');
+    const demoError = document.getElementById('register-demo-error');
     const signupGate = document.getElementById('register-signup-gate');
+    const fallbackComment = "Hey -- saw you're hiring for a data engineer. I've spent the last 5 years building and optimizing ETL pipelines in AWS, including improving data throughput in production systems. Would love to connect if you're still hiring.";
 
-    if (!demoButton || !demoInput || !demoResult || !signupGate) return;
+    if (!demoButton || !backgroundInput || !postInput || !demoResult || !demoComment || !signupGate) return;
 
-    demoButton.addEventListener('click', function () {
-        const hadInput = demoInput.value.trim().length > 0;
-
-        if (!hadInput) {
-            demoInput.value = "We're hiring for an AI engineer who can build reliable systems, improve model performance, and work across product and engineering teams.";
+    demoButton.addEventListener('click', async function () {
+        if (demoError) {
+            demoError.textContent = '';
+            demoError.hidden = true;
         }
 
-        demoResult.hidden = false;
-        signupGate.hidden = false;
-        demoButton.textContent = 'Generated';
+        const backgroundText = backgroundInput.value.trim();
+        const postText = postInput.value.trim();
+
+        if (!backgroundText) {
+            showDemoError(demoError, 'Paste a short background first so Junior can personalize the comment.');
+            backgroundInput.focus();
+            return;
+        }
+
+        if (backgroundText.length < 20) {
+            showDemoError(demoError, 'Add a little more about your background so Junior has enough to work with.');
+            backgroundInput.focus();
+            return;
+        }
+
+        if (!postText) {
+            showDemoError(demoError, 'Paste a hiring post first.');
+            postInput.focus();
+            return;
+        }
+
+        if (postText.length < 20) {
+            showDemoError(demoError, 'Paste a little more of the post so Junior has enough context.');
+            postInput.focus();
+            return;
+        }
+
         demoButton.disabled = true;
+        demoButton.textContent = 'Generating...';
+
+        const combinedContext = "User background:\n" + backgroundText + "\n\nHiring post:\n" + postText;
 
         if (window.juniorTrack) {
-            window.juniorTrack('register_demo_generated', {
-                source: hadInput ? 'user_input' : 'sample'
-            });
+            window.juniorTrack('register_demo_generate_clicked', { source: 'register-personalized-demo' });
         }
 
-        demoResult.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        try {
+            const response = await fetch(API_BASE_URL + '/api/comments/demo', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    post_text: combinedContext,
+                    user_bio: backgroundText,
+                    hiring_post: postText,
+                    context_text: combinedContext,
+                    source: 'register-personalized-demo'
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error('Demo generation failed');
+            }
+
+            const data = await response.json();
+            showRegisterDemoResult(
+                demoResult,
+                signupGate,
+                demoComment,
+                demoNote,
+                data && data.comment ? data.comment : fallbackComment,
+                Boolean(data && data.fallback)
+            );
+
+            if (window.juniorTrack) {
+                window.juniorTrack('register_demo_generate_success', {
+                    source: 'register-personalized-demo',
+                    fallback: Boolean(data && data.fallback)
+                });
+            }
+        } catch (error) {
+            console.error('[Register demo] generation failed:', error);
+            showRegisterDemoResult(demoResult, signupGate, demoComment, demoNote, fallbackComment, true);
+
+            if (window.juniorTrack) {
+                window.juniorTrack('register_demo_generate_error', { source: 'register-personalized-demo' });
+            }
+        } finally {
+            demoButton.disabled = false;
+            demoButton.textContent = 'Generate My Personalized Comment';
+        }
     });
+}
+
+function showDemoError(element, message) {
+    if (!element) return;
+    element.textContent = message;
+    element.hidden = false;
+}
+
+function showRegisterDemoResult(resultEl, signupGateEl, commentEl, noteEl, comment, fallback) {
+    commentEl.textContent = comment;
+    if (noteEl) {
+        noteEl.textContent = fallback
+            ? 'This is an example. Create an account to generate comments from your exact background and posts.'
+            : 'This was generated from your background and the post above.';
+    }
+    resultEl.hidden = false;
+    signupGateEl.hidden = false;
+    resultEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 function loadReferralCode() {

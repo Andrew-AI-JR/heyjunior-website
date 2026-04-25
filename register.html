@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Start your 14-day Junior trial and begin turning LinkedIn conversations into interviews.">
     <title>Start Free Trial - Junior</title>
-    <link rel="stylesheet" href="css/styles.css?v=20260425-register-demo">
+    <link rel="stylesheet" href="css/styles.css?v=20260425-register-personalized">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
@@ -30,16 +30,43 @@
                 </div>
 
                 <div class="register-demo">
-                    <label for="register-demo-input" class="register-demo-label">Paste a job post or describe a role:</label>
-                    <textarea id="register-demo-input" class="register-demo-textarea" rows="5" placeholder="Example: We're hiring a data analyst -- remote. Looking for someone strong in SQL, dashboards, and stakeholder communication."></textarea>
-                    <p class="register-demo-help">No post handy? Click generate and we&#8217;ll use a sample.</p>
-                    <button type="button" id="register-demo-button" class="primary-button register-demo-button">Generate My Comment</button>
+                    <p class="register-demo-kicker">This is why Junior works.</p>
+                    <p class="register-demo-subcopy">Junior uses your experience to match exactly what they&#8217;re looking for.</p>
+
+                    <div class="register-demo-field">
+                        <label for="register-demo-background" class="register-demo-label">Your background:</label>
+                        <textarea id="register-demo-background" class="register-demo-textarea register-demo-textarea-short" rows="4" maxlength="1200" required>Data engineer with 5 years experience building pipelines, optimizing ETL workflows, and working with AWS and Python.</textarea>
+                        <p class="register-demo-help">Paste your LinkedIn summary or a short bio. You can edit the sample.</p>
+                    </div>
+
+                    <div class="register-demo-field">
+                        <label for="register-demo-post" class="register-demo-label">Their hiring post:</label>
+                        <textarea id="register-demo-post" class="register-demo-textarea" rows="5" maxlength="3000" required>We're hiring a data engineer to help build scalable data pipelines and improve data throughput across our analytics platform.</textarea>
+                        <p class="register-demo-help">No LinkedIn login needed. Use the sample or paste a real hiring post.</p>
+                    </div>
+
+                    <div class="register-demo-combine" aria-live="polite">
+                        <span class="register-source-pill register-source-background">Your background</span>
+                        <span class="register-combine-plus">+</span>
+                        <span class="register-source-pill register-source-post">Their post</span>
+                        <span class="register-combine-arrow">=</span>
+                        <strong>Personalized comment</strong>
+                    </div>
+
+                    <p class="register-anti-template">This is not a template. This is generated from your background.</p>
+                    <button type="button" id="register-demo-button" class="primary-button register-demo-button">Generate My Personalized Comment</button>
+                    <p id="register-demo-error" class="register-demo-error" hidden></p>
                 </div>
 
                 <div id="register-demo-result" class="register-demo-result" hidden>
-                    <p class="register-demo-result-label">Here&#8217;s what Junior would write:</p>
-                    <p class="register-demo-comment">&#8220;Hey &#8212; saw you&#8217;re hiring. I&#8217;ve been working on large-scale AI systems and recently improved model performance by 30%. Would love to connect if you&#8217;re still hiring.&#8221;</p>
-                    <p class="register-demo-result-note">This is the type of comment that gets replies.</p>
+                    <p class="register-demo-result-label">Personalized using both inputs:</p>
+                    <div class="register-result-sources" aria-label="Sources used for this generated comment">
+                        <span class="register-source-pill register-source-background">your background</span>
+                        <span class="register-source-pill register-source-post">their post</span>
+                    </div>
+                    <p class="register-demo-result-title">Here&#8217;s what Junior would write:</p>
+                    <p id="register-demo-comment" class="register-demo-comment"></p>
+                    <p id="register-demo-result-note" class="register-demo-result-note">This was generated from your background and the post above.</p>
                 </div>
 
                 <div id="register-signup-gate" class="register-signup-gate" hidden>
@@ -72,7 +99,7 @@
                     <button type="submit" id="register-button" class="primary-button register-submit">
                         <span id="register-button-text">Create My Account &amp; Get More</span>
                     </button>
-                    <p class="register-microcopy">No spam. Nothing is auto-posted. You approve everything.</p>
+                    <p class="register-microcopy">No spam. No credit card.</p>
 
                     <div id="register-status" class="register-status" hidden aria-live="polite"></div>
                     <div id="register-error" class="register-status register-status-error" hidden aria-live="polite"></div>
@@ -96,6 +123,6 @@
 
     <script src="js/referral.js"></script>
     <script src="js/api-config.js"></script>
-    <script src="js/register.js?v=20260425-register-demo"></script>
+    <script src="js/register.js?v=20260425-register-personalized"></script>
 </body>
 </html>

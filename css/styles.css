@@ -6351,6 +6351,24 @@ section, div {
     margin: 0 0 20px;
 }
 
+.register-demo-kicker {
+    margin: 0 0 6px;
+    color: #0f172a;
+    font-weight: 800;
+    text-align: center;
+}
+
+.register-demo-subcopy {
+    margin: 0 0 14px;
+    color: #475569;
+    font-size: 0.95rem;
+    text-align: center;
+}
+
+.register-demo-field {
+    margin-bottom: 14px;
+}
+
 .register-demo-label {
     display: block;
     margin-bottom: 8px;
@@ -6372,6 +6390,10 @@ section, div {
     resize: vertical;
 }
 
+.register-demo-textarea-short {
+    min-height: 104px;
+}
+
 .register-demo-textarea:focus {
     outline: none;
     border-color: #2563eb;
@@ -6385,10 +6407,70 @@ section, div {
     text-align: center;
 }
 
+.register-demo-combine {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 14px 0 10px;
+    padding: 12px;
+    background: #ffffff;
+    border: 1px solid #dbeafe;
+    border-radius: 12px;
+    color: #0f172a;
+    text-align: center;
+}
+
+.register-source-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 9px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.register-source-background {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.register-source-post {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.register-combine-plus,
+.register-combine-arrow {
+    color: #64748b;
+    font-weight: 800;
+}
+
+.register-anti-template {
+    margin: 10px 0 0;
+    color: #0f172a;
+    font-weight: 800;
+    text-align: center;
+}
+
 .register-demo-button {
     width: 100%;
     min-height: 52px;
     margin-top: 14px;
+}
+
+.register-demo-button:disabled {
+    opacity: 0.75;
+    cursor: wait;
+}
+
+.register-demo-error {
+    margin: 10px 0 0;
+    color: #b91c1c;
+    font-size: 0.9rem;
+    text-align: center;
 }
 
 .register-demo-result {
@@ -6406,6 +6488,20 @@ section, div {
     color: #166534;
 }
 
+.register-result-sources {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin-bottom: 12px;
+}
+
+.register-demo-result-title {
+    margin: 0 0 10px;
+    color: #0f172a;
+    font-weight: 700;
+}
+
 .register-demo-comment {
     margin: 0;
     padding: 16px;
@@ -6415,6 +6511,7 @@ section, div {
     color: #0f172a;
     font-size: 1rem;
     line-height: 1.5;
+    white-space: pre-wrap;
 }
 
 .register-demo-result-note {
