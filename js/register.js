@@ -22,8 +22,39 @@ document.addEventListener('DOMContentLoaded', () => {
         this.setAttribute('aria-label', isPassword ? 'Hide password' : 'Show password');
     });
 
+    initInstantCommentDemo();
     loadReferralCode();
 });
+
+function initInstantCommentDemo() {
+    const demoButton = document.getElementById('register-demo-button');
+    const demoInput = document.getElementById('register-demo-input');
+    const demoResult = document.getElementById('register-demo-result');
+    const signupGate = document.getElementById('register-signup-gate');
+
+    if (!demoButton || !demoInput || !demoResult || !signupGate) return;
+
+    demoButton.addEventListener('click', function () {
+        const hadInput = demoInput.value.trim().length > 0;
+
+        if (!hadInput) {
+            demoInput.value = "We're hiring for an AI engineer who can build reliable systems, improve model performance, and work across product and engineering teams.";
+        }
+
+        demoResult.hidden = false;
+        signupGate.hidden = false;
+        demoButton.textContent = 'Generated';
+        demoButton.disabled = true;
+
+        if (window.juniorTrack) {
+            window.juniorTrack('register_demo_generated', {
+                source: hadInput ? 'user_input' : 'sample'
+            });
+        }
+
+        demoResult.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+}
 
 function loadReferralCode() {
     // Get referral code from storage (stored for 30 days)
@@ -142,7 +173,7 @@ async function handleRegistration(e) {
                 }
                 registerButton.disabled = false;
                 registerButton.classList.remove('register-submit-loading');
-                registerButtonText.textContent = 'Generate My First Comment';
+                registerButtonText.textContent = 'Create My Account & Get More';
                 document.getElementById('reg-email').disabled = false;
                 document.getElementById('reg-password').disabled = false;
                 return;
@@ -212,7 +243,7 @@ async function handleRegistration(e) {
         showErrorWithLoginFallback(registerError, msg);
         registerButton.disabled = false;
         registerButton.classList.remove('register-submit-loading');
-        registerButtonText.textContent = 'Generate My First Comment';
+        registerButtonText.textContent = 'Create My Account & Get More';
         document.getElementById('reg-email').disabled = false;
         document.getElementById('reg-password').disabled = false;
     }

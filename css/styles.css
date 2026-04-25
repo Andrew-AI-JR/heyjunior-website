@@ -6271,73 +6271,89 @@ section, div {
     color: #475569;
 }
 
-.register-conversation {
+.register-demo {
     background: #f8fafc;
     border: 1px solid #e2e8f0;
-    border-radius: 12px;
-    padding: 16px 18px;
+    border-radius: 14px;
+    padding: 18px;
     margin: 0 0 20px;
-    font-size: 0.95rem;
-    line-height: 1.5;
-    color: #334155;
 }
 
-.register-conv-label {
+.register-demo-label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
     font-weight: 700;
     color: #0f172a;
-    margin-right: 4px;
 }
 
-.register-conv-post {
-    margin-bottom: 12px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid #e2e8f0;
-}
-
-.register-conv-comment {
-    margin-bottom: 12px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid #e2e8f0;
-}
-
-.register-conv-reply {
-    background: #eff6ff;
-    border: 1px solid #bfdbfe;
-    border-radius: 8px;
-    padding: 10px 14px;
-    font-weight: 500;
-    color: #1e40af;
-}
-
-.register-conv-reply .register-conv-label {
-    color: #1e40af;
-}
-
-.register-proof-example {
-    text-align: center;
-    margin-bottom: 16px;
-}
-
-.register-proof-label {
-    font-size: 0.85rem;
-    font-weight: 700;
-    color: #2563eb;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin: 0 0 8px;
-}
-
-.register-proof-img {
+.register-demo-textarea {
     width: 100%;
+    min-height: 130px;
+    padding: 14px 16px;
+    border: 1px solid #cbd5e1;
     border-radius: 10px;
-    border: 1px solid #e2e8f0;
+    background: #ffffff;
+    color: #0f172a;
+    font: inherit;
+    line-height: 1.45;
+    resize: vertical;
 }
 
-.register-proof-caption {
+.register-demo-textarea:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.register-demo-help {
     margin: 8px 0 0;
     font-size: 0.9rem;
-    color: #475569;
-    font-weight: 500;
+    color: #64748b;
+    text-align: center;
+}
+
+.register-demo-button {
+    width: 100%;
+    min-height: 52px;
+    margin-top: 14px;
+}
+
+.register-demo-result {
+    background: #ecfdf5;
+    border: 1px solid #bbf7d0;
+    border-radius: 14px;
+    padding: 18px;
+    margin: 0 0 18px;
+}
+
+.register-demo-result-label {
+    margin: 0 0 10px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #166534;
+}
+
+.register-demo-comment {
+    margin: 0;
+    padding: 16px;
+    background: #ffffff;
+    border: 1px solid #bbf7d0;
+    border-radius: 10px;
+    color: #0f172a;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.register-demo-result-note {
+    margin: 10px 0 0;
+    color: #166534;
+    font-weight: 600;
+    text-align: center;
+}
+
+.register-signup-gate {
+    margin-top: 8px;
 }
 
 .register-transition {

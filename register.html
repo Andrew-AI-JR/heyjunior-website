@@ -26,31 +26,24 @@
                     <p class="register-hook-kicker">I applied to 300 jobs and got 1 interview.</p>
                     <h1>This got me interviews -- not my resume.</h1>
                     <p class="register-hook-outcome">Start getting interviews from conversations.</p>
-                    <p class="register-hook-speed">This got me interviews instead:</p>
+                    <p class="register-hook-speed">Try it right now:</p>
                 </div>
 
-                <div class="register-conversation">
-                    <div class="register-conv-post">
-                        <span class="register-conv-label">Post:</span>
-                        &#8220;We&#8217;re hiring a data analyst &#8212; remote&#8221;
-                    </div>
-                    <div class="register-conv-comment">
-                        <span class="register-conv-label">Comment:</span>
-                        &#8220;Hey &#8212; saw you&#8217;re hiring. I&#8217;ve been building analytics pipelines and recently improved query performance by 40%. Would love to connect if you&#8217;re still hiring.&#8221;
-                    </div>
-                    <div class="register-conv-reply">
-                        <span class="register-conv-label">Reply:</span>
-                        &#8220;Send me your resume &#8212; let&#8217;s talk.&#8221;
-                    </div>
+                <div class="register-demo">
+                    <label for="register-demo-input" class="register-demo-label">Paste a job post or describe a role:</label>
+                    <textarea id="register-demo-input" class="register-demo-textarea" rows="5" placeholder="Example: We're hiring a data analyst -- remote. Looking for someone strong in SQL, dashboards, and stakeholder communication."></textarea>
+                    <p class="register-demo-help">No post handy? Click generate and we&#8217;ll use a sample.</p>
+                    <button type="button" id="register-demo-button" class="primary-button register-demo-button">Generate My Comment</button>
                 </div>
 
-                <div class="register-proof-example">
-                    <p class="register-proof-label">Real result:</p>
-                    <img src="./images/junior6.png" alt="A recruiter replied to a Junior-generated comment and scheduled outreach" class="register-proof-img">
-                    <p class="register-proof-caption">Comment posted. Recruiter replied. Call scheduled.</p>
+                <div id="register-demo-result" class="register-demo-result" hidden>
+                    <p class="register-demo-result-label">Here&#8217;s what Junior would write:</p>
+                    <p class="register-demo-comment">&#8220;Hey &#8212; saw you&#8217;re hiring. I&#8217;ve been working on large-scale AI systems and recently improved model performance by 30%. Would love to connect if you&#8217;re still hiring.&#8221;</p>
+                    <p class="register-demo-result-note">This is the type of comment that gets replies.</p>
                 </div>
 
-                <p class="register-transition">Get results like this. Create your free account:</p>
+                <div id="register-signup-gate" class="register-signup-gate" hidden>
+                <p class="register-transition">Want more like this automatically?</p>
 
                 <form id="register-form" class="register-form" novalidate>
                     <input type="hidden" id="referral-code-field">
@@ -77,9 +70,9 @@
                     <p class="register-reassurance">No credit card required to start your 14-day trial.</p>
 
                     <button type="submit" id="register-button" class="primary-button register-submit">
-                        <span id="register-button-text">Generate My First Comment</span>
+                        <span id="register-button-text">Create My Account &amp; Get More</span>
                     </button>
-                    <p class="register-microcopy">No spam. No auto-posting. You approve every comment.</p>
+                    <p class="register-microcopy">No spam. Nothing is auto-posted. You approve everything.</p>
 
                     <div id="register-status" class="register-status" hidden aria-live="polite"></div>
                     <div id="register-error" class="register-status register-status-error" hidden aria-live="polite"></div>
@@ -92,6 +85,7 @@
                     <p class="register-secondary-links">Already have an account? <a href="portal.html">Log in here</a></p>
                     <p class="register-secondary-links">Forgot your password? <a href="forgot-password.html">Reset it here</a></p>
                 </form>
+                </div>
             </section>
 
             <footer class="register-footer">
