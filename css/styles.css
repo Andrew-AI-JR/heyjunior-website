@@ -6045,6 +6045,10 @@ section, div {
     margin-top: 1rem;
 }
 
+.rl-demo-field {
+    margin-bottom: 1rem;
+}
+
 .rl-demo-form label {
     display: block;
     margin-bottom: 0.5rem;
@@ -6066,6 +6070,10 @@ section, div {
     resize: vertical;
 }
 
+.rl-demo-textarea-short {
+    min-height: 118px;
+}
+
 .rl-demo-textarea:focus {
     outline: none;
     border-color: #2563eb;
@@ -6076,6 +6084,54 @@ section, div {
     margin: 0.55rem 0 0;
     font-size: 0.92rem;
     color: #475569;
+}
+
+.rl-demo-combine {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin: 1.2rem 0 0.85rem;
+    padding: 0.85rem;
+    background: #ffffff;
+    border: 1px solid #dbeafe;
+    border-radius: 12px;
+    color: #0f172a;
+    text-align: center;
+}
+
+.rl-source-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.55rem;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.rl-source-background {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.rl-source-post {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.rl-combine-plus,
+.rl-combine-arrow {
+    color: #64748b;
+    font-weight: 800;
+}
+
+.rl-anti-template {
+    margin: 0.75rem 0 0;
+    color: #0f172a;
+    font-weight: 800;
+    text-align: center;
 }
 
 .rl-generate-btn {
@@ -6100,6 +6156,22 @@ section, div {
     border: 1px solid #bbf7d0;
     border-radius: 14px;
     padding: 22px;
+}
+
+.rl-result-label {
+    margin: 0 0 0.45rem;
+    color: #166534;
+    font-size: 0.92rem;
+    font-weight: 800;
+    text-align: center;
+}
+
+.rl-result-sources {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin-bottom: 1rem;
 }
 
 .rl-result-comment {
