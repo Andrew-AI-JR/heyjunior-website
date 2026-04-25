@@ -119,7 +119,7 @@ async function handleRegistration(e) {
     const abortController = new AbortController();
     const timeoutId = setTimeout(function () {
         abortController.abort();
-    }, 12000);
+    }, 30000);
 
     try {
         const referralCode = document.getElementById('referral-code-field').value;
@@ -220,7 +220,7 @@ async function handleRegistration(e) {
 
         let msg;
         if (error.name === 'AbortError') {
-            msg = 'Registration is taking too long. Please check your connection and try again.';
+            msg = 'Registration is taking longer than expected. Please try again in a moment.';
             console.error('[Register] registration request timed out');
             if (window.juniorTrack) {
                 window.juniorTrack('register_timeout');
