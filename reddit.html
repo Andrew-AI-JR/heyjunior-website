@@ -35,100 +35,155 @@
             <p class="rl-microcopy">Real comment. Real reply. Real conversation started.</p>
         </section>
 
-        <section class="rl-section rl-demo-section">
-            <p class="rl-emphasis">This is how I got interviews without applying.</p>
-            <p class="rl-demo-label">Watch exactly how this works (30 seconds) &#8595;</p>
-            <div class="rl-demo-container">
-                <video autoplay loop muted playsinline class="rl-demo-video">
-                    <source src="./demo.mp4" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-            </div>
-            <p class="rl-microcopy">You don&#8217;t need to set anything up &#8212; it runs automatically.</p>
+        <section class="rl-section rl-interactive-demo" id="try-it">
+            <h2 class="rl-h2">Try it before you sign up.</h2>
+            <p>Paste a hiring post you would normally apply to. Junior will generate the kind of comment that starts a conversation.</p>
+            <form class="rl-demo-form" id="reddit-demo-form">
+                <label for="reddit-demo-post">Paste a hiring post:</label>
+                <textarea id="reddit-demo-post" class="rl-demo-textarea" rows="7" maxlength="3000" placeholder="Example: We're hiring a data analyst -- remote. Looking for someone strong in SQL, dashboards, and stakeholder communication..." required></textarea>
+                <p class="rl-demo-help">No LinkedIn login needed. Paste the post text only.</p>
+                <button type="submit" class="rl-button rl-generate-btn" id="reddit-demo-button">Generate My Comment</button>
+                <p class="rl-demo-error" id="reddit-demo-error" hidden></p>
+            </form>
+        </section>
+
+        <section class="rl-section rl-result" id="reddit-demo-result" hidden>
+            <h2 class="rl-h2">Here&#8217;s your comment:</h2>
+            <div class="rl-result-comment" id="reddit-demo-comment"></div>
+            <p class="rl-microcopy" id="reddit-demo-note">This is the type of comment that gets replies.</p>
+        </section>
+
+        <section class="rl-section rl-conversion-section" id="reddit-demo-conversion" hidden>
+            <p class="rl-emphasis">Want Junior to do this automatically every day?</p>
+            <a href="register.html?src=reddit-demo" class="rl-button" data-cta="reddit-demo-result">Create My Account &amp; Get More</a>
+            <p class="rl-trust-line">No spam. No auto-posting. You approve every comment.</p>
+            <p class="rl-microcopy">No credit card &#183; 14-day free trial</p>
         </section>
 
         <section class="rl-section">
-            <h2 class="rl-h2">How it works:</h2>
-            <ol class="rl-steps">
-                <li>Junior finds hiring posts on LinkedIn</li>
-                <li>It writes thoughtful comments on your behalf</li>
-                <li>Hiring managers respond &#8212; you start conversations</li>
-            </ol>
-            <p>No resumes. No cold applications.</p>
-            <p class="rl-emphasis">Because interviews don&#8217;t come from applications &#8212; they come from conversations.</p>
-        </section>
-
-        <section class="rl-section">
-            <p class="rl-emphasis">If you&#8217;re stuck applying and hearing nothing back &#8212; this is a different way to do it.</p>
-        </section>
-
-        <section class="rl-section">
-            <p class="rl-emphasis">Most users get their first hiring manager reply within 3&#8211;7 days.</p>
-        </section>
-
-        <section class="rl-section rl-cta-section">
-            <p>Try it free for 14 days &#8212; no credit card required.</p>
-            <p class="rl-trust-line">No automation spam. No bots blasting messages. Thoughtful, personalized comments only.</p>
-            <a href="register.html?src=reddit" class="rl-button" data-cta="reddit-hero">Start getting replies instead of applying &#8594;</a>
-            <p class="rl-microcopy">No credit card &#183; First comment in under 2 minutes</p>
-        </section>
-
-        <section class="rl-section">
-            <h2 class="rl-h2">What Junior does:</h2>
+            <h2 class="rl-h2">What Junior does next:</h2>
             <ul class="rl-list">
-                <li>Finds posts where companies are hiring</li>
-                <li>Writes personalized comments that get replies</li>
+                <li>Finds hiring posts on LinkedIn</li>
+                <li>Writes personalized comments in your voice</li>
+                <li>Lets you approve everything before anything is posted</li>
                 <li>Turns replies into real conversations</li>
-                <li>Turns conversations into interviews</li>
             </ul>
-        </section>
-
-        <section class="rl-section">
-            <h2 class="rl-h2">No more:</h2>
-            <ul class="rl-list">
-                <li>Resume black holes</li>
-                <li>Cover letters</li>
-                <li>Mass applying</li>
-            </ul>
-            <p><strong>Just real conversations with real people.</strong></p>
         </section>
 
         <section class="rl-section rl-cta-section">
-            <a href="register.html?src=reddit" class="rl-button" data-cta="reddit-mid">Try Junior Free &#8212; 14 Days &#183; No Credit Card</a>
-            <p class="rl-microcopy">No credit card &#183; First comment in under 2 minutes</p>
-        </section>
-
-        <section class="rl-section rl-below-fold-intro">
-            <h2 class="rl-h2">Want the longer version?</h2>
-        </section>
-
-        <section class="rl-section">
-            <h2 class="rl-h2">Why this works</h2>
-            <p>Applying to jobs is broken.</p>
-            <p>Everyone is:</p>
-            <ul class="rl-list">
-                <li>Sending resumes into ATS systems</li>
-                <li>Competing with hundreds of applicants</li>
-                <li>Getting ignored</li>
-            </ul>
-            <p>But hiring doesn&#8217;t actually work that way.</p>
-            <p class="rl-emphasis">Conversations get interviews.</p>
-        </section>
-
-        <section class="rl-section rl-final-section">
-            <p class="rl-emphasis">Ready to try a different approach?</p>
-            <a href="register.html?src=reddit" class="rl-button" data-cta="reddit-final">Start Free Trial</a>
-            <p class="rl-microcopy">No credit card &#183; First comment in under 2 minutes</p>
+            <p class="rl-emphasis">Ready to stop applying into the void?</p>
+            <a href="register.html?src=reddit" class="rl-button" data-cta="reddit-final">Create My Account</a>
+            <p class="rl-microcopy">No spam &#183; You approve every comment &#183; No credit card</p>
         </section>
     </main>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            var video = document.querySelector('.rl-demo-video');
-            if (video) {
-                video.muted = true;
-                video.play().catch(function() {});
+            var form = document.getElementById('reddit-demo-form');
+            var textarea = document.getElementById('reddit-demo-post');
+            var button = document.getElementById('reddit-demo-button');
+            var error = document.getElementById('reddit-demo-error');
+            var result = document.getElementById('reddit-demo-result');
+            var commentBox = document.getElementById('reddit-demo-comment');
+            var note = document.getElementById('reddit-demo-note');
+            var conversion = document.getElementById('reddit-demo-conversion');
+            var fallbackComment = "Hey -- saw you're hiring for this role. I've been building practical systems that solve similar problems and would love to connect if you're still looking for someone who can contribute quickly.";
+            var attemptsKey = 'juniorRedditDemoAttempts';
+            var maxAttempts = 3;
+
+            function track(eventName, payload) {
+                if (window.juniorTrack) {
+                    window.juniorTrack(eventName, payload || {});
+                }
             }
+
+            function getAttempts() {
+                return Number(sessionStorage.getItem(attemptsKey) || '0');
+            }
+
+            function setError(message) {
+                error.textContent = message;
+                error.hidden = false;
+            }
+
+            function clearError() {
+                error.textContent = '';
+                error.hidden = true;
+            }
+
+            function showResult(comment, fallback) {
+                commentBox.textContent = comment;
+                note.textContent = fallback
+                    ? "Here's an example of what Junior generates. Create an account to generate comments for your exact posts."
+                    : "This is the type of comment that gets replies.";
+                result.hidden = false;
+                conversion.hidden = false;
+                result.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+
+            document.querySelectorAll('[data-cta="reddit-demo-result"]').forEach(function(link) {
+                link.addEventListener('click', function() {
+                    track('demo_signup_clicked', { source: 'reddit-demo' });
+                });
+            });
+
+            if (!form || !textarea || !button) return;
+
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+                clearError();
+
+                var postText = textarea.value.trim();
+                if (!postText) {
+                    setError('Paste a hiring post first.');
+                    textarea.focus();
+                    return;
+                }
+
+                if (postText.length < 20) {
+                    setError('Paste a little more of the post so Junior has enough context.');
+                    textarea.focus();
+                    return;
+                }
+
+                if (getAttempts() >= maxAttempts) {
+                    setError("You've seen how it works -- create your account to generate more comments.");
+                    showResult(fallbackComment, true);
+                    return;
+                }
+
+                sessionStorage.setItem(attemptsKey, String(getAttempts() + 1));
+                button.disabled = true;
+                button.textContent = 'Generating...';
+                track('demo_generate_clicked', { source: 'reddit' });
+
+                fetch('https://api.heyjunior.ai/api/comments/demo', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ post_text: postText, source: 'reddit' })
+                })
+                    .then(function(response) {
+                        if (!response.ok) throw new Error('Demo generation failed');
+                        return response.json();
+                    })
+                    .then(function(data) {
+                        var generated = data && data.comment ? data.comment : fallbackComment;
+                        showResult(generated, Boolean(data && data.fallback));
+                        track('demo_generate_success', {
+                            source: 'reddit',
+                            fallback: Boolean(data && data.fallback)
+                        });
+                    })
+                    .catch(function(err) {
+                        console.error('[Reddit demo] generation failed:', err);
+                        showResult(fallbackComment, true);
+                        track('demo_generate_error', { source: 'reddit' });
+                    })
+                    .finally(function() {
+                        button.disabled = false;
+                        button.textContent = 'Generate My Comment';
+                    });
+            });
         });
     </script>
 
