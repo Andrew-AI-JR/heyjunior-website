@@ -288,11 +288,6 @@ async function handleRegistration(e) {
     document.getElementById('reg-password').disabled = true;
     console.log('[Register] registration request started');
 
-    const abortController = new AbortController();
-    const timeoutId = setTimeout(function () {
-        abortController.abort();
-    }, 10000);
-
     try {
         const referralCode = document.getElementById('referral-code-field').value;
 
@@ -305,11 +300,8 @@ async function handleRegistration(e) {
         const response = await fetch(API_BASE_URL + '/api/users/register', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(requestBody),
-            signal: abortController.signal
+            body: JSON.stringify(requestBody)
         });
-
-        clearTimeout(timeoutId);
         console.log('[Register] registration response received, status:', response.status);
         
         const contentType = response.headers.get('content-type');
@@ -387,8 +379,6 @@ async function handleRegistration(e) {
         }, 1000);
 
     } catch (error) {
-        clearTimeout(timeoutId);
-
         let msg;
         if (error.name === 'AbortError') {
             msg = 'Our server is slow right now. Please try again — it usually works on the second attempt.';
