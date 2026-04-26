@@ -23,9 +23,38 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     initEmailStep();
-    initInstantCommentDemo();
+
+    var qs = new URLSearchParams(window.location.search);
+    var src = qs.get('src') || sessionStorage.getItem('marketingSource') || '';
+    var isRedditFlow = src.indexOf('reddit') !== -1;
+
+    if (isRedditFlow) {
+        initInstantCommentDemo();
+    } else {
+        skipDemoShowSignup();
+    }
+
     loadReferralCode();
 });
+
+function skipDemoShowSignup() {
+    var hook = document.getElementById('register-hook');
+    var directHook = document.getElementById('register-direct-hook');
+    var demo = document.getElementById('register-demo');
+    var demoResult = document.getElementById('register-demo-result');
+    var signupGate = document.getElementById('register-signup-gate');
+    var emailStep = document.getElementById('email-step');
+    var fullSignup = document.getElementById('full-signup-step');
+
+    if (hook) hook.hidden = true;
+    if (demo) demo.hidden = true;
+    if (demoResult) demoResult.hidden = true;
+    if (directHook) directHook.hidden = false;
+
+    if (signupGate) signupGate.hidden = false;
+    if (emailStep) emailStep.hidden = false;
+    if (fullSignup) fullSignup.hidden = true;
+}
 
 function initEmailStep() {
     const emailStepBtn = document.getElementById('email-step-button');
