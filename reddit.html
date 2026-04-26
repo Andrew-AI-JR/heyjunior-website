@@ -113,6 +113,7 @@
             var fallbackComment = "Hey -- saw you're hiring for a data engineer. I've spent the last 5 years building and optimizing ETL pipelines in AWS, including improving data throughput in production systems. Would love to connect if you're still hiring.";
             var attemptsKey = 'juniorRedditDemoAttempts';
             var maxAttempts = 3;
+            var demoTimeoutMs = 8000;
 
             function track(eventName, payload) {
                 if (window.juniorTrack) {
@@ -194,6 +195,11 @@
                 button.textContent = 'Generating...';
                 track('demo_generate_clicked', { source: 'reddit-personalized-demo' });
 
+                var abortController = new AbortController();
+                var timeoutId = setTimeout(function() {
+                    abortController.abort();
+                }, demoTimeoutMs);
+
                 fetch('https://api.heyjunior.ai/api/comments/demo', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -203,9 +209,11 @@
                         hiring_post: postText,
                         context_text: combinedContext,
                         source: 'reddit-personalized-demo'
-                    })
+                    }),
+                    signal: abortController.signal
                 })
                     .then(function(response) {
+                        clearTimeout(timeoutId);
                         if (!response.ok) throw new Error('Demo generation failed');
                         return response.json();
                     })
@@ -218,9 +226,13 @@
                         });
                     })
                     .catch(function(err) {
+                        clearTimeout(timeoutId);
                         console.error('[Reddit demo] generation failed:', err);
                         showResult(fallbackComment, true);
-                        track('demo_generate_error', { source: 'reddit-personalized-demo' });
+                        track('demo_generate_error', {
+                            source: 'reddit-personalized-demo',
+                            reason: err && err.name === 'AbortError' ? 'timeout' : 'network'
+                        });
                     })
                     .finally(function() {
                         button.disabled = false;
