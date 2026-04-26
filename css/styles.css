@@ -6018,6 +6018,21 @@ section, div {
     background: #1e293b;
 }
 
+.rl-top-cta-section {
+    text-align: center;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.rl-top-cta {
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 0.95rem;
+    padding: 14px 20px;
+    min-height: auto;
+}
+
 .rl-microcopy {
     font-size: 0.9rem;
     color: #475569;
@@ -6523,6 +6538,29 @@ section, div {
 
 .register-signup-gate {
     margin-top: 8px;
+}
+
+.register-email-step {
+    text-align: center;
+}
+
+.register-email-step .form-group {
+    max-width: 380px;
+    margin: 0 auto 12px;
+}
+
+.register-email-step input[type="email"] {
+    width: 100%;
+    padding: 14px 16px;
+    font-size: 1rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+.register-email-step .primary-button {
+    max-width: 380px;
+    margin: 0 auto;
 }
 
 .register-transition {

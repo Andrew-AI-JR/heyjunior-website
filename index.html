@@ -14,6 +14,15 @@
     <!-- Simple i18n system -->
 
     <!-- Pixel slot: insert Meta / Google / Reddit pixel snippets here. juniorTrack() forwards events only when those globals exist. -->
+
+    <!-- Reddit Pixel — TODO: replace REDDIT_PIXEL_ID with your real pixel ID -->
+    <script>
+    !function(w,d){if(!w.rdt){var p=w.rdt=function(){p.sendEvent?p.sendEvent.apply(p,arguments):p.callQueue.push(arguments)};p.callQueue=[];var t=d.createElement("script");t.src="https://www.redditstatic.com/ads/pixel.js";t.async=!0;var s=d.getElementsByTagName("script")[0];s.parentNode.insertBefore(t,s)}}(window,document);
+    // rdt('init','REDDIT_PIXEL_ID'); // uncomment after replacing with your real ID
+    // rdt('track', 'PageVisit');
+    </script>
+    <!-- End Reddit Pixel -->
+
     <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "c7e2267943804acdb5bfcd009f02f537"}'></script><!-- End Cloudflare Web Analytics -->
     <script src="js/analytics.js"></script>
 </head>

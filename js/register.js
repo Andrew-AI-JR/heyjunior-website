@@ -22,9 +22,51 @@ document.addEventListener('DOMContentLoaded', () => {
         this.setAttribute('aria-label', isPassword ? 'Hide password' : 'Show password');
     });
 
+    initEmailStep();
     initInstantCommentDemo();
     loadReferralCode();
 });
+
+function initEmailStep() {
+    const emailStepBtn = document.getElementById('email-step-button');
+    const emailStepInput = document.getElementById('email-step-input');
+    const emailStepDiv = document.getElementById('email-step');
+    const fullSignupDiv = document.getElementById('full-signup-step');
+    const regEmail = document.getElementById('reg-email');
+
+    if (!emailStepBtn || !emailStepInput || !emailStepDiv || !fullSignupDiv || !regEmail) return;
+
+    const storedEmail = sessionStorage.getItem('juniorCapturedEmail');
+    if (storedEmail) {
+        emailStepInput.value = storedEmail;
+    }
+
+    emailStepBtn.addEventListener('click', function () {
+        const email = emailStepInput.value.trim();
+        if (!email || !validateEmail(email)) {
+            emailStepInput.setCustomValidity('Please enter a valid email address.');
+            emailStepInput.reportValidity();
+            return;
+        }
+
+        emailStepInput.setCustomValidity('');
+        sessionStorage.setItem('juniorCapturedEmail', email);
+        regEmail.value = email;
+
+        if (window.juniorTrack) {
+            window.juniorTrack('register_email_captured');
+        }
+
+        emailStepDiv.hidden = true;
+        fullSignupDiv.hidden = false;
+
+        if (window.juniorTrack) {
+            window.juniorTrack('register_signup_revealed');
+        }
+
+        document.getElementById('reg-password')?.focus();
+    });
+}
 
 function initInstantCommentDemo() {
     const demoButton = document.getElementById('register-demo-button');
@@ -76,10 +118,14 @@ function initInstantCommentDemo() {
         demoButton.textContent = 'Generating...';
 
         const combinedContext = "User background:\n" + backgroundText + "\n\nHiring post:\n" + postText;
+        const demoTimeoutMs = 4000;
 
         if (window.juniorTrack) {
             window.juniorTrack('register_demo_generate_clicked', { source: 'register-personalized-demo' });
         }
+
+        const abortController = new AbortController();
+        const timeoutId = setTimeout(function () { abortController.abort(); }, demoTimeoutMs);
 
         try {
             const response = await fetch(API_BASE_URL + '/api/comments/demo', {
@@ -91,35 +137,42 @@ function initInstantCommentDemo() {
                     hiring_post: postText,
                     context_text: combinedContext,
                     source: 'register-personalized-demo'
-                })
+                }),
+                signal: abortController.signal
             });
+
+            clearTimeout(timeoutId);
 
             if (!response.ok) {
                 throw new Error('Demo generation failed');
             }
 
             const data = await response.json();
+            const isFallback = Boolean(data && data.fallback);
             showRegisterDemoResult(
                 demoResult,
                 signupGate,
                 demoComment,
                 demoNote,
                 data && data.comment ? data.comment : fallbackComment,
-                Boolean(data && data.fallback)
+                isFallback
             );
 
             if (window.juniorTrack) {
-                window.juniorTrack('register_demo_generate_success', {
-                    source: 'register-personalized-demo',
-                    fallback: Boolean(data && data.fallback)
+                window.juniorTrack(isFallback ? 'register_demo_fallback_shown' : 'register_demo_result_shown', {
+                    source: 'register-personalized-demo'
                 });
             }
         } catch (error) {
+            clearTimeout(timeoutId);
             console.error('[Register demo] generation failed:', error);
             showRegisterDemoResult(demoResult, signupGate, demoComment, demoNote, fallbackComment, true);
 
             if (window.juniorTrack) {
-                window.juniorTrack('register_demo_generate_error', { source: 'register-personalized-demo' });
+                window.juniorTrack('register_demo_fallback_shown', {
+                    source: 'register-personalized-demo',
+                    reason: error && error.name === 'AbortError' ? 'timeout' : 'network'
+                });
             }
         } finally {
             demoButton.disabled = false;
@@ -286,7 +339,6 @@ async function handleRegistration(e) {
         }
 
         if (window.juniorTrack) {
-            window.juniorTrack('register_submit_success', { userId: data.id || null });
             window.juniorTrack('register_completed', { userId: data.id || null });
         }
 

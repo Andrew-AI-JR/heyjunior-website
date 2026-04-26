@@ -11,6 +11,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 
     <!-- Pixel slot: insert Meta / Google / Reddit pixel snippets here. juniorTrack() forwards events only when those globals exist. -->
+
+    <!-- Reddit Pixel — TODO: replace REDDIT_PIXEL_ID with your real pixel ID -->
+    <script>
+    !function(w,d){if(!w.rdt){var p=w.rdt=function(){p.sendEvent?p.sendEvent.apply(p,arguments):p.callQueue.push(arguments)};p.callQueue=[];var t=d.createElement("script");t.src="https://www.redditstatic.com/ads/pixel.js";t.async=!0;var s=d.getElementsByTagName("script")[0];s.parentNode.insertBefore(t,s)}}(window,document);
+    // rdt('init','REDDIT_PIXEL_ID'); // uncomment after replacing with your real ID
+    // rdt('track', 'PageVisit');
+    </script>
+    <!-- End Reddit Pixel -->
+
     <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "c7e2267943804acdb5bfcd009f02f537"}'></script><!-- End Cloudflare Web Analytics -->
     <script src="js/analytics.js"></script>
 </head>
@@ -70,48 +79,61 @@
                 </div>
 
                 <div id="register-signup-gate" class="register-signup-gate" hidden>
-                <p class="register-transition">Want more like this automatically?</p>
 
-                <form id="register-form" class="register-form" novalidate>
-                    <input type="hidden" id="referral-code-field">
-
-                    <div class="form-group">
-                        <label for="reg-email">Email</label>
-                        <input type="email" id="reg-email" placeholder="you@example.com" autocomplete="email" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="reg-password">Password</label>
-                        <div class="password-field">
-                            <input type="password" id="reg-password" placeholder="Create a password" autocomplete="new-password" required minlength="8">
-                            <button type="button" id="password-toggle" class="password-toggle" aria-label="Show password">Show</button>
+                    <div id="email-step" class="register-email-step">
+                        <p class="register-transition">Where should we send comments like this?</p>
+                        <div class="form-group">
+                            <input type="email" id="email-step-input" placeholder="you@example.com" autocomplete="email" required>
                         </div>
-                        <small class="password-help">Minimum 8 characters, at least one uppercase letter.</small>
+                        <button type="button" id="email-step-button" class="primary-button register-submit">Continue</button>
+                        <p class="register-microcopy">No spam. No credit card.</p>
                     </div>
 
-                    <label for="terms-agree-register" class="register-terms">
-                        <input type="checkbox" id="terms-agree-register">
-                        <span>I agree to the <a href="terms.html" target="_blank" rel="noopener">Terms of Service</a></span>
-                    </label>
+                    <div id="full-signup-step" class="register-full-signup-step" hidden>
+                        <p class="register-transition">Almost there &mdash; set a password to finish.</p>
 
-                    <p class="register-reassurance">No credit card required to start your 14-day trial.</p>
+                        <form id="register-form" class="register-form" novalidate>
+                            <input type="hidden" id="referral-code-field">
 
-                    <button type="submit" id="register-button" class="primary-button register-submit">
-                        <span id="register-button-text">Create My Account &amp; Get More</span>
-                    </button>
-                    <p class="register-microcopy">No spam. No credit card.</p>
+                            <div class="form-group">
+                                <label for="reg-email">Email</label>
+                                <input type="email" id="reg-email" placeholder="you@example.com" autocomplete="email" required>
+                            </div>
 
-                    <div id="register-status" class="register-status" hidden aria-live="polite"></div>
-                    <div id="register-error" class="register-status register-status-error" hidden aria-live="polite"></div>
+                            <div class="form-group">
+                                <label for="reg-password">Password</label>
+                                <div class="password-field">
+                                    <input type="password" id="reg-password" placeholder="Create a password" autocomplete="new-password" required minlength="8">
+                                    <button type="button" id="password-toggle" class="password-toggle" aria-label="Show password">Show</button>
+                                </div>
+                                <small class="password-help">Minimum 8 characters, at least one uppercase letter.</small>
+                            </div>
 
-                    <ul class="register-trust-list">
-                        <li>14-day free trial</li>
-                        <li>First comment in under 2 minutes</li>
-                    </ul>
+                            <label for="terms-agree-register" class="register-terms">
+                                <input type="checkbox" id="terms-agree-register">
+                                <span>I agree to the <a href="terms.html" target="_blank" rel="noopener">Terms of Service</a></span>
+                            </label>
 
-                    <p class="register-secondary-links">Already have an account? <a href="portal.html">Log in here</a></p>
-                    <p class="register-secondary-links">Forgot your password? <a href="forgot-password.html">Reset it here</a></p>
-                </form>
+                            <p class="register-reassurance">No credit card required to start your 14-day trial.</p>
+
+                            <button type="submit" id="register-button" class="primary-button register-submit">
+                                <span id="register-button-text">Create My Account &amp; Get More</span>
+                            </button>
+                            <p class="register-microcopy">No spam. No credit card.</p>
+
+                            <div id="register-status" class="register-status" hidden aria-live="polite"></div>
+                            <div id="register-error" class="register-status register-status-error" hidden aria-live="polite"></div>
+
+                            <ul class="register-trust-list">
+                                <li>14-day free trial</li>
+                                <li>First comment in under 2 minutes</li>
+                            </ul>
+
+                            <p class="register-secondary-links">Already have an account? <a href="portal.html">Log in here</a></p>
+                            <p class="register-secondary-links">Forgot your password? <a href="forgot-password.html">Reset it here</a></p>
+                        </form>
+                    </div>
+
                 </div>
             </section>
 

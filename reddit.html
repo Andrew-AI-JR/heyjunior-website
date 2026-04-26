@@ -11,6 +11,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 
     <!-- Pixel slot: insert Meta / Google / Reddit pixel snippets here. juniorTrack() forwards events only when those globals exist. -->
+
+    <!-- Reddit Pixel — TODO: replace REDDIT_PIXEL_ID with your real pixel ID -->
+    <script>
+    !function(w,d){if(!w.rdt){var p=w.rdt=function(){p.sendEvent?p.sendEvent.apply(p,arguments):p.callQueue.push(arguments)};p.callQueue=[];var t=d.createElement("script");t.src="https://www.redditstatic.com/ads/pixel.js";t.async=!0;var s=d.getElementsByTagName("script")[0];s.parentNode.insertBefore(t,s)}}(window,document);
+    // rdt('init','REDDIT_PIXEL_ID'); // uncomment after replacing with your real ID
+    // rdt('track', 'PageVisit');
+    </script>
+    <!-- End Reddit Pixel -->
+
     <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "c7e2267943804acdb5bfcd009f02f537"}'></script><!-- End Cloudflare Web Analytics -->
     <script src="js/analytics.js"></script>
 </head>
@@ -33,6 +42,10 @@
             <p>Comment posted on a hiring manager&#8217;s post. Recruiter replied the same day.</p>
             <img src="./images/junior6.png" alt="A recruiter replied to a Junior-generated comment and reached out for the next step" class="rl-proof-image">
             <p class="rl-microcopy">Real comment. Real reply. Real conversation started.</p>
+        </section>
+
+        <section class="rl-section rl-top-cta-section">
+            <a href="register.html?src=reddit-top-cta" class="rl-button rl-top-cta" data-cta="reddit-top-skip-demo">Skip the demo &mdash; Create My Free Account</a>
         </section>
 
         <section class="rl-section rl-interactive-demo" id="try-it">
@@ -113,13 +126,15 @@
             var fallbackComment = "Hey -- saw you're hiring for a data engineer. I've spent the last 5 years building and optimizing ETL pipelines in AWS, including improving data throughput in production systems. Would love to connect if you're still hiring.";
             var attemptsKey = 'juniorRedditDemoAttempts';
             var maxAttempts = 3;
-            var demoTimeoutMs = 8000;
+            var demoTimeoutMs = 4000;
 
             function track(eventName, payload) {
                 if (window.juniorTrack) {
                     window.juniorTrack(eventName, payload || {});
                 }
             }
+
+            track('reddit_landing_view');
 
             function getAttempts() {
                 return Number(sessionStorage.getItem(attemptsKey) || '0');
@@ -142,12 +157,19 @@
                     : "This was generated from your background and the post above.";
                 result.hidden = false;
                 conversion.hidden = false;
+                track(fallback ? 'reddit_demo_fallback_shown' : 'reddit_demo_result_shown');
                 result.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
 
             document.querySelectorAll('[data-cta="reddit-demo-result"]').forEach(function(link) {
                 link.addEventListener('click', function() {
-                    track('demo_signup_clicked', { source: 'reddit-demo' });
+                    track('reddit_demo_cta_clicked');
+                });
+            });
+
+            document.querySelectorAll('[data-cta="reddit-top-skip-demo"]').forEach(function(link) {
+                link.addEventListener('click', function() {
+                    track('reddit_top_cta_clicked');
                 });
             });
 
@@ -193,7 +215,7 @@
                 sessionStorage.setItem(attemptsKey, String(getAttempts() + 1));
                 button.disabled = true;
                 button.textContent = 'Generating...';
-                track('demo_generate_clicked', { source: 'reddit-personalized-demo' });
+                track('reddit_demo_generate_clicked', { source: 'reddit-personalized-demo' });
 
                 var abortController = new AbortController();
                 var timeoutId = setTimeout(function() {
@@ -220,19 +242,11 @@
                     .then(function(data) {
                         var generated = data && data.comment ? data.comment : fallbackComment;
                         showResult(generated, Boolean(data && data.fallback));
-                        track('demo_generate_success', {
-                            source: 'reddit-personalized-demo',
-                            fallback: Boolean(data && data.fallback)
-                        });
                     })
                     .catch(function(err) {
                         clearTimeout(timeoutId);
                         console.error('[Reddit demo] generation failed:', err);
                         showResult(fallbackComment, true);
-                        track('demo_generate_error', {
-                            source: 'reddit-personalized-demo',
-                            reason: err && err.name === 'AbortError' ? 'timeout' : 'network'
-                        });
                     })
                     .finally(function() {
                         button.disabled = false;

@@ -6,12 +6,32 @@
     sessionStorage.setItem('marketingSource', src);
   }
 
+  var utmKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
+  utmKeys.forEach(function (key) {
+    var val = qs.get(key);
+    if (val) sessionStorage.setItem(key, val);
+  });
+
   function getSource() {
     return sessionStorage.getItem('marketingSource') || 'direct';
   }
 
+  function getUtm() {
+    var utm = {};
+    utmKeys.forEach(function (key) {
+      var val = sessionStorage.getItem(key);
+      if (val) utm[key] = val;
+    });
+    return utm;
+  }
+
   function trackEvent(name, props) {
-    var payload = Object.assign({ source: getSource() }, props || {});
+    var base = {
+      source: getSource(),
+      page: document.body.getAttribute('data-page') || 'unknown',
+      path: window.location.pathname
+    };
+    var payload = Object.assign(base, getUtm(), props || {});
 
     console.info('[juniorTrack]', name, payload);
     window.dispatchEvent(new CustomEvent('juniorTrack', {
