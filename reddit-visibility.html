@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Junior writes LinkedIn comments that sound like you, get replies, and start real conversations. Try a personalized comment in seconds.">
+    <title>Get replies on LinkedIn comments - Junior</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Pixel slot: insert Meta / Google / Reddit pixel snippets here. juniorTrack() forwards events only when those globals exist. -->
+
+    <!-- Reddit Pixel -->
+    <script>
+    !function(w,d){if(!w.rdt){var p=w.rdt=function(){p.sendEvent?p.sendEvent.apply(p,arguments):p.callQueue.push(arguments)};p.callQueue=[];var t=d.createElement("script");t.src="https://www.redditstatic.com/ads/pixel.js";t.async=!0;var s=d.getElementsByTagName("script")[0];s.parentNode.insertBefore(t,s)}}(window,document);
+    rdt('init','a2_ivp2lsryo1gm');
+    rdt('track', 'PageVisit');
+    </script>
+    <!-- End Reddit Pixel -->
+
+    <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "c7e2267943804acdb5bfcd009f02f537"}'></script><!-- End Cloudflare Web Analytics -->
+    <script src="js/analytics.js"></script>
+
+    <style>
+        [hidden] {
+            display: none !important;
+        }
+
+        .lv-pill-row,
+        .lv-action-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+        }
+
+        .lv-hook-card,
+        .lv-validation-card,
+        .lv-instant-win {
+            border: 1px solid #e2e8f0;
+            border-radius: 18px;
+            padding: 18px;
+            background: #ffffff;
+        }
+
+        .lv-ignored-comment {
+            border-left: 4px solid #fecaca;
+            color: #64748b;
+            font-style: italic;
+            margin: 0.8rem 0;
+            padding: 0.7rem 0 0.7rem 1rem;
+        }
+
+        .lv-output-label {
+            color: #166534;
+            font-weight: 800;
+            margin: 1rem 0 0.55rem;
+        }
+
+        .lv-edit-button,
+        .lv-secondary-button {
+            appearance: none;
+            border: 1px solid #cbd5e1;
+            border-radius: 999px;
+            background: #ffffff;
+            color: #0f172a;
+            cursor: pointer;
+            display: inline-flex;
+            font: inherit;
+            font-weight: 800;
+            justify-content: center;
+            line-height: 1.2;
+            padding: 0.8rem 1rem;
+            text-decoration: none;
+        }
+
+        .lv-edit-button:hover,
+        .lv-secondary-button:hover {
+            border-color: #0f172a;
+        }
+
+        .lv-result-textarea {
+            display: block;
+            width: 100%;
+            min-height: 190px;
+            border: 1px solid #cbd5e1;
+            border-radius: 14px;
+            font: inherit;
+            line-height: 1.55;
+            margin-top: 0.8rem;
+            padding: 1rem;
+            resize: vertical;
+        }
+
+        .lv-result-textarea[hidden] {
+            display: none;
+        }
+
+        .lv-validation-card {
+            background: #f8fafc;
+            margin-top: 1rem;
+        }
+
+        .lv-validation-card p {
+            margin: 0 0 0.75rem;
+        }
+
+        .lv-validation-card p:last-child {
+            margin-bottom: 0;
+        }
+
+        .lv-validation-list {
+            margin: 0.65rem 0;
+            padding-left: 1.2rem;
+        }
+
+        .lv-instant-win {
+            background: #fff7ed;
+            border-color: #fed7aa;
+            margin-top: 1rem;
+        }
+
+        .lv-steps {
+            margin: 0.75rem 0 1rem;
+            padding-left: 1.2rem;
+        }
+
+        .lv-action-status {
+            color: #166534;
+            font-size: 0.92rem;
+            font-weight: 700;
+            margin: 0.75rem 0 0;
+        }
+
+        .lv-cta-list {
+            list-style: none;
+            margin: 1rem auto;
+            max-width: 420px;
+            padding: 0;
+            text-align: left;
+        }
+
+        .lv-cta-list li {
+            margin-bottom: 0.55rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .lv-cta-list li::before {
+            color: #166534;
+            content: "✓";
+            font-weight: 900;
+            left: 0;
+            position: absolute;
+        }
+
+        .lv-proof-line {
+            color: #0f172a;
+            font-weight: 800;
+            margin-top: 0.9rem !important;
+        }
+
+        @media (max-width: 640px) {
+            .lv-action-row {
+                display: grid;
+            }
+
+            .lv-edit-button,
+            .lv-secondary-button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body data-page="linkedin-visibility" class="i18n-ready">
+    <nav class="reddit-nav">
+        <div class="reddit-shell">
+            <img src="./images/junior-logo.png" alt="Junior logo" class="reddit-logo">
+        </div>
+    </nav>
+
+    <main class="reddit-lp">
+        <section class="rl-hero">
+            <h1>Your LinkedIn comments should get replies - not disappear.</h1>
+            <p>Junior writes comments that sound like you - and actually get engagement.</p>
+            <p class="rl-hero-trust">Not templates. Not spam. Personalized to <strong>YOUR background</strong> and <strong>THEIR post</strong>.</p>
+        </section>
+
+        <section class="rl-section lv-hook-card" data-track-view="linkedin_visibility_hook_viewed">
+            <h2 class="rl-h2">Most people comment like this:</h2>
+            <p class="lv-ignored-comment">"Great post, thanks for sharing"</p>
+            <p class="rl-emphasis">That gets ignored.</p>
+            <p>This is what works:</p>
+        </section>
+
+        <section class="rl-section rl-money-block" data-track-view="linkedin_visibility_demo_block_viewed">
+            <h2 class="rl-h2">Junior combines what you know with what they posted.</h2>
+            <div class="rl-money-grid">
+                <article class="rl-context-card">
+                    <p class="rl-card-kicker">Your Background</p>
+                    <p>I build <span class="rl-highlight-user">AI products</span> and work on <span class="rl-highlight-user">GTM strategy</span>. I've led teams, shipped LLM-powered tools, and think a lot about distribution and positioning.</p>
+                </article>
+                <article class="rl-context-card">
+                    <p class="rl-card-kicker">Their Post</p>
+                    <p>"Hot take: most AI startups are <span class="rl-highlight-post">overbuilding</span> and <span class="rl-highlight-post">under-distributing</span>."</p>
+                </article>
+            </div>
+            <div class="rl-bridge-card">
+                Junior combines: your experience building AI + their point about distribution.
+            </div>
+            <p class="lv-output-label">Output:</p>
+            <div class="rl-example-comment">
+                <p>Interesting take - I've seen the same pattern building AI products. Teams over-index on features but under-invest in distribution. In my experience, the companies that win are the ones that treat GTM as a product, not an afterthought.</p>
+            </div>
+            <p class="rl-aha-line">If this sounds like something you would actually write, it will sound real to the people reading it.</p>
+        </section>
+
+        <section class="rl-section rl-interactive-demo" id="try-it">
+            <h2 class="rl-h2">See yours in seconds</h2>
+            <p>Try this with your own background and a real LinkedIn post.</p>
+            <form class="rl-demo-form" id="visibility-demo-form">
+                <div class="rl-demo-field">
+                    <label for="visibility-demo-background">What do you do?</label>
+                    <textarea id="visibility-demo-background" class="rl-demo-textarea" rows="7" maxlength="1600" required>I build AI products and work on GTM strategy. I've led teams, shipped LLM-powered tools, and think a lot about distribution and positioning.</textarea>
+                    <p class="rl-demo-help">Paste a short paragraph about your work, background, point of view, or experience.</p>
+                </div>
+
+                <div class="rl-demo-field">
+                    <label for="visibility-demo-post">Paste a post (or use example)</label>
+                    <textarea id="visibility-demo-post" class="rl-demo-textarea" rows="7" maxlength="3200" required>Hot take: most AI startups are overbuilding and under-distributing.</textarea>
+                    <p class="rl-demo-help">Use this sample, or paste a LinkedIn post you want to comment on.</p>
+                </div>
+
+                <div class="rl-demo-combine" aria-live="polite">
+                    <span class="rl-source-pill rl-source-background">Your background</span>
+                    <span class="rl-combine-plus">+</span>
+                    <span class="rl-source-pill rl-source-post">Their post</span>
+                    <span class="rl-combine-arrow">=</span>
+                    <strong>Personalized comment</strong>
+                </div>
+
+                <p class="rl-anti-template">This is not a template. It is generated from what you wrote.</p>
+                <button type="submit" class="rl-button rl-generate-btn" id="visibility-demo-button">Generate my comment</button>
+                <p class="rl-demo-error" id="visibility-demo-error" hidden></p>
+            </form>
+        </section>
+
+        <section class="rl-section rl-result" id="visibility-demo-result" hidden>
+            <p class="rl-result-label">Personalized using both inputs:</p>
+            <div class="rl-result-sources" aria-label="Sources used for this generated comment">
+                <span class="rl-source-pill rl-source-background">your background</span>
+                <span class="rl-source-pill rl-source-post">their post</span>
+            </div>
+            <h2 class="rl-h2">Here's your comment:</h2>
+            <div class="rl-result-comment" id="visibility-demo-comment"></div>
+            <textarea id="visibility-demo-comment-edit" class="lv-result-textarea" hidden></textarea>
+
+            <div class="lv-action-row">
+                <button type="button" class="lv-edit-button" id="visibility-edit-button">Edit this comment</button>
+                <button type="button" class="lv-secondary-button" id="visibility-copy-button">Copy</button>
+                <a href="https://www.linkedin.com/feed/" target="_blank" rel="noopener" class="lv-secondary-button" id="visibility-open-linkedin">Open LinkedIn (paste your comment)</a>
+            </div>
+            <p class="lv-action-status" id="visibility-action-status" aria-live="polite"></p>
+
+            <div class="lv-validation-card">
+                <p><strong>This is based on what YOU wrote - not a template.</strong></p>
+                <p>It used:</p>
+                <ul class="lv-validation-list">
+                    <li>your background</li>
+                    <li>their post</li>
+                </ul>
+                <p>That's why it sounds real.</p>
+            </div>
+
+            <div class="lv-instant-win">
+                <p class="rl-emphasis">Copy this and try it on a post right now.</p>
+                <ol class="lv-steps">
+                    <li>Copy</li>
+                    <li>Open LinkedIn</li>
+                    <li>Paste into a post</li>
+                </ol>
+                <p class="rl-microcopy">You can use it manually first. Then let Junior do this across relevant posts for you.</p>
+            </div>
+        </section>
+
+        <section class="rl-section rl-conversion-section" id="visibility-demo-conversion" hidden>
+            <p class="rl-emphasis" id="visibility-cta-headline">Want replies like this on your comments?</p>
+            <ul class="lv-cta-list">
+                <li>Finds posts worth commenting on</li>
+                <li>Writes in your voice</li>
+                <li>Designed to get replies</li>
+            </ul>
+            <a href="register.html?src=linkedin-visibility-output-cta" class="rl-button" data-cta="linkedin-visibility-output-signup">Start free trial</a>
+            <p class="rl-microcopy">14-day free trial · No credit card required</p>
+            <p class="lv-proof-line">Users are already getting replies within hours.</p>
+        </section>
+
+        <section class="rl-section rl-fear-section">
+            <h2 class="rl-h2">This won't make you look like a bot.</h2>
+            <p>It is built to sound like something you would actually write.</p>
+            <div class="rl-fear-grid">
+                <article class="rl-fear-card rl-fear-card-negative">
+                    <h3>This is NOT:</h3>
+                    <ul>
+                        <li>spam</li>
+                        <li>generic AI comments</li>
+                        <li>automation blasting</li>
+                    </ul>
+                </article>
+                <article class="rl-fear-card rl-fear-card-positive">
+                    <h3>This IS:</h3>
+                    <ul>
+                        <li>tailored to your background</li>
+                        <li>written for each post</li>
+                        <li>designed to start real conversations</li>
+                    </ul>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var form = document.getElementById('visibility-demo-form');
+            var backgroundTextarea = document.getElementById('visibility-demo-background');
+            var postTextarea = document.getElementById('visibility-demo-post');
+            var button = document.getElementById('visibility-demo-button');
+            var error = document.getElementById('visibility-demo-error');
+            var result = document.getElementById('visibility-demo-result');
+            var commentBox = document.getElementById('visibility-demo-comment');
+            var editTextarea = document.getElementById('visibility-demo-comment-edit');
+            var editButton = document.getElementById('visibility-edit-button');
+            var copyButton = document.getElementById('visibility-copy-button');
+            var linkedinButton = document.getElementById('visibility-open-linkedin');
+            var status = document.getElementById('visibility-action-status');
+            var conversion = document.getElementById('visibility-demo-conversion');
+            var ctaHeadline = document.getElementById('visibility-cta-headline');
+            var fallbackComment = "Interesting take - I've seen the same pattern building AI products. Teams over-index on features but under-invest in distribution. In my experience, the companies that win are the ones that treat GTM as a product, not an afterthought.";
+            var attemptsKey = 'juniorLinkedInVisibilityDemoAttempts';
+            var previewShownKey = 'juniorLinkedInVisibilityPreviewShown';
+            var signupClickedKey = 'juniorLinkedInVisibilitySignupClicked';
+            var copyClickedKey = 'juniorLinkedInVisibilityCopyClicked';
+            var linkedinOpenClickedKey = 'juniorLinkedInVisibilityOpenClicked';
+            var currentComment = fallbackComment;
+            var editing = false;
+            var maxAttempts = 3;
+            var demoTimeoutMs = 4000;
+
+            function track(eventName, payload) {
+                if (window.juniorTrack) {
+                    window.juniorTrack(eventName, payload || {});
+                }
+            }
+
+            track('linkedin_visibility_landing_view');
+
+            function observeViewEvents() {
+                var viewTargets = document.querySelectorAll('[data-track-view]');
+                if (!('IntersectionObserver' in window)) {
+                    viewTargets.forEach(function(target) {
+                        track(target.getAttribute('data-track-view'));
+                    });
+                    return;
+                }
+
+                var observer = new IntersectionObserver(function(entries) {
+                    entries.forEach(function(entry) {
+                        if (entry.isIntersecting) {
+                            track(entry.target.getAttribute('data-track-view'));
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.4 });
+
+                viewTargets.forEach(function(target) {
+                    observer.observe(target);
+                });
+            }
+
+            function getAttempts() {
+                return Number(sessionStorage.getItem(attemptsKey) || '0');
+            }
+
+            function incrementSessionCounter(key) {
+                var next = Number(sessionStorage.getItem(key) || '0') + 1;
+                sessionStorage.setItem(key, String(next));
+                return next;
+            }
+
+            function setError(message) {
+                error.textContent = message;
+                error.hidden = false;
+            }
+
+            function clearError() {
+                error.textContent = '';
+                error.hidden = true;
+            }
+
+            function setStatus(message) {
+                status.textContent = message || '';
+            }
+
+            function getCurrentComment() {
+                if (editTextarea && !editTextarea.hidden) {
+                    return editTextarea.value.trim();
+                }
+                return currentComment;
+            }
+
+            function markCopied(clicked) {
+                setStatus('Copied. Now paste it into a LinkedIn post.');
+                track('linkedin_visibility_comment_copied', {
+                    copy_click_count: clicked
+                });
+                return true;
+            }
+
+            function selectCommentForManualCopy(text) {
+                currentComment = text;
+                editing = true;
+                editTextarea.value = text;
+                editTextarea.hidden = false;
+                commentBox.hidden = true;
+                editButton.textContent = 'Use this on LinkedIn →';
+                ctaHeadline.textContent = 'Want this done automatically?';
+                editTextarea.focus();
+                editTextarea.select();
+                setStatus('Comment selected. Press Ctrl+C to copy it.');
+            }
+
+            function fallbackCopyText(text, clicked) {
+                var tempTextarea = document.createElement('textarea');
+                tempTextarea.value = text;
+                tempTextarea.setAttribute('readonly', '');
+                tempTextarea.style.position = 'fixed';
+                tempTextarea.style.left = '-9999px';
+                tempTextarea.style.top = '0';
+                document.body.appendChild(tempTextarea);
+                tempTextarea.select();
+
+                try {
+                    if (document.execCommand && document.execCommand('copy')) {
+                        document.body.removeChild(tempTextarea);
+                        return markCopied(clicked);
+                    }
+                } catch (err) {
+                    console.warn('[LinkedIn visibility demo] fallback copy failed:', err);
+                }
+
+                document.body.removeChild(tempTextarea);
+                selectCommentForManualCopy(text);
+                return false;
+            }
+
+            function showResult(comment, fallback) {
+                currentComment = comment;
+                editing = false;
+                commentBox.textContent = comment;
+                commentBox.hidden = false;
+                editTextarea.hidden = true;
+                editTextarea.value = comment;
+                editButton.textContent = 'Edit this comment';
+                ctaHeadline.textContent = 'Want replies like this on your comments?';
+                result.hidden = false;
+                conversion.hidden = false;
+                setStatus('');
+
+                var shown = incrementSessionCounter(previewShownKey);
+                track(fallback ? 'linkedin_visibility_comment_preview_fallback_shown' : 'linkedin_visibility_comment_preview_shown', {
+                    preview_shown_count: shown
+                });
+                track('linkedin_visibility_signup_cta_shown', {
+                    preview_shown_count: shown
+                });
+
+                result.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+
+            function copyComment() {
+                var text = getCurrentComment();
+                var clicked = incrementSessionCounter(copyClickedKey);
+                track('comment_copy_clicked', {
+                    campaign: 'linkedin_visibility',
+                    copy_click_count: clicked
+                });
+
+                if (!text) {
+                    setStatus('Generate a comment first.');
+                    return Promise.resolve(false);
+                }
+
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    return navigator.clipboard.writeText(text).then(function() {
+                        return markCopied(clicked);
+                    }).catch(function() {
+                        return fallbackCopyText(text, clicked);
+                    });
+                }
+
+                return Promise.resolve(fallbackCopyText(text, clicked));
+            }
+
+            function trackLinkedInOpen() {
+                var clicked = incrementSessionCounter(linkedinOpenClickedKey);
+                track('linkedin_open_clicked', {
+                    campaign: 'linkedin_visibility',
+                    linkedin_open_click_count: clicked
+                });
+            }
+
+            document.querySelectorAll('[data-cta="linkedin-visibility-output-signup"]').forEach(function(link) {
+                link.addEventListener('click', function() {
+                    var shown = Number(sessionStorage.getItem(previewShownKey) || '0');
+                    var clicked = incrementSessionCounter(signupClickedKey);
+                    var rate = shown > 0 ? clicked / shown : 0;
+
+                    track('linkedin_visibility_signup_cta_clicked', {
+                        preview_shown_count: shown,
+                        signup_click_count: clicked
+                    });
+                    track('linkedin_visibility_output_to_signup_rate', {
+                        value: rate,
+                        numerator: clicked,
+                        denominator: shown
+                    });
+                });
+            });
+
+            if (editButton) {
+                editButton.addEventListener('click', function() {
+                    if (editing) {
+                        currentComment = getCurrentComment();
+                        trackLinkedInOpen();
+                        copyComment();
+                        window.open('https://www.linkedin.com/feed/', '_blank', 'noopener');
+                        return;
+                    }
+
+                    currentComment = getCurrentComment();
+                    editing = true;
+                    editTextarea.value = currentComment;
+                    editTextarea.hidden = false;
+                    commentBox.hidden = true;
+                    editButton.textContent = 'Use this on LinkedIn →';
+                    ctaHeadline.textContent = 'Want this done automatically?';
+                    editTextarea.focus();
+                    track('linkedin_visibility_comment_edit_clicked');
+                    setStatus('Make it yours, then copy it to LinkedIn.');
+                });
+            }
+
+            if (copyButton) {
+                copyButton.addEventListener('click', function() {
+                    copyComment();
+                });
+            }
+
+            if (linkedinButton) {
+                linkedinButton.addEventListener('click', function() {
+                    trackLinkedInOpen();
+                    copyComment();
+                });
+            }
+
+            observeViewEvents();
+
+            if (!form || !backgroundTextarea || !postTextarea || !button) return;
+
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+                clearError();
+
+                var backgroundText = backgroundTextarea.value.trim();
+                var postText = postTextarea.value.trim();
+                if (!backgroundText) {
+                    setError('Add a short paragraph about what you do first.');
+                    backgroundTextarea.focus();
+                    return;
+                }
+
+                if (backgroundText.length < 30) {
+                    setError('Add a little more about your background so Junior can sound like you.');
+                    backgroundTextarea.focus();
+                    return;
+                }
+
+                if (!postText) {
+                    setError('Paste a LinkedIn post you want to comment on.');
+                    postTextarea.focus();
+                    return;
+                }
+
+                if (postText.length < 20) {
+                    setError('Add a little more of the post so Junior has enough context.');
+                    postTextarea.focus();
+                    return;
+                }
+
+                if (getAttempts() >= maxAttempts) {
+                    setError("You've seen how it works. Start your free trial to use this on real posts.");
+                    showResult(fallbackComment, true);
+                    return;
+                }
+
+                var combinedContext = "User background:\n" + backgroundText + "\n\nLinkedIn post:\n" + postText;
+                sessionStorage.setItem(attemptsKey, String(getAttempts() + 1));
+                button.disabled = true;
+                button.textContent = 'Generating...';
+                track('linkedin_visibility_preview_cta_clicked');
+                track('linkedin_visibility_comment_preview_started', { source: 'linkedin-visibility-demo' });
+
+                var abortController = new AbortController();
+                var timeoutId = setTimeout(function() {
+                    abortController.abort();
+                }, demoTimeoutMs);
+
+                fetch('https://api.heyjunior.ai/api/comments/demo', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        post_text: combinedContext,
+                        user_bio: backgroundText,
+                        hiring_post: postText,
+                        context_text: combinedContext,
+                        source: 'linkedin-visibility-demo'
+                    }),
+                    signal: abortController.signal
+                })
+                    .then(function(response) {
+                        clearTimeout(timeoutId);
+                        if (!response.ok) throw new Error('Demo generation failed');
+                        return response.json();
+                    })
+                    .then(function(data) {
+                        var generated = data && data.comment ? data.comment : fallbackComment;
+                        showResult(generated, Boolean(data && data.fallback));
+                    })
+                    .catch(function(err) {
+                        clearTimeout(timeoutId);
+                        console.error('[LinkedIn visibility demo] generation failed:', err);
+                        showResult(fallbackComment, true);
+                    })
+                    .finally(function() {
+                        button.disabled = false;
+                        button.textContent = 'Generate my comment';
+                    });
+            });
+        });
+    </script>
+
+    <footer class="reddit-footer">
+        <div class="reddit-shell">
+            <p><a href="mailto:support@heyjunior.ai">support@heyjunior.ai</a> &#183; <a href="terms.html">Terms of Service</a></p>
+            <p>&copy; 2026 Junior. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
