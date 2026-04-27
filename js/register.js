@@ -353,7 +353,13 @@ async function handleRegistration(e) {
                 errorMessage = data.message;
             }
             
-            if (response.status === 409 || errorMessage.toLowerCase().includes('already exists')) {
+            const duplicateEmail = response.status === 409 ||
+                errorMessage.toLowerCase().includes('already exists') ||
+                errorMessage.toLowerCase().includes('already registered');
+            if (duplicateEmail) {
+                const recovered = await recoverRegistrationByLogin(email, password, 'duplicate_email');
+                if (recovered) return;
+
                 showDuplicateEmailError(registerError);
                 if (window.juniorTrack) {
                     window.juniorTrack('register_submit_error', { reason: 'duplicate_email' });
@@ -372,14 +378,17 @@ async function handleRegistration(e) {
         console.log('[Register] registration success:', data);
         registerButtonText.textContent = 'Account created. Redirecting...';
         showSuccess(registerStatus, 'Account created. Redirecting...');
-        
-        if (data.id) {
-            sessionStorage.setItem('userId', data.id.toString());
-            sessionStorage.setItem('userEmail', data.email || email);
-        }
+
+        const tokensReturned = storeRegistrationSession(data, email);
 
         if (window.juniorTrack) {
             window.juniorTrack('register_completed', { userId: data.id || null });
+            if (tokensReturned) {
+                window.juniorTrack('register_token_returned');
+            }
+            if (data.setup_pending) {
+                window.juniorTrack('register_background_setup_pending');
+            }
         }
 
         if (referralCode) {
@@ -387,19 +396,24 @@ async function handleRegistration(e) {
             localStorage.removeItem('referralTimestamp');
         }
 
-        autoLoginAfterRegister(email, password);
+        if (!tokensReturned) {
+            autoLoginAfterRegister(email, password);
+        }
 
-        console.log('[Register] redirecting to portal in 1s');
+        console.log('[Register] redirecting to portal');
         setTimeout(function () {
             if (window.juniorTrack) {
                 window.juniorTrack('register_redirect_to_portal');
             }
             window.location.href = 'portal.html';
-        }, 1000);
+        }, 250);
 
     } catch (error) {
         let msg;
         if (error.name === 'AbortError') {
+            const recovered = await recoverRegistrationByLogin(email, password, 'timeout');
+            if (recovered) return;
+
             msg = 'Our server is slow right now. Please try again — it usually works on the second attempt.';
             console.error('[Register] registration request timed out');
             if (window.juniorTrack) {
@@ -437,16 +451,69 @@ function resetRegisterButton(registerButton, registerButtonText, defaultButtonTe
     document.getElementById('reg-password').disabled = false;
 }
 
+function storeRegistrationSession(data, email) {
+    if (data && data.id) {
+        sessionStorage.setItem('userId', data.id.toString());
+    }
+    sessionStorage.setItem('userEmail', (data && data.email) || email);
+
+    if (data && data.access_token) {
+        sessionStorage.setItem('userToken', data.access_token);
+    }
+    if (data && data.refresh_token) {
+        sessionStorage.setItem('refreshToken', data.refresh_token);
+    }
+
+    return Boolean(data && data.access_token);
+}
+
+async function recoverRegistrationByLogin(email, password, reason) {
+    try {
+        const loginData = await loginWithPassword(email, password, 5000);
+        storeRegistrationSession({
+            email: email,
+            access_token: loginData.access_token,
+            refresh_token: loginData.refresh_token
+        }, email);
+
+        if (window.juniorTrack) {
+            window.juniorTrack(
+                reason === 'timeout' ? 'register_timeout_recovered_login' : 'register_duplicate_recovered_login'
+            );
+        }
+
+        window.location.href = 'portal.html';
+        return true;
+    } catch (loginError) {
+        console.warn('[Register] recovery login failed:', loginError.message);
+        return false;
+    }
+}
+
+async function loginWithPassword(email, password, timeoutMs) {
+    const abortController = new AbortController();
+    const timeoutId = setTimeout(function () {
+        abortController.abort();
+    }, timeoutMs);
+
+    try {
+        const resp = await fetch(API_BASE_URL + '/api/users/token', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams({ username: email, password: password }),
+            signal: abortController.signal
+        });
+
+        if (!resp.ok) throw new Error('login response ' + resp.status);
+        return await resp.json();
+    } finally {
+        clearTimeout(timeoutId);
+    }
+}
+
 function autoLoginAfterRegister(email, password) {
     console.log('[Register] auto-login started (fire-and-forget)');
-    fetch(API_BASE_URL + '/api/users/token', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({ username: email, password: password })
-    }).then(function (resp) {
-        if (!resp.ok) throw new Error('login response ' + resp.status);
-        return resp.json();
-    }).then(function (loginData) {
+    loginWithPassword(email, password, 5000).then(function (loginData) {
         if (loginData.access_token) sessionStorage.setItem('userToken', loginData.access_token);
         if (loginData.refresh_token) sessionStorage.setItem('refreshToken', loginData.refresh_token);
         console.log('[Register] auto-login success');
