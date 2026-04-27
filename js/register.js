@@ -26,13 +26,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     var qs = new URLSearchParams(window.location.search);
     var src = qs.get('src') || sessionStorage.getItem('marketingSource') || '';
+    var prefillEmail = qs.get('email') || '';
     var shouldShowDemo = src === 'register-demo';
-    var shouldFocusSignup = src === 'reddit-output-cta';
+    var shouldFocusSignup = src === 'reddit-output-cta' || src === 'reddit-email-comment';
 
     if (shouldShowDemo) {
         initInstantCommentDemo();
     } else {
-        skipDemoShowSignup({ focusEmail: shouldFocusSignup });
+        skipDemoShowSignup({
+            focusEmail: shouldFocusSignup,
+            prefillEmail: prefillEmail
+        });
     }
 
     loadReferralCode();
@@ -56,6 +60,13 @@ function skipDemoShowSignup(options) {
     if (signupGate) signupGate.hidden = false;
     if (emailStep) emailStep.hidden = false;
     if (fullSignup) fullSignup.hidden = true;
+
+    if (options.prefillEmail) {
+        var emailStepInput = document.getElementById('email-step-input');
+        var regEmail = document.getElementById('reg-email');
+        if (emailStepInput) emailStepInput.value = options.prefillEmail;
+        if (regEmail) regEmail.value = options.prefillEmail;
+    }
 
     if (options.focusEmail) {
         setTimeout(function () {
