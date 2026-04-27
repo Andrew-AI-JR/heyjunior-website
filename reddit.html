@@ -32,36 +32,70 @@
 
     <main class="reddit-lp">
         <section class="rl-hero">
-            <h1>Applying to jobs doesn&#8217;t work anymore.</h1>
-            <p>I applied to 300 jobs and got 1 interview.</p>
-            <h2 class="rl-hero-h2">Then I stopped applying.</h2>
+            <h1>I applied to 300 jobs and got 1 interview.</h1>
+            <p>That interview came from a comment — not my resume.</p>
+            <p>Start getting interviews from conversations.</p>
+            <p class="rl-hero-trust">This is not spam. Every comment is tailored to <strong>YOUR background</strong> and <strong>THEIR post</strong>.</p>
         </section>
 
-        <section class="rl-section">
-            <h2 class="rl-h2">This actually happened:</h2>
-            <p>Comment posted on a hiring manager&#8217;s post. Recruiter replied the same day.</p>
-            <img src="./images/junior6.png" alt="A recruiter replied to a Junior-generated comment and reached out for the next step" class="rl-proof-image">
-            <p class="rl-microcopy">Real comment. Real reply. Real conversation started.</p>
+        <section class="rl-section rl-how-it-works" data-track-view="reddit_education_step_viewed">
+            <h2 class="rl-h2">Here’s what Junior actually does:</h2>
+            <div class="rl-steps-grid">
+                <article class="rl-step-card">
+                    <span class="rl-step-number">1</span>
+                    <h3>You add your background</h3>
+                    <p>“Data engineer, 5 years, AWS, ETL pipelines”</p>
+                </article>
+                <article class="rl-step-card">
+                    <span class="rl-step-number">2</span>
+                    <h3>Junior finds hiring posts</h3>
+                    <p>“We’re hiring a data engineer to build scalable pipelines”</p>
+                </article>
+                <article class="rl-step-card">
+                    <span class="rl-step-number">3</span>
+                    <h3>It writes using both</h3>
+                    <p>Your experience gets matched to what they are hiring for.</p>
+                </article>
+            </div>
         </section>
 
-        <section class="rl-section rl-top-cta-section">
-            <a href="register.html?src=reddit-top-cta" class="rl-button rl-top-cta" data-cta="reddit-top-skip-demo">Skip the demo &mdash; Create My Free Account</a>
+        <section class="rl-section rl-money-block" data-track-view="reddit_money_block_viewed">
+            <h2 class="rl-h2">This is why it works:</h2>
+            <div class="rl-money-grid">
+                <article class="rl-context-card">
+                    <p class="rl-card-kicker">Your Background</p>
+                    <p>I’m a data engineer with 5 years of experience building <span class="rl-highlight-user">ETL pipelines</span>, optimizing data throughput, and working with AWS, Python, and analytics teams. I’ve worked on production data systems where reliability, performance, and clean handoffs to business users mattered every day.</p>
+                </article>
+                <article class="rl-context-card">
+                    <p class="rl-card-kicker">Their Post</p>
+                    <p>We’re hiring a data engineer to help build scalable data pipelines, improve <span class="rl-highlight-post">data throughput</span> across our analytics platform, and make our data infrastructure more reliable as the team grows. Experience with AWS, Python, and production ETL workflows would be especially helpful.</p>
+                </article>
+            </div>
+            <div class="rl-bridge-card">
+                Junior matches your experience to what they’re hiring for.
+            </div>
+            <h3 class="rl-example-heading">Here’s a real example:</h3>
+            <div class="rl-example-comment">
+                <p>Hey — saw you're hiring.</p>
+                <p>I’ve spent the last 5 years building and optimizing <span class="rl-highlight-user">ETL pipelines</span> in AWS, including improving <span class="rl-highlight-post">data throughput</span> in production systems.</p>
+                <p>Would love to connect if you're still hiring.</p>
+            </div>
         </section>
 
         <section class="rl-section rl-interactive-demo" id="try-it">
-            <h2 class="rl-h2">This is why Junior works.</h2>
-            <p>Junior uses your experience to match exactly what they&#8217;re looking for.</p>
+            <h2 class="rl-h2">See yours next:</h2>
+            <p>Use the example or edit it. No LinkedIn login needed.</p>
             <form class="rl-demo-form" id="reddit-demo-form">
                 <div class="rl-demo-field">
-                    <label for="reddit-demo-background">Your background:</label>
-                    <textarea id="reddit-demo-background" class="rl-demo-textarea rl-demo-textarea-short" rows="4" maxlength="1200" required>Data engineer with 5 years experience building pipelines, optimizing ETL workflows, and working with AWS and Python.</textarea>
-                    <p class="rl-demo-help">Paste your LinkedIn summary or a short bio. You can edit the sample.</p>
+                    <label for="reddit-demo-background">What do you do?</label>
+                    <textarea id="reddit-demo-background" class="rl-demo-textarea" rows="7" maxlength="1600" required>I’m a data engineer with 5 years of experience building ETL pipelines, optimizing data throughput, and working with AWS, Python, and analytics teams. I’ve worked on production data systems where reliability, performance, and clean handoffs to business users mattered every day.</textarea>
+                    <p class="rl-demo-help">Paste a short paragraph about your experience, skills, and the kind of work you have done.</p>
                 </div>
 
                 <div class="rl-demo-field">
-                    <label for="reddit-demo-post">Their hiring post:</label>
-                    <textarea id="reddit-demo-post" class="rl-demo-textarea" rows="6" maxlength="3000" required>We're hiring a data engineer to help build scalable data pipelines and improve data throughput across our analytics platform.</textarea>
-                    <p class="rl-demo-help">No LinkedIn login needed. Use the sample or paste a real hiring post.</p>
+                    <label for="reddit-demo-post">What kind of role are you looking for?</label>
+                    <textarea id="reddit-demo-post" class="rl-demo-textarea" rows="7" maxlength="3200" required>We’re hiring a data engineer to help build scalable data pipelines, improve performance across our analytics platform, and make our data infrastructure more reliable as the team grows. Experience with AWS, Python, and production ETL workflows would be especially helpful.</textarea>
+                    <p class="rl-demo-help">Use this sample, or paste a real hiring post you want to respond to.</p>
                 </div>
 
                 <div class="rl-demo-combine" aria-live="polite">
@@ -73,7 +107,7 @@
                 </div>
 
                 <p class="rl-anti-template">This is not a template. This is generated from your background.</p>
-                <button type="submit" class="rl-button rl-generate-btn" id="reddit-demo-button">Generate My Personalized Comment</button>
+                <button type="submit" class="rl-button rl-generate-btn" id="reddit-demo-button">See my comment</button>
                 <p class="rl-demo-error" id="reddit-demo-error" hidden></p>
             </form>
         </section>
@@ -84,31 +118,51 @@
                 <span class="rl-source-pill rl-source-background">your background</span>
                 <span class="rl-source-pill rl-source-post">their post</span>
             </div>
-            <h2 class="rl-h2">Here&#8217;s your comment:</h2>
+            <h2 class="rl-h2">Here’s your comment:</h2>
             <div class="rl-result-comment" id="reddit-demo-comment"></div>
-            <p class="rl-microcopy" id="reddit-demo-note">This is the type of comment that gets replies.</p>
+            <p class="rl-output-transition" id="reddit-demo-note">This is what recruiters respond to. Want to use this on real posts?</p>
         </section>
 
         <section class="rl-section rl-conversion-section" id="reddit-demo-conversion" hidden>
-            <p class="rl-emphasis">Want comments like this for every hiring post?</p>
-            <a href="register.html?src=reddit-demo" class="rl-button" data-cta="reddit-demo-result">Create My Comment Like This</a>
-            <p class="rl-trust-line">No spam. No auto-posting.</p>
-            <p class="rl-microcopy">No credit card &#183; 14-day free trial</p>
+            <p class="rl-emphasis">Create your account and generate your first comment.</p>
+            <a href="register.html?src=reddit-output-cta" class="rl-button" data-cta="reddit-output-signup">Start Free Trial</a>
+            <p class="rl-trust-line">You’ll have your first comment ready in under 60 seconds.</p>
+            <p class="rl-microcopy">You’ll download the app right after. No credit card required.</p>
         </section>
 
-        <section class="rl-section">
-            <h2 class="rl-h2">What Junior does next:</h2>
+        <section class="rl-section rl-proof-section">
+            <h2 class="rl-h2">What happens next:</h2>
             <ul class="rl-list">
-                <li>Finds hiring posts on LinkedIn</li>
-                <li>Writes personalized comments in your voice</li>
-                <li>Turns replies into real conversations</li>
+                <li>Recruiters reply</li>
+                <li>Conversations start</li>
+                <li>That turns into interviews</li>
             </ul>
+            <p class="rl-emphasis">This is how I got interviews — not through applying.</p>
+            <img src="./images/scott-interaction.png" alt="A LinkedIn comment thread where a conversation started from a personalized comment" class="rl-proof-image">
+            <p class="rl-microcopy">Real comment. Real reply. Real conversation started.</p>
         </section>
 
-        <section class="rl-section rl-cta-section">
-            <p class="rl-emphasis">Ready to stop applying into the void?</p>
-            <a href="register.html?src=reddit" class="rl-button" data-cta="reddit-final">Create My Account</a>
-            <p class="rl-microcopy">No spam &#183; No credit card</p>
+        <section class="rl-section rl-fear-section">
+            <h2 class="rl-h2">This won’t make you look like a bot.</h2>
+            <p>It sounds like something you would actually write.</p>
+            <div class="rl-fear-grid">
+                <article class="rl-fear-card rl-fear-card-negative">
+                    <h3>This is NOT:</h3>
+                    <ul>
+                        <li>spam</li>
+                        <li>mass automation</li>
+                        <li>generic AI comments</li>
+                    </ul>
+                </article>
+                <article class="rl-fear-card rl-fear-card-positive">
+                    <h3>This IS:</h3>
+                    <ul>
+                        <li>tailored to your background</li>
+                        <li>written for each post</li>
+                        <li>designed to start real conversations</li>
+                    </ul>
+                </article>
+            </div>
         </section>
     </main>
 
@@ -123,8 +177,10 @@
             var commentBox = document.getElementById('reddit-demo-comment');
             var note = document.getElementById('reddit-demo-note');
             var conversion = document.getElementById('reddit-demo-conversion');
-            var fallbackComment = "Hey -- saw you're hiring for a data engineer. I've spent the last 5 years building and optimizing ETL pipelines in AWS, including improving data throughput in production systems. Would love to connect if you're still hiring.";
+            var fallbackComment = "Hey — saw you're hiring.\n\nI’ve spent the last 5 years building and optimizing ETL pipelines in AWS, including improving data throughput in production systems.\n\nWould love to connect if you're still hiring.";
             var attemptsKey = 'juniorRedditDemoAttempts';
+            var previewShownKey = 'juniorRedditPreviewShown';
+            var signupClickedKey = 'juniorRedditSignupClicked';
             var maxAttempts = 3;
             var demoTimeoutMs = 4000;
 
@@ -136,8 +192,37 @@
 
             track('reddit_landing_view');
 
+            function observeViewEvents() {
+                var viewTargets = document.querySelectorAll('[data-track-view]');
+                if (!('IntersectionObserver' in window)) {
+                    viewTargets.forEach(function(target) {
+                        track(target.getAttribute('data-track-view'));
+                    });
+                    return;
+                }
+
+                var observer = new IntersectionObserver(function(entries) {
+                    entries.forEach(function(entry) {
+                        if (entry.isIntersecting) {
+                            track(entry.target.getAttribute('data-track-view'));
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.4 });
+
+                viewTargets.forEach(function(target) {
+                    observer.observe(target);
+                });
+            }
+
             function getAttempts() {
                 return Number(sessionStorage.getItem(attemptsKey) || '0');
+            }
+
+            function incrementSessionCounter(key) {
+                var next = Number(sessionStorage.getItem(key) || '0') + 1;
+                sessionStorage.setItem(key, String(next));
+                return next;
             }
 
             function setError(message) {
@@ -152,26 +237,40 @@
 
             function showResult(comment, fallback) {
                 commentBox.textContent = comment;
-                note.textContent = fallback
-                    ? "This is an example. Create an account to generate comments from your exact background and posts."
-                    : "This was generated from your background and the post above.";
+                note.textContent = 'This is what recruiters respond to. Want to use this on real posts?';
                 result.hidden = false;
                 conversion.hidden = false;
-                track(fallback ? 'reddit_demo_fallback_shown' : 'reddit_demo_result_shown');
+
+                var shown = incrementSessionCounter(previewShownKey);
+                track(fallback ? 'reddit_comment_preview_fallback_shown' : 'reddit_comment_preview_shown', {
+                    preview_shown_count: shown
+                });
+                track('reddit_signup_cta_shown', {
+                    preview_shown_count: shown
+                });
+
                 result.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
 
-            document.querySelectorAll('[data-cta="reddit-demo-result"]').forEach(function(link) {
+            document.querySelectorAll('[data-cta="reddit-output-signup"]').forEach(function(link) {
                 link.addEventListener('click', function() {
-                    track('reddit_demo_cta_clicked');
+                    var shown = Number(sessionStorage.getItem(previewShownKey) || '0');
+                    var clicked = incrementSessionCounter(signupClickedKey);
+                    var rate = shown > 0 ? clicked / shown : 0;
+
+                    track('reddit_signup_cta_clicked', {
+                        preview_shown_count: shown,
+                        signup_click_count: clicked
+                    });
+                    track('reddit_output_to_signup_rate', {
+                        value: rate,
+                        numerator: clicked,
+                        denominator: shown
+                    });
                 });
             });
 
-            document.querySelectorAll('[data-cta="reddit-top-skip-demo"]').forEach(function(link) {
-                link.addEventListener('click', function() {
-                    track('reddit_top_cta_clicked');
-                });
-            });
+            observeViewEvents();
 
             if (!form || !backgroundTextarea || !textarea || !button) return;
 
@@ -182,31 +281,31 @@
                 var backgroundText = backgroundTextarea.value.trim();
                 var postText = textarea.value.trim();
                 if (!backgroundText) {
-                    setError('Paste a short background first so Junior can personalize the comment.');
+                    setError('Add a short paragraph about what you do first.');
                     backgroundTextarea.focus();
                     return;
                 }
 
-                if (backgroundText.length < 20) {
+                if (backgroundText.length < 40) {
                     setError('Add a little more about your background so Junior has enough to work with.');
                     backgroundTextarea.focus();
                     return;
                 }
 
                 if (!postText) {
-                    setError('Paste a hiring post first.');
+                    setError('Add the kind of role or hiring post you want to respond to.');
                     textarea.focus();
                     return;
                 }
 
-                if (postText.length < 20) {
-                    setError('Paste a little more of the post so Junior has enough context.');
+                if (postText.length < 40) {
+                    setError('Add a little more of the role description so Junior has enough context.');
                     textarea.focus();
                     return;
                 }
 
                 if (getAttempts() >= maxAttempts) {
-                    setError("You've seen how it works -- create your account to generate more comments.");
+                    setError("You've seen how it works. Create your account to use this on real posts.");
                     showResult(fallbackComment, true);
                     return;
                 }
@@ -214,8 +313,9 @@
                 var combinedContext = "User background:\n" + backgroundText + "\n\nHiring post:\n" + postText;
                 sessionStorage.setItem(attemptsKey, String(getAttempts() + 1));
                 button.disabled = true;
-                button.textContent = 'Generating...';
-                track('reddit_demo_generate_clicked', { source: 'reddit-personalized-demo' });
+                button.textContent = 'Showing...';
+                track('reddit_preview_cta_clicked');
+                track('reddit_comment_preview_started', { source: 'reddit-personalized-demo' });
 
                 var abortController = new AbortController();
                 var timeoutId = setTimeout(function() {
@@ -250,7 +350,7 @@
                     })
                     .finally(function() {
                         button.disabled = false;
-                        button.textContent = 'Generate My Personalized Comment';
+                        button.textContent = 'See my comment';
                     });
             });
         });
