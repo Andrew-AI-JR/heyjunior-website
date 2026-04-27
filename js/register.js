@@ -283,6 +283,7 @@ async function handleRegistration(e) {
     const registerButtonText = document.getElementById('register-button-text');
     const registerStatus = document.getElementById('register-status');
     const registerError = document.getElementById('register-error');
+    const defaultButtonText = registerButtonText?.textContent || 'Create My Account & Get More';
 
     clearStatus(registerStatus, registerError);
 
@@ -311,11 +312,19 @@ async function handleRegistration(e) {
             console.log('[Register] including referral code:', referralCode);
         }
 
+        const registrationTimeoutMs = 8000;
+        const abortController = new AbortController();
+        const timeoutId = setTimeout(function () {
+            abortController.abort();
+        }, registrationTimeoutMs);
+
         const response = await fetch(API_BASE_URL + '/api/users/register', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(requestBody)
+            body: JSON.stringify(requestBody),
+            signal: abortController.signal
         });
+        clearTimeout(timeoutId);
         console.log('[Register] registration response received, status:', response.status);
         
         const contentType = response.headers.get('content-type');
@@ -349,11 +358,7 @@ async function handleRegistration(e) {
                 if (window.juniorTrack) {
                     window.juniorTrack('register_submit_error', { reason: 'duplicate_email' });
                 }
-                registerButton.disabled = false;
-                registerButton.classList.remove('register-submit-loading');
-                registerButtonText.textContent = 'Create My Account & Get More';
-                document.getElementById('reg-email').disabled = false;
-                document.getElementById('reg-password').disabled = false;
+                resetRegisterButton(registerButton, registerButtonText, defaultButtonText);
                 return;
             }
 
@@ -416,12 +421,20 @@ async function handleRegistration(e) {
         }
 
         showErrorWithLoginFallback(registerError, msg);
+        resetRegisterButton(registerButton, registerButtonText, defaultButtonText);
+    }
+}
+
+function resetRegisterButton(registerButton, registerButtonText, defaultButtonText) {
+    if (registerButton) {
         registerButton.disabled = false;
         registerButton.classList.remove('register-submit-loading');
-        registerButtonText.textContent = 'Create My Account & Get More';
-        document.getElementById('reg-email').disabled = false;
-        document.getElementById('reg-password').disabled = false;
     }
+    if (registerButtonText) {
+        registerButtonText.textContent = defaultButtonText || 'Create My Account & Get More';
+    }
+    document.getElementById('reg-email').disabled = false;
+    document.getElementById('reg-password').disabled = false;
 }
 
 function autoLoginAfterRegister(email, password) {
