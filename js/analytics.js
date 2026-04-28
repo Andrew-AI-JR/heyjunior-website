@@ -48,6 +48,10 @@
     return utm;
   }
 
+  function getParam(name) {
+    return new URLSearchParams(window.location.search).get(name);
+  }
+
   function getAnalyticsBaseUrl() {
     if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
       return 'http://localhost:8080';
@@ -163,6 +167,56 @@
     }
   }
 
+  function getCoreEventName(name, props) {
+    if (name === 'generate_click' || name === 'generate_success' || name === 'register_click' || name === 'register_success') {
+      return name;
+    }
+    if (name === 'reddit_preview_cta_clicked' || name === 'register_demo_generate_clicked') {
+      return 'generate_click';
+    }
+    if (
+      name === 'reddit_comment_preview_shown' ||
+      name === 'reddit_comment_preview_fallback_shown' ||
+      name === 'register_demo_result_shown' ||
+      name === 'register_demo_fallback_shown'
+    ) {
+      return 'generate_success';
+    }
+    if (name === 'register_submit_clicked' || name === 'reddit_signup_cta_clicked') {
+      return 'register_click';
+    }
+    if (name === 'cta_click' && props && typeof props.href === 'string' && props.href.indexOf('register') !== -1) {
+      return 'register_click';
+    }
+    if (name === 'register_completed') {
+      return 'register_success';
+    }
+    return null;
+  }
+
+  function logSimpleEvent(name, data) {
+    var payload = {
+      event: name,
+      data: Object.assign({
+        src: getParam('src') || getSource(),
+        utm: getParam('utm_content') || safeGet(sessionStorage, 'utm_content') || null
+      }, data || {}),
+      ts: new Date().toISOString(),
+      url: window.location.href
+    };
+
+    console.log('TRACK:', payload);
+
+    window.fetch(getAnalyticsBaseUrl() + '/log-event', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload),
+      keepalive: true
+    }).catch(function () {});
+  }
+
   function trackEvent(name, props) {
     var base = {
       source: getSource(),
@@ -202,6 +256,11 @@
 
     enqueue(event);
 
+    var coreEventName = getCoreEventName(name, props || {});
+    if (coreEventName) {
+      logSimpleEvent(coreEventName, props || {});
+    }
+
     if (typeof window.gtag === 'function') {
       window.gtag('event', name, payload);
     }
@@ -231,6 +290,10 @@
   document.addEventListener('DOMContentLoaded', function () {
     trackEvent('page_view', {
       title: document.title
+    });
+    logSimpleEvent('landing_view', {
+      title: document.title,
+      page: document.body ? document.body.getAttribute('data-page') || 'unknown' : 'unknown'
     });
   });
 
