@@ -6329,6 +6329,24 @@ section, div {
     padding: 22px;
 }
 
+.rl-generated-brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.65rem;
+    margin-bottom: 0.9rem;
+    color: #0f172a;
+    font-size: 0.9rem;
+    font-weight: 900;
+}
+
+.rl-generated-logo {
+    display: block;
+    width: 96px;
+    max-width: 42%;
+    height: auto;
+}
+
 .rl-result-label {
     margin: 0 0 0.45rem;
     color: #166534;

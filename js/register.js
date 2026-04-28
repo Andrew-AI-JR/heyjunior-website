@@ -28,7 +28,9 @@ document.addEventListener('DOMContentLoaded', () => {
     var src = qs.get('src') || sessionStorage.getItem('marketingSource') || '';
     var prefillEmail = qs.get('email') || '';
     var shouldShowDemo = src === 'register-demo';
-    var shouldFocusSignup = src === 'reddit-output-cta' || src === 'reddit-email-comment';
+    var shouldFocusSignup = src === 'reddit-output-cta' ||
+        src === 'reddit-email-comment' ||
+        src === 'linkedin-visibility-output-cta';
 
     if (shouldShowDemo) {
         initInstantCommentDemo();

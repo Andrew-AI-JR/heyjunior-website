@@ -47,6 +47,26 @@ POST http://localhost:8080/api/analytics/events
   - Fired in [`reddit.html`](../reddit.html)
   - Important events: `reddit_landing_view`, `reddit_education_step_viewed`, `reddit_money_block_viewed`, `reddit_comment_preview_started`, `reddit_comment_preview_shown`, `reddit_comment_preview_fallback_shown`, `reddit_signup_cta_shown`, `reddit_signup_cta_clicked`, `reddit_output_to_signup_rate`
 
+- Reddit visibility funnel events
+  - Fired in [`reddit-visibility.html`](../reddit-visibility.html)
+  - Important events: `linkedin_visibility_landing_view`, `linkedin_visibility_hook_viewed`, `linkedin_visibility_demo_block_viewed`, `linkedin_visibility_comment_preview_started`, `linkedin_visibility_comment_preview_shown`, `linkedin_visibility_comment_preview_fallback_shown`, `linkedin_visibility_signup_cta_shown`, `linkedin_visibility_signup_cta_clicked`, `linkedin_visibility_output_to_signup_rate`
+  - The page attribution is `data-page="reddit-visibility"` so campaign page views can be segmented separately from the standard Reddit page.
+
+## Core event aliases
+
+The lightweight `/log-event` sink receives simplified funnel names for quick campaign checks:
+
+- `landing_view`
+  - Fired on every page that loads [`js/analytics.js`](../js/analytics.js).
+- `generate_click`
+  - Mapped from `reddit_preview_cta_clicked`, `linkedin_visibility_preview_cta_clicked`, and `register_demo_generate_clicked`.
+- `generate_success`
+  - Mapped from `reddit_comment_preview_shown`, `reddit_comment_preview_fallback_shown`, `linkedin_visibility_comment_preview_shown`, `linkedin_visibility_comment_preview_fallback_shown`, `register_demo_result_shown`, and `register_demo_fallback_shown`.
+- `register_click`
+  - Mapped from `reddit_signup_cta_clicked`, `linkedin_visibility_signup_cta_clicked`, `register_submit_clicked`, and any tracked `cta_click` whose `href` contains `register`.
+- `register_success`
+  - Mapped from `register_completed`.
+
 ## Source attribution
 
 - `js/analytics.js` reads `?src=` from the current URL.
@@ -54,7 +74,8 @@ POST http://localhost:8080/api/analytics/events
 - UTM params are persisted in `sessionStorage` and sent on all later events in the session.
 - Current planned usage:
   - homepage CTAs: direct traffic, no explicit `src`
-  - paid landing page CTAs: `register.html?src=reddit`
+  - Reddit story page CTA: `register.html?src=reddit-output-cta`
+  - Reddit visibility page CTA: `register.html?src=linkedin-visibility-output-cta`
 
 ## Durable event schema
 
@@ -76,6 +97,7 @@ The backend persists these into `analytics_events` and ignores duplicate `event_
 
 - [`index.html`](../index.html)
 - [`reddit.html`](../reddit.html)
+- [`reddit-visibility.html`](../reddit-visibility.html)
 - [`register.html`](../register.html)
 - [`success.html`](../success.html)
 
@@ -111,9 +133,25 @@ window.addEventListener('juniorTrack', (event) => console.log(event.detail));
 
 ## How to verify each event
 
+### Reddit landing page funnel
+
+- Open [`reddit.html`](../reddit.html) or [`reddit-visibility.html`](../reddit-visibility.html) in an incognito window.
+- Confirm the hero and demo are visible before signup.
+- Click `Generate my comment`.
+- Confirm the generated comment appears with the Junior logo and no login gate.
+- Click `Create account -> download app`.
+- Confirm [`register.html`](../register.html) opens and focuses the email step.
+- In DevTools Console, confirm the simplified events appear during the flow:
+  - `landing_view`
+  - `generate_click`
+  - `generate_success`
+  - `register_click`
+  - `register_success` after a completed registration when a backend is available
+- In DevTools Network, confirm requests are sent to `/api/analytics/events` and `/log-event`.
+
 ### CTA clicks
 
-- Open [`index.html`](../index.html) or [`reddit.html`](../reddit.html)
+- Open [`index.html`](../index.html), [`reddit.html`](../reddit.html), or [`reddit-visibility.html`](../reddit-visibility.html)
 - Click any button with a `data-cta`
 - Confirm one `[juniorTrack] cta_click` console entry appears
 - Confirm the backend request includes `event_name: "cta_click"`

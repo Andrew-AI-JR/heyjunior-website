@@ -171,18 +171,28 @@
     if (name === 'generate_click' || name === 'generate_success' || name === 'register_click' || name === 'register_success') {
       return name;
     }
-    if (name === 'reddit_preview_cta_clicked' || name === 'register_demo_generate_clicked') {
+    if (
+      name === 'reddit_preview_cta_clicked' ||
+      name === 'linkedin_visibility_preview_cta_clicked' ||
+      name === 'register_demo_generate_clicked'
+    ) {
       return 'generate_click';
     }
     if (
       name === 'reddit_comment_preview_shown' ||
       name === 'reddit_comment_preview_fallback_shown' ||
+      name === 'linkedin_visibility_comment_preview_shown' ||
+      name === 'linkedin_visibility_comment_preview_fallback_shown' ||
       name === 'register_demo_result_shown' ||
       name === 'register_demo_fallback_shown'
     ) {
       return 'generate_success';
     }
-    if (name === 'register_submit_clicked' || name === 'reddit_signup_cta_clicked') {
+    if (
+      name === 'register_submit_clicked' ||
+      name === 'reddit_signup_cta_clicked' ||
+      name === 'linkedin_visibility_signup_cta_clicked'
+    ) {
       return 'register_click';
     }
     if (name === 'cta_click' && props && typeof props.href === 'string' && props.href.indexOf('register') !== -1) {
