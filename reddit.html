@@ -38,6 +38,12 @@
             <p class="rl-hero-trust">This is not spam. Every comment is tailored to <strong>YOUR background</strong> and <strong>THEIR post</strong>.</p>
         </section>
 
+        <section class="rl-section rl-pain-hook">
+            <h2 class="rl-h2">Most resumes disappear.</h2>
+            <p class="rl-emphasis">The interview came from starting a real conversation.</p>
+            <p>See the kind of comment that can turn a hiring post into a reply.</p>
+        </section>
+
         <section class="rl-section rl-interactive-demo" id="try-it">
             <h2 class="rl-h2">See yours next:</h2>
             <p>Try this with your own background. Takes 30 seconds.</p>
@@ -64,7 +70,7 @@
                 </div>
 
                 <p class="rl-anti-template">This is not a template. This is generated from your background.</p>
-                <button type="submit" class="rl-button rl-generate-btn" id="reddit-demo-button">Generate my comment</button>
+                <button type="submit" class="rl-button rl-generate-btn" id="reddit-demo-button">Generate my personalized comment</button>
                 <p class="rl-demo-error" id="reddit-demo-error" hidden></p>
             </form>
         </section>
@@ -81,37 +87,26 @@
             </div>
             <h2 class="rl-h2">Here’s your comment:</h2>
             <div class="rl-result-comment" id="reddit-demo-comment"></div>
+            <p class="rl-attribution-line">This was generated from your background + their post.</p>
+
+            <div class="rl-conversion-section rl-inline-conversion" id="reddit-demo-conversion" hidden>
+                <p class="rl-emphasis">Want comments like this on every relevant post?</p>
+                <ul class="rl-cta-list">
+                    <li>Finds posts worth replying to</li>
+                    <li>Writes using your background</li>
+                    <li>Designed to get replies</li>
+                </ul>
+                <a href="register.html?src=reddit-output-cta" class="rl-button" data-cta="reddit-output-signup">Create account -> download app</a>
+                <p class="rl-microcopy">No credit card. Takes ~2 minutes.</p>
+            </div>
+
             <div class="rl-share-card" id="reddit-share-card">
-                <p class="rl-share-heading">Share your comment</p>
-                <p class="rl-share-copy">This is what I’d post:</p>
-                <div class="rl-share-actions" aria-label="Comment sharing actions">
+                <p class="rl-share-heading">Want to use this manually first?</p>
+                <div class="rl-share-actions rl-share-actions-single" aria-label="Comment copy action">
                     <button type="button" class="rl-share-button rl-share-button-primary" id="reddit-copy-comment">Copy comment</button>
-                    <button type="button" class="rl-share-button" id="reddit-share-linkedin">Share to LinkedIn</button>
-                    <button type="button" class="rl-share-button" id="reddit-share-x">Share to X</button>
-                    <button type="button" class="rl-share-button" id="reddit-native-share" hidden>Share</button>
-                    <button type="button" class="rl-share-button rl-share-button-email" id="reddit-email-comment">Email me this comment</button>
                 </div>
-                <form class="rl-email-comment-form" id="reddit-comment-email-form" hidden>
-                    <label for="reddit-comment-email-input">Where should we send it?</label>
-                    <div class="rl-email-comment-row">
-                        <input type="email" id="reddit-comment-email-input" placeholder="you@example.com" autocomplete="email" required>
-                        <button type="submit" class="rl-share-button rl-share-button-primary" id="reddit-comment-email-submit">Send it to me</button>
-                    </div>
-                    <p class="rl-email-comment-status" id="reddit-comment-email-status" aria-live="polite"></p>
-                    <a href="register.html?src=reddit-email-comment" class="rl-email-comment-register" id="reddit-comment-email-register" data-cta="reddit-email-comment-signup" hidden>Use this on real posts</a>
-                </form>
                 <p class="rl-sounds-real-hook">If this sounds like you wrote it, it will sound real to recruiters too.</p>
             </div>
-            <p class="rl-unique-note">Generated from your background + the job post — not generic AI.</p>
-            <p class="rl-output-transition" id="reddit-demo-note">This is what recruiters respond to. Want to use this on real posts?</p>
-        </section>
-
-        <section class="rl-section rl-conversion-section" id="reddit-demo-conversion" hidden>
-            <p class="rl-emphasis">Want comments like this on every relevant post?</p>
-            <p>No LinkedIn login required. You stay in control of what gets posted.</p>
-            <a href="register.html?src=reddit-output-cta" class="rl-button" data-cta="reddit-output-signup">Create account -> download app</a>
-            <p class="rl-trust-line">You’ll have your first comment ready in under 60 seconds.</p>
-            <p class="rl-microcopy">No credit card. Download right after signup.</p>
         </section>
 
         <section class="rl-section rl-proof-section">
@@ -154,10 +149,11 @@
             <p>Create your account and generate your first comment.</p>
             <p class="rl-trust-line">No LinkedIn login required. You stay in control of what gets posted.</p>
             <a href="register.html?src=reddit-output-cta" class="rl-button" data-cta="reddit-output-signup">Create account -> download app</a>
-            <p class="rl-microcopy">No credit card. Download right after signup.</p>
+            <p class="rl-microcopy">No credit card. Takes ~2 minutes.</p>
         </section>
 
-        <section class="rl-section rl-how-it-works" data-track-view="reddit_education_step_viewed">
+        <details class="rl-section rl-collapsible" data-track-view="reddit_education_step_viewed">
+            <summary>How Junior turns your background + their post into a real comment</summary>
             <h2 class="rl-h2">Here’s what Junior actually does:</h2>
             <div class="rl-steps-grid">
                 <article class="rl-step-card">
@@ -176,10 +172,9 @@
                     <p>Your experience gets matched to what they are hiring for.</p>
                 </article>
             </div>
-        </section>
 
-        <section class="rl-section rl-money-block" data-track-view="reddit_money_block_viewed">
-            <h2 class="rl-h2">This is why it works:</h2>
+            <div class="rl-money-block">
+                <h2 class="rl-h2">This is why it works:</h2>
             <div class="rl-money-grid">
                 <article class="rl-context-card">
                     <p class="rl-card-kicker">Your Background</p>
@@ -200,7 +195,8 @@
                 <p>Would love to connect if you're still hiring.</p>
             </div>
             <p class="rl-aha-line">This is what gets replies.</p>
-        </section>
+            </div>
+        </details>
     </main>
 
     <script>
@@ -212,25 +208,13 @@
             var error = document.getElementById('reddit-demo-error');
             var result = document.getElementById('reddit-demo-result');
             var commentBox = document.getElementById('reddit-demo-comment');
-            var note = document.getElementById('reddit-demo-note');
             var conversion = document.getElementById('reddit-demo-conversion');
             var finalConversion = document.getElementById('reddit-final-conversion');
             var copyButton = document.getElementById('reddit-copy-comment');
-            var linkedInShareButton = document.getElementById('reddit-share-linkedin');
-            var xShareButton = document.getElementById('reddit-share-x');
-            var nativeShareButton = document.getElementById('reddit-native-share');
-            var emailButton = document.getElementById('reddit-email-comment');
-            var emailForm = document.getElementById('reddit-comment-email-form');
-            var emailInput = document.getElementById('reddit-comment-email-input');
-            var emailStatus = document.getElementById('reddit-comment-email-status');
-            var emailSubmit = document.getElementById('reddit-comment-email-submit');
-            var emailRegister = document.getElementById('reddit-comment-email-register');
             var fallbackComment = "Hey — saw you're hiring.\n\nI’ve spent the last 5 years building and optimizing ETL pipelines in AWS, including improving data throughput in production systems.\n\nWould love to connect if you're still hiring.";
             var attemptsKey = 'juniorRedditDemoAttempts';
             var previewShownKey = 'juniorRedditPreviewShown';
             var signupClickedKey = 'juniorRedditSignupClicked';
-            var emailSubmittedKey = 'juniorRedditEmailSubmitted';
-            var emailSignupClickedKey = 'juniorRedditEmailSignupClicked';
             var maxAttempts = 3;
             var demoTimeoutMs = 4000;
             var currentGeneratedComment = fallbackComment;
@@ -286,14 +270,6 @@
                 error.hidden = true;
             }
 
-            function getShareText(comment) {
-                return "I stopped applying to jobs and started commenting.\n\nThis is what I’d post instead:\n\n" + comment + "\n\nhttps://heyjunior.ai/reddit";
-            }
-
-            function openPopup(url) {
-                window.open(url, '_blank', 'noopener,noreferrer,width=720,height=640');
-            }
-
             function fallbackCopy(text) {
                 var temp = document.createElement('textarea');
                 temp.value = text;
@@ -327,110 +303,9 @@
                 });
             }
 
-            function shareComment(channel) {
-                var comment = currentGeneratedComment || commentBox.textContent.trim();
-                track('reddit_comment_share_clicked', { channel: channel });
-                if (channel === 'linkedin') {
-                    openPopup('https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent('https://heyjunior.ai/reddit'));
-                    return;
-                }
-                if (channel === 'x') {
-                    openPopup('https://twitter.com/intent/tweet?text=' + encodeURIComponent(getShareText(comment)));
-                    return;
-                }
-                if (channel === 'native' && navigator.share) {
-                    navigator.share({
-                        title: 'My Junior comment',
-                        text: getShareText(comment),
-                        url: 'https://heyjunior.ai/reddit'
-                    }).catch(function(err) {
-                        console.warn('[Reddit demo] native share cancelled or failed:', err);
-                    });
-                }
-            }
-
-            function getApiBaseUrl() {
-                if (window.getApiBaseUrl) return window.getApiBaseUrl();
-                return 'https://api.heyjunior.ai';
-            }
-
-            function getStoredId(storage, key) {
-                try {
-                    return storage.getItem(key);
-                } catch (e) {
-                    return null;
-                }
-            }
-
-            function setEmailStatus(message, isError) {
-                if (!emailStatus) return;
-                emailStatus.textContent = message;
-                emailStatus.classList.toggle('rl-email-comment-status-error', Boolean(isError));
-            }
-
-            function updateEmailRegisterLink(email) {
-                if (!emailRegister) return;
-                emailRegister.href = 'register.html?src=reddit-email-comment&email=' + encodeURIComponent(email);
-                emailRegister.hidden = false;
-            }
-
-            function submitCommentEmail(event) {
-                event.preventDefault();
-                if (!emailInput || !emailSubmit) return;
-
-                var email = emailInput.value.trim();
-                var comment = currentGeneratedComment || commentBox.textContent.trim();
-                if (!email) {
-                    setEmailStatus('Add your email first.', true);
-                    emailInput.focus();
-                    return;
-                }
-
-                var submitted = incrementSessionCounter(emailSubmittedKey);
-                track('reddit_comment_email_submitted', { email_request_count: submitted });
-                emailSubmit.disabled = true;
-                emailSubmit.textContent = 'Sending...';
-                setEmailStatus('', false);
-
-                fetch(getApiBaseUrl() + '/api/analytics/reddit/comment-email', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        email: email,
-                        comment: comment,
-                        source: 'reddit-comment-email',
-                        page: 'reddit',
-                        path: window.location.pathname,
-                        anonymous_id: getStoredId(localStorage, 'juniorAnonymousId'),
-                        session_id: getStoredId(sessionStorage, 'juniorSessionId')
-                    })
-                })
-                    .then(function(response) {
-                        if (!response.ok) throw new Error('Email request failed');
-                        return response.json();
-                    })
-                    .then(function(data) {
-                        var sent = Boolean(data && data.data && data.data.sent);
-                        track(sent ? 'reddit_comment_email_sent' : 'reddit_comment_email_failed', { delivered: sent });
-                        setEmailStatus(sent ? 'Sent. Want to use this on real posts?' : 'Saved. Want to use this on real posts?', false);
-                        updateEmailRegisterLink(email);
-                    })
-                    .catch(function(err) {
-                        console.warn('[Reddit demo] email request failed:', err);
-                        track('reddit_comment_email_failed', { reason: 'request_failed' });
-                        setEmailStatus('Saved. Want to use this on real posts?', false);
-                        updateEmailRegisterLink(email);
-                    })
-                    .finally(function() {
-                        emailSubmit.disabled = false;
-                        emailSubmit.textContent = 'Send it to me';
-                    });
-            }
-
             function showResult(comment, fallback) {
                 currentGeneratedComment = comment;
                 commentBox.textContent = comment;
-                note.textContent = 'This is what recruiters respond to. Want to use this on real posts?';
                 result.hidden = false;
                 conversion.hidden = false;
                 if (finalConversion) finalConversion.hidden = false;
@@ -466,56 +341,6 @@
 
             if (copyButton) {
                 copyButton.addEventListener('click', copyComment);
-            }
-
-            if (linkedInShareButton) {
-                linkedInShareButton.addEventListener('click', function() {
-                    shareComment('linkedin');
-                });
-            }
-
-            if (xShareButton) {
-                xShareButton.addEventListener('click', function() {
-                    shareComment('x');
-                });
-            }
-
-            if (nativeShareButton && navigator.share) {
-                nativeShareButton.hidden = false;
-                nativeShareButton.addEventListener('click', function() {
-                    shareComment('native');
-                });
-            }
-
-            if (emailButton && emailForm && emailInput) {
-                emailButton.addEventListener('click', function() {
-                    emailForm.hidden = !emailForm.hidden;
-                    track('reddit_comment_email_opened');
-                    if (!emailForm.hidden) {
-                        emailInput.focus();
-                    }
-                });
-            }
-
-            if (emailForm) {
-                emailForm.addEventListener('submit', submitCommentEmail);
-            }
-
-            if (emailRegister) {
-                emailRegister.addEventListener('click', function() {
-                    var submitted = Number(sessionStorage.getItem(emailSubmittedKey) || '0');
-                    var clicked = incrementSessionCounter(emailSignupClickedKey);
-                    var rate = submitted > 0 ? clicked / submitted : 0;
-                    track('reddit_comment_email_signup_clicked', {
-                        email_request_count: submitted,
-                        signup_click_count: clicked
-                    });
-                    track('reddit_email_to_signup_rate', {
-                        value: rate,
-                        numerator: clicked,
-                        denominator: submitted
-                    });
-                });
             }
 
             observeViewEvents();
@@ -598,7 +423,7 @@
                     })
                     .finally(function() {
                         button.disabled = false;
-                        button.textContent = 'Generate my comment';
+                        button.textContent = 'Generate my personalized comment';
                     });
             });
         });

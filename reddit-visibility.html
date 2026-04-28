@@ -187,6 +187,13 @@
             <p class="rl-hero-trust">Not templates. Not spam. Personalized to <strong>YOUR background</strong> and <strong>THEIR post</strong>.</p>
         </section>
 
+        <section class="rl-section lv-hook-card" data-track-view="linkedin_visibility_hook_viewed">
+            <h2 class="rl-h2">Most people comment like this:</h2>
+            <p class="lv-ignored-comment">"Great post, thanks for sharing"</p>
+            <p class="rl-emphasis">That gets ignored.</p>
+            <p>This is what works:</p>
+        </section>
+
         <section class="rl-section rl-interactive-demo" id="try-it">
             <h2 class="rl-h2">See yours in seconds</h2>
             <p>Try this with your own background and a real LinkedIn post.</p>
@@ -213,7 +220,7 @@
                 </div>
 
                 <p class="rl-anti-template">This is not a template. It is generated from what you wrote.</p>
-                <button type="submit" class="rl-button rl-generate-btn" id="visibility-demo-button">Generate my comment</button>
+                <button type="submit" class="rl-button rl-generate-btn" id="visibility-demo-button">Generate my personalized comment</button>
                 <p class="rl-demo-error" id="visibility-demo-error" hidden></p>
             </form>
         </section>
@@ -230,6 +237,19 @@
             </div>
             <h2 class="rl-h2">Here's your comment:</h2>
             <div class="rl-result-comment" id="visibility-demo-comment"></div>
+            <p class="rl-attribution-line">This was generated from your background + their post.</p>
+
+            <div class="rl-conversion-section rl-inline-conversion" id="visibility-demo-conversion" hidden>
+                <p class="rl-emphasis" id="visibility-cta-headline">Want comments like this on every relevant post?</p>
+                <ul class="rl-cta-list">
+                    <li>Finds posts worth replying to</li>
+                    <li>Writes using your background</li>
+                    <li>Designed to get replies</li>
+                </ul>
+                <a href="register.html?src=linkedin-visibility-output-cta" class="rl-button" data-cta="linkedin-visibility-output-signup">Create account -> download app</a>
+                <p class="rl-microcopy">No credit card. Takes ~2 minutes.</p>
+            </div>
+
             <textarea id="visibility-demo-comment-edit" class="lv-result-textarea" hidden></textarea>
 
             <div class="lv-action-row">
@@ -238,38 +258,6 @@
                 <a href="https://www.linkedin.com/feed/" target="_blank" rel="noopener" class="lv-secondary-button" id="visibility-open-linkedin">Open LinkedIn (paste your comment)</a>
             </div>
             <p class="lv-action-status" id="visibility-action-status" aria-live="polite"></p>
-
-            <div class="lv-validation-card">
-                <p><strong>This is based on what YOU wrote - not a template.</strong></p>
-                <p>It used:</p>
-                <ul class="lv-validation-list">
-                    <li>your background</li>
-                    <li>their post</li>
-                </ul>
-                <p>That's why it sounds real.</p>
-            </div>
-
-            <div class="lv-instant-win">
-                <p class="rl-emphasis">Copy this and try it on a post right now.</p>
-                <ol class="lv-steps">
-                    <li>Copy</li>
-                    <li>Open LinkedIn</li>
-                    <li>Paste into a post</li>
-                </ol>
-                <p class="rl-microcopy">You can use it manually first. Then let Junior do this across relevant posts for you.</p>
-            </div>
-        </section>
-
-        <section class="rl-section rl-conversion-section" id="visibility-demo-conversion" hidden>
-            <p class="rl-emphasis" id="visibility-cta-headline">Want comments like this on every relevant post?</p>
-            <ul class="lv-cta-list">
-                <li>Finds posts worth commenting on</li>
-                <li>Writes in your voice</li>
-                <li>Designed to get replies</li>
-            </ul>
-            <a href="register.html?src=linkedin-visibility-output-cta" class="rl-button" data-cta="linkedin-visibility-output-signup">Create account -> download app</a>
-            <p class="rl-microcopy">No credit card. Download right after signup.</p>
-            <p class="lv-proof-line">Users are already getting replies within hours.</p>
         </section>
 
         <section class="rl-section rl-proof-section">
@@ -311,18 +299,13 @@
             <p class="rl-emphasis">Want comments like this on every relevant post?</p>
             <p>Create your account and let Junior help you find posts worth replying to.</p>
             <a href="register.html?src=linkedin-visibility-output-cta" class="rl-button" data-cta="linkedin-visibility-output-signup">Create account -> download app</a>
-            <p class="rl-microcopy">No credit card. Download right after signup.</p>
+            <p class="rl-microcopy">No credit card. Takes ~2 minutes.</p>
         </section>
 
-        <section class="rl-section lv-hook-card" data-track-view="linkedin_visibility_hook_viewed">
-            <h2 class="rl-h2">Most people comment like this:</h2>
-            <p class="lv-ignored-comment">"Great post, thanks for sharing"</p>
-            <p class="rl-emphasis">That gets ignored.</p>
-            <p>This is what works:</p>
-        </section>
-
-        <section class="rl-section rl-money-block" data-track-view="linkedin_visibility_demo_block_viewed">
-            <h2 class="rl-h2">Junior combines what you know with what they posted.</h2>
+        <details class="rl-section rl-collapsible" data-track-view="linkedin_visibility_demo_block_viewed">
+            <summary>How it works: your background + their post = personalized comment</summary>
+            <div class="rl-money-block">
+                <h2 class="rl-h2">Junior combines what you know with what they posted.</h2>
             <div class="rl-money-grid">
                 <article class="rl-context-card">
                     <p class="rl-card-kicker">Your Background</p>
@@ -341,7 +324,8 @@
                 <p>Interesting take - I've seen the same pattern building AI products. Teams over-index on features but under-invest in distribution. In my experience, the companies that win are the ones that treat GTM as a product, not an afterthought.</p>
             </div>
             <p class="rl-aha-line">If this sounds like something you would actually write, it will sound real to the people reading it.</p>
-        </section>
+            </div>
+        </details>
     </main>
 
     <script>
@@ -670,7 +654,7 @@
                     })
                     .finally(function() {
                         button.disabled = false;
-                        button.textContent = 'Generate my comment';
+                        button.textContent = 'Generate my personalized comment';
                     });
             });
         });

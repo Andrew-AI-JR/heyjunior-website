@@ -6374,6 +6374,14 @@ section, div {
     white-space: pre-wrap;
 }
 
+.rl-attribution-line {
+    margin: 0.8rem 0 0;
+    color: #166534;
+    font-size: 0.95rem;
+    font-weight: 800;
+    text-align: center;
+}
+
 .rl-unique-note {
     margin: 0.8rem 0 0;
     color: #166534;
@@ -6415,6 +6423,10 @@ section, div {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.65rem;
+}
+
+.rl-share-actions-single {
+    grid-template-columns: 1fr;
 }
 
 .rl-share-button {
@@ -6520,14 +6532,64 @@ section, div {
     text-align: center;
 }
 
+.rl-inline-conversion {
+    margin-top: 1rem;
+}
+
 .rl-conversion-section p {
     margin-left: auto;
     margin-right: auto;
     max-width: 520px;
 }
 
+.rl-cta-list {
+    list-style: none;
+    margin: 1rem auto;
+    max-width: 420px;
+    padding: 0;
+    text-align: left;
+}
+
+.rl-cta-list li {
+    margin-bottom: 0.55rem;
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+.rl-cta-list li::before {
+    color: #166534;
+    content: "✓";
+    font-weight: 900;
+    left: 0;
+    position: absolute;
+}
+
 .rl-final-conversion {
     margin-top: -0.6rem;
+}
+
+.rl-pain-hook,
+.rl-collapsible {
+    padding: 22px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+}
+
+.rl-collapsible summary {
+    color: #0f172a;
+    cursor: pointer;
+    font-size: 1.05rem;
+    font-weight: 900;
+    line-height: 1.35;
+}
+
+.rl-collapsible[open] summary {
+    margin-bottom: 1rem;
+}
+
+.rl-collapsible .rl-money-block {
+    margin-top: 1.2rem;
 }
 
 .rl-proof-section .rl-list {
