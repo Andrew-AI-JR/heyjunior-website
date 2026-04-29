@@ -1,12 +1,13 @@
 # Reseller Program Terms & Operations Runbook
 
-## Reseller Terms
+## Reseller and Salesperson Terms
 
 ### Commission Structure
 
-- **Rate**: 20% of net subscription revenue per referred subscriber
+- **Reseller rate**: 20% of net subscription revenue per referred subscriber
+- **Salesperson rate**: 20% of net subscription revenue for subscribers sourced by resellers the salesperson onboarded
 - **Duration**: Lifetime of each referred subscription (as long as the subscriber remains active)
-- **Basis**: Net revenue = gross invoice amount minus refunds and lost disputes
+- **Basis**: Net revenue = subscription revenue collected minus Stripe processing fees, taxes, refunds, credits, chargebacks, and lost disputes
 - **Currency**: Commissions are calculated and paid in USD
 
 ### Attribution Rules
@@ -18,22 +19,24 @@
 
 ### Payout Schedule
 
-- Payouts are processed automatically by Stripe based on the reseller's connected account settings
+- Payouts are processed through Stripe Connect Express based on each reseller or salesperson connected account settings
 - Default: rolling payouts (typically 2-day delay for US accounts)
-- Resellers can configure their own payout schedule (daily, weekly, monthly) via the Stripe Express Dashboard
-- Stripe handles all tax reporting (1099-K/1099-MISC) for US-based resellers
+- Recipients can configure their own payout schedule (daily, weekly, monthly) via the Stripe Express Dashboard
+- Stripe handles applicable tax reporting (1099-K/1099-MISC) for US-based connected accounts
 
 ### Refund & Dispute Policy
 
-- **Refunds**: If a referred subscriber receives a refund, the corresponding commission is automatically reversed by Stripe proportionally
-- **Disputes**: When a charge is disputed, the commission hold is applied immediately. If the platform wins the dispute, the commission is reinstated. If the platform loses, the reversal is permanent
-- **Clawback window**: Stripe handles reversal automatically at the time of the event; no manual clawback is needed
+- **Junior owns refunds**: Junior decides and processes customer refunds, credits, and dispute responses because Junior is Merchant of Record.
+- **Refunds**: If a referred subscriber receives a refund, related reseller and salesperson commissions are reversed proportionally.
+- **Disputes**: If a charge is disputed, Junior may hold, reverse, or offset related commissions. If Junior wins the dispute, commissions may be reinstated. If Junior loses, the reversal is permanent.
+- **Clawbacks**: Reversals are implemented by backend ledger and Stripe transfer reversal logic, not by customer-facing manual approval.
 
 ### Eligibility & Approval
 
 - All reseller applicants must be approved by Junior before activation
+- All salespeople must be created or approved by Junior before activation
 - Approval criteria: professional standing, relevant audience, no conflicts of interest
-- Junior reserves the right to suspend or terminate reseller accounts for violations of terms
+- Junior reserves the right to suspend or terminate reseller or salesperson accounts for violations of terms
 
 ### Prohibited Activities
 
@@ -48,6 +51,7 @@
 - Upon termination, pending commissions for the current billing cycle will be paid out
 - Future recurring commissions cease after termination
 - Subscribers sourced by a terminated reseller are not reassigned
+- If a salesperson is terminated, future salesperson commissions cease unless Junior explicitly preserves existing assignments
 
 ---
 
@@ -60,40 +64,51 @@
 3. In the database, set:
    - `is_reseller = TRUE`
    - `reseller_status = 'approved'`
+   - `reseller_onboarded_by_salesperson_id = [salesperson user id]` if a salesperson sourced the reseller
 4. Send approval email directing them to `https://heyjunior.ai/reseller-dashboard.html`
 5. They will complete Stripe Express onboarding on their own
+
+### Onboarding a Salesperson
+
+1. Create or identify the salesperson user account.
+2. In the database, set:
+   - `is_salesperson = TRUE`
+   - `salesperson_status = 'pending'`
+3. Generate the Stripe Express salesperson onboarding link through the admin endpoint.
+4. Mark `salesperson_status = 'active'` when Stripe reports `payouts_enabled = TRUE`.
+5. Assign resellers to the salesperson by setting `reseller_onboarded_by_salesperson_id`.
 
 ### Monitoring Onboarding
 
 - Check `account.updated` webhook events for connected account status
-- If a reseller's onboarding stalls (no `charges_enabled` after 7 days), send a follow-up email
-- If `charges_enabled` becomes `false` after being `true`, investigate (bank account issue, compliance hold)
+- If reseller or salesperson onboarding stalls (no payout-ready status after 7 days), send a follow-up email
+- If `payouts_enabled` becomes `false` after being `true`, investigate (bank account issue, compliance hold)
 
 ### Handling Reseller Disputes
 
 | Scenario | Action |
 |----------|--------|
-| Reseller claims missing commission | Check `commission_ledger` for the relevant `stripe_invoice_id`. Cross-reference with Stripe Dashboard > Payments > Transfer details |
-| Commission amount seems wrong | Verify: `commission_amount = gross_amount * 0.20`. Check for refunds or disputes on the invoice |
+| Reseller or salesperson claims missing commission | Check `commission_ledger` for the relevant `stripe_invoice_id`. Cross-reference with Stripe Dashboard > Connect > Transfers |
+| Commission amount seems wrong | Verify: `commission_amount = net_commission_base * 0.20`. Check Stripe fees, taxes, refunds, credits, or disputes on the invoice |
 | Reseller requests early payout | Inform that payout timing is managed by Stripe; direct to Express Dashboard |
-| Subscriber disputes charge | Commission hold is automatic. Monitor dispute outcome via `charge.dispute.closed` webhook |
+| Subscriber disputes charge | Junior owns dispute response. Monitor dispute outcome via `charge.dispute.closed` webhook and reverse/restore commissions via ledger |
 
 ### Suspending a Reseller
 
 1. Set `reseller_status = 'suspended'` in the database
 2. This immediately stops:
-   - New checkout sessions from applying the revenue split
+   - New checkout sessions from stamping reseller attribution metadata
    - Access to the reseller dashboard data endpoints
-   - (Existing subscriptions with `transfer_data` continue paying out until changed)
-3. To stop existing subscription payouts, update the subscriptions in Stripe to remove `transfer_data`
+   - New manual commission transfers for that reseller
+3. To stop existing subscription payouts, update or clear reseller metadata on existing subscriptions
 4. Send notification email explaining the suspension and next steps
 
 ### Reconciliation Process (Monthly)
 
 Run this on the first business day of each month:
 
-1. Query `commission_ledger` grouped by `reseller_id` for the previous month
-2. For each reseller, sum `commission_amount` entries
+1. Query `commission_ledger` grouped by `recipient_user_id` and `recipient_role` for the previous month
+2. For each reseller and salesperson, sum `commission_amount` entries
 3. Cross-reference with Stripe Dashboard > Connect > Transfers for the same period
 4. Flag any discrepancies > $1.00 for manual review
 5. Document results
@@ -103,8 +118,8 @@ Run this on the first business day of each month:
 | Task | Dashboard Path |
 |------|---------------|
 | View connected accounts | Connect > Accounts |
-| View transfers to resellers | Connect > Transfers |
-| View specific reseller's activity | Connect > Accounts > [Account] |
+| View transfers to recipients | Connect > Transfers |
+| View specific reseller or salesperson activity | Connect > Accounts > [Account] |
 | Check payout status | Connect > Accounts > [Account] > Payouts |
 | Handle disputes | Payments > Disputes |
 
@@ -116,7 +131,9 @@ Subject: Welcome to the Junior Reseller Program!
 
 Hi [NAME],
 
-Congratulations! You've been approved as a Junior reseller. You'll earn 20% of all subscription revenue from customers you refer, for the lifetime of their subscription.
+Congratulations! You've been approved as a Junior reseller. You'll earn 20% of net subscription revenue from customers you refer, for the lifetime of their subscription.
+
+Net subscription revenue means subscription revenue actually retained by Junior after Stripe processing fees, taxes, refunds, credits, chargebacks, and lost disputes.
 
 To get started:
 1. Visit your Reseller Dashboard: https://heyjunior.ai/reseller-dashboard.html
@@ -157,19 +174,22 @@ The Junior Team
 - [ ] Express branding configured (Junior logo, colors)
 - [ ] Backend schema migration applied
 - [ ] Reseller API endpoints deployed and tested
+- [ ] Salesperson API endpoints deployed and tested
 - [ ] Connect webhook endpoint configured and verified
 - [ ] Reseller dashboard page deployed
-- [ ] Test full flow with Stripe test mode (Express onboarding, subscription, payout)
+- [ ] Test full flow with Stripe test mode (Express onboarding, subscription, two-recipient payout, refund reversal)
 
 ### Pilot Phase (2-3 Resellers, 1 Billing Cycle)
 
-- [ ] Select 2-3 existing partners for pilot
+- [ ] Select 2-3 existing partners and at least one salesperson for pilot
 - [ ] Approve them as resellers in the database
+- [ ] Assign each reseller to a salesperson where applicable
 - [ ] Guide them through Stripe Express onboarding
 - [ ] Add their codes to `MIGRATED_TO_CONNECT` in `referral.js`
 - [ ] Monitor first subscription through their referral link
-- [ ] Verify commission ledger entry after `invoice.paid`
-- [ ] Verify Stripe transfer to connected account
+- [ ] Verify reseller and salesperson commission ledger entries after `invoice.paid`
+- [ ] Verify Stripe transfers to connected accounts
+- [ ] Verify commission base excludes Stripe fees and taxes
 - [ ] Wait for full payout cycle to complete
 - [ ] Run reconciliation: ledger totals match Stripe transfer totals
 - [ ] Collect reseller feedback on dashboard and payout experience
@@ -177,7 +197,7 @@ The Junior Team
 ### Post-Pilot Expansion
 
 - [ ] Fix any issues discovered during pilot
-- [ ] Migrate remaining partners to Connect one at a time
+- [ ] Migrate remaining partners to Connect/manual-transfer model one at a time
 - [ ] Remove each partner from `PARTNER_LINKS` after Connect verification
 - [ ] Once all partners migrated, remove `PARTNER_LINKS` object entirely
 - [ ] Update public-facing reseller program page (if any)

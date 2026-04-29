@@ -1,6 +1,14 @@
 # Reseller Backend Implementation Guide
 
-This document provides complete implementation details for the backend (`api.heyjunior.ai`) to support the automated reseller commission system using Stripe Connect Express.
+This document provides backend (`api.heyjunior.ai`) implementation details for the two-level commission system using Stripe Connect Express.
+
+Commission model:
+
+- Reseller receives 20% of net collected subscription revenue.
+- Salesperson receives 20% of net collected subscription revenue for subscribers sourced by resellers they onboarded.
+- Net collected revenue excludes Stripe processing fees, sales tax/VAT, refunds, credits, chargebacks, and lost disputes.
+- Junior remains Merchant of Record and owns refund/dispute decisions.
+- All payouts are manual `stripe.Transfer.create()` calls from webhook processing. Do not use subscription `transfer_data.destination` or `application_fee_percent`.
 
 ## Prerequisites
 
@@ -25,31 +33,55 @@ ALTER TABLE users ADD COLUMN reseller_status VARCHAR(20) DEFAULT NULL
 ALTER TABLE users ADD COLUMN stripe_connect_account_id VARCHAR(255) DEFAULT NULL;
 ALTER TABLE users ADD COLUMN reseller_onboarded_at TIMESTAMP DEFAULT NULL;
 ALTER TABLE users ADD COLUMN referred_by_reseller_id INTEGER REFERENCES users(id) DEFAULT NULL;
+ALTER TABLE users ADD COLUMN is_salesperson BOOLEAN NOT NULL DEFAULT FALSE;
+ALTER TABLE users ADD COLUMN salesperson_status VARCHAR(20) DEFAULT NULL
+  CHECK (salesperson_status IN ('pending', 'onboarding', 'active', 'suspended'));
+ALTER TABLE users ADD COLUMN salesperson_stripe_connect_account_id VARCHAR(255) DEFAULT NULL;
+ALTER TABLE users ADD COLUMN salesperson_onboarded_at TIMESTAMP DEFAULT NULL;
+ALTER TABLE users ADD COLUMN reseller_onboarded_by_salesperson_id INTEGER REFERENCES users(id) DEFAULT NULL;
 
 CREATE INDEX idx_users_reseller_status ON users(reseller_status) WHERE is_reseller = TRUE;
 CREATE INDEX idx_users_referred_by ON users(referred_by_reseller_id) WHERE referred_by_reseller_id IS NOT NULL;
+CREATE INDEX idx_users_salesperson_status ON users(salesperson_status) WHERE is_salesperson = TRUE;
+CREATE INDEX idx_users_reseller_salesperson ON users(reseller_onboarded_by_salesperson_id) WHERE reseller_onboarded_by_salesperson_id IS NOT NULL;
 ```
 
 ```sql
 -- Migration: create_commission_ledger
 CREATE TABLE commission_ledger (
     id SERIAL PRIMARY KEY,
-    reseller_id INTEGER NOT NULL REFERENCES users(id),
+    recipient_user_id INTEGER NOT NULL REFERENCES users(id),
+    recipient_role VARCHAR(20) NOT NULL
+      CHECK (recipient_role IN ('reseller', 'salesperson')),
     subscriber_id INTEGER NOT NULL REFERENCES users(id),
     stripe_invoice_id VARCHAR(255) NOT NULL,
+    stripe_event_id VARCHAR(255),
     event_type VARCHAR(50) NOT NULL
       CHECK (event_type IN ('invoice_paid', 'refund', 'dispute_created', 'dispute_resolved')),
-    gross_amount INTEGER NOT NULL,
+    gross_invoice_amount INTEGER NOT NULL,
+    stripe_fee_amount INTEGER NOT NULL,
+    tax_amount INTEGER NOT NULL DEFAULT 0,
+    net_commission_base INTEGER NOT NULL,
+    commission_percent NUMERIC(5,2) NOT NULL DEFAULT 20.00,
     commission_amount INTEGER NOT NULL,
     currency VARCHAR(3) NOT NULL DEFAULT 'usd',
     stripe_transfer_id VARCHAR(255),
+    transfer_status VARCHAR(20) NOT NULL DEFAULT 'pending'
+      CHECK (transfer_status IN ('pending', 'completed', 'failed', 'reversed', 'abandoned')),
+    retry_count INTEGER NOT NULL DEFAULT 0,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     metadata JSONB DEFAULT '{}'
 );
 
-CREATE INDEX idx_commission_ledger_reseller ON commission_ledger(reseller_id);
+CREATE INDEX idx_commission_ledger_recipient ON commission_ledger(recipient_user_id, recipient_role);
 CREATE INDEX idx_commission_ledger_invoice ON commission_ledger(stripe_invoice_id);
 CREATE INDEX idx_commission_ledger_created ON commission_ledger(created_at);
+CREATE UNIQUE INDEX idx_commission_ledger_invoice_paid_recipient
+  ON commission_ledger(stripe_invoice_id, recipient_user_id, recipient_role)
+  WHERE event_type = 'invoice_paid';
+CREATE UNIQUE INDEX idx_commission_ledger_event_recipient
+  ON commission_ledger(stripe_event_id, recipient_user_id, recipient_role)
+  WHERE stripe_event_id IS NOT NULL;
 ```
 
 ### Registration Endpoint Changes
@@ -84,6 +116,8 @@ class UserResponse(BaseModel):
     # ... existing fields ...
     is_reseller: bool = False
     reseller_status: Optional[str] = None
+    is_salesperson: bool = False
+    salesperson_status: Optional[str] = None
 ```
 
 And to `GET /api/users/me/referral`:
@@ -94,6 +128,8 @@ class ReferralResponse(BaseModel):
     referrals_count: int
     is_reseller: bool = False
     reseller_status: Optional[str] = None
+    is_salesperson: bool = False
+    salesperson_status: Optional[str] = None
 ```
 
 ---
@@ -196,15 +232,60 @@ async def reseller_onboard_return(current_user: User = Depends(get_current_user)
     }
 ```
 
+### POST /api/salespeople/onboard
+
+Creates a Stripe Express connected account for a salesperson. This should be admin-only unless salespeople self-serve inside an authenticated internal portal.
+
+```python
+@router.post("/api/salespeople/onboard")
+async def salesperson_onboard(
+    salesperson_user_id: int,
+    current_admin: User = Depends(require_admin),
+    db: Session = Depends(get_db),
+):
+    salesperson = db.query(User).filter(
+        User.id == salesperson_user_id,
+        User.is_salesperson == True,
+        User.salesperson_status.in_(("pending", "onboarding")),
+    ).first()
+    if not salesperson:
+        raise HTTPException(404, "Salesperson not found or not eligible for onboarding")
+
+    if not salesperson.salesperson_stripe_connect_account_id:
+        account = stripe.Account.create(
+            type="express",
+            email=salesperson.email,
+            capabilities={"transfers": {"requested": True}},
+            metadata={
+                "junior_user_id": str(salesperson.id),
+                "junior_role": "salesperson",
+            },
+        )
+        salesperson.salesperson_stripe_connect_account_id = account.id
+        salesperson.salesperson_status = "onboarding"
+        db.commit()
+
+    account_link = stripe.AccountLink.create(
+        account=salesperson.salesperson_stripe_connect_account_id,
+        refresh_url=f"{FRONTEND_URL}/salesperson-dashboard.html?onboarding=refresh",
+        return_url=f"{FRONTEND_URL}/salesperson-dashboard.html?onboarding=complete",
+        type="account_onboarding",
+    )
+
+    return {"onboarding_url": account_link.url}
+```
+
 ---
 
-## Phase 3: Checkout Session Split Logic
+## Phase 3: Checkout Session Attribution Logic
 
 ### Modify POST /api/payments/create-checkout-session
 
 ```python
 @router.post("/api/payments/create-checkout-session")
 async def create_checkout_session(request: CheckoutRequest, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    reseller_attribution = _resolve_reseller_attribution(current_user, db)
+
     checkout_params = {
         "mode": "subscription",
         "line_items": [{"price": request.price_id, "quantity": 1}],
@@ -214,40 +295,31 @@ async def create_checkout_session(request: CheckoutRequest, current_user: User =
         # ... existing params (metadata, coupon, etc.) ...
     }
     
-    # Apply reseller revenue split if applicable
-    reseller_split = _resolve_reseller_split(current_user, db)
-    if reseller_split:
+    # Store reseller/salesperson attribution only. Do not use transfer_data or
+    # application_fee_percent because commission payouts are created by webhook.
+    if reseller_attribution:
         checkout_params["subscription_data"] = {
-            "transfer_data": {
-                "destination": reseller_split["stripe_connect_account_id"],
+            "metadata": {
+                "reseller_id": str(reseller_attribution["reseller_id"]),
+                "salesperson_id": str(reseller_attribution["salesperson_id"] or ""),
+                "reseller_code": reseller_attribution["referral_code"],
             },
-            "application_fee_percent": 80,  # Platform keeps 80%, reseller gets 20%
-        }
-        # Store reseller attribution in subscription metadata
-        checkout_params.setdefault("subscription_data", {})
-        checkout_params["subscription_data"]["metadata"] = {
-            "reseller_id": str(reseller_split["reseller_id"]),
-            "reseller_code": reseller_split["referral_code"],
         }
     
     try:
         session = stripe.checkout.Session.create(**checkout_params)
         return {"checkout_url": session.url}
     except stripe.error.StripeError as e:
-        # NON-BLOCKING FALLBACK: If split fails, retry without split
-        if reseller_split and "transfer_data" in str(e):
-            logger.error(f"Split failed for reseller {reseller_split['reseller_id']}, falling back to no-split checkout: {e}")
-            # Alert ops team (email/Slack notification)
-            _alert_split_failure(current_user.id, reseller_split["reseller_id"], str(e))
-            
-            checkout_params.pop("subscription_data", None)
-            session = stripe.checkout.Session.create(**checkout_params)
-            return {"checkout_url": session.url}
+        logger.exception("Stripe checkout session creation failed")
         raise HTTPException(500, "Failed to create checkout session.")
 
 
-def _resolve_reseller_split(user: User, db: Session) -> Optional[dict]:
-    """Check if this user was referred by an active reseller with a valid connected account."""
+def _resolve_reseller_attribution(user: User, db: Session) -> Optional[dict]:
+    """Resolve subscriber attribution without checking payout readiness.
+
+    Payout readiness is checked when the invoice is paid. This prevents checkout
+    from failing because a reseller or salesperson has a temporary Connect issue.
+    """
     if not user.referred_by_reseller_id:
         return None
     
@@ -255,25 +327,14 @@ def _resolve_reseller_split(user: User, db: Session) -> Optional[dict]:
         User.id == user.referred_by_reseller_id,
         User.is_reseller == True,
         User.reseller_status == 'active',
-        User.stripe_connect_account_id.isnot(None),
     ).first()
     
     if not reseller:
         return None
     
-    # Verify connected account is payout-ready
-    try:
-        account = stripe.Account.retrieve(reseller.stripe_connect_account_id)
-        if not (account.charges_enabled and account.payouts_enabled):
-            logger.warning(f"Reseller {reseller.id} connected account not payout-ready")
-            return None
-    except stripe.error.StripeError:
-        logger.warning(f"Could not verify reseller {reseller.id} connected account")
-        return None
-    
     return {
         "reseller_id": reseller.id,
-        "stripe_connect_account_id": reseller.stripe_connect_account_id,
+        "salesperson_id": reseller.reseller_onboarded_by_salesperson_id,
         "referral_code": reseller.referral_code,
     }
 ```
@@ -321,9 +382,10 @@ async def _handle_invoice_paid(event, db: Session):
     if not subscription_id:
         return
     
-    # Look up subscription to find reseller metadata
+    # Look up subscription to find reseller/salesperson metadata
     subscription = stripe.Subscription.retrieve(subscription_id)
     reseller_id = subscription.metadata.get("reseller_id")
+    salesperson_id = subscription.metadata.get("salesperson_id")
     
     if not reseller_id:
         return
@@ -334,28 +396,123 @@ async def _handle_invoice_paid(event, db: Session):
     if not subscriber:
         return
     
-    gross_amount = invoice["amount_paid"]  # in cents
-    commission_amount = int(gross_amount * 0.20)  # 20% commission
+    gross_invoice_amount = invoice["amount_paid"]  # in cents
+    tax_amount = sum(item.get("amount", 0) for item in invoice.get("total_tax_amounts", []))
+    stripe_fee_amount = _get_stripe_fee_amount(invoice)
+    net_commission_base = max(gross_invoice_amount - stripe_fee_amount - tax_amount, 0)
     
-    # Check for duplicate entries
+    _create_commission_transfer(
+        recipient_id=int(reseller_id),
+        recipient_role="reseller",
+        subscriber=subscriber,
+        invoice=invoice,
+        subscription_id=subscription_id,
+        gross_invoice_amount=gross_invoice_amount,
+        stripe_fee_amount=stripe_fee_amount,
+        tax_amount=tax_amount,
+        net_commission_base=net_commission_base,
+        db=db,
+    )
+
+    if salesperson_id:
+        _create_commission_transfer(
+            recipient_id=int(salesperson_id),
+            recipient_role="salesperson",
+            subscriber=subscriber,
+            invoice=invoice,
+            subscription_id=subscription_id,
+            gross_invoice_amount=gross_invoice_amount,
+            stripe_fee_amount=stripe_fee_amount,
+            tax_amount=tax_amount,
+            net_commission_base=net_commission_base,
+            db=db,
+        )
+
+
+def _get_stripe_fee_amount(invoice) -> int:
+    """Return exact Stripe processing fee from the charge balance transaction."""
+    charge_id = invoice.get("charge")
+    if not charge_id:
+        return 0
+
+    charge = stripe.Charge.retrieve(charge_id, expand=["balance_transaction"])
+    balance_txn = charge.get("balance_transaction")
+    if isinstance(balance_txn, dict):
+        return balance_txn.get("fee", 0) or 0
+    return 0
+
+
+def _create_commission_transfer(
+    recipient_id: int,
+    recipient_role: str,
+    subscriber: User,
+    invoice: dict,
+    subscription_id: str,
+    gross_invoice_amount: int,
+    stripe_fee_amount: int,
+    tax_amount: int,
+    net_commission_base: int,
+    db: Session,
+):
     existing = db.query(CommissionLedger).filter(
         CommissionLedger.stripe_invoice_id == invoice["id"],
         CommissionLedger.event_type == "invoice_paid",
+        CommissionLedger.recipient_user_id == recipient_id,
+        CommissionLedger.recipient_role == recipient_role,
     ).first()
     if existing:
         return
-    
+
+    recipient = db.query(User).filter(User.id == recipient_id).first()
+    connect_account_id = (
+        recipient.stripe_connect_account_id
+        if recipient_role == "reseller"
+        else recipient.salesperson_stripe_connect_account_id
+    )
+    commission_amount = int(net_commission_base * 0.20)
+
     entry = CommissionLedger(
-        reseller_id=int(reseller_id),
+        recipient_user_id=recipient_id,
+        recipient_role=recipient_role,
         subscriber_id=subscriber.id,
         stripe_invoice_id=invoice["id"],
         event_type="invoice_paid",
-        gross_amount=gross_amount,
+        gross_invoice_amount=gross_invoice_amount,
+        stripe_fee_amount=stripe_fee_amount,
+        tax_amount=tax_amount,
+        net_commission_base=net_commission_base,
+        commission_percent=20.00,
         commission_amount=commission_amount,
         currency=invoice.get("currency", "usd"),
-        stripe_transfer_id=invoice.get("transfer_data", {}).get("destination"),
+        transfer_status="pending",
         metadata={"subscription_id": subscription_id},
     )
+
+    try:
+        account = stripe.Account.retrieve(connect_account_id)
+        if not (account.get("charges_enabled") and account.get("payouts_enabled")):
+            raise RuntimeError("Connect account not payout-ready")
+
+        transfer = stripe.Transfer.create(
+            amount=commission_amount,
+            currency=invoice.get("currency", "usd"),
+            destination=connect_account_id,
+            transfer_group=f"invoice_{invoice['id']}",
+            metadata={
+                "invoice_id": invoice["id"],
+                "recipient_user_id": str(recipient_id),
+                "recipient_role": recipient_role,
+                "net_commission_base": str(net_commission_base),
+            },
+            idempotency_key=f"comm_{invoice['id']}_{recipient_role}_{recipient_id}",
+        )
+        entry.stripe_transfer_id = transfer.id
+        entry.transfer_status = "completed"
+    except Exception as exc:
+        logger.exception("Commission transfer failed")
+        entry.transfer_status = "failed"
+        entry.metadata = {**entry.metadata, "transfer_error": str(exc)}
+
     db.add(entry)
     db.commit()
 
@@ -367,29 +524,51 @@ async def _handle_charge_refunded(event, db: Session):
     if not invoice_id:
         return
     
-    # Find original commission entry
-    original = db.query(CommissionLedger).filter(
+    # Find original completed commission entries
+    originals = db.query(CommissionLedger).filter(
         CommissionLedger.stripe_invoice_id == invoice_id,
         CommissionLedger.event_type == "invoice_paid",
-    ).first()
+        CommissionLedger.transfer_status == "completed",
+    ).all()
     
-    if not original:
+    if not originals:
         return
     
     refund_amount = charge["amount_refunded"]  # in cents
-    commission_reversal = int(refund_amount * 0.20)
-    
-    entry = CommissionLedger(
-        reseller_id=original.reseller_id,
-        subscriber_id=original.subscriber_id,
-        stripe_invoice_id=invoice_id,
-        event_type="refund",
-        gross_amount=-refund_amount,
-        commission_amount=-commission_reversal,
-        currency=charge.get("currency", "usd"),
-        metadata={"charge_id": charge["id"], "refund_amount": refund_amount},
-    )
-    db.add(entry)
+    for original in originals:
+        eligible_ratio = min(refund_amount / max(original.gross_invoice_amount - original.tax_amount, 1), 1)
+        commission_reversal = int(original.commission_amount * eligible_ratio)
+        if original.stripe_transfer_id:
+            reversal = stripe.Transfer.create_reversal(
+                original.stripe_transfer_id,
+                amount=commission_reversal,
+            )
+            original.transfer_status = "reversed"
+        else:
+            reversal = None
+
+        entry = CommissionLedger(
+            recipient_user_id=original.recipient_user_id,
+            recipient_role=original.recipient_role,
+            subscriber_id=original.subscriber_id,
+            stripe_invoice_id=invoice_id,
+            event_type="refund",
+            gross_invoice_amount=-refund_amount,
+            stripe_fee_amount=0,
+            tax_amount=0,
+            net_commission_base=-int(original.net_commission_base * eligible_ratio),
+            commission_percent=original.commission_percent,
+            commission_amount=-commission_reversal,
+            currency=charge.get("currency", "usd"),
+            stripe_transfer_id=original.stripe_transfer_id,
+            transfer_status="reversed",
+            metadata={
+                "charge_id": charge["id"],
+                "refund_amount": refund_amount,
+                "transfer_reversal_id": reversal.id if reversal else None,
+            },
+        )
+        db.add(entry)
     db.commit()
 
 
@@ -404,28 +583,36 @@ async def _handle_dispute_created(event, db: Session):
     if not invoice_id:
         return
     
-    original = db.query(CommissionLedger).filter(
+    originals = db.query(CommissionLedger).filter(
         CommissionLedger.stripe_invoice_id == invoice_id,
         CommissionLedger.event_type == "invoice_paid",
-    ).first()
+        CommissionLedger.transfer_status == "completed",
+    ).all()
     
-    if not original:
+    if not originals:
         return
     
-    disputed_amount = dispute["amount"]
-    commission_hold = int(disputed_amount * 0.20)
-    
-    entry = CommissionLedger(
-        reseller_id=original.reseller_id,
-        subscriber_id=original.subscriber_id,
-        stripe_invoice_id=invoice_id,
-        event_type="dispute_created",
-        gross_amount=-disputed_amount,
-        commission_amount=-commission_hold,
-        currency=dispute.get("currency", "usd"),
-        metadata={"dispute_id": dispute["id"], "status": dispute["status"]},
-    )
-    db.add(entry)
+    for original in originals:
+        disputed_ratio = min(dispute["amount"] / max(original.gross_invoice_amount - original.tax_amount, 1), 1)
+        commission_hold = int(original.commission_amount * disputed_ratio)
+        entry = CommissionLedger(
+            recipient_user_id=original.recipient_user_id,
+            recipient_role=original.recipient_role,
+            subscriber_id=original.subscriber_id,
+            stripe_invoice_id=invoice_id,
+            event_type="dispute_created",
+            gross_invoice_amount=-dispute["amount"],
+            stripe_fee_amount=0,
+            tax_amount=0,
+            net_commission_base=-int(original.net_commission_base * disputed_ratio),
+            commission_percent=original.commission_percent,
+            commission_amount=-commission_hold,
+            currency=dispute.get("currency", "usd"),
+            stripe_transfer_id=original.stripe_transfer_id,
+            transfer_status="pending",
+            metadata={"dispute_id": dispute["id"], "status": dispute["status"]},
+        )
+        db.add(entry)
     db.commit()
 
 
@@ -437,30 +624,37 @@ async def _handle_dispute_closed(event, db: Session):
     if not invoice_id:
         return
     
-    original = db.query(CommissionLedger).filter(
+    originals = db.query(CommissionLedger).filter(
         CommissionLedger.stripe_invoice_id == invoice_id,
         CommissionLedger.event_type == "invoice_paid",
-    ).first()
+    ).all()
     
-    if not original:
+    if not originals:
         return
     
     if dispute["status"] == "won":
-        # Dispute won by platform - reverse the hold
-        disputed_amount = dispute["amount"]
-        commission_reversal = int(disputed_amount * 0.20)
-        
-        entry = CommissionLedger(
-            reseller_id=original.reseller_id,
-            subscriber_id=original.subscriber_id,
-            stripe_invoice_id=invoice_id,
-            event_type="dispute_resolved",
-            gross_amount=disputed_amount,
-            commission_amount=commission_reversal,
-            currency=dispute.get("currency", "usd"),
-            metadata={"dispute_id": dispute["id"], "outcome": "won"},
-        )
-        db.add(entry)
+        # Dispute won by platform - reverse any temporary dispute holds.
+        for original in originals:
+            disputed_ratio = min(dispute["amount"] / max(original.gross_invoice_amount - original.tax_amount, 1), 1)
+            commission_reversal = int(original.commission_amount * disputed_ratio)
+            entry = CommissionLedger(
+                recipient_user_id=original.recipient_user_id,
+                recipient_role=original.recipient_role,
+                subscriber_id=original.subscriber_id,
+                stripe_invoice_id=invoice_id,
+                event_type="dispute_resolved",
+                gross_invoice_amount=dispute["amount"],
+                stripe_fee_amount=0,
+                tax_amount=0,
+                net_commission_base=int(original.net_commission_base * disputed_ratio),
+                commission_percent=original.commission_percent,
+                commission_amount=commission_reversal,
+                currency=dispute.get("currency", "usd"),
+                stripe_transfer_id=original.stripe_transfer_id,
+                transfer_status="completed",
+                metadata={"dispute_id": dispute["id"], "outcome": "won"},
+            )
+            db.add(entry)
         db.commit()
 
 
@@ -468,7 +662,10 @@ async def _handle_account_updated(event, db: Session):
     account = event["data"]["object"]
     account_id = account["id"]
     
-    user = db.query(User).filter(User.stripe_connect_account_id == account_id).first()
+    user = db.query(User).filter(
+        (User.stripe_connect_account_id == account_id) |
+        (User.salesperson_stripe_connect_account_id == account_id)
+    ).first()
     if not user:
         return
     
@@ -477,6 +674,10 @@ async def _handle_account_updated(event, db: Session):
     if is_ready and user.reseller_status == 'onboarding':
         user.reseller_status = 'active'
         user.reseller_onboarded_at = datetime.utcnow()
+        db.commit()
+    if is_ready and user.salesperson_status == 'onboarding':
+        user.salesperson_status = 'active'
+        user.salesperson_onboarded_at = datetime.utcnow()
         db.commit()
 ```
 
@@ -490,7 +691,8 @@ async def reseller_dashboard(current_user: User = Depends(get_current_user), db:
     
     # Total lifetime earned
     total_earned = db.query(func.coalesce(func.sum(CommissionLedger.commission_amount), 0)).filter(
-        CommissionLedger.reseller_id == current_user.id,
+        CommissionLedger.recipient_user_id == current_user.id,
+        CommissionLedger.recipient_role == "reseller",
     ).scalar()
     
     # Active referred subscribers
@@ -507,7 +709,8 @@ async def reseller_dashboard(current_user: User = Depends(get_current_user), db:
     # Current month earnings
     month_start = datetime.utcnow().replace(day=1, hour=0, minute=0, second=0, microsecond=0)
     current_month = db.query(func.coalesce(func.sum(CommissionLedger.commission_amount), 0)).filter(
-        CommissionLedger.reseller_id == current_user.id,
+        CommissionLedger.recipient_user_id == current_user.id,
+        CommissionLedger.recipient_role == "reseller",
         CommissionLedger.created_at >= month_start,
     ).scalar()
     
@@ -564,21 +767,91 @@ async def reseller_stripe_login(current_user: User = Depends(get_current_user)):
     return {"login_url": login_link.url}
 ```
 
+### Salesperson Dashboard Data Endpoints
+
+```python
+@router.get("/api/salespeople/dashboard")
+async def salesperson_dashboard(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    if not current_user.is_salesperson or current_user.salesperson_status != 'active':
+        raise HTTPException(403, "Not an active salesperson")
+
+    total_earned = db.query(func.coalesce(func.sum(CommissionLedger.commission_amount), 0)).filter(
+        CommissionLedger.recipient_user_id == current_user.id,
+        CommissionLedger.recipient_role == "salesperson",
+    ).scalar()
+
+    month_start = datetime.utcnow().replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+    current_month = db.query(func.coalesce(func.sum(CommissionLedger.commission_amount), 0)).filter(
+        CommissionLedger.recipient_user_id == current_user.id,
+        CommissionLedger.recipient_role == "salesperson",
+        CommissionLedger.created_at >= month_start,
+    ).scalar()
+
+    resellers_onboarded = db.query(User).filter(
+        User.reseller_onboarded_by_salesperson_id == current_user.id,
+    ).count()
+
+    return {
+        "total_earned_cents": total_earned,
+        "current_month_cents": current_month,
+        "resellers_onboarded": resellers_onboarded,
+        "salesperson_status": current_user.salesperson_status,
+        "stripe_connect_account_id": current_user.salesperson_stripe_connect_account_id,
+    }
+
+
+@router.get("/api/salespeople/resellers")
+async def salesperson_resellers(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    if not current_user.is_salesperson or current_user.salesperson_status != 'active':
+        raise HTTPException(403, "Not an active salesperson")
+
+    resellers = db.query(User).filter(
+        User.reseller_onboarded_by_salesperson_id == current_user.id,
+    ).order_by(User.created_at.desc()).limit(100).all()
+
+    return {
+        "resellers": [
+            {
+                "id": r.id,
+                "email": r.email,
+                "status": r.reseller_status,
+                "referral_code": r.referral_code,
+                "onboarded_at": r.reseller_onboarded_at.isoformat() if r.reseller_onboarded_at else None,
+            }
+            for r in resellers
+        ]
+    }
+
+
+@router.get("/api/salespeople/stripe-login")
+async def salesperson_stripe_login(current_user: User = Depends(get_current_user)):
+    if not current_user.salesperson_stripe_connect_account_id:
+        raise HTTPException(400, "No connected Stripe account found")
+
+    if current_user.salesperson_status != 'active':
+        raise HTTPException(403, "Salesperson account not active")
+
+    login_link = stripe.Account.create_login_link(current_user.salesperson_stripe_connect_account_id)
+    return {"login_url": login_link.url}
+```
+
 ---
 
 ## Testing Checklist
 
-1. **Unit tests**: Registration with reseller referral code, `_resolve_reseller_split` logic
+1. **Unit tests**: Registration with reseller referral code, `_resolve_reseller_attribution` logic, net commission base calculation
 2. **Integration tests (Stripe test mode)**:
    - Create Express account, complete onboarding with test data
-   - Create subscription checkout with `transfer_data` and verify split
-   - Trigger test invoice, verify commission ledger entry
-   - Issue refund, verify negative ledger entry
+   - Create subscription checkout and verify reseller/salesperson metadata is stamped
+   - Trigger test invoice, fetch balance transaction fee, verify reseller and salesperson ledger entries
+   - Verify Stripe transfers to both connected accounts
+   - Issue refund, verify transfer reversals and negative ledger entries
    - Simulate dispute lifecycle
 3. **Edge cases**:
-   - Referral code from non-reseller user (should not split)
-   - Reseller in 'suspended' status (should not split)
-   - Connected account not payout-ready (should fall back)
+   - Referral code from non-reseller user (should not stamp reseller metadata)
+   - Reseller in 'suspended' status (should not stamp reseller metadata)
+   - Salesperson missing (should only create reseller transfer)
+   - Connected account not payout-ready (should write failed ledger row and retry later)
    - Duplicate webhook delivery (idempotency check)
 
 ---
