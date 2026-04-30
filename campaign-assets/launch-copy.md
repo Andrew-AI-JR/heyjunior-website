@@ -1,9 +1,14 @@
 # LinkedIn Partner Campaign Launch Copy
 
-## Landing Page URL
+## URLs
 
-- Primary URL: `https://heyjunior.ai/linkedin-partners.html?src=linkedin-boosted-post`
+- Public URL (use in post): `https://heyjunior.ai/partners`
+- Redirect target: `https://heyjunior.ai/linkedin-partners.html?src=linkedin-boosted-post`
 - Trial CTA URL: `https://heyjunior.ai/register.html?src=linkedin-partner-campaign`
+
+## Post Image
+
+Use `images/request for resume.png` -- the real LinkedIn screenshot where a recruiter asks for a resume after a Junior-generated comment. Authentic proof outperforms designed graphics for this audience.
 
 ## Boosted Post Copy
 
@@ -16,7 +21,7 @@ Two ways to get started:
 1. Try Junior yourself -- 14-day free trial, no credit card
 2. Share it with your candidates -- ask me about partner referral links
 
-https://heyjunior.ai/linkedin-partners.html?src=linkedin-boosted-post
+https://heyjunior.ai/partners
 
 ## LinkedIn Ad Field Copy (if using Campaign Manager)
 
@@ -24,7 +29,7 @@ https://heyjunior.ai/linkedin-partners.html?src=linkedin-boosted-post
 - Headline: `Help candidates get LinkedIn replies`
 - Description: `Try Junior free for 14 days. No credit card required.`
 - CTA: `Learn More`
-- Destination URL: `https://heyjunior.ai/linkedin-partners.html?src=linkedin-boosted-post`
+- Destination URL: `https://heyjunior.ai/partners`
 
 ## Suggested Targeting (First Test)
 
