@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   const urlParams = new URLSearchParams(window.location.search);
   const sessionId = urlParams.get('session_id');
-  const userId = urlParams.get('user_id') || sessionStorage.getItem('userId');
+  const userId = urlParams.get('user_id') || sessionStorage.getItem('userId') || localStorage.getItem('campaignUserId');
 
   console.log('Payment verification data:', { sessionId, userId });
 
@@ -50,6 +50,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     verified = await Promise.race([verifyPromise, timeoutPromise]);
   } catch (error) {
     console.warn('Payment verification did not complete in time or failed:', error.message);
+  }
+
+  var postRedirect = localStorage.getItem('postPaymentRedirect');
+  var redirectTimestamp = parseInt(localStorage.getItem('postPaymentTimestamp') || '0', 10);
+  var redirectExpired = (Date.now() - redirectTimestamp) > 3600000;
+
+  localStorage.removeItem('postPaymentRedirect');
+  localStorage.removeItem('postPaymentTimestamp');
+  localStorage.removeItem('campaignUserId');
+
+  if (postRedirect === 'portal' && !redirectExpired && sessionStorage.getItem('accessToken')) {
+    window.location.href = 'portal.html';
+    return;
   }
 
   if (verified) {
