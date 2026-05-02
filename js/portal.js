@@ -356,10 +356,9 @@ function displaySubscriptions(subscriptions) {
     document.getElementById('no-subscription').style.display = 'none';
     document.getElementById('subscription-details').style.display = 'block';
     
-    // Display subscription details - API returns 'plan' field (required)
-    const planName = activeSub.plan || activeSub.plan_name || 'Standard';
-    const tier = activeSub.tier ? ` (${activeSub.tier})` : '';
-    document.getElementById('subscription-plan').textContent = planName + tier;
+    const rawPlan = activeSub.plan || activeSub.plan_name || 'Standard';
+    const planName = rawPlan.toLowerCase() === 'beta' ? 'Standard' : rawPlan.toLowerCase() === 'trial' ? 'Free Trial' : rawPlan;
+    document.getElementById('subscription-plan').textContent = planName;
     
     const status = activeSub.status || 'unknown';
     const statusText = status.charAt(0).toUpperCase() + status.slice(1).replace('_', ' ');
@@ -1535,9 +1534,8 @@ async function loadSubscriptionHistory() {
         `;
         
         sortedSubscriptions.forEach(sub => {
-            // According to API docs: plan, status, tier are required fields
-            const planName = sub.plan || sub.plan_name || 'Unknown';
-            const tier = sub.tier || '';
+            const rawPlan = sub.plan || sub.plan_name || 'Unknown';
+            const planName = rawPlan.toLowerCase() === 'beta' ? 'Standard' : rawPlan.toLowerCase() === 'trial' ? 'Free Trial' : rawPlan;
             const status = (sub.status || 'unknown').toLowerCase();
             const statusText = status.charAt(0).toUpperCase() + status.slice(1).replace('_', ' ');
             
@@ -1581,11 +1579,7 @@ async function loadSubscriptionHistory() {
                 statusBadgeClass += ' canceled'; // Use canceled style for unpaid
             }
             
-            // Build plan display with tier if available
             let planDisplay = escapeHtml(planName);
-            if (tier) {
-                planDisplay += ` <span style="color: #6b7280; font-size: 0.85em;">(${escapeHtml(tier)})</span>`;
-            }
             
             tableHTML += `
                 <tr>
