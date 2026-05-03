@@ -15,6 +15,21 @@ let currentUserToken = null;
 document.addEventListener('DOMContentLoaded', async () => {
     console.log('Portal page loaded');
     
+    // Auto-apply coupon from URL parameter (e.g. ?coupon=JUNIOR50)
+    const urlParams = new URLSearchParams(window.location.search);
+    const couponParam = urlParams.get('coupon');
+    if (couponParam) {
+        const code = couponParam.trim().toUpperCase();
+        sessionStorage.setItem('appliedCoupon', code);
+        const promoBanner = document.getElementById('promo-banner');
+        const promoCodeValue = document.getElementById('promo-code-value');
+        if (promoBanner && promoCodeValue) {
+            promoCodeValue.textContent = code;
+            promoBanner.style.display = 'block';
+        }
+        console.log('Auto-applied coupon from URL:', code);
+    }
+    
     // Restore button states in case user came back from checkout
     restoreButtonStates();
     
