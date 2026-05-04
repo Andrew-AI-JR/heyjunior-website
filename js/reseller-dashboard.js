@@ -345,7 +345,7 @@ async function loadResellerView() {
       const refRes = await fetchAuth(`${API_BASE_URL}/api/resellers/referrals`);
       renderDashboardStats(d);
       await renderReferralsTable(refRes);
-      wireStripeExpressButton();
+      wireStripeExpressButton(me);
       setLoading(false);
       return;
     }
@@ -450,7 +450,7 @@ async function renderReferralsTable(refRes) {
   }
 }
 
-function wireStripeExpressButton() {
+function wireStripeExpressButton(me) {
   const stripeBtn = document.getElementById('btn-stripe-express');
   if (!stripeBtn) return;
   stripeBtn.onclick = async () => {
@@ -460,11 +460,29 @@ function wireStripeExpressButton() {
       if (res.status === 429) {
         throw new Error('Too many requests. Please wait a minute and try again.');
       }
-      if (!res.ok) throw new Error(await parseApiError(res));
-      const data = await res.json();
-      if (data.login_url) window.open(data.login_url, '_blank', 'noopener,noreferrer');
+      if (res.ok) {
+        const data = await res.json();
+        if (data.login_url) window.open(data.login_url, '_blank', 'noopener,noreferrer');
+        return;
+      }
+      if (res.status === 400) {
+        const link = await fetchStripeAccountLink(me || {});
+        if (link) { window.location.href = link; return; }
+        throw new Error('Could not start Stripe setup. Please try again.');
+      }
+      if (res.status === 403) {
+        const meRes = await fetchAuth(`${API_BASE_URL}/api/users/me`);
+        const fresh = meRes.ok ? await meRes.json() : {};
+        if (fresh.reseller_status === 'approved' || fresh.reseller_status === 'onboarding') {
+          const link = await fetchStripeAccountLink(fresh);
+          if (link) { window.location.href = link; return; }
+          throw new Error('Could not start Stripe setup. Please try again.');
+        }
+        throw new Error(await parseApiError(res));
+      }
+      throw new Error(await parseApiError(res));
     } catch (e) {
-      alert(e.message || 'Could not open Stripe');
+      alert(buildOnboardingSupportMessage(e.message));
     } finally {
       stripeBtn.disabled = false;
     }
