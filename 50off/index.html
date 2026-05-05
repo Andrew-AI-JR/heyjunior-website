@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Limited-time: Get 50% off Junior for 3 months. Start getting interviews from conversations, not resumes.">
+    <meta property="og:title" content="Get 50% Off Junior for 3 Months">
+    <meta property="og:description" content="Junior helps you turn LinkedIn comments into real recruiter conversations. 50% off for your first 3 months.">
+    <meta property="og:image" content="https://heyjunior.ai/campaign-assets/linkedin-partner-campaign.png">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://heyjunior.ai/50off/">
+    <title>50% Off for 3 Months - Junior</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- LinkedIn Insight Tag -->
+    <!-- Paste the production Insight Tag snippet from LinkedIn Campaign Manager here before launch. -->
+    <!-- End LinkedIn Insight Tag -->
+
+    <!-- Cloudflare Web Analytics -->
+    <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "c7e2267943804acdb5bfcd009f02f537"}'></script>
+    <script src="../js/analytics.js"></script>
+
+    <style>
+        .promo-nav {
+            background: #fff;
+            border-bottom: 1px solid #e5e7eb;
+            position: sticky;
+            top: 0;
+            z-index: 900;
+        }
+        .promo-shell {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .promo-logo-wrap {
+            display: flex;
+            align-items: center;
+            height: 74px;
+        }
+        .promo-logo {
+            height: 44px;
+            width: auto;
+        }
+        .promo-main {
+            background: #f8fafc;
+            min-height: calc(100vh - 74px);
+            padding: 32px 0 52px;
+        }
+        .promo-section {
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            margin: 0 0 18px;
+            padding: 24px;
+        }
+        .promo-pill {
+            display: inline-block;
+            background: #dbeafe;
+            color: #1d4ed8;
+            border: 1px solid #bfdbfe;
+            border-radius: 9999px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            letter-spacing: 0.02em;
+            padding: 6px 12px;
+            margin-bottom: 12px;
+        }
+        .promo-hero h1 {
+            color: #0f172a;
+            font-size: 2rem;
+            line-height: 1.2;
+            margin: 0 0 10px;
+        }
+        .promo-hero p {
+            color: #334155;
+            margin: 0 0 8px;
+        }
+        .promo-pricing {
+            margin-top: 14px;
+            padding: 14px;
+            border: 1px solid #bbf7d0;
+            border-radius: 10px;
+            background: #f0fdf4;
+        }
+        .promo-pricing-row {
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .promo-old-price {
+            color: #64748b;
+            font-size: 1.1rem;
+            text-decoration: line-through;
+        }
+        .promo-new-price {
+            color: #166534;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        .promo-savings {
+            color: #166534;
+            font-size: 0.92rem;
+            margin-top: 8px;
+            font-weight: 600;
+        }
+        .promo-h2 {
+            color: #0f172a;
+            font-size: 1.35rem;
+            margin: 0 0 12px;
+        }
+        .promo-form-group {
+            margin-bottom: 14px;
+        }
+        .promo-form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: #0f172a;
+        }
+        .promo-form-group input[type="email"],
+        .promo-form-group input[type="password"] {
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            display: block;
+            font: inherit;
+            padding: 10px 12px;
+            width: 100%;
+        }
+        .promo-form-group input:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+            outline: none;
+        }
+        .promo-password-wrap {
+            position: relative;
+        }
+        .promo-password-wrap input {
+            padding-right: 60px;
+        }
+        .promo-password-toggle {
+            background: none;
+            border: none;
+            color: #2563eb;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 0 12px;
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .promo-password-help {
+            color: #64748b;
+            font-size: 0.82rem;
+            margin-top: 4px;
+        }
+        .promo-terms-label {
+            align-items: flex-start;
+            cursor: pointer;
+            display: flex;
+            gap: 8px;
+            margin: 14px 0;
+        }
+        .promo-terms-label input {
+            margin-top: 3px;
+        }
+        .promo-submit {
+            background: #166534;
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            cursor: pointer;
+            display: block;
+            font: inherit;
+            font-weight: 700;
+            min-height: 48px;
+            padding: 12px 20px;
+            width: 100%;
+        }
+        .promo-submit:hover:not(:disabled) {
+            background: #14532d;
+        }
+        .promo-submit:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        .promo-microcopy {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-top: 8px;
+            text-align: center;
+        }
+        .promo-error {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 8px;
+            color: #991b1b;
+            display: none;
+            font-size: 0.95rem;
+            margin-bottom: 14px;
+            padding: 10px 14px;
+        }
+        .promo-cancelled-banner {
+            background: #fffbeb;
+            border: 1px solid #fde68a;
+            border-radius: 8px;
+            color: #92400e;
+            font-size: 0.95rem;
+            margin-bottom: 14px;
+            padding: 10px 14px;
+            display: none;
+        }
+        .promo-steps {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .promo-steps li {
+            margin-bottom: 8px;
+        }
+        .promo-proof-grid {
+            display: grid;
+            gap: 14px;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            margin-top: 10px;
+        }
+        .promo-proof-img {
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            width: 100%;
+        }
+        .promo-caption {
+            color: #334155;
+            font-size: 0.95rem;
+            margin-top: 10px;
+        }
+        .promo-footer {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-top: 16px;
+            text-align: center;
+        }
+        @media (max-width: 640px) {
+            .promo-hero h1 {
+                font-size: 1.65rem;
+            }
+            .promo-proof-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body data-page="promo-50off">
+    <nav class="promo-nav">
+        <div class="promo-shell promo-logo-wrap">
+            <a href="../index.html" aria-label="Junior home">
+                <img src="../images/junior-logo.png" alt="Junior logo" class="promo-logo">
+            </a>
+        </div>
+    </nav>
+
+    <main class="promo-main">
+        <div class="promo-shell">
+            <section class="promo-section promo-hero">
+                <div class="promo-pill">LIMITED-TIME LINKEDIN OFFER</div>
+                <h1>Get 50% Off for 3 Months</h1>
+                <p>Start getting interviews from conversations, not resumes.</p>
+                <p>Junior finds relevant LinkedIn hiring posts and writes personalized comments in your voice.</p>
+                <div class="promo-pricing">
+                    <div class="promo-pricing-row">
+                        <span class="promo-old-price">$29.99/month</span>
+                        <span class="promo-new-price">$14.99/month for 3 months</span>
+                    </div>
+                    <p class="promo-savings">Save $45 in your first 3 months. Cancel anytime.</p>
+                </div>
+            </section>
+
+            <section class="promo-section">
+                <h2 class="promo-h2">Create your account</h2>
+
+                <div id="cancelled-banner" class="promo-cancelled-banner">
+                    Payment was not completed. You can try again below.
+                </div>
+
+                <div id="form-error" class="promo-error"></div>
+
+                <form id="promo-form" novalidate>
+                    <div class="promo-form-group">
+                        <label for="promo-email">Email</label>
+                        <input type="email" id="promo-email" placeholder="you@example.com" autocomplete="email" required>
+                    </div>
+
+                    <div class="promo-form-group">
+                        <label for="promo-password">Password</label>
+                        <div class="promo-password-wrap">
+                            <input type="password" id="promo-password" placeholder="Create a password" autocomplete="new-password" required minlength="8">
+                            <button type="button" id="password-toggle" class="promo-password-toggle" aria-label="Show password">Show</button>
+                        </div>
+                        <p class="promo-password-help">Min 8 characters, at least one uppercase letter and one digit.</p>
+                    </div>
+
+                    <label class="promo-terms-label">
+                        <input type="checkbox" id="promo-terms" required>
+                        <span>I agree to the <a href="../terms.html" target="_blank" rel="noopener">Terms of Service</a></span>
+                    </label>
+
+                    <button type="submit" id="promo-submit" class="promo-submit" data-cta="promo50-start-checkout">Start for $14.99/month</button>
+                    <p class="promo-microcopy">You will be redirected to Stripe to enter your card securely. Coupon JUNIOR50 is applied automatically.</p>
+                </form>
+            </section>
+
+            <section class="promo-section">
+                <h2 class="promo-h2">How Junior works</h2>
+                <ol class="promo-steps">
+                    <li>Finds LinkedIn hiring posts that match your background.</li>
+                    <li>Writes a personalized comment based on your experience and the post.</li>
+                    <li>Helps start a real conversation with a recruiter or hiring manager.</li>
+                </ol>
+            </section>
+
+            <section class="promo-section">
+                <h2 class="promo-h2">Real results</h2>
+                <div class="promo-proof-grid">
+                    <img src="../images/request for resume.png" alt="Recruiter asked for resume after a Junior-generated comment" class="promo-proof-img">
+                    <img src="../images/scott-interaction.png" alt="Hiring-side reply to a tailored LinkedIn comment" class="promo-proof-img">
+                </div>
+                <p class="promo-caption">Personalized comment posted. Recruiter replied. Real conversation started.</p>
+            </section>
+
+            <p class="promo-footer">
+                <a href="mailto:andrew@heyjunior.ai">andrew@heyjunior.ai</a> &middot; <a href="../terms.html">Terms of Service</a>
+            </p>
+        </div>
+    </main>
+
+    <script src="../js/api-config.js"></script>
+    <script src="../js/referral.js"></script>
+    <script>
+    (function () {
+        var API_BASE_URL = window.getApiBaseUrl();
+        var PRICE_ID = 'price_1RJMCrRxE6F23RwQEnHUwvFq';
+        var COUPON_CODE = 'JUNIOR50';
+        var EMAIL_STORAGE_KEY = 'promo50Email';
+
+        var form = document.getElementById('promo-form');
+        var emailInput = document.getElementById('promo-email');
+        var passwordInput = document.getElementById('promo-password');
+        var termsCheckbox = document.getElementById('promo-terms');
+        var submitBtn = document.getElementById('promo-submit');
+        var errorEl = document.getElementById('form-error');
+        var cancelledBanner = document.getElementById('cancelled-banner');
+        var toggleBtn = document.getElementById('password-toggle');
+
+        var params = new URLSearchParams(window.location.search);
+        if (params.get('cancelled') === 'true') {
+            cancelledBanner.style.display = 'block';
+            var storedEmail = sessionStorage.getItem(EMAIL_STORAGE_KEY);
+            if (storedEmail) {
+                emailInput.value = storedEmail;
+            }
+        }
+
+        toggleBtn.addEventListener('click', function () {
+            var isPassword = passwordInput.type === 'password';
+            passwordInput.type = isPassword ? 'text' : 'password';
+            toggleBtn.textContent = isPassword ? 'Hide' : 'Show';
+        });
+
+        function showError(msg) {
+            errorEl.textContent = msg;
+            errorEl.style.display = 'block';
+        }
+
+        function clearError() {
+            errorEl.textContent = '';
+            errorEl.style.display = 'none';
+        }
+
+        function setSubmitting(isSubmitting) {
+            submitBtn.disabled = isSubmitting;
+            submitBtn.textContent = isSubmitting ? 'Setting up account...' : 'Start for $14.99/month';
+        }
+
+        function validate(email, password, termsChecked) {
+            if (!email) return 'Email is required.';
+            if (!emailInput.checkValidity()) return 'Please enter a valid email address.';
+            if (password.length < 8) return 'Password must be at least 8 characters.';
+            if (!/[A-Z]/.test(password)) return 'Password must contain at least one uppercase letter.';
+            if (!/\d/.test(password)) return 'Password must contain at least one digit.';
+            if (!termsChecked) return 'You must agree to the Terms of Service.';
+            return null;
+        }
+
+        function buildMetadata() {
+            var metadata = {
+                signup_source: 'linkedin-50off-promo',
+                promo_code: COUPON_CODE
+            };
+            var src = params.get('src');
+            if (src) metadata.source = src;
+
+            ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'].forEach(function (key) {
+                var value = params.get(key);
+                if (value) metadata[key] = value;
+            });
+            return metadata;
+        }
+
+        form.addEventListener('submit', async function (e) {
+            e.preventDefault();
+            clearError();
+
+            var email = emailInput.value.trim();
+            var password = passwordInput.value;
+            var termsChecked = termsCheckbox.checked;
+
+            var validationError = validate(email, password, termsChecked);
+            if (validationError) {
+                showError(validationError);
+                return;
+            }
+
+            sessionStorage.setItem(EMAIL_STORAGE_KEY, email);
+            setSubmitting(true);
+
+            try {
+                var body = {
+                    email: email,
+                    password: password,
+                    price_id: PRICE_ID,
+                    coupon_code: COUPON_CODE,
+                    success_url: window.location.origin + '/success.html?session_id={CHECKOUT_SESSION_ID}',
+                    cancel_url: window.location.origin + '/50off/?cancelled=true',
+                    metadata: buildMetadata()
+                };
+
+                var refCode = typeof window.getReferralCode === 'function' ? window.getReferralCode() : null;
+                if (refCode) {
+                    body.referral_code = refCode;
+                }
+
+                var response = await fetch(API_BASE_URL + '/api/users/create-with-payment', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                });
+
+                if (!response.ok) {
+                    var err = {};
+                    try { err = await response.json(); } catch (jsonError) {}
+                    if (response.status === 409) {
+                        showError('An account with this email already exists. Please log in.');
+                    } else if (response.status === 429) {
+                        showError('Too many attempts. Please wait a minute and try again.');
+                    } else if (response.status === 400) {
+                        showError(err.detail || 'Please check your information and try again.');
+                    } else {
+                        showError(err.detail || 'Something went wrong. Please try again.');
+                    }
+                    setSubmitting(false);
+                    return;
+                }
+
+                var data = await response.json();
+                if (!data.checkout_url) {
+                    showError('Unable to start checkout right now. Please try again.');
+                    setSubmitting(false);
+                    return;
+                }
+
+                if (data.user_id) {
+                    localStorage.setItem('campaignUserId', String(data.user_id));
+                }
+                localStorage.setItem('postPaymentRedirect', 'portal');
+                localStorage.setItem('postPaymentTimestamp', String(Date.now()));
+
+                if (window.juniorTrack) {
+                    window.juniorTrack('promo50_checkout_redirect', {
+                        campaign: 'linkedin-50off',
+                        promo_code: COUPON_CODE
+                    });
+                }
+
+                window.location.href = data.checkout_url;
+            } catch (networkErr) {
+                showError('Network error. Please check your connection and try again.');
+                setSubmitting(false);
+            }
+        });
+    })();
+    </script>
+</body>
+</html>
