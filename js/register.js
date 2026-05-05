@@ -1,6 +1,11 @@
-/* register.js - User Registration */
+/* register.js - User Registration (payment-first flow) */
 
 const API_BASE_URL = window.getApiBaseUrl();
+const COUPON_CODE = '1FREEMONTH';
+const PLAN_CONFIG = {
+    standard: { label: 'Standard', priceId: 'price_1RJMCrRxE6F23RwQEnHUwvFq' },
+    pro: { label: 'Pro', priceId: 'price_1SX1LrRxE6F23RwQgWgIV1NK' }
+};
 
 let currentUserToken = null;
 
@@ -23,6 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     initEmailStep();
+    initPlanSelection();
 
     var qs = new URLSearchParams(window.location.search);
     var src = qs.get('src') || sessionStorage.getItem('marketingSource') || '';
@@ -31,6 +37,18 @@ document.addEventListener('DOMContentLoaded', () => {
     var shouldFocusSignup = src === 'reddit-output-cta' ||
         src === 'reddit-email-comment' ||
         src === 'linkedin-visibility-output-cta';
+
+    if (qs.get('cancelled') === 'true') {
+        var cancelledBanner = document.getElementById('cancelled-banner');
+        if (cancelledBanner) cancelledBanner.hidden = false;
+        var storedEmail = sessionStorage.getItem('juniorCapturedEmail');
+        if (storedEmail) {
+            var emailStepInput = document.getElementById('email-step-input');
+            var regEmail = document.getElementById('reg-email');
+            if (emailStepInput) emailStepInput.value = storedEmail;
+            if (regEmail) regEmail.value = storedEmail;
+        }
+    }
 
     if (shouldShowDemo) {
         initInstantCommentDemo();
@@ -81,6 +99,39 @@ function skipDemoShowSignup(options) {
             }
         }, 150);
     }
+}
+
+function initPlanSelection() {
+    var qs = new URLSearchParams(window.location.search);
+    var urlPlan = qs.get('plan');
+    var storedPlan = sessionStorage.getItem('registerSelectedPlan');
+    var initialPlan = PLAN_CONFIG[urlPlan] ? urlPlan : (PLAN_CONFIG[storedPlan] ? storedPlan : 'standard');
+    var planInput = document.querySelector('input[name="reg-plan"][value="' + initialPlan + '"]');
+    if (planInput) planInput.checked = true;
+    updatePlanVisualState();
+
+    document.querySelectorAll('input[name="reg-plan"]').forEach(function (input) {
+        input.addEventListener('change', updatePlanVisualState);
+    });
+}
+
+function getSelectedPlanKey() {
+    var selected = document.querySelector('input[name="reg-plan"]:checked');
+    return selected ? selected.value : 'standard';
+}
+
+function updatePlanVisualState() {
+    var selectedKey = getSelectedPlanKey();
+    document.querySelectorAll('.register-plan-option').forEach(function (label) {
+        var radio = label.querySelector('input[name="reg-plan"]');
+        if (radio && radio.value === selectedKey) {
+            label.style.borderColor = '#166534';
+            label.style.background = '#f0fdf4';
+        } else {
+            label.style.borderColor = '#cbd5e1';
+            label.style.background = '#fff';
+        }
+    });
 }
 
 function initEmailStep() {
@@ -296,7 +347,9 @@ async function handleRegistration(e) {
     const registerButtonText = document.getElementById('register-button-text');
     const registerStatus = document.getElementById('register-status');
     const registerError = document.getElementById('register-error');
-    const defaultButtonText = registerButtonText?.textContent || 'Create My Account & Get More';
+    const defaultButtonText = registerButtonText?.textContent || 'Continue to Payment';
+    const selectedPlanKey = getSelectedPlanKey();
+    const selectedPlan = PLAN_CONFIG[selectedPlanKey];
 
     clearStatus(registerStatus, registerError);
 
@@ -309,36 +362,69 @@ async function handleRegistration(e) {
         return;
     }
 
+    if (!selectedPlan) {
+        showError(registerError, 'Please select a plan.');
+        return;
+    }
+
+    sessionStorage.setItem('juniorCapturedEmail', email);
+    sessionStorage.setItem('registerSelectedPlan', selectedPlanKey);
+
     registerButton.disabled = true;
     registerButton.classList.add('register-submit-loading');
-    registerButtonText.textContent = 'Creating account...';
+    registerButtonText.textContent = 'Setting up account...';
     document.getElementById('reg-email').disabled = true;
     document.getElementById('reg-password').disabled = true;
-    console.log('[Register] registration request started');
+    console.log('[Register] create-with-payment request started');
+
+    if (window.juniorTrack) {
+        window.juniorTrack('register_payment_submit', { plan: selectedPlanKey });
+    }
 
     try {
         const referralCode = document.getElementById('referral-code-field').value;
 
-        const requestBody = { email: email, password: password };
+        var qs = new URLSearchParams(window.location.search);
+        var metadata = {
+            signup_source: 'normal-register',
+            selected_plan: selectedPlanKey
+        };
+        var src = qs.get('src');
+        if (src) metadata.source = src;
+        ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'].forEach(function (key) {
+            var value = qs.get(key);
+            if (value) metadata[key] = value;
+        });
+
+        const requestBody = {
+            email: email,
+            password: password,
+            price_id: selectedPlan.priceId,
+            coupon_code: COUPON_CODE,
+            success_url: window.location.origin + '/success.html?session_id={CHECKOUT_SESSION_ID}',
+            cancel_url: window.location.origin + '/register.html?cancelled=true',
+            metadata: metadata
+        };
+
         if (referralCode) {
             requestBody.referral_code = referralCode.toUpperCase();
             console.log('[Register] including referral code:', referralCode);
         }
 
-        const registrationTimeoutMs = 8000;
+        const registrationTimeoutMs = 15000;
         const abortController = new AbortController();
         const timeoutId = setTimeout(function () {
             abortController.abort();
         }, registrationTimeoutMs);
 
-        const response = await fetch(API_BASE_URL + '/api/users/register', {
+        const response = await fetch(API_BASE_URL + '/api/users/create-with-payment', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(requestBody),
             signal: abortController.signal
         });
         clearTimeout(timeoutId);
-        console.log('[Register] registration response received, status:', response.status);
+        console.log('[Register] create-with-payment response received, status:', response.status);
         
         const contentType = response.headers.get('content-type');
         let data;
@@ -352,7 +438,7 @@ async function handleRegistration(e) {
         }
 
         if (!response.ok) {
-            console.log('[Register] registration failed:', response.status, data);
+            console.log('[Register] create-with-payment failed:', response.status, data);
             let errorMessage = 'Registration failed. Please try again.';
             if (data.detail) {
                 if (Array.isArray(data.detail)) {
@@ -370,9 +456,6 @@ async function handleRegistration(e) {
                 errorMessage.toLowerCase().includes('already exists') ||
                 errorMessage.toLowerCase().includes('already registered');
             if (duplicateEmail) {
-                const recovered = await recoverRegistrationByLogin(email, password, 'duplicate_email');
-                if (recovered) return;
-
                 showDuplicateEmailError(registerError);
                 if (window.juniorTrack) {
                     window.juniorTrack('register_submit_error', { reason: 'duplicate_email' });
@@ -388,47 +471,35 @@ async function handleRegistration(e) {
             throw new Error(errorMessage);
         }
 
-        console.log('[Register] registration success:', data);
-        registerButtonText.textContent = 'Account created. Redirecting...';
-        showSuccess(registerStatus, 'Account created. Redirecting...');
-
-        const tokensReturned = storeRegistrationSession(data, email);
-
-        if (window.juniorTrack) {
-            window.juniorTrack('register_completed', { userId: data.id || null });
-            if (tokensReturned) {
-                window.juniorTrack('register_token_returned');
-            }
-            if (data.setup_pending) {
-                window.juniorTrack('register_background_setup_pending');
-            }
+        if (!data.checkout_url) {
+            throw new Error('Unable to start checkout right now. Please try again.');
         }
+
+        console.log('[Register] create-with-payment success, redirecting to Stripe');
+        registerButtonText.textContent = 'Redirecting to checkout...';
+
+        if (data.user_id) {
+            localStorage.setItem('campaignUserId', String(data.user_id));
+        }
+        localStorage.setItem('postPaymentRedirect', 'portal');
+        localStorage.setItem('postPaymentTimestamp', String(Date.now()));
 
         if (referralCode) {
             localStorage.removeItem('referralCode');
             localStorage.removeItem('referralTimestamp');
         }
 
-        if (!tokensReturned) {
-            autoLoginAfterRegister(email, password);
+        if (window.juniorTrack) {
+            window.juniorTrack('register_stripe_redirect', { plan: selectedPlanKey });
         }
 
-        console.log('[Register] redirecting to portal');
-        setTimeout(function () {
-            if (window.juniorTrack) {
-                window.juniorTrack('register_redirect_to_portal');
-            }
-            window.location.href = 'portal.html';
-        }, 250);
+        window.location.href = data.checkout_url;
 
     } catch (error) {
         let msg;
         if (error.name === 'AbortError') {
-            const recovered = await recoverRegistrationByLogin(email, password, 'timeout');
-            if (recovered) return;
-
             msg = 'Our server is slow right now. Please try again — it usually works on the second attempt.';
-            console.error('[Register] registration request timed out');
+            console.error('[Register] create-with-payment request timed out');
             if (window.juniorTrack) {
                 window.juniorTrack('register_timeout');
                 window.juniorTrack('register_submit_error', { reason: 'timeout' });
@@ -458,81 +529,10 @@ function resetRegisterButton(registerButton, registerButtonText, defaultButtonTe
         registerButton.classList.remove('register-submit-loading');
     }
     if (registerButtonText) {
-        registerButtonText.textContent = defaultButtonText || 'Create My Account & Get More';
+        registerButtonText.textContent = defaultButtonText || 'Continue to Payment';
     }
     document.getElementById('reg-email').disabled = false;
     document.getElementById('reg-password').disabled = false;
-}
-
-function storeRegistrationSession(data, email) {
-    if (data && data.id) {
-        sessionStorage.setItem('userId', data.id.toString());
-    }
-    sessionStorage.setItem('userEmail', (data && data.email) || email);
-
-    if (data && data.access_token) {
-        sessionStorage.setItem('userToken', data.access_token);
-    }
-    if (data && data.refresh_token) {
-        sessionStorage.setItem('refreshToken', data.refresh_token);
-    }
-
-    return Boolean(data && data.access_token);
-}
-
-async function recoverRegistrationByLogin(email, password, reason) {
-    try {
-        const loginData = await loginWithPassword(email, password, 5000);
-        storeRegistrationSession({
-            email: email,
-            access_token: loginData.access_token,
-            refresh_token: loginData.refresh_token
-        }, email);
-
-        if (window.juniorTrack) {
-            window.juniorTrack(
-                reason === 'timeout' ? 'register_timeout_recovered_login' : 'register_duplicate_recovered_login'
-            );
-        }
-
-        window.location.href = 'portal.html';
-        return true;
-    } catch (loginError) {
-        console.warn('[Register] recovery login failed:', loginError.message);
-        return false;
-    }
-}
-
-async function loginWithPassword(email, password, timeoutMs) {
-    const abortController = new AbortController();
-    const timeoutId = setTimeout(function () {
-        abortController.abort();
-    }, timeoutMs);
-
-    try {
-        const resp = await fetch(API_BASE_URL + '/api/users/token', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: new URLSearchParams({ username: email, password: password }),
-            signal: abortController.signal
-        });
-
-        if (!resp.ok) throw new Error('login response ' + resp.status);
-        return await resp.json();
-    } finally {
-        clearTimeout(timeoutId);
-    }
-}
-
-function autoLoginAfterRegister(email, password) {
-    console.log('[Register] auto-login started (fire-and-forget)');
-    loginWithPassword(email, password, 5000).then(function (loginData) {
-        if (loginData.access_token) sessionStorage.setItem('userToken', loginData.access_token);
-        if (loginData.refresh_token) sessionStorage.setItem('refreshToken', loginData.refresh_token);
-        console.log('[Register] auto-login success');
-    }).catch(function (err) {
-        console.warn('[Register] auto-login failed (non-fatal):', err.message);
-    });
 }
 
 function validateRegistrationForm(email, password, termsAccepted) {

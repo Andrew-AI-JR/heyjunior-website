@@ -24,8 +24,8 @@
     "hero": {
       "title": "Start getting interviews from comments — not resumes.",
       "subtitle": "Junior comments on the right LinkedIn posts for you, in your voice. Real conversations. Real replies. No resume blasting.",
-      "cta": "Start Free Trial",
-      "microcopy": "14-day free trial · No credit card required",
+      "cta": "Get Started Free",
+      "microcopy": "First month free · Card required at signup",
       "proofLabel": "Real replies from real LinkedIn conversations:"
     },
     "whatItDoes": {
@@ -34,17 +34,17 @@
       "b2": "Writes personalized comments in your voice",
       "b3": "Gets people to respond",
       "b4": "Turns conversations into interviews",
-      "cta": "Start Free Trial",
-      "microcopy": "14-day free trial · No credit card required"
+      "cta": "Get Started Free",
+      "microcopy": "First month free · Card required at signup"
     },
     "faqCta": {
-      "lead": "Still applying and hearing nothing back? Try Junior free — no credit card required.",
-      "button": "Start Free Trial"
+      "lead": "Still applying and hearing nothing back? Try Junior free for your first month.",
+      "button": "Get Started Free"
     },
     "finalCta": {
       "title": "Stop applying. Start conversations.",
-      "button": "Start Free Trial",
-      "microcopy": "14-day free trial · No credit card required"
+      "button": "Get Started Free",
+      "microcopy": "First month free · Card required at signup"
     }
   },
   "features": {

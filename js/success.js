@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   localStorage.removeItem('postPaymentTimestamp');
   localStorage.removeItem('campaignUserId');
 
-  if (postRedirect === 'portal' && !redirectExpired && sessionStorage.getItem('accessToken')) {
+  if (postRedirect === 'portal' && !redirectExpired) {
     window.location.href = 'portal.html';
     return;
   }

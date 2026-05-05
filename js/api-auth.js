@@ -5,7 +5,7 @@
 (function () {
   window.juniorFetchWithAuth = async function juniorFetchWithAuth(url, options = {}) {
     const { auth401Redirect, ...fetchOptions } = options;
-    const loginUrl = auth401Redirect !== undefined ? auth401Redirect : 'checkout.html?redirect=portal';
+    const loginUrl = auth401Redirect !== undefined ? auth401Redirect : 'portal.html';
 
     let token = sessionStorage.getItem('userToken') || sessionStorage.getItem('accessToken');
     let headers = { ...fetchOptions.headers };

@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Start your 14-day Junior trial and get AI help with your job search.">
-    <title>Start Free Trial - Junior</title>
+    <meta name="description" content="Get your first month free. Start getting interviews from conversations, not resumes.">
+    <title>Get Started Free - Junior</title>
     <link rel="stylesheet" href="css/styles.css?v=20260425-register-personalized">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,8 +32,8 @@
 
             <section class="register-card">
                 <div id="register-direct-hook" class="register-hook" hidden>
-                    <h1>Start your free trial</h1>
-                    <p class="register-hook-outcome">Create your Junior account and get AI help with your job search.</p>
+                    <h1>Get your first month free</h1>
+                    <p class="register-hook-outcome">Create your Junior account and start getting interviews from conversations.</p>
                 </div>
 
                 <div id="register-hook" class="register-hook">
@@ -91,11 +91,15 @@
                             <input type="email" id="email-step-input" placeholder="you@example.com" autocomplete="email" required>
                         </div>
                         <button type="button" id="email-step-button" class="primary-button register-submit">Continue</button>
-                        <p class="register-microcopy">No spam. No credit card.</p>
+                        <p class="register-microcopy">No spam. First month is free.</p>
+                    </div>
+
+                    <div id="cancelled-banner" class="register-status register-status-error" hidden aria-live="polite">
+                        Payment was not completed. You can try again below.
                     </div>
 
                     <div id="full-signup-step" class="register-full-signup-step" hidden>
-                        <p class="register-transition">Almost there &mdash; set a password to finish.</p>
+                        <p class="register-transition">Almost there &mdash; choose a plan and set a password.</p>
 
                         <form id="register-form" class="register-form" novalidate>
                             <input type="hidden" id="referral-code-field">
@@ -103,6 +107,24 @@
                             <div class="form-group">
                                 <label for="reg-email">Email</label>
                                 <input type="email" id="reg-email" placeholder="you@example.com" autocomplete="email" required>
+                            </div>
+
+                            <div class="form-group register-plan-selection">
+                                <label>Choose your plan</label>
+                                <div class="register-plan-grid" style="display:grid;gap:10px;grid-template-columns:repeat(2,minmax(0,1fr));margin-top:8px;">
+                                    <label class="register-plan-option" for="reg-plan-standard" style="border:2px solid #166534;border-radius:10px;padding:12px;cursor:pointer;background:#f0fdf4;">
+                                        <input type="radio" name="reg-plan" id="reg-plan-standard" value="standard" checked style="margin-right:8px;">
+                                        <strong>Standard</strong>
+                                        <small style="display:block;color:#475569;margin:6px 0 6px 24px;">50 comments/day</small>
+                                        <div style="margin-left:24px;font-weight:700;"><span style="color:#64748b;text-decoration:line-through;margin-right:8px;font-weight:500;">$29.99</span><span style="color:#166534;">Free for 1 month</span></div>
+                                    </label>
+                                    <label class="register-plan-option" for="reg-plan-pro" style="border:2px solid #cbd5e1;border-radius:10px;padding:12px;cursor:pointer;background:#fff;">
+                                        <input type="radio" name="reg-plan" id="reg-plan-pro" value="pro" style="margin-right:8px;">
+                                        <strong>Pro</strong>
+                                        <small style="display:block;color:#475569;margin:6px 0 6px 24px;">80 comments/day + priority support</small>
+                                        <div style="margin-left:24px;font-weight:700;"><span style="color:#64748b;text-decoration:line-through;margin-right:8px;font-weight:500;">$49.99</span><span style="color:#166534;">Free for 1 month</span></div>
+                                    </label>
+                                </div>
                             </div>
 
                             <div class="form-group">
@@ -119,18 +141,17 @@
                                 <span>I agree to the <a href="terms.html" target="_blank" rel="noopener">Terms of Service</a></span>
                             </label>
 
-                            <p class="register-reassurance">No credit card required to start your 14-day trial.</p>
-
-                            <button type="submit" id="register-button" class="primary-button register-submit">
-                                <span id="register-button-text">Create My Account &amp; Start Trial</span>
+                            <button type="submit" id="register-button" class="primary-button register-submit" data-cta="register-continue-payment">
+                                <span id="register-button-text">Continue to Payment &mdash; First Month Free</span>
                             </button>
-                            <p class="register-microcopy">No spam. No credit card.</p>
+                            <p class="register-microcopy">You will be redirected to Stripe to enter your card securely. Your first month is free.</p>
 
                             <div id="register-status" class="register-status" hidden aria-live="polite"></div>
                             <div id="register-error" class="register-status register-status-error" hidden aria-live="polite"></div>
 
                             <ul class="register-trust-list">
-                                <li>14-day free trial</li>
+                                <li>First month free</li>
+                                <li>Cancel anytime</li>
                                 <li>Set up in under 2 minutes</li>
                             </ul>
 
