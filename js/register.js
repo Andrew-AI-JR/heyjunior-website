@@ -1,7 +1,8 @@
 /* register.js - User Registration (payment-first flow) */
 
 const API_BASE_URL = window.getApiBaseUrl();
-const COUPON_CODE = '1FREEMONTH';
+const DEFAULT_COUPON = '1FREEMONTH';
+const COUPON_CODE = new URLSearchParams(window.location.search).get('coupon')?.trim().toUpperCase() || DEFAULT_COUPON;
 const PLAN_CONFIG = {
     standard: { label: 'Standard', priceId: 'price_1RJMCrRxE6F23RwQEnHUwvFq' },
     pro: { label: 'Pro', priceId: 'price_1SX1LrRxE6F23RwQgWgIV1NK' }
