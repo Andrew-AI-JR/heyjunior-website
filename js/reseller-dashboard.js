@@ -345,6 +345,7 @@ async function loadResellerView() {
       const refRes = await fetchAuth(`${API_BASE_URL}/api/resellers/referrals`);
       renderDashboardStats(d);
       await renderReferralsTable(refRes);
+      renderMarketingAssets(d.referral_code);
       wireStripeExpressButton(me);
       setLoading(false);
       return;
@@ -487,4 +488,90 @@ function wireStripeExpressButton(me) {
       stripeBtn.disabled = false;
     }
   };
+}
+
+function renderMarketingAssets(referralCode) {
+  const section = document.getElementById('reseller-marketing-section');
+  if (!section) return;
+
+  const code = (referralCode || '').trim();
+  const shareLink = code
+    ? `${window.location.origin}/?ref=${encodeURIComponent(code)}`
+    : '';
+
+  if (!code) {
+    const noCodeEl = document.getElementById('reseller-marketing-nocode');
+    if (noCodeEl) noCodeEl.style.display = 'block';
+  }
+
+  const slots = section.querySelectorAll('[data-ref-link-slot]');
+  slots.forEach((slot) => {
+    slot.textContent = shareLink || 'https://heyjunior.ai';
+  });
+
+  function copyToClipboard(text, btn) {
+    const originalLabel = btn.textContent;
+    function showCopied() {
+      btn.classList.add('copied');
+      btn.textContent = 'Copied!';
+      setTimeout(() => {
+        btn.classList.remove('copied');
+        btn.textContent = originalLabel;
+      }, 2000);
+    }
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(showCopied).catch(() => {
+        fallbackCopy(text, btn, showCopied);
+      });
+    } else {
+      fallbackCopy(text, btn, showCopied);
+    }
+  }
+
+  function fallbackCopy(text, btn, onSuccess) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try {
+      document.execCommand('copy');
+      onSuccess();
+    } catch (_) {
+      prompt('Copy this text:', text);
+    }
+    document.body.removeChild(ta);
+  }
+
+  const copyBtns = section.querySelectorAll('.reseller-marketing-copy-btn');
+  copyBtns.forEach((btn) => {
+    const targetId = btn.getAttribute('data-copy-target');
+    if (!targetId) return;
+    const targetEl = document.getElementById(targetId);
+    if (!targetEl) return;
+
+    if (!code) {
+      btn.disabled = true;
+      btn.title = 'Referral code not available';
+    }
+
+    btn.addEventListener('click', () => {
+      const text = targetEl.textContent;
+      copyToClipboard(text, btn);
+    });
+  });
+
+  const printBtn = document.getElementById('btn-print-onepager');
+  if (printBtn) {
+    printBtn.addEventListener('click', () => {
+      const win = window.open('reseller-assets/one-pager.html', '_blank');
+      if (win) {
+        win.addEventListener('load', () => {
+          win.print();
+        });
+      }
+    });
+  }
 }
