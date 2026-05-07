@@ -337,34 +337,22 @@
                     <div class="portal-section" id="reseller-marketing-section">
                         <div class="section-header"><h2>Promote Junior</h2></div>
 
+                        <div style="margin-bottom:20px;">
+                            <label for="reseller-region-select" style="font-weight:600;font-size:0.9rem;color:#1f2937;margin-right:10px;">Region</label>
+                            <select id="reseller-region-select" style="padding:8px 14px;border:2px solid #e5e7eb;border-radius:8px;font-size:0.9rem;color:#1f2937;cursor:pointer;">
+                                <option value="global">Global (English)</option>
+                                <option value="latam">Latin America (Español)</option>
+                                <option value="europe">Europe (English)</option>
+                                <option value="apac">Asia-Pacific (English)</option>
+                            </select>
+                        </div>
+
                         <div id="reseller-marketing-nocode" class="reseller-marketing-nocode" style="display:none;">
                             Your referral code is not set up yet. Email templates and captions below will show a generic link. Contact <a href="mailto:support@heyjunior.ai">support@heyjunior.ai</a> if this persists.
                         </div>
 
                         <h4 style="font-size:0.95rem;color:#1f2937;margin:0 0 12px 0;">Share these images on social media</h4>
-                        <div class="reseller-marketing-grid">
-                            <div class="reseller-marketing-card">
-                                <img src="reseller-assets/social/linkedin-post.png" alt="LinkedIn post image" loading="lazy">
-                                <div class="reseller-marketing-card-body">
-                                    <span>LinkedIn Post</span>
-                                    <a href="reseller-assets/social/linkedin-post.png" download="heyjunior-linkedin-post.png">Download</a>
-                                </div>
-                            </div>
-                            <div class="reseller-marketing-card">
-                                <img src="reseller-assets/social/square-social.png" alt="Square social image" loading="lazy">
-                                <div class="reseller-marketing-card-body">
-                                    <span>Square Social</span>
-                                    <a href="reseller-assets/social/square-social.png" download="heyjunior-square-social.png">Download</a>
-                                </div>
-                            </div>
-                            <div class="reseller-marketing-card">
-                                <img src="reseller-assets/social/social-card.png" alt="Social card / OG image" loading="lazy">
-                                <div class="reseller-marketing-card-body">
-                                    <span>Social Card</span>
-                                    <a href="reseller-assets/social/social-card.png" download="heyjunior-social-card.png">Download</a>
-                                </div>
-                            </div>
-                        </div>
+                        <div id="reseller-marketing-images" class="reseller-marketing-grid"></div>
 
                         <h4 style="font-size:0.95rem;color:#1f2937;margin:24px 0 12px 0;">One-pager</h4>
                         <p style="color:#6b7280;font-size:0.9rem;margin:0 0 10px 0;">A print-friendly overview of Hey Junior you can share with prospects. Open it, then print to PDF from your browser.</p>
@@ -375,96 +363,12 @@
 
                         <div class="reseller-marketing-sub">
                             <h4>Email templates</h4>
-
-                            <div class="reseller-marketing-block">
-                                <span class="reseller-marketing-block-label">Cold outreach</span>
-                                <button type="button" class="reseller-marketing-copy-btn" data-copy-target="email-cold">Copy</button>
-                                <div class="reseller-marketing-block-text" id="email-cold">Subject: A tool that got me noticed by recruiters on LinkedIn
-
-Hi [Name],
-
-I wanted to share something that's been a game-changer for my job search. It's called Hey Junior — an AI tool that automatically engages with relevant LinkedIn posts on your behalf, so recruiters and hiring managers actually see your profile.
-
-It takes about 5 minutes to set up, and the first month is free.
-
-Check it out here: <span data-ref-link-slot>https://heyjunior.ai</span>
-
-Happy to tell you more about my experience with it.
-
-Best,
-[Your name]</div>
-                            </div>
-
-                            <div class="reseller-marketing-block">
-                                <span class="reseller-marketing-block-label">Follow-up</span>
-                                <button type="button" class="reseller-marketing-copy-btn" data-copy-target="email-followup">Copy</button>
-                                <div class="reseller-marketing-block-text" id="email-followup">Subject: Re: Hey Junior — quick follow-up
-
-Hi [Name],
-
-Just wanted to circle back on Hey Junior. Since I started using it, my LinkedIn profile views have gone up noticeably and I've gotten several recruiter messages I wouldn't have otherwise.
-
-It runs in the background — you set your preferences and it handles the rest. First month is free so there's no risk to try it.
-
-Here's my link: <span data-ref-link-slot>https://heyjunior.ai</span>
-
-Let me know if you have any questions!
-
-Best,
-[Your name]</div>
-                            </div>
-
-                            <div class="reseller-marketing-block">
-                                <span class="reseller-marketing-block-label">Warm referral</span>
-                                <button type="button" class="reseller-marketing-copy-btn" data-copy-target="email-warm">Copy</button>
-                                <div class="reseller-marketing-block-text" id="email-warm">Subject: This might help with your job search
-
-Hey [Name],
-
-I know you've been looking for new opportunities, so I thought I'd pass this along. I've been using Hey Junior — it's an AI tool that comments on LinkedIn posts for you so you show up in more feeds and get noticed by recruiters.
-
-It's been working really well for me. Setup takes a few minutes and the first month is completely free.
-
-Give it a try: <span data-ref-link-slot>https://heyjunior.ai</span>
-
-Rooting for you!
-
-[Your name]</div>
-                            </div>
+                            <div id="reseller-marketing-emails"></div>
                         </div>
 
                         <div class="reseller-marketing-sub">
                             <h4>Suggested social captions</h4>
-
-                            <div class="reseller-marketing-block">
-                                <span class="reseller-marketing-block-label">Caption 1</span>
-                                <button type="button" class="reseller-marketing-copy-btn" data-copy-target="caption-1">Copy</button>
-                                <div class="reseller-marketing-block-text" id="caption-1">Job searching is exhausting. What if AI could keep you visible to recruiters while you focus on prep? That's exactly what Hey Junior does. First month free. <span data-ref-link-slot>https://heyjunior.ai</span></div>
-                            </div>
-
-                            <div class="reseller-marketing-block">
-                                <span class="reseller-marketing-block-label">Caption 2</span>
-                                <button type="button" class="reseller-marketing-copy-btn" data-copy-target="caption-2">Copy</button>
-                                <div class="reseller-marketing-block-text" id="caption-2">I stopped spending hours commenting on LinkedIn posts trying to get noticed. Now Hey Junior handles it for me — AI-powered engagement that actually works. Try it free: <span data-ref-link-slot>https://heyjunior.ai</span></div>
-                            </div>
-
-                            <div class="reseller-marketing-block">
-                                <span class="reseller-marketing-block-label">Caption 3</span>
-                                <button type="button" class="reseller-marketing-copy-btn" data-copy-target="caption-3">Copy</button>
-                                <div class="reseller-marketing-block-text" id="caption-3">Recruiters find candidates who are active on LinkedIn. Hey Junior keeps your profile visible with smart, AI-generated comments — automatically. First month is on them: <span data-ref-link-slot>https://heyjunior.ai</span></div>
-                            </div>
-
-                            <div class="reseller-marketing-block">
-                                <span class="reseller-marketing-block-label">Caption 4</span>
-                                <button type="button" class="reseller-marketing-copy-btn" data-copy-target="caption-4">Copy</button>
-                                <div class="reseller-marketing-block-text" id="caption-4">If you're in a job search right now, check out Hey Junior. It uses AI to engage on LinkedIn for you — more visibility, more recruiter attention, less effort. Free to start: <span data-ref-link-slot>https://heyjunior.ai</span></div>
-                            </div>
-
-                            <div class="reseller-marketing-block">
-                                <span class="reseller-marketing-block-label">Caption 5</span>
-                                <button type="button" class="reseller-marketing-copy-btn" data-copy-target="caption-5">Copy</button>
-                                <div class="reseller-marketing-block-text" id="caption-5">The hardest part of job searching? Staying visible. Hey Junior automates LinkedIn engagement so you show up in the right feeds every day. Try your first month free: <span data-ref-link-slot>https://heyjunior.ai</span></div>
-                            </div>
+                            <div id="reseller-marketing-captions"></div>
                         </div>
                     </div>
                 </div>

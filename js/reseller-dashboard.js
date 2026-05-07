@@ -490,6 +490,85 @@ function wireStripeExpressButton(me) {
   };
 }
 
+const REGION_DATA = {
+  global: {
+    images: [
+      { label: 'LinkedIn Post', file: 'linkedin-post.png' },
+      { label: 'Square Social', file: 'square-social.png' },
+      { label: 'Social Card', file: 'social-card.png' },
+    ],
+    emails: [
+      { label: 'Cold outreach', text: 'Subject: A tool that helps with LinkedIn visibility\n\nHi [Name],\n\nI wanted to share a tool I have been using called Hey Junior. It uses AI to engage with relevant LinkedIn posts on your behalf, helping you stay visible to recruiters and hiring managers.\n\nIt takes a few minutes to set up and the first month is free.\n\nHave a look here: {{LINK}}\n\nHappy to share more about my experience.\n\nBest regards,\n[Your name]' },
+      { label: 'Follow-up', text: 'Subject: Re: Hey Junior\n\nHi [Name],\n\nJust following up on Hey Junior. Since I started using it, my LinkedIn profile views have increased noticeably and I have received several recruiter messages.\n\nIt runs quietly in the background. You set your preferences and it handles the engagement. The first month is free.\n\nHere is my link: {{LINK}}\n\nLet me know if you have questions.\n\nBest regards,\n[Your name]' },
+      { label: 'Warm referral', text: 'Subject: Something that might help your job search\n\nHi [Name],\n\nI know you have been exploring new opportunities, so I thought this might be useful. Hey Junior is an AI tool that engages on LinkedIn on your behalf so you appear in more feeds and get noticed by recruiters.\n\nSetup takes a few minutes and the first month is free.\n\nYou can try it here: {{LINK}}\n\nWishing you the best,\n[Your name]' },
+    ],
+    captions: [
+      'Looking for your next role? Hey Junior uses AI to keep your LinkedIn profile visible to recruiters while you focus on preparation. {{LINK}}',
+      'Hey Junior automates thoughtful LinkedIn engagement so you get noticed by the right people. It has made a real difference in my job search. {{LINK}}',
+      'Recruiters pay attention to active LinkedIn profiles. Hey Junior keeps yours visible with smart, AI-generated comments. {{LINK}}',
+      'If you are in a job search, Hey Junior is worth a look. AI-powered LinkedIn engagement, designed for job seekers. {{LINK}}',
+      'Staying visible on LinkedIn takes time. Hey Junior handles it for you with AI-driven engagement, every day. {{LINK}}',
+    ],
+  },
+  latam: {
+    images: [
+      { label: 'LinkedIn Post', file: 'linkedin-post.png' },
+      { label: 'Square Social', file: 'square-social.png' },
+      { label: 'Social Card', file: 'social-card.png' },
+    ],
+    emails: [
+      { label: 'Contacto inicial', text: 'Asunto: Una herramienta que me ayudo a destacar en LinkedIn\n\nHola [Nombre],\n\nQueria compartirte algo que me ha funcionado muy bien en mi busqueda de empleo. Se llama Hey Junior, una herramienta de inteligencia artificial que interactua en LinkedIn por ti, para que reclutadores y gerentes de contratacion te vean.\n\nSe configura en minutos y el primer mes es gratis.\n\nMiralo aqui: {{LINK}}\n\nCon gusto te cuento mas sobre mi experiencia.\n\nSaludos,\n[Tu nombre]' },
+      { label: 'Seguimiento', text: 'Asunto: Re: Hey Junior\n\nHola [Nombre],\n\nQueria darte seguimiento sobre Hey Junior. Desde que lo uso, mis vistas de perfil en LinkedIn han aumentado notablemente y he recibido varios mensajes de reclutadores.\n\nFunciona en segundo plano: configuras tus preferencias y el se encarga del resto. El primer mes es gratis.\n\nAqui esta mi enlace: {{LINK}}\n\nCualquier duda, con confianza.\n\nSaludos,\n[Tu nombre]' },
+      { label: 'Recomendacion personal', text: 'Asunto: Esto te puede servir en tu busqueda de empleo\n\nHola [Nombre],\n\nSe que has estado buscando nuevas oportunidades, asi que quise pasarte esto. Hey Junior es una herramienta de IA que comenta en LinkedIn por ti para que aparezcas en mas feeds y te noten los reclutadores.\n\nMe ha funcionado muy bien. Se configura en minutos y el primer mes es completamente gratis.\n\nPruebalo aqui: {{LINK}}\n\nMucho exito,\n[Tu nombre]' },
+    ],
+    captions: [
+      'Buscar empleo es agotador. Hey Junior usa inteligencia artificial para mantenerte visible ante reclutadores en LinkedIn mientras te preparas. {{LINK}}',
+      'Deje de pasar horas comentando en LinkedIn. Ahora Hey Junior lo hace por mi con IA. {{LINK}}',
+      'Los reclutadores se fijan en perfiles activos en LinkedIn. Hey Junior mantiene el tuyo visible con comentarios inteligentes. {{LINK}}',
+      'Si estas en busqueda de empleo, conoce Hey Junior. IA que interactua en LinkedIn por ti. {{LINK}}',
+      'Mantenerte visible en LinkedIn toma tiempo. Hey Junior lo hace por ti, todos los dias, con inteligencia artificial. {{LINK}}',
+    ],
+  },
+  europe: {
+    images: [
+      { label: 'LinkedIn Post', file: 'linkedin-post.png' },
+      { label: 'Square Social', file: 'square-social.png' },
+      { label: 'Social Card', file: 'social-card.png' },
+    ],
+    emails: [
+      { label: 'Introduction', text: 'Subject: A useful tool for LinkedIn visibility\n\nDear [Name],\n\nI wanted to mention a tool I have been using called Hey Junior. It handles LinkedIn engagement on your behalf using AI, keeping your profile visible to recruiters and hiring managers.\n\nSetup takes just a few minutes, and the first month is complimentary.\n\nYou can find it here: {{LINK}}\n\nI am happy to share more about how it has worked for me.\n\nKind regards,\n[Your name]' },
+      { label: 'Follow-up', text: 'Subject: Re: Hey Junior\n\nDear [Name],\n\nI wanted to follow up regarding Hey Junior. Since I began using it, my LinkedIn profile views have increased and I have had several recruiter enquiries I would not have received otherwise.\n\nIt operates quietly in the background. You configure your preferences and it manages the rest. The first month is free of charge.\n\nHere is my link: {{LINK}}\n\nDo let me know if you have any questions.\n\nKind regards,\n[Your name]' },
+      { label: 'Personal recommendation', text: 'Subject: Something that may assist your job search\n\nDear [Name],\n\nI understand you have been exploring new opportunities, so I thought this might be of interest. Hey Junior is an AI tool that engages on LinkedIn on your behalf, helping you appear in more feeds and attract recruiter attention.\n\nIt has been working well for me. Setup is straightforward and the first month is free.\n\nYou can try it here: {{LINK}}\n\nWishing you every success,\n[Your name]' },
+    ],
+    captions: [
+      'Looking for your next position? Hey Junior uses AI to maintain your LinkedIn visibility whilst you focus on what matters. {{LINK}}',
+      'Hey Junior handles LinkedIn engagement for you. Professional, AI-generated comments that keep your profile in front of the right people. {{LINK}}',
+      'Recruiters notice active LinkedIn profiles. Hey Junior ensures yours remains visible with consistent, professional engagement. {{LINK}}',
+      'If you are currently job seeking, Hey Junior is well worth considering. AI-powered LinkedIn engagement built for professionals. {{LINK}}',
+      'Maintaining a consistent LinkedIn presence takes time. Hey Junior manages it for you with intelligent, automated engagement. {{LINK}}',
+    ],
+  },
+  apac: {
+    images: [
+      { label: 'LinkedIn Post', file: 'linkedin-post.png' },
+      { label: 'Square Social', file: 'square-social.png' },
+      { label: 'Social Card', file: 'social-card.png' },
+    ],
+    emails: [
+      { label: 'Introduction', text: 'Subject: A professional tool for LinkedIn engagement\n\nDear [Name],\n\nI would like to share a tool that has been valuable in my professional journey. Hey Junior utilises AI technology to engage with relevant LinkedIn posts on your behalf, ensuring your profile maintains visibility with recruiters and hiring professionals.\n\nThe setup process takes only a few minutes, and the first month is provided at no cost.\n\nPlease find it here: {{LINK}}\n\nI would be happy to discuss my experience in more detail.\n\nWith best regards,\n[Your name]' },
+      { label: 'Follow-up', text: 'Subject: Re: Hey Junior\n\nDear [Name],\n\nI wanted to follow up regarding Hey Junior. Since I began using the platform, my LinkedIn profile visibility has improved considerably and I have received enquiries from several recruiters.\n\nThe tool operates seamlessly in the background. You set your professional preferences and it manages your LinkedIn engagement. The first month is complimentary.\n\nHere is my referral link: {{LINK}}\n\nPlease do not hesitate to reach out with any questions.\n\nWith best regards,\n[Your name]' },
+      { label: 'Personal recommendation', text: 'Subject: A recommendation for your career search\n\nDear [Name],\n\nI understand you are currently exploring new career opportunities, and I thought this tool might be of value. Hey Junior is an AI-driven platform that manages LinkedIn engagement on your behalf, helping ensure your profile reaches the right recruiters and hiring professionals.\n\nI have found it to be very effective. The initial setup is straightforward and your first month is free of charge.\n\nYou may try it here: {{LINK}}\n\nWishing you every success in your search,\n[Your name]' },
+    ],
+    captions: [
+      'For professionals seeking new opportunities, Hey Junior provides AI-driven LinkedIn engagement that ensures your profile reaches the right recruiters. {{LINK}}',
+      'Hey Junior manages your LinkedIn presence through intelligent AI engagement, helping you maintain professional visibility. {{LINK}}',
+      'Recruiters prioritise active LinkedIn profiles. Hey Junior ensures yours remains consistently visible through professional, AI-generated engagement. {{LINK}}',
+      'Currently seeking new career opportunities? Hey Junior offers AI-powered LinkedIn engagement designed for professionals worldwide. {{LINK}}',
+      'Building and maintaining professional visibility on LinkedIn requires dedication. Hey Junior provides AI-driven engagement to support your career goals. {{LINK}}',
+    ],
+  },
+};
+
 function renderMarketingAssets(referralCode) {
   const section = document.getElementById('reseller-marketing-section');
   if (!section) return;
@@ -504,10 +583,67 @@ function renderMarketingAssets(referralCode) {
     if (noCodeEl) noCodeEl.style.display = 'block';
   }
 
-  const slots = section.querySelectorAll('[data-ref-link-slot]');
-  slots.forEach((slot) => {
-    slot.textContent = shareLink || 'https://heyjunior.ai';
-  });
+  const regionSelect = document.getElementById('reseller-region-select');
+  const saved = localStorage.getItem('reseller_region');
+  if (saved && REGION_DATA[saved]) {
+    regionSelect.value = saved;
+  }
+
+  function populateRegion(region) {
+    const data = REGION_DATA[region] || REGION_DATA.global;
+    const basePath = `reseller-assets/${region}/social/`;
+
+    const imgContainer = document.getElementById('reseller-marketing-images');
+    imgContainer.innerHTML = data.images.map((img) =>
+      '<div class="reseller-marketing-card">' +
+        '<img src="' + escapeHtml(basePath + img.file) + '" alt="' + escapeHtml(img.label) + '" loading="lazy">' +
+        '<div class="reseller-marketing-card-body">' +
+          '<span>' + escapeHtml(img.label) + '</span>' +
+          '<a href="' + escapeHtml(basePath + img.file) + '" download="heyjunior-' + escapeHtml(img.file) + '">Download</a>' +
+        '</div>' +
+      '</div>'
+    ).join('');
+
+    const link = shareLink || 'https://heyjunior.ai';
+
+    const emailContainer = document.getElementById('reseller-marketing-emails');
+    emailContainer.innerHTML = data.emails.map((e, i) => {
+      const id = 'email-' + region + '-' + i;
+      const content = e.text.replace(/\{\{LINK\}\}/g, link);
+      return '<div class="reseller-marketing-block">' +
+        '<span class="reseller-marketing-block-label">' + escapeHtml(e.label) + '</span>' +
+        '<button type="button" class="reseller-marketing-copy-btn" data-copy-id="' + id + '"' +
+          (!code ? ' disabled title="Referral code not available"' : '') + '>Copy</button>' +
+        '<div class="reseller-marketing-block-text" id="' + id + '">' + escapeHtml(content) + '</div>' +
+      '</div>';
+    }).join('');
+
+    const captionContainer = document.getElementById('reseller-marketing-captions');
+    captionContainer.innerHTML = data.captions.map((c, i) => {
+      const id = 'caption-' + region + '-' + i;
+      const content = c.replace(/\{\{LINK\}\}/g, link);
+      return '<div class="reseller-marketing-block">' +
+        '<span class="reseller-marketing-block-label">Caption ' + (i + 1) + '</span>' +
+        '<button type="button" class="reseller-marketing-copy-btn" data-copy-id="' + id + '"' +
+          (!code ? ' disabled title="Referral code not available"' : '') + '>Copy</button>' +
+        '<div class="reseller-marketing-block-text" id="' + id + '">' + escapeHtml(content) + '</div>' +
+      '</div>';
+    }).join('');
+
+    wireCopyButtons();
+  }
+
+  function wireCopyButtons() {
+    section.querySelectorAll('.reseller-marketing-copy-btn').forEach((btn) => {
+      const targetId = btn.getAttribute('data-copy-id');
+      if (!targetId) return;
+      btn.onclick = () => {
+        const el = document.getElementById(targetId);
+        if (!el) return;
+        copyToClipboard(el.textContent, btn);
+      };
+    });
+  }
 
   function copyToClipboard(text, btn) {
     const originalLabel = btn.textContent;
@@ -519,58 +655,41 @@ function renderMarketingAssets(referralCode) {
         btn.textContent = originalLabel;
       }, 2000);
     }
-
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(text).then(showCopied).catch(() => {
-        fallbackCopy(text, btn, showCopied);
+        fallbackCopy(text, showCopied);
       });
     } else {
-      fallbackCopy(text, btn, showCopied);
+      fallbackCopy(text, showCopied);
     }
   }
 
-  function fallbackCopy(text, btn, onSuccess) {
+  function fallbackCopy(text, onSuccess) {
     const ta = document.createElement('textarea');
     ta.value = text;
     ta.style.position = 'fixed';
     ta.style.opacity = '0';
     document.body.appendChild(ta);
     ta.select();
-    try {
-      document.execCommand('copy');
-      onSuccess();
-    } catch (_) {
-      prompt('Copy this text:', text);
-    }
+    try { document.execCommand('copy'); onSuccess(); }
+    catch (_) { prompt('Copy this text:', text); }
     document.body.removeChild(ta);
   }
 
-  const copyBtns = section.querySelectorAll('.reseller-marketing-copy-btn');
-  copyBtns.forEach((btn) => {
-    const targetId = btn.getAttribute('data-copy-target');
-    if (!targetId) return;
-    const targetEl = document.getElementById(targetId);
-    if (!targetEl) return;
-
-    if (!code) {
-      btn.disabled = true;
-      btn.title = 'Referral code not available';
-    }
-
-    btn.addEventListener('click', () => {
-      const text = targetEl.textContent;
-      copyToClipboard(text, btn);
-    });
+  regionSelect.addEventListener('change', () => {
+    const region = regionSelect.value;
+    localStorage.setItem('reseller_region', region);
+    populateRegion(region);
   });
+
+  populateRegion(regionSelect.value);
 
   const printBtn = document.getElementById('btn-print-onepager');
   if (printBtn) {
     printBtn.addEventListener('click', () => {
       const win = window.open('reseller-assets/one-pager.html', '_blank');
       if (win) {
-        win.addEventListener('load', () => {
-          win.print();
-        });
+        win.addEventListener('load', () => { win.print(); });
       }
     });
   }
