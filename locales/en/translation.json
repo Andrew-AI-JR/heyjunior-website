@@ -17,7 +17,7 @@
     "benefits": {
       "saveTime": "Save 10+ hours per week on LinkedIn engagement",
       "moreResponses": "Get 3x more responses from hiring managers",
-      "affordablePrice": "Starting at $29.99/month - 50 AI comments daily (1500/month)"
+      "affordablePrice": "Starting at $29.99/month - up to 50 daily engagements"
     }
   },
   "landingHome": {
@@ -110,10 +110,10 @@
     "proNote": "Maximum visibility • Cancel anytime",
     "features": {
       "standard": {
-        "comments": "50 AI comments per day"
+        "comments": "Up to 50 daily engagements"
       },
       "pro": {
-        "comments": "80 AI comments per day"
+        "comments": "Up to 80 daily engagements"
       },
       "targeting": "Hiring manager targeting",
       "analytics": "Performance analytics",
@@ -148,7 +148,7 @@
     "betaBadge": "BETA ACCESS - LIMITED TIME",
     "features": {
       "unlimited": "Unlimited LinkedIn engagement",
-      "aiComments": "AI-generated personalized comments",
+      "aiComments": "Thoughtful, personalized engagement",
       "targeting": "Smart hiring manager targeting",
       "analytics": "Performance analytics dashboard",
       "support": "Priority email support",
