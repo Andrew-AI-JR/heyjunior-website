@@ -286,15 +286,35 @@
                 </div>
 
                 <div id="reseller-onboarding-panel" style="display: none;" class="portal-section">
-                    <div class="section-header"><h2 id="onboarding-panel-heading">Stripe payout setup</h2></div>
+                    <div class="section-header"><h2 id="onboarding-panel-heading">Payout setup</h2></div>
                     <div class="info-card">
-                        <p id="onboarding-panel-lead">Connect Stripe Express so we can pay your commissions. You can leave and come back anytime—use the same buttons to resume.</p>
+                        <p id="onboarding-panel-lead">Select your country so we can set up the right payout method for your commissions.</p>
                         <p id="onboarding-panel-detail" style="margin-top: 12px; color: #6b7280; font-size: 0.95rem; line-height: 1.55;"></p>
-                        <p style="margin-top: 20px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center;">
-                            <button type="button" class="primary-button" id="btn-connect-stripe">Continue in Stripe</button>
+
+                        <div id="country-selector-section" style="margin-top: 16px;">
+                            <label for="reseller-country-select" style="display: block; margin-bottom: 6px; font-weight: 600; font-size: 0.95rem;">Your country</label>
+                            <select id="reseller-country-select" style="width: 100%; max-width: 400px; padding: 10px 12px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 0.95rem; background: #fff;">
+                                <option value="">Loading countries...</option>
+                            </select>
+                            <p id="country-payout-hint" style="margin-top: 8px; color: #6b7280; font-size: 0.85rem;"></p>
+                        </div>
+
+                        <div id="stripe-onboard-actions" style="margin-top: 20px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center;">
+                            <button type="button" class="primary-button" id="btn-connect-stripe">Connect with Stripe</button>
                             <button type="button" class="secondary-button" id="btn-stripe-new-link" style="display: none;">Get a new Stripe link</button>
-                        </p>
-                        <p style="margin-top: 12px; color: #6b7280; font-size: 0.85rem; line-height: 1.5;">If a link expired or you see an error in Stripe, try <strong>Get a new Stripe link</strong> (only after a Connect account has been created).</p>
+                        </div>
+                        <p id="stripe-onboard-help" style="margin-top: 12px; color: #6b7280; font-size: 0.85rem; line-height: 1.5;">If a link expired or you see an error in Stripe, try <strong>Get a new Stripe link</strong> (only after a Connect account has been created).</p>
+
+                        <div id="wise-onboard-actions" style="margin-top: 20px; display: none;">
+                            <p style="margin-bottom: 12px; font-size: 0.95rem;">Your country uses <strong>Wise</strong> for commission payouts. Provide the email where you want to receive payments.</p>
+                            <label for="wise-email-input" style="display: block; margin-bottom: 6px; font-weight: 600; font-size: 0.95rem;">Payout email</label>
+                            <input type="email" id="wise-email-input" placeholder="your@email.com" style="width: 100%; max-width: 400px; padding: 10px 12px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 0.95rem;">
+                            <p style="margin-top: 6px; color: #6b7280; font-size: 0.85rem;">Payouts are sent weekly (Mondays) with a $20 minimum. Wise transfer fees are deducted from your commission.</p>
+                            <p style="margin-top: 16px;">
+                                <button type="button" class="primary-button" id="btn-save-wise-info">Save payout details</button>
+                            </p>
+                        </div>
+                        <div id="wise-onboard-result" style="display: none; margin-top: 12px;"></div>
                     </div>
                 </div>
 

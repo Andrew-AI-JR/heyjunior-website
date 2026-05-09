@@ -37,9 +37,99 @@ function buildOnboardingSupportMessage(message) {
   return `${details} If this keeps happening, contact support@heyjunior.ai and include "reseller Stripe".`;
 }
 
+let _countriesCache = null;
+
+async function loadCountries() {
+  if (_countriesCache) return _countriesCache;
+  try {
+    const res = await fetchAuth(`${API_BASE_URL}/api/resellers/supported-countries`);
+    if (res.ok) {
+      const data = await res.json();
+      _countriesCache = data.countries || [];
+      return _countriesCache;
+    }
+  } catch (e) {
+    console.error('Failed to load countries:', e);
+  }
+  return [];
+}
+
+function guessCountryFromLocale() {
+  try {
+    const locale = navigator.language || navigator.userLanguage || '';
+    const parts = locale.split('-');
+    if (parts.length >= 2) return parts[1].toUpperCase();
+  } catch (_) { /* ignore */ }
+  return '';
+}
+
+async function populateCountrySelector() {
+  const select = document.getElementById('reseller-country-select');
+  if (!select) return;
+
+  const countries = await loadCountries();
+  if (!countries.length) {
+    select.innerHTML = '<option value="">Could not load countries</option>';
+    return;
+  }
+
+  const stripeCountries = countries.filter((c) => c.payout_method === 'stripe_connect');
+  const wiseCountries = countries.filter((c) => c.payout_method === 'wise');
+
+  let html = '<option value="">Select your country...</option>';
+  if (stripeCountries.length) {
+    html += '<optgroup label="Stripe Connect payout">';
+    stripeCountries.forEach((c) => { html += `<option value="${c.code}" data-method="stripe_connect">${escapeHtml(c.name)}</option>`; });
+    html += '</optgroup>';
+  }
+  if (wiseCountries.length) {
+    html += '<optgroup label="Wise payout">';
+    wiseCountries.forEach((c) => { html += `<option value="${c.code}" data-method="wise">${escapeHtml(c.name)}</option>`; });
+    html += '</optgroup>';
+  }
+  select.innerHTML = html;
+
+  const guess = guessCountryFromLocale();
+  if (guess && select.querySelector(`option[value="${guess}"]`)) {
+    select.value = guess;
+  }
+
+  select.addEventListener('change', updatePayoutMethodUI);
+  updatePayoutMethodUI();
+}
+
+function updatePayoutMethodUI() {
+  const select = document.getElementById('reseller-country-select');
+  const hint = document.getElementById('country-payout-hint');
+  const stripeActions = document.getElementById('stripe-onboard-actions');
+  const stripeHelp = document.getElementById('stripe-onboard-help');
+  const wiseActions = document.getElementById('wise-onboard-actions');
+  if (!select) return;
+
+  const opt = select.selectedOptions[0];
+  const method = opt?.getAttribute('data-method') || '';
+
+  if (method === 'wise') {
+    if (stripeActions) stripeActions.style.display = 'none';
+    if (stripeHelp) stripeHelp.style.display = 'none';
+    if (wiseActions) wiseActions.style.display = 'block';
+    if (hint) hint.textContent = 'Payouts via Wise — sent weekly with a $20 minimum threshold.';
+  } else if (method === 'stripe_connect') {
+    if (stripeActions) stripeActions.style.display = 'flex';
+    if (stripeHelp) stripeHelp.style.display = 'block';
+    if (wiseActions) wiseActions.style.display = 'none';
+    if (hint) hint.textContent = 'Payouts via Stripe Connect — deposited per transaction.';
+  } else {
+    if (stripeActions) stripeActions.style.display = 'none';
+    if (stripeHelp) stripeHelp.style.display = 'none';
+    if (wiseActions) wiseActions.style.display = 'none';
+    if (hint) hint.textContent = '';
+  }
+}
+
 /**
  * Hosted AccountLink: prefer GET refresh when a Connect account already exists;
- * otherwise POST onboard. Handles POST 400 "already onboarded" with a refresh fallback.
+ * otherwise POST onboard with country. Handles POST 400 "already onboarded" with a refresh fallback.
  */
 async function fetchStripeAccountLink(me) {
   if (me?.stripe_connect_account_id) {
@@ -53,8 +143,11 @@ async function fetchStripeAccountLink(me) {
     }
   }
 
+  const country = document.getElementById('reseller-country-select')?.value || null;
   const startRes = await fetchAuth(`${API_BASE_URL}/api/resellers/onboard`, {
     method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(country ? { country } : {}),
   });
 
   if (startRes.status === 429) {
@@ -64,6 +157,9 @@ async function fetchStripeAccountLink(me) {
   if (startRes.ok) {
     const data = await startRes.json();
     if (data.onboarding_url) return data.onboarding_url;
+    if (data.payout_method === 'wise') {
+      return null; // Wise path — handled separately
+    }
     throw new Error('Onboarding link was not returned. Please try again.');
   }
 
@@ -260,6 +356,63 @@ function wireOnboardingButtons(me) {
       }
     };
   }
+
+  const wiseBtn = document.getElementById('btn-save-wise-info');
+  if (wiseBtn) {
+    wiseBtn.onclick = async () => {
+      wiseBtn.disabled = true;
+      const resultEl = document.getElementById('wise-onboard-result');
+      const emailInput = document.getElementById('wise-email-input');
+      const email = (emailInput?.value || '').trim();
+      const country = document.getElementById('reseller-country-select')?.value || '';
+
+      if (!email || !email.includes('@')) {
+        if (resultEl) {
+          resultEl.style.display = 'block';
+          resultEl.innerHTML = '<p class="reseller-note reseller-note-error">Please enter a valid email address.</p>';
+        }
+        wiseBtn.disabled = false;
+        return;
+      }
+
+      try {
+        // First, call onboard to set the Wise payout method
+        const onboardRes = await fetchAuth(`${API_BASE_URL}/api/resellers/onboard`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ country }),
+        });
+        if (!onboardRes.ok) {
+          const err = await parseApiError(onboardRes);
+          if (!/already/i.test(err)) throw new Error(err);
+        }
+
+        // Then save Wise payout details
+        const res = await fetchAuth(`${API_BASE_URL}/api/resellers/wise-payout-info`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, country }),
+        });
+
+        if (res.ok) {
+          if (resultEl) {
+            resultEl.style.display = 'block';
+            resultEl.innerHTML = '<p class="reseller-note reseller-note-success"><strong>Payout details saved.</strong> Your reseller account is now active. Commissions will be sent to your email via Wise every Monday.</p>';
+          }
+          setTimeout(() => { window.location.reload(); }, 2000);
+        } else {
+          throw new Error(await parseApiError(res));
+        }
+      } catch (e) {
+        if (resultEl) {
+          resultEl.style.display = 'block';
+          resultEl.innerHTML = `<p class="reseller-note reseller-note-error">${escapeHtml(e.message || 'Something went wrong')}</p>`;
+        }
+      } finally {
+        wiseBtn.disabled = false;
+      }
+    };
+  }
 }
 
 function wirePayoutSetupButtons(me) {
@@ -365,6 +518,7 @@ async function loadResellerView() {
   const status = me.reseller_status;
   showEl('reseller-onboarding-panel', true);
   applyOnboardingPanelCopy(me, status);
+  await populateCountrySelector();
   wireOnboardingButtons(me);
   setLoading(false);
 }
