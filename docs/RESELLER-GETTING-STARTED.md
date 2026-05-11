@@ -1,6 +1,6 @@
-# How to Become a Junior Reseller
+# How to Become a Junior Partner
 
-Welcome! Here's everything you need to get set up as a Junior reseller and start earning commissions.
+Welcome! Here's everything you need to get set up as a Junior partner and start earning commissions.
 
 ---
 
@@ -9,20 +9,20 @@ Welcome! Here's everything you need to get set up as a Junior reseller and start
 - **20% commission** on every subscription payment from people who sign up using your link
 - Commission lasts **for the lifetime** of each subscription you refer (as long as they stay subscribed)
 - Payouts handled through **Stripe** or **Wise**, depending on your country — directly to your bank account
-- **International support** — resellers in 50+ countries can participate
+- **International support** — partners in 50+ countries can participate
 - A **personal dashboard** where you can track your earnings and signups
 
 ---
 
 ## Step 1: Set Up Your Stripe Payout Account
 
-If you have an active Junior subscription, you're already a reseller. Just log in to your Junior account and go to your reseller dashboard:
+If you have an active Junior subscription, you're already a partner. Just log in to your Junior account and go to your partner dashboard:
 
 ---
 
 ## Step 2: Set Up Your Payout Account
 
-After approval, log in to your Junior account and go to your reseller dashboard:
+After approval, log in to your Junior account and go to your partner dashboard:
 
 **https://heyjunior.ai/reseller-dashboard.html**
 
@@ -86,7 +86,7 @@ To manage your payout settings or see transfer history, click **"Open Stripe Exp
 ## Important Notes
 
 - Your referral link works for **30 days** after someone clicks it. If they sign up within that window, you get credit.
-- If someone already clicked a different reseller's link, the first link takes priority.
+- If someone already clicked a different partner's link, the first link takes priority.
 - Commissions are calculated on the net amount (after Stripe processing fees and any refunds).
 - You can see your dashboard and earnings at any time by logging in at **https://heyjunior.ai/reseller-dashboard.html**.
 
@@ -97,7 +97,7 @@ To manage your payout settings or see transfer history, click **"Open Stripe Exp
 | What | Where |
 |------|-------|
 | Eligibility | Any active Junior subscriber |
-| Your reseller dashboard | **https://heyjunior.ai/reseller-dashboard.html** |
+| Your partner dashboard | **https://heyjunior.ai/reseller-dashboard.html** |
 | Your referral link | Shown on your dashboard after setup |
 | Commission rate | **20%** of each payment, lifetime |
 | Referral link validity | **30 days** after click |

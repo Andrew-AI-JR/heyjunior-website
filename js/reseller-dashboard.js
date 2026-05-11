@@ -1,4 +1,4 @@
-/* Reseller dashboard — Stripe Connect (API /api/resellers/*). */
+/* Partner dashboard — Stripe Connect (API /api/resellers/*). */
 
 const API_BASE_URL = window.getApiBaseUrl();
 
@@ -34,7 +34,7 @@ function setLoading(loading) {
 
 function buildOnboardingSupportMessage(message) {
   const details = message || 'Something went wrong while opening Stripe.';
-  return `${details} If this keeps happening, contact support@heyjunior.ai and include "reseller Stripe".`;
+  return `${details} If this keeps happening, contact support@heyjunior.ai and include "partner Stripe".`;
 }
 
 let _countriesCache = null;
@@ -232,7 +232,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             !data.payouts_enabled || !data.charges_enabled
               ? '<p style="margin:12px 0 0 0;font-size:0.95rem">Complete any remaining steps in Stripe until <strong>charges</strong> and <strong>payouts</strong> are both enabled. Then return here—the dashboard unlocks when our system and Stripe are aligned.</p>'
               : '';
-          wrap.innerHTML = `<div class="reseller-note reseller-note-success"><p style="margin:0 0 8px 0"><strong>Stripe status synced.</strong></p><p style="margin:0;font-size:0.95rem">Reseller status in our system: <code>${st}</code>. Stripe reports: charges <strong>${ch}</strong>, payouts <strong>${py}</strong>, details submitted <strong>${det}</strong>.</p>${warn}</div>`;
+          wrap.innerHTML = `<div class="reseller-note reseller-note-success"><p style="margin:0 0 8px 0"><strong>Stripe status synced.</strong></p><p style="margin:0;font-size:0.95rem">Partner status in our system: <code>${st}</code>. Stripe reports: charges <strong>${ch}</strong>, payouts <strong>${py}</strong>, details submitted <strong>${det}</strong>.</p>${warn}</div>`;
         } else {
           wrap.innerHTML = `<p class="reseller-note reseller-note-error">${escapeHtml(await parseApiError(res))}</p>`;
         }
@@ -293,7 +293,7 @@ function applyOnboardingPanelCopy(me, status) {
     }
     if (detail) {
       detail.textContent =
-        'Reseller status in our database: approved. Payout readiness is determined in Stripe (charges and payouts enabled); we sync that when you complete hosted onboarding.';
+        'Partner status in our database: approved. Payout readiness is determined in Stripe (charges and payouts enabled); we sync that when you complete hosted onboarding.';
     }
   } else if (status === 'onboarding') {
     if (heading) heading.textContent = 'Finish payout setup';
@@ -306,7 +306,7 @@ function applyOnboardingPanelCopy(me, status) {
     if (heading) heading.textContent = 'Stripe payout setup';
     if (lead) {
       lead.textContent =
-        'When your reseller application is approved, you will use Stripe Express here for payouts. If you are already approved, open Stripe below.';
+        'When your partner application is approved, you will use Stripe Express here for payouts. If you are already approved, open Stripe below.';
     }
     if (detail) {
       const label = status == null || status === '' ? 'not set' : String(status);
@@ -397,7 +397,7 @@ function wireOnboardingButtons(me) {
         if (res.ok) {
           if (resultEl) {
             resultEl.style.display = 'block';
-            resultEl.innerHTML = '<p class="reseller-note reseller-note-success"><strong>Payout details saved.</strong> Your reseller account is now active. Commissions will be sent to your email via Wise every Monday.</p>';
+            resultEl.innerHTML = '<p class="reseller-note reseller-note-success"><strong>Payout details saved.</strong> Your partner account is now active. Commissions will be sent to your email via Wise every Monday.</p>';
           }
           setTimeout(() => { window.location.reload(); }, 2000);
         } else {
@@ -530,7 +530,7 @@ function renderDashboardStats(d) {
 
   document.getElementById('dashboard-stats').innerHTML = `
       <div class="referral-link-section reseller-ref-first">
-        <label for="reseller-referral-link-input">Your reseller link</label>
+        <label for="reseller-referral-link-input">Your partner link</label>
         <div class="referral-link-container">
           <input type="text" id="reseller-referral-link-input" readonly value="${escapeHtml(shareLink || '—')}" placeholder="No referral code yet">
           <button type="button" class="copy-button" id="reseller-copy-ref-btn" title="Copy link" ${shareLink ? '' : 'disabled'}>
@@ -546,7 +546,7 @@ function renderDashboardStats(d) {
       </div>
       <p style="margin-top: 16px; padding-top: 14px; border-top: 1px solid #e5e7eb; color: #6b7280; font-size: 0.9rem; line-height: 1.55;">
         Amounts are from your commission ledger (subscription revenue share), in <strong>USD</strong> cents converted above.
-        <strong>Active / total referrals</strong> count users attributed to your reseller code when they signed up under the rules our server applies—not link clicks or anonymous traffic.
+        <strong>Active / total referrals</strong> count users attributed to your partner code when they signed up under the rules our server applies—not link clicks or anonymous traffic.
       </p>
     `;
 
@@ -592,7 +592,7 @@ async function renderReferralsTable(refRes) {
   const data = await refRes.json();
   const rows = data.referrals || [];
   if (rows.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="3">No reseller-attributed signups yet.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="3">No partner-attributed signups yet.</td></tr>';
   } else {
     tbody.innerHTML = rows
       .map(

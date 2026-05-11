@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex">
-    <title>Reseller Dashboard - Junior</title>
+    <title>Partner Dashboard - Junior</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -242,8 +242,8 @@
     <section class="portal-container">
         <div class="container">
             <div class="portal-header">
-                <h1>Reseller dashboard</h1>
-                <p class="portal-subtitle">Stripe Connect payouts, commission earnings, and signups attributed to your reseller link</p>
+                <h1>Partner dashboard</h1>
+                <p class="portal-subtitle">Stripe Connect payouts, commission earnings, and signups attributed to your partner link</p>
             </div>
 
             <div id="reseller-loading" class="loading-state">
@@ -262,26 +262,26 @@
                 <div id="reseller-not-eligible" style="display: none;" class="portal-section">
                     <div class="info-card" style="text-align: center; padding: 40px 20px;">
                         <div style="font-size: 2.5rem; margin-bottom: 16px;">🤝</div>
-                        <h3 style="margin: 0 0 12px;">Reseller program</h3>
+                        <h3 style="margin: 0 0 12px;">Partner program</h3>
                         <p style="max-width: 500px; margin: 0 auto 12px; line-height: 1.6; color: #4b5563;">
-                            Earn <strong>20% commission</strong> on subscriptions from people who sign up with your reseller link, with payouts through Stripe Connect.
+                            Earn <strong>20% commission</strong> on subscriptions from people who sign up with your partner link, with payouts through Stripe Connect.
                         </p>
                         <p style="max-width: 500px; margin: 0 auto 24px; line-height: 1.6; color: #6b7280;">
-                            Access to this dashboard is limited to approved resellers. If you would like to join, contact us and we will help you get set up.
+                            Access to this dashboard is limited to approved partners. If you would like to join, contact us and we will help you get set up.
                         </p>
-                        <a href="mailto:support@heyjunior.ai?subject=Junior%20reseller%20program" class="primary-button" style="display: inline-block; padding: 14px 32px; font-size: 1.05rem; text-decoration: none;">Contact support to apply</a>
+                        <a href="mailto:support@heyjunior.ai?subject=Junior%20partner%20program" class="primary-button" style="display: inline-block; padding: 14px 32px; font-size: 1.05rem; text-decoration: none;">Contact support to apply</a>
                     </div>
                 </div>
 
                 <div id="reseller-suspended" style="display: none;" class="portal-section">
                     <div class="info-card">
-                        <p><strong>Reseller account suspended.</strong> Contact <a href="mailto:support@heyjunior.ai">support@heyjunior.ai</a>.</p>
+                        <p><strong>Partner account suspended.</strong> Contact <a href="mailto:support@heyjunior.ai">support@heyjunior.ai</a>.</p>
                     </div>
                 </div>
 
                 <div id="reseller-pending" style="display: none;" class="portal-section">
                     <div class="info-card">
-                        <p><strong>Your reseller application is pending review.</strong> We will email you once your account is approved for Stripe onboarding.</p>
+                        <p><strong>Your partner application is pending review.</strong> We will email you once your account is approved for Stripe onboarding.</p>
                     </div>
                 </div>
 
@@ -321,13 +321,13 @@
                 <div id="reseller-payout-setup" style="display: none;" class="portal-section">
                     <div class="section-header"><h2>Finish payout setup</h2></div>
                     <div class="info-card">
-                        <p>Your profile shows as a reseller, but the dashboard is not available yet—usually Stripe still needs bank or identity details, or our systems are catching up.</p>
+                        <p>Your profile shows as a partner, but the dashboard is not available yet—usually Stripe still needs bank or identity details, or our systems are catching up.</p>
                         <p style="margin-top: 12px; color: #6b7280; font-size: 0.95rem; line-height: 1.55;"><strong>What helps:</strong> open Stripe again from the button below and complete any remaining steps. Payout-ready status in Stripe (charges and payouts enabled) must match before earnings and referrals appear here.</p>
                         <p style="margin-top: 20px; display: flex; flex-wrap: wrap; gap: 12px;">
                             <button type="button" class="primary-button" id="btn-payout-continue-stripe">Continue in Stripe</button>
                             <button type="button" class="secondary-button" id="btn-payout-new-link" style="display: none;">Get a new Stripe link</button>
                         </p>
-                        <p style="margin-top: 16px;"><a href="mailto:support@heyjunior.ai?subject=Reseller%20dashboard%20access" class="my-story-link">Still stuck? Email support</a> · <a href="portal.html" class="my-story-link">Back to My Account</a></p>
+                        <p style="margin-top: 16px;"><a href="mailto:support@heyjunior.ai?subject=Partner%20dashboard%20access" class="my-story-link">Still stuck? Email support</a> · <a href="portal.html" class="my-story-link">Back to My Account</a></p>
                     </div>
                 </div>
 
@@ -342,8 +342,8 @@
                         </p>
                     </div>
                     <div class="portal-section">
-                        <div class="section-header"><h2>Reseller-link signups</h2></div>
-                        <p style="color: #6b7280; font-size: 0.95rem; line-height: 1.55; max-width: 720px; margin: 0 0 12px 0;">People below signed up with attribution to your reseller code while you were eligible for reseller attribution. We do not show ad clicks or anonymous link hits—only accounts stored on your reseller funnel. General “friend” referrals may use a different path and can differ from these rows.</p>
+                        <div class="section-header"><h2>Partner-link signups</h2></div>
+                        <p style="color: #6b7280; font-size: 0.95rem; line-height: 1.55; max-width: 720px; margin: 0 0 12px 0;">People below signed up with attribution to your partner code while you were eligible for partner attribution. We do not show ad clicks or anonymous link hits—only accounts stored on your partner funnel. General “friend” referrals may use a different path and can differ from these rows.</p>
                         <div class="info-card" style="overflow-x: auto;">
                             <table id="referrals-table">
                                 <thead>
