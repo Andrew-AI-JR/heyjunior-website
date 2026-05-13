@@ -7351,6 +7351,17 @@ body {
     color: #94a3b8;
 }
 
+.hero-dark a.secondary-button {
+    color: #fff !important;
+    border-color: rgba(255, 255, 255, 0.6);
+    background: transparent;
+}
+
+.hero-dark a.secondary-button:hover {
+    border-color: #fff;
+    background: rgba(255, 255, 255, 0.12);
+}
+
 .footer.footer-dark {
     background: #0b1220;
     color: var(--jr-text-light);
@@ -7375,17 +7386,18 @@ body {
 .secondary-button {
     display: inline-block;
     border: 2px solid #fff;
-    color: #fff;
+    color: #fff !important;
     border-radius: 10px;
     padding: 12px 22px;
     text-decoration: none;
     font-weight: 700;
     transition: all 0.2s ease;
+    background: transparent;
 }
 
 .secondary-button:hover {
     background: rgba(255, 255, 255, 0.15);
-    color: #fff;
+    color: #fff !important;
 }
 
 .use-cases-section {
