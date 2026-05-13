@@ -138,24 +138,21 @@ section, div {
 }
 
 .login-button {
-    background: #2563eb;
-    color: white !important;
-    border: 2px solid #2563eb;
+    background: var(--jr-accent);
+    color: #fff !important;
+    border: none;
     border-radius: 8px;
-    padding: 10px 22px;
+    padding: 9px 18px;
     font-weight: 600;
+    font-size: 0.9rem;
     text-decoration: none;
-    transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
-    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.2);
+    transition: background 0.2s;
     display: inline-block;
 }
 
 .login-button:hover {
-    background: #1d4ed8;
-    border-color: #1d4ed8;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
-    color: white !important;
+    background: var(--jr-accent-hover);
+    color: #fff !important;
 }
 
 .nav-separator {
@@ -168,31 +165,49 @@ section, div {
 
 .nav-links a {
     text-decoration: none !important;
-    color: #333;
+    color: #334155;
     font-weight: 500;
-    transition: color 0.3s;
+    transition: color 0.2s;
 }
 
 .nav-links a:hover {
-    color: #2563eb;
+    color: var(--jr-accent);
     text-decoration: none !important;
 }
 
-.my-story-link {
-    background: #fff;
-    color: #2563eb;
-    border: 2px solid #2563eb;
+.nav-links .cta-button {
+    background: var(--jr-accent);
+    color: #fff !important;
+    border: none;
     border-radius: 8px;
-    padding: 10px 22px;
+    padding: 9px 18px;
     font-weight: 600;
+    font-size: 0.9rem;
+    display: inline-block;
+    transition: background 0.2s;
+}
+
+.nav-links .cta-button:hover {
+    background: var(--jr-accent-hover);
+    color: #fff !important;
+}
+
+.my-story-link {
+    background: transparent;
+    color: #334155 !important;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 9px 18px;
+    font-weight: 600;
+    font-size: 0.9rem;
     text-decoration: none;
-    transition: background 0.3s, color 0.3s;
-    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.06);
+    transition: all 0.2s;
 }
 
 .my-story-link:hover {
-    background: #2563eb;
-    color: #fff;
+    background: #f1f5f9;
+    color: #0f172a !important;
+    border-color: #94a3b8;
 }
 
 /* Mobile Menu Toggle Button */
@@ -7346,17 +7361,15 @@ body {
 }
 
 .primary-button,
-.cta-button,
-.login-button {
+.cta-button {
     background: var(--jr-accent);
-    border-color: var(--jr-accent);
+    border: none;
+    color: #fff !important;
 }
 
 .primary-button:hover,
-.cta-button:hover,
-.login-button:hover {
+.cta-button:hover {
     background: var(--jr-accent-hover);
-    border-color: var(--jr-accent-hover);
 }
 
 .secondary-button {
