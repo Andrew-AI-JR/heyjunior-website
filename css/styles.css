@@ -7322,11 +7322,18 @@ body {
     color: #fff;
 }
 
-.hero-dark h1,
+.hero-dark h1 {
+    color: #fff;
+    font-weight: 700;
+}
+
 .hero-dark p,
-.hero-dark .hero-microcopy,
 .hero-dark .section-subtitle {
-    color: var(--jr-text-light);
+    color: #cbd5e1;
+}
+
+.hero-dark .hero-microcopy {
+    color: #94a3b8;
 }
 
 .footer.footer-dark {
@@ -7354,8 +7361,8 @@ body {
 
 .secondary-button {
     display: inline-block;
-    border: 2px solid #c7d2fe;
-    color: #c7d2fe;
+    border: 2px solid #fff;
+    color: #fff;
     border-radius: 10px;
     padding: 12px 22px;
     text-decoration: none;
@@ -7364,7 +7371,7 @@ body {
 }
 
 .secondary-button:hover {
-    background: rgba(199, 210, 254, 0.12);
+    background: rgba(255, 255, 255, 0.15);
     color: #fff;
 }
 
