@@ -7393,10 +7393,9 @@ body {
 }
 
 .use-cases-grid {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
     gap: 18px;
-    justify-content: center;
+    grid-template-columns: repeat(3, 1fr);
     margin-top: 24px;
 }
 
@@ -7409,19 +7408,18 @@ body {
     padding: 24px;
     box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
     overflow: hidden;
-    width: calc(33.333% - 12px);
     min-width: 0;
 }
 
 @media (max-width: 900px) {
-    .use-case-card {
-        width: calc(50% - 9px);
+    .use-cases-grid {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
 @media (max-width: 540px) {
-    .use-case-card {
-        width: 100%;
+    .use-cases-grid {
+        grid-template-columns: 1fr;
     }
 }
 
