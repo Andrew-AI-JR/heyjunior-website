@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Junior for founders: build pipeline through relevant LinkedIn conversations without generic outbound noise.">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Junior for Founders - Conversation-led pipeline">
+    <meta property="og:description" content="Founders use Junior to engage where buyers already pay attention and turn replies into qualified conversations.">
+    <meta property="og:url" content="https://heyjunior.ai/founders.html">
+    <title>Junior for Founders</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="audience-page">
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo"><img src="./images/junior-logo.png" alt="Junior Logo" class="logo-img"></div>
+            <button class="mobile-menu-toggle" aria-label="Toggle mobile menu"><span></span><span></span><span></span></button>
+            <ul class="nav-links">
+                <div class="nav-group">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="job-search.html">Job Seekers</a></li>
+                    <li><a href="consultants.html">Consultants</a></li>
+                    <li><a href="sales.html">Sales</a></li>
+                </div>
+                <div class="nav-actions"><li><a href="register.html?src=founders-nav" class="cta-button">Start Free</a></li></div>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="audience-main">
+        <section class="audience-hero hero-dark">
+            <div class="container narrow-container">
+                <p class="audience-eyebrow">For Founders</p>
+                <h1>Turn founder-led LinkedIn engagement into pipeline.</h1>
+                <p>Junior helps you consistently join high-signal conversations with buyers, operators, and partners using comments that sound like you.</p>
+                <div class="cta-buttons">
+                    <a href="register.html?src=founders-hero" class="primary-button" data-cta="founders-hero-primary">Start Free</a>
+                    <a href="#how" class="secondary-button" data-cta="founders-hero-secondary">See how it works</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="how" class="what-it-does">
+            <div class="container narrow-container">
+                <h2>How founders use Junior</h2>
+                <ul class="what-list">
+                    <li>Identify conversations where ideal buyers are already active</li>
+                    <li>Draft comments with your positioning and point of view</li>
+                    <li>Maintain consistent visibility even during busy weeks</li>
+                    <li>Convert replies into discovery and follow-up conversations</li>
+                </ul>
+                <a href="register.html?src=founders-mid" class="primary-button" data-cta="founders-mid-primary">Start Free</a>
+            </div>
+        </section>
+
+        <section class="faq-section">
+            <div class="container">
+                <h2>Founder objections, answered</h2>
+                <div class="faq-grid">
+                    <div class="faq-item"><h3>Will this replace founder voice?</h3><p>No. Junior is designed to support your voice and context, not replace your judgment.</p></div>
+                    <div class="faq-item"><h3>Does this guarantee meetings?</h3><p>No guaranteed outcomes. It improves consistency and relevance so more quality conversations can start.</p></div>
+                    <div class="faq-item"><h3>Is setup heavy?</h3><p>No. Setup is quick, then you can run lightweight engagement daily.</p></div>
+                </div>
+                <div class="cta-buttons" style="margin-top: 20px;">
+                    <a href="register.html?src=founders-objection" class="primary-button" data-cta="founders-objection-primary">Start Free</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer footer-dark">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section"><h4>Use Cases</h4><ul><li><a href="job-search.html">Job Seekers</a></li><li><a href="consultants.html">Consultants</a></li><li><a href="sales.html">Sales</a></li><li><a href="linkedin-partners.html">Partners</a></li></ul></div>
+                <div class="footer-section"><h4>Legal</h4><ul><li><a href="terms.html">Terms of Service</a></li></ul></div>
+            </div>
+        </div>
+    </footer>
+
+    <a href="register.html?src=founders-sticky" class="sticky-global-cta" data-cta="founders-sticky">Start Free</a>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const mobileToggle = document.querySelector('.mobile-menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            if (mobileToggle && navLinks) {
+                mobileToggle.addEventListener('click', function () {
+                    this.classList.toggle('active');
+                    navLinks.classList.toggle('active');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -3,223 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Help your candidates get more LinkedIn replies. Junior finds relevant hiring posts and writes personalized comments. Start a 14-day free trial or share it with your candidates.">
-    <meta property="og:title" content="Help your candidates get LinkedIn replies - Junior">
-    <meta property="og:description" content="Junior helps job seekers start real conversations with hiring teams on LinkedIn. Try it free for 14 days.">
-    <meta property="og:image" content="https://heyjunior.ai/campaign-assets/linkedin-partner-campaign.png">
+    <meta name="description" content="Help your candidates get more LinkedIn replies. Junior helps job seekers start relevant hiring conversations.">
+    <meta property="og:title" content="Junior for Career Partners">
+    <meta property="og:description" content="Career coaches, bootcamps, and outplacement teams use Junior to help candidates engage where hiring teams are already active.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://heyjunior.ai/linkedin-partners.html">
-    <title>LinkedIn Partner Campaign - Junior</title>
+    <title>Junior for Career Partners</title>
     <link rel="stylesheet" href="css/styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-
-    <!-- Pixel slot: insert Meta / Google / Reddit pixel snippets here. juniorTrack() forwards events only when those globals exist. -->
-
-    <!-- Reddit Pixel -->
-    <script>
-    !function(w,d){if(!w.rdt){var p=w.rdt=function(){p.sendEvent?p.sendEvent.apply(p,arguments):p.callQueue.push(arguments)};p.callQueue=[];var t=d.createElement("script");t.src="https://www.redditstatic.com/ads/pixel.js";t.async=!0;var s=d.getElementsByTagName("script")[0];s.parentNode.insertBefore(t,s)}}(window,document);
-    rdt('init','a2_ivp2lsryo1gm');
-    rdt('track', 'PageVisit');
-    </script>
-    <!-- End Reddit Pixel -->
-
-    <!-- LinkedIn Insight Tag -->
-    <!-- Paste the production Insight Tag snippet from LinkedIn Campaign Manager here before launch. -->
-    <!-- End LinkedIn Insight Tag -->
-
-    <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "c7e2267943804acdb5bfcd009f02f537"}'></script><!-- End Cloudflare Web Analytics -->
-    <script src="js/analytics.js"></script>
-    <style>
-        .lp-nav {
-            background: #fff;
-            border-bottom: 1px solid #e5e7eb;
-            position: sticky;
-            top: 0;
-            z-index: 900;
-        }
-        .lp-shell {
-            max-width: 980px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        .lp-logo-wrap {
-            display: flex;
-            align-items: center;
-            height: 74px;
-        }
-        .lp-logo {
-            height: 44px;
-            width: auto;
-        }
-        .lp-main {
-            background: #f8fafc;
-            min-height: calc(100vh - 74px);
-            padding: 32px 0 52px;
-        }
-        .lp-section {
-            background: #fff;
-            border: 1px solid #e5e7eb;
-            border-radius: 16px;
-            margin: 0 0 18px;
-            padding: 24px;
-        }
-        .lp-hero h1 {
-            color: #0f172a;
-            font-size: 2rem;
-            line-height: 1.2;
-            margin: 0 0 10px;
-        }
-        .lp-hero p {
-            color: #334155;
-            margin: 0 0 12px;
-        }
-        .lp-trust {
-            color: #166534;
-            font-size: 0.95rem;
-            font-weight: 700;
-        }
-        .lp-dual-cta {
-            display: grid;
-            gap: 10px;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            margin-top: 14px;
-        }
-        .lp-secondary-button {
-            align-items: center;
-            background: #fff;
-            border: 2px solid #2563eb;
-            border-radius: 8px;
-            color: #2563eb;
-            display: inline-flex;
-            font-weight: 700;
-            justify-content: center;
-            min-height: 48px;
-            padding: 10px 14px;
-            text-decoration: none;
-        }
-        .lp-secondary-button:hover {
-            background: #eff6ff;
-            color: #1d4ed8;
-        }
-        .lp-h2 {
-            color: #0f172a;
-            font-size: 1.45rem;
-            margin: 0 0 12px;
-        }
-        .lp-steps {
-            margin: 0;
-            padding-left: 20px;
-        }
-        .lp-steps li {
-            margin-bottom: 8px;
-        }
-        .lp-proof-img {
-            border: 1px solid #cbd5e1;
-            border-radius: 10px;
-            margin-top: 12px;
-            width: 100%;
-        }
-        .lp-proof-grid {
-            display: grid;
-            gap: 14px;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            margin-top: 10px;
-        }
-        .lp-proof-grid .lp-proof-img {
-            margin-top: 0;
-        }
-        .lp-caption {
-            color: #334155;
-            font-size: 0.95rem;
-            margin-top: 10px;
-        }
-        .lp-partner-note {
-            background: #eff6ff;
-            border: 1px solid #bfdbfe;
-            border-radius: 12px;
-            color: #1e3a8a;
-            margin-top: 12px;
-            padding: 14px;
-        }
-        .lp-footer {
-            color: #64748b;
-            font-size: 0.9rem;
-            margin-top: 16px;
-            text-align: center;
-        }
-        @media (max-width: 720px) {
-            .lp-dual-cta {
-                grid-template-columns: 1fr;
-            }
-            .lp-proof-grid {
-                grid-template-columns: 1fr;
-            }
-            .lp-hero h1 {
-                font-size: 1.7rem;
-            }
-        }
-    </style>
 </head>
-<body data-page="linkedin-partners" class="i18n-ready">
-    <nav class="lp-nav">
-        <div class="lp-shell lp-logo-wrap">
-            <a href="index.html" aria-label="Junior home">
-                <img src="./images/junior-logo.png" alt="Junior logo" class="lp-logo">
-            </a>
+<body class="audience-page">
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo"><img src="./images/junior-logo.png" alt="Junior Logo" class="logo-img"></div>
+            <button class="mobile-menu-toggle" aria-label="Toggle mobile menu"><span></span><span></span><span></span></button>
+            <ul class="nav-links">
+                <div class="nav-group">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="job-search.html">Job Seekers</a></li>
+                    <li><a href="founders.html">Founders</a></li>
+                    <li><a href="consultants.html">Consultants</a></li>
+                    <li><a href="sales.html">Sales</a></li>
+                </div>
+                <div class="nav-actions"><li><a href="register.html?src=partners-nav" class="cta-button">Try Junior Free</a></li></div>
+            </ul>
         </div>
     </nav>
 
-    <main class="lp-main">
-        <div class="lp-shell">
-            <section class="lp-section lp-hero">
+    <main class="audience-main">
+        <section class="audience-hero hero-dark">
+            <div class="container narrow-container">
+                <p class="audience-eyebrow">For Career Partners</p>
                 <h1>Help your candidates get replies on LinkedIn.</h1>
-                <p>Junior finds relevant hiring posts and writes personalized comments in their voice so they can start real conversations with hiring teams.</p>
-                <p class="lp-trust">14-day free trial · No credit card required</p>
-                <div class="lp-dual-cta">
-                    <a href="register.html?src=linkedin-partner-campaign" class="primary-button" data-cta="lp-hero-trial">Try Junior Free</a>
-                    <a href="mailto:andrew@heyjunior.ai?subject=Junior%20partner%20program" class="lp-secondary-button" data-cta="lp-hero-share">Share with Your Candidates</a>
+                <p>Junior finds relevant hiring posts and drafts personalized comments in each candidate's voice to start real conversations with hiring teams.</p>
+                <div class="cta-buttons">
+                    <a href="register.html?src=partners-hero-trial" class="primary-button" data-cta="partners-hero-trial">Try Junior Free</a>
+                    <a href="mailto:andrew@heyjunior.ai?subject=Junior%20partner%20program" class="secondary-button" data-cta="partners-hero-email">Talk Partner Program</a>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <section class="lp-section">
-                <h2 class="lp-h2">How Junior works</h2>
+        <section class="what-it-does">
+            <div class="container narrow-container">
+                <h2>How partner teams use Junior</h2>
                 <ol class="lp-steps">
-                    <li>Finds LinkedIn hiring posts that match the candidate's background.</li>
-                    <li>Writes a personalized comment based on their experience and the post.</li>
-                    <li>Helps start a real conversation with a recruiter or hiring manager.</li>
+                    <li>Candidate profile and goals are set once.</li>
+                    <li>Junior identifies high-signal hiring conversations.</li>
+                    <li>Comments help candidates start relevant, human conversations.</li>
                 </ol>
-            </section>
-
-            <section class="lp-section">
-                <h2 class="lp-h2">Proof it drives real replies</h2>
-                <p>Junior is designed for conversation quality, not generic outreach.</p>
-                <div class="lp-proof-grid">
-                    <img src="./images/request for resume.png" alt="Recruiter response asking for the candidate's updated resume after a LinkedIn comment" class="lp-proof-img">
-                    <img src="./images/scott-interaction.png" alt="Example of a real recruiter conversation started from a tailored LinkedIn comment" class="lp-proof-img">
+                <div class="cta-buttons">
+                    <a href="register.html?src=partners-mid-trial" class="primary-button" data-cta="partners-mid-trial">Try Junior Free</a>
+                    <a href="mailto:andrew@heyjunior.ai?subject=Junior%20partner%20program" class="secondary-button" data-cta="partners-mid-email">Request Partner Info</a>
                 </div>
-                <p class="lp-caption">Thoughtful comment posted. Hiring-side reply received. Real conversation started.</p>
-            </section>
+            </div>
+        </section>
 
-            <section class="lp-section">
-                <h2 class="lp-h2">Partner program (optional)</h2>
-                <p>If you support job seekers at scale, we can provide referral links and discuss the partner program.</p>
-                <div class="lp-partner-note">
-                    Approved partners may be eligible for recurring commission on attributed subscriptions.
+        <section class="real-engagement">
+            <div class="container">
+                <h2>Proof of real hiring-side replies</h2>
+                <p class="section-subtitle">Junior is designed for conversation quality, not generic outreach.</p>
+                <div class="engagement-grid">
+                    <div class="engagement-item"><img src="./images/request for resume.png" alt="Recruiter asks for resume after comment" class="engagement-screenshot"></div>
+                    <div class="engagement-item"><img src="./images/scott-interaction.png" alt="Example recruiter conversation started from comment" class="engagement-screenshot"></div>
                 </div>
-                <div class="lp-dual-cta">
-                    <a href="register.html?src=linkedin-partner-campaign" class="primary-button" data-cta="lp-final-trial">Try Junior Free</a>
-                    <a href="mailto:andrew@heyjunior.ai?subject=Junior%20partner%20program" class="lp-secondary-button" data-cta="lp-final-share">Learn About Partner Program</a>
-                </div>
-            </section>
-
-            <p class="lp-footer">
-                <a href="mailto:andrew@heyjunior.ai">andrew@heyjunior.ai</a> · <a href="terms.html">Terms of Service</a>
-            </p>
-        </div>
+                <p class="engagement-caption">Thoughtful comment posted. Hiring-side reply received. Real conversation started.</p>
+            </div>
+        </section>
     </main>
 
-    <script src="js/referral.js"></script>
+    <footer class="footer footer-dark">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section"><h4>Use Cases</h4><ul><li><a href="job-search.html">Job Seekers</a></li><li><a href="founders.html">Founders</a></li><li><a href="consultants.html">Consultants</a></li><li><a href="sales.html">Sales</a></li></ul></div>
+                <div class="footer-section"><h4>Partner Contact</h4><p><a href="mailto:andrew@heyjunior.ai">andrew@heyjunior.ai</a></p></div>
+                <div class="footer-section"><h4>Legal</h4><ul><li><a href="terms.html">Terms of Service</a></li></ul></div>
+            </div>
+        </div>
+    </footer>
+
+    <a href="register.html?src=partners-sticky" class="sticky-global-cta" data-cta="partners-sticky">Try Junior Free</a>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const mobileToggle = document.querySelector('.mobile-menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            if (mobileToggle && navLinks) {
+                mobileToggle.addEventListener('click', function () {
+                    this.classList.toggle('active');
+                    navLinks.classList.toggle('active');
+                });
+            }
+        });
+    </script>
 </body>
 </html>

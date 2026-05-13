@@ -7301,3 +7301,146 @@ section, div {
 @media (max-width: 768px) {
     .share-bar { justify-content: center; }
 }
+
+/* Modern professional refresh */
+:root {
+    --jr-bg-main: #f8fafc;
+    --jr-bg-dark: #0f172a;
+    --jr-bg-dark-soft: #1e293b;
+    --jr-accent: #4f46e5;
+    --jr-accent-hover: #4338ca;
+    --jr-text-light: #e2e8f0;
+}
+
+body {
+    background: var(--jr-bg-main);
+    color: #0f172a;
+}
+
+.hero-dark {
+    background: linear-gradient(135deg, var(--jr-bg-dark) 0%, var(--jr-bg-dark-soft) 100%);
+    color: #fff;
+}
+
+.hero-dark h1,
+.hero-dark p,
+.hero-dark .hero-microcopy,
+.hero-dark .section-subtitle {
+    color: var(--jr-text-light);
+}
+
+.footer.footer-dark {
+    background: #0b1220;
+    color: var(--jr-text-light);
+}
+
+.footer.footer-dark a {
+    color: #c7d2fe;
+}
+
+.primary-button,
+.cta-button,
+.login-button {
+    background: var(--jr-accent);
+    border-color: var(--jr-accent);
+}
+
+.primary-button:hover,
+.cta-button:hover,
+.login-button:hover {
+    background: var(--jr-accent-hover);
+    border-color: var(--jr-accent-hover);
+}
+
+.secondary-button {
+    display: inline-block;
+    border: 2px solid #c7d2fe;
+    color: #c7d2fe;
+    border-radius: 10px;
+    padding: 12px 22px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.2s ease;
+}
+
+.secondary-button:hover {
+    background: rgba(199, 210, 254, 0.12);
+    color: #fff;
+}
+
+.use-cases-section {
+    padding: 72px 0;
+}
+
+.use-cases-grid {
+    display: grid;
+    gap: 18px;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    margin-top: 24px;
+}
+
+.use-case-card {
+    background: #fff;
+    border: 1px solid #dbeafe;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+.use-case-card h3 {
+    margin-bottom: 8px;
+}
+
+.use-case-card p {
+    color: #475569;
+    margin-bottom: 14px;
+}
+
+.audience-page .audience-main {
+    padding-top: 100px;
+}
+
+.audience-hero {
+    padding: 72px 0 64px;
+}
+
+.audience-eyebrow {
+    display: inline-block;
+    margin-bottom: 12px;
+    font-size: 0.85rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #a5b4fc;
+}
+
+.sticky-global-cta {
+    position: fixed;
+    right: 18px;
+    bottom: 18px;
+    z-index: 1200;
+    background: var(--jr-accent);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+    border-radius: 999px;
+    padding: 12px 18px;
+    box-shadow: 0 12px 24px rgba(67, 56, 202, 0.35);
+}
+
+.sticky-global-cta:hover {
+    background: var(--jr-accent-hover);
+}
+
+@media (max-width: 768px) {
+    .audience-page .audience-main {
+        padding-top: 86px;
+    }
+
+    .sticky-global-cta {
+        left: 12px;
+        right: 12px;
+        bottom: 12px;
+        text-align: center;
+    }
+}

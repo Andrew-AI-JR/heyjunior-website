@@ -1,46 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Junior Website - Version 1.0 - Deployment Test -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Start getting interviews from conversations instead of resumes. Junior helps you find the right LinkedIn posts, write better comments, and turn replies into interviews.">
+    <meta name="description" content="Turn LinkedIn conversations into opportunities. Junior helps job seekers, founders, consultants, and sales teams engage in the right conversations with natural comments.">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Hey Junior - Find the conversations that lead to opportunities">
-    <meta property="og:description" content="Junior helps you find and engage in the LinkedIn conversations that lead to interviews. Your first month is free.">
+    <meta property="og:title" content="Junior - Turn LinkedIn Conversations Into Opportunities">
+    <meta property="og:description" content="Pick your use case and start free. Junior helps you find relevant posts, write natural comments, and get real replies.">
     <meta property="og:image" content="https://heyjunior.ai/reseller-assets/global/social/social-card.png">
     <meta property="og:url" content="https://heyjunior.ai">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Hey Junior - Find the conversations that lead to opportunities">
-    <meta name="twitter:description" content="Junior helps you find and engage in the LinkedIn conversations that lead to interviews.">
+    <meta name="twitter:title" content="Junior - Turn LinkedIn Conversations Into Opportunities">
+    <meta name="twitter:description" content="Job seekers, founders, consultants, and sales teams use Junior to start better LinkedIn conversations.">
     <meta name="twitter:image" content="https://heyjunior.ai/reseller-assets/global/social/social-card.png">
-    <title>Start getting interviews from comments - Junior</title>
+    <title>Turn LinkedIn conversations into opportunities - Junior</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-
-    <!-- Simple i18n system -->
-
-    <!-- Pixel slot: insert Meta / Google / Reddit pixel snippets here. juniorTrack() forwards events only when those globals exist. -->
-
-    <!-- Reddit Pixel -->
-    <script>
-    !function(w,d){if(!w.rdt){var p=w.rdt=function(){p.sendEvent?p.sendEvent.apply(p,arguments):p.callQueue.push(arguments)};p.callQueue=[];var t=d.createElement("script");t.src="https://www.redditstatic.com/ads/pixel.js";t.async=!0;var s=d.getElementsByTagName("script")[0];s.parentNode.insertBefore(t,s)}}(window,document);
-    rdt('init','a2_ivp2lsryo1gm');
-    rdt('track', 'PageVisit');
-    </script>
-    <!-- End Reddit Pixel -->
-
-    <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "c7e2267943804acdb5bfcd009f02f537"}'></script><!-- End Cloudflare Web Analytics -->
-    <script src="js/analytics.js"></script>
+    <script defer src="js/analytics.js"></script>
 </head>
 <body data-page="home">
-    <!-- Navigation -->
     <nav class="navbar">
         <div class="container">
             <div class="logo">
-                <img src="./images/junior-logo.png" alt="Junior Logo - AI-Powered LinkedIn Automation" class="logo-img">
+                <img src="./images/junior-logo.png" alt="Junior Logo" class="logo-img">
             </div>
             <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
                 <span></span>
@@ -49,12 +33,12 @@
             </button>
             <ul class="nav-links">
                 <div class="nav-group">
+                    <li><a href="#use-cases" data-i18n="navigation.useCases">Use Cases</a></li>
                     <li><a href="#features" data-i18n="navigation.features">Features</a></li>
-                    <li><a href="#how-it-works" data-i18n="navigation.howItWorks">How It Works</a></li>
                     <li><a href="#pricing" data-i18n="navigation.pricing">Pricing</a></li>
                 </div>
                 <div class="nav-actions">
-                    <li><a href="register.html" class="cta-button" data-i18n="navigation.download">Download</a></li>
+                    <li><a href="register.html?src=home-nav" class="cta-button" data-i18n="navigation.download">Download</a></li>
                     <li><a href="my-story.html" class="my-story-link" data-i18n="navigation.myStory">My Story</a></li>
                     <li id="login-link"><a href="portal.html" class="login-button" data-i18n="navigation.login">Login</a></li>
                     <li id="portal-link" style="display: none;"><a href="portal.html" class="login-button">My Account</a></li>
@@ -63,374 +47,99 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="hero conversion-hero">
+    <section class="hero conversion-hero hero-dark">
         <div class="container">
-            <h1 data-i18n="landingHome.hero.title">Start getting interviews from comments — not resumes.</h1>
-            <p class="subtitle" data-i18n="landingHome.hero.subtitle">Junior comments on the right LinkedIn posts for you, in your voice. Real conversations. Real replies. No resume blasting.</p>
-
+            <h1 data-i18n="landingHomeGeneral.hero.title">Turn LinkedIn conversations into real opportunities.</h1>
+            <p class="subtitle" data-i18n="landingHomeGeneral.hero.subtitle">Junior helps you find relevant posts, write natural comments in your voice, and turn replies into interviews, pipeline, and client conversations.</p>
             <div class="cta-buttons conversion-hero-ctas">
-                <a href="register.html" class="primary-button" data-cta="index-hero" data-i18n="landingHome.hero.cta">Get Started Free</a>
+                <a href="register.html?src=home-hero" class="primary-button" data-cta="home-hero-primary" data-i18n="landingHomeGeneral.hero.cta">Start Free</a>
+                <a href="#use-cases" class="secondary-button" data-cta="home-hero-secondary" data-i18n="landingHomeGeneral.hero.secondaryCta">Choose Your Use Case</a>
             </div>
-            <p class="hero-microcopy" data-i18n="landingHome.hero.microcopy">First month free · Card required at signup</p>
+            <p class="hero-microcopy" data-i18n="landingHomeGeneral.hero.microcopy">First month free · Card required at signup</p>
+        </div>
+    </section>
 
-            <div class="share-bar share-bar-hero" data-share-url="https://heyjunior.ai" data-share-title="Hey Junior - Find the conversations that lead to opportunities" data-share-text="Hey Junior - Find the LinkedIn conversations that lead to opportunities.">
-                <span class="share-bar-label">Share</span>
-                <a class="share-btn" data-share="linkedin" title="Share on LinkedIn" aria-label="Share on LinkedIn"><svg viewBox="0 0 24 24"><path d="M19 3a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14m-.5 15.5v-5.3a3.26 3.26 0 00-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 011.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 001.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 00-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></a>
-                <a class="share-btn" data-share="twitter" title="Share on X" aria-label="Share on X"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
-                <a class="share-btn" data-share="facebook" title="Share on Facebook" aria-label="Share on Facebook"><svg viewBox="0 0 24 24"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg></a>
-                <a class="share-btn" data-share="whatsapp" title="Share on WhatsApp" aria-label="Share on WhatsApp"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
-                <a class="share-btn" data-share="email" title="Share via email" aria-label="Share via email"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></a>
-                <button class="share-btn" data-share="copy" title="Copy link" aria-label="Copy link"><svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg></button>
-            </div>
-
-            <div class="comment-showcase hero-proof hero-proof-rotate">
-                <p class="comment-label" data-i18n="landingHome.hero.proofLabel">Real replies from real LinkedIn conversations:</p>
-                <div class="hero-proof-stack">
-                    <img src="./images/comment-7.png" alt="Emily Almani replied to a Junior-generated comment" class="comment-screenshot hero-proof-slide hero-proof-active">
-                    <img src="./images/comment-8.png" alt="Erin Margaret Murphy mentioned Andrew in a hiring post with 282 reactions" class="comment-screenshot hero-proof-slide">
-                    <img src="./images/comment-9.png" alt="Hayden Lloyd replied with interest to a Junior-generated comment" class="comment-screenshot hero-proof-slide">
-                </div>
+    <section id="use-cases" class="use-cases-section">
+        <div class="container">
+            <h2 data-i18n="useCases.title">Who Junior is built for</h2>
+            <p class="section-subtitle" data-i18n="useCases.subtitle">Choose the conversion path that matches your goal.</p>
+            <div class="use-cases-grid">
+                <article class="use-case-card">
+                    <h3 data-i18n="useCases.jobSearch.title">Job Seekers</h3>
+                    <p data-i18n="useCases.jobSearch.description">Turn comments into recruiter replies and interviews.</p>
+                    <a href="job-search.html" class="primary-button" data-cta="home-usecase-job" data-i18n="useCases.jobSearch.cta">Explore Job Search</a>
+                </article>
+                <article class="use-case-card">
+                    <h3 data-i18n="useCases.founders.title">Founders</h3>
+                    <p data-i18n="useCases.founders.description">Start high-quality conversations with buyers and partners.</p>
+                    <a href="founders.html" class="primary-button" data-cta="home-usecase-founders" data-i18n="useCases.founders.cta">Explore Founder-Led Sales</a>
+                </article>
+                <article class="use-case-card">
+                    <h3 data-i18n="useCases.consultants.title">Consultants</h3>
+                    <p data-i18n="useCases.consultants.description">Start client conversations without cold DM spam.</p>
+                    <a href="consultants.html" class="primary-button" data-cta="home-usecase-consultants" data-i18n="useCases.consultants.cta">Explore Consultant Growth</a>
+                </article>
+                <article class="use-case-card">
+                    <h3 data-i18n="useCases.sales.title">Sales Teams</h3>
+                    <p data-i18n="useCases.sales.description">Warm up outbound through relevant comment engagement.</p>
+                    <a href="sales.html" class="primary-button" data-cta="home-usecase-sales" data-i18n="useCases.sales.cta">Explore Sales Use Case</a>
+                </article>
+                <article class="use-case-card">
+                    <h3 data-i18n="useCases.partners.title">Career Partners</h3>
+                    <p data-i18n="useCases.partners.description">Help candidates create more hiring-side conversations.</p>
+                    <a href="linkedin-partners.html" class="primary-button" data-cta="home-usecase-partners" data-i18n="useCases.partners.cta">Explore Partner Program</a>
+                </article>
             </div>
         </div>
     </section>
 
     <section class="what-it-does">
         <div class="container narrow-container">
-            <h2 data-i18n="landingHome.whatItDoes.title">What Junior actually does</h2>
+            <h2 data-i18n="landingHomeGeneral.proof.title">Conversation-first outreach that feels human</h2>
+            <p class="section-subtitle" data-i18n="landingHomeGeneral.proof.description">Use Junior to show up in the right discussions with thoughtful comments instead of generic outreach.</p>
             <ul class="what-list">
-                <li data-i18n="landingHome.whatItDoes.b1">Finds posts where you should comment</li>
-                <li data-i18n="landingHome.whatItDoes.b2">Writes personalized comments in your voice</li>
-                <li data-i18n="landingHome.whatItDoes.b3">Gets people to respond</li>
-                <li data-i18n="landingHome.whatItDoes.b4">Turns conversations into interviews</li>
+                <li>Finds high-signal conversations where your voice matters.</li>
+                <li>Drafts comments aligned with your tone and context.</li>
+                <li>Helps you build replies into real opportunities.</li>
             </ul>
-            <a href="register.html" class="primary-button" data-cta="index-what" data-i18n="landingHome.whatItDoes.cta">Get Started Free</a>
-            <p class="cta-microcopy" data-i18n="landingHome.whatItDoes.microcopy">First month free · Card required at signup</p>
-        </div>
-    </section>
-
-    <!-- Real Engagement Section -->
-    <section class="real-engagement">
-        <div class="container">
-            <h2>Comments That Actually Get Responses</h2>
-            <p class="section-subtitle">Real replies from real people - proof that Junior's AI engagement works</p>
-            <div class="engagement-grid">
-                <div class="engagement-item">
-                    <img src="./images/comment-7.png" alt="Emily Almani replied to comment" class="engagement-screenshot">
-                </div>
-                <div class="engagement-item">
-                    <img src="./images/comment-8.png" alt="Erin Margaret Murphy mentioned you - 282 reactions" class="engagement-screenshot">
-                </div>
-                <div class="engagement-item">
-                    <img src="./images/comment-9.png" alt="Hayden Lloyd replied to comment" class="engagement-screenshot">
-                </div>
-            </div>
-            <div class="engagement-featured">
-                <div class="engagement-featured-item">
-                    <img src="./images/junior6.png" alt="A recruiter replied to a Junior-generated comment and scheduled outreach" class="engagement-screenshot">
-                    <p class="engagement-caption">Comment posted. Recruiter replied. Call scheduled.</p>
-                </div>
-                <div class="engagement-featured-item">
-                    <img src="./images/scott-interaction.png" alt="Scott Levine commented and the post author replied wanting to connect" class="engagement-screenshot">
-                    <p class="engagement-caption">Thoughtful comment. Author replied. Connection made.</p>
-                </div>
-                <div class="engagement-featured-item">
-                    <img src="./images/testimonial 2.png" alt="User testimonial: significant increase in connections and conversations within weeks" class="engagement-screenshot">
-                    <p class="engagement-caption">Real user feedback after a few weeks with Junior.</p>
-                </div>
+            <div class="cta-buttons">
+                <a href="register.html?src=home-proof" class="primary-button" data-cta="home-proof-primary">Start Free</a>
+                <a href="#features" class="secondary-button" data-cta="home-proof-secondary">See how it works</a>
             </div>
         </div>
     </section>
 
-    <!-- Features Section -->
     <section id="features" class="features">
         <div class="container">
             <h2 data-i18n="features.title">Intelligent Engagement Features</h2>
             <div class="features-grid">
                 <div class="feature-card">
                     <h3 data-i18n="features.aiComments.title">AI-Powered Comment Generation</h3>
-                    <p data-i18n="features.aiComments.description">Generates personalized, context-aware comments that add value to conversations with hiring managers and recruiters.</p>
+                    <p>Generates personalized comments tailored to each post and audience segment.</p>
                 </div>
                 <div class="feature-card">
                     <h3 data-i18n="features.naturalPatterns.title">Natural Interaction Patterns</h3>
-                    <p data-i18n="features.naturalPatterns.description">Mimics human-like engagement with variable response times and natural interaction flows for authentic conversations.</p>
+                    <p>Keeps interactions paced and realistic so your outreach feels authentic.</p>
                 </div>
                 <div class="feature-card">
                     <h3 data-i18n="features.smartPrioritization.title">Smart Post Prioritization</h3>
-                    <p data-i18n="features.smartPrioritization.description">Advanced algorithms identify and prioritize the most relevant job opportunities based on your skills and preferences.</p>
-                </div>
-                <div class="feature-card">
-                    <h3 data-i18n="features.networkOptimization.title">Network Optimization</h3>
-                    <p data-i18n="features.networkOptimization.description">Intelligently manages your engagement to build meaningful connections without overwhelming your network.</p>
-                </div>
-                <div class="feature-card">
-                    <h3 data-i18n="features.adaptiveEngagement.title">Adaptive Engagement</h3>
-                    <p data-i18n="features.adaptiveEngagement.description">Continuously learns from your interactions to improve response quality and engagement strategies.</p>
-                </div>
-                <div class="feature-card">
-                    <h3 data-i18n="features.secureSession.title">Secure Session Management</h3>
-                    <p data-i18n="features.secureSession.description">Maintains secure, persistent connections while respecting platform guidelines and best practices.</p>
+                    <p>Finds posts with higher likelihood of relevant replies and conversations.</p>
                 </div>
                 <div class="feature-card">
                     <h3 data-i18n="features.analytics.title">Performance Analytics</h3>
-                    <p data-i18n="features.analytics.description">Tracks engagement metrics and response rates to help you refine your job search strategy.</p>
-                </div>
-                <div class="feature-card">
-                    <h3 data-i18n="features.customizable.title">Customizable Settings</h3>
-                    <p data-i18n="features.customizable.description">Tailor the automation to match your personal brand and job search goals with flexible configuration options.</p>
+                    <p>Track response trends and engagement quality to improve your approach.</p>
                 </div>
             </div>
         </div>
     </section>
 
-
-    <!-- Comparison Section -->
-    <section class="comparison-section">
-        <div class="container">
-            <h2>Why Junior Beats the Alternatives</h2>
-            <div class="comparison-table">
-                <div class="comparison-row header-row">
-                    <div class="comparison-cell"></div>
-                    <div class="comparison-cell highlight">
-                        <strong>Junior</strong>
-                        <span class="best-value">Best Value</span>
-                    </div>
-                    <div class="comparison-cell">Manual LinkedIn</div>
-                    <div class="comparison-cell">LinkedIn Premium</div>
-                    <div class="comparison-cell">Hiring a VA</div>
-                </div>
-                <div class="comparison-row">
-                    <div class="comparison-cell feature-name">Monthly Cost</div>
-                    <div class="comparison-cell highlight"><strong>$29.99</strong></div>
-                    <div class="comparison-cell">Free (but costs your time)</div>
-                    <div class="comparison-cell">$59.99</div>
-                    <div class="comparison-cell">$500+</div>
-                </div>
-                <div class="comparison-row">
-                    <div class="comparison-cell feature-name">Auto-Engagement</div>
-                    <div class="comparison-cell highlight">✅ Yes</div>
-                    <div class="comparison-cell">❌ No</div>
-                    <div class="comparison-cell">❌ No</div>
-                    <div class="comparison-cell">✅ Yes</div>
-                </div>
-                <div class="comparison-row">
-                    <div class="comparison-cell feature-name">Smart Engagement</div>
-                    <div class="comparison-cell highlight">✅ Yes</div>
-                    <div class="comparison-cell">❌ No</div>
-                    <div class="comparison-cell">❌ No</div>
-                    <div class="comparison-cell">⚠️ Depends</div>
-                </div>
-                <div class="comparison-row">
-                    <div class="comparison-cell feature-name">Time Required Daily</div>
-                    <div class="comparison-cell highlight"><strong>5 minutes</strong></div>
-                    <div class="comparison-cell">2-3 hours</div>
-                    <div class="comparison-cell">1-2 hours</div>
-                    <div class="comparison-cell">15-30 minutes</div>
-                </div>
-                <div class="comparison-row">
-                    <div class="comparison-cell feature-name">Hiring Manager Targeting</div>
-                    <div class="comparison-cell highlight">✅ Yes</div>
-                    <div class="comparison-cell">⚠️ Manual</div>
-                    <div class="comparison-cell">⚠️ Limited</div>
-                    <div class="comparison-cell">✅ Yes</div>
-                </div>
-                <div class="comparison-row">
-                    <div class="comparison-cell feature-name">Performance Analytics</div>
-                    <div class="comparison-cell highlight">✅ Yes</div>
-                    <div class="comparison-cell">❌ No</div>
-                    <div class="comparison-cell">✅ Yes</div>
-                    <div class="comparison-cell">⚠️ Depends</div>
-                </div>
-            </div>
-            <div class="comparison-cta">
-                <a href="register.html" class="primary-button" data-cta="index-comparison">Get Started with Junior</a>
-                <p class="comparison-note">🔒 30-day money-back guarantee • Cancel anytime</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Product Demo Section -->
-    <section class="product-showcase">
-        <div class="container">
-            <h2>See Junior in Action</h2>
-            <p class="section-subtitle">See how Junior helps you find and join the right LinkedIn conversations</p>
-            
-            <div class="demo-video-container">
-                <video autoplay loop muted playsinline class="demo-video">
-                    <source src="./demo.mp4" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-            </div>
-            
-            <div class="product-features-highlight">
-                <div class="feature-highlight">
-                    <span class="highlight-icon">✅</span>
-                    <div>
-                        <strong>Thoughtful, Relevant Engagement</strong>
-                        <p>Natural, personalized comments that hiring managers actually read</p>
-                    </div>
-                </div>
-                <div class="feature-highlight">
-                    <span class="highlight-icon">🔒</span>
-                    <div>
-                        <strong>Built for Safety</strong>
-                        <p>Runs locally on your machine — no central servers, no shared IPs, no detectable fingerprint</p>
-                    </div>
-                </div>
-                <div class="feature-highlight">
-                    <span class="highlight-icon">⚡</span>
-                    <div>
-                        <strong>Set It & Forget It</strong>
-                        <p>Runs in the background while you focus on interview prep</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Comment Carousel Section -->
-    <section class="comment-carousel-section">
-        <div class="container">
-            <h2>See What Junior Creates</h2>
-            <p class="section-subtitle">Thoughtful, professional comments that spark real conversations</p>
-        </div>
-        <div class="carousel-container">
-            <div class="carousel-track">
-                <!-- First set -->
-                <img src="./images/comment-1.png" alt="LinkedIn comment example" class="carousel-item">
-                <img src="./images/comment-2.png" alt="LinkedIn comment example" class="carousel-item">
-                <img src="./images/comment-3.png" alt="LinkedIn comment example" class="carousel-item">
-                <img src="./images/comment-4.png" alt="LinkedIn comment example" class="carousel-item">
-                <img src="./images/comment-5.png" alt="LinkedIn comment example" class="carousel-item">
-                <img src="./images/comment-6.png" alt="LinkedIn comment example" class="carousel-item">
-                <img src="./images/comment-10.png" alt="LinkedIn comment example" class="carousel-item">
-                <img src="./images/comment-11.png" alt="LinkedIn comment example" class="carousel-item">
-                <img src="./images/comment-12.png" alt="LinkedIn comment example" class="carousel-item">
-                <!-- Duplicate set for seamless loop -->
-                <img src="./images/comment-1.png" alt="LinkedIn comment example" class="carousel-item">
-                <img src="./images/comment-2.png" alt="LinkedIn comment example" class="carousel-item">
-                <img src="./images/comment-3.png" alt="LinkedIn comment example" class="carousel-item">
-                <img src="./images/comment-4.png" alt="LinkedIn comment example" class="carousel-item">
-                <img src="./images/comment-5.png" alt="LinkedIn comment example" class="carousel-item">
-                <img src="./images/comment-6.png" alt="LinkedIn comment example" class="carousel-item">
-                <img src="./images/comment-10.png" alt="LinkedIn comment example" class="carousel-item">
-                <img src="./images/comment-11.png" alt="LinkedIn comment example" class="carousel-item">
-                <img src="./images/comment-12.png" alt="LinkedIn comment example" class="carousel-item">
-            </div>
-        </div>
-    </section>
-
-    <!-- How It Works Section -->
-    <section id="how-it-works" class="how-it-works">
-        <div class="container">
-            <h2 data-i18n="howItWorks.title">How It Works</h2>
-            <div class="steps">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <h3 data-i18n="howItWorks.step1.title">Download & Install</h3>
-                    <p data-i18n="howItWorks.step1.description">Simple one-click installation for Windows and Mac.</p>
-                </div>
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <h3 data-i18n="howItWorks.step2.title">Connect LinkedIn</h3>
-                    <p data-i18n="howItWorks.step2.description">Log in to LinkedIn via a secure browser window. One-time setup, takes 30 seconds.</p>
-                    <a href="setup-guide.html" style="color: #667eea; font-size: 0.9em; font-weight: 600;">See setup guide →</a>
-                </div>
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <h3 data-i18n="howItWorks.step3.title">Configure Settings</h3>
-                    <p data-i18n="howItWorks.step3.description">Set your preferences and customize engagement style.</p>
-                </div>
-                <div class="step">
-                    <div class="step-number">4</div>
-                    <h3 data-i18n="howItWorks.step4.title">Start Automating</h3>
-                    <p data-i18n="howItWorks.step4.description">Let Junior work in the background while you focus on your job search.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- FAQ Section -->
-    <section class="faq-section">
-        <div class="container">
-            <h2>Frequently Asked Questions</h2>
-            <p class="section-subtitle">Everything you need to know before getting started</p>
-            <div class="faq-grid">
-                <div class="faq-item">
-                    <h3>❓ Will LinkedIn ban my account?</h3>
-                    <p>Junior is architecturally designed to minimize detection risk. Unlike server-based tools that LinkedIn can easily fingerprint, Junior runs entirely on your own computer — your browser, your IP, your natural environment. We also use human-behavioral modeling (variable delays, natural scroll patterns, reading pauses), contextually relevant, unique comments (never templated), and conservative daily rate limits that stay within normal activity ranges. The tool is designed to keep your engagement natural and authentic, and we continuously update it as LinkedIn evolves. That said, any third-party tool carries inherent platform risk — please review our <a href="terms.html">Terms of Service</a> for full details.</p>
-                </div>
-                <div class="faq-item">
-                    <h3>🤔 Is this ethical?</h3>
-                    <p>Yes. Junior helps you participate in the kind of conversations you would engage in manually if you had the time. It generates genuine, contextual engagement — not spam. Many professionals use similar tools to manage their LinkedIn presence efficiently.</p>
-                </div>
-                <div class="faq-item">
-                    <h3>💡 How is this different from LinkedIn Premium?</h3>
-                    <p>LinkedIn Premium shows you who viewed your profile and gives you InMail credits. Junior actively engages WITH hiring managers FOR you - posting thoughtful comments, building relationships, and getting you noticed. It's like having a personal networking assistant working 24/7.</p>
-                </div>
-                <div class="faq-item">
-                    <h3>📊 What if I don't get results?</h3>
-                    <p>100% money-back guarantee within 30 days. No questions asked. We're confident you'll see engagement within the first 2 weeks, but if Junior isn't working for you, just email us for a full refund.</p>
-                </div>
-                <div class="faq-item">
-                    <h3>⚙️ Is it difficult to set up?</h3>
-                    <p>Not at all. Download the app, connect your LinkedIn (secure browser login), set your preferences, and you're done. Takes less than 5 minutes. No technical skills required. On first run, Junior opens a Chrome window so you can log in to LinkedIn once — after that, it remembers your session. <a href="setup-guide.html" style="color: #667eea; font-weight: 600;">See the full first-launch guide.</a></p>
-                </div>
-                <div class="faq-item">
-                    <h3>🔒 Is my LinkedIn account safe?</h3>
-                    <p>Yes. You log in directly on LinkedIn's own page via a secure browser window — Junior never sees or stores your password. Your data is encrypted, and the tool runs locally on your computer — not on our servers. You're always in control.</p>
-                </div>
-                <div class="faq-item">
-                    <h3>💬 Do the comments sound natural?</h3>
-                    <p>Yes! Our AI is trained on thousands of successful LinkedIn interactions. Comments are personalized to each post, relevant to the content, and sound genuinely human. The result reads like a thoughtful professional engaging authentically — not like a bot.</p>
-                </div>
-                <div class="faq-item">
-                    <h3>📅 Can I cancel anytime?</h3>
-                    <p>Yes. No long-term contracts or commitments. Cancel with one click from your account dashboard. If you cancel, you keep access until the end of your billing period.</p>
-                </div>
-                <div class="faq-item">
-                    <h3>🎯 How many comments does it make per day?</h3>
-                    <p>You can customize this, but we recommend 40-60 interactions per day to stay natural. That's 1,200-1,800 per month - all personalized, all targeted at hiring managers in your industry.</p>
-                </div>
-                <div class="faq-item">
-                    <h3>💰 What's the difference between Standard and Pro?</h3>
-                    <p>Standard gives you up to 50 engagements per day, perfect for most job seekers. Pro increases that to 80 engagements per day, plus priority support and early access to new features. Choose Pro if you're in an active, intensive job search or want maximum LinkedIn visibility.</p>
-                </div>
-                <div class="faq-item">
-                    <h3>🖥️ What platforms does it work on?</h3>
-                    <p>Windows 10/11 and macOS (both Intel and Apple Silicon M1/M2). The desktop app runs in the background and works seamlessly while you do other things.</p>
-                </div>
-                <div class="faq-item">
-                    <h3>📈 How quickly will I see results?</h3>
-                    <p>Most users report their first hiring manager response within 3-7 days. By week 2, you should have multiple conversations going. Remember: networking is a numbers game, and Junior plays it better than manual effort ever could.</p>
-                </div>
-            </div>
-            <div class="faq-cta">
-                <p data-i18n="landingHome.faqCta.lead">Still applying and hearing nothing back? Try Junior free for your first month.</p>
-                <a href="register.html" class="primary-button" data-cta="index-faq" data-i18n="landingHome.faqCta.button">Get Started Free</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Testimonial Section -->
-    <section class="testimonial-section">
-        <div class="container">
-            <h2>What Users Are Saying</h2>
-            <div class="testimonial-showcase">
-                <img src="./images/testimonial 2.png" alt="User testimonial - significant increase in connections and conversations" class="testimonial-screenshot">
-            </div>
-        </div>
-    </section>
-
-    <!-- Pricing Section -->
     <section id="pricing" class="pricing">
         <div class="container">
             <h2 data-i18n="pricing.title">Choose Your Plan</h2>
-            <p class="pricing-promo">🎉 Get your <strong>First Month FREE</strong> — Card required at signup</p>
+            <p class="pricing-promo">Get your <strong>First Month FREE</strong> — Card required at signup</p>
             <div class="pricing-grid">
                 <div class="pricing-card featured">
                     <div class="best-value">MOST POPULAR</div>
-                    <div class="free-month-badge">🎁 First Month FREE</div>
                     <h3 data-i18n="pricing.standardName">Standard</h3>
                     <div class="price">
                         <span class="currency">$</span>
@@ -443,13 +152,10 @@
                         <li>✅ <span data-i18n="pricing.features.targeting">Hiring manager targeting</span></li>
                         <li>✅ <span data-i18n="pricing.features.analytics">Performance analytics</span></li>
                         <li>✅ <span data-i18n="pricing.features.support">Email support</span></li>
-                        <li>✅ <span data-i18n="pricing.features.cancelAnytime">Cancel anytime</span></li>
                     </ul>
-                    <a href="register.html?plan=standard" class="primary-button" data-cta="index-pricing-standard" style="margin-top: 20px;">Get Started Free</a>
+                    <a href="register.html?plan=standard&src=home-pricing-standard" class="primary-button" data-cta="home-pricing-standard">Start Free</a>
                 </div>
-                
                 <div class="pricing-card">
-                    <div class="free-month-badge">🎁 First Month FREE</div>
                     <h3 data-i18n="pricing.proName">Pro</h3>
                     <div class="price">
                         <span class="currency">$</span>
@@ -460,69 +166,46 @@
                     <ul>
                         <li>✅ <span data-i18n="pricing.features.pro.comments">Up to 80 daily engagements</span></li>
                         <li>✅ <span data-i18n="pricing.features.targeting">Hiring manager targeting</span></li>
-                        <li>✅ <span data-i18n="pricing.features.analytics">Advanced analytics</span></li>
+                        <li>✅ <span data-i18n="pricing.features.analytics">Performance analytics</span></li>
                         <li>✅ <span data-i18n="pricing.features.prioritySupport">Priority email support</span></li>
-                        <li>✅ <span data-i18n="pricing.features.earlyAccess">Early access to new features</span></li>
-                        <li>✅ <span data-i18n="pricing.features.cancelAnytime">Cancel anytime</span></li>
                     </ul>
-                    <a href="register.html?plan=pro" class="primary-button" data-cta="index-pricing-pro" style="margin-top: 20px;">Get Started Free</a>
+                    <a href="register.html?plan=pro&src=home-pricing-pro" class="primary-button" data-cta="home-pricing-pro">Start Free</a>
                 </div>
             </div>
-            <p class="pricing-guarantee">🔒 30-Day Money-Back Guarantee • Cancel Anytime</p>
         </div>
     </section>
 
     <section class="home-final-cta">
         <div class="container narrow-container">
-            <h2 data-i18n="landingHome.finalCta.title">Stop applying. Start conversations.</h2>
-            <a href="register.html" class="primary-button" data-cta="index-final" data-i18n="landingHome.finalCta.button">Get Started Free</a>
-            <p class="cta-microcopy" data-i18n="landingHome.finalCta.microcopy">First month free · Card required at signup</p>
+            <h2 data-i18n="landingHomeGeneral.finalCta.title">Stop sending noise. Start better conversations.</h2>
+            <a href="register.html?src=home-final" class="primary-button" data-cta="home-final-primary" data-i18n="landingHomeGeneral.finalCta.button">Start Free</a>
+            <p class="cta-microcopy" data-i18n="landingHomeGeneral.finalCta.microcopy">First month free · Card required at signup</p>
         </div>
     </section>
 
-
-    <!-- Footer -->
-    <footer class="footer">
+    <footer class="footer footer-dark">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
                     <h4 data-i18n="footer.contact.title">Contact</h4>
                     <p data-i18n="footer.contact.email">Email: support@heyjunior.ai</p>
-                    <p>LinkedIn: <a href="https://www.linkedin.com/company/hey-junior/" target="_blank" data-i18n="footer.contact.linkedin">linkedin.com/company/hey-junior</a></p>
-                    <div class="share-bar share-bar-footer" data-share-url="https://heyjunior.ai" data-share-title="Hey Junior" data-share-text="Hey Junior - Find the LinkedIn conversations that lead to opportunities.">
-                        <span class="share-bar-label">Share</span>
-                        <a class="share-btn" data-share="linkedin" title="LinkedIn" aria-label="Share on LinkedIn"><svg viewBox="0 0 24 24"><path d="M19 3a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14m-.5 15.5v-5.3a3.26 3.26 0 00-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 011.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 001.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 00-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></a>
-                        <a class="share-btn" data-share="twitter" title="X" aria-label="Share on X"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
-                        <a class="share-btn" data-share="facebook" title="Facebook" aria-label="Share on Facebook"><svg viewBox="0 0 24 24"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg></a>
-                        <a class="share-btn" data-share="whatsapp" title="WhatsApp" aria-label="Share on WhatsApp"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
-                        <button class="share-btn" data-share="copy" title="Copy link" aria-label="Copy link"><svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg></button>
-                    </div>
+                    <p><a href="https://www.linkedin.com/company/hey-junior/" target="_blank" data-i18n="footer.contact.linkedin">linkedin.com/company/hey-junior</a></p>
+                </div>
+                <div class="footer-section">
+                    <h4>Use Cases</h4>
+                    <ul>
+                        <li><a href="job-search.html">Job Seekers</a></li>
+                        <li><a href="founders.html">Founders</a></li>
+                        <li><a href="consultants.html">Consultants</a></li>
+                        <li><a href="sales.html">Sales Teams</a></li>
+                        <li><a href="linkedin-partners.html">Career Partners</a></li>
+                    </ul>
                 </div>
                 <div class="footer-section">
                     <h4 data-i18n="footer.legal.title">Legal</h4>
                     <ul>
-                        <li><a href="#" data-i18n="footer.legal.privacy">Privacy Policy</a></li>
                         <li><a href="terms.html" data-i18n="footer.legal.terms">Terms of Service</a></li>
-                        <li><a href="#" data-i18n="footer.legal.cookies">Cookie Policy</a></li>
                     </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Support</h4>
-                    <ul>
-                        <li><a href="setup-guide.html">First Launch Setup Guide</a></li>
-                        <li><a href="windows-install-help.html">Windows Install Help</a></li>
-                        <li><a href="mac-install-help.html">macOS Install Help</a></li>
-                        <li><a href="reseller-dashboard.html">Partner Dashboard</a></li>
-                        <li><a href="https://billing.stripe.com/p/login/28EfZjeBvdfSdjF5us3cc00" target="_blank">Manage Subscription</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4 data-i18n="footer.newsletter.title">Newsletter</h4>
-                    <p data-i18n="footer.newsletter.description">Stay updated with the latest features and job search tips</p>
-                    <form class="newsletter-form">
-                        <input type="email" data-i18n="footer.newsletter.placeholder" placeholder="Enter your email">
-                        <button type="submit" data-i18n="footer.newsletter.subscribe">Subscribe</button>
-                    </form>
                 </div>
             </div>
             <div class="footer-bottom">
@@ -531,132 +214,32 @@
         </div>
     </footer>
 
-    <!-- Simple i18n initialization script -->
+    <a href="register.html?src=home-sticky" class="sticky-global-cta" data-cta="home-sticky" data-i18n="stickyCta.label">Start Free</a>
+
     <script src="js/i18n-simple.js"></script>
-    
-    <!-- Referral tracking system -->
     <script src="js/referral.js"></script>
-    
-    <!-- Show portal link if user is logged in, hide login link (they're in the same position) -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const token = sessionStorage.getItem('userToken') || sessionStorage.getItem('accessToken');
             const loginLink = document.getElementById('login-link');
             const portalLink = document.getElementById('portal-link');
-            
             if (token) {
-                // User is logged in - show My Account, hide Login
                 if (portalLink) portalLink.style.display = 'block';
                 if (loginLink) loginLink.style.display = 'none';
             } else {
-                // User is not logged in - show Login, hide My Account
                 if (loginLink) loginLink.style.display = 'block';
                 if (portalLink) portalLink.style.display = 'none';
             }
-        });
-    </script>
-    
-    <!-- Force video autoplay -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const video = document.querySelector('.demo-video');
-            if (video) {
-                video.muted = true;
-                video.play().catch(function(error) {
-                    console.log('Video autoplay failed:', error);
-                });
-            }
-        });
-    </script>
-    
-    <!-- Hero proof rotation -->
-    <script>
-        (function () {
-            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-            var slides = document.querySelectorAll('.hero-proof-slide');
-            if (slides.length < 2) return;
-            var current = 0;
-            setInterval(function () {
-                slides[current].classList.remove('hero-proof-active');
-                current = (current + 1) % slides.length;
-                slides[current].classList.add('hero-proof-active');
-            }, 3000);
-        })();
-    </script>
 
-    <!-- Mobile Navigation Toggle -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
             const mobileToggle = document.querySelector('.mobile-menu-toggle');
             const navLinks = document.querySelector('.nav-links');
-            
-            if (mobileToggle) {
-                mobileToggle.addEventListener('click', function() {
+            if (mobileToggle && navLinks) {
+                mobileToggle.addEventListener('click', function () {
                     this.classList.toggle('active');
                     navLinks.classList.toggle('active');
                 });
-
-                // Close menu when clicking on a link
-                const links = navLinks.querySelectorAll('a');
-                links.forEach(link => {
-                    link.addEventListener('click', function() {
-                        mobileToggle.classList.remove('active');
-                        navLinks.classList.remove('active');
-                    });
-                });
-
-                // Close menu when clicking outside
-                document.addEventListener('click', function(event) {
-                    const isClickInsideNav = navLinks.contains(event.target);
-                    const isClickOnToggle = mobileToggle.contains(event.target);
-                    
-                    if (!isClickInsideNav && !isClickOnToggle && navLinks.classList.contains('active')) {
-                        mobileToggle.classList.remove('active');
-                        navLinks.classList.remove('active');
-                    }
-                });
             }
         });
-    </script>
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.share-bar [data-share]').forEach(function(btn) {
-            btn.addEventListener('click', function(e) {
-                e.preventDefault();
-                var bar = btn.closest('.share-bar');
-                var url = encodeURIComponent(bar.dataset.shareUrl || window.location.href);
-                var title = encodeURIComponent(bar.dataset.shareTitle || document.title);
-                var text = encodeURIComponent(bar.dataset.shareText || '');
-                var type = btn.dataset.share;
-                var win;
-                if (type === 'linkedin') {
-                    win = 'https://www.linkedin.com/sharing/share-offsite/?url=' + url;
-                } else if (type === 'twitter') {
-                    win = 'https://twitter.com/intent/tweet?url=' + url + '&text=' + text;
-                } else if (type === 'facebook') {
-                    win = 'https://www.facebook.com/sharer/sharer.php?u=' + url;
-                } else if (type === 'whatsapp') {
-                    win = 'https://wa.me/?text=' + text + '%20' + url;
-                } else if (type === 'email') {
-                    window.location.href = 'mailto:?subject=' + title + '&body=' + text + '%0A%0A' + url;
-                    return;
-                } else if (type === 'copy') {
-                    var raw = bar.dataset.shareUrl || window.location.href;
-                    if (navigator.clipboard) {
-                        navigator.clipboard.writeText(raw).then(function() {
-                            btn.classList.add('share-btn-copied');
-                            btn.title = 'Copied!';
-                            setTimeout(function() { btn.classList.remove('share-btn-copied'); btn.title = 'Copy link'; }, 2000);
-                        });
-                    } else {
-                        prompt('Copy this link:', raw);
-                    }
-                    return;
-                }
-                if (win) window.open(win, '_blank', 'noopener,noreferrer,width=600,height=500');
-            });
-        });
-    });
     </script>
 </body>
 </html>

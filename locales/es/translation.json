@@ -3,6 +3,7 @@
     "features": "Características",
     "howItWorks": "Cómo Funciona",
     "pricing": "Precios",
+    "useCases": "Casos de Uso",
     "download": "Descargar",
     "login": "Iniciar Sesión",
     "myStory": "Mi Historia",
@@ -46,6 +47,60 @@
       "button": "Comienza la prueba gratis",
       "microcopy": "Prueba gratis de 14 días · Sin tarjeta de crédito"
     }
+  },
+  "landingHomeGeneral": {
+    "hero": {
+      "title": "Convierte conversaciones de LinkedIn en oportunidades reales.",
+      "subtitle": "Junior te ayuda a encontrar publicaciones relevantes, escribir comentarios naturales con tu voz y convertir respuestas en entrevistas, pipeline y conversaciones con clientes.",
+      "cta": "Comienza Gratis",
+      "secondaryCta": "Elige tu caso de uso",
+      "microcopy": "Primer mes gratis · Tarjeta requerida al registrarte"
+    },
+    "proof": {
+      "title": "Alcance basado en conversaciones que se siente humano",
+      "description": "Usa Junior para participar en las discusiones correctas con comentarios útiles en lugar de outreach genérico."
+    },
+    "faqCta": {
+      "lead": "Elige el caso de uso que coincide con tu objetivo y comienza gratis.",
+      "button": "Comienza Gratis"
+    },
+    "finalCta": {
+      "title": "Deja de enviar ruido. Empieza mejores conversaciones.",
+      "button": "Comienza Gratis",
+      "microcopy": "Primer mes gratis · Tarjeta requerida al registrarte"
+    }
+  },
+  "useCases": {
+    "title": "Para quién está hecho Junior",
+    "subtitle": "Elige el camino de conversión que coincide con tu objetivo.",
+    "jobSearch": {
+      "title": "Buscadores de Empleo",
+      "description": "Convierte comentarios en respuestas de reclutadores y entrevistas.",
+      "cta": "Ver Búsqueda de Empleo"
+    },
+    "founders": {
+      "title": "Fundadores",
+      "description": "Inicia conversaciones de alta calidad con compradores y partners.",
+      "cta": "Ver Ventas Founder-Led"
+    },
+    "consultants": {
+      "title": "Consultores",
+      "description": "Inicia conversaciones con clientes sin spam de mensajes fríos.",
+      "cta": "Ver Crecimiento de Consultoría"
+    },
+    "sales": {
+      "title": "Equipos de Ventas",
+      "description": "Calienta el outbound mediante comentarios relevantes.",
+      "cta": "Ver Caso de Uso de Ventas"
+    },
+    "partners": {
+      "title": "Partners de Carrera",
+      "description": "Ayuda a candidatos a generar más conversaciones con equipos de contratación.",
+      "cta": "Ver Programa de Partners"
+    }
+  },
+  "stickyCta": {
+    "label": "Comienza Gratis"
   },
   "features": {
     "title": "Características de Interacción Inteligente",
@@ -314,7 +369,8 @@
       "b1": "Encuentra publicaciones relevantes",
       "b2": "Escribe comentarios bien pensados",
       "b3": "Realmente suena humano",
-      "p4": "Eso se convirtió en Junior."
+      "p4": "Eso se convirtió en Junior.",
+      "bridge": "Primero lo construí para mi búsqueda de empleo, y luego descubrí que fundadores, consultores y equipos de ventas necesitaban el mismo flujo auténtico de conversaciones."
     },
     "whatItDoes": {
       "title": "Qué hace exactamente (sin relleno)",

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Junior for job seekers: start real hiring conversations from LinkedIn comments instead of resume blasting.">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Junior for Job Seekers - Start conversations that lead to interviews">
+    <meta property="og:description" content="Find relevant hiring posts, write thoughtful comments in your voice, and turn replies into interviews.">
+    <meta property="og:image" content="https://heyjunior.ai/reseller-assets/global/social/social-card.png">
+    <meta property="og:url" content="https://heyjunior.ai/job-search.html">
+    <title>Junior for Job Seekers</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script defer src="js/analytics.js"></script>
+</head>
+<body data-page="job-search" class="audience-page">
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo"><img src="./images/junior-logo.png" alt="Junior Logo" class="logo-img"></div>
+            <button class="mobile-menu-toggle" aria-label="Toggle mobile menu"><span></span><span></span><span></span></button>
+            <ul class="nav-links">
+                <div class="nav-group">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="founders.html">Founders</a></li>
+                    <li><a href="consultants.html">Consultants</a></li>
+                    <li><a href="sales.html">Sales</a></li>
+                </div>
+                <div class="nav-actions">
+                    <li><a href="register.html?src=job-search-nav" class="cta-button">Start Free</a></li>
+                </div>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="audience-main">
+        <section class="audience-hero hero-dark">
+            <div class="container narrow-container">
+                <p class="audience-eyebrow">For Job Seekers</p>
+                <h1>Stop resume blasting. Start hiring conversations.</h1>
+                <p>Junior finds the right LinkedIn hiring posts and drafts comments in your voice so you can start real conversations with recruiters and hiring managers.</p>
+                <div class="cta-buttons">
+                    <a href="register.html?src=job-search-hero" class="primary-button" data-cta="job-search-hero-primary">Start Free</a>
+                    <a href="#proof" class="secondary-button" data-cta="job-search-hero-secondary">See proof</a>
+                </div>
+                <p class="hero-microcopy">First month free · Card required at signup</p>
+            </div>
+        </section>
+
+        <section id="proof" class="real-engagement">
+            <div class="container">
+                <h2>Real replies from real LinkedIn conversations</h2>
+                <p class="section-subtitle">Junior helps you show up with thoughtful comments that get hiring-side responses.</p>
+                <div class="engagement-grid">
+                    <div class="engagement-item"><img src="./images/comment-7.png" alt="Reply from hiring-side conversation" class="engagement-screenshot"></div>
+                    <div class="engagement-item"><img src="./images/comment-8.png" alt="Hiring post engagement reply" class="engagement-screenshot"></div>
+                    <div class="engagement-item"><img src="./images/comment-9.png" alt="Reply to tailored LinkedIn comment" class="engagement-screenshot"></div>
+                </div>
+                <div class="cta-buttons" style="margin-top: 24px;">
+                    <a href="register.html?src=job-search-proof" class="primary-button" data-cta="job-search-proof-primary">Start Free</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="what-it-does">
+            <div class="container narrow-container">
+                <h2>How Junior helps your job search</h2>
+                <ul class="what-list">
+                    <li>Finds posts where hiring teams are active right now</li>
+                    <li>Writes natural comments aligned with your background</li>
+                    <li>Helps you turn replies into real conversations</li>
+                    <li>Keeps your activity consistent without spending hours daily</li>
+                </ul>
+                <a href="register.html?src=job-search-mid" class="primary-button" data-cta="job-search-mid-primary">Start Free</a>
+            </div>
+        </section>
+
+        <section class="faq-section">
+            <div class="container">
+                <h2>Common questions</h2>
+                <div class="faq-grid">
+                    <div class="faq-item"><h3>Will this guarantee interviews?</h3><p>No tool can guarantee interviews. Junior helps you create more relevant conversations that can lead to better opportunities.</p></div>
+                    <div class="faq-item"><h3>Does this replace applications?</h3><p>No. It complements applications by increasing your visibility in hiring conversations.</p></div>
+                    <div class="faq-item"><h3>How fast can I start?</h3><p>Setup takes a few minutes. After that, you can start engaging immediately.</p></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="home-final-cta">
+            <div class="container narrow-container">
+                <h2>Start better conversations this week.</h2>
+                <a href="register.html?src=job-search-final" class="primary-button" data-cta="job-search-final-primary">Start Free</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer footer-dark">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section"><h4>Use Cases</h4><ul><li><a href="index.html">Overview</a></li><li><a href="founders.html">Founders</a></li><li><a href="consultants.html">Consultants</a></li><li><a href="sales.html">Sales</a></li><li><a href="linkedin-partners.html">Partners</a></li></ul></div>
+                <div class="footer-section"><h4>Legal</h4><ul><li><a href="terms.html">Terms of Service</a></li></ul></div>
+            </div>
+        </div>
+    </footer>
+
+    <a href="register.html?src=job-search-sticky" class="sticky-global-cta" data-cta="job-search-sticky">Start Free</a>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const mobileToggle = document.querySelector('.mobile-menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            if (mobileToggle && navLinks) {
+                mobileToggle.addEventListener('click', function () {
+                    this.classList.toggle('active');
+                    navLinks.classList.toggle('active');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

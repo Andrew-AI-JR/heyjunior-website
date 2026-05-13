@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Junior for sales teams: warm outbound by engaging in relevant LinkedIn conversations before the DM.">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Junior for Sales Teams - Warm outbound through conversation">
+    <meta property="og:description" content="SDRs, AEs, and lead-gen teams use Junior to engage in high-signal conversations and increase response quality.">
+    <meta property="og:url" content="https://heyjunior.ai/sales.html">
+    <title>Junior for Sales Teams</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="audience-page">
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo"><img src="./images/junior-logo.png" alt="Junior Logo" class="logo-img"></div>
+            <button class="mobile-menu-toggle" aria-label="Toggle mobile menu"><span></span><span></span><span></span></button>
+            <ul class="nav-links">
+                <div class="nav-group">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="job-search.html">Job Seekers</a></li>
+                    <li><a href="founders.html">Founders</a></li>
+                    <li><a href="consultants.html">Consultants</a></li>
+                </div>
+                <div class="nav-actions"><li><a href="register.html?src=sales-nav" class="cta-button">Start Free</a></li></div>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="audience-main">
+        <section class="audience-hero hero-dark">
+            <div class="container narrow-container">
+                <p class="audience-eyebrow">For Sales Teams</p>
+                <h1>Warm your outbound before the first DM.</h1>
+                <p>Junior helps SDRs, AEs, and lean lead-gen teams engage in relevant conversations so outreach starts warmer and more contextual.</p>
+                <div class="cta-buttons">
+                    <a href="register.html?src=sales-hero" class="primary-button" data-cta="sales-hero-primary">Start Free</a>
+                    <a href="#playbook" class="secondary-button" data-cta="sales-hero-secondary">See the playbook</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="playbook" class="what-it-does">
+            <div class="container narrow-container">
+                <h2>Sales engagement playbook</h2>
+                <ul class="what-list">
+                    <li>Prioritize posts from target accounts and buying committees</li>
+                    <li>Publish comments that add value before outbound touches</li>
+                    <li>Use replies as warm signals for follow-up</li>
+                    <li>Keep team activity consistent with less manual effort</li>
+                </ul>
+                <a href="register.html?src=sales-mid" class="primary-button" data-cta="sales-mid-primary">Start Free</a>
+            </div>
+        </section>
+
+        <section class="faq-section">
+            <div class="container">
+                <h2>Sales team concerns</h2>
+                <div class="faq-grid">
+                    <div class="faq-item"><h3>Does this guarantee reply rates?</h3><p>No guaranteed outcomes. Junior helps your team create better conversation entry points.</p></div>
+                    <div class="faq-item"><h3>Will comments sound robotic?</h3><p>Junior is designed for contextual, natural language rather than generic templates.</p></div>
+                    <div class="faq-item"><h3>Can we use it as a full sales platform?</h3><p>No. It complements your existing CRM and outbound tooling by improving top-of-funnel engagement quality.</p></div>
+                </div>
+                <div class="cta-buttons" style="margin-top: 20px;">
+                    <a href="register.html?src=sales-objection" class="primary-button" data-cta="sales-objection-primary">Start Free</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer footer-dark">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section"><h4>Use Cases</h4><ul><li><a href="job-search.html">Job Seekers</a></li><li><a href="founders.html">Founders</a></li><li><a href="consultants.html">Consultants</a></li><li><a href="linkedin-partners.html">Partners</a></li></ul></div>
+                <div class="footer-section"><h4>Legal</h4><ul><li><a href="terms.html">Terms of Service</a></li></ul></div>
+            </div>
+        </div>
+    </footer>
+
+    <a href="register.html?src=sales-sticky" class="sticky-global-cta" data-cta="sales-sticky">Start Free</a>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const mobileToggle = document.querySelector('.mobile-menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            if (mobileToggle && navLinks) {
+                mobileToggle.addEventListener('click', function () {
+                    this.classList.toggle('active');
+                    navLinks.classList.toggle('active');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

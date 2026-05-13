@@ -3,6 +3,7 @@
     "features": "Features",
     "howItWorks": "How It Works",
     "pricing": "Pricing",
+    "useCases": "Use Cases",
     "download": "Download",
     "login": "Login",
     "myStory": "My Story",
@@ -46,6 +47,60 @@
       "button": "Get Started Free",
       "microcopy": "First month free · Card required at signup"
     }
+  },
+  "landingHomeGeneral": {
+    "hero": {
+      "title": "Turn LinkedIn conversations into real opportunities.",
+      "subtitle": "Junior helps you find relevant posts, write natural comments in your voice, and turn replies into interviews, pipeline, and client conversations.",
+      "cta": "Start Free",
+      "secondaryCta": "Choose Your Use Case",
+      "microcopy": "First month free · Card required at signup"
+    },
+    "proof": {
+      "title": "Conversation-first outreach that feels human",
+      "description": "Use Junior to show up in the right discussions with thoughtful comments instead of generic outreach."
+    },
+    "faqCta": {
+      "lead": "Pick the use case that matches your goals and start free.",
+      "button": "Start Free"
+    },
+    "finalCta": {
+      "title": "Stop sending noise. Start better conversations.",
+      "button": "Start Free",
+      "microcopy": "First month free · Card required at signup"
+    }
+  },
+  "useCases": {
+    "title": "Who Junior is built for",
+    "subtitle": "Choose the conversion path that matches your goal.",
+    "jobSearch": {
+      "title": "Job Seekers",
+      "description": "Turn comments into recruiter replies and interviews.",
+      "cta": "Explore Job Search"
+    },
+    "founders": {
+      "title": "Founders",
+      "description": "Start high-quality conversations with buyers and partners.",
+      "cta": "Explore Founder-Led Sales"
+    },
+    "consultants": {
+      "title": "Consultants",
+      "description": "Start client conversations without cold DM spam.",
+      "cta": "Explore Consultant Growth"
+    },
+    "sales": {
+      "title": "Sales Teams",
+      "description": "Warm up outbound through relevant comment engagement.",
+      "cta": "Explore Sales Use Case"
+    },
+    "partners": {
+      "title": "Career Partners",
+      "description": "Help candidates create more hiring-side conversations.",
+      "cta": "Explore Partner Program"
+    }
+  },
+  "stickyCta": {
+    "label": "Start Free"
   },
   "features": {
     "title": "Intelligent Engagement Features",
@@ -315,7 +370,8 @@
       "b1": "Finds relevant posts",
       "b2": "Writes thoughtful comments",
       "b3": "Actually sounds like a human",
-      "p4": "That turned into Junior."
+      "p4": "That turned into Junior.",
+      "bridge": "I built this for my job search first, then realized founders, consultants, and sales teams needed the same authentic conversation workflow."
     },
     "whatItDoes": {
       "title": "What it actually does (no fluff)",
