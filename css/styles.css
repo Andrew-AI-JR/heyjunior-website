@@ -424,7 +424,7 @@ section, div {
     grid-template-columns: repeat(3, 1fr);
     gap: 25px;
     margin-top: 40px;
-    max-width: 1200px;
+    max-width: 100%;
     margin-left: auto;
     margin-right: auto;
 }
@@ -445,6 +445,7 @@ section, div {
 .engagement-screenshot {
     width: 100%;
     height: auto;
+    display: block;
 }
 
 .engagement-featured {
@@ -452,7 +453,7 @@ section, div {
     grid-template-columns: repeat(3, 1fr);
     gap: 25px;
     margin-top: 30px;
-    max-width: 1200px;
+    max-width: 100%;
     margin-left: auto;
     margin-right: auto;
 }
