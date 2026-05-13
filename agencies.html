@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Junior for lead gen agencies: scale client LinkedIn engagement safely across multiple accounts without shared IPs or detectable fingerprints.">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Junior for Lead Gen Agencies - Scale engagement safely">
+    <meta property="og:description" content="Agencies use Junior to run authentic LinkedIn comment engagement across client accounts from each client's own machine.">
+    <meta property="og:url" content="https://heyjunior.ai/agencies.html">
+    <title>Junior for Lead Gen Agencies</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="audience-page">
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo"><img src="./images/junior-logo.png" alt="Junior Logo" class="logo-img"></div>
+            <button class="mobile-menu-toggle" aria-label="Toggle mobile menu"><span></span><span></span><span></span></button>
+            <ul class="nav-links">
+                <div class="nav-group">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="job-search.html">Job Seekers</a></li>
+                    <li><a href="founders.html">Founders</a></li>
+                    <li><a href="sales.html">Sales</a></li>
+                </div>
+                <div class="nav-actions"><li><a href="register.html?src=agencies-nav" class="cta-button">Start Free</a></li></div>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="audience-main">
+        <section class="audience-hero hero-dark">
+            <div class="container narrow-container">
+                <p class="audience-eyebrow">For Lead Gen Agencies</p>
+                <h1>Scale client engagement safely across accounts.</h1>
+                <p>Junior runs locally on each client's machine with their own IP and browser session. No shared servers, no detectable fingerprint, no cross-account risk.</p>
+                <div class="cta-buttons">
+                    <a href="register.html?src=agencies-hero" class="primary-button" data-cta="agencies-hero-primary">Start Free</a>
+                    <a href="#workflow" class="secondary-button" data-cta="agencies-hero-secondary">See the agency workflow</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="workflow" class="what-it-does">
+            <div class="container narrow-container">
+                <h2>Agency engagement workflow</h2>
+                <ul class="what-list">
+                    <li>Each client runs Junior on their own device with their own LinkedIn session</li>
+                    <li>AI drafts contextual comments aligned with each client's positioning</li>
+                    <li>Engagement stays natural and within safe activity ranges</li>
+                    <li>You deliver measurable LinkedIn activity as part of your retainer</li>
+                </ul>
+                <a href="register.html?src=agencies-mid" class="primary-button" data-cta="agencies-mid-primary">Start Free</a>
+            </div>
+        </section>
+
+        <section class="faq-section">
+            <div class="container">
+                <h2>Agency concerns, addressed</h2>
+                <div class="faq-grid">
+                    <div class="faq-item"><h3>Can we run this from our office for clients?</h3><p>Junior is designed to run on each client's own machine for maximum safety. This keeps IPs, sessions, and browser fingerprints unique per account.</p></div>
+                    <div class="faq-item"><h3>Will LinkedIn detect this?</h3><p>Junior uses human-behavioral modeling and runs locally, but all third-party tools carry inherent platform risk. We design for minimal detection surface.</p></div>
+                    <div class="faq-item"><h3>Do you offer agency pricing?</h3><p>Each client account uses a standard subscription. Contact us to discuss volume arrangements.</p></div>
+                </div>
+                <div class="cta-buttons" style="margin-top: 20px;">
+                    <a href="register.html?src=agencies-objection" class="primary-button" data-cta="agencies-objection-primary">Start Free</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="home-final-cta">
+            <div class="container narrow-container">
+                <h2>Add LinkedIn engagement to your agency offering.</h2>
+                <a href="register.html?src=agencies-final" class="primary-button" data-cta="agencies-final-primary">Start Free</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer footer-dark">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section"><h4>Use Cases</h4><ul><li><a href="job-search.html">Job Seekers</a></li><li><a href="founders.html">Founders</a></li><li><a href="consultants.html">Consultants</a></li><li><a href="sales.html">Sales</a></li><li><a href="linkedin-partners.html">Partners</a></li></ul></div>
+                <div class="footer-section"><h4>Legal</h4><ul><li><a href="terms.html">Terms of Service</a></li></ul></div>
+            </div>
+        </div>
+    </footer>
+
+    <a href="register.html?src=agencies-sticky" class="sticky-global-cta" data-cta="agencies-sticky">Start Free</a>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const mobileToggle = document.querySelector('.mobile-menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            if (mobileToggle && navLinks) {
+                mobileToggle.addEventListener('click', function () {
+                    this.classList.toggle('active');
+                    navLinks.classList.toggle('active');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
