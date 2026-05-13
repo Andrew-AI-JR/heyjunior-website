@@ -7375,25 +7375,44 @@ body {
 .use-cases-grid {
     display: grid;
     gap: 18px;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     margin-top: 24px;
 }
 
 .use-case-card {
+    display: flex;
+    flex-direction: column;
     background: #fff;
     border: 1px solid #dbeafe;
     border-radius: 16px;
-    padding: 20px;
+    padding: 24px;
     box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+    overflow: hidden;
 }
 
 .use-case-card h3 {
     margin-bottom: 8px;
+    font-size: 1.15rem;
 }
 
 .use-case-card p {
     color: #475569;
-    margin-bottom: 14px;
+    margin-bottom: 16px;
+    flex: 1;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.use-case-card .primary-button {
+    display: block;
+    text-align: center;
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    box-sizing: border-box;
 }
 
 .audience-page .audience-main {
