@@ -879,6 +879,8 @@ section, div {
 .pricing-card ul {
     list-style: none;
     margin-bottom: 30px;
+    text-align: left;
+    padding-left: 0;
 }
 
 .pricing-card li {
