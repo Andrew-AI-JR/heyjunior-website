@@ -7547,3 +7547,51 @@ body {
     line-height: 1.5;
     margin: 0;
 }
+
+.how-signals-section {
+    padding: 64px 0;
+}
+
+.signals-flow {
+    margin-top: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.signal-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.signal-number {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--jr-accent);
+    color: #fff;
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.signal-step strong {
+    display: block;
+    margin-bottom: 4px;
+    color: #0f172a;
+}
+
+.signal-step p {
+    color: #475569;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin: 0;
+}
