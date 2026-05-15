@@ -65,7 +65,10 @@
             <p class="section-subtitle" data-i18n="useCases.subtitle">Choose the conversion path that matches your goal.</p>
             <div class="use-cases-grid">
                 <article class="use-case-card">
-                    <h3 data-i18n="useCases.sales.title">Sales Teams</h3>
+                    <div class="card-header">
+                        <h3 data-i18n="useCases.sales.title">Sales Teams</h3>
+                        <span class="popular-badge" data-i18n="badges.mostPopular">Most Popular</span>
+                    </div>
                     <p data-i18n="useCases.sales.description">Warm up outbound through relevant comment engagement.</p>
                     <a href="sales.html" class="primary-button" data-cta="home-usecase-sales" data-i18n="useCases.sales.cta">Explore Sales Use Case</a>
                 </article>
@@ -75,7 +78,10 @@
                     <a href="agencies.html" class="primary-button" data-cta="home-usecase-agencies" data-i18n="useCases.agencies.cta">Explore Agency Use Case</a>
                 </article>
                 <article class="use-case-card">
-                    <h3 data-i18n="useCases.jobSearch.title">Job Seekers</h3>
+                    <div class="card-header">
+                        <h3 data-i18n="useCases.jobSearch.title">Job Seekers</h3>
+                        <span class="popular-badge" data-i18n="badges.mostPopular">Most Popular</span>
+                    </div>
                     <p data-i18n="useCases.jobSearch.description">Turn comments into recruiter replies and interviews.</p>
                     <a href="job-search.html" class="primary-button" data-cta="home-usecase-job" data-i18n="useCases.jobSearch.cta">Explore Job Search</a>
                 </article>
@@ -140,24 +146,20 @@
 
     <section class="trust-section">
         <div class="container narrow-container">
-            <h2>Your reputation stays in your hands</h2>
-            <p class="section-subtitle">Junior is built as a local assistant, not a cloud bot. Here is how it protects your brand.</p>
+            <h2 data-i18n="trustReputation.title">Your reputation stays protected</h2>
+            <p class="section-subtitle" data-i18n="trustReputation.subtitle">Junior is built to protect your brand from generic bot spam. Here is how we ensure quality.</p>
             <div class="trust-grid">
                 <div class="trust-item">
-                    <strong>Runs on your machine</strong>
-                    <p>Your own browser, your own IP, your own session. No shared servers or cross-account fingerprinting.</p>
+                    <strong data-i18n="trustReputation.item1Title">No "Crazy Comments"</strong>
+                    <p data-i18n="trustReputation.item1Desc">Junior uses your specific bio, networking goals, and tone to generate replies. It never posts generic templates or off-brand spam.</p>
                 </div>
                 <div class="trust-item">
-                    <strong>Contextual, not templated</strong>
-                    <p>Every comment is drafted from the post content and your profile context. No recycled templates.</p>
+                    <strong data-i18n="trustReputation.item2Title">Runs on your machine</strong>
+                    <p data-i18n="trustReputation.item2Desc">Your own browser, your own IP, your own session. No shared servers or cross-account fingerprinting.</p>
                 </div>
                 <div class="trust-item">
-                    <strong>Paced like a human</strong>
-                    <p>Variable timing, natural scroll patterns, and conservative daily limits keep activity within normal ranges.</p>
-                </div>
-                <div class="trust-item">
-                    <strong>Platform risk disclosed</strong>
-                    <p>Any third-party engagement tool carries inherent platform risk. We design for minimal detection surface, but we do not promise zero risk.</p>
+                    <strong data-i18n="trustReputation.item3Title">Paced like a human</strong>
+                    <p data-i18n="trustReputation.item3Desc">Variable timing, natural scroll patterns, and conservative daily limits keep activity within normal ranges.</p>
                 </div>
             </div>
         </div>
@@ -165,36 +167,26 @@
 
     <section class="how-signals-section">
         <div class="container narrow-container">
-            <h2>How Junior finds the right conversations</h2>
-            <p class="section-subtitle">Not every LinkedIn post is worth your time. Junior filters for the ones that matter.</p>
-            <div class="signals-flow">
-                <div class="signal-step">
-                    <span class="signal-number">1</span>
-                    <div>
-                        <strong>Scans your LinkedIn feed</strong>
-                        <p>Junior monitors posts from your network and extended reach based on your configured interests.</p>
-                    </div>
+            <h2 data-i18n="mechanismGraphic.title">How Junior finds the right conversations</h2>
+            <p class="section-subtitle" data-i18n="mechanismGraphic.subtitle">Not every LinkedIn post is worth your time. Junior filters for the ones that matter.</p>
+            
+            <div class="mechanism-pipeline">
+                <div class="mechanism-box">
+                    <div class="mechanism-icon">🎯</div>
+                    <strong data-i18n="mechanismGraphic.box1Title">High-Signal Post</strong>
+                    <p data-i18n="mechanismGraphic.box1Desc">Matches your target roles & topics</p>
                 </div>
-                <div class="signal-step">
-                    <span class="signal-number">2</span>
-                    <div>
-                        <strong>Filters for high-signal activity</strong>
-                        <p>Posts are ranked by relevance, author role, engagement momentum, and alignment with your goals.</p>
-                    </div>
+                <div class="mechanism-arrow">➕</div>
+                <div class="mechanism-box">
+                    <div class="mechanism-icon">👤</div>
+                    <strong data-i18n="mechanismGraphic.box2Title">Your Context</strong>
+                    <p data-i18n="mechanismGraphic.box2Desc">Your bio, tone, and goals</p>
                 </div>
-                <div class="signal-step">
-                    <span class="signal-number">3</span>
-                    <div>
-                        <strong>Drafts a contextual comment</strong>
-                        <p>Each comment is generated from the post content and your profile so it reads like something you would actually say.</p>
-                    </div>
-                </div>
-                <div class="signal-step">
-                    <span class="signal-number">4</span>
-                    <div>
-                        <strong>Engages and tracks replies</strong>
-                        <p>Comments are posted at human-like intervals. You can review engagement quality and replies in your analytics.</p>
-                    </div>
+                <div class="mechanism-arrow">➔</div>
+                <div class="mechanism-box mechanism-box-highlight">
+                    <div class="mechanism-icon">💬</div>
+                    <strong data-i18n="mechanismGraphic.box3Title">Authentic Comment</strong>
+                    <p data-i18n="mechanismGraphic.box3Desc">A reply you'd actually write</p>
                 </div>
             </div>
         </div>

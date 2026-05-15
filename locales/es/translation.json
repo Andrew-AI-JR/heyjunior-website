@@ -70,6 +70,31 @@
       "microcopy": "Primer mes gratis · Tarjeta requerida al registrarte"
     }
   },
+  "badges": {
+    "mostPopular": "Más Popular"
+  },
+  "mechanismGraphic": {
+    "title": "Cómo Junior encuentra las conversaciones correctas",
+    "subtitle": "No todas las publicaciones de LinkedIn valen tu tiempo. Junior filtra las que importan.",
+    "titleJob": "Cómo Junior encuentra las conversaciones de contratación correctas",
+    "subtitleJob": "No todas las publicaciones de LinkedIn valen tu tiempo. Junior filtra las que generan respuestas.",
+    "box1Title": "Publicación Relevante",
+    "box1Desc": "Coincide con tus roles y temas objetivo",
+    "box2Title": "Tu Contexto",
+    "box2Desc": "Tu biografía, tono y objetivos",
+    "box3Title": "Comentario Auténtico",
+    "box3Desc": "Una respuesta que realmente escribirías"
+  },
+  "trustReputation": {
+    "title": "Tu reputación se mantiene protegida",
+    "subtitle": "Junior está construido para proteger tu marca del spam genérico de bots. Así es como aseguramos la calidad.",
+    "item1Title": "Sin \"Comentarios Locos\"",
+    "item1Desc": "Junior usa tu biografía específica, objetivos de networking y tono para generar respuestas. Nunca publica plantillas genéricas o spam fuera de marca.",
+    "item2Title": "Se ejecuta en tu máquina",
+    "item2Desc": "Tu propio navegador, tu propia IP, tu propia sesión. Sin servidores compartidos ni huellas digitales entre cuentas.",
+    "item3Title": "A un ritmo humano",
+    "item3Desc": "Tiempos variables, patrones de desplazamiento naturales y límites diarios conservadores mantienen la actividad dentro de rangos normales."
+  },
   "useCases": {
     "title": "Para quién está hecho Junior",
     "subtitle": "Elige el camino de conversión que coincide con tu objetivo.",

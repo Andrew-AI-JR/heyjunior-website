@@ -7446,6 +7446,30 @@ body {
 .use-case-card h3 {
     margin-bottom: 8px;
     font-size: 1.15rem;
+    margin-top: 0;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 8px;
+}
+
+.card-header h3 {
+    margin-bottom: 0;
+}
+
+.popular-badge {
+    background: #fef3c7;
+    color: #b45309;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 999px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: 1px solid #fde68a;
 }
 
 .use-case-card p {
@@ -7552,6 +7576,77 @@ body {
 
 .how-signals-section {
     padding: 64px 0;
+}
+
+/* Mechanism Pipeline Graphic */
+.mechanism-pipeline {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+}
+
+.mechanism-box {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 24px;
+    width: 280px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+}
+
+.mechanism-box-highlight {
+    border: 2px solid var(--jr-accent);
+    box-shadow: 0 8px 24px rgba(79, 70, 229, 0.15);
+    transform: scale(1.05);
+}
+
+.mechanism-icon {
+    font-size: 2.5rem;
+    margin-bottom: 12px;
+}
+
+.mechanism-box strong {
+    display: block;
+    font-size: 1.1rem;
+    color: #0f172a;
+    margin-bottom: 8px;
+}
+
+.mechanism-box p {
+    color: #475569;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    margin: 0;
+}
+
+.mechanism-arrow {
+    font-size: 1.5rem;
+    color: #94a3b8;
+    font-weight: bold;
+}
+
+@media (max-width: 900px) {
+    .mechanism-pipeline {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .mechanism-arrow {
+        transform: rotate(90deg);
+    }
+    
+    .mechanism-box {
+        width: 100%;
+        max-width: 320px;
+    }
+    
+    .mechanism-box-highlight {
+        transform: scale(1);
+    }
 }
 
 .signals-flow {

@@ -70,6 +70,31 @@
       "microcopy": "First month free · Card required at signup"
     }
   },
+  "badges": {
+    "mostPopular": "Most Popular"
+  },
+  "mechanismGraphic": {
+    "title": "How Junior finds the right conversations",
+    "subtitle": "Not every LinkedIn post is worth your time. Junior filters for the ones that matter.",
+    "titleJob": "How Junior finds the right hiring conversations",
+    "subtitleJob": "Not every LinkedIn post is worth your time. Junior filters for the ones that lead to replies.",
+    "box1Title": "High-Signal Post",
+    "box1Desc": "Matches your target roles & topics",
+    "box2Title": "Your Context",
+    "box2Desc": "Your bio, tone, and goals",
+    "box3Title": "Authentic Comment",
+    "box3Desc": "A reply you'd actually write"
+  },
+  "trustReputation": {
+    "title": "Your reputation stays protected",
+    "subtitle": "Junior is built to protect your brand from generic bot spam. Here is how we ensure quality.",
+    "item1Title": "No \"Crazy Comments\"",
+    "item1Desc": "Junior uses your specific bio, networking goals, and tone to generate replies. It never posts generic templates or off-brand spam.",
+    "item2Title": "Runs on your machine",
+    "item2Desc": "Your own browser, your own IP, your own session. No shared servers or cross-account fingerprinting.",
+    "item3Title": "Paced like a human",
+    "item3Desc": "Variable timing, natural scroll patterns, and conservative daily limits keep activity within normal ranges."
+  },
   "useCases": {
     "title": "Who Junior is built for",
     "subtitle": "Choose the conversion path that matches your goal.",
