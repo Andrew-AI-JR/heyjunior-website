@@ -5794,7 +5794,7 @@ section, div {
 }
 
 .conversion-hero {
-    padding: 100px 0 64px;
+    padding: 200px 0 80px;
 }
 
 .conversion-hero h1 {
@@ -7497,7 +7497,7 @@ body {
 }
 
 .audience-hero {
-    padding: 72px 0 64px;
+    padding: 100px 0 80px;
 }
 
 .audience-eyebrow {
@@ -7531,6 +7531,14 @@ body {
 @media (max-width: 768px) {
     .audience-page .audience-main {
         padding-top: 86px;
+    }
+
+    .audience-hero {
+        padding: 64px 0 48px;
+    }
+
+    .conversion-hero {
+        padding: 140px 0 48px;
     }
 
     .sticky-global-cta {
