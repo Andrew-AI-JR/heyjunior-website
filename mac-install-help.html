@@ -3,177 +3,150 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>How to Open Junior on macOS - Installation Help</title>
+    <meta name="description" content="Step-by-step guide to open Junior on macOS when Gatekeeper shows an unidentified developer warning.">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Install Junior on macOS | Security Guide">
+    <meta property="og:description" content="Follow this quick macOS guide to open Junior safely and complete setup in minutes.">
+    <meta property="og:image" content="https://heyjunior.ai/reseller-assets/global/social/social-card.png">
+    <meta property="og:url" content="https://heyjunior.ai/mac-install-help.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Install Junior on macOS | Security Guide">
+    <meta name="twitter:description" content="A quick walkthrough for macOS security prompts and first launch.">
+    <meta name="twitter:image" content="https://heyjunior.ai/reseller-assets/global/social/social-card.png">
+    <title>Install Junior on macOS | Security Guide</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <script defer src="js/analytics.js"></script>
 </head>
 <body data-page="help">
-    <!-- Navigation -->
     <nav class="navbar">
         <div class="container">
             <div class="logo">
                 <img src="./images/junior-logo.png" alt="Junior Logo" class="logo-img">
             </div>
+            <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
             <ul class="nav-links">
                 <div class="nav-group">
                     <li><a href="index.html#features">Features</a></li>
-                    <li><a href="index.html#how-it-works">How It Works</a></li>
+                    <li><a href="why-commenting-works.html">Why Commenting Works</a></li>
                     <li><a href="index.html#pricing">Pricing</a></li>
                 </div>
                 <div class="nav-actions">
-                    <li><a href="index.html" class="my-story-link">← Back to Home</a></li>
+                    <li><a href="setup-guide.html" class="my-story-link">First Launch Guide</a></li>
+                    <li><a href="index.html" class="nav-login-link">Back to Home</a></li>
                 </div>
             </ul>
         </div>
     </nav>
 
-    <!-- Help Content -->
-    <section style="padding: 80px 20px; min-height: 80vh; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-        <div class="container" style="max-width: 900px; margin: 0 auto;">
-            <!-- Hero -->
-            <div style="text-align: center; margin-bottom: 50px; color: white;">
-                <div style="font-size: 4em; margin-bottom: 20px;">🍎</div>
-                <h1 style="margin-bottom: 15px;">How to Open Junior on macOS</h1>
-                <p style="font-size: 1.1em; opacity: 0.9;">Quick guide to install and run Junior on your Mac</p>
+    <main class="support-main">
+        <section class="hero conversion-hero hero-dark support-hero">
+            <div class="container narrow-container">
+                <p class="support-eyebrow">macOS Install Help</p>
+                <h1>Open Junior on macOS in 3 steps.</h1>
+                <p class="subtitle">Apple may show an "unidentified developer" warning on first open. That is expected for independent software and only needs to be handled once.</p>
+                <div class="cta-buttons">
+                    <a href="#mac-steps" class="primary-button">See Steps</a>
+                    <a href="setup-guide.html" class="secondary-button">Go to First Launch Guide</a>
+                </div>
             </div>
+        </section>
 
-            <!-- Main Instructions -->
-            <div style="background: white; border-radius: 16px; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); margin-bottom: 30px;">
-                <div style="background: #fef3c7; border-left: 4px solid #f59e0b; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
-                    <h3 style="color: #92400e; margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
-                        <span>⚠️</span> macOS Security Notice
-                    </h3>
-                    <p style="color: #78350f; line-height: 1.6; margin: 0;">
-                        Junior is not code-signed by Apple because we're an independent developer. macOS will show a security warning when you first open it. This is normal and expected. Follow the steps below to install safely.
-                    </p>
-                </div>
+        <section class="support-section" id="mac-steps">
+            <div class="container support-container">
+                <article class="support-card support-alert">
+                    <h2>Security notice</h2>
+                    <p>When you open Junior for the first time, macOS may block it with an "unidentified developer" prompt. This is a standard Gatekeeper behavior for unsigned apps and does not mean the app is unsafe.</p>
+                </article>
 
-                <h2 style="color: #1f2937; margin-bottom: 25px;">📥 Installation Steps</h2>
-
-                <!-- Step 1 -->
-                <div style="margin-bottom: 35px; padding: 25px; background: #f9fafb; border-radius: 12px; border-left: 4px solid #667eea;">
-                    <h3 style="color: #667eea; margin-bottom: 15px;">Step 1: Download and Move to Applications</h3>
-                    <ol style="color: #4b5563; line-height: 1.8; margin-left: 20px;">
-                        <li>Download Junior for macOS</li>
-                        <li>Open the downloaded <code>.dmg</code> or <code>.zip</code> file</li>
-                        <li>Drag <strong>Junior.app</strong> to your Applications folder</li>
-                    </ol>
-                </div>
-
-                <!-- Step 2 -->
-                <div style="margin-bottom: 35px; padding: 25px; background: #fef3c7; border-radius: 12px; border-left: 4px solid #f59e0b;">
-                    <h3 style="color: #92400e; margin-bottom: 15px;">Step 2: You'll See This Warning ⚠️</h3>
-                    <div style="background: white; padding: 20px; border-radius: 8px; margin: 15px 0; text-align: center; border: 2px solid #d97706;">
-                        <p style="margin: 0; color: #1f2937; font-weight: 600;">"Junior.app" cannot be opened because it is from an unidentified developer.</p>
+                <article class="support-card">
+                    <h2>Installation steps</h2>
+                    <div class="support-steps">
+                        <section class="support-step">
+                            <h3>Step 1: Move Junior to Applications</h3>
+                            <ol>
+                                <li>Download the macOS build from your confirmation page.</li>
+                                <li>Open the downloaded <code>.dmg</code> or <code>.zip</code> file.</li>
+                                <li>Drag <strong>Junior.app</strong> into your Applications folder.</li>
+                            </ol>
+                        </section>
+                        <section class="support-step support-step-warning">
+                            <h3>Step 2: Expect the first-open warning</h3>
+                            <p>You may see: <strong>"Junior.app cannot be opened because it is from an unidentified developer."</strong></p>
+                            <p>This first warning is expected. Continue with step 3.</p>
+                        </section>
+                        <section class="support-step support-step-success">
+                            <h3>Step 3: Open Junior once manually</h3>
+                            <div class="support-methods">
+                                <div class="support-method">
+                                    <h4>Method A (fastest)</h4>
+                                    <ol>
+                                        <li>Right-click <strong>Junior.app</strong>.</li>
+                                        <li>Click <strong>Open</strong>.</li>
+                                        <li>Click <strong>Open</strong> again in the dialog.</li>
+                                    </ol>
+                                </div>
+                                <div class="support-method">
+                                    <h4>Method B (System Settings)</h4>
+                                    <ol>
+                                        <li>Try to open Junior by double-clicking it.</li>
+                                        <li>Go to <strong>System Settings → Privacy &amp; Security</strong>.</li>
+                                        <li>Find the blocked app notice and click <strong>Open Anyway</strong>.</li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </section>
                     </div>
-                    <p style="color: #78350f; margin: 15px 0 0 0;">
-                        <strong>Don't worry!</strong> This is expected. Follow Step 3 to open the app safely.
-                    </p>
-                </div>
+                </article>
 
-                <!-- Step 3 - Method 1 -->
-                <div style="margin-bottom: 35px; padding: 25px; background: #dcfce7; border-radius: 12px; border-left: 4px solid #10b981;">
-                    <h3 style="color: #065f46; margin-bottom: 15px;">Step 3: Open Junior (Choose Method A or B)</h3>
-                    
-                    <div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
-                        <h4 style="color: #10b981; margin-bottom: 12px;">✅ Method A: Right-Click Method (Easiest)</h4>
-                        <ol style="color: #4b5563; line-height: 2; margin-left: 20px;">
-                            <li><strong>Right-click</strong> (or Control + click) on <strong>Junior.app</strong></li>
-                            <li>Select <strong>"Open"</strong> from the menu</li>
-                            <li>In the dialog that appears, click <strong>"Open"</strong> again</li>
-                            <li>✅ Junior will now start!</li>
-                        </ol>
+                <article class="support-card">
+                    <h2>FAQ</h2>
+                    <div class="support-faq">
+                        <section>
+                            <h3>Is Junior safe to open?</h3>
+                            <p>Yes. The macOS warning reflects certificate/signing policy, not malware detection.</p>
+                        </section>
+                        <section>
+                            <h3>What if it still does not open?</h3>
+                            <p>Run this in Terminal, then try again:</p>
+                            <code>xattr -cr /Applications/Junior.app</code>
+                        </section>
+                        <section>
+                            <h3>Need help?</h3>
+                            <p>Email <a href="mailto:support@heyjunior.ai">support@heyjunior.ai</a> and we will help you get running.</p>
+                        </section>
                     </div>
+                </article>
 
-                    <div style="background: white; padding: 20px; border-radius: 8px;">
-                        <h4 style="color: #10b981; margin-bottom: 12px;">✅ Method B: System Settings Method</h4>
-                        <ol style="color: #4b5563; line-height: 2; margin-left: 20px;">
-                            <li>Try to open Junior normally (double-click)</li>
-                            <li>When blocked, open <strong>System Settings</strong> → <strong>Privacy & Security</strong></li>
-                            <li>Scroll down to find: <em>"Junior.app was blocked..."</em></li>
-                            <li>Click <strong>"Open Anyway"</strong></li>
-                            <li>Confirm by clicking <strong>"Open"</strong></li>
-                            <li>✅ Junior will now start!</li>
-                        </ol>
-                    </div>
-                </div>
-
-                <!-- Important Note -->
-                <div style="background: #dbeafe; border-left: 4px solid #3b82f6; padding: 20px; border-radius: 8px; margin-top: 30px;">
-                    <h3 style="color: #1e40af; margin-bottom: 10px;">📌 Important</h3>
-                    <ul style="color: #1e3a8a; line-height: 1.8; margin-left: 20px;">
-                        <li>You only need to do this <strong>ONCE</strong></li>
-                        <li>After the first time, Junior will open normally</li>
-                        <li>Your Mac will remember you approved this app</li>
-                        <li>This is a standard process for all unsigned apps</li>
-                    </ul>
-                </div>
+                <article class="support-card support-next">
+                    <h2>Next step: Connect your account</h2>
+                    <p>After installation, use the setup walkthrough to connect LinkedIn and complete your first successful run.</p>
+                    <a href="setup-guide.html" class="primary-button">Open First Launch Setup Guide</a>
+                </article>
             </div>
+        </section>
+    </main>
 
-            <!-- FAQ Section -->
-            <div style="background: white; border-radius: 16px; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); margin-bottom: 30px;">
-                <h2 style="color: #1f2937; margin-bottom: 25px;">❓ Frequently Asked Questions</h2>
-
-                <div style="margin-bottom: 25px;">
-                    <h3 style="color: #667eea; margin-bottom: 10px;">Is Junior safe to open?</h3>
-                    <p style="color: #4b5563; line-height: 1.7;">
-                        Yes! Junior is safe. The warning appears because we're an independent developer and haven't paid for Apple's developer certificate. The app is secure and doesn't contain any malware.
-                    </p>
-                </div>
-
-                <div style="margin-bottom: 25px;">
-                    <h3 style="color: #667eea; margin-bottom: 10px;">Why isn't Junior code-signed?</h3>
-                    <p style="color: #4b5563; line-height: 1.7;">
-                        Apple's developer certificate costs $99/year. As an independent developer, we've chosen to invest that money into building better features for you instead. Many quality apps from indie developers are unsigned.
-                    </p>
-                </div>
-
-                <div style="margin-bottom: 25px;">
-                    <h3 style="color: #667eea; margin-bottom: 10px;">What if these steps don't work?</h3>
-                    <p style="color: #4b5563; line-height: 1.7; margin-bottom: 10px;">
-                        Try this additional step in Terminal:
-                    </p>
-                    <code style="display: block; background: #1f2937; color: #10b981; padding: 15px; border-radius: 8px; font-family: 'Courier New', monospace; overflow-x: auto;">
-                        xattr -cr /Applications/Junior.app
-                    </code>
-                    <p style="color: #6b7280; font-size: 0.9em; margin-top: 10px;">
-                        This removes quarantine flags. Then try opening Junior again.
-                    </p>
-                </div>
-
-                <div>
-                    <h3 style="color: #667eea; margin-bottom: 10px;">Still having issues?</h3>
-                    <p style="color: #4b5563; line-height: 1.7;">
-                        Contact us at <a href="mailto:support@heyjunior.ai" style="color: #667eea; font-weight: 600;">support@heyjunior.ai</a> and we'll help you get set up!
-                    </p>
-                </div>
-            </div>
-
-            <!-- Next: First Launch -->
-            <div style="background: white; border-radius: 16px; padding: 30px 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); margin-bottom: 30px;">
-                <div style="background: #dbeafe; border-left: 4px solid #3b82f6; padding: 20px; border-radius: 8px;">
-                    <h3 style="color: #1e40af; margin-bottom: 10px;">🚀 Installation Complete?</h3>
-                    <p style="color: #1e3a8a; line-height: 1.7; margin: 0;">
-                        See the <a href="setup-guide.html" style="color: #3b82f6; font-weight: 600;">First Launch Setup Guide</a> to connect your LinkedIn account and start automating.
-                    </p>
-                </div>
-            </div>
-
-            <!-- Back Button -->
-            <div style="text-align: center;">
-                <a href="checkout.html" style="display: inline-block; background: white; color: #667eea; padding: 15px 40px; border-radius: 8px; text-decoration: none; font-weight: 600; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
-                    ← Back to Download Page
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Simple i18n initialization script - makes page visible -->
     <script src="js/i18n-simple.js"></script>
-    <!-- Referral tracking system -->
     <script src="js/referral.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const mobileToggle = document.querySelector('.mobile-menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            if (mobileToggle && navLinks) {
+                mobileToggle.addEventListener('click', function () {
+                    this.classList.toggle('active');
+                    navLinks.classList.toggle('active');
+                });
+            }
+        });
+    </script>
 </body>
 </html>
 

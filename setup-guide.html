@@ -3,176 +3,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>First Launch Setup Guide - Junior</title>
+    <meta name="description" content="First launch setup guide for Junior: connect LinkedIn, handle 2FA, and complete your initial session safely.">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Junior First Launch Setup Guide">
+    <meta property="og:description" content="Use this guide to complete your first Junior run and save your authenticated session.">
+    <meta property="og:image" content="https://heyjunior.ai/reseller-assets/global/social/social-card.png">
+    <meta property="og:url" content="https://heyjunior.ai/setup-guide.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Junior First Launch Setup Guide">
+    <meta name="twitter:description" content="Step-by-step setup for first launch, login, and 2FA flow.">
+    <meta name="twitter:image" content="https://heyjunior.ai/reseller-assets/global/social/social-card.png">
+    <title>Junior First Launch Setup Guide</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-
-    <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "c7e2267943804acdb5bfcd009f02f537"}'></script><!-- End Cloudflare Web Analytics -->
+    <script defer src="js/analytics.js"></script>
+    <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "c7e2267943804acdb5bfcd009f02f537"}'></script>
 </head>
 <body data-page="help">
-    <!-- Navigation -->
     <nav class="navbar">
         <div class="container">
             <div class="logo">
                 <img src="./images/junior-logo.png" alt="Junior Logo" class="logo-img">
             </div>
+            <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
             <ul class="nav-links">
                 <div class="nav-group">
-                    <li><a href="index.html#features">Features</a></li>
-                    <li><a href="index.html#how-it-works">How It Works</a></li>
+                    <li><a href="windows-install-help.html">Windows Help</a></li>
+                    <li><a href="mac-install-help.html">macOS Help</a></li>
                     <li><a href="index.html#pricing">Pricing</a></li>
                 </div>
                 <div class="nav-actions">
-                    <li><a href="index.html" class="my-story-link">← Back to Home</a></li>
+                    <li><a href="why-commenting-works.html" class="my-story-link">Why Commenting Works</a></li>
+                    <li><a href="index.html" class="nav-login-link">Back to Home</a></li>
                 </div>
             </ul>
         </div>
     </nav>
 
-    <!-- Setup Guide Content -->
-    <section style="padding: 80px 20px; min-height: 80vh; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-        <div class="container" style="max-width: 900px; margin: 0 auto;">
-            <!-- Hero -->
-            <div style="text-align: center; margin-bottom: 50px; color: white;">
-                <div style="font-size: 4em; margin-bottom: 20px;">🚀</div>
-                <h1 style="margin-bottom: 15px;">First Launch Setup Guide</h1>
-                <p style="font-size: 1.1em; opacity: 0.9;">What to expect when you run Junior for the first time</p>
-            </div>
-
-            <!-- Key Callout -->
-            <div style="background: white; border-radius: 16px; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); margin-bottom: 30px;">
-                <div style="background: #fef3c7; border-left: 4px solid #f59e0b; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
-                    <h3 style="color: #92400e; margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
-                        <span>⚠️</span> Important: Always Check the 2FA Box
-                    </h3>
-                    <p style="color: #78350f; line-height: 1.6; margin: 0;">
-                        When you first launch Junior, <strong>always check the "2FA" checkbox</strong> — even if you don't think you have two-factor authentication enabled on LinkedIn. This ensures Junior opens a Chrome window where you can log in to LinkedIn directly. It only takes 30 seconds and you only need to do it once.
-                    </p>
+    <main class="support-main">
+        <section class="hero conversion-hero hero-dark support-hero">
+            <div class="container narrow-container">
+                <p class="support-eyebrow">First Launch Setup</p>
+                <h1>Set up Junior once, then run with confidence.</h1>
+                <p class="subtitle">This one-time flow opens Chrome, completes LinkedIn authentication, and saves your session so future runs are faster.</p>
+                <div class="cta-buttons">
+                    <a href="#setup-steps" class="primary-button">See Setup Steps</a>
+                    <a href="why-commenting-works.html" class="secondary-button">See Strategy Page</a>
                 </div>
+            </div>
+        </section>
 
-                <!-- Before You Start -->
-                <div style="background: #dbeafe; border-left: 4px solid #3b82f6; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
-                    <h3 style="color: #1e40af; margin-bottom: 10px;">📋 Before You Start</h3>
-                    <ul style="color: #1e3a8a; line-height: 1.8; margin-left: 20px;">
-                        <li>Make sure Junior is <strong>installed</strong> on your computer (<a href="windows-install-help.html" style="color: #3b82f6; font-weight: 600;">Windows install help</a> · <a href="mac-install-help.html" style="color: #3b82f6; font-weight: 600;">macOS install help</a>)</li>
-                        <li>Have your <strong>LinkedIn login credentials</strong> ready</li>
-                        <li>If you use two-factor authentication, have your <strong>2FA device</strong> handy (phone, authenticator app, etc.)</li>
-                        <li>Make sure <strong>Google Chrome</strong> is installed on your computer</li>
+        <section class="support-section" id="setup-steps">
+            <div class="container support-container">
+                <article class="support-card support-alert">
+                    <h2>Important before starting</h2>
+                    <p>Always enable the <strong>2FA checkbox</strong> on your first run. Even without explicit 2FA enabled, this makes the login handoff more reliable.</p>
+                </article>
+
+                <article class="support-card">
+                    <h2>Before you start</h2>
+                    <ul class="support-list">
+                        <li>Install Junior first (<a href="windows-install-help.html">Windows guide</a> / <a href="mac-install-help.html">macOS guide</a>).</li>
+                        <li>Have your LinkedIn credentials ready.</li>
+                        <li>Keep your 2FA device available if LinkedIn prompts for it.</li>
+                        <li>Confirm Google Chrome is installed.</li>
                     </ul>
-                </div>
+                </article>
 
-                <h2 style="color: #1f2937; margin-bottom: 25px;">🔧 Step-by-Step First Run</h2>
+                <article class="support-card">
+                    <h2>Step-by-step first run</h2>
+                    <div class="support-steps">
+                        <section class="support-step">
+                            <h3>Step 1: Launch Junior</h3>
+                            <p>Open Junior from your desktop, Start menu, or Applications folder.</p>
+                        </section>
+                        <section class="support-step support-step-warning">
+                            <h3>Step 2: Check the 2FA box</h3>
+                            <p>Enable the 2FA checkbox before clicking start for a clean login handoff.</p>
+                        </section>
+                        <section class="support-step">
+                            <h3>Step 3: Click Start Automation</h3>
+                            <p>Junior opens Chrome automatically.</p>
+                        </section>
+                        <section class="support-step">
+                            <h3>Step 4: Log in to LinkedIn</h3>
+                            <p>Complete login normally in the opened Chrome window.</p>
+                        </section>
+                        <section class="support-step support-step-success">
+                            <h3>Step 5: Let Junior close the window</h3>
+                            <p>Junior closes Chrome when session capture succeeds. Do not close it manually.</p>
+                        </section>
+                    </div>
+                </article>
 
-                <!-- Step 1 -->
-                <div style="margin-bottom: 25px; padding: 25px; background: #f9fafb; border-radius: 12px; border-left: 4px solid #667eea;">
-                    <h3 style="color: #667eea; margin-bottom: 10px;">Step 1: Launch Junior</h3>
-                    <p style="color: #4b5563; line-height: 1.6;">
-                        Open Junior from your desktop, Start menu (Windows), or Applications folder (macOS).
-                    </p>
-                </div>
+                <article class="support-card">
+                    <h2>FAQ</h2>
+                    <div class="support-faq">
+                        <section>
+                            <h3>Do I need to log in every time?</h3>
+                            <p>No. This process is one-time per device unless your LinkedIn session expires or credentials change.</p>
+                        </section>
+                        <section>
+                            <h3>Does Junior save my password?</h3>
+                            <p>No. Junior stores session data, not your LinkedIn password.</p>
+                        </section>
+                        <section>
+                            <h3>Need help?</h3>
+                            <p>Email <a href="mailto:support@heyjunior.ai">support@heyjunior.ai</a> and we will help directly.</p>
+                        </section>
+                    </div>
+                </article>
 
-                <!-- Step 2 -->
-                <div style="margin-bottom: 25px; padding: 25px; background: #fef3c7; border-radius: 12px; border-left: 4px solid #f59e0b;">
-                    <h3 style="color: #92400e; margin-bottom: 10px;">Step 2: Check the "2FA" Checkbox</h3>
-                    <p style="color: #78350f; line-height: 1.6;">
-                        In the Junior app window, find and <strong>check the "2FA" checkbox</strong>. We recommend always checking this box, even if you're not sure whether you have two-factor authentication enabled on LinkedIn.
-                    </p>
-                </div>
-
-                <!-- Step 3 -->
-                <div style="margin-bottom: 25px; padding: 25px; background: #f9fafb; border-radius: 12px; border-left: 4px solid #667eea;">
-                    <h3 style="color: #667eea; margin-bottom: 10px;">Step 3: Click "Start Automation"</h3>
-                    <p style="color: #4b5563; line-height: 1.6;">
-                        Click the <strong>"Start Automation"</strong> button. Junior will automatically open a Chrome browser window.
-                    </p>
-                </div>
-
-                <!-- Step 4 -->
-                <div style="margin-bottom: 25px; padding: 25px; background: #f9fafb; border-radius: 12px; border-left: 4px solid #667eea;">
-                    <h3 style="color: #667eea; margin-bottom: 10px;">Step 4: Log In to LinkedIn</h3>
-                    <p style="color: #4b5563; line-height: 1.6;">
-                        A Chrome window will open showing the <strong>LinkedIn login page</strong>. Log in as you normally would — enter your email and password, and complete two-factor authentication if prompted.
-                    </p>
-                </div>
-
-                <!-- Step 5 -->
-                <div style="margin-bottom: 25px; padding: 25px; background: #dcfce7; border-radius: 12px; border-left: 4px solid #10b981;">
-                    <h3 style="color: #065f46; margin-bottom: 10px;">Step 5: Wait for Junior to Close the Window</h3>
-                    <p style="color: #065f46; line-height: 1.6;">
-                        Once you've logged in successfully, <strong>Junior will automatically close the Chrome window</strong>. Do not close it yourself — let Junior handle it. This confirms your login was successful.
-                    </p>
-                </div>
-
-                <!-- Step 6 -->
-                <div style="margin-bottom: 25px; padding: 25px; background: #dcfce7; border-radius: 12px; border-left: 4px solid #10b981;">
-                    <h3 style="color: #065f46; margin-bottom: 10px;">Step 6: You're All Set!</h3>
-                    <p style="color: #065f46; line-height: 1.6;">
-                        Junior saves your session cookies and <strong>will not ask you to log in again</strong> on future runs. From now on, just launch Junior and click "Start Automation" — it will use your saved session automatically.
-                    </p>
-                </div>
+                <article class="support-card support-next">
+                    <h2>Install help if you need it</h2>
+                    <p>If setup fails before login, return to your operating system guide and retry installation first.</p>
+                    <div class="support-button-row">
+                        <a href="windows-install-help.html" class="secondary-button">Windows Install Help</a>
+                        <a href="mac-install-help.html" class="secondary-button">macOS Install Help</a>
+                    </div>
+                </article>
             </div>
+        </section>
+    </main>
 
-            <!-- Good to Know -->
-            <div style="background: white; border-radius: 16px; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); margin-bottom: 30px;">
-                <h2 style="color: #1f2937; margin-bottom: 25px;">💡 Good to Know</h2>
-
-                <div style="background: #dbeafe; border-left: 4px solid #3b82f6; padding: 20px; border-radius: 8px;">
-                    <ul style="color: #1e3a8a; line-height: 2; margin-left: 20px;">
-                        <li>The login is only required <strong>once per device</strong> — subsequent runs use saved session cookies</li>
-                        <li>If the Chrome window doesn't appear, make sure <strong>Google Chrome is installed</strong> on your computer, then try again</li>
-                        <li>If you accidentally close the Chrome window, just click <strong>"Start Automation"</strong> again</li>
-                        <li>If you change your LinkedIn password, you'll need to log in once more using the same process</li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- FAQ Section -->
-            <div style="background: white; border-radius: 16px; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); margin-bottom: 30px;">
-                <h2 style="color: #1f2937; margin-bottom: 25px;">❓ Frequently Asked Questions</h2>
-
-                <div style="margin-bottom: 25px;">
-                    <h3 style="color: #667eea; margin-bottom: 10px;">Why does Junior open a Chrome window?</h3>
-                    <p style="color: #4b5563; line-height: 1.7;">
-                        Junior needs a real browser session to authenticate securely with LinkedIn. Your credentials go directly to LinkedIn's login page, not to Junior. This is the safest way to connect your account.
-                    </p>
-                </div>
-
-                <div style="margin-bottom: 25px;">
-                    <h3 style="color: #667eea; margin-bottom: 10px;">Does Junior store my password?</h3>
-                    <p style="color: #4b5563; line-height: 1.7;">
-                        No. Junior only stores session cookies, which LinkedIn uses to keep you logged in. Your password is never saved by Junior.
-                    </p>
-                </div>
-
-                <div style="margin-bottom: 25px;">
-                    <h3 style="color: #667eea; margin-bottom: 10px;">Do I need to do this every time?</h3>
-                    <p style="color: #4b5563; line-height: 1.7;">
-                        No — only once. After the first login, Junior remembers your session and you can start automating immediately on future runs.
-                    </p>
-                </div>
-
-                <div>
-                    <h3 style="color: #667eea; margin-bottom: 10px;">Still having issues?</h3>
-                    <p style="color: #4b5563; line-height: 1.7;">
-                        Contact us at <a href="mailto:support@heyjunior.ai" style="color: #667eea; font-weight: 600;">support@heyjunior.ai</a> and we'll help you get set up!
-                    </p>
-                </div>
-            </div>
-
-            <!-- Back Button -->
-            <div style="text-align: center;">
-                <a href="index.html" style="display: inline-block; background: white; color: #667eea; padding: 15px 40px; border-radius: 8px; text-decoration: none; font-weight: 600; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
-                    ← Back to Home
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Simple i18n initialization script - makes page visible -->
     <script src="js/i18n-simple.js"></script>
-    <!-- Referral tracking system -->
     <script src="js/referral.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const mobileToggle = document.querySelector('.mobile-menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            if (mobileToggle && navLinks) {
+                mobileToggle.addEventListener('click', function () {
+                    this.classList.toggle('active');
+                    navLinks.classList.toggle('active');
+                });
+            }
+        });
+    </script>
 </body>
 </html>
