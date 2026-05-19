@@ -7738,6 +7738,7 @@ body {
     padding: 28px;
     margin-bottom: 20px;
     box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+    text-align: left;
 }
 
 .support-card h2 {
@@ -7812,10 +7813,14 @@ body {
 }
 
 .support-list {
-    margin: 0;
+    margin: 0 0 0.75rem;
     padding-left: 20px;
     color: #334155;
     line-height: 1.75;
+}
+
+.support-list li {
+    margin-bottom: 0.5rem;
 }
 
 .support-faq {
