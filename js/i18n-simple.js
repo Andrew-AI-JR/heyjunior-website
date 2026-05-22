@@ -263,9 +263,14 @@ function createLanguageSwitcher() {
   });
 
   // Insert into navigation
-  const navbar = document.querySelector('.navbar .container');
-  if (navbar) {
-    navbar.appendChild(languageSwitcher);
+  const navActions = document.querySelector('.nav-actions');
+  if (navActions) {
+    navActions.appendChild(languageSwitcher);
+  } else {
+    const navbar = document.querySelector('.navbar .container');
+    if (navbar) {
+      navbar.appendChild(languageSwitcher);
+    }
   }
 
   return languageSwitcher;
