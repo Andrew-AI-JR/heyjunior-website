@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Read the latest articles and insights from Junior.">
+    <title>Blog - Junior</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <script defer src="js/analytics.js"></script>
+    <script src="js/api-config.js"></script>
+    <style>
+        .blog-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        .blog-post-card {
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            background: #fff;
+            transition: box-shadow 0.2s;
+        }
+        .blog-post-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .blog-post-title {
+            margin-top: 0;
+            margin-bottom: 12px;
+            font-size: 1.5rem;
+        }
+        .blog-post-title a {
+            color: #0f172a;
+            text-decoration: none;
+        }
+        .blog-post-title a:hover {
+            text-decoration: underline;
+        }
+        .blog-post-meta {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+        }
+        .blog-post-excerpt {
+            color: #334155;
+            line-height: 1.6;
+        }
+        .blog-loading {
+            text-align: center;
+            padding: 40px;
+            color: #64748b;
+        }
+    </style>
+</head>
+<body data-page="blog" class="i18n-ready">
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html"><img src="./images/junior-logo.png" alt="Junior Logo" class="logo-img"></a>
+            </div>
+            <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <div class="nav-group">
+                    <li><a href="index.html#use-cases">Use Cases</a></li>
+                    <li><a href="index.html#features">Features</a></li>
+                    <li><a href="why-commenting-works.html">Why Commenting Works</a></li>
+                    <li><a href="blog.html" aria-current="page">Blog</a></li>
+                    <li><a href="try-it.html">Try It</a></li>
+                
+                    <li><a href="blog.html">Blog</a></li></div>
+                <div class="nav-actions">
+                    <li><a href="register.html?src=blog-nav" class="cta-button">Start Free</a></li>
+                    <li><a href="portal.html" class="nav-login-link">Login</a></li>
+                </div>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="blog-container">
+        <h1>Junior Blog</h1>
+        <p>Insights, guides, and updates.</p>
+        
+        <div id="blog-list" class="blog-list">
+            <div class="blog-loading">Loading articles...</div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Junior. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            const listContainer = document.getElementById('blog-list');
+            const apiBaseUrl = window.getApiBaseUrl();
+
+            try {
+                const response = await fetch(`${apiBaseUrl}/api/blog`);
+                if (!response.ok) throw new Error('Failed to load blog posts');
+                
+                const data = await response.json();
+                const posts = data.posts || [];
+                
+                if (posts.length === 0) {
+                    listContainer.innerHTML = '<p>No articles published yet. Check back soon!</p>';
+                    return;
+                }
+
+                listContainer.innerHTML = posts.map(post => {
+                    const date = new Date(post.published_at).toLocaleDateString();
+                    return `
+                        <article class="blog-post-card">
+                            <h2 class="blog-post-title">
+                                <a href="article.html?slug=${encodeURIComponent(post.slug)}">${post.title}</a>
+                            </h2>
+                            <div class="blog-post-meta">${date}</div>
+                            ${post.excerpt ? `<p class="blog-post-excerpt">${post.excerpt}</p>` : ''}
+                        </article>
+                    `;
+                }).join('');
+            } catch (err) {
+                listContainer.innerHTML = '<p>Unable to load articles at this time.</p>';
+                console.error(err);
+            }
+        });
+    </script>
+</body>
+</html>
