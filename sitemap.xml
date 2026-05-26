@@ -102,9 +102,24 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
-  <url>
+    <url>
     <loc>https://heyjunior.ai/why-commenting-works.html</loc>
     <lastmod>2026-05-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://heyjunior.ai/blog/linkedin-lead-generation-strategy/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://heyjunior.ai/blog/linkedin-automation-tool-for-lead-generation/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://heyjunior.ai/blog/linkedin-lead-generation-ai/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>

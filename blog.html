@@ -121,7 +121,7 @@
                     return `
                         <article class="blog-post-card">
                             <h2 class="blog-post-title">
-                                <a href="article.html?slug=${encodeURIComponent(post.slug)}">${post.title}</a>
+                                <a href="blog/${encodeURIComponent(post.slug)}/">${post.title}</a>
                             </h2>
                             <div class="blog-post-meta">${date}</div>
                             ${post.excerpt ? `<p class="blog-post-excerpt">${post.excerpt}</p>` : ''}
