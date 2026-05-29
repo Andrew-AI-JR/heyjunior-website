@@ -82,6 +82,16 @@
                     <div class="plan-selection" style="margin: 20px 0; padding: 15px; background: white; border-radius: 8px; border: 1px solid #d1e9ff;">
                         <h3 style="font-size: 1em; color: #1e40af; margin-bottom: 10px; text-align: center;">Select Your Plan:</h3>
                         <div style="display: flex; gap: 10px; flex-direction: column;">
+                            <label class="plan-option" style="display: block; padding: 12px; border: 2px solid #e2e8f0; border-radius: 6px; cursor: pointer; transition: all 0.3s;">
+                                <input type="radio" name="plan" value="basic" id="plan-basic" style="margin-right: 8px;">
+                                <strong>Basic - $9.99/month</strong>
+                                <small style="display: block; color: #6b7280; margin-left: 24px;">10 AI comments per day - Great for getting started</small>
+                            </label>
+                            <label class="plan-option" style="display: block; padding: 12px; border: 2px solid #e2e8f0; border-radius: 6px; cursor: pointer; transition: all 0.3s;">
+                                <input type="radio" name="plan" value="starter" id="plan-starter" style="margin-right: 8px;">
+                                <strong>Starter - $14.99/month</strong>
+                                <small style="display: block; color: #6b7280; margin-left: 24px;">20 AI comments per day - For steady networkers</small>
+                            </label>
                             <label class="plan-option" style="display: block; padding: 12px; border: 2px solid #10b981; border-radius: 6px; cursor: pointer; background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);">
                                 <input type="radio" name="plan" value="standard" id="plan-standard" checked style="margin-right: 8px;">
                                 <strong style="color: #059669;">Standard - $29.99/month ⭐ MOST POPULAR</strong>
@@ -360,10 +370,15 @@
                 const appliedCoupon = sessionStorage.getItem('appliedCoupon');
                 
                 if (selectedPlan) {
-                    const price = selectedPlan.value === 'standard' ? '29.99' : '49.99';
-                    const note = selectedPlan.value === 'standard' ? 
-                        'Perfect for job seekers • Cancel anytime' : 
-                        'Maximum visibility • Cancel anytime';
+                    const PLAN_PRICES = { basic: '9.99', starter: '14.99', standard: '29.99', pro: '49.99' };
+                    const PLAN_NOTES = {
+                        basic: 'Great for getting started • Cancel anytime',
+                        starter: 'For steady networkers • Cancel anytime',
+                        standard: 'Perfect for job seekers • Cancel anytime',
+                        pro: 'Maximum visibility • Cancel anytime'
+                    };
+                    const price = PLAN_PRICES[selectedPlan.value] || '29.99';
+                    const note = PLAN_NOTES[selectedPlan.value] || PLAN_NOTES.standard;
                     
                     priceAmount.textContent = price;
                     
@@ -430,7 +445,7 @@
             // Check URL params for pre-selected plan
             const urlParams = new URLSearchParams(window.location.search);
             const planParam = urlParams.get('plan');
-            if (planParam && (planParam === 'standard' || planParam === 'pro')) {
+            if (planParam && ['basic', 'starter', 'standard', 'pro'].includes(planParam)) {
                 const planRadio = document.getElementById('plan-' + planParam);
                 if (planRadio) {
                     planRadio.checked = true;

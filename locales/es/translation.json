@@ -188,12 +188,22 @@
   },
   "pricing": {
     "title": "Elige Tu Plan",
+    "basicName": "Básico",
+    "starterName": "Inicial",
     "standardName": "Estándar",
     "proName": "Pro",
     "period": "/mes",
     "priceNote": "Perfecto para buscadores de empleo • Cancela cuando quieras",
+    "basicNote": "Ideal para empezar • Cancela cuando quieras",
+    "starterNote": "Para networkers constantes • Cancela cuando quieras",
     "proNote": "Máxima visibilidad • Cancela cuando quieras",
     "features": {
+      "basic": {
+        "comments": "10 comentarios IA por día"
+      },
+      "starter": {
+        "comments": "20 comentarios IA por día"
+      },
       "standard": {
         "comments": "50 comentarios IA por día"
       },

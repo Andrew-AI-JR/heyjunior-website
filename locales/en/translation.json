@@ -188,12 +188,22 @@
   },
   "pricing": {
     "title": "Choose Your Plan",
+    "basicName": "Basic",
+    "starterName": "Starter",
     "standardName": "Standard",
     "proName": "Pro",
     "period": "/month",
     "priceNote": "Perfect for job seekers • Cancel anytime",
+    "basicNote": "Great for getting started • Cancel anytime",
+    "starterNote": "For steady networkers • Cancel anytime",
     "proNote": "Maximum visibility • Cancel anytime",
     "features": {
+      "basic": {
+        "comments": "Up to 10 daily engagements"
+      },
+      "starter": {
+        "comments": "Up to 20 daily engagements"
+      },
       "standard": {
         "comments": "Up to 50 daily engagements"
       },

@@ -4,6 +4,8 @@ const API_BASE_URL = window.getApiBaseUrl();
 
 // Stripe Price IDs for different plans
 const STRIPE_PRICE_IDS = {
+  'basic': 'price_1TcWzqRxE6F23RwQ7FnKpQyU',     // Basic plan ($9.99/month, 10 comments/day)
+  'starter': 'price_1TcX0nRxE6F23RwQpZxnoTRv',   // Starter plan ($14.99/month, 20 comments/day)
   'standard': 'price_1RJMCrRxE6F23RwQEnHUwvFq', // Standard plan ($29.99/month, 50 comments/day)
   'pro': 'price_1SX1LrRxE6F23RwQgWgIV1NK'       // Pro plan ($49.99/month, 80 comments/day)
 };
@@ -1007,8 +1009,8 @@ function restoreButtonStates() {
 }
 
 async function createCheckoutSession(planType) {
-    // planType should be 'standard' or 'pro'
-    if (!planType || !['standard', 'pro'].includes(planType)) {
+    // planType should be one of: basic, starter, standard, pro
+    if (!planType || !['basic', 'starter', 'standard', 'pro'].includes(planType)) {
         console.error('Invalid plan type:', planType);
         return;
     }
@@ -1029,8 +1031,8 @@ async function createCheckoutSession(planType) {
         document.getElementById('trial-subscribe-error')
     ].filter(el => el !== null);
     
-    // Determine which button was clicked
-    const activeButtons = planType === 'standard' ? standardButtons : proButtons;
+    // Determine which button was clicked (only standard/pro have portal buttons)
+    const activeButtons = planType === 'standard' ? standardButtons : (planType === 'pro' ? proButtons : []);
     
     // Get the Stripe price ID for the selected plan
     const priceId = STRIPE_PRICE_IDS[planType];

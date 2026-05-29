@@ -4,6 +4,8 @@ const API_BASE_URL = window.getApiBaseUrl();
 const DEFAULT_COUPON = '1FREEMONTH';
 const COUPON_CODE = new URLSearchParams(window.location.search).get('coupon')?.trim().toUpperCase() || DEFAULT_COUPON;
 const PLAN_CONFIG = {
+    basic: { label: 'Basic', priceId: 'price_1TcWzqRxE6F23RwQ7FnKpQyU' },
+    starter: { label: 'Starter', priceId: 'price_1TcX0nRxE6F23RwQpZxnoTRv' },
     standard: { label: 'Standard', priceId: 'price_1RJMCrRxE6F23RwQEnHUwvFq' },
     pro: { label: 'Pro', priceId: 'price_1SX1LrRxE6F23RwQgWgIV1NK' }
 };

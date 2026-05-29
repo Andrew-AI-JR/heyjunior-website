@@ -842,6 +842,34 @@ section, div {
     margin: 0 auto;
 }
 
+.pricing-grid.pricing-grid-4 {
+    grid-template-columns: repeat(4, 1fr);
+    max-width: 1200px;
+    gap: 20px;
+    align-items: stretch;
+}
+
+.pricing-grid.pricing-grid-4 .pricing-card {
+    padding: 28px 22px;
+}
+
+/* In the 4-card layout the featured card should never span columns */
+@media (max-width: 1024px) {
+    .pricing-grid.pricing-grid-4 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .pricing-grid.pricing-grid-4 .pricing-card.featured {
+        grid-column: span 1;
+    }
+}
+
+@media (max-width: 600px) {
+    .pricing-grid.pricing-grid-4 {
+        grid-template-columns: 1fr;
+    }
+}
+
 .pricing-card {
     background: #f8fafc;
     padding: 40px;
