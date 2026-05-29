@@ -424,15 +424,17 @@
 
         document.addEventListener('DOMContentLoaded', async function() {
             const container = document.getElementById('article-content');
-            const apiBaseUrl = window.getApiBaseUrl();
             
             const urlParams = new URLSearchParams(window.location.search);
             const slug = urlParams.get('slug');
 
-            if (!slug) {
-                container.innerHTML = '<p>Article not found.</p>';
+            if (slug && !window.__INITIAL_ARTICLE_DATA__) {
+                // Redirect to the new static URL
+                window.location.replace(`/blog/${slug}/`);
                 return;
             }
+
+            const apiBaseUrl = window.getApiBaseUrl();
 
             try {
                 const response = await fetch(`${apiBaseUrl}/api/blog/${encodeURIComponent(slug)}`);
