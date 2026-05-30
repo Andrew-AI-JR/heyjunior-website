@@ -26,7 +26,7 @@
       "title": "Start getting interviews from comments — not resumes.",
       "subtitle": "Junior comments on the right LinkedIn posts for you, in your voice. Real conversations. Real replies. No resume blasting.",
       "cta": "Get Started Free",
-      "microcopy": "First month free · Card required at signup",
+      "microcopy": "First week free · Card required at signup",
       "proofLabel": "Real replies from real LinkedIn conversations:"
     },
     "whatItDoes": {
@@ -36,7 +36,7 @@
       "b3": "Gets people to respond",
       "b4": "Turns conversations into interviews",
       "cta": "Get Started Free",
-      "microcopy": "First month free · Card required at signup"
+      "microcopy": "First week free · Card required at signup"
     },
     "faqCta": {
       "lead": "Still applying and hearing nothing back? Try Junior free for your first month.",
@@ -45,7 +45,7 @@
     "finalCta": {
       "title": "Stop applying. Start conversations.",
       "button": "Get Started Free",
-      "microcopy": "First month free · Card required at signup"
+      "microcopy": "First week free · Card required at signup"
     }
   },
   "landingHomeGeneral": {
@@ -54,7 +54,7 @@
       "subtitle": "Junior helps you find relevant posts, write natural comments in your voice, and turn replies into interviews, pipeline, and client conversations.",
       "cta": "Start Free",
       "secondaryCta": "Choose Your Use Case",
-      "microcopy": "First month free · Card required at signup"
+      "microcopy": "First week free · Card required at signup"
     },
     "proof": {
       "title": "Conversation-first outreach that feels human",
@@ -67,7 +67,7 @@
     "finalCta": {
       "title": "Stop sending noise. Start better conversations.",
       "button": "Start Free",
-      "microcopy": "First month free · Card required at signup"
+      "microcopy": "First week free · Card required at signup"
     }
   },
   "badges": {
@@ -444,9 +444,9 @@
       "title": "If you want to try it",
       "p1": "I made it available as a product.",
       "cta": "https://heyjunior.ai/register.html",
-      "bullet1": "14-day free trial",
+      "bullet1": "7-day free trial",
       "bullet2": "No credit card",
-      "button": "Start your 14-day free trial"
+      "button": "Start your 7-day free trial"
     },
     "close": {
       "title": "Either way",
