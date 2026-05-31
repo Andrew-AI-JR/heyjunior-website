@@ -384,27 +384,25 @@
         document.addEventListener('DOMContentLoaded', async function() {
             const container = document.getElementById('article-content');
             
-            const urlParams = new URLSearchParams(window.location.search);
-            const slug = urlParams.get('slug');
-
-            if (slug && !window.__INITIAL_ARTICLE_DATA__) {
-                // Redirect to the new static URL
-                window.location.replace(`/blog/${slug}/`);
-                return;
-            }
-
-            const apiBaseUrl = window.getApiBaseUrl();
-
             try {
-                const response = await fetch(`${apiBaseUrl}/api/blog/${encodeURIComponent(slug)}`);
-                if (!response.ok) {
-                    if (response.status === 404) {
+                let post;
+                
+                // If we have injected data (static page), use it directly
+                if (window.__INITIAL_ARTICLE_DATA__) {
+                    post = window.__INITIAL_ARTICLE_DATA__;
+                } else {
+                    // Otherwise, we are on the dynamic route, fetch from API
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const slug = urlParams.get('slug');
+                    
+                    if (!slug) {
                         throw new Error('Article not found.');
                     }
-                    throw new Error('Failed to load article.');
+                    
+                    // Redirect to the new static URL format
+                    window.location.replace(`/blog/${slug}/`);
+                    return;
                 }
-                
-                const post = await response.json();
                 
                 document.title = `${post.title} - Junior`;
                 

@@ -58,35 +58,6 @@ def generate_static_page(template_html, article):
     # Simple script to inject the article data directly into the page so JS doesn't need to fetch it
     article_json = json.dumps(article).replace('</script>', '<\\/script>')
     
-    injection_script = f"""
-    <script>
-        window.__INITIAL_ARTICLE_DATA__ = {article_json};
-        
-        // Override the fetch logic in the template
-        const originalFetch = window.fetch;
-        window.fetch = async function(url, options) {{
-            if (url.includes('/api/blog/{slug}')) {{
-                return {{
-                    ok: true,
-                    json: async () => window.__INITIAL_ARTICLE_DATA__
-                }};
-            }}
-            return originalFetch(url, options);
-        }};
-        
-        // Mock URL search params so the template logic thinks it's on the query param route
-        const originalURLSearchParams = window.URLSearchParams;
-        window.URLSearchParams = function(init) {{
-            const params = new originalURLSearchParams(init);
-            params.get = function(name) {{
-                if (name === 'slug') return '{slug}';
-                return originalURLSearchParams.prototype.get.call(this, name);
-            }};
-            return params;
-        }};
-    </script>
-    """
-    
     html = html.replace('<script defer src="js/analytics.js"></script>', f'<script defer src="../../js/analytics.js"></script>')
     html = html.replace('<script src="js/api-config.js"></script>', f'<script src="../../js/api-config.js"></script>')
     html = html.replace('href="css/styles.css"', 'href="../../css/styles.css"')
@@ -102,7 +73,7 @@ def generate_static_page(template_html, article):
     
     # Inject the data script before the main script
     html = html.replace('<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>', 
-                        f'{injection_script}\n    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>')
+                        f'<script>\n        window.__INITIAL_ARTICLE_DATA__ = {article_json};\n    </script>\n    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>')
     
     return html
 
