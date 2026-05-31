@@ -6378,6 +6378,11 @@ section, div {
     text-align: center;
 }
 
+.rl-interactive-demo[aria-disabled="true"] {
+    opacity: 0.72;
+    pointer-events: none;
+}
+
 .tryit-generate-hint {
     margin-top: 0.65rem;
     text-align: center;
@@ -6385,39 +6390,25 @@ section, div {
     font-size: 0.85rem;
 }
 
-.tryit-sample-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-top: 0.5rem;
-}
-
 .tryit-sample-btn {
-    margin-top: 0.5rem;
-    padding: 0.45rem 0.85rem;
-    border: 1px solid #cbd5e1;
+    display: block;
+    width: 100%;
+    margin: 0 0 1rem;
+    padding: 0.55rem 0.85rem;
+    border: 1px solid #166534;
     border-radius: 8px;
-    background: #fff;
-    color: #334155;
-    font: inherit;
-    font-size: 0.88rem;
-    cursor: pointer;
-}
-
-.tryit-sample-row .tryit-sample-btn {
-    margin-top: 0;
-    flex: 1 1 auto;
-}
-
-.tryit-sample-btn-pair {
-    border-color: #166534;
-    color: #166534;
     background: #f0fdf4;
+    color: #166534;
+    font: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
 }
 
 .tryit-sample-btn:hover {
-    background: #f8fafc;
-    border-color: #94a3b8;
+    background: #dcfce7;
+    border-color: #15803d;
 }
 
 .tryit-what-happened {

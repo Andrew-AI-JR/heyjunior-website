@@ -42,15 +42,14 @@
     }
   ];
 
-  var samplePostIndex = 0;
-  var sampleBioIndex = 0;
-  var samplePairIndex = 0;
+  var sampleIndex = 0;
 
   var STORAGE = {
     attempts: 'juniorTryItAttempts',
     draft: 'juniorTryItDraft',
     userBio: 'juniorTryItUserBio',
-    suggestedAngle: 'juniorTryItSuggestedAngle'
+    suggestedAngle: 'juniorTryItSuggestedAngle',
+    lastResult: 'juniorTryItLastResult'
   };
 
   var state = {
@@ -242,20 +241,77 @@
     }
   }
 
-  function showLockout(message) {
+  function setFormDisabled(disabled) {
+    var formSection = $('try-it');
+    var generateBtn = $('tryit-demo-button');
+    var regenerateBtn = $('tryit-regenerate-button');
+    var sampleBtn = $('tryit-load-sample');
+    var postInput = $('tryit-post');
+    var bioInput = $('tryit-bio');
+    var toneInput = $('tryit-tone');
+
+    if (formSection) formSection.setAttribute('aria-disabled', disabled ? 'true' : 'false');
+    if (generateBtn) generateBtn.disabled = disabled;
+    if (regenerateBtn) regenerateBtn.disabled = disabled;
+    if (sampleBtn) sampleBtn.disabled = disabled;
+    [postInput, bioInput, toneInput].forEach(function (el) {
+      if (el) el.disabled = disabled;
+    });
+  }
+
+  function scrollToResult() {
+    var result = $('tryit-demo-result');
+    if (result && !result.hidden) {
+      result.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  function persistLastResult(data) {
+    try {
+      sessionStorage.setItem(STORAGE.lastResult, JSON.stringify(data));
+    } catch (_e) {
+      /* quota / private browsing */
+    }
+  }
+
+  function restoreLastResult() {
+    try {
+      var raw = sessionStorage.getItem(STORAGE.lastResult);
+      if (!raw) return false;
+      showResult(JSON.parse(raw));
+      return true;
+    } catch (_e) {
+      return false;
+    }
+  }
+
+  function showLockout(message, options) {
+    options = options || {};
     state.status = 'rate_limited';
     var formSection = $('try-it');
     var lockout = $('tryit-lockout');
     var lockoutMsg = $('tryit-lockout-message');
-    var generateBtn = $('tryit-demo-button');
-    var regenerateBtn = $('tryit-regenerate-button');
+    var result = $('tryit-demo-result');
+    var hasVisibleResult = result && !result.hidden;
 
-    if (formSection) formSection.hidden = true;
+    if (options.keepFormVisible) {
+      setFormDisabled(true);
+    } else if (formSection) {
+      formSection.hidden = true;
+      setFormDisabled(true);
+    } else {
+      setFormDisabled(true);
+    }
+
     if (lockout) lockout.hidden = false;
     if (lockoutMsg && message) lockoutMsg.textContent = message;
-    if (generateBtn) generateBtn.disabled = true;
-    if (regenerateBtn) regenerateBtn.disabled = true;
     updateSignupLinks();
+
+    if (options.scrollToResult && hasVisibleResult) {
+      requestAnimationFrame(function () {
+        requestAnimationFrame(scrollToResult);
+      });
+    }
   }
 
   function buildWhatHappenedSteps(data, isSampleOnly) {
@@ -397,6 +453,7 @@
 
     if (!isSampleOnly) {
       persistSignupContext();
+      persistLastResult(data);
     }
     updateSignupLinks();
 
@@ -431,7 +488,10 @@
 
   async function runGeneration(isRegenerate) {
     if (isLockedOut()) {
-      showLockout("You've seen how it works. Create your account to generate more comments.");
+      restoreLastResult();
+      showLockout("You've seen how it works. Create your account to generate more comments.", {
+        scrollToResult: true
+      });
       return;
     }
 
@@ -489,11 +549,14 @@
       state.status = isSampleOnly ? 'fallback' : 'success';
 
       if (isSampleOnly) {
-        setError('This demo works on hiring posts. Load the sample post or paste a job listing.');
+        setError('This demo works on hiring posts. Try a sample or paste a job listing.');
       }
 
       if (isLockedOut()) {
-        showLockout("You've seen how it works. Create your account to generate more comments.");
+        showLockout("You've seen how it works. Create your account to generate more comments.", {
+          keepFormVisible: true,
+          scrollToResult: true
+        });
       }
     } catch (err) {
       clearTimeout(timeoutId);
@@ -561,86 +624,47 @@
     return (current + 1) % length;
   }
 
-  function updateSampleButtonLabels() {
+  function updateSampleButtonLabel() {
+    var btn = $('tryit-load-sample');
+    if (!btn) return;
     var n = SAMPLE_SCENARIOS.length;
-    var postBtn = $('tryit-load-sample-post');
-    var bioBtn = $('tryit-load-sample-bio');
-    var pairBtn = $('tryit-load-sample-pair');
-    var nextPost = nextSampleIndex(samplePostIndex, n);
-    var nextBio = nextSampleIndex(sampleBioIndex, n);
-    var nextPair = nextSampleIndex(samplePairIndex, n);
-
-    if (postBtn) {
-      postBtn.textContent =
-        'Try sample post · ' + SAMPLE_SCENARIOS[nextPost].label + ' · ' + (nextPost + 1) + ' of ' + n;
-    }
-    if (bioBtn) {
-      bioBtn.textContent =
-        'Try sample bio · ' + SAMPLE_SCENARIOS[nextBio].label + ' · ' + (nextBio + 1) + ' of ' + n;
-    }
-    if (pairBtn) {
-      pairBtn.textContent =
-        'Try matched pair · ' + SAMPLE_SCENARIOS[nextPair].label + ' · ' + (nextPair + 1) + ' of ' + n;
-    }
+    var next = nextSampleIndex(sampleIndex, n);
+    btn.textContent =
+      'Try a sample · ' + SAMPLE_SCENARIOS[next].label + ' · ' + (next + 1) + ' of ' + n;
   }
 
-  function applySamplePost(advance) {
-    if (advance) samplePostIndex = nextSampleIndex(samplePostIndex, SAMPLE_SCENARIOS.length);
-    state.postText = SAMPLE_SCENARIOS[samplePostIndex].post;
-    syncFormFromState();
-    saveDraft();
-    updateSampleButtonLabels();
-    clearError();
-  }
-
-  function applySampleBio(advance) {
-    if (advance) sampleBioIndex = nextSampleIndex(sampleBioIndex, SAMPLE_SCENARIOS.length);
-    state.userBio = SAMPLE_SCENARIOS[sampleBioIndex].bio;
-    syncFormFromState();
-    saveDraft();
-    updateSampleButtonLabels();
-    clearError();
-  }
-
-  function applySamplePair(advance) {
-    if (advance) samplePairIndex = nextSampleIndex(samplePairIndex, SAMPLE_SCENARIOS.length);
-    var scenario = SAMPLE_SCENARIOS[samplePairIndex];
+  function applySample(advance) {
+    if (advance) sampleIndex = nextSampleIndex(sampleIndex, SAMPLE_SCENARIOS.length);
+    var scenario = SAMPLE_SCENARIOS[sampleIndex];
     state.postText = scenario.post;
     state.userBio = scenario.bio;
-    samplePostIndex = samplePairIndex;
-    sampleBioIndex = samplePairIndex;
     syncFormFromState();
     saveDraft();
-    updateSampleButtonLabels();
+    updateSampleButtonLabel();
     clearError();
   }
 
-  /** On Generate: cycle samples when fields are empty so users can quick-test without typing. */
   function maybeCycleSamplesBeforeGenerate() {
     var postEmpty = state.postText.trim().length < 20;
     var bioEmpty = state.userBio.trim().length === 0;
 
+    if (!postEmpty && !bioEmpty) return false;
+
     if (postEmpty && bioEmpty) {
-      applySamplePair(true);
+      applySample(true);
       return true;
     }
-    if (postEmpty) applySamplePost(true);
-    if (bioEmpty) applySampleBio(true);
-    return postEmpty || bioEmpty;
+
+    var scenario = SAMPLE_SCENARIOS[sampleIndex];
+    if (postEmpty) state.postText = scenario.post;
+    if (bioEmpty) state.userBio = scenario.bio;
+    syncFormFromState();
+    saveDraft();
+    return true;
   }
 
-  function loadSamplePost() {
-    applySamplePost(true);
-  }
-
-  function loadSampleBio() {
-    applySampleBio(true);
-  }
-
-  function loadSamplePair() {
-    applySamplePair(true);
-    var formSection = $('try-it');
-    if (formSection) formSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  function loadSample() {
+    applySample(true);
   }
 
   function init() {
@@ -648,12 +672,15 @@
 
     loadDraft();
     syncFormFromState();
-    updateSampleButtonLabels();
+    updateSampleButtonLabel();
     updateAttemptsUI();
     updateSignupLinks();
 
     if (isLockedOut()) {
-      showLockout("You've seen how it works. Create your account to generate more comments.");
+      restoreLastResult();
+      showLockout("You've seen how it works. Create your account to generate more comments.", {
+        scrollToResult: true
+      });
     }
 
     var form = $('tryit-demo-form');
@@ -662,13 +689,9 @@
     var toneInput = $('tryit-tone');
     var regenerateBtn = $('tryit-regenerate-button');
     var copyButton = $('tryit-copy-comment');
-    var samplePostBtn = $('tryit-load-sample-post');
-    var sampleBioBtn = $('tryit-load-sample-bio');
-    var samplePairBtn = $('tryit-load-sample-pair');
+    var sampleBtn = $('tryit-load-sample');
 
-    if (samplePostBtn) samplePostBtn.addEventListener('click', loadSamplePost);
-    if (sampleBioBtn) sampleBioBtn.addEventListener('click', loadSampleBio);
-    if (samplePairBtn) samplePairBtn.addEventListener('click', loadSamplePair);
+    if (sampleBtn) sampleBtn.addEventListener('click', loadSample);
 
     if (form) {
       form.addEventListener('submit', function (event) {

@@ -58,10 +58,6 @@
                     <label for="tryit-post">LinkedIn hiring post</label>
                     <textarea id="tryit-post" class="rl-demo-textarea" rows="7" maxlength="3000" required placeholder="Paste a hiring post, e.g. We're hiring a data engineer… The demo personalizes job posts best."></textarea>
                     <p class="rl-demo-help tryit-char-count" id="tryit-post-count" aria-live="polite">0 / 3000 · min 20 characters</p>
-                    <div class="tryit-sample-row">
-                        <button type="button" class="tryit-sample-btn" id="tryit-load-sample-post">Try sample post</button>
-                        <button type="button" class="tryit-sample-btn tryit-sample-btn-pair" id="tryit-load-sample-pair">Try matched pair</button>
-                    </div>
                 </div>
 
                 <div class="rl-demo-field">
@@ -69,8 +65,9 @@
                     <textarea id="tryit-bio" class="rl-demo-textarea" rows="6" maxlength="2000" placeholder="e.g. I build data pipelines in Python and SQL, with 5 years in analytics engineering..."></textarea>
                     <p class="rl-demo-help tryit-char-count" id="tryit-bio-count" aria-live="polite">0 / 2000</p>
                     <p class="rl-demo-help tryit-bio-warn" id="tryit-bio-warn">Adding your background strongly improves personalization.</p>
-                    <button type="button" class="tryit-sample-btn" id="tryit-load-sample-bio">Try sample bio</button>
                 </div>
+
+                <button type="button" class="tryit-sample-btn" id="tryit-load-sample">Try a sample</button>
 
                 <div class="rl-demo-field">
                     <label for="tryit-tone">Tone</label>
@@ -91,7 +88,7 @@
                 <p class="tryit-loader" id="tryit-loader" hidden aria-live="polite">Understanding the post…</p>
 
                 <button type="submit" class="rl-button rl-generate-btn" id="tryit-demo-button">Generate comment</button>
-                <p class="rl-demo-help tryit-generate-hint">Tip: click sample buttons to cycle scenarios, or hit Generate with empty fields to auto-load the next matched pair.</p>
+                <p class="rl-demo-help tryit-generate-hint">No post handy? Try a sample, or hit Generate on empty fields to load the next one.</p>
                 <p class="rl-demo-help" id="tryit-attempts-help" aria-live="polite"></p>
                 <p class="rl-demo-error" id="tryit-demo-error" hidden></p>
             </form>
