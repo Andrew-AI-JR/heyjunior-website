@@ -6378,6 +6378,93 @@ section, div {
     text-align: center;
 }
 
+.tryit-char-count {
+    margin-top: 0.35rem;
+    font-size: 0.85rem;
+    color: #64748b;
+}
+
+.tryit-char-count.tryit-count-warn {
+    color: #b45309;
+}
+
+.tryit-bio-warn {
+    color: #64748b;
+    font-style: italic;
+}
+
+.tryit-loader {
+    margin: 0.75rem 0 0;
+    padding: 0.65rem 0.85rem;
+    border-radius: 8px;
+    background: #eff6ff;
+    color: #1e40af;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.tryit-approach-block {
+    margin-bottom: 1.25rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid #bbf7d0;
+}
+
+.tryit-approach-field {
+    min-height: 88px;
+    margin-bottom: 0.75rem;
+}
+
+.tryit-regenerate-btn {
+    width: 100%;
+    margin-top: 0.25rem;
+}
+
+.tryit-comment-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem 0.75rem;
+    margin-bottom: 0.35rem;
+}
+
+.tryit-comment-header .rl-result-label {
+    margin: 0;
+}
+
+.tryit-verified-badge {
+    display: inline-block;
+    padding: 0.2rem 0.55rem;
+    border-radius: 999px;
+    background: #dcfce7;
+    color: #166534;
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+
+.tryit-fallback-note {
+    margin: 0.75rem 0 0;
+    padding: 0.65rem 0.85rem;
+    border-radius: 8px;
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    color: #92400e;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.tryit-result .rl-share-actions {
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    justify-content: center;
+}
+
+.tryit-success-cta {
+    text-decoration: none;
+    text-align: center;
+}
+
 .rl-result {
     background: #ecfdf5;
     border: 1px solid #bbf7d0;

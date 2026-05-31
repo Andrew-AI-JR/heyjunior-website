@@ -24,6 +24,9 @@ build/
 .env.production
 *.env
 
+# Local API overrides (copy from js/api-config.local.example.js)
+js/api-config.local.js
+
 # Python cache
 __pycache__/
 *.pyc
