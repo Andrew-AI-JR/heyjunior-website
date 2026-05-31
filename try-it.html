@@ -47,24 +47,29 @@
     <main class="reddit-lp" style="padding-top: 120px;">
         <section class="rl-hero">
             <h1>Try Junior in your browser</h1>
-            <p>Paste a post, add your bio, pick a tone, and generate a personalized comment.</p>
-            <p class="rl-hero-trust">You get 3 free tries. Then we will ask you to sign up.</p>
+            <p>Paste a <strong>hiring post</strong>, add your bio, pick a tone, and see a personalized comment.</p>
+            <p class="rl-hero-trust">Best on job posts. You get 3 free tries — then we ask you to sign up.</p>
         </section>
 
         <section class="rl-section rl-interactive-demo" id="try-it">
             <h2 class="rl-h2">Generate your comment</h2>
             <form class="rl-demo-form" id="tryit-demo-form">
                 <div class="rl-demo-field">
-                    <label for="tryit-post">LinkedIn post</label>
-                    <textarea id="tryit-post" class="rl-demo-textarea" rows="7" maxlength="3000" required placeholder="Paste the LinkedIn post you want to comment on..."></textarea>
-                    <p class="rl-demo-help tryit-char-count" id="tryit-post-count" aria-live="polite">0 / 3000 (min 20)</p>
+                    <label for="tryit-post">LinkedIn hiring post</label>
+                    <textarea id="tryit-post" class="rl-demo-textarea" rows="7" maxlength="3000" required placeholder="Paste a hiring post, e.g. We're hiring a data engineer… The demo personalizes job posts best."></textarea>
+                    <p class="rl-demo-help tryit-char-count" id="tryit-post-count" aria-live="polite">0 / 3000 · min 20 characters</p>
+                    <div class="tryit-sample-row">
+                        <button type="button" class="tryit-sample-btn" id="tryit-load-sample-post">Try sample post</button>
+                        <button type="button" class="tryit-sample-btn tryit-sample-btn-pair" id="tryit-load-sample-pair">Try matched pair</button>
+                    </div>
                 </div>
 
                 <div class="rl-demo-field">
-                    <label for="tryit-bio">About you (2–3 sentences)</label>
+                    <label for="tryit-bio">About you — 2 to 3 sentences</label>
                     <textarea id="tryit-bio" class="rl-demo-textarea" rows="6" maxlength="2000" placeholder="e.g. I build data pipelines in Python and SQL, with 5 years in analytics engineering..."></textarea>
                     <p class="rl-demo-help tryit-char-count" id="tryit-bio-count" aria-live="polite">0 / 2000</p>
                     <p class="rl-demo-help tryit-bio-warn" id="tryit-bio-warn">Adding your background strongly improves personalization.</p>
+                    <button type="button" class="tryit-sample-btn" id="tryit-load-sample-bio">Try sample bio</button>
                 </div>
 
                 <div class="rl-demo-field">
@@ -86,27 +91,50 @@
                 <p class="tryit-loader" id="tryit-loader" hidden aria-live="polite">Understanding the post…</p>
 
                 <button type="submit" class="rl-button rl-generate-btn" id="tryit-demo-button">Generate comment</button>
+                <p class="rl-demo-help tryit-generate-hint">Tip: click sample buttons to cycle scenarios, or hit Generate with empty fields to auto-load the next matched pair.</p>
                 <p class="rl-demo-help" id="tryit-attempts-help" aria-live="polite"></p>
                 <p class="rl-demo-error" id="tryit-demo-error" hidden></p>
             </form>
         </section>
 
         <section class="rl-section rl-result tryit-result" id="tryit-demo-result" hidden>
+            <div class="tryit-what-happened" id="tryit-what-happened" hidden>
+                <p class="tryit-what-happened-title">How Junior wrote this</p>
+                <ol class="tryit-what-steps">
+                    <li class="tryit-what-step" id="tryit-step-validate">
+                        <span class="tryit-step-label">1. Read &amp; validate</span>
+                        <p class="tryit-step-text" id="tryit-step-validate-text"></p>
+                        <ul class="tryit-match-reasons" id="tryit-match-reasons" hidden></ul>
+                    </li>
+                    <li class="tryit-what-step" id="tryit-step-approach">
+                        <span class="tryit-step-label">2. Pick an approach</span>
+                        <p class="tryit-step-text" id="tryit-step-approach-text"></p>
+                    </li>
+                    <li class="tryit-what-step" id="tryit-step-comment">
+                        <span class="tryit-step-label">3. Write the comment</span>
+                        <p class="tryit-step-text" id="tryit-step-comment-text"></p>
+                    </li>
+                </ol>
+            </div>
+
             <div class="tryit-approach-block" id="tryit-approach-block" hidden>
-                <label for="tryit-suggested-angle" class="rl-result-label">Suggested approach</label>
+                <label for="tryit-suggested-angle" class="rl-result-label">Edit the approach</label>
+                <p class="tryit-approach-help" id="tryit-approach-help">Tweak how you want to connect to this post, then regenerate.</p>
                 <textarea id="tryit-suggested-angle" class="rl-demo-textarea tryit-approach-field" rows="3" maxlength="500" placeholder="How Junior would connect your experience to this post…"></textarea>
                 <button type="button" class="rl-button tryit-regenerate-btn" id="tryit-regenerate-button">Regenerate with this approach</button>
             </div>
 
+            <p class="tryit-result-context" id="tryit-result-context" hidden></p>
+
             <div class="tryit-comment-header">
-                <p class="rl-result-label">Your comment</p>
+                <p class="rl-result-label" id="tryit-comment-label">Your comment</p>
                 <span class="tryit-verified-badge" id="tryit-verified-badge" hidden>Quality-checked</span>
             </div>
 
             <div class="rl-result-comment" id="tryit-demo-comment"></div>
 
             <p class="tryit-fallback-note" id="tryit-fallback-note" hidden>
-                We used a sample comment — sign up for personalized results.
+                This is a generic sample — not based on your post. Paste a hiring post and try again, or sign up for comments on any post type.
             </p>
 
             <div class="rl-share-actions rl-share-actions-single">

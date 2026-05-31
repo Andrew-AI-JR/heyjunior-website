@@ -11,6 +11,41 @@
   ];
   var LOADER_INTERVAL_MS = 4000;
 
+  var SAMPLE_SCENARIOS = [
+    {
+      label: 'Data engineer',
+      post:
+        "We're hiring a senior data engineer to build scalable data pipelines, improve analytics reliability, and help our platform grow. Experience with Python, SQL, and cloud data tooling is a plus.",
+      bio:
+        "Data engineer with 5 years building ETL pipelines in Python and AWS. I've optimized production analytics workflows and enjoy connecting data systems to business outcomes."
+    },
+    {
+      label: 'Product manager',
+      post:
+        "Looking for a product manager to own our B2B SaaS roadmap, run discovery with customers, and ship features that move activation and retention. You'll partner closely with eng and design.",
+      bio:
+        "PM with 6 years in B2B SaaS. I've launched onboarding flows that lifted activation 30% and run weekly customer interviews to prioritize the roadmap."
+    },
+    {
+      label: 'Frontend engineer',
+      post:
+        "We're growing our frontend team and hiring a React engineer to improve performance, design systems, and accessibility across our customer dashboard. Remote-friendly.",
+      bio:
+        "Frontend engineer focused on React, TypeScript, and accessible UI. I've led design-system migrations and cut dashboard load times with smarter data fetching."
+    },
+    {
+      label: 'ML engineer',
+      post:
+        "Hiring an ML engineer to productionize models, improve inference latency, and build evaluation pipelines for our recommendation stack. PyTorch or TensorFlow experience welcome.",
+      bio:
+        "ML engineer shipping models to production for 4 years. I care about evals, monitoring, and the gap between notebook experiments and reliable services."
+    }
+  ];
+
+  var samplePostIndex = 0;
+  var sampleBioIndex = 0;
+  var samplePairIndex = 0;
+
   var STORAGE = {
     attempts: 'juniorTryItAttempts',
     draft: 'juniorTryItDraft',
@@ -26,6 +61,7 @@
     comment: null,
     verified: false,
     fallback: false,
+    shouldComment: null,
     status: 'idle',
     isRegenerate: false
   };
@@ -190,7 +226,7 @@
     var bioLen = state.userBio.length;
 
     if (postCount) {
-      postCount.textContent = postLen + ' / 3000 (min 20)';
+      postCount.textContent = postLen + ' / 3000 · min 20 characters';
       postCount.classList.toggle('tryit-count-warn', postLen > 0 && postLen < 20);
     }
     if (bioCount) bioCount.textContent = bioLen + ' / 2000';
@@ -222,40 +258,153 @@
     updateSignupLinks();
   }
 
+  function buildWhatHappenedSteps(data, isSampleOnly) {
+    var qual = data.qualification || {};
+    var angle = qual.suggested_angle || data.suggested_angle || '';
+    var score = typeof qual.priority_score === 'number' ? qual.priority_score : null;
+    var reasons = Array.isArray(qual.match_reasons) ? qual.match_reasons : [];
+
+    if (isSampleOnly) {
+      if (qual.should_comment === false) {
+        return {
+          validate:
+            'We read your LinkedIn post and your background. This demo only personalizes hiring posts, and this one did not qualify.',
+          approach: 'Junior did not pick a personalized approach for this post.',
+          comment:
+            'What you see below is a generic example, not a comment built from your post and profile. Try one of the sample hiring posts above.'
+        };
+      }
+      return {
+        validate: 'We read your post and profile, but could not personalize this run.',
+        approach: 'No approach was applied.',
+        comment:
+          'What you see below is a generic sample, not a comment tailored to your inputs.'
+      };
+    }
+
+    var validateText =
+      'We read the LinkedIn post you pasted and matched it against your background.';
+    if (score != null) {
+      validateText += ' The fit scored ' + score + ' out of 100.';
+    }
+    if (reasons.length) {
+      validateText += ' Here is why this post is worth a comment:';
+    } else {
+      validateText += ' This looks like a good post to engage with.';
+    }
+
+    var approachText = angle
+      ? 'Based on that match, Junior chose this approach: “' + angle + '”.'
+      : 'Junior wrote straight from your post and profile. No separate approach was returned this time.';
+
+    var commentText = data.verified
+      ? 'Junior drafted the comment below using that approach and checked it before showing it to you.'
+      : 'Junior drafted the comment below using that approach.';
+
+    return { validate: validateText, approach: approachText, comment: commentText };
+  }
+
   function showResult(data) {
     state.comment = data.comment || '';
     state.fallback = Boolean(data.fallback);
     state.verified = Boolean(data.verified);
+    state.shouldComment =
+      data.qualification && typeof data.qualification.should_comment === 'boolean'
+        ? data.qualification.should_comment
+        : null;
     state.suggestedAngle =
       (data.qualification && data.qualification.suggested_angle) ||
       data.suggested_angle ||
-      state.suggestedAngle ||
       '';
+
+    var isSampleOnly = state.fallback || state.shouldComment === false;
+    var hasAngle = Boolean(state.suggestedAngle.trim());
+    var qual = data.qualification || {};
+    var matchReasons = Array.isArray(qual.match_reasons) ? qual.match_reasons : [];
 
     var result = $('tryit-demo-result');
     var commentBox = $('tryit-demo-comment');
+    var commentLabel = $('tryit-comment-label');
     var angleInput = $('tryit-suggested-angle');
     var approachBlock = $('tryit-approach-block');
+    var approachHelp = $('tryit-approach-help');
+    var regenerateBtn = $('tryit-regenerate-button');
     var fallbackNote = $('tryit-fallback-note');
     var verifiedBadge = $('tryit-verified-badge');
+    var resultContext = $('tryit-result-context');
+    var whatHappened = $('tryit-what-happened');
+    var stepValidate = $('tryit-step-validate-text');
+    var stepApproach = $('tryit-step-approach-text');
+    var stepComment = $('tryit-step-comment-text');
+    var matchReasonsEl = $('tryit-match-reasons');
+    var copyButton = $('tryit-copy-comment');
+    var successCta = $('tryit-success-cta');
+
+    var steps = buildWhatHappenedSteps(data, isSampleOnly);
+
+    if (whatHappened) whatHappened.hidden = false;
+    if (stepValidate) stepValidate.textContent = steps.validate;
+    if (stepApproach) stepApproach.textContent = steps.approach;
+    if (stepComment) stepComment.textContent = steps.comment;
+
+    if (matchReasonsEl) {
+      matchReasonsEl.innerHTML = '';
+      if (!isSampleOnly && matchReasons.length) {
+        matchReasons.forEach(function (reason) {
+          var li = document.createElement('li');
+          li.textContent = reason;
+          matchReasonsEl.appendChild(li);
+        });
+        matchReasonsEl.hidden = false;
+      } else {
+        matchReasonsEl.hidden = true;
+      }
+    }
 
     if (commentBox) commentBox.textContent = state.comment;
+    if (commentLabel) {
+      commentLabel.textContent = isSampleOnly ? 'Example comment' : 'Your comment';
+    }
     if (angleInput) angleInput.value = state.suggestedAngle;
-    if (approachBlock) approachBlock.hidden = false;
+    if (approachBlock) approachBlock.hidden = isSampleOnly;
+    if (approachHelp) {
+      approachHelp.textContent = hasAngle
+        ? 'Want a different angle? Edit the approach above and hit regenerate.'
+        : 'Add how you would like to connect to this post, then regenerate.';
+    }
+    if (regenerateBtn) regenerateBtn.hidden = isSampleOnly;
 
-    if (fallbackNote) fallbackNote.hidden = !state.fallback;
-    if (verifiedBadge) verifiedBadge.hidden = !(state.verified && !state.fallback);
+    if (resultContext) {
+      if (isSampleOnly) {
+        resultContext.hidden = false;
+        resultContext.textContent =
+          'Try a matched sample hiring post above, then generate again to see real personalization.';
+      } else {
+        resultContext.hidden = true;
+        resultContext.textContent = '';
+      }
+    }
+
+    if (fallbackNote) fallbackNote.hidden = !isSampleOnly;
+    if (verifiedBadge) verifiedBadge.hidden = !(state.verified && !isSampleOnly);
+    if (copyButton) copyButton.hidden = isSampleOnly;
+    if (successCta) successCta.hidden = isSampleOnly;
 
     if (result) {
       result.hidden = false;
       result.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
-    persistSignupContext();
+    if (!isSampleOnly) {
+      persistSignupContext();
+    }
     updateSignupLinks();
 
-    if (state.fallback) {
-      track('tryit_fallback_shown', { source: 'try-it-page' });
+    if (isSampleOnly) {
+      track('tryit_fallback_shown', {
+        source: 'try-it-page',
+        should_comment: state.shouldComment
+      });
     } else {
       track('tryit_result_shown', { source: 'try-it-page', verified: state.verified });
     }
@@ -288,6 +437,9 @@
 
     readFormIntoState();
     clearError();
+
+    maybeCycleSamplesBeforeGenerate();
+    readFormIntoState();
 
     if (isRegenerate) {
       if (!validateRegenerate()) return;
@@ -324,10 +476,21 @@
       var data = await window.DemoCommentClient.generateDemoComment(payload, abortController.signal);
       clearTimeout(timeoutId);
 
-      setAttempts(getAttempts() + 1);
-      updateAttemptsUI();
+      var isSampleOnly =
+        Boolean(data.fallback) ||
+        (data.qualification && data.qualification.should_comment === false);
+
+      if (!isSampleOnly) {
+        setAttempts(getAttempts() + 1);
+        updateAttemptsUI();
+      }
+
       showResult(data);
-      state.status = 'success';
+      state.status = isSampleOnly ? 'fallback' : 'success';
+
+      if (isSampleOnly) {
+        setError('This demo works on hiring posts. Load the sample post or paste a job listing.');
+      }
 
       if (isLockedOut()) {
         showLockout("You've seen how it works. Create your account to generate more comments.");
@@ -394,11 +557,98 @@
     }
   }
 
+  function nextSampleIndex(current, length) {
+    return (current + 1) % length;
+  }
+
+  function updateSampleButtonLabels() {
+    var n = SAMPLE_SCENARIOS.length;
+    var postBtn = $('tryit-load-sample-post');
+    var bioBtn = $('tryit-load-sample-bio');
+    var pairBtn = $('tryit-load-sample-pair');
+    var nextPost = nextSampleIndex(samplePostIndex, n);
+    var nextBio = nextSampleIndex(sampleBioIndex, n);
+    var nextPair = nextSampleIndex(samplePairIndex, n);
+
+    if (postBtn) {
+      postBtn.textContent =
+        'Try sample post · ' + SAMPLE_SCENARIOS[nextPost].label + ' · ' + (nextPost + 1) + ' of ' + n;
+    }
+    if (bioBtn) {
+      bioBtn.textContent =
+        'Try sample bio · ' + SAMPLE_SCENARIOS[nextBio].label + ' · ' + (nextBio + 1) + ' of ' + n;
+    }
+    if (pairBtn) {
+      pairBtn.textContent =
+        'Try matched pair · ' + SAMPLE_SCENARIOS[nextPair].label + ' · ' + (nextPair + 1) + ' of ' + n;
+    }
+  }
+
+  function applySamplePost(advance) {
+    if (advance) samplePostIndex = nextSampleIndex(samplePostIndex, SAMPLE_SCENARIOS.length);
+    state.postText = SAMPLE_SCENARIOS[samplePostIndex].post;
+    syncFormFromState();
+    saveDraft();
+    updateSampleButtonLabels();
+    clearError();
+  }
+
+  function applySampleBio(advance) {
+    if (advance) sampleBioIndex = nextSampleIndex(sampleBioIndex, SAMPLE_SCENARIOS.length);
+    state.userBio = SAMPLE_SCENARIOS[sampleBioIndex].bio;
+    syncFormFromState();
+    saveDraft();
+    updateSampleButtonLabels();
+    clearError();
+  }
+
+  function applySamplePair(advance) {
+    if (advance) samplePairIndex = nextSampleIndex(samplePairIndex, SAMPLE_SCENARIOS.length);
+    var scenario = SAMPLE_SCENARIOS[samplePairIndex];
+    state.postText = scenario.post;
+    state.userBio = scenario.bio;
+    samplePostIndex = samplePairIndex;
+    sampleBioIndex = samplePairIndex;
+    syncFormFromState();
+    saveDraft();
+    updateSampleButtonLabels();
+    clearError();
+  }
+
+  /** On Generate: cycle samples when fields are empty so users can quick-test without typing. */
+  function maybeCycleSamplesBeforeGenerate() {
+    var postEmpty = state.postText.trim().length < 20;
+    var bioEmpty = state.userBio.trim().length === 0;
+
+    if (postEmpty && bioEmpty) {
+      applySamplePair(true);
+      return true;
+    }
+    if (postEmpty) applySamplePost(true);
+    if (bioEmpty) applySampleBio(true);
+    return postEmpty || bioEmpty;
+  }
+
+  function loadSamplePost() {
+    applySamplePost(true);
+  }
+
+  function loadSampleBio() {
+    applySampleBio(true);
+  }
+
+  function loadSamplePair() {
+    applySamplePair(true);
+    var formSection = $('try-it');
+    if (formSection) formSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
   function init() {
     if (!window.DemoCommentClient) return;
 
     loadDraft();
     syncFormFromState();
+    updateSampleButtonLabels();
     updateAttemptsUI();
     updateSignupLinks();
 
@@ -412,6 +662,13 @@
     var toneInput = $('tryit-tone');
     var regenerateBtn = $('tryit-regenerate-button');
     var copyButton = $('tryit-copy-comment');
+    var samplePostBtn = $('tryit-load-sample-post');
+    var sampleBioBtn = $('tryit-load-sample-bio');
+    var samplePairBtn = $('tryit-load-sample-pair');
+
+    if (samplePostBtn) samplePostBtn.addEventListener('click', loadSamplePost);
+    if (sampleBioBtn) sampleBioBtn.addEventListener('click', loadSampleBio);
+    if (samplePairBtn) samplePairBtn.addEventListener('click', loadSamplePair);
 
     if (form) {
       form.addEventListener('submit', function (event) {
