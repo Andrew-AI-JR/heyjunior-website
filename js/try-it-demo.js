@@ -42,9 +42,7 @@
     }
   ];
 
-  var samplePostIndex = 0;
-  var sampleBioIndex = 0;
-  var samplePairIndex = 0;
+  var sampleIndex = 0;
 
   var STORAGE = {
     attempts: 'juniorTryItAttempts',
@@ -489,7 +487,7 @@
       state.status = isSampleOnly ? 'fallback' : 'success';
 
       if (isSampleOnly) {
-        setError('This demo works on hiring posts. Load the sample post or paste a job listing.');
+        setError('This demo works on hiring posts. Try a sample or paste a job listing.');
       }
 
       if (isLockedOut()) {
@@ -561,86 +559,47 @@
     return (current + 1) % length;
   }
 
-  function updateSampleButtonLabels() {
+  function updateSampleButtonLabel() {
+    var btn = $('tryit-load-sample');
+    if (!btn) return;
     var n = SAMPLE_SCENARIOS.length;
-    var postBtn = $('tryit-load-sample-post');
-    var bioBtn = $('tryit-load-sample-bio');
-    var pairBtn = $('tryit-load-sample-pair');
-    var nextPost = nextSampleIndex(samplePostIndex, n);
-    var nextBio = nextSampleIndex(sampleBioIndex, n);
-    var nextPair = nextSampleIndex(samplePairIndex, n);
-
-    if (postBtn) {
-      postBtn.textContent =
-        'Try sample post · ' + SAMPLE_SCENARIOS[nextPost].label + ' · ' + (nextPost + 1) + ' of ' + n;
-    }
-    if (bioBtn) {
-      bioBtn.textContent =
-        'Try sample bio · ' + SAMPLE_SCENARIOS[nextBio].label + ' · ' + (nextBio + 1) + ' of ' + n;
-    }
-    if (pairBtn) {
-      pairBtn.textContent =
-        'Try matched pair · ' + SAMPLE_SCENARIOS[nextPair].label + ' · ' + (nextPair + 1) + ' of ' + n;
-    }
+    var next = nextSampleIndex(sampleIndex, n);
+    btn.textContent =
+      'Try a sample · ' + SAMPLE_SCENARIOS[next].label + ' · ' + (next + 1) + ' of ' + n;
   }
 
-  function applySamplePost(advance) {
-    if (advance) samplePostIndex = nextSampleIndex(samplePostIndex, SAMPLE_SCENARIOS.length);
-    state.postText = SAMPLE_SCENARIOS[samplePostIndex].post;
-    syncFormFromState();
-    saveDraft();
-    updateSampleButtonLabels();
-    clearError();
-  }
-
-  function applySampleBio(advance) {
-    if (advance) sampleBioIndex = nextSampleIndex(sampleBioIndex, SAMPLE_SCENARIOS.length);
-    state.userBio = SAMPLE_SCENARIOS[sampleBioIndex].bio;
-    syncFormFromState();
-    saveDraft();
-    updateSampleButtonLabels();
-    clearError();
-  }
-
-  function applySamplePair(advance) {
-    if (advance) samplePairIndex = nextSampleIndex(samplePairIndex, SAMPLE_SCENARIOS.length);
-    var scenario = SAMPLE_SCENARIOS[samplePairIndex];
+  function applySample(advance) {
+    if (advance) sampleIndex = nextSampleIndex(sampleIndex, SAMPLE_SCENARIOS.length);
+    var scenario = SAMPLE_SCENARIOS[sampleIndex];
     state.postText = scenario.post;
     state.userBio = scenario.bio;
-    samplePostIndex = samplePairIndex;
-    sampleBioIndex = samplePairIndex;
     syncFormFromState();
     saveDraft();
-    updateSampleButtonLabels();
+    updateSampleButtonLabel();
     clearError();
   }
 
-  /** On Generate: cycle samples when fields are empty so users can quick-test without typing. */
   function maybeCycleSamplesBeforeGenerate() {
     var postEmpty = state.postText.trim().length < 20;
     var bioEmpty = state.userBio.trim().length === 0;
 
+    if (!postEmpty && !bioEmpty) return false;
+
     if (postEmpty && bioEmpty) {
-      applySamplePair(true);
+      applySample(true);
       return true;
     }
-    if (postEmpty) applySamplePost(true);
-    if (bioEmpty) applySampleBio(true);
-    return postEmpty || bioEmpty;
+
+    var scenario = SAMPLE_SCENARIOS[sampleIndex];
+    if (postEmpty) state.postText = scenario.post;
+    if (bioEmpty) state.userBio = scenario.bio;
+    syncFormFromState();
+    saveDraft();
+    return true;
   }
 
-  function loadSamplePost() {
-    applySamplePost(true);
-  }
-
-  function loadSampleBio() {
-    applySampleBio(true);
-  }
-
-  function loadSamplePair() {
-    applySamplePair(true);
-    var formSection = $('try-it');
-    if (formSection) formSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  function loadSample() {
+    applySample(true);
   }
 
   function init() {
@@ -648,7 +607,7 @@
 
     loadDraft();
     syncFormFromState();
-    updateSampleButtonLabels();
+    updateSampleButtonLabel();
     updateAttemptsUI();
     updateSignupLinks();
 
@@ -662,13 +621,9 @@
     var toneInput = $('tryit-tone');
     var regenerateBtn = $('tryit-regenerate-button');
     var copyButton = $('tryit-copy-comment');
-    var samplePostBtn = $('tryit-load-sample-post');
-    var sampleBioBtn = $('tryit-load-sample-bio');
-    var samplePairBtn = $('tryit-load-sample-pair');
+    var sampleBtn = $('tryit-load-sample');
 
-    if (samplePostBtn) samplePostBtn.addEventListener('click', loadSamplePost);
-    if (sampleBioBtn) sampleBioBtn.addEventListener('click', loadSampleBio);
-    if (samplePairBtn) samplePairBtn.addEventListener('click', loadSamplePair);
+    if (sampleBtn) sampleBtn.addEventListener('click', loadSample);
 
     if (form) {
       form.addEventListener('submit', function (event) {
