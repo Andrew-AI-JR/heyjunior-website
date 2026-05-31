@@ -6378,6 +6378,11 @@ section, div {
     text-align: center;
 }
 
+.rl-interactive-demo[aria-disabled="true"] {
+    opacity: 0.72;
+    pointer-events: none;
+}
+
 .tryit-generate-hint {
     margin-top: 0.65rem;
     text-align: center;

@@ -48,7 +48,8 @@
     attempts: 'juniorTryItAttempts',
     draft: 'juniorTryItDraft',
     userBio: 'juniorTryItUserBio',
-    suggestedAngle: 'juniorTryItSuggestedAngle'
+    suggestedAngle: 'juniorTryItSuggestedAngle',
+    lastResult: 'juniorTryItLastResult'
   };
 
   var state = {
@@ -240,20 +241,77 @@
     }
   }
 
-  function showLockout(message) {
+  function setFormDisabled(disabled) {
+    var formSection = $('try-it');
+    var generateBtn = $('tryit-demo-button');
+    var regenerateBtn = $('tryit-regenerate-button');
+    var sampleBtn = $('tryit-load-sample');
+    var postInput = $('tryit-post');
+    var bioInput = $('tryit-bio');
+    var toneInput = $('tryit-tone');
+
+    if (formSection) formSection.setAttribute('aria-disabled', disabled ? 'true' : 'false');
+    if (generateBtn) generateBtn.disabled = disabled;
+    if (regenerateBtn) regenerateBtn.disabled = disabled;
+    if (sampleBtn) sampleBtn.disabled = disabled;
+    [postInput, bioInput, toneInput].forEach(function (el) {
+      if (el) el.disabled = disabled;
+    });
+  }
+
+  function scrollToResult() {
+    var result = $('tryit-demo-result');
+    if (result && !result.hidden) {
+      result.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  function persistLastResult(data) {
+    try {
+      sessionStorage.setItem(STORAGE.lastResult, JSON.stringify(data));
+    } catch (_e) {
+      /* quota / private browsing */
+    }
+  }
+
+  function restoreLastResult() {
+    try {
+      var raw = sessionStorage.getItem(STORAGE.lastResult);
+      if (!raw) return false;
+      showResult(JSON.parse(raw));
+      return true;
+    } catch (_e) {
+      return false;
+    }
+  }
+
+  function showLockout(message, options) {
+    options = options || {};
     state.status = 'rate_limited';
     var formSection = $('try-it');
     var lockout = $('tryit-lockout');
     var lockoutMsg = $('tryit-lockout-message');
-    var generateBtn = $('tryit-demo-button');
-    var regenerateBtn = $('tryit-regenerate-button');
+    var result = $('tryit-demo-result');
+    var hasVisibleResult = result && !result.hidden;
 
-    if (formSection) formSection.hidden = true;
+    if (options.keepFormVisible) {
+      setFormDisabled(true);
+    } else if (formSection) {
+      formSection.hidden = true;
+      setFormDisabled(true);
+    } else {
+      setFormDisabled(true);
+    }
+
     if (lockout) lockout.hidden = false;
     if (lockoutMsg && message) lockoutMsg.textContent = message;
-    if (generateBtn) generateBtn.disabled = true;
-    if (regenerateBtn) regenerateBtn.disabled = true;
     updateSignupLinks();
+
+    if (options.scrollToResult && hasVisibleResult) {
+      requestAnimationFrame(function () {
+        requestAnimationFrame(scrollToResult);
+      });
+    }
   }
 
   function buildWhatHappenedSteps(data, isSampleOnly) {
@@ -395,6 +453,7 @@
 
     if (!isSampleOnly) {
       persistSignupContext();
+      persistLastResult(data);
     }
     updateSignupLinks();
 
@@ -429,7 +488,10 @@
 
   async function runGeneration(isRegenerate) {
     if (isLockedOut()) {
-      showLockout("You've seen how it works. Create your account to generate more comments.");
+      restoreLastResult();
+      showLockout("You've seen how it works. Create your account to generate more comments.", {
+        scrollToResult: true
+      });
       return;
     }
 
@@ -491,7 +553,10 @@
       }
 
       if (isLockedOut()) {
-        showLockout("You've seen how it works. Create your account to generate more comments.");
+        showLockout("You've seen how it works. Create your account to generate more comments.", {
+          keepFormVisible: true,
+          scrollToResult: true
+        });
       }
     } catch (err) {
       clearTimeout(timeoutId);
@@ -612,7 +677,10 @@
     updateSignupLinks();
 
     if (isLockedOut()) {
-      showLockout("You've seen how it works. Create your account to generate more comments.");
+      restoreLastResult();
+      showLockout("You've seen how it works. Create your account to generate more comments.", {
+        scrollToResult: true
+      });
     }
 
     var form = $('tryit-demo-form');
