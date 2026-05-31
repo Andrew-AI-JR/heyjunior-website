@@ -102,16 +102,9 @@
     <script>
         document.addEventListener('DOMContentLoaded', async function() {
             const listContainer = document.getElementById('blog-list');
-            const apiBaseUrl = window.getApiBaseUrl();
 
-            try {
-                const response = await fetch(`${apiBaseUrl}/api/blog`);
-                if (!response.ok) throw new Error('Failed to load blog posts');
-                
-                const data = await response.json();
-                const posts = data.posts || [];
-                
-                if (posts.length === 0) {
+            function renderPosts(posts) {
+                if (!posts || posts.length === 0) {
                     listContainer.innerHTML = '<p>No articles published yet. Check back soon!</p>';
                     return;
                 }
@@ -128,6 +121,28 @@
                         </article>
                     `;
                 }).join('');
+            }
+
+            try {
+                // Primary source: same-origin static metadata generated during blog build.
+                const staticResponse = await fetch('blog/posts.json', { cache: 'no-store' });
+                if (staticResponse.ok) {
+                    const staticData = await staticResponse.json();
+                    renderPosts(staticData.posts || []);
+                    return;
+                }
+            } catch (_err) {
+                // Fallback below
+            }
+
+            try {
+                // Fallback for local dev and as a recovery path.
+                const apiBaseUrl = window.getApiBaseUrl();
+                const response = await fetch(`${apiBaseUrl}/api/blog`);
+                if (!response.ok) throw new Error('Failed to load blog posts');
+
+                const data = await response.json();
+                renderPosts(data.posts || []);
             } catch (err) {
                 listContainer.innerHTML = '<p>Unable to load articles at this time.</p>';
                 console.error(err);

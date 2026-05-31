@@ -7,6 +7,7 @@ from pathlib import Path
 API_URL = "https://api.heyjunior.ai/api/blog"
 TEMPLATE_PATH = Path("article.html")
 BLOG_DIR = Path("blog")
+POSTS_INDEX_PATH = BLOG_DIR / "posts.json"
 
 def fetch_articles():
     print(f"Fetching articles from {API_URL}...")
@@ -17,6 +18,14 @@ def fetch_articles():
             sys.exit(1)
         data = json.loads(response.read().decode())
         return data.get("posts", [])
+
+
+def write_posts_index(posts):
+    BLOG_DIR.mkdir(parents=True, exist_ok=True)
+    payload = {"posts": posts}
+    with open(POSTS_INDEX_PATH, "w", encoding="utf-8") as f:
+        json.dump(payload, f, ensure_ascii=False, indent=2)
+    print(f"Generated {POSTS_INDEX_PATH}")
 
 def fetch_article_detail(slug):
     url = f"{API_URL}/{slug}"
@@ -87,6 +96,7 @@ def main():
         
     articles = fetch_articles()
     print(f"Found {len(articles)} articles.")
+    write_posts_index(articles)
     
     for summary in articles:
         slug = summary["slug"]
