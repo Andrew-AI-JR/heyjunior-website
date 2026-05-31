@@ -6378,6 +6378,119 @@ section, div {
     text-align: center;
 }
 
+.tryit-generate-hint {
+    margin-top: 0.65rem;
+    text-align: center;
+    color: #64748b;
+    font-size: 0.85rem;
+}
+
+.tryit-sample-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.tryit-sample-btn {
+    margin-top: 0.5rem;
+    padding: 0.45rem 0.85rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    background: #fff;
+    color: #334155;
+    font: inherit;
+    font-size: 0.88rem;
+    cursor: pointer;
+}
+
+.tryit-sample-row .tryit-sample-btn {
+    margin-top: 0;
+    flex: 1 1 auto;
+}
+
+.tryit-sample-btn-pair {
+    border-color: #166534;
+    color: #166534;
+    background: #f0fdf4;
+}
+
+.tryit-sample-btn:hover {
+    background: #f8fafc;
+    border-color: #94a3b8;
+}
+
+.tryit-what-happened {
+    margin-bottom: 1.25rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid #bbf7d0;
+}
+
+.tryit-what-happened-title {
+    margin: 0 0 0.85rem;
+    color: #166534;
+    font-size: 0.95rem;
+    font-weight: 800;
+    text-align: center;
+}
+
+.tryit-what-steps {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.tryit-what-step {
+    margin-bottom: 0.85rem;
+}
+
+.tryit-what-step:last-child {
+    margin-bottom: 0;
+}
+
+.tryit-step-label {
+    display: block;
+    margin-bottom: 0.25rem;
+    color: #15803d;
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+.tryit-step-text {
+    margin: 0;
+    color: #14532d;
+    font-size: 0.92rem;
+    line-height: 1.5;
+}
+
+.tryit-match-reasons {
+    margin: 0.45rem 0 0;
+    padding-left: 1.15rem;
+    color: #166534;
+    font-size: 0.88rem;
+    line-height: 1.45;
+}
+
+.tryit-approach-help {
+    margin: 0 0 0.5rem;
+    color: #64748b;
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+.tryit-result-context {
+    margin: 0 0 1rem;
+    padding: 0.75rem 0.9rem;
+    border-radius: 8px;
+    background: #fff7ed;
+    border: 1px solid #fed7aa;
+    color: #9a3412;
+    font-size: 0.92rem;
+    line-height: 1.45;
+}
+
 .tryit-char-count {
     margin-top: 0.35rem;
     font-size: 0.85rem;
