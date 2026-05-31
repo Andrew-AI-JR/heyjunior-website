@@ -7,9 +7,14 @@ This is a **static website** - no build process required! Just serve the files d
 ### Option 1: Use the provided script (Easiest)
 ```bash
 ./serve.sh
-# Or specify a port:
-./serve.sh 3000
+# Defaults: site :8002, API :8001
+./serve.sh
+./serve.sh 8000 9000
+
+./serve.sh --help
 ```
+
+`serve.sh` writes `js/api-config.local.js` so the site calls your API on the port you pass (second argument). That file is removed when you stop the server.
 
 ### Option 2: Python HTTP Server (Recommended)
 ```bash
@@ -40,22 +45,18 @@ php -S localhost:8000
 ## Important Notes
 
 ### API Configuration
-The website connects to a backend API. Make sure:
+Use **`./serve.sh [site-port] [api-port]`** — the second argument is your backend API port (default **8001**). The script writes `js/api-config.local.js` for the browser.
 
-1. **For local development**: The API should be running on `http://localhost:8001` (or update the API_BASE_URL in the JS files)
-2. **For production**: The API should be at `https://api.heyjunior.ai`
+Production uses `https://api.heyjunior.ai` automatically (not localhost).
 
-The API base URL is configured in:
-- `js/checkout.js` (line 82)
-- `js/portal.js` (line 4)
-- `js/success.js` (line 4)
+Manual override (without serve.sh): copy `js/api-config.local.example.js` to `js/api-config.local.js` and edit.
 
 ### Testing the Portal
 To test the user portal (`portal.html`):
 
 1. Make sure your backend API is running on port 8001
-2. Start the website server (e.g., `python3 -m http.server 8000`)
-3. Open `http://localhost:8000/portal.html`
+2. Start the website server (`./serve.sh` → http://localhost:8002)
+3. Open `http://localhost:8002/portal.html`
 4. You'll see a login form if not authenticated
 5. Use valid credentials to test the dashboard
 
@@ -95,8 +96,14 @@ python3 -m http.server 3000
 ```
 
 ### CORS errors with API?
-- Make sure your API server allows requests from `http://localhost:8000`
-- Check API CORS configuration
+The browser sends the **full origin**, not just `localhost`. If the site is on port **8002**, allow:
+
+- `http://localhost:8002`
+- `http://127.0.0.1:8002`
+
+`http://localhost` alone is not enough. CORS must be set on **OPTIONS** preflight and on error responses (400/422), or the browser hides the real API error.
+
+Analytics uses the same API host as everything else (`getApiBaseUrl()` → port **8001** by default). Old hardcoded port **8080** was wrong for local dev.
 
 ### Portal not loading data?
 - Verify API is running on port 8001

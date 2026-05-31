@@ -13,8 +13,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <script defer src="js/analytics.js"></script>
     <script src="js/api-config.js"></script>
+    <script defer src="js/analytics.js"></script>
 </head>
 <body data-page="try-it" class="i18n-ready">
     <nav class="navbar">
@@ -57,11 +57,14 @@
                 <div class="rl-demo-field">
                     <label for="tryit-post">LinkedIn post</label>
                     <textarea id="tryit-post" class="rl-demo-textarea" rows="7" maxlength="3000" required placeholder="Paste the LinkedIn post you want to comment on..."></textarea>
+                    <p class="rl-demo-help tryit-char-count" id="tryit-post-count" aria-live="polite">0 / 3000 (min 20)</p>
                 </div>
 
                 <div class="rl-demo-field">
-                    <label for="tryit-bio">Your bio / background</label>
-                    <textarea id="tryit-bio" class="rl-demo-textarea" rows="6" maxlength="2000" required placeholder="Paste your bio so Junior can write in your context..."></textarea>
+                    <label for="tryit-bio">About you (2–3 sentences)</label>
+                    <textarea id="tryit-bio" class="rl-demo-textarea" rows="6" maxlength="2000" placeholder="e.g. I build data pipelines in Python and SQL, with 5 years in analytics engineering..."></textarea>
+                    <p class="rl-demo-help tryit-char-count" id="tryit-bio-count" aria-live="polite">0 / 2000</p>
+                    <p class="rl-demo-help tryit-bio-warn" id="tryit-bio-warn">Adding your background strongly improves personalization.</p>
                 </div>
 
                 <div class="rl-demo-field">
@@ -72,8 +75,15 @@
                         <option value="enthusiastic">Enthusiastic</option>
                         <option value="thoughtful">Thoughtful</option>
                         <option value="conversational">Conversational</option>
+                        <option value="curious">Curious</option>
+                        <option value="supportive">Supportive</option>
+                        <option value="humble">Humble</option>
+                        <option value="direct">Direct</option>
+                        <option value="insightful">Insightful</option>
                     </select>
                 </div>
+
+                <p class="tryit-loader" id="tryit-loader" hidden aria-live="polite">Understanding the post…</p>
 
                 <button type="submit" class="rl-button rl-generate-btn" id="tryit-demo-button">Generate comment</button>
                 <p class="rl-demo-help" id="tryit-attempts-help" aria-live="polite"></p>
@@ -81,18 +91,34 @@
             </form>
         </section>
 
-        <section class="rl-section rl-result" id="tryit-demo-result" hidden>
-            <p class="rl-result-label">Generated comment</p>
+        <section class="rl-section rl-result tryit-result" id="tryit-demo-result" hidden>
+            <div class="tryit-approach-block" id="tryit-approach-block" hidden>
+                <label for="tryit-suggested-angle" class="rl-result-label">Suggested approach</label>
+                <textarea id="tryit-suggested-angle" class="rl-demo-textarea tryit-approach-field" rows="3" maxlength="500" placeholder="How Junior would connect your experience to this post…"></textarea>
+                <button type="button" class="rl-button tryit-regenerate-btn" id="tryit-regenerate-button">Regenerate with this approach</button>
+            </div>
+
+            <div class="tryit-comment-header">
+                <p class="rl-result-label">Your comment</p>
+                <span class="tryit-verified-badge" id="tryit-verified-badge" hidden>Quality-checked</span>
+            </div>
+
             <div class="rl-result-comment" id="tryit-demo-comment"></div>
+
+            <p class="tryit-fallback-note" id="tryit-fallback-note" hidden>
+                We used a sample comment — sign up for personalized results.
+            </p>
+
             <div class="rl-share-actions rl-share-actions-single">
                 <button type="button" class="rl-share-button rl-share-button-primary" id="tryit-copy-comment">Copy comment</button>
+                <a href="register.html?src=tryit&ref=demo" class="rl-share-button tryit-success-cta" id="tryit-success-cta">Start free with this approach</a>
             </div>
         </section>
 
         <section class="rl-section rl-conversion-section" id="tryit-lockout" hidden>
-            <p class="rl-emphasis">You have used all 3 free tries.</p>
+            <p class="rl-emphasis" id="tryit-lockout-message">You have used all 3 free tries.</p>
             <p>Create an account to keep generating comments for live posts.</p>
-            <a href="register.html?src=tryit-lockout" class="rl-button">Start Free</a>
+            <a href="register.html?src=tryit-lockout&ref=demo" class="rl-button" id="tryit-lockout-cta">Start Free</a>
         </section>
     </main>
 
@@ -120,147 +146,7 @@
         </div>
     </footer>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const mobileToggle = document.querySelector('.mobile-menu-toggle');
-            const navLinks = document.querySelector('.nav-links');
-            if (mobileToggle && navLinks) {
-                mobileToggle.addEventListener('click', function () {
-                    navLinks.classList.toggle('active');
-                    mobileToggle.classList.toggle('active');
-                });
-            }
-
-            const form = document.getElementById('tryit-demo-form');
-            const postInput = document.getElementById('tryit-post');
-            const bioInput = document.getElementById('tryit-bio');
-            const toneInput = document.getElementById('tryit-tone');
-            const button = document.getElementById('tryit-demo-button');
-            const attemptsHelp = document.getElementById('tryit-attempts-help');
-            const error = document.getElementById('tryit-demo-error');
-            const result = document.getElementById('tryit-demo-result');
-            const commentBox = document.getElementById('tryit-demo-comment');
-            const copyButton = document.getElementById('tryit-copy-comment');
-            const lockout = document.getElementById('tryit-lockout');
-
-            const attemptsKey = 'juniorTryItAttempts';
-            const maxAttempts = 3;
-            const apiBaseUrl = window.getApiBaseUrl();
-
-            function getAttempts() {
-                return Number(sessionStorage.getItem(attemptsKey) || '0');
-            }
-
-            function setAttempts(value) {
-                sessionStorage.setItem(attemptsKey, String(value));
-            }
-
-            function setError(message) {
-                error.textContent = message;
-                error.hidden = false;
-            }
-
-            function clearError() {
-                error.textContent = '';
-                error.hidden = true;
-            }
-
-            function updateAttemptsUI() {
-                const attempts = getAttempts();
-                const remaining = Math.max(0, maxAttempts - attempts);
-                attemptsHelp.textContent = remaining > 0
-                    ? remaining + ' free tries remaining.'
-                    : 'No free tries remaining.';
-
-                const locked = remaining <= 0;
-                button.disabled = locked;
-                if (locked) {
-                    lockout.hidden = false;
-                }
-            }
-
-            function copyComment() {
-                const text = commentBox.textContent.trim();
-                if (!text) return;
-                navigator.clipboard.writeText(text).then(function () {
-                    const original = copyButton.textContent;
-                    copyButton.textContent = 'Copied';
-                    setTimeout(function () {
-                        copyButton.textContent = original;
-                    }, 1500);
-                });
-            }
-
-            updateAttemptsUI();
-            copyButton.addEventListener('click', copyComment);
-
-            form.addEventListener('submit', async function (event) {
-                event.preventDefault();
-                clearError();
-
-                const attempts = getAttempts();
-                if (attempts >= maxAttempts) {
-                    setError("You've seen how it works. Create your account to generate more comments.");
-                    lockout.hidden = false;
-                    updateAttemptsUI();
-                    return;
-                }
-
-                const postText = postInput.value.trim();
-                const bioText = bioInput.value.trim();
-                const tone = toneInput.value;
-
-                if (postText.length < 20) {
-                    setError('Paste at least 20 characters from a LinkedIn post.');
-                    return;
-                }
-                if (bioText.length < 20) {
-                    setError('Paste at least 20 characters about your background.');
-                    return;
-                }
-
-                setAttempts(attempts + 1);
-                updateAttemptsUI();
-
-                button.disabled = true;
-                button.textContent = 'Generating...';
-
-                try {
-                    const response = await fetch(apiBaseUrl + '/api/comments/demo', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            post_text: postText,
-                            user_bio: bioText,
-                            tone: tone,
-                            source: 'try-it-page'
-                        })
-                    });
-
-                    if (response.status === 429) {
-                        const body = await response.json();
-                        setError(body.detail || "You've reached the free limit. Create your account to continue.");
-                        lockout.hidden = false;
-                        updateAttemptsUI();
-                        return;
-                    }
-
-                    if (!response.ok) {
-                        throw new Error('Demo generation failed');
-                    }
-
-                    const data = await response.json();
-                    commentBox.textContent = data.comment || '';
-                    result.hidden = false;
-                    result.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                } catch (err) {
-                    setError('Unable to generate a comment right now. Please try again.');
-                } finally {
-                    button.disabled = getAttempts() >= maxAttempts;
-                    button.textContent = 'Generate comment';
-                }
-            });
-        });
-    </script>
+    <script defer src="js/demo-comment-client.js"></script>
+    <script defer src="js/try-it-demo.js"></script>
 </body>
 </html>

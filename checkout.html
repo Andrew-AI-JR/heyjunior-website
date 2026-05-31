@@ -283,12 +283,14 @@
     </div>
 
     <script>
-        // Show dev panel if on localhost
-        if (window.location.hostname === 'localhost') {
-            document.getElementById('dev-testing').style.display = 'block';
-            document.getElementById('api-url-display').textContent =
-                window.location.hostname === 'localhost' ? 'http://localhost:8001' : 'https://api.heyjunior.ai';
-        }
+        // Show dev panel if on localhost (after api-config.js loads below)
+        document.addEventListener('DOMContentLoaded', function () {
+            if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') return;
+            var panel = document.getElementById('dev-testing');
+            var display = document.getElementById('api-url-display');
+            if (panel) panel.style.display = 'block';
+            if (display && window.getApiBaseUrl) display.textContent = window.getApiBaseUrl();
+        });
 
         // Test functions for development
         window.testAccountCreation = function() {

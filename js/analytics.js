@@ -53,8 +53,11 @@
   }
 
   function getAnalyticsBaseUrl() {
+    if (typeof window.getApiBaseUrl === 'function') {
+      return window.getApiBaseUrl();
+    }
     if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-      return 'http://localhost:8080';
+      return 'http://localhost:8001';
     }
     return 'https://api.heyjunior.ai';
   }
@@ -174,7 +177,9 @@
     if (
       name === 'reddit_preview_cta_clicked' ||
       name === 'linkedin_visibility_preview_cta_clicked' ||
-      name === 'register_demo_generate_clicked'
+      name === 'register_demo_generate_clicked' ||
+      name === 'tryit_generate_clicked' ||
+      name === 'tryit_regenerate_clicked'
     ) {
       return 'generate_click';
     }
@@ -184,7 +189,9 @@
       name === 'linkedin_visibility_comment_preview_shown' ||
       name === 'linkedin_visibility_comment_preview_fallback_shown' ||
       name === 'register_demo_result_shown' ||
-      name === 'register_demo_fallback_shown'
+      name === 'register_demo_fallback_shown' ||
+      name === 'tryit_result_shown' ||
+      name === 'tryit_fallback_shown'
     ) {
       return 'generate_success';
     }
