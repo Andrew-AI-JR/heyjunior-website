@@ -1,6 +1,14 @@
 {
   "posts": [
     {
+      "id": 10,
+      "slug": "linkedin-engagement-rate",
+      "title": "7 Ways to Triple Your LinkedIn Engagement Rate Fast",
+      "excerpt": "Stop settling for crickets on your posts. Learn how to calculate, benchmark, and triple your LinkedIn engagement rate using conversation-first strategies.",
+      "featured_image_url": "https://assets.bevisible.app/featured-images/j5702m7n5ebq5k3p9qzspfnd15876ef8/7-ways-to-triple-your-linkedin-engagement-rate-fas-1780058991991-c54x6y.png",
+      "published_at": "2026-06-01T12:35:00+00:00"
+    },
+    {
       "id": 9,
       "slug": "linkedin-lead-generation-funnel",
       "title": "Build a LinkedIn Lead Generation Funnel That Converts",
