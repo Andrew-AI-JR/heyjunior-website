@@ -39,6 +39,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     applyTryItSignupHandoff(src, qs);
     loadReferralCode();
+    
+    // Pre-select plan from URL
+    var plan = qs.get('plan');
+    if (plan) {
+        var planInput = document.getElementById('reg-plan-' + plan);
+        if (planInput) {
+            planInput.checked = true;
+        }
+    }
 });
 
 function applyTryItSignupHandoff(src, qs) {
@@ -309,14 +318,27 @@ async function handleRegistration(e) {
 
     try {
         const referralCode = document.getElementById('referral-code-field').value;
+        const selectedPlanKey = document.querySelector('input[name="reg-plan"]:checked')?.value || 'standard';
+        const selectedPlan = window.JUNIOR_PRICING ? window.JUNIOR_PRICING.STRIPE_PRICE_IDS[selectedPlanKey] : 'price_1RJMCrRxE6F23RwQEnHUwvFq';
 
-        const requestBody = { email: email, password: password };
+        const requestBody = { 
+            email: email, 
+            password: password,
+            price_id: selectedPlan,
+            success_url: window.location.origin + '/success.html?session_id={CHECKOUT_SESSION_ID}',
+            cancel_url: window.location.origin + '/register.html?cancelled=true',
+            metadata: {
+                signup_source: 'register-page',
+                selected_plan: selectedPlanKey
+            }
+        };
+        
         if (referralCode) {
             requestBody.referral_code = referralCode.toUpperCase();
             console.log('[Register] including referral code:', referralCode);
         }
 
-        const response = await fetch(API_BASE_URL + '/api/users/register', {
+        const response = await fetch(API_BASE_URL + '/api/users/create-with-payment', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(requestBody)
@@ -373,13 +395,17 @@ async function handleRegistration(e) {
         registerButtonText.textContent = 'Account created. Redirecting...';
         showSuccess(registerStatus, 'Account created. Redirecting...');
         
-        if (data.id) {
-            sessionStorage.setItem('userId', data.id.toString());
-            sessionStorage.setItem('userEmail', data.email || email);
+        if (data.user_id) {
+            sessionStorage.setItem('userId', data.user_id.toString());
+            sessionStorage.setItem('userEmail', email);
+        }
+        
+        if (data.token) {
+            sessionStorage.setItem('userToken', data.token);
         }
 
         if (window.juniorTrack) {
-            window.juniorTrack('register_completed', { userId: data.id || null });
+            window.juniorTrack('register_completed', { userId: data.user_id || null });
         }
 
         if (referralCode) {
@@ -387,14 +413,16 @@ async function handleRegistration(e) {
             localStorage.removeItem('referralTimestamp');
         }
 
-        autoLoginAfterRegister(email, password);
-
-        console.log('[Register] redirecting to portal in 1s');
+        console.log('[Register] redirecting to checkout in 1s');
         setTimeout(function () {
             if (window.juniorTrack) {
-                window.juniorTrack('register_redirect_to_portal');
+                window.juniorTrack('register_redirect_to_checkout');
             }
-            window.location.href = 'portal.html';
+            if (data.checkout_url) {
+                window.location.href = data.checkout_url;
+            } else {
+                window.location.href = 'portal.html';
+            }
         }, 1000);
 
     } catch (error) {
