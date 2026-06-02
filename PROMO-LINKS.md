@@ -9,6 +9,10 @@ Quick reference for all active checkout links and their coupon codes.
 | Link | Coupon | Offer |
 |------|--------|-------|
 | `https://heyjunior.ai/register.html` | `1FREEMONTH` (auto-applied) | First month free, card required |
+| `https://heyjunior.ai/register.html?plan=basic` | `1FREEMONTH` | Pre-selects Basic plan |
+| `https://heyjunior.ai/register.html?plan=starter` | `1FREEMONTH` | Pre-selects Starter plan |
+| `https://heyjunior.ai/register.html?plan=basic` | `1FREEMONTH` | Pre-selects Basic plan |
+| `https://heyjunior.ai/register.html?plan=starter` | `1FREEMONTH` | Pre-selects Starter plan |
 | `https://heyjunior.ai/register.html?plan=standard` | `1FREEMONTH` | Pre-selects Standard plan |
 | `https://heyjunior.ai/register.html?plan=pro` | `1FREEMONTH` | Pre-selects Pro plan |
 
@@ -19,6 +23,10 @@ Quick reference for all active checkout links and their coupon codes.
 | Link | Coupon | Offer |
 |------|--------|-------|
 | `https://heyjunior.ai/50off/` | `JUNIOR50` (auto-applied) | 50% off for 3 months |
+| `https://heyjunior.ai/50off/?plan=basic` | `JUNIOR50` | Pre-selects Basic |
+| `https://heyjunior.ai/50off/?plan=starter` | `JUNIOR50` | Pre-selects Starter |
+| `https://heyjunior.ai/50off/?plan=basic` | `JUNIOR50` | Pre-selects Basic |
+| `https://heyjunior.ai/50off/?plan=starter` | `JUNIOR50` | Pre-selects Starter |
 | `https://heyjunior.ai/50off/?plan=standard` | `JUNIOR50` | Pre-selects Standard |
 | `https://heyjunior.ai/50off/?plan=pro` | `JUNIOR50` | Pre-selects Pro |
 
@@ -36,6 +44,10 @@ These links are NOT published anywhere on the site. Share only via direct email 
 | Link | Coupon | Offer |
 |------|--------|-------|
 | `https://heyjunior.ai/free/` | `3FREEMONTHS` (auto-applied) | 3 months completely free |
+| `https://heyjunior.ai/free/?plan=basic` | `3FREEMONTHS` | Pre-selects Basic |
+| `https://heyjunior.ai/free/?plan=starter` | `3FREEMONTHS` | Pre-selects Starter |
+| `https://heyjunior.ai/free/?plan=basic` | `3FREEMONTHS` | Pre-selects Basic |
+| `https://heyjunior.ai/free/?plan=starter` | `3FREEMONTHS` | Pre-selects Starter |
 | `https://heyjunior.ai/free/?plan=standard` | `3FREEMONTHS` | Pre-selects Standard |
 | `https://heyjunior.ai/free/?plan=pro` | `3FREEMONTHS` | Pre-selects Pro |
 
