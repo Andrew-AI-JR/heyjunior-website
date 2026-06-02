@@ -2,6 +2,17 @@
 
 const API_BASE_URL = window.getApiBaseUrl();
 
+const SIGNUP_PLAN_PRICE_IDS = {
+    basic: 'price_1TcWzqRxE6F23RwQ7FnKpQyU',
+    starter: 'price_1TcX0nRxE6F23RwQpZxnoTRv',
+    standard: 'price_1RJMCrRxE6F23RwQEnHUwvFq',
+    pro: 'price_1SX1LrRxE6F23RwQgWgIV1NK'
+};
+
+function getSignupPriceIds() {
+    return window.JUNIOR_PRICING ? window.JUNIOR_PRICING.STRIPE_PRICE_IDS : SIGNUP_PLAN_PRICE_IDS;
+}
+
 let currentUserToken = null;
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -11,16 +22,26 @@ document.addEventListener('DOMContentLoaded', () => {
         window.juniorTrack('register_page_view');
     }
 
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('cancelled') === 'true') {
+        const registerError = document.getElementById('register-error');
+        showError(registerError, 'Checkout was cancelled. You can try again when you are ready.');
+    }
+
     document.getElementById('register-form')?.addEventListener('submit', handleRegistration);
 
-    document.getElementById('password-toggle')?.addEventListener('click', function () {
-        const field = document.getElementById('reg-password');
-        if (!field) return;
-        const isPassword = field.type === 'password';
-        field.type = isPassword ? 'text' : 'password';
-        this.textContent = isPassword ? 'Hide' : 'Show';
-        this.setAttribute('aria-label', isPassword ? 'Hide password' : 'Show password');
-    });
+    function wirePasswordToggle(toggleId, fieldId, showLabel, hideLabel) {
+        document.getElementById(toggleId)?.addEventListener('click', function () {
+            const field = document.getElementById(fieldId);
+            if (!field) return;
+            const isPassword = field.type === 'password';
+            field.type = isPassword ? 'text' : 'password';
+            this.textContent = isPassword ? 'Hide' : 'Show';
+            this.setAttribute('aria-label', isPassword ? hideLabel : showLabel);
+        });
+    }
+    wirePasswordToggle('password-toggle', 'reg-password', 'Show password', 'Hide password');
+    wirePasswordToggle('password-confirm-toggle', 'reg-password-confirm', 'Show confirm password', 'Hide confirm password');
 
     initEmailStep();
 
@@ -317,6 +338,7 @@ async function handleRegistration(e) {
 
     const email = document.getElementById('reg-email').value.trim();
     const password = document.getElementById('reg-password').value;
+    const passwordConfirm = document.getElementById('reg-password-confirm').value;
     const termsAccepted = document.getElementById('terms-agree-register')?.checked === true;
     const registerButton = document.getElementById('register-button');
     const registerButtonText = document.getElementById('register-button-text');
@@ -325,7 +347,8 @@ async function handleRegistration(e) {
 
     clearStatus(registerStatus, registerError);
 
-    const validationError = validateRegistrationForm(email, password, termsAccepted);
+    const selectedPlan = document.querySelector('input[name="reg-plan"]:checked');
+    const validationError = validateRegistrationForm(email, password, passwordConfirm, termsAccepted, selectedPlan);
     if (validationError) {
         showError(registerError, validationError);
         if (window.juniorTrack) {
@@ -339,31 +362,46 @@ async function handleRegistration(e) {
     registerButtonText.textContent = 'Creating account...';
     document.getElementById('reg-email').disabled = true;
     document.getElementById('reg-password').disabled = true;
+    document.getElementById('reg-password-confirm').disabled = true;
     console.log('[Register] registration request started');
 
     try {
         const referralCode = document.getElementById('referral-code-field').value;
-        const selectedPlanKey = document.querySelector('input[name="reg-plan"]:checked')?.value || 'standard';
-        const selectedPlan = window.JUNIOR_PRICING ? window.JUNIOR_PRICING.STRIPE_PRICE_IDS[selectedPlanKey] : 'price_1RJMCrRxE6F23RwQEnHUwvFq';
+        const selectedPlanKey = selectedPlan.value;
+        const priceId = getSignupPriceIds()[selectedPlanKey];
+        if (!priceId) {
+            showError(registerError, 'Please select a subscription plan.');
+            registerButton.disabled = false;
+            registerButton.classList.remove('register-submit-loading');
+            registerButtonText.textContent = 'Continue to secure checkout';
+            document.getElementById('reg-email').disabled = false;
+            document.getElementById('reg-password').disabled = false;
+            document.getElementById('reg-password-confirm').disabled = false;
+            return;
+        }
 
-        const requestBody = { 
-            email: email, 
+        const urlParams = new URLSearchParams(window.location.search);
+        const couponFromUrl = urlParams.get('coupon');
+        const couponCode = couponFromUrl
+            ? couponFromUrl.trim().toUpperCase()
+            : (sessionStorage.getItem('appliedCoupon') || null);
+
+        const requestBody = {
+            email: email,
             password: password,
-            price_id: selectedPlan,
-            success_url: window.location.origin + '/success.html?session_id={CHECKOUT_SESSION_ID}',
-            cancel_url: window.location.origin + '/register.html?cancelled=true',
-            metadata: {
-                signup_source: 'register-page',
-                selected_plan: selectedPlanKey
-            }
+            price_id: priceId,
+            success_url: window.location.origin + '/success.html',
+            cancel_url: window.location.origin + '/register.html' + window.location.search
         };
-        
         if (referralCode) {
             requestBody.referral_code = referralCode.toUpperCase();
             console.log('[Register] including referral code:', referralCode);
         }
+        if (couponCode) {
+            requestBody.coupon_code = couponCode;
+        }
 
-        const response = await fetch(API_BASE_URL + '/api/users/create-with-payment', {
+        const response = await fetch(API_BASE_URL + '/api/users/register', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(requestBody)
@@ -403,9 +441,10 @@ async function handleRegistration(e) {
                 }
                 registerButton.disabled = false;
                 registerButton.classList.remove('register-submit-loading');
-                registerButtonText.textContent = 'Create My Account & Get More';
+                registerButtonText.textContent = 'Continue to secure checkout';
                 document.getElementById('reg-email').disabled = false;
                 document.getElementById('reg-password').disabled = false;
+                document.getElementById('reg-password-confirm').disabled = false;
                 return;
             }
 
@@ -417,20 +456,28 @@ async function handleRegistration(e) {
         }
 
         console.log('[Register] registration success:', data);
-        registerButtonText.textContent = 'Account created. Redirecting...';
-        showSuccess(registerStatus, 'Account created. Redirecting...');
-        
-        if (data.user_id) {
-            sessionStorage.setItem('userId', data.user_id.toString());
-            sessionStorage.setItem('userEmail', email);
+
+        if (!data.checkout_url) {
+            throw new Error('Unable to start secure checkout. Please try again.');
         }
-        
-        if (data.token) {
-            sessionStorage.setItem('userToken', data.token);
+
+        const accessToken = data.access_token || data.token;
+        if (accessToken) {
+            sessionStorage.setItem('userToken', accessToken);
+            sessionStorage.setItem('accessToken', accessToken);
+        }
+        if (data.refresh_token) {
+            sessionStorage.setItem('refreshToken', data.refresh_token);
+        }
+        const userId = data.id || data.user_id;
+        if (userId) {
+            sessionStorage.setItem('userId', userId.toString());
+            sessionStorage.setItem('userEmail', data.email || email);
         }
 
         if (window.juniorTrack) {
-            window.juniorTrack('register_completed', { userId: data.user_id || null });
+            window.juniorTrack('register_completed', { userId: userId || null });
+            window.juniorTrack('register_checkout_redirect', { sessionId: data.session_id || null });
         }
 
         if (referralCode) {
@@ -438,17 +485,13 @@ async function handleRegistration(e) {
             localStorage.removeItem('referralTimestamp');
         }
 
-        console.log('[Register] redirecting to checkout in 1s');
-        setTimeout(function () {
-            if (window.juniorTrack) {
-                window.juniorTrack('register_redirect_to_checkout');
-            }
-            if (data.checkout_url) {
-                window.location.href = data.checkout_url;
-            } else {
-                window.location.href = 'portal.html';
-            }
-        }, 1000);
+        registerButtonText.textContent = 'Redirecting to secure checkout...';
+        showSuccess(registerStatus, 'Redirecting to secure checkout...');
+
+        if (window.juniorTrack) {
+            window.juniorTrack('register_redirect_to_checkout');
+        }
+        window.location.href = data.checkout_url;
 
     } catch (error) {
         let msg;
@@ -476,9 +519,10 @@ async function handleRegistration(e) {
         showErrorWithLoginFallback(registerError, msg);
         registerButton.disabled = false;
         registerButton.classList.remove('register-submit-loading');
-        registerButtonText.textContent = 'Create My Account & Get More';
+        registerButtonText.textContent = 'Continue to secure checkout';
         document.getElementById('reg-email').disabled = false;
         document.getElementById('reg-password').disabled = false;
+        document.getElementById('reg-password-confirm').disabled = false;
     }
 }
 
@@ -500,9 +544,13 @@ function autoLoginAfterRegister(email, password) {
     });
 }
 
-function validateRegistrationForm(email, password, termsAccepted) {
+function validateRegistrationForm(email, password, passwordConfirm, termsAccepted, selectedPlan) {
     if (!email || !validateEmail(email)) {
         return 'Please enter a valid email address.';
+    }
+
+    if (!selectedPlan || !getSignupPriceIds()[selectedPlan.value]) {
+        return 'Please select a subscription plan.';
     }
     
     if (!password || password.length < 8) {
@@ -512,6 +560,14 @@ function validateRegistrationForm(email, password, termsAccepted) {
     // Check for uppercase letter requirement
     if (!password.match(/[A-Z]/)) {
         return 'Password must contain at least one uppercase letter.';
+    }
+
+    if (!passwordConfirm) {
+        return 'Please confirm your password.';
+    }
+
+    if (password !== passwordConfirm) {
+        return 'Passwords do not match. Please try again.';
     }
 
     if (!termsAccepted) {

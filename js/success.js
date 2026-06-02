@@ -43,11 +43,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   let verified = false;
 
   try {
-    const verifyPromise = verifyPaymentAndSetupAccount(sessionId, userId ? parseInt(userId) : null);
-    const timeoutPromise = new Promise((_, reject) =>
-      setTimeout(() => reject(new Error('Verification timed out')), VERIFY_TIMEOUT_MS)
-    );
-    verified = await Promise.race([verifyPromise, timeoutPromise]);
+    verified = await verifyPaymentWithRetries(sessionId, userId ? parseInt(userId) : null, VERIFY_TIMEOUT_MS);
   } catch (error) {
     console.warn('Payment verification did not complete in time or failed:', error.message);
   }
@@ -124,6 +120,26 @@ async function updateDownloadLinks() {
     console.error('[UpdateLinks] Failed to update download links:', error);
     // Links will fall back to hardcoded URLs
   }
+}
+
+async function verifyPaymentWithRetries(sessionId, userId, maxWaitMs) {
+  const started = Date.now();
+  const intervalMs = 2000;
+  let lastError = null;
+
+  while (Date.now() - started < maxWaitMs) {
+    try {
+      const ok = await verifyPaymentAndSetupAccount(sessionId, userId);
+      if (ok) return true;
+    } catch (err) {
+      lastError = err;
+      console.warn('[Success] verify attempt failed:', err.message);
+    }
+    await new Promise((resolve) => setTimeout(resolve, intervalMs));
+  }
+
+  if (lastError) throw lastError;
+  throw new Error('Verification timed out');
 }
 
 async function verifyPaymentAndSetupAccount(sessionId, userId) {

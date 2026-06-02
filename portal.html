@@ -155,8 +155,11 @@
                     <div id="subscription-content">
                         <div class="subscription-card" id="no-subscription" style="display: none;">
                             <div class="subscription-icon">📋</div>
-                            <h3>No Active Subscription</h3>
-                            <p>You don't have an active subscription. Subscribe to start using Junior.</p>
+                            <h3 id="no-subscription-title">Choose a plan</h3>
+                            <p id="no-subscription-desc">Select a subscription below, then continue to Stripe to add your payment method and activate Junior.</p>
+                            <p id="no-subscription-trial-hint" class="portal-trial-hint" style="display: none; margin: 12px 0; padding: 12px 14px; background: #ecfdf5; border-radius: 8px; color: #065f46; font-size: 0.95rem;">
+                                Eligible accounts receive a <strong>7-day free trial</strong> — your card is collected now; billing starts after the trial.
+                            </p>
                             <div class="plan-selector-grid" style="margin: 20px 0;">
                                 <label class="plan-selector-option" for="portal-plan-basic">
                                     <input type="radio" name="portal-plan" id="portal-plan-basic" value="basic">
@@ -170,8 +173,8 @@
                                     <small>20 comments/day</small>
                                     <div class="plan-selector-prices"><span class="new-price">$14.99/month</span></div>
                                 </label>
-                                <label class="plan-selector-option selected" for="portal-plan-standard">
-                                    <input type="radio" name="portal-plan" id="portal-plan-standard" value="standard" checked>
+                                <label class="plan-selector-option" for="portal-plan-standard">
+                                    <input type="radio" name="portal-plan" id="portal-plan-standard" value="standard">
                                     <strong>Standard</strong>
                                     <small>50 comments/day</small>
                                     <div class="plan-selector-prices"><span class="new-price">$29.99/month</span></div>
@@ -183,7 +186,9 @@
                                     <div class="plan-selector-prices"><span class="new-price">$49.99/month</span></div>
                                 </label>
                             </div>
-                            <button onclick="createCheckoutSessionFromPortal()" class="primary-button" id="subscribe-btn">Subscribe</button>
+                            <button type="button" onclick="startPortalCheckout()" class="primary-button" id="portal-checkout-btn">Continue to secure checkout</button>
+                            <p style="font-size: 0.9rem; color: #6b7280; margin-top: 12px;">Already paid? Refresh this page in a moment.</p>
+                            <a href="#" onclick="showSubscriptionHistory(event); return false;" class="view-all-link" id="no-sub-history-link" style="display: none; margin-top: 8px; color: #667eea; text-decoration: none; font-size: 0.9rem;">View subscription history</a>
                             <div id="subscribe-error" class="error-message" style="display: none; margin-top: 15px;"></div>
                         </div>
                         <div class="subscription-card" id="subscription-details" style="display: none;">
@@ -212,36 +217,8 @@
                                     <span class="subscription-value">✅ Yes</span>
                                 </div>
                             </div>
-                            <div id="trial-message" class="trial-message" style="display: none; margin: 20px 0; padding: 15px; background: #fef3c7; border-left: 4px solid #f59e0b; border-radius: 8px;">
-                                <p style="margin: 0 0 15px 0; color: #92400e; font-weight: 500;">You're currently on a free trial. Subscribe now to continue enjoying all features after your trial ends!</p>
-                                <div class="plan-selector-grid" style="margin: 20px 0; background: white; padding: 10px; border-radius: 8px;">
-                                    <label class="plan-selector-option" for="trial-plan-basic">
-                                        <input type="radio" name="trial-plan" id="trial-plan-basic" value="basic">
-                                        <strong>Basic</strong>
-                                        <small>10 comments/day</small>
-                                        <div class="plan-selector-prices"><span class="new-price">$9.99/month</span></div>
-                                    </label>
-                                    <label class="plan-selector-option" for="trial-plan-starter">
-                                        <input type="radio" name="trial-plan" id="trial-plan-starter" value="starter">
-                                        <strong>Starter</strong>
-                                        <small>20 comments/day</small>
-                                        <div class="plan-selector-prices"><span class="new-price">$14.99/month</span></div>
-                                    </label>
-                                    <label class="plan-selector-option selected" for="trial-plan-standard">
-                                        <input type="radio" name="trial-plan" id="trial-plan-standard" value="standard" checked>
-                                        <strong>Standard</strong>
-                                        <small>50 comments/day</small>
-                                        <div class="plan-selector-prices"><span class="new-price">$29.99/month</span></div>
-                                    </label>
-                                    <label class="plan-selector-option" for="trial-plan-pro">
-                                        <input type="radio" name="trial-plan" id="trial-plan-pro" value="pro">
-                                        <strong>Pro</strong>
-                                        <small>80 comments/day + priority support</small>
-                                        <div class="plan-selector-prices"><span class="new-price">$49.99/month</span></div>
-                                    </label>
-                                </div>
-                                <button onclick="createCheckoutSessionFromTrial()" class="primary-button" id="trial-subscribe-btn">Subscribe</button>
-                                <div id="trial-subscribe-error" class="error-message" style="display: none; margin-top: 10px;"></div>
+                            <div id="trial-message" class="trial-message" style="display: none; margin: 20px 0; padding: 15px; background: #ecfdf5; border-left: 4px solid #10b981; border-radius: 8px;">
+                                <p id="trial-message-text" style="margin: 0; color: #065f46; font-weight: 500;">Your free trial is active. Your card will be charged when the trial ends unless you cancel in Manage Subscription.</p>
                             </div>
                             <div class="subscription-actions">
                                 <button onclick="openManageSubscription()" class="secondary-button" id="manage-subscription-btn">Manage Subscription</button>

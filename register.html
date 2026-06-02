@@ -127,8 +127,8 @@
                                         <small>20 comments/day</small>
                                         <div class="plan-selector-prices"><span class="old-price">$14.99</span><span class="new-price">Free for 1 week</span></div>
                                     </label>
-                                    <label class="plan-selector-option selected" for="reg-plan-standard">
-                                        <input type="radio" name="reg-plan" id="reg-plan-standard" value="standard" checked>
+                                    <label class="plan-selector-option" for="reg-plan-standard">
+                                        <input type="radio" name="reg-plan" id="reg-plan-standard" value="standard">
                                         <strong>Standard</strong>
                                         <small>50 comments/day</small>
                                         <div class="plan-selector-prices"><span class="old-price">$29.99</span><span class="new-price">Free for 1 week</span></div>
@@ -151,15 +151,23 @@
                                 <small class="password-help">Minimum 8 characters, at least one uppercase letter.</small>
                             </div>
 
+                            <div class="form-group">
+                                <label for="reg-password-confirm">Confirm password</label>
+                                <div class="password-field">
+                                    <input type="password" id="reg-password-confirm" placeholder="Re-enter your password" autocomplete="new-password" required minlength="8">
+                                    <button type="button" id="password-confirm-toggle" class="password-toggle" aria-label="Show confirm password">Show</button>
+                                </div>
+                            </div>
+
                             <label for="terms-agree-register" class="register-terms">
                                 <input type="checkbox" id="terms-agree-register">
                                 <span>I agree to the <a href="terms.html" target="_blank" rel="noopener">Terms of Service</a></span>
                             </label>
 
                             <button type="submit" id="register-button" class="primary-button register-submit" data-cta="register-continue-payment">
-                                <span id="register-button-text">Continue to Payment &mdash; First Week Free</span>
+                                <span id="register-button-text">Continue to secure checkout &mdash; 7 days free</span>
                             </button>
-                            <p class="register-microcopy">You will be redirected to Stripe to enter your card securely. Your first week is free.</p>
+                            <p class="register-microcopy">You will be redirected to Stripe to enter your card securely. Your first 7 days are free; billing starts after the trial.</p>
 
                             <div id="register-status" class="register-status" hidden aria-live="polite"></div>
                             <div id="register-error" class="register-status register-status-error" hidden aria-live="polite"></div>
