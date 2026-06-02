@@ -374,7 +374,7 @@ function displaySubscriptions(subscriptions) {
     document.getElementById('subscription-details').style.display = 'block';
     
     const rawPlan = activeSub.plan || activeSub.plan_name || 'Standard';
-    const planName = rawPlan.toLowerCase() === 'beta' ? 'Standard' : rawPlan.toLowerCase() === 'trial' ? 'Free Trial' : rawPlan;
+    const planName = window.JUNIOR_PRICING ? window.JUNIOR_PRICING.mapLegacyPlan(rawPlan) : rawPlan;
     document.getElementById('subscription-plan').textContent = planName;
     
     const status = activeSub.status || 'unknown';
@@ -972,26 +972,14 @@ function showError(message) {
 function restoreButtonStates() {
     // Restore all subscription buttons to their original state
     const buttons = [
-        document.getElementById('subscribe-standard-btn'),
-        document.getElementById('subscribe-pro-btn'),
-        document.getElementById('trial-subscribe-standard-btn'),
-        document.getElementById('trial-subscribe-pro-btn')
+        document.getElementById('subscribe-btn'),
+        document.getElementById('trial-subscribe-btn')
     ];
     
     buttons.forEach(btn => {
         if (btn) {
             btn.disabled = false;
-            // Restore original text if stored, otherwise use default
-            if (btn.dataset.originalText) {
-                btn.textContent = btn.dataset.originalText;
-            } else {
-                // Set default text based on button ID
-                if (btn.id.includes('standard')) {
-                    btn.textContent = 'Subscribe to Standard';
-                } else if (btn.id.includes('pro')) {
-                    btn.textContent = 'Subscribe to Pro';
-                }
-            }
+            btn.textContent = 'Subscribe';
         }
     });
     
@@ -1008,57 +996,44 @@ function restoreButtonStates() {
     });
 }
 
-async function createCheckoutSession(planType) {
+function createCheckoutSessionFromPortal() {
+    const selectedPlan = document.querySelector('input[name="portal-plan"]:checked')?.value || 'standard';
+    createCheckoutSession(selectedPlan, 'subscribe-btn', 'subscribe-error');
+}
+
+function createCheckoutSessionFromTrial() {
+    const selectedPlan = document.querySelector('input[name="trial-plan"]:checked')?.value || 'standard';
+    createCheckoutSession(selectedPlan, 'trial-subscribe-btn', 'trial-subscribe-error');
+}
+
+async function createCheckoutSession(planType, buttonId, errorId) {
     // planType should be one of: basic, starter, standard, pro
     if (!planType || !['basic', 'starter', 'standard', 'pro'].includes(planType)) {
         console.error('Invalid plan type:', planType);
         return;
     }
     
-    // Find all buttons and error elements
-    const standardButtons = [
-        document.getElementById('subscribe-standard-btn'),
-        document.getElementById('trial-subscribe-standard-btn')
-    ].filter(btn => btn !== null);
-    
-    const proButtons = [
-        document.getElementById('subscribe-pro-btn'),
-        document.getElementById('trial-subscribe-pro-btn')
-    ].filter(btn => btn !== null);
-    
-    const errorElements = [
-        document.getElementById('subscribe-error'),
-        document.getElementById('trial-subscribe-error')
-    ].filter(el => el !== null);
-    
-    // Determine which button was clicked (only standard/pro have portal buttons)
-    const activeButtons = planType === 'standard' ? standardButtons : (planType === 'pro' ? proButtons : []);
+    const btn = document.getElementById(buttonId);
+    const errorEl = document.getElementById(errorId);
     
     // Get the Stripe price ID for the selected plan
     const priceId = STRIPE_PRICE_IDS[planType];
     console.log('Creating checkout for plan:', planType, 'with price_id:', priceId);
     
     if (!priceId) {
-        const errorMsg = `Invalid plan selected: ${planType}. Please try again.`;
-        errorElements.forEach(el => {
-            el.textContent = errorMsg;
-            el.style.display = 'block';
-        });
+        if (errorEl) {
+            errorEl.textContent = `Invalid plan selected: ${planType}. Please try again.`;
+            errorEl.style.display = 'block';
+        }
         return;
     }
     
-    // Clear previous errors
-    errorElements.forEach(el => el.style.display = 'none');
+    if (errorEl) errorEl.style.display = 'none';
     
-    // Disable only the clicked button and show loading
-    activeButtons.forEach(btn => {
-        if (btn) {
-            btn.disabled = true;
-            const originalText = btn.textContent;
-            btn.textContent = 'Creating checkout session...';
-            btn.dataset.originalText = originalText;
-        }
-    });
+    if (btn) {
+        btn.disabled = true;
+        btn.textContent = 'Creating checkout session...';
+    }
     
     try {
         const token = currentUserToken || sessionStorage.getItem('userToken') || sessionStorage.getItem('accessToken');
@@ -1111,24 +1086,46 @@ async function createCheckoutSession(planType) {
         
     } catch (error) {
         console.error('Error creating checkout session:', error);
-        const errorMsg = error.message || 'Failed to create checkout session. Please try again.';
-        errorElements.forEach(el => {
-            el.textContent = errorMsg;
-            el.style.display = 'block';
-        });
+        if (errorEl) {
+            errorEl.textContent = error.message || 'Failed to create checkout session. Please try again.';
+            errorEl.style.display = 'block';
+        }
         
-        // Re-enable only the clicked button
-        activeButtons.forEach(btn => {
-            if (btn) {
-                btn.disabled = false;
-                btn.textContent = btn.dataset.originalText || (planType === 'standard' ? 'Subscribe to Standard' : 'Subscribe to Pro');
-            }
-        });
+        if (btn) {
+            btn.disabled = false;
+            btn.textContent = 'Subscribe';
+        }
     }
 }
 
-// Make function globally accessible
-window.createCheckoutSession = createCheckoutSession;
+// Make functions globally accessible
+window.createCheckoutSessionFromPortal = createCheckoutSessionFromPortal;
+window.createCheckoutSessionFromTrial = createCheckoutSessionFromTrial;
+
+// Add visual state handlers for radio buttons
+document.addEventListener('DOMContentLoaded', () => {
+    function updatePlanVisualState(name) {
+        const selectedPlan = document.querySelector(`input[name="${name}"]:checked`)?.value;
+        document.querySelectorAll(`input[name="${name}"]`).forEach(input => {
+            const option = input.closest('.plan-selector-option');
+            if (option) {
+                if (input.value === selectedPlan) {
+                    option.classList.add('selected');
+                } else {
+                    option.classList.remove('selected');
+                }
+            }
+        });
+    }
+
+    document.querySelectorAll('input[name="portal-plan"]').forEach(input => {
+        input.addEventListener('change', () => updatePlanVisualState('portal-plan'));
+    });
+    
+    document.querySelectorAll('input[name="trial-plan"]').forEach(input => {
+        input.addEventListener('change', () => updatePlanVisualState('trial-plan'));
+    });
+});
 
 async function openManageSubscription() {
     const manageButton = document.getElementById('manage-subscription-btn');
@@ -1552,7 +1549,7 @@ async function loadSubscriptionHistory() {
         
         sortedSubscriptions.forEach(sub => {
             const rawPlan = sub.plan || sub.plan_name || 'Unknown';
-            const planName = rawPlan.toLowerCase() === 'beta' ? 'Standard' : rawPlan.toLowerCase() === 'trial' ? 'Free Trial' : rawPlan;
+            const planName = window.JUNIOR_PRICING ? window.JUNIOR_PRICING.mapLegacyPlan(rawPlan) : rawPlan;
             const status = (sub.status || 'unknown').toLowerCase();
             const statusText = status.charAt(0).toUpperCase() + status.slice(1).replace('_', ' ');
             

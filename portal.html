@@ -157,10 +157,33 @@
                             <div class="subscription-icon">📋</div>
                             <h3>No Active Subscription</h3>
                             <p>You don't have an active subscription. Subscribe to start using Junior.</p>
-                            <div style="display: flex; gap: 10px; flex-wrap: wrap; margin: 20px 0;">
-                                <button onclick="createCheckoutSession('standard')" class="primary-button" id="subscribe-standard-btn">Subscribe to Standard</button>
-                                <button onclick="createCheckoutSession('pro')" class="primary-button" id="subscribe-pro-btn">Subscribe to Pro</button>
+                            <div class="plan-selector-grid" style="margin: 20px 0;">
+                                <label class="plan-selector-option" for="portal-plan-basic">
+                                    <input type="radio" name="portal-plan" id="portal-plan-basic" value="basic">
+                                    <strong>Basic</strong>
+                                    <small>10 comments/day</small>
+                                    <div class="plan-selector-prices"><span class="new-price">$9.99/month</span></div>
+                                </label>
+                                <label class="plan-selector-option" for="portal-plan-starter">
+                                    <input type="radio" name="portal-plan" id="portal-plan-starter" value="starter">
+                                    <strong>Starter</strong>
+                                    <small>20 comments/day</small>
+                                    <div class="plan-selector-prices"><span class="new-price">$14.99/month</span></div>
+                                </label>
+                                <label class="plan-selector-option selected" for="portal-plan-standard">
+                                    <input type="radio" name="portal-plan" id="portal-plan-standard" value="standard" checked>
+                                    <strong>Standard</strong>
+                                    <small>50 comments/day</small>
+                                    <div class="plan-selector-prices"><span class="new-price">$29.99/month</span></div>
+                                </label>
+                                <label class="plan-selector-option" for="portal-plan-pro">
+                                    <input type="radio" name="portal-plan" id="portal-plan-pro" value="pro">
+                                    <strong>Pro</strong>
+                                    <small>80 comments/day + priority support</small>
+                                    <div class="plan-selector-prices"><span class="new-price">$49.99/month</span></div>
+                                </label>
                             </div>
+                            <button onclick="createCheckoutSessionFromPortal()" class="primary-button" id="subscribe-btn">Subscribe</button>
                             <div id="subscribe-error" class="error-message" style="display: none; margin-top: 15px;"></div>
                         </div>
                         <div class="subscription-card" id="subscription-details" style="display: none;">
@@ -191,10 +214,33 @@
                             </div>
                             <div id="trial-message" class="trial-message" style="display: none; margin: 20px 0; padding: 15px; background: #fef3c7; border-left: 4px solid #f59e0b; border-radius: 8px;">
                                 <p style="margin: 0 0 15px 0; color: #92400e; font-weight: 500;">You're currently on a free trial. Subscribe now to continue enjoying all features after your trial ends!</p>
-                                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                                    <button onclick="createCheckoutSession('standard')" class="primary-button" id="trial-subscribe-standard-btn">Subscribe to Standard</button>
-                                    <button onclick="createCheckoutSession('pro')" class="primary-button" id="trial-subscribe-pro-btn">Subscribe to Pro</button>
+                                <div class="plan-selector-grid" style="margin: 20px 0; background: white; padding: 10px; border-radius: 8px;">
+                                    <label class="plan-selector-option" for="trial-plan-basic">
+                                        <input type="radio" name="trial-plan" id="trial-plan-basic" value="basic">
+                                        <strong>Basic</strong>
+                                        <small>10 comments/day</small>
+                                        <div class="plan-selector-prices"><span class="new-price">$9.99/month</span></div>
+                                    </label>
+                                    <label class="plan-selector-option" for="trial-plan-starter">
+                                        <input type="radio" name="trial-plan" id="trial-plan-starter" value="starter">
+                                        <strong>Starter</strong>
+                                        <small>20 comments/day</small>
+                                        <div class="plan-selector-prices"><span class="new-price">$14.99/month</span></div>
+                                    </label>
+                                    <label class="plan-selector-option selected" for="trial-plan-standard">
+                                        <input type="radio" name="trial-plan" id="trial-plan-standard" value="standard" checked>
+                                        <strong>Standard</strong>
+                                        <small>50 comments/day</small>
+                                        <div class="plan-selector-prices"><span class="new-price">$29.99/month</span></div>
+                                    </label>
+                                    <label class="plan-selector-option" for="trial-plan-pro">
+                                        <input type="radio" name="trial-plan" id="trial-plan-pro" value="pro">
+                                        <strong>Pro</strong>
+                                        <small>80 comments/day + priority support</small>
+                                        <div class="plan-selector-prices"><span class="new-price">$49.99/month</span></div>
+                                    </label>
                                 </div>
+                                <button onclick="createCheckoutSessionFromTrial()" class="primary-button" id="trial-subscribe-btn">Subscribe</button>
                                 <div id="trial-subscribe-error" class="error-message" style="display: none; margin-top: 10px;"></div>
                             </div>
                             <div class="subscription-actions">

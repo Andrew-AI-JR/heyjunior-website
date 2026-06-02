@@ -28,7 +28,22 @@ function setupEventListeners() {
   
   // Plan selection listeners - update button text when plan changes
   document.querySelectorAll('input[name="plan"]').forEach(radio => {
-    radio.addEventListener('change', () => updateButtonText(document.getElementById('create-account-button')));
+    radio.addEventListener('change', () => {
+      updateButtonText(document.getElementById('create-account-button'));
+      
+      // Update visual state
+      const selectedPlan = document.querySelector('input[name="plan"]:checked')?.value;
+      document.querySelectorAll('.plan-selector-option').forEach(option => {
+          const input = option.querySelector('input[name="plan"]');
+          if (input) {
+              if (input.value === selectedPlan) {
+                  option.classList.add('selected');
+              } else {
+                  option.classList.remove('selected');
+              }
+          }
+      });
+    });
   });
 }
 
@@ -556,7 +571,8 @@ function updateButtonText(buttonElement) {
   
   // Get the selected plan and price
   const selectedPlan = document.querySelector('input[name="plan"]:checked')?.value || 'standard';
-  const price = selectedPlan === 'standard' ? '29.99' : '49.99';
+  const planInfo = window.JUNIOR_PRICING ? window.JUNIOR_PRICING.PLANS[selectedPlan] : null;
+  const price = planInfo ? planInfo.price : (selectedPlan === 'standard' ? 29.99 : 49.99);
 
   const baseText = `Continue to Payment - $${price}/month`;
   const newText = `${baseText} (${platformName})`;
