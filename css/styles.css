@@ -838,6 +838,73 @@ section, div {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 30px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* Reusable Plan Selector Grid */
+.plan-selector-grid {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: 8px;
+}
+
+.plan-selector-option {
+    border: 2px solid #cbd5e1;
+    border-radius: 10px;
+    cursor: pointer;
+    padding: 12px;
+    background: #fff;
+    transition: all 0.2s ease;
+    display: block;
+}
+
+.plan-selector-option:hover {
+    border-color: #94a3b8;
+}
+
+.plan-selector-option.selected {
+    border-color: #166534;
+    background: #f0fdf4;
+}
+
+.plan-selector-option input[type="radio"] {
+    margin-right: 8px;
+}
+
+.plan-selector-option strong {
+    color: #0f172a;
+}
+
+.plan-selector-option small {
+    display: block;
+    color: #475569;
+    margin: 6px 0 6px 24px;
+}
+
+.plan-selector-prices {
+    margin-left: 24px;
+    font-weight: 700;
+}
+
+.plan-selector-prices .old-price {
+    color: #64748b;
+    text-decoration: line-through;
+    margin-right: 8px;
+    font-weight: 500;
+}
+
+.plan-selector-prices .new-price {
+    color: #166534;
+}
+
+@media (max-width: 640px) {
+    .plan-selector-grid {
+        grid-template-columns: 1fr;
+    }
+}
+    gap: 30px;
     max-width: 800px;
     margin: 0 auto;
 }

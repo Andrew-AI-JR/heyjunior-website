@@ -48,6 +48,31 @@ document.addEventListener('DOMContentLoaded', () => {
             planInput.checked = true;
         }
     }
+
+    // Handle plan selection visual state
+    const planInputs = document.querySelectorAll('input[name="reg-plan"]');
+    if (planInputs.length > 0) {
+        function updatePlanVisualState() {
+            const selectedPlan = document.querySelector('input[name="reg-plan"]:checked')?.value;
+            document.querySelectorAll('.plan-selector-option').forEach(option => {
+                const input = option.querySelector('input[name="reg-plan"]');
+                if (input) {
+                    if (input.value === selectedPlan) {
+                        option.classList.add('selected');
+                    } else {
+                        option.classList.remove('selected');
+                    }
+                }
+            });
+        }
+        
+        planInputs.forEach(input => {
+            input.addEventListener('change', updatePlanVisualState);
+        });
+        
+        // Initial state
+        updatePlanVisualState();
+    }
 });
 
 function applyTryItSignupHandoff(src, qs) {
