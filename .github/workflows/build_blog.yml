@@ -4,9 +4,16 @@ on:
   repository_dispatch:
     types: [build_blog]
   workflow_dispatch:
+  schedule:
+    # Safety net: rebuild static blog pages even if webhook dispatch fails.
+    - cron: "*/15 * * * *"
 
 permissions:
   contents: write
+
+concurrency:
+  group: build-blog-static-pages
+  cancel-in-progress: false
 
 jobs:
   build:

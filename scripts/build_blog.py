@@ -8,16 +8,27 @@ API_URL = "https://api.heyjunior.ai/api/blog"
 TEMPLATE_PATH = Path("article.html")
 BLOG_DIR = Path("blog")
 POSTS_INDEX_PATH = BLOG_DIR / "posts.json"
+API_PAGE_SIZE = 100
 
 def fetch_articles():
     print(f"Fetching articles from {API_URL}...")
-    req = urllib.request.Request(API_URL)
-    with urllib.request.urlopen(req) as response:
-        if response.status != 200:
-            print(f"Error fetching articles: {response.status}")
-            sys.exit(1)
-        data = json.loads(response.read().decode())
-        return data.get("posts", [])
+    all_posts = []
+    page = 1
+    total_pages = 1
+
+    while page <= total_pages:
+        req = urllib.request.Request(f"{API_URL}?page={page}&size={API_PAGE_SIZE}")
+        with urllib.request.urlopen(req) as response:
+            if response.status != 200:
+                print(f"Error fetching articles page {page}: {response.status}")
+                sys.exit(1)
+            data = json.loads(response.read().decode())
+            posts = data.get("posts", [])
+            all_posts.extend(posts)
+            total_pages = int(data.get("total_pages", 1) or 1)
+        page += 1
+
+    return all_posts
 
 
 def write_posts_index(posts):
