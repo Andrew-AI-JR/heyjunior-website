@@ -16,9 +16,12 @@ This is a **static website** - no build process required! Just serve the files d
 
 `serve.sh` writes `js/api-config.local.js` so the site calls your API on the port you pass (second argument). That file is removed when you stop the server.
 
-### Option 2: Python HTTP Server (Recommended)
+### Option 2: Python HTTP Server
 ```bash
-# Python 3
+# With security headers (same as ./serve.sh)
+python3 scripts/static_server.py 8000
+
+# Plain server (no extra headers)
 python3 -m http.server 8000
 
 # Python 2 (if Python 3 not available)
@@ -86,6 +89,27 @@ heyjunior-website/
 │   └── ...
 └── images/             # Images
 ```
+
+## Security headers (clickjacking)
+
+Production is on **GitHub Pages**, which does not let you set custom HTTP response headers from the repo. This project uses two layers:
+
+1. **`js/frame-guard.js`** on account-sensitive pages (login, checkout, register, password reset, partner dashboard). Loaded early in `<head>` so the page breaks out of hostile iframes.
+2. **`./serve.sh`** uses `scripts/static_server.py` locally so you get `X-Frame-Options` and `Content-Security-Policy: frame-ancestors 'self'` while developing.
+
+### Cloudflare (recommended for production)
+
+The site already uses Cloudflare (Web Analytics on checkout). In the Cloudflare dashboard for **heyjunior.ai**:
+
+1. **Rules** → **Transform Rules** → **Modify Response Header**
+2. Create a rule for hostname `heyjunior.ai` (and `www` if used)
+3. Set headers:
+   - `X-Frame-Options`: `SAMEORIGIN`
+   - `Content-Security-Policy`: `frame-ancestors 'self'`
+
+That is stronger than frame-busting JavaScript alone. Keep `frame-guard.js` as defense in depth.
+
+If you move to **Netlify** or **Cloudflare Pages**, the repo root `_headers` file applies the same headers automatically.
 
 ## Troubleshooting
 
