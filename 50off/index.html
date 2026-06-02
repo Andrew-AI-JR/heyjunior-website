@@ -348,18 +348,30 @@
                 <form id="promo-form" novalidate>
                     <div class="promo-form-group promo-plan-selection">
                         <label>Choose your plan</label>
-                        <div class="promo-plan-grid">
-                            <label class="promo-plan-option selected" for="promo-plan-standard">
+                        <div class="plan-selector-grid">
+                            <label class="plan-selector-option" for="promo-plan-basic">
+                                <input type="radio" name="promo-plan" id="promo-plan-basic" value="basic">
+                                <strong>Basic</strong>
+                                <small>10 comments/day</small>
+                                <div class="plan-selector-prices"><span class="old-price">$9.99</span><span class="new-price">$4.99/mo</span></div>
+                            </label>
+                            <label class="plan-selector-option" for="promo-plan-starter">
+                                <input type="radio" name="promo-plan" id="promo-plan-starter" value="starter">
+                                <strong>Starter</strong>
+                                <small>20 comments/day</small>
+                                <div class="plan-selector-prices"><span class="old-price">$14.99</span><span class="new-price">$7.49/mo</span></div>
+                            </label>
+                            <label class="plan-selector-option selected" for="promo-plan-standard">
                                 <input type="radio" name="promo-plan" id="promo-plan-standard" value="standard" checked>
                                 <strong>Standard</strong>
-                                <small>Perfect for most job seekers</small>
-                                <div class="promo-plan-prices"><span class="old">$29.99</span><span class="new">$14.99/mo</span></div>
+                                <small>50 comments/day</small>
+                                <div class="plan-selector-prices"><span class="old-price">$29.99</span><span class="new-price">$14.99/mo</span></div>
                             </label>
-                            <label class="promo-plan-option" for="promo-plan-pro">
+                            <label class="plan-selector-option" for="promo-plan-pro">
                                 <input type="radio" name="promo-plan" id="promo-plan-pro" value="pro">
                                 <strong>Pro</strong>
-                                <small>Higher daily volume + priority support</small>
-                                <div class="promo-plan-prices"><span class="old">$49.99</span><span class="new">$24.99/mo</span></div>
+                                <small>80 comments/day + priority support</small>
+                                <div class="plan-selector-prices"><span class="old-price">$49.99</span><span class="new-price">$24.99/mo</span></div>
                             </label>
                         </div>
                     </div>
@@ -414,6 +426,7 @@
 
     <script src="../js/api-config.js"></script>
     <script src="../js/referral.js"></script>
+    <script src="../js/pricing-config.js"></script>
     <script>
     (function () {
         var API_BASE_URL = window.getApiBaseUrl();
@@ -421,14 +434,24 @@
         var EMAIL_STORAGE_KEY = 'promo50Email';
         var PLAN_STORAGE_KEY = 'promo50Plan';
         var PLAN_CONFIG = {
+            basic: {
+                label: 'Basic',
+                priceId: window.JUNIOR_PRICING ? window.JUNIOR_PRICING.STRIPE_PRICE_IDS.basic : 'price_1TcWzqRxE6F23RwQ7FnKpQyU',
+                discountedMonthly: 4.99
+            },
+            starter: {
+                label: 'Starter',
+                priceId: window.JUNIOR_PRICING ? window.JUNIOR_PRICING.STRIPE_PRICE_IDS.starter : 'price_1TcX0nRxE6F23RwQpZxnoTRv',
+                discountedMonthly: 7.49
+            },
             standard: {
                 label: 'Standard',
-                priceId: 'price_1RJMCrRxE6F23RwQEnHUwvFq',
+                priceId: window.JUNIOR_PRICING ? window.JUNIOR_PRICING.STRIPE_PRICE_IDS.standard : 'price_1RJMCrRxE6F23RwQEnHUwvFq',
                 discountedMonthly: 14.99
             },
             pro: {
                 label: 'Pro',
-                priceId: 'price_1SX1LrRxE6F23RwQgWgIV1NK',
+                priceId: window.JUNIOR_PRICING ? window.JUNIOR_PRICING.STRIPE_PRICE_IDS.pro : 'price_1SX1LrRxE6F23RwQgWgIV1NK',
                 discountedMonthly: 24.99
             }
         };
@@ -442,7 +465,7 @@
         var cancelledBanner = document.getElementById('cancelled-banner');
         var toggleBtn = document.getElementById('password-toggle');
         var planInputs = document.querySelectorAll('input[name="promo-plan"]');
-        var planOptions = document.querySelectorAll('.promo-plan-option');
+        var planOptions = document.querySelectorAll('.plan-selector-option');
 
         function formatMoney(value) {
             return '$' + value.toFixed(2);

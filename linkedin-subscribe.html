@@ -253,6 +253,36 @@
                 <div id="form-error" class="ls-error"></div>
 
                 <form id="subscribe-form" novalidate>
+                    <div class="ls-form-group promo-plan-selection">
+                        <label>Choose your plan</label>
+                        <div class="plan-selector-grid">
+                            <label class="plan-selector-option" for="ls-plan-basic">
+                                <input type="radio" name="ls-plan" id="ls-plan-basic" value="basic">
+                                <strong>Basic</strong>
+                                <small>10 comments/day</small>
+                                <div class="plan-selector-prices"><span class="new-price">$9.99/mo</span></div>
+                            </label>
+                            <label class="plan-selector-option" for="ls-plan-starter">
+                                <input type="radio" name="ls-plan" id="ls-plan-starter" value="starter">
+                                <strong>Starter</strong>
+                                <small>20 comments/day</small>
+                                <div class="plan-selector-prices"><span class="new-price">$14.99/mo</span></div>
+                            </label>
+                            <label class="plan-selector-option selected" for="ls-plan-standard">
+                                <input type="radio" name="ls-plan" id="ls-plan-standard" value="standard" checked>
+                                <strong>Standard</strong>
+                                <small>50 comments/day</small>
+                                <div class="plan-selector-prices"><span class="new-price">$29.99/mo</span></div>
+                            </label>
+                            <label class="plan-selector-option" for="ls-plan-pro">
+                                <input type="radio" name="ls-plan" id="ls-plan-pro" value="pro">
+                                <strong>Pro</strong>
+                                <small>80 comments/day + priority support</small>
+                                <div class="plan-selector-prices"><span class="new-price">$49.99/mo</span></div>
+                            </label>
+                        </div>
+                    </div>
+
                     <div class="ls-form-group">
                         <label for="sub-email">Email</label>
                         <input type="email" id="sub-email" placeholder="you@example.com" autocomplete="email" required>
@@ -302,11 +332,11 @@
     </main>
 
     <script src="js/api-config.js"></script>
+    <script src="js/pricing-config.js"></script>
     <script src="js/referral.js"></script>
     <script>
     (function () {
         var API_BASE_URL = window.getApiBaseUrl();
-        var PRICE_ID = 'price_1RJMCrRxE6F23RwQEnHUwvFq';
 
         var form = document.getElementById('subscribe-form');
         var emailInput = document.getElementById('sub-email');
@@ -315,6 +345,27 @@
         var submitBtn = document.getElementById('sub-submit');
         var errorEl = document.getElementById('form-error');
         var toggleBtn = document.getElementById('password-toggle');
+        var planInputs = document.querySelectorAll('input[name="ls-plan"]');
+        var planOptions = document.querySelectorAll('.plan-selector-option');
+
+        function getSelectedPlanKey() {
+            var selected = document.querySelector('input[name="ls-plan"]:checked');
+            return selected ? selected.value : 'standard';
+        }
+
+        function updatePlanVisualState() {
+            var selectedPlanKey = getSelectedPlanKey();
+            planOptions.forEach(function (option) {
+                var optionInput = option.querySelector('input[name="ls-plan"]');
+                option.classList.toggle('selected', !!optionInput && optionInput.value === selectedPlanKey);
+            });
+        }
+
+        planInputs.forEach(function (input) {
+            input.addEventListener('change', function () {
+                updatePlanVisualState();
+            });
+        });
 
         var params = new URLSearchParams(window.location.search);
         if (params.get('cancelled') === 'true') {
@@ -364,13 +415,16 @@
             submitBtn.textContent = 'Setting up account\u2026';
 
             try {
+                var selectedPlanKey = getSelectedPlanKey();
+                var priceId = window.JUNIOR_PRICING ? window.JUNIOR_PRICING.STRIPE_PRICE_IDS[selectedPlanKey] : 'price_1RJMCrRxE6F23RwQEnHUwvFq';
+
                 var body = {
                     email: email,
                     password: password,
-                    price_id: PRICE_ID,
+                    price_id: priceId,
                     success_url: window.location.origin + '/success.html',
                     cancel_url: window.location.origin + '/linkedin-subscribe.html',
-                    metadata: { signup_source: 'linkedin-campaign' }
+                    metadata: { signup_source: 'linkedin-campaign', selected_plan: selectedPlanKey }
                 };
 
                 var refCode = typeof window.getReferralCode === 'function' ? window.getReferralCode() : null;
