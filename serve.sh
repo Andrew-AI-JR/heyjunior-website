@@ -63,7 +63,7 @@ cleanup() {
 trap cleanup EXIT INT TERM
 
 if command -v python3 &> /dev/null; then
-  python3 -m http.server "$SITE_PORT"
+  python3 scripts/static_server.py "$SITE_PORT"
 elif command -v python &> /dev/null; then
   python -m SimpleHTTPServer "$SITE_PORT"
 elif command -v npx &> /dev/null; then
