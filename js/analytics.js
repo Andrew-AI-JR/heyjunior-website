@@ -197,6 +197,7 @@
     }
     if (
       name === 'register_submit_clicked' ||
+      name === 'landing_jobs_inline_submit_clicked' ||
       name === 'reddit_signup_cta_clicked' ||
       name === 'linkedin_visibility_signup_cta_clicked'
     ) {
@@ -205,7 +206,7 @@
     if (name === 'cta_click' && props && typeof props.href === 'string' && props.href.indexOf('register') !== -1) {
       return 'register_click';
     }
-    if (name === 'register_completed') {
+    if (name === 'register_completed' || name === 'landing_jobs_inline_register_completed') {
       return 'register_success';
     }
     return null;

@@ -1,16 +1,13 @@
 /* register.js - User Registration */
 
 const API_BASE_URL = window.getApiBaseUrl();
-
-const SIGNUP_PLAN_PRICE_IDS = {
-    basic: 'price_1TcWzqRxE6F23RwQ7FnKpQyU',
-    starter: 'price_1TcX0nRxE6F23RwQpZxnoTRv',
-    standard: 'price_1RJMCrRxE6F23RwQEnHUwvFq',
-    pro: 'price_1SX1LrRxE6F23RwQgWgIV1NK'
-};
+const signupShared = window.JuniorSignupShared || null;
 
 function getSignupPriceIds() {
-    return window.JUNIOR_PRICING ? window.JUNIOR_PRICING.STRIPE_PRICE_IDS : SIGNUP_PLAN_PRICE_IDS;
+    if (signupShared && typeof signupShared.getSignupPriceIds === 'function') {
+        return signupShared.getSignupPriceIds();
+    }
+    return window.JUNIOR_PRICING ? window.JUNIOR_PRICING.STRIPE_PRICE_IDS : {};
 }
 
 let currentUserToken = null;
@@ -43,19 +40,22 @@ document.addEventListener('DOMContentLoaded', () => {
     wirePasswordToggle('password-toggle', 'reg-password', 'Show password', 'Hide password');
     wirePasswordToggle('password-confirm-toggle', 'reg-password-confirm', 'Show confirm password', 'Hide confirm password');
 
-    initEmailStep();
-
     var qs = new URLSearchParams(window.location.search);
     var src = qs.get('src') || sessionStorage.getItem('marketingSource') || '';
     if (src) {
         sessionStorage.setItem('marketingSource', src);
     }
     var isRedditFlow = src.indexOf('reddit') !== -1;
+    var isJobboardFlow = src.indexOf('jobboard-partner') !== -1;
 
     if (isRedditFlow) {
         initInstantCommentDemo();
+        initEmailStep();
     } else {
-        skipDemoShowSignup();
+        skipDemoShowSignup(isJobboardFlow);
+        if (!isJobboardFlow) {
+            initEmailStep();
+        }
     }
 
     applyTryItSignupHandoff(src, qs);
@@ -111,7 +111,7 @@ function applyTryItSignupHandoff(src, qs) {
     }
 }
 
-function skipDemoShowSignup() {
+function skipDemoShowSignup(skipEmailStep) {
     var hook = document.getElementById('register-hook');
     var directHook = document.getElementById('register-direct-hook');
     var demo = document.getElementById('register-demo');
@@ -126,8 +126,17 @@ function skipDemoShowSignup() {
     if (directHook) directHook.hidden = false;
 
     if (signupGate) signupGate.hidden = false;
-    if (emailStep) emailStep.hidden = false;
-    if (fullSignup) fullSignup.hidden = true;
+    if (skipEmailStep) {
+        if (emailStep) emailStep.hidden = true;
+        if (fullSignup) fullSignup.hidden = false;
+        var storedEmail = sessionStorage.getItem('juniorCapturedEmail');
+        if (storedEmail && document.getElementById('reg-email')) {
+            document.getElementById('reg-email').value = storedEmail;
+        }
+    } else {
+        if (emailStep) emailStep.hidden = false;
+        if (fullSignup) fullSignup.hidden = true;
+    }
 }
 
 function initEmailStep() {
@@ -332,6 +341,13 @@ function loadReferralCode() {
 async function handleRegistration(e) {
     e.preventDefault();
 
+    if (!signupShared || typeof signupShared.submitRegistrationRequest !== 'function') {
+        console.error('[Register] shared signup helpers are unavailable');
+        const registerError = document.getElementById('register-error');
+        showError(registerError, 'Signup is temporarily unavailable. Please refresh and try again.');
+        return;
+    }
+
     if (window.juniorTrack) {
         window.juniorTrack('register_submit_clicked');
     }
@@ -368,17 +384,6 @@ async function handleRegistration(e) {
     try {
         const referralCode = document.getElementById('referral-code-field').value;
         const selectedPlanKey = selectedPlan.value;
-        const priceId = getSignupPriceIds()[selectedPlanKey];
-        if (!priceId) {
-            showError(registerError, 'Please select a subscription plan.');
-            registerButton.disabled = false;
-            registerButton.classList.remove('register-submit-loading');
-            registerButtonText.textContent = 'Continue to secure checkout';
-            document.getElementById('reg-email').disabled = false;
-            document.getElementById('reg-password').disabled = false;
-            document.getElementById('reg-password-confirm').disabled = false;
-            return;
-        }
 
         const urlParams = new URLSearchParams(window.location.search);
         const couponFromUrl = urlParams.get('coupon');
@@ -386,94 +391,21 @@ async function handleRegistration(e) {
             ? couponFromUrl.trim().toUpperCase()
             : (sessionStorage.getItem('appliedCoupon') || null);
 
-        const requestBody = {
-            email: email,
-            password: password,
-            price_id: priceId,
-            success_url: window.location.origin + '/success.html',
-            cancel_url: window.location.origin + '/register.html' + window.location.search
-        };
         if (referralCode) {
-            requestBody.referral_code = referralCode.toUpperCase();
             console.log('[Register] including referral code:', referralCode);
         }
-        if (couponCode) {
-            requestBody.coupon_code = couponCode;
-        }
 
-        const response = await fetch(API_BASE_URL + '/api/users/register', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(requestBody)
+        const data = await signupShared.submitRegistrationRequest({
+            email: email,
+            password: password,
+            selectedPlanKey: selectedPlanKey,
+            referralCode: referralCode || null,
+            couponCode: couponCode || null,
+            successUrl: window.location.origin + '/success.html',
+            cancelUrl: window.location.origin + '/register.html' + window.location.search
         });
-        console.log('[Register] registration response received, status:', response.status);
-        
-        const contentType = response.headers.get('content-type');
-        let data;
-
-        if (contentType && contentType.includes('application/json')) {
-            data = await response.json();
-        } else {
-            const text = await response.text();
-            console.error('[Register] non-JSON response:', text);
-            throw new Error(text || 'Registration failed. Please try again.');
-        }
-
-        if (!response.ok) {
-            console.log('[Register] registration failed:', response.status, data);
-            let errorMessage = 'Registration failed. Please try again.';
-            if (data.detail) {
-                if (Array.isArray(data.detail)) {
-                    errorMessage = data.detail.map(function (err) { return err.msg || err.message || 'Validation error'; }).join('. ');
-                } else if (typeof data.detail === 'string') {
-                    errorMessage = data.detail;
-                } else {
-                    errorMessage = data.detail.message || JSON.stringify(data.detail);
-                }
-            } else if (data.message) {
-                errorMessage = data.message;
-            }
-            
-            if (response.status === 409 || errorMessage.toLowerCase().includes('already exists')) {
-                showDuplicateEmailError(registerError);
-                if (window.juniorTrack) {
-                    window.juniorTrack('register_submit_error', { reason: 'duplicate_email' });
-                }
-                registerButton.disabled = false;
-                registerButton.classList.remove('register-submit-loading');
-                registerButtonText.textContent = 'Continue to secure checkout';
-                document.getElementById('reg-email').disabled = false;
-                document.getElementById('reg-password').disabled = false;
-                document.getElementById('reg-password-confirm').disabled = false;
-                return;
-            }
-
-            if (response.status >= 500) {
-                errorMessage = 'Something went wrong on our end. Please try again in a moment.';
-            }
-
-            throw new Error(errorMessage);
-        }
-
+        const userId = signupShared.persistRegistrationSession(data, email);
         console.log('[Register] registration success:', data);
-
-        if (!data.checkout_url) {
-            throw new Error('Unable to start secure checkout. Please try again.');
-        }
-
-        const accessToken = data.access_token || data.token;
-        if (accessToken) {
-            sessionStorage.setItem('userToken', accessToken);
-            sessionStorage.setItem('accessToken', accessToken);
-        }
-        if (data.refresh_token) {
-            sessionStorage.setItem('refreshToken', data.refresh_token);
-        }
-        const userId = data.id || data.user_id;
-        if (userId) {
-            sessionStorage.setItem('userId', userId.toString());
-            sessionStorage.setItem('userEmail', data.email || email);
-        }
 
         if (window.juniorTrack) {
             window.juniorTrack('register_completed', { userId: userId || null });
@@ -495,7 +427,19 @@ async function handleRegistration(e) {
 
     } catch (error) {
         let msg;
-        if (error.name === 'AbortError') {
+        if (error && error.type === 'duplicate_email') {
+            showDuplicateEmailError(registerError);
+            if (window.juniorTrack) {
+                window.juniorTrack('register_submit_error', { reason: 'duplicate_email' });
+            }
+            registerButton.disabled = false;
+            registerButton.classList.remove('register-submit-loading');
+            registerButtonText.textContent = 'Continue to secure checkout';
+            document.getElementById('reg-email').disabled = false;
+            document.getElementById('reg-password').disabled = false;
+            document.getElementById('reg-password-confirm').disabled = false;
+            return;
+        } else if (error.name === 'AbortError') {
             msg = 'Our server is slow right now. Please try again — it usually works on the second attempt.';
             console.error('[Register] registration request timed out');
             if (window.juniorTrack) {
@@ -509,7 +453,7 @@ async function handleRegistration(e) {
                 window.juniorTrack('register_submit_error', { reason: 'network' });
             }
         } else {
-            msg = error.message || 'Something went wrong. Please try again.';
+            msg = (error && error.message) || 'Something went wrong. Please try again.';
             console.error('[Register] registration error:', error);
             if (window.juniorTrack) {
                 window.juniorTrack('register_submit_error', { reason: 'server' });
@@ -545,41 +489,17 @@ function autoLoginAfterRegister(email, password) {
 }
 
 function validateRegistrationForm(email, password, passwordConfirm, termsAccepted, selectedPlan) {
-    if (!email || !validateEmail(email)) {
-        return 'Please enter a valid email address.';
+    if (signupShared && typeof signupShared.validateRegistrationForm === 'function') {
+        return signupShared.validateRegistrationForm(email, password, passwordConfirm, termsAccepted, selectedPlan);
     }
-
-    if (!selectedPlan || !getSignupPriceIds()[selectedPlan.value]) {
-        return 'Please select a subscription plan.';
-    }
-    
-    if (!password || password.length < 8) {
-        return 'Password must be at least 8 characters long.';
-    }
-    
-    // Check for uppercase letter requirement
-    if (!password.match(/[A-Z]/)) {
-        return 'Password must contain at least one uppercase letter.';
-    }
-
-    if (!passwordConfirm) {
-        return 'Please confirm your password.';
-    }
-
-    if (password !== passwordConfirm) {
-        return 'Passwords do not match. Please try again.';
-    }
-
-    if (!termsAccepted) {
-        return 'You must agree to the Terms of Service to continue.';
-    }
-    
-    return null;
+    return 'Unable to validate signup right now. Please refresh and try again.';
 }
 
 function validateEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
+    if (signupShared && typeof signupShared.validateEmail === 'function') {
+        return signupShared.validateEmail(email);
+    }
+    return false;
 }
 
 function clearStatus(successEl, errorEl) {

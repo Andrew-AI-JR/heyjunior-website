@@ -7517,6 +7517,30 @@ section, div {
     margin: 0;
 }
 
+.lbj-inline-signup {
+    margin: 20px 0 10px;
+    padding: 18px;
+    border-radius: 12px;
+    border: 1px solid #dbeafe;
+    background: #ffffff;
+}
+
+.lbj-inline-signup-title {
+    margin: 0 0 12px;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.lbj-inline-signup-form {
+    max-width: none;
+}
+
+.lbj-inline-signup .register-submit {
+    margin-top: 4px;
+}
+
 @media (max-width: 480px) {
     .register-page {
         padding: 16px 12px 28px;
@@ -7536,6 +7560,11 @@ section, div {
 
     .register-form {
         max-width: none;
+    }
+
+    .lbj-inline-signup {
+        padding: 14px;
+        margin-top: 16px;
     }
 }
 

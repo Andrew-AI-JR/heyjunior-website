@@ -36,6 +36,30 @@ POST http://localhost:8080/api/analytics/events
     - `source`: `sessionStorage.marketingSource` or `direct`
     - `userId`: backend user id if present
 
+- `landing_jobs_inline_signup_view`
+  - Fired in [`js/linkedin-basics-jobs-signup.js`](../js/linkedin-basics-jobs-signup.js)
+  - Trigger: inline signup module rendered on [`linkedin-basics-jobs.html`](../linkedin-basics-jobs.html)
+  - Payload:
+    - `placement`: `hero`
+
+- `landing_jobs_inline_submit_clicked`
+  - Fired in [`js/linkedin-basics-jobs-signup.js`](../js/linkedin-basics-jobs-signup.js)
+  - Trigger: submit on the inline signup module in [`linkedin-basics-jobs.html`](../linkedin-basics-jobs.html)
+  - Payload:
+    - `placement`: `hero`
+
+- `landing_jobs_inline_register_completed`
+  - Fired in [`js/linkedin-basics-jobs-signup.js`](../js/linkedin-basics-jobs-signup.js)
+  - Trigger: successful response from `POST /api/users/register` on the inline landing form
+  - Payload:
+    - `userId`: backend user id if present
+
+- `landing_jobs_inline_register_error`
+  - Fired in [`js/linkedin-basics-jobs-signup.js`](../js/linkedin-basics-jobs-signup.js)
+  - Trigger: validation/network/server/duplicate-email errors in inline landing signup
+  - Payload:
+    - `reason`: `validation`, `duplicate_email`, `timeout`, `network`, or `server`
+
 - `subscription_completed`
   - Fired in [`js/success.js`](../js/success.js)
   - Trigger: only after the success branch where both `data.success` and `data.subscription_active` are true
@@ -63,9 +87,9 @@ The lightweight `/log-event` sink receives simplified funnel names for quick cam
 - `generate_success`
   - Mapped from `reddit_comment_preview_shown`, `reddit_comment_preview_fallback_shown`, `linkedin_visibility_comment_preview_shown`, `linkedin_visibility_comment_preview_fallback_shown`, `register_demo_result_shown`, and `register_demo_fallback_shown`.
 - `register_click`
-  - Mapped from `reddit_signup_cta_clicked`, `linkedin_visibility_signup_cta_clicked`, `register_submit_clicked`, and any tracked `cta_click` whose `href` contains `register`.
+  - Mapped from `reddit_signup_cta_clicked`, `linkedin_visibility_signup_cta_clicked`, `register_submit_clicked`, `landing_jobs_inline_submit_clicked`, and any tracked `cta_click` whose `href` contains `register`.
 - `register_success`
-  - Mapped from `register_completed`.
+  - Mapped from `register_completed` and `landing_jobs_inline_register_completed`.
 
 ## Source attribution
 
@@ -76,6 +100,7 @@ The lightweight `/log-event` sink receives simplified funnel names for quick cam
   - homepage CTAs: direct traffic, no explicit `src`
   - Reddit story page CTA: `register.html?src=reddit-output-cta`
   - Reddit visibility page CTA: `register.html?src=linkedin-visibility-output-cta`
+  - blue-collar partner page: `linkedin-basics-jobs.html?src=jobboard-partner`
 
 ## Durable event schema
 
@@ -99,6 +124,7 @@ The backend persists these into `analytics_events` and ignores duplicate `event_
 - [`reddit.html`](../reddit.html)
 - [`reddit-visibility.html`](../reddit-visibility.html)
 - [`register.html`](../register.html)
+- [`linkedin-basics-jobs.html`](../linkedin-basics-jobs.html)
 - [`success.html`](../success.html)
 
 The Reddit Pixel is active on the key funnel pages with pixel id `a2_ivp2lsryo1gm`. `juniorTrack()` forwards custom events to `rdt` when the pixel global is available.
@@ -161,6 +187,18 @@ window.addEventListener('juniorTrack', (event) => console.log(event.detail));
 - Requires a working backend API
 - Complete a real signup on [`register.html`](../register.html)
 - Confirm one `[juniorTrack] register_completed` console entry appears after the successful register response
+
+### Blue-collar inline signup
+
+- Open [`linkedin-basics-jobs.html?src=jobboard-partner`](../linkedin-basics-jobs.html?src=jobboard-partner)
+- Confirm the signup module is visible in the hero without extra click-through
+- Submit valid signup details directly from the landing page
+- Confirm these events appear in Console:
+  - `landing_jobs_inline_signup_view`
+  - `landing_jobs_inline_submit_clicked`
+  - `landing_jobs_inline_register_completed` on success
+  - `landing_jobs_inline_register_error` on failed attempt
+- Confirm `/log-event` receives `register_click` and `register_success` aliases for the inline flow
 
 ### Subscription completion
 
