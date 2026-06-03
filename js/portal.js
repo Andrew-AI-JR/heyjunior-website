@@ -21,8 +21,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     initPortalPlanSelection();
     applyPortalPlanFromUrl();
 
-    // Auto-apply coupon from URL parameter (e.g. ?coupon=JUNIOR50)
+    // Auto-auth from email link (e.g. winback email)
     const urlParams = new URLSearchParams(window.location.search);
+    const emailToken = urlParams.get('token');
+    if (emailToken) {
+        sessionStorage.setItem('userToken', emailToken);
+        urlParams.delete('token');
+        const cleanUrl = urlParams.toString()
+            ? `${window.location.pathname}?${urlParams}`
+            : window.location.pathname;
+        window.history.replaceState({}, '', cleanUrl);
+    }
+
+    // Auto-apply coupon from URL parameter (e.g. ?coupon=JUNIOR50)
     const couponParam = urlParams.get('coupon');
     if (couponParam) {
         const code = couponParam.trim().toUpperCase();
