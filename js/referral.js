@@ -56,16 +56,8 @@ const PARTNER_LINKS = {
       console.log('Stored referral code:', normalizedRefCode, 'for 30 days');
     }
     
-    // Check if this is a known partner (for legacy payment link redirects)
-    // Skip partners who have been migrated to Stripe Connect
-    const lowerRefCode = normalizedRefCode.toLowerCase();
-    if (PARTNER_LINKS[lowerRefCode] && !MIGRATED_TO_CONNECT.includes(lowerRefCode)) {
-      localStorage.setItem('partnerPaymentLink', PARTNER_LINKS[lowerRefCode]);
-    } else if (MIGRATED_TO_CONNECT.includes(lowerRefCode)) {
-      // Migrated partner: clear any stale payment link, let standard checkout handle the split
-      localStorage.removeItem('partnerPaymentLink');
-      console.log('Partner migrated to Connect, using standard checkout:', lowerRefCode);
-    }
+    // Unified signup: always use register.html + API referral_code (no buy.stripe.com redirects)
+    localStorage.removeItem('partnerPaymentLink');
   }
   
   // Clean up expired referral codes
@@ -83,31 +75,10 @@ const PARTNER_LINKS = {
     }
   }
   
-  // Apply stored referral to checkout buttons (for partner payment links only)
-  function applyReferralToLinks() {
-    cleanupExpiredReferrals();
-    
-    const storedRef = localStorage.getItem('referralCode');
-    const partnerLink = localStorage.getItem('partnerPaymentLink');
-    
-    // Only redirect to partner links if it's a known partner
-    if (storedRef && partnerLink) {
-      // Replace checkout links with partner's payment link
-      const checkoutLinks = document.querySelectorAll('a[href*="checkout.html"]');
-      checkoutLinks.forEach(link => {
-        link.href = partnerLink;
-        console.log('Redirecting checkout to partner link:', partnerLink);
-      });
-    }
-    // Note: Regular referral codes are stored and will be sent during signup
-    // They don't need to redirect checkout links
-  }
-  
-  // Run when DOM is ready
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', applyReferralToLinks);
+    document.addEventListener('DOMContentLoaded', cleanupExpiredReferrals);
   } else {
-    applyReferralToLinks();
+    cleanupExpiredReferrals();
   }
 })();
 

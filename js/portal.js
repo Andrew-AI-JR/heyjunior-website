@@ -14,9 +14,13 @@ const STRIPE_PRICE_IDS = window.JUNIOR_PRICING ? window.JUNIOR_PRICING.STRIPE_PR
 let currentUserToken = null;
 
 // Check authentication on page load
+const PORTAL_PLAN_INPUT_NAME = 'portal-plan';
+
 document.addEventListener('DOMContentLoaded', async () => {
     console.log('Portal page loaded');
-    
+    initPortalPlanSelection();
+    applyPortalPlanFromUrl();
+
     // Auto-apply coupon from URL parameter (e.g. ?coupon=JUNIOR50)
     const urlParams = new URLSearchParams(window.location.search);
     const couponParam = urlParams.get('coupon');
@@ -72,7 +76,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 async function fetchWithAuth(url, options = {}) {
     return window.juniorFetchWithAuth(url, {
         ...options,
-        auth401Redirect: 'checkout.html?redirect=portal',
+        auth401Redirect: 'register.html?src=portal',
     });
 }
 
@@ -91,7 +95,7 @@ async function loadDashboardData() {
         
         // Display the data
         displayUserData(userData);
-        displaySubscriptions(subscriptions);
+        displaySubscriptions(subscriptions, userData);
         displayStats(stats);
         displayReferralInfo(referral);
         displayComments(comments);
@@ -338,40 +342,131 @@ function displayUserData(userData) {
 // Store subscriptions globally for history modal
 let allSubscriptions = [];
 
-function displaySubscriptions(subscriptions) {
+function isActiveSubscriptionStatus(status) {
+    return ['active', 'trialing', 'past_due'].includes(String(status || '').toLowerCase());
+}
+
+function findActiveSubscription(subscriptions) {
+    if (!subscriptions || !subscriptions.length) {
+        return null;
+    }
+    return subscriptions.find(sub => isActiveSubscriptionStatus(sub.status)) || null;
+}
+
+function userHadPriorSubscription(subscriptions) {
+    if (!subscriptions || !subscriptions.length) {
+        return false;
+    }
+    return subscriptions.some(sub => {
+        const status = String(sub.status || '').toLowerCase();
+        return ['canceled', 'cancelled', 'unpaid', 'incomplete_expired'].includes(status)
+            || (status === 'incomplete' && sub.stripe_subscription_id);
+    });
+}
+
+function configureNoSubscriptionPanel(subscriptions, userData) {
+    const titleEl = document.getElementById('no-subscription-title');
+    const descEl = document.getElementById('no-subscription-desc');
+    const trialHint = document.getElementById('no-subscription-trial-hint');
+    const historyLink = document.getElementById('no-sub-history-link');
+    const hadPrior = userHadPriorSubscription(subscriptions);
+
+    if (titleEl) {
+        titleEl.textContent = hadPrior ? 'Subscribe to Junior' : 'Complete your signup';
+    }
+    if (descEl) {
+        descEl.textContent = hadPrior
+            ? 'You do not have an active subscription. Choose a plan below, then pay securely in Stripe to restore access.'
+            : 'Your account is ready. Choose a plan below, then add your payment method in Stripe to activate Junior.';
+    }
+    if (trialHint) {
+        trialHint.style.display = hadPrior ? 'none' : 'block';
+    }
+    if (historyLink) {
+        historyLink.style.display = subscriptions && subscriptions.length ? 'inline' : 'none';
+    }
+}
+
+function initPortalPlanSelection() {
+    function updatePlanVisualState(name) {
+        const selectedValue = document.querySelector(`input[name="${name}"]:checked`)?.value;
+        document.querySelectorAll(`input[name="${name}"]`).forEach(function (input) {
+            const option = input.closest('.plan-selector-option');
+            if (option) {
+                if (input.checked && input.value === selectedValue) {
+                    option.classList.add('selected');
+                } else {
+                    option.classList.remove('selected');
+                }
+            }
+        });
+    }
+
+    document.querySelectorAll(`input[name="${PORTAL_PLAN_INPUT_NAME}"]`).forEach(function (input) {
+        input.addEventListener('change', function () {
+            updatePlanVisualState(PORTAL_PLAN_INPUT_NAME);
+        });
+    });
+    updatePlanVisualState(PORTAL_PLAN_INPUT_NAME);
+}
+
+function getSelectedPortalPlan() {
+    const selected = document.querySelector(`input[name="${PORTAL_PLAN_INPUT_NAME}"]:checked`);
+    if (!selected) {
+        return null;
+    }
+    const planKey = selected.value;
+    const priceId = STRIPE_PRICE_IDS[planKey];
+    if (!priceId) {
+        return null;
+    }
+    return { planKey: planKey, priceId: priceId };
+}
+
+function applyPortalPlanFromUrl() {
+    const plan = new URLSearchParams(window.location.search).get('plan');
+    if (!plan || !STRIPE_PRICE_IDS[plan]) {
+        return;
+    }
+    const radio = document.getElementById('portal-plan-' + plan);
+    if (radio) {
+        radio.checked = true;
+        radio.dispatchEvent(new Event('change'));
+    }
+}
+
+function displaySubscriptions(subscriptions, userData) {
     // Store subscriptions for history modal
     allSubscriptions = subscriptions || [];
-    
-    if (!subscriptions || subscriptions.length === 0) {
-        document.getElementById('no-subscription').style.display = 'block';
-        document.getElementById('subscription-details').style.display = 'none';
-        // Hide view all link if no subscriptions
-        const viewAllLink = document.getElementById('view-all-subscriptions-link');
+
+    const activeSub = findActiveSubscription(subscriptions);
+    const noSubEl = document.getElementById('no-subscription');
+    const detailsEl = document.getElementById('subscription-details');
+    const viewAllLink = document.getElementById('view-all-subscriptions-link');
+
+    if (!activeSub) {
+        if (noSubEl) {
+            noSubEl.style.display = 'block';
+        }
+        if (detailsEl) {
+            detailsEl.style.display = 'none';
+        }
+        configureNoSubscriptionPanel(subscriptions, userData);
         if (viewAllLink) {
             viewAllLink.style.display = 'none';
         }
         return;
     }
-    
-    // Show view all link if there are subscriptions (always show to view full history)
-    const viewAllLink = document.getElementById('view-all-subscriptions-link');
+
+    if (noSubEl) {
+        noSubEl.style.display = 'none';
+    }
+    if (detailsEl) {
+        detailsEl.style.display = 'block';
+    }
     if (viewAllLink) {
         viewAllLink.style.display = 'inline';
     }
-    
-    // Find active subscription (prioritize active, trialing, or past_due)
-    const activeSub = subscriptions.find(sub => 
-        ['active', 'trialing', 'past_due'].includes(sub.status?.toLowerCase())
-    ) || subscriptions[0];
-    
-    if (!activeSub) {
-        document.getElementById('no-subscription').style.display = 'block';
-        document.getElementById('subscription-details').style.display = 'none';
-        return;
-    }
-    
-    document.getElementById('no-subscription').style.display = 'none';
-    document.getElementById('subscription-details').style.display = 'block';
     
     const rawPlan = activeSub.plan || activeSub.plan_name || 'Standard';
     const planName = window.JUNIOR_PRICING ? window.JUNIOR_PRICING.mapLegacyPlan(rawPlan) : rawPlan;
@@ -412,11 +507,19 @@ function displaySubscriptions(subscriptions) {
         badge.className = 'subscription-badge inactive';
     }
     
-    // Show trial message if on trial
     const trialMessage = document.getElementById('trial-message');
+    const trialMessageText = document.getElementById('trial-message-text');
     if (trialMessage) {
         if (isTrialing) {
             trialMessage.style.display = 'block';
+            if (trialMessageText && activeSub.current_period_end) {
+                const endDate = new Date(activeSub.current_period_end);
+                if (!isNaN(endDate.getTime())) {
+                    trialMessageText.textContent =
+                        'Your free trial is active until ' + endDate.toLocaleDateString() +
+                        '. Billing starts automatically after the trial unless you cancel in Manage Subscription.';
+                }
+            }
         } else {
             trialMessage.style.display = 'none';
         }
@@ -996,136 +1099,103 @@ function restoreButtonStates() {
     });
 }
 
-function createCheckoutSessionFromPortal() {
-    const selectedPlan = document.querySelector('input[name="portal-plan"]:checked')?.value || 'standard';
-    createCheckoutSession(selectedPlan, 'subscribe-btn', 'subscribe-error');
-}
+async function startPortalCheckout(planType) {
+    const btn = document.getElementById('portal-checkout-btn');
+    const errEl = document.getElementById('subscribe-error');
+    const originalText = btn ? btn.textContent : 'Continue to secure checkout';
 
-function createCheckoutSessionFromTrial() {
-    const selectedPlan = document.querySelector('input[name="trial-plan"]:checked')?.value || 'standard';
-    createCheckoutSession(selectedPlan, 'trial-subscribe-btn', 'trial-subscribe-error');
-}
-
-async function createCheckoutSession(planType, buttonId, errorId) {
-    // planType should be one of: basic, starter, standard, pro
-    if (!planType || !['basic', 'starter', 'standard', 'pro'].includes(planType)) {
-        console.error('Invalid plan type:', planType);
-        return;
-    }
-    
-    const btn = document.getElementById(buttonId);
-    const errorEl = document.getElementById(errorId);
-    
-    // Get the Stripe price ID for the selected plan
-    const priceId = STRIPE_PRICE_IDS[planType];
-    console.log('Creating checkout for plan:', planType, 'with price_id:', priceId);
-    
+    let planKey = planType;
+    let priceId = planType ? STRIPE_PRICE_IDS[planType] : null;
     if (!priceId) {
-        if (errorEl) {
-            errorEl.textContent = `Invalid plan selected: ${planType}. Please try again.`;
-            errorEl.style.display = 'block';
+        const selection = getSelectedPortalPlan();
+        if (selection) {
+            planKey = selection.planKey;
+            priceId = selection.priceId;
+        }
+    }
+
+    if (!priceId) {
+        if (errEl) {
+            errEl.textContent = 'Please select a subscription plan.';
+            errEl.style.display = 'block';
         }
         return;
     }
-    
-    if (errorEl) errorEl.style.display = 'none';
-    
+
+    if (errEl) {
+        errEl.style.display = 'none';
+    }
     if (btn) {
         btn.disabled = true;
-        btn.textContent = 'Creating checkout session...';
+        btn.textContent = 'Loading checkout...';
     }
-    
+
     try {
         const token = currentUserToken || sessionStorage.getItem('userToken') || sessionStorage.getItem('accessToken');
         if (!token) {
-            throw new Error('You must be logged in to subscribe. Please log in again.');
+            window.location.href = 'register.html?src=portal-subscribe';
+            return;
         }
-        
-        // Get coupon code if any was applied
+
         const appliedCoupon = sessionStorage.getItem('appliedCoupon');
-        
         const requestBody = {
             price_id: priceId,
-            success_url: `${window.location.origin}/success.html?session_id={CHECKOUT_SESSION_ID}`,
+            success_url: `${window.location.origin}/success.html`,
             cancel_url: `${window.location.origin}/portal.html`
         };
-        
         if (appliedCoupon) {
             requestBody.coupon_code = appliedCoupon;
         }
 
-        // Include referral code so backend can apply reseller revenue split
         const refCode = window.getReferralCode ? window.getReferralCode() : localStorage.getItem('referralCode');
         if (refCode) {
             requestBody.referral_code = refCode.toUpperCase();
         }
-        
-        console.log('Creating checkout session with:', requestBody);
-        
+
+        console.log('Portal checkout for plan:', planKey, requestBody);
+
         const response = await fetchWithAuth(`${API_BASE_URL}/api/payments/create-checkout-session`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(requestBody)
         });
-        
+
         if (!response || !response.ok) {
-            const errorData = await response.json().catch(() => ({ detail: 'Failed to create checkout session' }));
-            throw new Error(errorData.detail || errorData.message || 'Failed to create checkout session');
+            const errorData = await response.json().catch(() => ({ detail: 'Failed to start checkout' }));
+            throw new Error(errorData.detail || errorData.message || 'Failed to start checkout');
         }
-        
+
         const data = await response.json();
-        
         if (data.checkout_url) {
-            // Redirect to Stripe checkout
             window.location.href = data.checkout_url;
         } else {
-            throw new Error('No checkout URL received from server');
+            throw new Error('No checkout URL received');
         }
-        
     } catch (error) {
-        console.error('Error creating checkout session:', error);
-        if (errorEl) {
-            errorEl.textContent = error.message || 'Failed to create checkout session. Please try again.';
-            errorEl.style.display = 'block';
+        console.error('Portal checkout error:', error);
+        if (errEl) {
+            errEl.textContent = error.message || 'Failed to open checkout. Please try again.';
+            errEl.style.display = 'block';
         }
-        
         if (btn) {
             btn.disabled = false;
-            btn.textContent = 'Subscribe';
+            btn.textContent = originalText;
         }
     }
 }
 
-// Make functions globally accessible
+async function createCheckoutSession(planType) {
+    return startPortalCheckout(planType);
+}
+
+function createCheckoutSessionFromPortal() {
+    return startPortalCheckout();
+}
+
+window.createCheckoutSession = createCheckoutSession;
 window.createCheckoutSessionFromPortal = createCheckoutSessionFromPortal;
-window.createCheckoutSessionFromTrial = createCheckoutSessionFromTrial;
-
-// Add visual state handlers for radio buttons
-document.addEventListener('DOMContentLoaded', () => {
-    function updatePlanVisualState(name) {
-        const selectedPlan = document.querySelector(`input[name="${name}"]:checked`)?.value;
-        document.querySelectorAll(`input[name="${name}"]`).forEach(input => {
-            const option = input.closest('.plan-selector-option');
-            if (option) {
-                if (input.value === selectedPlan) {
-                    option.classList.add('selected');
-                } else {
-                    option.classList.remove('selected');
-                }
-            }
-        });
-    }
-
-    document.querySelectorAll('input[name="portal-plan"]').forEach(input => {
-        input.addEventListener('change', () => updatePlanVisualState('portal-plan'));
-    });
-    
-    document.querySelectorAll('input[name="trial-plan"]').forEach(input => {
-        input.addEventListener('change', () => updatePlanVisualState('trial-plan'));
-    });
-});
+window.startPortalCheckout = startPortalCheckout;
+window.resumeSignupCheckout = startPortalCheckout;
 
 async function openManageSubscription() {
     const manageButton = document.getElementById('manage-subscription-btn');

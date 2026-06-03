@@ -127,6 +127,16 @@ The browser sends the **full origin**, not just `localhost`. If the site is on p
 
 `http://localhost` alone is not enough. CORS must be set on **OPTIONS** preflight and on error responses (400/422), or the browser hides the real API error.
 
+### `Invalid success_url` on register?
+Stripe signup checks redirect URLs separately from CORS. On the API set:
+
+```env
+FRONTEND_URL=http://localhost:8002
+ALLOWED_FRONTEND_ORIGINS=http://localhost:8002,http://127.0.0.1:8002
+```
+
+Restart the API after changing env (`dc.env` for Docker, `.env` for host uvicorn).
+
 Analytics uses the same API host as everything else (`getApiBaseUrl()` → port **8001** by default). Old hardcoded port **8080** was wrong for local dev.
 
 ### Portal not loading data?
