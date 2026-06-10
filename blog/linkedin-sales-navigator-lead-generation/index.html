@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article - Junior</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <script defer src="../../js/analytics.js"></script>
+    <script src="../../js/api-config.js"></script>
+    <style>
+        .article-container {
+            max-width: 860px;
+            margin: 48px auto;
+            padding: 0 20px;
+        }
+        .article-header {
+            margin-bottom: 32px;
+        }
+        .article-title {
+            font-size: clamp(2rem, 3vw, 2.9rem);
+            margin-bottom: 14px;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            color: #020617;
+        }
+        .article-meta {
+            color: #64748b;
+            font-size: 0.97rem;
+            font-weight: 500;
+        }
+        .article-featured-image {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            margin-bottom: 32px;
+        }
+        .article-content {
+            max-width: 72ch;
+            font-size: clamp(1.06rem, 1.2vw, 1.2rem);
+            line-height: 1.85;
+            color: #1f2937;
+        }
+        .article-content > *:first-child {
+            margin-top: 0;
+        }
+        .article-content > *:last-child {
+            margin-bottom: 0;
+        }
+        .article-content h2 {
+            margin-top: 2.1em;
+            margin-bottom: 0.8em;
+            line-height: 1.25;
+            letter-spacing: -0.01em;
+            color: #020617;
+        }
+        .article-content h3 {
+            margin-top: 1.7em;
+            margin-bottom: 0.65em;
+            line-height: 1.3;
+            letter-spacing: -0.005em;
+            color: #1e293b;
+        }
+        .article-content h4 {
+            margin-top: 1.4em;
+            margin-bottom: 0.55em;
+            line-height: 1.35;
+            color: #334155;
+        }
+        .article-content p {
+            margin: 0 0 1.3em;
+        }
+        .article-content ul,
+        .article-content ol {
+            margin: 0 0 1.3em 1.35em;
+            padding: 0;
+        }
+        .article-content li {
+            margin-bottom: 0.45em;
+        }
+        .article-content strong {
+            color: #0f172a;
+        }
+        .article-content a {
+            color: #1d4ed8;
+            text-decoration-thickness: 0.08em;
+            text-underline-offset: 0.16em;
+        }
+        .article-content blockquote {
+            margin: 0 0 1.5em;
+            padding: 0.9em 1.1em;
+            border-left: 4px solid #94a3b8;
+            color: #334155;
+            background: #f8fafc;
+            border-radius: 8px;
+        }
+        .article-content pre {
+            overflow-x: auto;
+            padding: 14px;
+            border-radius: 8px;
+            background: #0f172a;
+            color: #e2e8f0;
+            margin-bottom: 1.5em;
+            font-size: 0.93em;
+            line-height: 1.6;
+        }
+        .article-content code {
+            font-family: Consolas, "SFMono-Regular", Menlo, Monaco, monospace;
+            font-size: 0.95em;
+            background: #f1f5f9;
+            padding: 0.12em 0.35em;
+            border-radius: 4px;
+        }
+        .article-content pre code {
+            background: transparent;
+            padding: 0;
+        }
+        .article-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5em;
+            display: block;
+            overflow-x: auto;
+        }
+        .article-content th,
+        .article-content td {
+            border: 1px solid #cbd5e1;
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        .article-content th {
+            background: #f8fafc;
+            color: #0f172a;
+        }
+        .article-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin: 0.6em 0 1.3em;
+        }
+        .article-content hr {
+            border: none;
+            border-top: 1px solid #e2e8f0;
+            margin: 2em 0;
+        }
+        .article-content figure {
+            margin: 0 0 1.5em;
+        }
+        .article-content figcaption {
+            color: #64748b;
+            font-size: 0.92em;
+            margin-top: 0.55em;
+        }
+        .article-loading {
+            text-align: center;
+            padding: 40px;
+            color: #64748b;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 24px;
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        .share-row {
+            display: flex;
+            gap: 12px;
+            margin: 24px 0;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .share-row.top-share {
+            margin-top: 16px;
+            margin-bottom: 0;
+        }
+        .share-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-decoration: none;
+            color: #334155;
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .share-button:hover {
+            background: #e2e8f0;
+            color: #0f172a;
+            border-color: #cbd5e1;
+            text-decoration: none;
+        }
+        .share-button svg {
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+            fill: currentColor;
+        }
+        @media (max-width: 768px) {
+            .article-container {
+                margin: 28px auto;
+                padding: 0 16px;
+            }
+            .article-header {
+                margin-bottom: 24px;
+            }
+            .article-content {
+                font-size: 1.04rem;
+                line-height: 1.75;
+            }
+            .article-content table {
+                font-size: 0.93rem;
+            }
+            .article-content pre {
+                padding: 12px;
+            }
+        }
+    </style>
+
+    <link rel="canonical" href="https://heyjunior.ai/blog/linkedin-sales-navigator-lead-generation/">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://heyjunior.ai/blog/linkedin-sales-navigator-lead-generation/">
+    <meta property="og:title" content="Sales Navigator Lead Generation: A 4-Step Framework">
+    <meta property="og:description" content="Discover a proven 4-step framework for LinkedIn Sales Navigator lead generation. Learn to use advanced filters, build dynamic lists, and engage authentically.">
+    <meta property="og:image" content="https://assets.bevisible.app/featured-images/j57adzeqy5sd07m9kybt5rtdvn877pr9/sales-navigator-lead-generation-a-4-step-framework-1780838346889-l6y1cw.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://heyjunior.ai/blog/linkedin-sales-navigator-lead-generation/">
+    <meta name="twitter:title" content="Sales Navigator Lead Generation: A 4-Step Framework">
+    <meta name="twitter:description" content="Discover a proven 4-step framework for LinkedIn Sales Navigator lead generation. Learn to use advanced filters, build dynamic lists, and engage authentically.">
+    <meta name="twitter:image" content="https://assets.bevisible.app/featured-images/j57adzeqy5sd07m9kybt5rtdvn877pr9/sales-navigator-lead-generation-a-4-step-framework-1780838346889-l6y1cw.png">
+    
+</head>
+<body data-page="article" class="i18n-ready">
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <a href="../../index.html"><img src="../../images/junior-logo.png" alt="Junior Logo" class="logo-img"></a>
+            </div>
+            <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <div class="nav-group">
+                    <li><a href="../../index.html#use-cases">Use Cases</a></li>
+                    <li><a href="../../index.html#features">Features</a></li>
+                    <li><a href="../../why-commenting-works.html">Why Commenting Works</a></li>
+                    <li><a href="../../blog.html">Blog</a></li>
+                    <li><a href="../../try-it.html">Try It</a></li>
+                
+                    <li><a href="../../blog.html">Blog</a></li></div>
+                <div class="nav-actions">
+                    <li><a href="../../register.html?src=article-nav" class="cta-button">Start Free</a></li>
+                    <li><a href="../../portal.html" class="nav-login-link">Login</a></li>
+                </div>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="article-container" style="padding-top: 120px;">
+        <a href="../../blog.html" class="back-link">← Back to Blog</a>
+        
+        <div id="article-content">
+            <div class="article-loading">Loading article...</div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Junior. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        window.__INITIAL_ARTICLE_DATA__ = {"id": 19, "slug": "linkedin-sales-navigator-lead-generation", "title": "Sales Navigator Lead Generation: A 4-Step Framework", "excerpt": "Discover a proven 4-step framework for LinkedIn Sales Navigator lead generation. Learn to use advanced filters, build dynamic lists, and engage authentically.", "featured_image_url": "https://assets.bevisible.app/featured-images/j57adzeqy5sd07m9kybt5rtdvn877pr9/sales-navigator-lead-generation-a-4-step-framework-1780838346889-l6y1cw.png", "published_at": "2026-06-10T13:05:00+00:00", "content": "# Sales Navigator Lead Generation: A 4-Step Framework\n\nMost sales teams treat [LinkedIn Sales Navigator](https://www.linkedin.com/products/linkedin-sales-navigator/) like an expensive phone book. They log in, apply three basic filters, bulk-save 500 prospects, and immediately dump those profiles into a cold email sequence or an automated direct messaging campaign. \n\nFive years ago, this brute-force approach worked. Today, it actively damages your professional reputation, burns your territory, and flags your account for spam.\n\nThe real power of [Sales Navigator](https://business.linkedin.com/sell/sales-navigator) lies in its ability to track buying signals and map organizational charts in real-time. It is an intelligence engine, not just a scraping tool. To actually generate high-converting leads, you need a systematic approach that prioritizes precision targeting and warm engagement over volume.\n\nThis article breaks down a practical, four-step framework for LinkedIn Sales Navigator lead generation. We will move past the basic interface tutorials and focus on how to build a predictable, high-quality pipeline without resorting to template-based spam.\n\n## The Problem with the \"Scrape and Spam\" Method\n\nBefore detailing the framework, it is critical to understand why standard LinkedIn outreach is failing. Buyers are fatigued. The average VP or C-level executive receives dozens of automated pitches every week. \n\nWhen you use basic cloud automation tools to send identical connection requests, your prospects notice. They see the lack of context. They see the generic \"I noticed we work in the same industry\" opening line. As highlighted by practitioners analyzing [how to use Sales Navigator to generate leads](https://zapier.com/blog/generate-leads-with-linkedin-sales-navigator/), the primary bottleneck is no longer finding contact information\u2014it is earning attention.\n\nIf your goal is to build a [LinkedIn lead generation funnel](https://heyjunior.ai/blog/linkedin-lead-generation-funnel) that actually converts, you have to transition from a broadcast mentality to a conversation-first strategy.\n\n## Step 1: Hyper-Specific Audience Targeting (The Search)\n\nThe foundation of your strategy happens in the search bar. Sales Navigator gives you access to over 30 advanced search filters. The mistake most users make is jumping straight into \"Lead Filters\" (searching for individuals) before using \"Account Filters\" (searching for companies).\n\n### Start with Account Mapping\n\nIf you sell B2B products or services, you are selling to a company, not an isolated individual. Start your search in the Account Filters tab.\n\nBuild a list of target companies based on strict criteria:\n*   **Annual Revenue & Headcount:** Ensure they can afford your solution.\n*   **Department Headcount Growth:** If a company's sales department is growing by 20% year-over-year, they likely have budget for new sales tooling.\n*   **Technologies Used:** (If applicable) Target companies using competitor products or complementary software.\n*   **Hiring on LinkedIn:** Companies actively hiring for specific roles often have a pain point they are trying to solve.\n\nOnce you have a tight list of 50-100 qualified accounts, save them to an \"Account List\". Only then should you move to finding the decision-makers within those specific accounts.\n\n### Master Boolean Search Logic\n\nWhen you transition to Lead Filters, you need to use Boolean logic to keep your lists perfectly clean. Relying solely on the \"Job Title\" dropdown often pulls in irrelevant profiles.\n\nBoolean search uses operators (AND, OR, NOT) and quotation marks to execute precise queries. \n\nFor example, if you want to target marketing leaders but exclude junior staff and specific sub-niches:\n\n`(\"Vice President\" OR VP OR Director OR Head) AND (Marketing OR Growth) NOT (Intern OR Assistant OR \"Content Writer\" OR SEO)`\n\nPlace this string in the exact \"Job Title\" text box, not the global search bar. This ensures you only see decision-makers.\n\n![Diagram explaining Boolean search logic for LinkedIn Sales Navigator](https://assets.bevisible.app/inline-images/j57adzeqy5sd07m9kybt5rtdvn877pr9/inline-1-1780838271140-ud5eyf.png)\n### Leverage Spotlight Filters\n\nThe most valuable real estate in Sales Navigator is the \"Spotlights\" section at the top of your search results. Spotlights filter your massive list down to the prospects who are most likely to engage with you right now.\n\nPay special attention to:\n*   **Changed jobs in the last 90 days:** New executives want to make an impact quickly and are more willing to review new vendors.\n*   **Posted on LinkedIn in the last 30 days:** This is the holy grail for a conversation-first strategy. These prospects are active on the platform, making them the perfect target for engagement.\n*   **Mentioned in the news:** Provides an immediate, highly personalized reason to reach out.\n\n## Step 2: Organizing and Tracking (The Lists)\n\nFinding the right [lead generation strategy](https://heyjunior.ai/blog/linkedin-lead-generation-strategy) means moving away from static spreadsheets. Sales Navigator allows you to build a dynamic, self-updating pipeline.\n\n### Lead Lists vs. Saved Searches\n\nUnderstanding the difference between Lead Lists and Saved Searches is crucial for pipeline management.\n\n*   **Lead Lists:** These are static buckets where you manually save specific individuals. You might have lists named \"Tier 1 VP Sales (Active)\" or \"Q3 Conference Met in Person\". \n*   **Saved Searches:** These are dynamic queries. When you build a complex Boolean search with specific company sizes and geography, you save the *search parameters*. \n\nWhy does this matter? Because Sales Navigator will alert you when *new* people meet your saved search criteria. If a new Director of Marketing is hired at a target account, they automatically appear in your saved search alerts. This gives you a continuous drip of fresh leads without having to manually rebuild your searches.\n\n### Setting Up Buying Signal Alerts\n\nOnce a prospect is saved to a Lead List, Sales Navigator populates your home feed with alerts specific to them. This is how you [use LinkedIn Sales Navigator](https://business.linkedin.com/sales-solutions/sales-navigator/how-to-use-linkedin-sales-navigator) as an intelligence gathering tool.\n\nInstead of checking the general LinkedIn feed, check your Sales Navigator alerts daily. Look for:\n*   Company funding rounds.\n*   Leadership changes.\n*   Content shared by your saved leads.\n*   Accounts viewing your profile.\n\nThese alerts dictate exactly *who* you should contact on any given day and *what* you should say to them.\n\n![Workflow diagram showing Account Lists, Lead Lists, and Saved Searches](https://assets.bevisible.app/inline-images/j57adzeqy5sd07m9kybt5rtdvn877pr9/inline-2-1780838266088-yapt30.png)\n## Step 3: The Conversation-First Engagement Strategy\n\nNow that you have a highly targeted, dynamically updating list of decision-makers, it is time to execute the outreach. This is where the old model breaks down. If you immediately send a connection request or an InMail pitching your service, your conversion rate will likely hover below 2%.\n\nTo see higher success rates, you must warm up the lead. The most effective way to [triple your LinkedIn engagement rate](https://heyjunior.ai/blog/linkedin-engagement-rate) is to interact with their content before you ever land in their inbox.\n\n### The Anatomy of the Warm-Up\n\nWhen you filter your saved leads by \"Posted on LinkedIn in the last 30 days,\" you identify prospects who value the platform as a networking and brand-building tool. When they post, they want engagement. \n\n1.  **Read their post:** Understand their angle.\n2.  **Leave a meaningful comment:** Do not just say \"Great post!\" or \"Thanks for sharing.\" Add to the conversation. Ask a clarifying question, share a brief counter-point, or validate their observation with an anecdote from your own experience.\n3.  **Wait:** Give them time to reply to your comment or view your profile.\n\nThis simple act of commenting transforms you from an anonymous salesperson into a familiar face. When you eventually send a connection request, they will recognize your name.\n\n### Scaling Authenticity with Junior\n\nThe challenge with the conversation-first approach is scale. Manually reading posts and crafting thoughtful comments for 50 prospects a day is incredibly time-consuming. This is why many teams revert to terrible [LinkedIn automation tools](https://heyjunior.ai/blog/linkedin-automation-tool-for-lead-generation) that spam generic DMs.\n\nThis is the exact problem Junior solves. Junior is an AI-driven platform designed to transform this manual engagement process into a streamlined workflow without sacrificing authenticity.\n\nInstead of blasting cold DMs, Junior helps you find relevant LinkedIn posts from your target accounts and generates high-quality, personalized comments that mirror your natural voice. It uses your specific bio, industry knowledge, and networking goals to craft responses that actually contribute to the discussion.\n\n**Crucially, Junior operates differently from legacy cloud automation:**\n*   **Local Execution:** Unlike cloud-based tools that trigger LinkedIn's security algorithms by logging in from random IP addresses, Junior runs directly on your local machine. This human-first approach mimics natural browsing patterns with variable timing, keeping your account safe.\n*   **No Cold DM Spam:** The platform focuses entirely on the public feed\u2014warming up outbound leads and establishing your authority through authentic interaction.\n*   **Contextual Relevance:** The AI analyzes the specific post and generates comments that start meaningful conversations, leading naturally to pipeline and client acquisitions.\n\nBy using a tool that aligns with [safe LinkedIn AI scaling](https://heyjunior.ai/blog/linkedin-lead-generation-ai), you can maintain the quality of a manual social selling strategy while engaging with enough prospects to hit your revenue targets.\n\n![Timeline showing the LinkedIn engagement sequence from comment to direct message](https://assets.bevisible.app/inline-images/j57adzeqy5sd07m9kybt5rtdvn877pr9/inline-3-1780838268704-g361ma.png)\n## Step 4: Outreach and Conversion (The Ask)\n\nAfter you have engaged with a prospect in the feed\u2014perhaps they liked your comment or replied to it\u2014the door is open for direct outreach. Because you have established a baseline of familiarity, your connection request will be welcomed rather than ignored.\n\n### Crafting the Connection Request\n\nKeep it brief and reference the previous interaction. Do not pitch in the connection request.\n\n*\"Hey Sarah, really enjoyed our back-and-forth on your post about Q3 supply chain challenges yesterday. Would love to stay connected and follow your content here.\"*\n\nThis approach yields acceptance rates upwards of 60-70%, compared to the 15-20% average for cold requests.\n\n### The Follow-Up Sequence\n\nOnce accepted, resist the urge to immediately send a calendar link. Play the long game.\n\n1.  **Day 1:** Thank them for connecting. (No pitch).\n2.  **Day 5:** Share a highly relevant resource\u2014a case study, an article, or a tool\u2014that directly addresses the topic they were discussing in their content. \n3.  **Day 12:** The soft ask. Mention the specific problem your product solves, tie it to their recent company news (which you found via Sales Navigator alerts), and ask a low-friction question.\n\n*\"Sarah, noticed via Sales Nav that your team is expanding into the EMEA market. Usually, when teams make that jump, localized compliance becomes a major bottleneck. Is that something you're currently handling in-house, or are you looking at external platforms for that?\"*\n\nNotice there is no \"Let's jump on a 15-minute call.\" You are simply trying to start a dialogue.\n\n### Strategic Use of InMail\n\nSales Navigator provides you with a monthly allotment of InMail credits, allowing you to message people outside your network. However, InMail should be your last resort, not your first.\n\nData from [proven ways for lead generation on LinkedIn](https://heyjunior.ai/blog/lead-generation-on-linkedin) indicates that unsolicited InMails perform poorly compared to organic messages sent to 1st-degree connections. \n\nSave your InMails for:\n*   High-priority enterprise targets who are rarely active in the feed.\n*   Prospects who have viewed your profile but have not connected.\n*   Time-sensitive outreach (e.g., you just saw their company raised Series B funding that morning).\n\nWhen writing an InMail, keep the subject line short (2-3 words) and the body under 75 words. The goal is a quick reply, not a comprehensive sales presentation.\n\n## Advanced Sales Navigator Features You Should Be Using\n\nOnce you master the 4-step framework, you can integrate advanced features to accelerate your workflow and measure buyer intent.\n\n### Smart Links\n\nSmart Links allow you to package files and web pages into a single trackable link. When you send a Smart Link to a prospect via DM or email, Sales Navigator tracks exactly who opened it, what pages they looked at, and for how long.\n\nIf you send a pitch deck to a prospect and they spend four minutes on the pricing slide, you have a massive buying signal. You can follow up immediately with context. This real-time behavioral data is a significant advantage over standard email attachments.\n\n### TeamLink\n\nIf your organization uses Sales Navigator Advanced or Advanced Plus, TeamLink is arguably the most powerful feature available. It scans the networks of everyone at your company to find warm introduction paths.\n\nBefore reaching out cold to a target account, TeamLink might reveal that your company's VP of Engineering went to college with the prospect's CTO. You can then route your outreach through a warm, internal introduction, bypassing the cold outreach phase entirely.\n\n### CRM Integration\n\nManually transferring data from LinkedIn to Salesforce or HubSpot is a recipe for data decay. Sales Navigator integrates deeply with major CRMs.\n\nYou can view CRM contact data directly inside LinkedIn, and automatically log InMails, messages, and notes back to the CRM. If you are exploring [LinkedIn lead generation services](https://heyjunior.ai/blog/linkedin-lead-generation-services), ensure they utilize this bidirectional sync. Without it, your sales team is flying blind, unaware of marketing touches or previous conversations.\n\n## Balancing Automation vs. Authenticity\n\nThe landscape of LinkedIn outreach is constantly shifting. The debate often comes down to choosing between hyper-personalized, low-volume manual outreach, and high-volume, low-quality automation.\n\nTools that rely on scraping and aggressive cold DMs are facing severe restrictions from LinkedIn. Comparisons like [Meet Alfred vs Junior](https://heyjunior.ai/blog/meet-alfred) highlight why the industry is moving away from cloud-based spammers and toward localized, AI-assisted engagement.\n\nIf you want to protect your account and actually generate pipeline, you must optimize for conversations. Using Sales Navigator to build razor-sharp lists, tracking those lists for buying signals, and using tools like Junior to authentically engage with their content before you ever send a DM is the most effective lead generation strategy available today.\n\n## Conclusion: Building Your Routine\n\nSuccess with [LinkedIn Sales Navigator](https://www.linkedin.com/products/linkedin-sales-navigator/) is not about logging in once a month to export a massive CSV. It is about building a daily operational rhythm.\n\n1.  **Mondays:** Build and refine your Account Lists and Lead Lists. Update your Boolean searches.\n2.  **Daily (20 mins):** Check your saved search alerts and buyer intent signals.\n3.  **Daily (30 mins):** Use Junior to engage with the recent posts of your top prospects. Leave high-quality comments.\n4.  **Fridays:** Send strategic connection requests to the prospects you interacted with earlier in the week.\n\nBy following this framework, you stop treating LinkedIn like a cold email directory and start leveraging it for what it truly is: the world's most robust, real-time professional networking event.", "created_at": "2026-06-10T13:19:23.156481+00:00", "updated_at": "2026-06-10T13:19:23.156487+00:00"};
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js"></script>
+    <script>
+        function looksLikeHtml(content) {
+            return /<\/?[a-z][\s\S]*>/i.test(content);
+        }
+
+        function escapeHtml(content) {
+            return content
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function formatPlainText(content) {
+            return content
+                .split(/\n{2,}/)
+                .map(paragraph => `<p>${escapeHtml(paragraph).replace(/\n/g, '<br>')}</p>`)
+                .join('');
+        }
+
+        function renderArticleBody(rawContent) {
+            const content = (rawContent || '').trim();
+            if (!content) {
+                return '<p>This article has no content yet.</p>';
+            }
+
+            if (looksLikeHtml(content)) {
+                if (window.DOMPurify) {
+                    return window.DOMPurify.sanitize(content);
+                }
+                return content;
+            }
+
+            if (window.marked) {
+                const markdownHtml = window.marked.parse(content, {
+                    gfm: true,
+                    breaks: true,
+                    mangle: false,
+                    headerIds: true
+                });
+                if (window.DOMPurify) {
+                    return window.DOMPurify.sanitize(markdownHtml);
+                }
+                return markdownHtml;
+            }
+
+            return formatPlainText(content);
+        }
+
+        function createShareButtons(url, title, position) {
+            const encodedUrl = encodeURIComponent(url);
+            const encodedTitle = encodeURIComponent(title);
+            
+            const buttons = [
+                {
+                    name: 'LinkedIn',
+                    url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>'
+                },
+                {
+                    name: 'X',
+                    url: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>'
+                },
+                {
+                    name: 'Facebook',
+                    url: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>'
+                },
+                {
+                    name: 'WhatsApp',
+                    url: `https://api.whatsapp.com/send?text=${encodedTitle}%20${encodedUrl}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>'
+                },
+                {
+                    name: 'Reddit',
+                    url: `https://reddit.com/submit?url=${encodedUrl}&title=${encodedTitle}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.688-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg>'
+                },
+                {
+                    name: 'Email',
+                    url: `mailto:?subject=${encodedTitle}&body=${encodedUrl}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>'
+                }
+            ];
+
+            let html = `<div class="share-row ${position === 'top' ? 'top-share' : ''}">`;
+            
+            buttons.forEach(btn => {
+                html += `<a href="${btn.url}" target="_blank" rel="noopener noreferrer" class="share-button" data-cta="share-${position}-${btn.name.toLowerCase()}">
+                    ${btn.icon} ${btn.name}
+                </a>`;
+            });
+
+            html += `<button class="share-button" onclick="navigator.clipboard.writeText('${url.replace(/'/g, "\\'")}'); alert('Link copied to clipboard!');" data-cta="share-${position}-copy">
+                <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg> Copy Link
+            </button>`;
+
+            if (navigator.share) {
+                html += `<button class="share-button" onclick="navigator.share({title: '${title.replace(/'/g, "\\'")}', url: '${url.replace(/'/g, "\\'")}'}).catch(console.error);" data-cta="share-${position}-native">
+                    <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg> Share
+                </button>`;
+            }
+
+            html += `</div>`;
+            return html;
+        }
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            const container = document.getElementById('article-content');
+            
+            try {
+                let post;
+                
+                // If we have injected data (static page), use it directly
+                if (window.__INITIAL_ARTICLE_DATA__) {
+                    post = window.__INITIAL_ARTICLE_DATA__;
+                } else {
+                    // Otherwise, we are on the dynamic route, fetch from API
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const slug = urlParams.get('slug');
+                    
+                    if (!slug) {
+                        throw new Error('Article not found.');
+                    }
+                    
+                    // Redirect to the new static URL format
+                    window.location.replace(`/blog/${slug}/`);
+                    return;
+                }
+                
+                document.title = `${post.title} - Junior`;
+                
+                const date = new Date(post.published_at).toLocaleDateString();
+                
+                let html = `
+                    <header class="article-header">
+                        <h1 class="article-title">${post.title}</h1>
+                        <div class="article-meta">Published on ${date}</div>
+                    </header>
+                `;
+
+                const shareUrl = window.location.href;
+                html += createShareButtons(shareUrl, post.title, 'top');
+                
+                if (post.featured_image_url) {
+                    html += `<img src="${post.featured_image_url}" alt="${post.title}" class="article-featured-image">`;
+                }
+                
+                html += `
+                    <div class="article-content">
+                        ${renderArticleBody(post.content)}
+                    </div>
+                `;
+                
+                html += createShareButtons(shareUrl, post.title, 'bottom');
+                
+                container.innerHTML = html;
+            } catch (err) {
+                container.innerHTML = `<p>${err.message}</p>`;
+                console.error(err);
+            }
+        });
+    </script>
+</body>
+</html>
