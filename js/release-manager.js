@@ -97,8 +97,9 @@ class JuniorReleaseManager {
     const macosIntelAsset = assets.find(a => a.name.match(/Junior.*-x64\.dmg$/i)) ||
                             assets.find(a => a.name.match(/Junior.*\.dmg$/i) && !a.name.match(/arm64/i));
     
-    // macOS ARM: Junior-*-arm64.dmg
-    const macosArmAsset = assets.find(a => a.name.match(/Junior.*arm64.*\.dmg$/i));
+    // macOS ARM: prefer DMG, fall back to ZIP if DMG not available
+    const macosArmAsset = assets.find(a => a.name.match(/Junior.*arm64.*\.dmg$/i)) ||
+                          assets.find(a => a.name.match(/Junior.*arm64.*\.zip$/i));
     
     console.log('[ReleaseManager] Matched assets:', {
       windows: windowsAsset?.name,

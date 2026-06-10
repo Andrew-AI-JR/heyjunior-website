@@ -1328,7 +1328,9 @@ async function loadDownloads() {
                 description: 'For Apple Silicon Macs (M1/M2/M3, macOS 10.14+)',
                 url: downloads.macos_arm,
                 hash: versionHashes?.macos_arm,
-                filename: `Junior-${version}-arm64.dmg`,
+                filename: (downloads.macos_arm || '').endsWith('.zip')
+                    ? `Junior-${version}-arm64-mac.zip`
+                    : `Junior-${version}-arm64.dmg`,
                 size: '615 MB'
             }
         ];
