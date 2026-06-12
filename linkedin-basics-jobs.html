@@ -105,21 +105,23 @@
         }
 
         .lbj-steps {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
         .lbj-step {
             border: 1px solid #dbeafe;
             background: #f8fbff;
             border-radius: 10px;
-            padding: 14px;
+            padding: 14px 18px;
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
         }
 
         .lbj-step strong {
-            display: block;
-            margin-bottom: 6px;
+            white-space: nowrap;
         }
 
         .lbj-objections {
@@ -225,19 +227,19 @@
             <div class="lbj-steps">
                 <div class="lbj-step">
                     <strong>Step 1.</strong>
-                    Find a person who is hiring. Look for someone at a company you want to work for.
+                    <span>Find a person who is hiring at a company you want to work for.</span>
                 </div>
                 <div class="lbj-step">
                     <strong>Step 2.</strong>
-                    Read what they wrote. They share short messages called posts.
+                    <span>Read what they wrote. They share short messages called posts.</span>
                 </div>
                 <div class="lbj-step">
                     <strong>Step 3.</strong>
-                    Leave a short comment. Be real. Say one true thing about your skills.
+                    <span>Leave a short comment. Be real. Say one true thing about your skills.</span>
                 </div>
                 <div class="lbj-step">
                     <strong>Step 4.</strong>
-                    They see your name. They click on you. Now they know you exist.
+                    <span>They see your name, click on you, and now they know you exist.</span>
                 </div>
             </div>
             
