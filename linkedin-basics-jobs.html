@@ -15,10 +15,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <script defer src="js/analytics.js"></script>
     <script defer src="js/api-config.js"></script>
-    <script defer src="js/pricing-config.js"></script>
-    <script defer src="js/signup-shared.js"></script>
     <script defer src="js/linkedin-basics-jobs-signup.js"></script>
     <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
         .lbj-main {
             max-width: 880px;
             margin: 0 auto;
@@ -183,85 +185,21 @@
             <p>
                 You do not need to be good with computers. Just follow these steps.
             </p>
-            <section class="lbj-inline-signup" aria-label="Sign up for Junior">
-                <p class="lbj-inline-signup-title">Start free now. No extra steps.</p>
-                <form id="lbj-inline-signup-form" class="register-form lbj-inline-signup-form" novalidate>
-                    <div class="form-group">
-                        <label for="lbj-inline-email">Email</label>
-                        <input type="email" id="lbj-inline-email" placeholder="you@example.com" autocomplete="email" required>
-                    </div>
-
-                    <div class="form-group register-plan-selection">
-                        <label>Choose your plan</label>
-                        <div class="plan-selector-grid">
-                            <label class="plan-selector-option" for="lbj-plan-basic">
-                                <input type="radio" name="lbj-plan" id="lbj-plan-basic" value="basic" checked>
-                                <strong>Basic</strong>
-                                <small>10 comments/day</small>
-                                <div class="plan-selector-prices"><span class="old-price">$9.99</span><span class="new-price">Free for 1 week</span></div>
-                            </label>
-                            <label class="plan-selector-option" for="lbj-plan-starter">
-                                <input type="radio" name="lbj-plan" id="lbj-plan-starter" value="starter">
-                                <strong>Starter</strong>
-                                <small>20 comments/day</small>
-                                <div class="plan-selector-prices"><span class="old-price">$14.99</span><span class="new-price">Free for 1 week</span></div>
-                            </label>
-                            <label class="plan-selector-option" for="lbj-plan-standard">
-                                <input type="radio" name="lbj-plan" id="lbj-plan-standard" value="standard">
-                                <strong>Standard</strong>
-                                <small>50 comments/day</small>
-                                <div class="plan-selector-prices"><span class="old-price">$29.99</span><span class="new-price">Free for 1 week</span></div>
-                            </label>
-                            <label class="plan-selector-option" for="lbj-plan-pro">
-                                <input type="radio" name="lbj-plan" id="lbj-plan-pro" value="pro">
-                                <strong>Pro</strong>
-                                <small>80 comments/day + priority support</small>
-                                <div class="plan-selector-prices"><span class="old-price">$49.99</span><span class="new-price">Free for 1 week</span></div>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="lbj-inline-password">Password</label>
-                        <div class="password-field">
-                            <input type="password" id="lbj-inline-password" placeholder="Create a password" autocomplete="new-password" required minlength="8">
-                            <button type="button" id="lbj-inline-password-toggle" class="password-toggle" aria-label="Show password">Show</button>
-                        </div>
-                        <small class="password-help">Minimum 8 characters, at least one uppercase letter.</small>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="lbj-inline-password-confirm">Confirm password</label>
-                        <div class="password-field">
-                            <input type="password" id="lbj-inline-password-confirm" placeholder="Re-enter your password" autocomplete="new-password" required minlength="8">
-                            <button type="button" id="lbj-inline-password-confirm-toggle" class="password-toggle" aria-label="Show confirm password">Show</button>
-                        </div>
-                    </div>
-
-                    <label for="lbj-inline-terms" class="register-terms">
-                        <input type="checkbox" id="lbj-inline-terms">
-                        <span>I agree to the <a href="terms.html" target="_blank" rel="noopener">Terms of Service</a></span>
-                    </label>
-
-                    <button type="submit" id="lbj-inline-submit" class="primary-button register-submit" data-cta="linkedin-basics-inline-signup-submit">
-                        <span id="lbj-inline-submit-text">Continue to secure checkout &mdash; 7 days free</span>
-                    </button>
-                    <p class="register-microcopy">You will be redirected to Stripe to enter your card securely. Your first 7 days are free; billing starts after the trial.</p>
-
-                    <div id="lbj-inline-status" class="register-status" hidden aria-live="polite"></div>
-                    <div id="lbj-inline-error" class="register-status register-status-error" hidden aria-live="polite"></div>
-                </form>
-            </section>
             <div class="lbj-actions">
                 <a
-                    href="register.html?src=jobboard-partner"
-                    class="lbj-button lbj-button-primary lbj-cta-tryit"
-                    data-cta="linkedin-basics-hero-tryit"
-                >Sign Up Free</a>
+                    href="#lbj-learn"
+                    class="lbj-button lbj-button-primary"
+                    data-cta="linkedin-basics-hero-learn"
+                >Learn how it works</a>
+                <a
+                    href="#lbj-signup"
+                    class="lbj-button"
+                    data-cta="linkedin-basics-hero-signup"
+                >Start free trial</a>
             </div>
         </section>
 
-        <section class="lbj-section">
+        <section class="lbj-section" id="lbj-learn">
             <h2>Words you might not know</h2>
             <ul class="lbj-list">
                 <li><strong>LinkedIn:</strong> A website where companies and workers talk.</li>
@@ -332,6 +270,25 @@
                 <li>Junior writes a comment in your voice.</li>
                 <li>Junior posts the comment for you. You can sleep, work, or rest.</li>
             </ol>
+        </section>
+
+        <section class="lbj-section lbj-conversion" id="lbj-signup">
+            <h2>Start your free week</h2>
+            <p>Enter your email to begin. It takes less than a minute to set up.</p>
+            <form id="lbj-inline-signup-form" class="register-form lbj-inline-signup-form" novalidate>
+                <div class="form-group">
+                    <label for="lbj-inline-email">Email</label>
+                    <input type="email" id="lbj-inline-email" placeholder="you@example.com" autocomplete="email" required>
+                </div>
+
+                <button type="submit" id="lbj-inline-submit" class="primary-button register-submit" data-cta="linkedin-basics-inline-signup-submit">
+                    <span id="lbj-inline-submit-text">Start Free Trial</span>
+                </button>
+                <p class="register-microcopy">Try free for 7 days. Cancel anytime before you're charged.</p>
+
+                <div id="lbj-inline-status" class="register-status" hidden aria-live="polite"></div>
+                <div id="lbj-inline-error" class="register-status register-status-error" hidden aria-live="polite"></div>
+            </form>
         </section>
 
         <section class="lbj-section">
