@@ -1332,6 +1332,17 @@ async function loadDownloads() {
                     ? `Junior-${version}-arm64-mac.zip`
                     : `Junior-${version}-arm64.dmg`,
                 size: '615 MB'
+            },
+            {
+                id: 'linux',
+                title: '🐧 Linux',
+                description: 'For Ubuntu/Debian (x64) — AppImage',
+                url: downloads.linux_appimage || downloads.linux_deb,
+                hash: versionHashes?.linux,
+                filename: (downloads.linux_appimage || '').endsWith('.AppImage')
+                    ? `Junior-${version}.AppImage`
+                    : `junior-desktop_${version}_amd64.deb`,
+                size: '~600 MB'
             }
         ];
         
@@ -1361,6 +1372,8 @@ async function loadDownloads() {
                 buttonText = 'Intel';
             } else if (download.title.includes('Apple Silicon')) {
                 buttonText = 'Apple Silicon';
+            } else if (download.title.includes('Linux')) {
+                buttonText = 'Linux';
             }
             
             card.innerHTML = `

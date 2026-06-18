@@ -101,10 +101,16 @@ class JuniorReleaseManager {
     const macosArmAsset = assets.find(a => a.name.match(/Junior.*arm64.*\.dmg$/i)) ||
                           assets.find(a => a.name.match(/Junior.*arm64.*\.zip$/i));
     
+    // Linux: AppImage (preferred) and .deb
+    const linuxAppImageAsset = assets.find(a => a.name.match(/\.AppImage$/i));
+    const linuxDebAsset = assets.find(a => a.name.match(/\.deb$/i));
+    
     console.log('[ReleaseManager] Matched assets:', {
       windows: windowsAsset?.name,
       macos_intel: macosIntelAsset?.name,
-      macos_arm: macosArmAsset?.name
+      macos_arm: macosArmAsset?.name,
+      linux_appimage: linuxAppImageAsset?.name,
+      linux_deb: linuxDebAsset?.name
     });
     
     return {
@@ -114,7 +120,9 @@ class JuniorReleaseManager {
       downloads: {
         windows: windowsAsset?.browser_download_url || '',
         macos_intel: macosIntelAsset?.browser_download_url || '',
-        macos_arm: macosArmAsset?.browser_download_url || ''
+        macos_arm: macosArmAsset?.browser_download_url || '',
+        linux_appimage: linuxAppImageAsset?.browser_download_url || '',
+        linux_deb: linuxDebAsset?.browser_download_url || ''
       },
       release_url: githubData.html_url
     };
@@ -152,6 +160,8 @@ class JuniorReleaseManager {
         return release.downloads.macos_intel;
       case 'macos_arm':
         return release.downloads.macos_arm;
+      case 'linux':
+        return release.downloads.linux_appimage || release.downloads.linux_deb;
       default:
         console.warn('[ReleaseManager] Unknown platform:', platform);
         return release.downloads.windows;
