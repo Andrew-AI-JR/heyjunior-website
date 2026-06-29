@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article - Junior</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <script defer src="../../js/analytics.js"></script>
+    <script src="../../js/api-config.js"></script>
+    <style>
+        .article-container {
+            max-width: 860px;
+            margin: 48px auto;
+            padding: 0 20px;
+        }
+        .article-header {
+            margin-bottom: 32px;
+        }
+        .article-title {
+            font-size: clamp(2rem, 3vw, 2.9rem);
+            margin-bottom: 14px;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            color: #020617;
+        }
+        .article-meta {
+            color: #64748b;
+            font-size: 0.97rem;
+            font-weight: 500;
+        }
+        .article-featured-image {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            margin-bottom: 32px;
+        }
+        .article-content {
+            max-width: 72ch;
+            font-size: clamp(1.06rem, 1.2vw, 1.2rem);
+            line-height: 1.85;
+            color: #1f2937;
+        }
+        .article-content > *:first-child {
+            margin-top: 0;
+        }
+        .article-content > *:last-child {
+            margin-bottom: 0;
+        }
+        .article-content h2 {
+            margin-top: 2.1em;
+            margin-bottom: 0.8em;
+            line-height: 1.25;
+            letter-spacing: -0.01em;
+            color: #020617;
+        }
+        .article-content h3 {
+            margin-top: 1.7em;
+            margin-bottom: 0.65em;
+            line-height: 1.3;
+            letter-spacing: -0.005em;
+            color: #1e293b;
+        }
+        .article-content h4 {
+            margin-top: 1.4em;
+            margin-bottom: 0.55em;
+            line-height: 1.35;
+            color: #334155;
+        }
+        .article-content p {
+            margin: 0 0 1.3em;
+        }
+        .article-content ul,
+        .article-content ol {
+            margin: 0 0 1.3em 1.35em;
+            padding: 0;
+        }
+        .article-content li {
+            margin-bottom: 0.45em;
+        }
+        .article-content strong {
+            color: #0f172a;
+        }
+        .article-content a {
+            color: #1d4ed8;
+            text-decoration-thickness: 0.08em;
+            text-underline-offset: 0.16em;
+        }
+        .article-content blockquote {
+            margin: 0 0 1.5em;
+            padding: 0.9em 1.1em;
+            border-left: 4px solid #94a3b8;
+            color: #334155;
+            background: #f8fafc;
+            border-radius: 8px;
+        }
+        .article-content pre {
+            overflow-x: auto;
+            padding: 14px;
+            border-radius: 8px;
+            background: #0f172a;
+            color: #e2e8f0;
+            margin-bottom: 1.5em;
+            font-size: 0.93em;
+            line-height: 1.6;
+        }
+        .article-content code {
+            font-family: Consolas, "SFMono-Regular", Menlo, Monaco, monospace;
+            font-size: 0.95em;
+            background: #f1f5f9;
+            padding: 0.12em 0.35em;
+            border-radius: 4px;
+        }
+        .article-content pre code {
+            background: transparent;
+            padding: 0;
+        }
+        .article-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5em;
+            display: block;
+            overflow-x: auto;
+        }
+        .article-content th,
+        .article-content td {
+            border: 1px solid #cbd5e1;
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        .article-content th {
+            background: #f8fafc;
+            color: #0f172a;
+        }
+        .article-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin: 0.6em 0 1.3em;
+        }
+        .article-content hr {
+            border: none;
+            border-top: 1px solid #e2e8f0;
+            margin: 2em 0;
+        }
+        .article-content figure {
+            margin: 0 0 1.5em;
+        }
+        .article-content figcaption {
+            color: #64748b;
+            font-size: 0.92em;
+            margin-top: 0.55em;
+        }
+        .article-loading {
+            text-align: center;
+            padding: 40px;
+            color: #64748b;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 24px;
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        .share-row {
+            display: flex;
+            gap: 12px;
+            margin: 24px 0;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .share-row.top-share {
+            margin-top: 16px;
+            margin-bottom: 0;
+        }
+        .share-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-decoration: none;
+            color: #334155;
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .share-button:hover {
+            background: #e2e8f0;
+            color: #0f172a;
+            border-color: #cbd5e1;
+            text-decoration: none;
+        }
+        .share-button svg {
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+            fill: currentColor;
+        }
+        @media (max-width: 768px) {
+            .article-container {
+                margin: 28px auto;
+                padding: 0 16px;
+            }
+            .article-header {
+                margin-bottom: 24px;
+            }
+            .article-content {
+                font-size: 1.04rem;
+                line-height: 1.75;
+            }
+            .article-content table {
+                font-size: 0.93rem;
+            }
+            .article-content pre {
+                padding: 12px;
+            }
+        }
+    </style>
+
+    <link rel="canonical" href="https://heyjunior.ai/blog/automate-linkedin-comments-safely-evaluation-checklist/">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://heyjunior.ai/blog/automate-linkedin-comments-safely-evaluation-checklist/">
+    <meta property="og:title" content="Automate Linkedin Comments Safely Evaluation Checklist">
+    <meta property="og:description" content="Learn how to automate LinkedIn comments safely without risking a shadowban. Discover the 7-point evaluation checklist, IP risks, and local vs. cloud setups.">
+    <meta property="og:image" content="https://assets.bevisible.app/featured-images/j57c8pkzkh495g5henrqv31a4s8991pt/automate-linkedin-comments-safely-evaluation-check-1782755361827-5f8srq.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://heyjunior.ai/blog/automate-linkedin-comments-safely-evaluation-checklist/">
+    <meta name="twitter:title" content="Automate Linkedin Comments Safely Evaluation Checklist">
+    <meta name="twitter:description" content="Learn how to automate LinkedIn comments safely without risking a shadowban. Discover the 7-point evaluation checklist, IP risks, and local vs. cloud setups.">
+    <meta name="twitter:image" content="https://assets.bevisible.app/featured-images/j57c8pkzkh495g5henrqv31a4s8991pt/automate-linkedin-comments-safely-evaluation-check-1782755361827-5f8srq.png">
+    
+</head>
+<body data-page="article" class="i18n-ready">
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <a href="../../index.html"><img src="../../images/junior-logo.png" alt="Junior Logo" class="logo-img"></a>
+            </div>
+            <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <div class="nav-group">
+                    <li><a href="../../index.html#use-cases">Use Cases</a></li>
+                    <li><a href="../../index.html#features">Features</a></li>
+                    <li><a href="../../why-commenting-works.html">Why Commenting Works</a></li>
+                    <li><a href="../../blog.html">Blog</a></li>
+                    <li><a href="../../try-it.html">Try It</a></li>
+                
+                    <li><a href="../../blog.html">Blog</a></li></div>
+                <div class="nav-actions">
+                    <li><a href="../../register.html?src=article-nav" class="cta-button">Start Free</a></li>
+                    <li><a href="../../portal.html" class="nav-login-link">Login</a></li>
+                </div>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="article-container" style="padding-top: 120px;">
+        <a href="../../blog.html" class="back-link">← Back to Blog</a>
+        
+        <div id="article-content">
+            <div class="article-loading">Loading article...</div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Junior. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        window.__INITIAL_ARTICLE_DATA__ = {"id": 36, "slug": "automate-linkedin-comments-safely-evaluation-checklist", "title": "Automate Linkedin Comments Safely Evaluation Checklist", "excerpt": "Learn how to automate LinkedIn comments safely without risking a shadowban. Discover the 7-point evaluation checklist, IP risks, and local vs. cloud setups.", "featured_image_url": "https://assets.bevisible.app/featured-images/j57c8pkzkh495g5henrqv31a4s8991pt/automate-linkedin-comments-safely-evaluation-check-1782755361827-5f8srq.png", "published_at": "2026-06-29T17:30:00+00:00", "content": "# Automate Linkedin Comments Safely Evaluation Checklist\n\nIf you want to bypass crowded inboxes and turn public visibility into direct interviews, pipeline, and client conversations, there is no better mechanism than strategic LinkedIn commenting. Leaving thoughtful, context-aware comments on posts from prospects, industry leaders, and potential hiring managers puts your name and headline directly in their notifications.\n\nBut there is a catch: manually reading posts, synthesizing the core argument, and typing out 30 to 50 unique, high-value comments every day is a fast track to burnout. \n\nAutomation is the obvious solution, but executing it poorly comes with a massive cost. LinkedIn's anti-bot algorithms are ruthless. A single misstep with a generic API script can result in a shadowban or permanent account restriction. \n\nThe difference between a restricted account and a thriving pipeline comes down to your tooling architecture and your daily protocols. This guide provides a definitive evaluation checklist for determining how to automate LinkedIn comments safely, bypass generic AI spam, and build authentic relationships at scale.\n\n## The Anatomy of a Shadowban: How LinkedIn Detects Automation\n\nBefore evaluating tools, you must understand what you are trying to avoid. LinkedIn does not employ a single \"bot detector.\" Instead, it relies on a web of behavioral triggers, browser fingerprints, and velocity metrics to flag suspicious accounts.\n\nWhen a user is shadowbanned, their posts lose reach, their comments get buried, and their profile stops appearing in search results. In severe cases, they are logged out and forced to verify their identity with a passport or driver's license.\n\nLinkedIn monitors several key failure points in bad automation:\n\n*   **Typing Velocity Constraints:** Software that pastes a 50-word comment in 0.01 seconds is instantly flagged. [LinkedIn flags accounts that post comments faster than a person could type them](https://www.simular.ai/use-cases/linkedin-auto-comment).\n*   **Unnatural Session Patterns:** If your account logs in, immediately drops 20 comments in 3 minutes, and logs out, the platform recognizes this as a non-human workflow.\n*   **IP Mismatches and Time Travel:** If you are actively browsing LinkedIn in New York, but a cloud-based automation tool simultaneously pings LinkedIn's servers from an IP address in Frankfurt, the geographic discrepancy triggers a security lock.\n*   **Headless Browser Signatures:** Many cheap automation extensions run in the background using \"headless\" browsers that lack standard user-agent data, screen resolution metrics, or natural mouse movements.\n\n## The Automation Architecture Matrix: Local vs. Cloud vs. API\n\nTo prevent your account from being flagged, the underlying technology of your chosen tool is the most critical decision you will make. Automation falls into three distinct architectural categories.\n\n![Diagram comparing Direct API, Cloud Emulators, and Local Execution for LinkedIn automation safety](https://assets.bevisible.app/inline-images/j57c8pkzkh495g5henrqv31a4s8991pt/inline-1-1782755267388-iol59x.png)\n### 1. Direct API Scripts (High Risk)\nDirect API tools bypass the LinkedIn graphical user interface entirely. They send data packets directly to LinkedIn's backend servers. While these are incredibly fast and use very little computational power, they are the most dangerous. LinkedIn actively hunts for unauthorized API usage. Using these tools is a gamble with your account's lifespan.\n\n### 2. Cloud-Based Browser Emulators (Medium Risk)\nMany popular automation tools operate via cloud servers. They spin up a virtual browser in a data center, log into your account, and simulate clicks. While this is safer than direct API pings, it introduces the \"IP hopping\" problem. If your daily manual browsing happens on a local IP, but your automation runs on a static AWS server IP halfway across the country, LinkedIn's security algorithms eventually notice the discrepancy. While some tools manage this by [staying within platform guidelines](https://connectsafely.ai/articles/linkedin-comment-automation-engagement-guide-2026), the underlying architectural risk remains.\n\n### 3. Local Machine Execution (Low Risk)\nThe safest method for LinkedIn automation is local execution. Tools like Junior run directly on your own computer, using your actual browser, your standard IP address, and your active session cookies. Because the automation originates from the exact same hardware and network you use for manual browsing, there are no geographic discrepancies or unrecognized device alerts. It mimics human interaction securely.\n\n| Architecture Type | IP Consistency | Interaction Method | Ban Risk Level | Best Use Case |\n| :--- | :--- | :--- | :--- | :--- |\n| **Direct API** | Poor (Often Data Center) | Backend Ping | Extremely High | Burner accounts only |\n| **Cloud Emulators**| Moderate (Proxy reliant) | Virtual DOM Clicks | Medium | Broad data scraping |\n| **Local Execution**| Perfect (Your own machine)| Real UI Interaction| Low | Primary personal profiles |\n\n## The 7-Point Evaluation Checklist to Automate LinkedIn Comments Safely\n\nWhen evaluating [AI Tools for Linkedin Commenting Evaluation Checklist](https://www.heyjunior.ai/blog/ai-tools-for-linkedin-commenting-evaluation-checklist), use this strict 7-point framework to ensure you are protecting your digital reputation.\n\n### 1. Does it run locally to ensure IP consistency?\nAs established above, the safest tools avoid cloud-based virtual machines. Verify that the software operates locally on your machine. If the software asks for your LinkedIn username and password to log in on their end, it is running in the cloud. If it operates via a secure desktop application that utilizes your active, local browser session, it is exponentially safer.\n\n### 2. Does it enforce human-mimicking interaction delays?\nAutomation should never be instantaneous. A safe commenting tool must introduce randomized delays between actions. It should mimic the time it takes a human to scroll to a post, read the text, click the comment box, type out the response, and hit submit. \n\n### 3. Is the generation context-aware or reliant on generic templates?\nOne of the most obvious signs of bot activity is generic, non-sequitur responses like \"Great insights!\" or \"Thanks for sharing!\" Safe commenting requires [avoiding generic templates and limiting daily volume](https://phantombuster.com/automations/linkedin/16226/linkedin-auto-commenter). \n\nModern tools must [read the context of a post, extract relevant themes](https://www.joinvalley.co/blog/automate-linkedin-comments-strategies), and draft a response that actually engages with the original author's premise.\n\n![Visual flowchart of an AI extracting post themes and combining them with a user bio to draft a comment](https://assets.bevisible.app/inline-images/j57c8pkzkh495g5henrqv31a4s8991pt/inline-2-1782755262970-iecqrd.png)\n### 4. Does the AI incorporate your unique perspective?\nAn AI that simply summarizes the post it is commenting on is useless. To generate meaningful business outcomes, the AI must merge the context of the post with your personal expertise. As noted in active community discussions, relying on pure automation without personal nuance is flawed; the goal should be [adding your actual perspective](https://www.reddit.com/r/nocode/comments/1m0kuii/an_ai_that_comments_on_linkedin_anyone_building/).\n\nTools designed for founders and sales teams, like Junior, solve this by deeply integrating your unique bio, tone of voice, and specific networking goals into the prompting engine before drafting the reply. This ensures you sound like *you*.\n\n### 5. Does it offer strict daily volume limits?\nGreed is the enemy of safe automation. Transitioning from 0 comments a day to 250 comments a day overnight is a massive red flag. Your tool must allow you to hard-cap your daily output to mimic realistic human capacity. Anything over 50-70 comments per day stretches the limits of believability for a standard professional user.\n\n### 6. Does it mix engagement types?\nLinkedIn expects a natural cadence of behavior. If your account *only* leaves comments and never drops a \"Like,\" views a profile, or scrolls a feed, the behavioral pattern looks artificial. The best [Safe AI engagement on LinkedIn](https://www.heyjunior.ai/blog/safe-ai-engagement-on-linkedin) tools naturally blend in \"Likes\" and reading pauses alongside the comments to create a holistic human signature.\n\n### 7. Does it bypass direct API endpoints?\nCheck the technical documentation of the tool. It should explicitly state that it interacts with the LinkedIn user interface (the DOM level) rather than utilizing backend APIs. UI-level interaction is the gold standard for platform safety.\n\n## The \"Warm-Up\" Protocol: Safely Scaling Your Automation\n\nEven if you choose a hyper-safe, local-execution tool, you cannot jump straight to maximum volume. Your account has a historical baseline of activity. If you have averaged 2 comments a week for the last three years, suddenly dropping 40 comments on a Tuesday will alert the system.\n\nTo automate safely, you must implement a gradual \"warm-up\" protocol. \n\n![A 3-week timeline chart outlining the safe volume ramp-up protocol for automated comments](https://assets.bevisible.app/inline-images/j57c8pkzkh495g5henrqv31a4s8991pt/inline-3-1782755258246-nnkqxh.png)\n**Week 1: The Baseline Establishment**\n*   **Volume:** 5 to 10 comments per day.\n*   **Cadence:** Run the tool during your normal working hours only.\n*   **Goal:** Allow LinkedIn's algorithms to see a slight, natural uptick in your active engagement.\n\n**Week 2: The Linear Scale**\n*   **Volume:** 15 to 25 comments per day.\n*   **Cadence:** Continue operating during business hours. Manually reply to any notifications or threads that your automated comments generate.\n*   **Goal:** Prove that your increased engagement is reciprocal and generating healthy platform conversations.\n\n**Week 3: The Cruising Altitude**\n*   **Volume:** 30 to 45 comments per day.\n*   **Cadence:** Maintain steady daily usage. Take weekends off if you typically do not use LinkedIn on weekends.\n*   **Goal:** Sustain high visibility without crossing into spam thresholds.\n\n## Why Legacy Cloud Tools are Falling Behind\n\nHistorically, the market was dominated by cloud-based scraping extensions and virtual machines. However, as platform security has tightened, these tools are experiencing higher ban rates. Users are increasingly seeking [Phantombuster Alternatives for Automate Linkedin Comments Safely](https://www.heyjunior.ai/blog/phantombuster-alternatives-for-automate-linkedin-comments-safely).\n\nThe shift is moving decisively toward \"Local AI.\" By relying on the user's actual hardware and combining it with advanced Large Language Models to read post context, tools can guarantee account safety while drastically improving the quality of the written replies. \n\nWhen comparing tools like [Junior vs Taplio for LinkedIn growth](https://www.heyjunior.ai/blog/junior-vs-taplio-for-linkedin-growth), or looking for the [Best Automate Linkedin Comments Safely Tools Beyond Phantombuster](https://www.heyjunior.ai/blog/best-automate-linkedin-comments-safely-tools-beyond-phantombuster), the dividing line usually comes down to this architectural choice: Cloud vs. Local.\n\n## Red Flags When Evaluating LinkedIn Automation Software\n\nIf you are testing different solutions from the [Best LinkedIn engagement tools 2026](https://www.heyjunior.ai/blog/best-linkedin-engagement-tools-2026) lists, walk away immediately if a vendor promises any of the following:\n\n1.  **\"Unlimited Comments!\"** \u2013 There is no such thing as safe, unlimited engagement on LinkedIn. Anyone promising this is indifferent to your account safety.\n2.  **\"Cloud-based simultaneous scaling!\"** \u2013 Running multiple instances of your account across different cloud nodes guarantees a ban.\n3.  **Lack of Prompt Customization** \u2013 If the tool does not let you dictate your persona, tone, and specific exclusions (e.g., \"Never comment on political posts\"), it will eventually embarrass you publicly. For a deeper look at the tools getting this right, review the [Best AI Tools for Linkedin Commenting Tools Beyond Supergrow](https://www.heyjunior.ai/blog/best-ai-tools-for-linkedin-commenting-tools-beyond-supergrow).\n\n## Frequently Asked Questions\n\n### Will LinkedIn know I am using an AI commenting tool?\nIf you use a direct API tool or a headless browser, yes, they will detect the technical signature immediately. If you use a tool that relies on generic, poorly prompted AI, human users will detect it immediately. However, if you use a local-execution tool with delayed typing speeds and custom contextual prompting, it is virtually indistinguishable from manual human activity.\n\n### How many comments should I realistically automate per day?\nFor maximum safety and ROI, aim for 30 to 50 highly targeted, deeply contextual comments per day. This is a volume that is physically possible for a dedicated human to achieve, ensuring you stay under the radar while still generating massive visibility and profile views.\n\n### What happens if I accidentally leave a bad AI comment?\nThe best safeguard against this is human oversight. The safest workflow is a \"draft and review\" system. Rather than having the AI automatically post without supervision, configure the tool to draft context-aware responses and queue them up. This allows you to quickly skim the drafted comments, tweak a word or two, and hit approve. It combines the speed of AI with the final quality control of a human.\n\n## Final Thoughts on Sustainable Visibility\n\nAutomating your LinkedIn comments is one of the highest-leverage activities you can undertake for pipeline generation and personal branding. But safety must precede scale.\n\nBy avoiding cloud-based IP risks, relying on local execution, strictly limiting your daily volume, and ensuring your AI models are prompted with your unique professional context, you can completely bypass crowded DM inboxes. Implement the seven-point checklist, respect the warm-up protocol, and turn public feed visibility into genuine professional opportunities.", "created_at": "2026-06-29T18:19:22.363445+00:00", "updated_at": "2026-06-29T18:19:22.363451+00:00"};
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js"></script>
+    <script>
+        function looksLikeHtml(content) {
+            return /<\/?[a-z][\s\S]*>/i.test(content);
+        }
+
+        function escapeHtml(content) {
+            return content
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function formatPlainText(content) {
+            return content
+                .split(/\n{2,}/)
+                .map(paragraph => `<p>${escapeHtml(paragraph).replace(/\n/g, '<br>')}</p>`)
+                .join('');
+        }
+
+        function renderArticleBody(rawContent) {
+            const content = (rawContent || '').trim();
+            if (!content) {
+                return '<p>This article has no content yet.</p>';
+            }
+
+            if (looksLikeHtml(content)) {
+                if (window.DOMPurify) {
+                    return window.DOMPurify.sanitize(content);
+                }
+                return content;
+            }
+
+            if (window.marked) {
+                const markdownHtml = window.marked.parse(content, {
+                    gfm: true,
+                    breaks: true,
+                    mangle: false,
+                    headerIds: true
+                });
+                if (window.DOMPurify) {
+                    return window.DOMPurify.sanitize(markdownHtml);
+                }
+                return markdownHtml;
+            }
+
+            return formatPlainText(content);
+        }
+
+        function createShareButtons(url, title, position) {
+            const encodedUrl = encodeURIComponent(url);
+            const encodedTitle = encodeURIComponent(title);
+            
+            const buttons = [
+                {
+                    name: 'LinkedIn',
+                    url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>'
+                },
+                {
+                    name: 'X',
+                    url: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>'
+                },
+                {
+                    name: 'Facebook',
+                    url: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>'
+                },
+                {
+                    name: 'WhatsApp',
+                    url: `https://api.whatsapp.com/send?text=${encodedTitle}%20${encodedUrl}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>'
+                },
+                {
+                    name: 'Reddit',
+                    url: `https://reddit.com/submit?url=${encodedUrl}&title=${encodedTitle}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.688-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg>'
+                },
+                {
+                    name: 'Email',
+                    url: `mailto:?subject=${encodedTitle}&body=${encodedUrl}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>'
+                }
+            ];
+
+            let html = `<div class="share-row ${position === 'top' ? 'top-share' : ''}">`;
+            
+            buttons.forEach(btn => {
+                html += `<a href="${btn.url}" target="_blank" rel="noopener noreferrer" class="share-button" data-cta="share-${position}-${btn.name.toLowerCase()}">
+                    ${btn.icon} ${btn.name}
+                </a>`;
+            });
+
+            html += `<button class="share-button" onclick="navigator.clipboard.writeText('${url.replace(/'/g, "\\'")}'); alert('Link copied to clipboard!');" data-cta="share-${position}-copy">
+                <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg> Copy Link
+            </button>`;
+
+            if (navigator.share) {
+                html += `<button class="share-button" onclick="navigator.share({title: '${title.replace(/'/g, "\\'")}', url: '${url.replace(/'/g, "\\'")}'}).catch(console.error);" data-cta="share-${position}-native">
+                    <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg> Share
+                </button>`;
+            }
+
+            html += `</div>`;
+            return html;
+        }
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            const container = document.getElementById('article-content');
+            
+            try {
+                let post;
+                
+                // If we have injected data (static page), use it directly
+                if (window.__INITIAL_ARTICLE_DATA__) {
+                    post = window.__INITIAL_ARTICLE_DATA__;
+                } else {
+                    // Otherwise, we are on the dynamic route, fetch from API
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const slug = urlParams.get('slug');
+                    
+                    if (!slug) {
+                        throw new Error('Article not found.');
+                    }
+                    
+                    // Redirect to the new static URL format
+                    window.location.replace(`/blog/${slug}/`);
+                    return;
+                }
+                
+                document.title = `${post.title} - Junior`;
+                
+                const date = new Date(post.published_at).toLocaleDateString();
+                
+                let html = `
+                    <header class="article-header">
+                        <h1 class="article-title">${post.title}</h1>
+                        <div class="article-meta">Published on ${date}</div>
+                    </header>
+                `;
+
+                const shareUrl = window.location.href;
+                html += createShareButtons(shareUrl, post.title, 'top');
+                
+                if (post.featured_image_url) {
+                    html += `<img src="${post.featured_image_url}" alt="${post.title}" class="article-featured-image">`;
+                }
+                
+                html += `
+                    <div class="article-content">
+                        ${renderArticleBody(post.content)}
+                    </div>
+                `;
+                
+                html += createShareButtons(shareUrl, post.title, 'bottom');
+                
+                container.innerHTML = html;
+            } catch (err) {
+                container.innerHTML = `<p>${err.message}</p>`;
+                console.error(err);
+            }
+        });
+    </script>
+</body>
+</html>
