@@ -83,6 +83,6 @@ If no `?coupon=` is provided, the default `1FREEMONTH` is applied.
 | Plan | Price ID | Monthly Price | Comments/day |
 |------|----------|---------------|--------------|
 | Basic | `price_1TcWzqRxE6F23RwQ7FnKpQyU` | $9.99 | 10 |
-| Starter | `price_1TcX0nRxE6F23RwQpZxnoTRv` | $14.99 | 20 |
+| Starter | `price_1TqD2LRxE6F23RwQg0S18fTb` | $14.99 | 20 |
 | Standard | `price_1RJMCrRxE6F23RwQEnHUwvFq` | $29.99 | 50 |
 | Pro | `price_1SX1LrRxE6F23RwQgWgIV1NK` | $49.99 | 80 |

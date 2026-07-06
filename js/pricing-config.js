@@ -4,7 +4,7 @@ window.JUNIOR_PRICING = {
     // Stripe Price IDs for standard plans
     STRIPE_PRICE_IDS: {
         'basic': 'price_1TcWzqRxE6F23RwQ7FnKpQyU',
-        'starter': 'price_1TcX0nRxE6F23RwQpZxnoTRv',
+        'starter': 'price_1TqD2LRxE6F23RwQg0S18fTb',
         'standard': 'price_1RJMCrRxE6F23RwQEnHUwvFq',
         'pro': 'price_1SX1LrRxE6F23RwQgWgIV1NK'
     },
