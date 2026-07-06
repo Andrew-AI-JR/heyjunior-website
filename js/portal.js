@@ -1263,6 +1263,71 @@ async function openManageSubscription() {
 // Make function globally accessible
 window.openManageSubscription = openManageSubscription;
 
+// --- Change Plan UI ---
+function showChangePlanUI() {
+    const section = document.getElementById('change-plan-section');
+    if (section) section.style.display = 'block';
+    document.getElementById('change-plan-status').textContent = '';
+}
+
+function hideChangePlanUI() {
+    const section = document.getElementById('change-plan-section');
+    if (section) section.style.display = 'none';
+}
+
+async function confirmChangePlan() {
+    const selected = document.querySelector('input[name="change-plan"]:checked');
+    if (!selected) {
+        document.getElementById('change-plan-status').textContent = 'Please select a plan.';
+        return;
+    }
+
+    const newPlan = selected.value;
+    const newPriceId = STRIPE_PRICE_IDS[newPlan];
+    if (!newPriceId) {
+        document.getElementById('change-plan-status').textContent = 'Invalid plan selected.';
+        return;
+    }
+
+    const confirmBtn = document.getElementById('confirm-change-plan-btn');
+    const statusEl = document.getElementById('change-plan-status');
+    confirmBtn.disabled = true;
+    confirmBtn.textContent = 'Switching...';
+    statusEl.textContent = '';
+
+    try {
+        const token = currentUserToken || sessionStorage.getItem('userToken') || sessionStorage.getItem('accessToken');
+        if (!token) {
+            throw new Error('You must be logged in.');
+        }
+
+        const response = await fetchWithAuth(`${API_BASE_URL}/api/payments/change-plan`, {
+            method: 'POST',
+            body: JSON.stringify({ new_price_id: newPriceId })
+        });
+
+        if (!response || !response.ok) {
+            const errorData = await response.json().catch(() => ({ detail: 'Plan change failed' }));
+            throw new Error(errorData.detail || 'Plan change failed');
+        }
+
+        const data = await response.json();
+        statusEl.style.color = '#10b981';
+        statusEl.textContent = '✅ Plan updated! Refreshing...';
+        setTimeout(() => window.location.reload(), 1500);
+
+    } catch (error) {
+        statusEl.style.color = '#ef4444';
+        statusEl.textContent = error.message || 'Failed to change plan.';
+        confirmBtn.disabled = false;
+        confirmBtn.textContent = 'Confirm Plan Change';
+    }
+}
+
+window.showChangePlanUI = showChangePlanUI;
+window.hideChangePlanUI = hideChangePlanUI;
+window.confirmChangePlan = confirmChangePlan;
+
 // SHA256 hashes for v1.0.40 (and future versions)
 const DOWNLOAD_HASHES = {
     '1.0.40': {

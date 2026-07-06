@@ -222,7 +222,43 @@
                             </div>
                             <div class="subscription-actions">
                                 <button onclick="openManageSubscription()" class="secondary-button" id="manage-subscription-btn">Manage Subscription</button>
+                                <button onclick="showChangePlanUI()" class="secondary-button" id="change-plan-btn" style="background: #10b981; border-color: #10b981; color: white;">Change Plan</button>
                                 <a href="#" onclick="showSubscriptionHistory(event); return false;" class="view-all-link" id="view-all-subscriptions-link" style="margin-left: 10px; color: #667eea; text-decoration: none; font-size: 0.9rem;">View All History</a>
+                            </div>
+                            <div id="change-plan-section" style="display: none; margin-top: 20px; padding: 20px; background: #f9fafb; border-radius: 10px; border: 1px solid #e5e7eb;">
+                                <h4 style="margin: 0 0 12px 0; color: #1f2937;">Switch Your Plan</h4>
+                                <p style="font-size: 0.9rem; color: #6b7280; margin: 0 0 16px 0;">Select a new plan. Your billing will be updated immediately. If you're on a trial, it will continue on the new plan.</p>
+                                <div class="plan-selector-grid" id="change-plan-grid" style="margin-bottom: 16px;">
+                                    <label class="plan-selector-option" for="change-plan-basic">
+                                        <input type="radio" name="change-plan" id="change-plan-basic" value="basic">
+                                        <strong>Basic</strong>
+                                        <small>10 comments/day</small>
+                                        <div class="plan-selector-prices"><span class="new-price">$9.99/month</span></div>
+                                    </label>
+                                    <label class="plan-selector-option" for="change-plan-starter">
+                                        <input type="radio" name="change-plan" id="change-plan-starter" value="starter">
+                                        <strong>Starter</strong>
+                                        <small>20 comments/day</small>
+                                        <div class="plan-selector-prices"><span class="new-price">$14.99/month</span></div>
+                                    </label>
+                                    <label class="plan-selector-option" for="change-plan-standard">
+                                        <input type="radio" name="change-plan" id="change-plan-standard" value="standard">
+                                        <strong>Standard</strong>
+                                        <small>50 comments/day</small>
+                                        <div class="plan-selector-prices"><span class="new-price">$29.99/month</span></div>
+                                    </label>
+                                    <label class="plan-selector-option" for="change-plan-pro">
+                                        <input type="radio" name="change-plan" id="change-plan-pro" value="pro">
+                                        <strong>Pro</strong>
+                                        <small>80 comments/day + priority support</small>
+                                        <div class="plan-selector-prices"><span class="new-price">$49.99/month</span></div>
+                                    </label>
+                                </div>
+                                <div style="display: flex; gap: 10px; align-items: center;">
+                                    <button onclick="confirmChangePlan()" class="primary-button" id="confirm-change-plan-btn" style="padding: 10px 20px; font-size: 0.9rem;">Confirm Plan Change</button>
+                                    <button onclick="hideChangePlanUI()" style="padding: 10px 20px; font-size: 0.9rem; background: transparent; border: 1px solid #d1d5db; border-radius: 8px; cursor: pointer; color: #6b7280;">Cancel</button>
+                                    <span id="change-plan-status" style="font-size: 0.85rem; color: #6b7280;"></span>
+                                </div>
                             </div>
                         </div>
                     </div>
