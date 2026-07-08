@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article - Junior</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <script defer src="../../js/analytics.js"></script>
+    <script src="../../js/api-config.js"></script>
+    <style>
+        .article-container {
+            max-width: 860px;
+            margin: 48px auto;
+            padding: 0 20px;
+        }
+        .article-header {
+            margin-bottom: 32px;
+        }
+        .article-title {
+            font-size: clamp(2rem, 3vw, 2.9rem);
+            margin-bottom: 14px;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            color: #020617;
+        }
+        .article-meta {
+            color: #64748b;
+            font-size: 0.97rem;
+            font-weight: 500;
+        }
+        .article-featured-image {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            margin-bottom: 32px;
+        }
+        .article-content {
+            max-width: 72ch;
+            font-size: clamp(1.06rem, 1.2vw, 1.2rem);
+            line-height: 1.85;
+            color: #1f2937;
+        }
+        .article-content > *:first-child {
+            margin-top: 0;
+        }
+        .article-content > *:last-child {
+            margin-bottom: 0;
+        }
+        .article-content h2 {
+            margin-top: 2.1em;
+            margin-bottom: 0.8em;
+            line-height: 1.25;
+            letter-spacing: -0.01em;
+            color: #020617;
+        }
+        .article-content h3 {
+            margin-top: 1.7em;
+            margin-bottom: 0.65em;
+            line-height: 1.3;
+            letter-spacing: -0.005em;
+            color: #1e293b;
+        }
+        .article-content h4 {
+            margin-top: 1.4em;
+            margin-bottom: 0.55em;
+            line-height: 1.35;
+            color: #334155;
+        }
+        .article-content p {
+            margin: 0 0 1.3em;
+        }
+        .article-content ul,
+        .article-content ol {
+            margin: 0 0 1.3em 1.35em;
+            padding: 0;
+        }
+        .article-content li {
+            margin-bottom: 0.45em;
+        }
+        .article-content strong {
+            color: #0f172a;
+        }
+        .article-content a {
+            color: #1d4ed8;
+            text-decoration-thickness: 0.08em;
+            text-underline-offset: 0.16em;
+        }
+        .article-content blockquote {
+            margin: 0 0 1.5em;
+            padding: 0.9em 1.1em;
+            border-left: 4px solid #94a3b8;
+            color: #334155;
+            background: #f8fafc;
+            border-radius: 8px;
+        }
+        .article-content pre {
+            overflow-x: auto;
+            padding: 14px;
+            border-radius: 8px;
+            background: #0f172a;
+            color: #e2e8f0;
+            margin-bottom: 1.5em;
+            font-size: 0.93em;
+            line-height: 1.6;
+        }
+        .article-content code {
+            font-family: Consolas, "SFMono-Regular", Menlo, Monaco, monospace;
+            font-size: 0.95em;
+            background: #f1f5f9;
+            padding: 0.12em 0.35em;
+            border-radius: 4px;
+        }
+        .article-content pre code {
+            background: transparent;
+            padding: 0;
+        }
+        .article-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5em;
+            display: block;
+            overflow-x: auto;
+        }
+        .article-content th,
+        .article-content td {
+            border: 1px solid #cbd5e1;
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        .article-content th {
+            background: #f8fafc;
+            color: #0f172a;
+        }
+        .article-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin: 0.6em 0 1.3em;
+        }
+        .article-content hr {
+            border: none;
+            border-top: 1px solid #e2e8f0;
+            margin: 2em 0;
+        }
+        .article-content figure {
+            margin: 0 0 1.5em;
+        }
+        .article-content figcaption {
+            color: #64748b;
+            font-size: 0.92em;
+            margin-top: 0.55em;
+        }
+        .article-loading {
+            text-align: center;
+            padding: 40px;
+            color: #64748b;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 24px;
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        .share-row {
+            display: flex;
+            gap: 12px;
+            margin: 24px 0;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .share-row.top-share {
+            margin-top: 16px;
+            margin-bottom: 0;
+        }
+        .share-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-decoration: none;
+            color: #334155;
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .share-button:hover {
+            background: #e2e8f0;
+            color: #0f172a;
+            border-color: #cbd5e1;
+            text-decoration: none;
+        }
+        .share-button svg {
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+            fill: currentColor;
+        }
+        @media (max-width: 768px) {
+            .article-container {
+                margin: 28px auto;
+                padding: 0 16px;
+            }
+            .article-header {
+                margin-bottom: 24px;
+            }
+            .article-content {
+                font-size: 1.04rem;
+                line-height: 1.75;
+            }
+            .article-content table {
+                font-size: 0.93rem;
+            }
+            .article-content pre {
+                padding: 12px;
+            }
+        }
+    </style>
+
+    <link rel="canonical" href="https://heyjunior.ai/blog/best-ai-engagement-tools-for-b2b-sales-teams/">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://heyjunior.ai/blog/best-ai-engagement-tools-for-b2b-sales-teams/">
+    <meta property="og:title" content="Best AI engagement tools for B2B sales teams">
+    <meta property="og:description" content="Discover the best AI engagement tools for B2B sales in 2026. Explore AI SDRs, signal-led enrichment, and safe LinkedIn visibility platforms like Junior.">
+    <meta property="og:image" content="https://assets.bevisible.app/featured-images/j570tj9z7cydv62s6whmx2r2jh89etbv/best-ai-engagement-tools-for-b2b-sales-teams-1783518579163-24gsdh.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://heyjunior.ai/blog/best-ai-engagement-tools-for-b2b-sales-teams/">
+    <meta name="twitter:title" content="Best AI engagement tools for B2B sales teams">
+    <meta name="twitter:description" content="Discover the best AI engagement tools for B2B sales in 2026. Explore AI SDRs, signal-led enrichment, and safe LinkedIn visibility platforms like Junior.">
+    <meta name="twitter:image" content="https://assets.bevisible.app/featured-images/j570tj9z7cydv62s6whmx2r2jh89etbv/best-ai-engagement-tools-for-b2b-sales-teams-1783518579163-24gsdh.png">
+    
+</head>
+<body data-page="article" class="i18n-ready">
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <a href="../../index.html"><img src="../../images/junior-logo.png" alt="Junior Logo" class="logo-img"></a>
+            </div>
+            <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <div class="nav-group">
+                    <li><a href="../../index.html#use-cases">Use Cases</a></li>
+                    <li><a href="../../index.html#features">Features</a></li>
+                    <li><a href="../../why-commenting-works.html">Why Commenting Works</a></li>
+                    <li><a href="../../blog.html">Blog</a></li>
+                    <li><a href="../../try-it.html">Try It</a></li>
+                
+                    <li><a href="../../blog.html">Blog</a></li></div>
+                <div class="nav-actions">
+                    <li><a href="../../register.html?src=article-nav" class="cta-button">Start Free</a></li>
+                    <li><a href="../../portal.html" class="nav-login-link">Login</a></li>
+                </div>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="article-container" style="padding-top: 120px;">
+        <a href="../../blog.html" class="back-link">← Back to Blog</a>
+        
+        <div id="article-content">
+            <div class="article-loading">Loading article...</div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Junior. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        window.__INITIAL_ARTICLE_DATA__ = {"id": 42, "slug": "best-ai-engagement-tools-for-b2b-sales-teams", "title": "Best AI engagement tools for B2B sales teams", "excerpt": "Discover the best AI engagement tools for B2B sales in 2026. Explore AI SDRs, signal-led enrichment, and safe LinkedIn visibility platforms like Junior.", "featured_image_url": "https://assets.bevisible.app/featured-images/j570tj9z7cydv62s6whmx2r2jh89etbv/best-ai-engagement-tools-for-b2b-sales-teams-1783518579163-24gsdh.png", "published_at": "2026-07-08T13:21:00+00:00", "content": "# Best AI engagement tools for B2B sales teams\n\nThe B2B sales engagement landscape has fundamentally shifted. If your team is still relying on static email drip campaigns and blind cold calling, you are likely staring down sub-1% reply rates and a demoralized SDR team. \n\nModern sales organizations have completely replaced the \"spray and pray\" approach with signal-led engagement and autonomous AI agents. The current crop of AI engagement tools doesn't just automate the sending of messages; these tools research accounts, identify buying intent, write highly context-aware outreach, and even handle initial objections.\n\nHowever, a glaring gap exists in how most companies build their AI tech stack. They over-index on multi-channel inbox automation while completely ignoring where the actual buying conversations are happening publicly\u2014on platforms like LinkedIn. \n\nIn this guide, we will break down the top AI engagement tools for B2B sales teams, categorize them by their role in the sales funnel, and explore why strategic social visibility is the missing layer in your outbound strategy.\n\n![A whiteboard diagram illustrating the three layers of modern AI B2B sales engagement](https://assets.bevisible.app/inline-images/j570tj9z7cydv62s6whmx2r2jh89etbv/inline-1-1783518473069-bkxw4r.png)\n## The Volume Trap: Why More Automation Isn't Always Better\n\nBefore diving into the tools, we need to address a critical failure mode in modern B2B sales: the Volume Trap.\n\nWhen AI copywriting and sequencing tools first hit the market, sales teams reacted by drastically increasing their output. If personalizing an email took zero effort, why not send 10,000 instead of 100? \n\nThe result was predictable. Email providers tightened their spam filters, domains were burned at record speed, and buyers developed extreme fatigue. The new era of AI engagement isn't about doing *more* of the same things; it's about doing the right things at the exact right time.\n\nTo build a sustainable pipeline, your AI stack needs three distinct layers:\n1.  **The Engine:** Multi-channel outreach and AI SDRs to execute touchpoints.\n2.  **The Brains:** Signal-led enrichment to identify *who* to contact and *why*.\n3.  **The Visibility Layer:** Strategic social engagement to build trust outside the crowded inbox.\n\nLet\u2019s explore the top platforms in each category.\n\n## Layer 1: The Engine \u2013 Multi-Channel Outreach & AI SDRs\n\nThese platforms are best for finding prospects, automating your multi-channel sequences (Email, Call, LinkedIn), and scaling personalization safely. \n\n### Amplemarket: The Deliverability Fortress\nAmplemarket is consistently ranked as a top choice for mid-market and enterprise teams because it solves the biggest problem with automated outreach: landing in the primary inbox. \n\nInstead of forcing you to duct-tape a database, a sequencing tool, and an email warmup service together, Amplemarket combines data, AI sequencing, and strict deliverability infrastructure into one platform. It handles mailbox rotation and IP warming natively, meaning your AI-generated emails actually reach the prospect. \n\n**Best for:** Sales teams who want an all-in-one platform without worrying about domain reputation management.\n\n### Apollo.io: The Database Behemoth\nApollo has evolved from a simple contact database into a comprehensive AI engagement suite. Ideal for teams wanting a massive native contact database (over 275M contacts) paired with an AI copywriter and automated prospecting sequences.\n\nApollo's AI can draft emails based on persona pain points and previous successful cadences. Because the data and the execution layer are in the same tool, routing leads from a \"newly funded\" search into an AI-personalized sequence takes seconds.\n\n**Best for:** Startups and scaling teams that need a massive top-of-funnel data source integrated directly with their sequencing engine.\n\n### Artisan (Ava) & 11x.ai (Alice): The Autonomous Digital Workers\nAva (by Artisan) and Alice (by 11x.ai) represent the absolute frontier of the Autonomous AI SDR movement. Rather than acting as software tools for a human rep to log into and manage, these platforms act as digital workers.\n\nThey run continuously in the background. You give them a persona, an objective, and a value proposition. The AI then autonomously researches leads, drafts highly context-aware outreach, monitors replies, handles initial objections, and books meetings directly onto a human account executive's calendar.\n\n![Comparison sketch showing traditional SDR workflow versus an autonomous AI SDR loop](https://assets.bevisible.app/inline-images/j570tj9z7cydv62s6whmx2r2jh89etbv/inline-2-1783518460048-rvj5c4.png)\n**The Tradeoff:** While the efficiency gains are massive, autonomous SDRs require strict guardrails. If their messaging drifts from your core value proposition, they can alienate hundreds of prospects before a human notices. \n\n## Layer 2: The Brains \u2013 Signal-Led & Deep Enrichment\n\nIf you want to break through the volume trap, you must reach out only when high-intent buying signals occur. This is where signal-led engagement tools take over.\n\n### Clay: The Waterfall Enrichment Standard\nClay has become the ultimate platform for modern growth operations. It doesn't provide a native database; instead, it uses a process called \"waterfall enrichment.\"\n\nIf you want a prospect's validated email, Clay will scrape dozens of data providers (Clearbit, Dropcontact, Hunter, etc.) sequentially until it finds the information. More importantly, Clay features a built-in AI research agent capable of reading a company's SEC filings, analyzing their current job postings, or scraping their pricing page to inform your outreach.\n\nInstead of a generic \"I saw you work at [Company],\" Clay enables your outreach engine to say, \"I noticed you're hiring three mid-level React developers, which usually means you're struggling with frontend technical debt.\"\n\n### Salesmotion: Anchoring to Intent Signals\nSalesmotion is built specifically for signal-led prospecting. Instead of blasting generic emails, it monitors over 1,000 distinct data sources\u2014including job changes, funding rounds, product launches, and third-party intent data.\n\nWhen a signal triggers, Salesmotion automatically drafts outreach anchored strictly to *why* you are reaching out right now. This shifts your engagement from cold outreach to a highly relevant, timely intervention.\n\n![A process map illustrating waterfall enrichment for B2B lead generation](https://assets.bevisible.app/inline-images/j570tj9z7cydv62s6whmx2r2jh89etbv/inline-3-1783518459310-ys0u61.png)\n## Layer 3: The Missing Layer \u2013 Strategic Social Visibility\n\nHere is the fatal flaw in most B2B sales stacks: they assume all engagement must happen in a private 1-to-1 medium, usually via email or a LinkedIn DM.\n\nBut the modern buyer's inbox is heavily guarded, and their LinkedIn DM inbox is a wasteland of automated spam pitches. If you want to bypass the noise, you need to engage where buyers are actually spending their time and attention\u2014the public feed.\n\nThis brings us to the missing tool in the AI engagement landscape: **Junior**.\n\n### The Problem with Traditional LinkedIn Automation\nFor years, sales teams have used cloud-based automation tools to scrape profiles and send automated connection requests followed by immediate, lengthy pitches. Platforms like Dripify or PhantomBuster popularized this approach, but it has severe consequences:\n\n1.  **Account Bans:** LinkedIn actively detects and penalizes cloud-based IP rotators and inorganic clicking patterns. [Safe AI engagement on LinkedIn](https://www.heyjunior.ai/blog/safe-ai-engagement-on-linkedin) requires natural, localized activity.\n2.  **Brand Damage:** Buyers instantly recognize automated DMs. When a pitch arrives 30 seconds after a connection is accepted, trust is immediately broken.\n\nTo understand how to safely move away from these risky methods, you can review this [Automate Linkedin Comments Safely Evaluation Checklist](https://www.heyjunior.ai/blog/automate-linkedin-comments-safely-evaluation-checklist).\n\n### Junior: Authentic Conversations via Strategic Commenting\nJunior takes a fundamentally different approach to AI engagement. It is an AI-powered LinkedIn automation tool designed to start authentic conversations through strategic post commenting rather than generic spam.\n\nInstead of forcing its way into a prospect's DMs, Junior helps sales professionals, founders, and lead gen agencies build visibility by contributing meaningfully to existing discussions.\n\n**How Junior bridges the gap in B2B engagement:**\n*   **Context-Aware Output:** It finds relevant discussions in your niche and drafts human-sounding replies based on your unique bio, tone, and specific goals. \n*   **Local Execution for Ultimate Safety:** Unlike cloud-based tools that put your account at risk, Junior runs locally on your machine, using natural human interaction patterns. It is one of the most reliable [Phantombuster Alternatives for Automate Linkedin Comments Safely](https://www.heyjunior.ai/blog/phantombuster-alternatives-for-automate-linkedin-comments-safely).\n*   **Inbound Pipeline Generation:** By consistently providing valuable, AI-assisted commentary on high-leverage posts, you turn public visibility into inbound profile views, connection requests, and eventually, warm client conversations.\n\nIf you are evaluating visibility tools, it is crucial to look beyond basic schedulers. For a detailed breakdown, check out this guide on the [Best Tools to Find Relevant Linkedin Posts to Comment On Tools Beyond Taplio](https://www.heyjunior.ai/blog/best-tools-to-find-relevant-linkedin-posts-to-comment-on-tools-beyond-taplio).\n\n![A funnel diagram showing how strategic public commenting drives direct pipeline](https://assets.bevisible.app/inline-images/j570tj9z7cydv62s6whmx2r2jh89etbv/inline-4-1783518454364-1o7y0e.png)\n## Architecting Your 2026 AI Sales Stack\n\nHow do you combine these tools into a cohesive strategy? You need to move away from isolated silos and build a data-to-visibility pipeline. Here is a blueprint for integrating these layers:\n\n### Phase 1: Define the Signal (The Brains)\nStart with a tool like **Clay** or **Salesmotion**. Determine the exact criteria that indicate a company is ready to buy. \n*   *Example:* A SaaS company selling cloud security tools monitors Clay for companies that recently posted a job for a \"Chief Information Security Officer\" and use AWS infrastructure.\n\n### Phase 2: Multi-Channel Outreach (The Engine)\nPass those highly enriched, signal-based leads into an engine like **Amplemarket** or hand them over to an autonomous SDR like **Ava**. \n*   The outreach should not be \"We sell cloud security.\" It should be: \"Noticed the new CISO role and your AWS stack. Usually, that means you're prepping for a SOC2 audit.\"\n\n### Phase 3: Surround the Account (Strategic Visibility)\nWhile your email engine is running, you cannot afford to be a stranger. This is where **Junior** activates.\n*   Your SDRs and Founders use Junior to identify posts made by the technical leadership at the target accounts, as well as posts by key influencers in the cloud security space.\n*   Junior helps the team leave insightful, context-rich comments on those posts.\n*   When the prospect receives the highly personalized email from Amplemarket, they already recognize the sender's name and face from the intelligent discussion on their LinkedIn feed.\n\nThis multi-layered approach is exactly how you win in 2026. For a deeper dive into the specific tools making this possible, explore our roundup of the [Best LinkedIn engagement tools 2026](https://www.heyjunior.ai/blog/best-linkedin-engagement-tools-2026).\n\n## AI Tools Evaluation Checklist\n\nWith so many platforms claiming to revolutionize B2B sales, choosing the right software can be overwhelming. Before signing an annual contract, run the tool through this evaluation matrix. \n\nFor a more targeted look at the social side of this matrix, you can reference our [AI Tools for Linkedin Commenting Evaluation Checklist](https://www.heyjunior.ai/blog/ai-tools-for-linkedin-commenting-evaluation-checklist).\n\n| Evaluation Criteria | Multi-Channel (e.g., Amplemarket) | Enrichment (e.g., Clay) | Visibility (e.g., Junior) |\n| :--- | :--- | :--- | :--- |\n| **Primary Metric** | Deliverability & Reply Rates | Cost per valid lead & Data Match Rate | Profile Views & Inbound Inquiries |\n| **Account Risk** | Medium (Domain reputation risk) | Low (Data processing only) | Low (Runs locally, natural patterns) |\n| **Setup Complexity** | High (Requires DNS setup, warming) | High (Requires webhook/API knowledge) | Low (Desktop installation) |\n| **Buyer Experience** | Interruptive but personalized | Silent (Happens pre-outreach) | Value-add (Public contribution) |\n\n## The Contrarian View: AI Should Reduce Touchpoints, Not Increase Them\n\nThere is a persistent myth in sales leadership that the primary benefit of AI is scale. The assumption is that if a rep could manually send 50 emails a day, AI should help them send 5,000.\n\nThis is entirely backward.\n\nThe real power of AI engagement tools for B2B sales teams is *reduction*. By utilizing deep enrichment platforms to filter out accounts that lack buying intent, and by using tools like Junior to build organic familiarity through commenting, you drastically reduce the number of cold touches required to book a meeting.\n\nIf you find yourself relying heavily on mass automated messaging, it might be time to re-evaluate your approach. You can read more about transitioning away from this model in our breakdown of [Junior vs Dripify: finding consulting clients without automated messaging](https://www.heyjunior.ai/blog/junior-vs-dripify-finding-consulting-clients-without-automated-messaging).\n\n## Overcoming the Mid-Market Trap (A Mini Case Study)\n\nConsider the common scenario we call the \"Mid-Market Trap.\" A B2B software agency recently scaled their SDR team to five people. They purchased an off-the-shelf sequencing tool and a raw data list, and started blasting 1,000 emails a day.\n\nWithin three weeks, their primary domain was blacklisted. Their LinkedIn accounts were temporarily restricted because they used a cloud-based scraper to send 100 connection requests daily.\n\nTo recover, they completely re-architected their outbound motion:\n1.  They paused all sequencing and used **Clay** to filter their list of 10,000 targets down to just 300 accounts that showed active hiring signals in their specific niche.\n2.  They moved their sequencing to **Amplemarket**, utilizing secondary domains and strict volume limits (no more than 40 emails per day per mailbox).\n3.  They deployed **Junior** locally on the laptops of their SDRs and their Founder. Instead of sending connection requests, the team used Junior to find and engage with content posted by the decision-makers at those 300 target accounts.\n\nBy replacing automated DMs with strategic commenting, their inbound profile views spiked by 400%. Prospects began sending *them* connection requests, effectively turning cold outbound targets into warm inbound leads.\n\n## Final Thoughts on the AI Engagement Stack\n\nChoosing the best AI engagement tools for your B2B sales team is no longer about finding the best \"email blaster.\" It requires a holistic view of the modern buyer's journey.\n\nAutonomous SDRs and deep data enrichment platforms are incredible innovations that will save your team thousands of hours. However, relying solely on inbox-based tools ignores the reality of modern networking.\n\nTo build a truly resilient pipeline, you must combine the analytical power of intent data with the authentic, human-centric visibility generated by platforms like Junior. By leaving thoughtful comments, establishing public credibility, and reaching out only when the signals align, you stop acting like a spam bot and start acting like a trusted advisor.\n\nFor more insights on how to elevate your team's social selling capabilities, explore our guide on the [Best AI Tools for Linkedin Commenting Tools Beyond Supergrow](https://www.heyjunior.ai/blog/best-ai-tools-for-linkedin-commenting-tools-beyond-supergrow), or see how we stack up against traditional schedulers in [Junior vs Taplio for LinkedIn growth](https://www.heyjunior.ai/blog/junior-vs-taplio-for-linkedin-growth) and [Best Automate Linkedin Comments Safely Tools Beyond Phantombuster](https://www.heyjunior.ai/blog/best-automate-linkedin-comments-safely-tools-beyond-phantombuster).", "created_at": "2026-07-08T14:19:22.401956+00:00", "updated_at": "2026-07-08T14:19:22.401961+00:00"};
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js"></script>
+    <script>
+        function looksLikeHtml(content) {
+            return /<\/?[a-z][\s\S]*>/i.test(content);
+        }
+
+        function escapeHtml(content) {
+            return content
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function formatPlainText(content) {
+            return content
+                .split(/\n{2,}/)
+                .map(paragraph => `<p>${escapeHtml(paragraph).replace(/\n/g, '<br>')}</p>`)
+                .join('');
+        }
+
+        function renderArticleBody(rawContent) {
+            const content = (rawContent || '').trim();
+            if (!content) {
+                return '<p>This article has no content yet.</p>';
+            }
+
+            if (looksLikeHtml(content)) {
+                if (window.DOMPurify) {
+                    return window.DOMPurify.sanitize(content);
+                }
+                return content;
+            }
+
+            if (window.marked) {
+                const markdownHtml = window.marked.parse(content, {
+                    gfm: true,
+                    breaks: true,
+                    mangle: false,
+                    headerIds: true
+                });
+                if (window.DOMPurify) {
+                    return window.DOMPurify.sanitize(markdownHtml);
+                }
+                return markdownHtml;
+            }
+
+            return formatPlainText(content);
+        }
+
+        function createShareButtons(url, title, position) {
+            const encodedUrl = encodeURIComponent(url);
+            const encodedTitle = encodeURIComponent(title);
+            
+            const buttons = [
+                {
+                    name: 'LinkedIn',
+                    url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>'
+                },
+                {
+                    name: 'X',
+                    url: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>'
+                },
+                {
+                    name: 'Facebook',
+                    url: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>'
+                },
+                {
+                    name: 'WhatsApp',
+                    url: `https://api.whatsapp.com/send?text=${encodedTitle}%20${encodedUrl}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>'
+                },
+                {
+                    name: 'Reddit',
+                    url: `https://reddit.com/submit?url=${encodedUrl}&title=${encodedTitle}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.688-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg>'
+                },
+                {
+                    name: 'Email',
+                    url: `mailto:?subject=${encodedTitle}&body=${encodedUrl}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>'
+                }
+            ];
+
+            let html = `<div class="share-row ${position === 'top' ? 'top-share' : ''}">`;
+            
+            buttons.forEach(btn => {
+                html += `<a href="${btn.url}" target="_blank" rel="noopener noreferrer" class="share-button" data-cta="share-${position}-${btn.name.toLowerCase()}">
+                    ${btn.icon} ${btn.name}
+                </a>`;
+            });
+
+            html += `<button class="share-button" onclick="navigator.clipboard.writeText('${url.replace(/'/g, "\\'")}'); alert('Link copied to clipboard!');" data-cta="share-${position}-copy">
+                <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg> Copy Link
+            </button>`;
+
+            if (navigator.share) {
+                html += `<button class="share-button" onclick="navigator.share({title: '${title.replace(/'/g, "\\'")}', url: '${url.replace(/'/g, "\\'")}'}).catch(console.error);" data-cta="share-${position}-native">
+                    <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg> Share
+                </button>`;
+            }
+
+            html += `</div>`;
+            return html;
+        }
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            const container = document.getElementById('article-content');
+            
+            try {
+                let post;
+                
+                // If we have injected data (static page), use it directly
+                if (window.__INITIAL_ARTICLE_DATA__) {
+                    post = window.__INITIAL_ARTICLE_DATA__;
+                } else {
+                    // Otherwise, we are on the dynamic route, fetch from API
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const slug = urlParams.get('slug');
+                    
+                    if (!slug) {
+                        throw new Error('Article not found.');
+                    }
+                    
+                    // Redirect to the new static URL format
+                    window.location.replace(`/blog/${slug}/`);
+                    return;
+                }
+                
+                document.title = `${post.title} - Junior`;
+                
+                const date = new Date(post.published_at).toLocaleDateString();
+                
+                let html = `
+                    <header class="article-header">
+                        <h1 class="article-title">${post.title}</h1>
+                        <div class="article-meta">Published on ${date}</div>
+                    </header>
+                `;
+
+                const shareUrl = window.location.href;
+                html += createShareButtons(shareUrl, post.title, 'top');
+                
+                if (post.featured_image_url) {
+                    html += `<img src="${post.featured_image_url}" alt="${post.title}" class="article-featured-image">`;
+                }
+                
+                html += `
+                    <div class="article-content">
+                        ${renderArticleBody(post.content)}
+                    </div>
+                `;
+                
+                html += createShareButtons(shareUrl, post.title, 'bottom');
+                
+                container.innerHTML = html;
+            } catch (err) {
+                container.innerHTML = `<p>${err.message}</p>`;
+                console.error(err);
+            }
+        });
+    </script>
+</body>
+</html>
