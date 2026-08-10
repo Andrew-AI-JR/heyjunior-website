@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article - Junior</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <script defer src="../../js/analytics.js"></script>
+    <script src="../../js/api-config.js"></script>
+    <style>
+        .article-container {
+            max-width: 860px;
+            margin: 48px auto;
+            padding: 0 20px;
+        }
+        .article-header {
+            margin-bottom: 32px;
+        }
+        .article-title {
+            font-size: clamp(2rem, 3vw, 2.9rem);
+            margin-bottom: 14px;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            color: #020617;
+        }
+        .article-meta {
+            color: #64748b;
+            font-size: 0.97rem;
+            font-weight: 500;
+        }
+        .article-featured-image {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            margin-bottom: 32px;
+        }
+        .article-content {
+            max-width: 72ch;
+            font-size: clamp(1.06rem, 1.2vw, 1.2rem);
+            line-height: 1.85;
+            color: #1f2937;
+        }
+        .article-content > *:first-child {
+            margin-top: 0;
+        }
+        .article-content > *:last-child {
+            margin-bottom: 0;
+        }
+        .article-content h2 {
+            margin-top: 2.1em;
+            margin-bottom: 0.8em;
+            line-height: 1.25;
+            letter-spacing: -0.01em;
+            color: #020617;
+        }
+        .article-content h3 {
+            margin-top: 1.7em;
+            margin-bottom: 0.65em;
+            line-height: 1.3;
+            letter-spacing: -0.005em;
+            color: #1e293b;
+        }
+        .article-content h4 {
+            margin-top: 1.4em;
+            margin-bottom: 0.55em;
+            line-height: 1.35;
+            color: #334155;
+        }
+        .article-content p {
+            margin: 0 0 1.3em;
+        }
+        .article-content ul,
+        .article-content ol {
+            margin: 0 0 1.3em 1.35em;
+            padding: 0;
+        }
+        .article-content li {
+            margin-bottom: 0.45em;
+        }
+        .article-content strong {
+            color: #0f172a;
+        }
+        .article-content a {
+            color: #1d4ed8;
+            text-decoration-thickness: 0.08em;
+            text-underline-offset: 0.16em;
+        }
+        .article-content blockquote {
+            margin: 0 0 1.5em;
+            padding: 0.9em 1.1em;
+            border-left: 4px solid #94a3b8;
+            color: #334155;
+            background: #f8fafc;
+            border-radius: 8px;
+        }
+        .article-content pre {
+            overflow-x: auto;
+            padding: 14px;
+            border-radius: 8px;
+            background: #0f172a;
+            color: #e2e8f0;
+            margin-bottom: 1.5em;
+            font-size: 0.93em;
+            line-height: 1.6;
+        }
+        .article-content code {
+            font-family: Consolas, "SFMono-Regular", Menlo, Monaco, monospace;
+            font-size: 0.95em;
+            background: #f1f5f9;
+            padding: 0.12em 0.35em;
+            border-radius: 4px;
+        }
+        .article-content pre code {
+            background: transparent;
+            padding: 0;
+        }
+        .article-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5em;
+            display: block;
+            overflow-x: auto;
+        }
+        .article-content th,
+        .article-content td {
+            border: 1px solid #cbd5e1;
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        .article-content th {
+            background: #f8fafc;
+            color: #0f172a;
+        }
+        .article-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin: 0.6em 0 1.3em;
+        }
+        .article-content hr {
+            border: none;
+            border-top: 1px solid #e2e8f0;
+            margin: 2em 0;
+        }
+        .article-content figure {
+            margin: 0 0 1.5em;
+        }
+        .article-content figcaption {
+            color: #64748b;
+            font-size: 0.92em;
+            margin-top: 0.55em;
+        }
+        .article-loading {
+            text-align: center;
+            padding: 40px;
+            color: #64748b;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 24px;
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        .share-row {
+            display: flex;
+            gap: 12px;
+            margin: 24px 0;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .share-row.top-share {
+            margin-top: 16px;
+            margin-bottom: 0;
+        }
+        .share-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-decoration: none;
+            color: #334155;
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .share-button:hover {
+            background: #e2e8f0;
+            color: #0f172a;
+            border-color: #cbd5e1;
+            text-decoration: none;
+        }
+        .share-button svg {
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+            fill: currentColor;
+        }
+        @media (max-width: 768px) {
+            .article-container {
+                margin: 28px auto;
+                padding: 0 16px;
+            }
+            .article-header {
+                margin-bottom: 24px;
+            }
+            .article-content {
+                font-size: 1.04rem;
+                line-height: 1.75;
+            }
+            .article-content table {
+                font-size: 0.93rem;
+            }
+            .article-content pre {
+                padding: 12px;
+            }
+        }
+    </style>
+
+    <link rel="canonical" href="https://heyjunior.ai/blog/waalaxy-alternatives-linkedin-outreach-2/">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://heyjunior.ai/blog/waalaxy-alternatives-linkedin-outreach-2/">
+    <meta property="og:title" content="Best Waalaxy Alternatives for Linkedin Outreach Tools Beyond Waalaxy">
+    <meta property="og:description" content="Discover the top Waalaxy alternatives for LinkedIn outreach. Compare cloud vs. local desktop tools, account safety, and comment-first engagement strategies.">
+    <meta property="og:image" content="https://assets.bevisible.app/featured-images/j578wr5ejqf7vcp8mw21sqjz2s8b408t/best-waalaxy-alternatives-for-linkedin-outreach-to-1786378776329-ze0gn1.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://heyjunior.ai/blog/waalaxy-alternatives-linkedin-outreach-2/">
+    <meta name="twitter:title" content="Best Waalaxy Alternatives for Linkedin Outreach Tools Beyond Waalaxy">
+    <meta name="twitter:description" content="Discover the top Waalaxy alternatives for LinkedIn outreach. Compare cloud vs. local desktop tools, account safety, and comment-first engagement strategies.">
+    <meta name="twitter:image" content="https://assets.bevisible.app/featured-images/j578wr5ejqf7vcp8mw21sqjz2s8b408t/best-waalaxy-alternatives-for-linkedin-outreach-to-1786378776329-ze0gn1.png">
+    
+</head>
+<body data-page="article" class="i18n-ready">
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <a href="../../index.html"><img src="../../images/junior-logo.png" alt="Junior Logo" class="logo-img"></a>
+            </div>
+            <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <div class="nav-group">
+                    <li><a href="../../index.html#use-cases">Use Cases</a></li>
+                    <li><a href="../../index.html#features">Features</a></li>
+                    <li><a href="../../why-commenting-works.html">Why Commenting Works</a></li>
+                    <li><a href="../../blog.html">Blog</a></li>
+                    <li><a href="../../try-it.html">Try It</a></li>
+                
+                    <li><a href="../../blog.html">Blog</a></li></div>
+                <div class="nav-actions">
+                    <li><a href="../../register.html?src=article-nav" class="cta-button">Start Free</a></li>
+                    <li><a href="../../portal.html" class="nav-login-link">Login</a></li>
+                </div>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="article-container" style="padding-top: 120px;">
+        <a href="../../blog.html" class="back-link">← Back to Blog</a>
+        
+        <div id="article-content">
+            <div class="article-loading">Loading article...</div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Junior. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        window.__INITIAL_ARTICLE_DATA__ = {"id": 69, "slug": "waalaxy-alternatives-linkedin-outreach-2", "title": "Best Waalaxy Alternatives for Linkedin Outreach Tools Beyond Waalaxy", "excerpt": "Discover the top Waalaxy alternatives for LinkedIn outreach. Compare cloud vs. local desktop tools, account safety, and comment-first engagement strategies.", "featured_image_url": "https://assets.bevisible.app/featured-images/j578wr5ejqf7vcp8mw21sqjz2s8b408t/best-waalaxy-alternatives-for-linkedin-outreach-to-1786378776329-ze0gn1.png", "published_at": "2026-08-10T16:00:00+00:00", "content": "# Best Waalaxy Alternatives for Linkedin Outreach Tools Beyond Waalaxy\n\nFor years, outbound sales reps, founders, and recruiters relied on automated connection request sequences as their primary pipeline engine. Tools like Waalaxy standardized this playbook: extract a list from Sales Navigator, build a four-step drip sequence containing connection requests and automated follow-up messages, and wait for replies to trickle in.\n\nThat model is breaking down. Decision-makers are overwhelmed by dozens of generic connection requests every single day. Acceptance rates for cold connection blasts have dropped into single digits, while LinkedIn's account detection systems actively flag cloud-based messaging patterns, proxy rotation failures, and unnatural automated behavior.\n\nEvaluating a Waalaxy alternative is no longer just about finding another tool that sends automated connection requests. It requires deciding between different outreach architectures, account safety setups, and outreach philosophies. While some teams need multi-channel cold sequences, others are shifting toward local execution or replacing cold direct messages entirely through public comment-first engagement.\n\nHere is an analysis of the best Waalaxy alternatives, comparing technical execution, account safety setups, feature sets, and real-world pipeline performance.\n\n---\n\n## Why Teams Are Replacing Waalaxy\n\nWaalaxy gained popularity by offering an easy visual sequence builder and built-in email finder designed for rapid setup. However, sustained outbound campaigns often reveal systemic limitations that force teams to seek alternatives.\n\n### 1. Declining Response Rates on Cold Direct Messages\nWhen every prospect receives five automated messages an hour starting with \"I noticed your profile and was impressed by your work at [Company]\", cold message fatigue sets in fast. Prospects ignore connection requests from people they do not recognize, making generic direct message (DM) drips ineffective for building meaningful sales pipelines.\n\n### 2. Cloud Proxy and Account Safety Vulnerabilities\nWaalaxy operates through a browser extension connected to cloud servers. While cloud execution allows campaigns to run when your computer is powered off, it introduces distinct detection vectors. LinkedIn closely monitors IP address switching, data center proxy fingerprints, and concurrent session activity. If a cloud server logs into your account from a data center while your phone accesses LinkedIn via your local cellular network, security algorithms flag the anomaly.\n\n### 3. Connection Request Quotas and API Limits\nLinkedIn strictly limits accounts to roughly 100 to 200 connection requests per week. Sequence tools that depend exclusively on connection requests reach an artificial ceiling quickly. Teams seeking higher volume are forced to rely on email enrichment or alternative engagement mechanisms.\n\n### 4. Overly Rigid Sequence Logic\nWaalaxy sequences run on strict time delays (for example: Send Connection -> Wait 1 Day -> Send Message 1 -> Wait 3 Days -> Send Message 2). If a prospect views your profile, reads your content, or engages with your company elsewhere, standard sequence builders cannot adjust intelligently to those behavioral nuances.\n\n---\n\n## Key Evaluation Criteria for LinkedIn Outreach Tools\n\nSelecting the right outreach software requires evaluating core technical and operational tradeoffs.\n\n![Diagram comparing cloud automation, local desktop execution, and public engagement LinkedIn outreach models.](https://assets.bevisible.app/inline-images/j578wr5ejqf7vcp8mw21sqjz2s8b408t/inline-1-1786378680101-fv67a1.png)\n| Evaluation Factor | Cloud Automation Model | Local Browser/Desktop Execution | Public Engagement / Commenting Model |\n| :--- | :--- | :--- | :--- |\n| **Primary Mechanism** | Automated connection requests & DM drips via cloud proxies | Direct DOM interaction running on local desktop | Contextual post commenting & public discussion discovery |\n| **Account Safety Risk** | Moderate to High (data center proxies, IP location jumps) | Low to Moderate (uses local residential IP and native browser) | Ultra-Low (natural human interaction patterns without mass messaging) |\n| **Response Channel** | Private InMail and Inbox DMs | Private InMail and Inbox DMs | Public feed discussions converting into warm inbound DMs |\n| **Daily Volume Limits** | Capped by connection request limits (~15-25/day) | Capped by action throttles (~20-30/day) | Uncapped reach through high-visibility public comments |\n| **Technical Setup** | Fast setup, background cloud execution | Requires app running locally on desktop | Runs locally with zero proxy setup or API access |\n\n### Technical Architecture & Execution Location\nOutreach tools generally use one of three architecture models:\n* **Cloud-based automation:** Runs sequences on remote cloud servers using dedicated or shared proxies.\n* **Local browser execution:** Operates directly inside your active desktop browser or local native application, utilizing your local IP address and browser session cookies.\n* **Public engagement automation:** Shifts focus from sending private messages to identifying relevant industry posts and generating contextual public comments locally.\n\n### Safety Protocols & Pattern Randomization\nLook for tools that incorporate randomized delays, human-like mouse movements, organic keystroke timing, and hard cap guardrails. Tools operating directly on your local machine avoid data center proxy detection entirely.\n\n### Engagement Vector (Private Inbox vs. Public Feed)\nDirect messaging targets crowded, private inboxes. Public engagement tools focus on strategic post commenting, building public visibility before initiating conversations.\n\n### Workflow Customization & CRM Sync\nFor cold outreach sequences, webhooks, native CRM sync (HubSpot, Salesforce), and flexible fallback logic are critical for operational efficiency.\n\n---\n\n## The Top Waalaxy Alternatives Reviewed\n\n### 1. Expandi\n**Best for:** Scalable, multi-channel cold sequences with advanced safety guardrails.\n\nExpandi is a dedicated cloud platform built specifically for outbound sales teams requiring multi-channel outreach (LinkedIn combined with email).\n\n```\n[ Prospect List ] \u2500\u2500> [ Expandi Cloud Platform ] \u2500\u2500> [ Dynamic Personalization Engine ]\n                                                          \u2502\n                                         \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n                                         \u25bc                                 \u25bc\n                             [ Custom Proxy IP Pool ]          [ Multi-Channel Sequence ]\n                                         \u2502                     (LinkedIn + Email Drip)\n                                         \u25bc                                 \u25bc\n                             [ Account Health Monitor ] \u2500\u2500> [ CRM Webhooks & Sync ]\n```\n\n#### Key Capabilities\n* **Dedicated IP Allocation:** Assigns a dedicated local proxy IP matching your geographic region to reduce security flags.\n* **Smart Sequences:** Dynamic conditional paths that adapt based on whether a prospect opened an email, viewed a profile, or accepted a connection request.\n* **Image & GIF Personalization:** Integrations with Hyperise to dynamically render personalized visual assets inside connection messages.\n* **Account Warm-up Features:** Gradually increases daily activity limits for new accounts to maintain sender reputation.\n\n#### Pros & Cons\n* **Pros:** Exceptionally robust safety protocol for cloud automation; powerful multi-channel sequence logic; native CRM integrations.\n* **Cons:** Higher monthly price point per seat; requires setting up dedicated proxies correctly; still relies on direct cold DMs.\n\n---\n\n### 2. Junior\n**Best for:** Authentic, comment-first relationship building that bypasses cold DMs safely.\n\nJunior offers a fundamental alternative to traditional inbox sequences. Rather than sending cold connection requests and automated DMs, Junior helps job seekers, sales reps, consultants, and founders generate qualified conversations through strategic public post commenting.\n\n```\n[ Target Bio & Goals ] \u2500\u2500> [ Junior Local App Engine ] \u2500\u2500> [ Industry Discussion Finder ]\n                                                                     \u2502\n                                                                     \u25bc\n[ Warm Inbound / Direct DM ] <\u2500\u2500 [ High-Visibility Comment ] <\u2500\u2500 [ Context-Aware Draft ]\n```\n\n#### How Junior Differs from Waalaxy\nStandard tools attempt to force entry into private inboxes, where response rates are low and account flags are frequent. Junior works by scanning LinkedIn for relevant, high-intent posts within your industry or niche. It analyzes post context alongside your unique professional bio and business objectives to draft human-sounding, contextual comments.\n\nBy commenting thoughtfully on trending and targeted posts, you establish public authority, drive organic profile views, and invite prospects to start conversations with you naturally.\n\n#### Key Capabilities\n* **Local Desktop Execution:** Operates locally on your machine. It uses your native IP address and human browser session, avoiding cloud proxy flags.\n* **Strategic Comment Drafting:** Generates contextual, highly tailored comment suggestions based on your personal background, value proposition, and targets.\n* **Inbox Bypass Engine:** Replaces cold inbox spam with high-visibility public comments that draw decision-makers to your profile.\n* **Account Safety Focus:** Avoids mass scraping or bulk connection request spams, protecting your account from automated restriction triggers.\n\n#### Pros & Cons\n* **Pros:** Highly effective for starting authentic conversations; eliminates cold inbox spam completely; local execution provides top-tier account safety; ideal for high-ticket service providers, consultants, and founders.\n* **Cons:** Not designed for sending bulk template connection blasts (by design).\n\nTo compare engagement tools, review our guide on the [Best LinkedIn engagement tools 2026](https://www.heyjunior.ai/blog/best-linkedin-engagement-tools-2026) or explore [Junior vs Dripify: finding consulting clients without automated messaging](https://www.heyjunior.ai/blog/junior-vs-dripify-finding-consulting-clients-without-automated-messaging).\n\n---\n\n### 3. Octopus CRM\n**Best for:** Budget-conscious individual users wanting simple campaign management.\n\nOctopus CRM is a browser extension that functions as a simplified CRM and sequence runner for individual sales reps and small business owners.\n\n```\n[ Sales Navigator Search ] \u2500\u2500> [ Octopus Chrome Extension ] \u2500\u2500> [ Campaign Funnel ]\n                                                                       \u2502\n                                            \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u253c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n                                            \u25bc                          \u25bc                          \u25bc\n                                 [ Automated Connections ]     [ Message Drips ]          [ Skill Endorsements ]\n```\n\n#### Key Capabilities\n* **Funnel Visualization:** Organize prospects into steps (Connect, Message, Endorse, Visit) in a clean dashboard.\n* **Skill Endorsements & Profile Views:** Automates light-touch profile visits and skill endorsements to generate soft notifications before messaging.\n* **Budget-Friendly Pricing:** Offers lower cost plans compared to cloud enterprise suites.\n\n#### Pros & Cons\n* **Pros:** Fast learning curve; affordable; includes profile visiting and endorsement features.\n* **Cons:** Runs directly in your local extension window (requires browser to stay open during execution); simple sequence logic with limited dynamic branching.\n\n---\n\n### 4. LinkedHelper 2\n**Best for:** Power users requiring complex workflows and desktop-level control.\n\nLinkedHelper 2 is an independent desktop application (not a browser extension) that automates actions by running an isolated browser instance directly on your computer.\n\n```\n[ Local Desktop App ] \u2500\u2500> [ Isolated Chromium Instance ] \u2500\u2500> [ Complex Multi-Step Action Graph ]\n                                                                        \u2502\n                                             \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u253c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n                                             \u25bc                          \u25bc                          \u25bc\n                                  [ Lead Data Extraction ]    [ Native DOM Clicking ]     [ Custom Logic Fallbacks ]\n```\n\n#### Key Capabilities\n* **Standalone Desktop Architecture:** Runs inside its own Chromium environment on your desktop, giving you control over execution speed, sleep schedules, and session behavior.\n* **Advanced Visual Workflow Builder:** Supports detailed multi-step branching logic, condition checks, and automated data extraction.\n* **InMail and Group Outreach:** Allows messaging group members and event attendees directly, bypassing standard connection request limits.\n\n#### Pros & Cons\n* **Pros:** Robust workflow customization; highly cost-effective multi-account management; strong account safety due to local desktop execution.\n* **Cons:** Complex interface with a steep learning curve; requires your computer (or a dedicated Virtual Private Server) to remain powered on.\n\n---\n\n### 5. Dux-Soup\n**Best for:** Sales reps seeking lightweight browser automation tied directly to HubSpot or Pipedrive.\n\nDux-Soup is one of the longest-running browser extensions for LinkedIn automation. It focuses on light-touch actions like profile visiting, connection sending, and direct CRM synchronization.\n\n#### Key Capabilities\n* **Direct CRM Integration:** Strong native integrations with HubSpot, Pipedrive, and Zapier to sync LinkedIn interactions directly to CRM deal pipelines.\n* **Dux-Dash Control Center:** Centralized portal to track daily limits, campaign response metrics, and outreach progress.\n* **Flexible Operating Modes:** Choose between fully automated execution or semi-automated manual triggers.\n\n#### Pros & Cons\n* **Pros:** Reliable performance with deep CRM integrations; easy setup for existing sales stacks.\n* **Cons:** Browser-based extension model requires maintaining active tabs; interface can feel dated compared to newer tools.\n\n---\n\n### 6. Meet Alfred\n**Best for:** Multi-channel social selling campaigns spanning LinkedIn, Email, and Twitter/X.\n\nMeet Alfred combines LinkedIn outreach with email sequences and Twitter/X direct messaging, offering an integrated approach for multi-channel sales teams.\n\n#### Key Capabilities\n* **Multi-Platform Campaigns:** Sequence outreach across LinkedIn, Email, and Twitter within a single workflow.\n* **Built-in Campaign Template Library:** Library of pre-built message templates tailored across industries.\n* **Social Media Post Scheduler:** Includes built-in scheduling tools for publishing general content to social media profiles.\n\n#### Pros & Cons\n* **Pros:** Multi-channel coverage; convenient built-in post scheduling; clean management dashboard.\n* **Cons:** Cloud execution requires careful configuration of session limits; message quality depends heavily on custom inputs.\n\n---\n\n### 7. Zopto\n**Best for:** B2B sales teams needing multi-user seats, team dashboards, and dedicated account management.\n\nZopto is an enterprise-oriented cloud tool designed for sales management teams managing multiple rep profiles simultaneously.\n\n#### Key Capabilities\n* **Multi-User Dashboards:** Central management portal to oversee account health, campaigns, and conversions across team members.\n* **Advanced Targeting Options:** Filter prospects by company size, title, seniority level, and active engagement metrics.\n* **Dedicated Account Managers:** Premium plans include dedicated strategic account management and setup assistance.\n\n#### Pros & Cons\n* **Pros:** Built for enterprise teams; robust account safety options for sales organizations; high-level reporting dashboards.\n* **Cons:** Higher price point makes it prohibitive for solo founders, freelancers, or job seekers.\n\n---\n\n### 8. Auxiliary Engagement & Scraping Tools\nDepending on your operational focus, other tools in the ecosystem cater to complementary growth objectives:\n* **PhantomBuster:** Specialized in data extraction, web scraping, and automation workflows. Read our analysis on [Phantombuster Alternatives for Automate Linkedin Comments Safely](https://www.heyjunior.ai/blog/phantombuster-alternatives-for-automate-linkedin-comments-safely) and review [Best Automate Linkedin Comments Safely Tools Beyond Phantombuster](https://www.heyjunior.ai/blog/best-automate-linkedin-comments-safely-tools-beyond-phantombuster).\n* **Taplio / Supergrow:** Content generation engines focused on text creation. See how comment-first tools compare in [Junior vs Taplio for LinkedIn growth](https://www.heyjunior.ai/blog/junior-vs-taplio-for-linkedin-growth), or read [Best AI Tools for Linkedin Commenting Tools Beyond Supergrow](https://www.heyjunior.ai/blog/best-ai-tools-for-linkedin-commenting-tools-beyond-supergrow) and [Best Tools to Find Relevant Linkedin Posts to Comment On Tools Beyond Taplio](https://www.heyjunior.ai/blog/best-tools-to-find-relevant-linkedin-posts-to-comment-on-tools-beyond-taplio).\n\n---\n\n![Feature matrix plotting LinkedIn outreach tools by account safety risk and outreach channel.](https://assets.bevisible.app/inline-images/j578wr5ejqf7vcp8mw21sqjz2s8b408t/inline-2-1786378666745-n2hm1k.png)\n## Comprehensive Feature & Architecture Comparison\n\n| Tool Name | Primary Architecture | Core Outreach Channel | Account Safety Protocol | Best Suited For |\n| :--- | :--- | :--- | :--- | :--- |\n| **Expandi** | Cloud Platform (Dedicated Proxy) | Multi-Channel (LinkedIn DMs + Email) | High (Dedicated Proxy IPs & Warmup) | Mid-market sales teams running structured cold sequences |\n| **Junior** | Local Native App | Public Post Commenting & Thought Leadership | Ultra-High (Local IP execution & natural interaction design) | Consultants, founders, job seekers, and agencies seeking high-intent client discussions |\n| **Octopus CRM** | Browser Extension | Direct Connection DMs & Profile Visits | Moderate (Browser throttling controls) | Solo sales reps needing simple, low-cost outreach management |\n| **LinkedHelper 2** | Local Desktop Application | Custom Direct Messaging & InMail Drips | High (Isolated desktop Chromium session) | Technical power users managing complex multi-step workflows |\n| **Dux-Soup** | Browser Extension | Connection Requests & Profile Views | Moderate (Local browser execution) | Teams needing tight CRM sync (HubSpot/Pipedrive) |\n| **Meet Alfred** | Cloud Platform | Multi-Channel (LinkedIn, Email, X) | Moderate (Cloud session limits) | Multi-channel social selling across multiple networks |\n| **Zopto** | Cloud Platform | LinkedIn Cold InMail & DM Drips | High (Enterprise cloud proxies) | Larger B2B sales teams managing multiple sales seats |\n\n---\n\n## Technical Safety Models: Cloud vs. Browser Extensions vs. Local Desktop\n\nUnderstanding the security risks associated with automated outreach requires analyzing how LinkedIn's detection systems identify suspicious account activity.\n\n![Illustration detailing LinkedIn security detection vectors including IP mismatches and robotic timing patterns.](https://assets.bevisible.app/inline-images/j578wr5ejqf7vcp8mw21sqjz2s8b408t/inline-3-1786378713049-17yoiq.png)\n```\n[ Account Detection Vectors ]\n        \u2502\n        \u251c\u2500\u25ba [ IP Fingerprint Anomalies ] \u2500\u2500> Cloud data center IP switches mid-session\n        \u2502\n        \u251c\u2500\u25ba [ DOM & Automation Hooks ] \u2500\u2500> Generic chrome extension injections detected\n        \u2502\n        \u2514\u2500\u25ba [ Behavioral Spikes ] \u2500\u2500\u2500\u2500\u2500\u2500\u2500> 50 identical messages sent in under 15 minutes\n```\n\n### 1. IP Fingerprinting and Location Switches\nCloud platforms execute actions from server farms located in data centers. When you log into LinkedIn on your phone via a local cellular network while a cloud platform triggers actions from a distant server IP, security algorithms flag the location discrepancy.\n\nTo counter this, platforms like Expandi assign dedicated proxies located near your physical area. However, local applications like **Junior** or **LinkedHelper 2** eliminate IP location jumps completely by running execution locally through your home or office IP address.\n\n### 2. Browser DOM Inspection and Fingerprinting\nLinkedIn's security scripts continuously check browser DOM trees for signatures left by third-party extensions. Basic extensions that inject code directly into native pages can trigger automated detection checks.\n\nLocal native applications run actions within isolated browser instances using natural user simulation, avoiding structural DOM modifications.\n\n### 3. Keystroke and Behavioral Pattern Checks\nHumans scroll irregularly, pause to read content, move their mice naturally, and vary typing speed. Automated scripts that execute actions instantly at fixed intervals stand out immediately. Safe outreach tools use randomized delay distributions, human-like typing engines, and daily action caps.\n\nFor an operational safety checklist, review our guides on [Safe AI engagement on LinkedIn](https://www.heyjunior.ai/blog/safe-ai-engagement-on-linkedin) and the [Automate Linkedin Comments Safely Evaluation Checklist](https://www.heyjunior.ai/blog/automate-linkedin-comments-safely-evaluation-checklist).\n\n---\n\n## Strategic Comparison: Cold InMail Drips vs. Public Comment Engagement\n\nThe traditional outbound model assumes sales pipeline creation requires sending private cold messages to stranger's inboxes. However, comparing cold inbox outreach with strategic public commenting shows a clear shift in performance metrics.\n\n```\n[ Cold DM Approach ] \u2500\u2500> 100 Cold Requests \u2500\u2500> 15 Accepted \u2500\u2500> 1 Generic Reply \u2500\u2500> High Inbox Friction\n\n[ Comment First ]   \u2500\u2500> 10 Public Comments \u2500\u2500> 2,500 Reach \u2500\u2500> 4 Profile Visits \u2500\u2500> 2 Warm Inbound DMs\n```\n\n### The Math Behind Cold Outbound Messaging\n* **100 Connection Requests Sent**\n* **15 to 20 Accepted** (assuming accurate targeting)\n* **2 to 3 Replies** to follow-up messages\n* **0.5 Meetings Booked** per 100 outreach contacts\n* **High Risk Vector:** Multiple recipients clicking \"I don't know this person\", increasing account restriction risks.\n\n### The Math Behind Strategic Public Commenting\n* **10 Contextual Comments Posted** on active, high-visibility industry posts\n* **3,000 to 8,000 Organic Feed Impressions** generated across readers viewing your comment\n* **15 to 30 Profile Visits** from prospects impressed by your insights\n* **2 to 4 Warm Inbound Messages** or connection requests accepted from prospects who initiated contact\n* **Zero Account Risk:** Zero spam flags, as commenting is a natural, encouraged social interaction.\n\n### Scenario: Transitioning from Cold DMs to Comment-Based Engagement\nA B2B cybersecurity consultant sent 150 automated connection requests weekly using standard cloud tools. Over a month, that generated 600 total reachouts, resulting in 90 new connections, 11 inbox responses, and 1 discovery call. Additionally, his account received two temporary warnings regarding connection limit thresholds.\n\nSwitching strategies, he began using **Junior** to monitor posts from target accounts, industry leaders, and potential buyers. Over the next month, Junior identified relevant discussions where he posted thoughtful, contextual comments based on his technical background. \n\nThe outcome:\n* **Total Posts Commented On:** 80\n* **Profile Views Generated:** 420 (a 300% increase)\n* **Inbound Connection Requests Received:** 48 (all warm leads)\n* **Discovery Calls Booked:** 6 (a 6x increase over cold messaging)\n* **Account Safety Warnings:** Zero\n\nBy moving from private inbox intrusions to public market discussions, he built authority while protecting his account health. Review our [AI Tools for Linkedin Commenting Evaluation Checklist](https://www.heyjunior.ai/blog/ai-tools-for-linkedin-commenting-evaluation-checklist) to evaluate engagement setups.\n\n---\n\n## Step-by-Step Decision Framework\n\nUse this structured selection process to determine the optimal Waalaxy alternative for your specific situation.\n\n![Decision tree flowchart guiding the selection of LinkedIn outreach software based on team goals and infrastructure.](https://assets.bevisible.app/inline-images/j578wr5ejqf7vcp8mw21sqjz2s8b408t/inline-4-1786378671146-72dy3t.png)\n```\n                             [ What is your primary growth goal? ]\n                                               \u2502\n                      \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n                      \u25bc                                                 \u25bc\n        [ Bulk Outbound Sequence ]                        [ Authentic Relationship & Warm Pipeline ]\n                      \u2502                                                 \u2502\n          \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510                         \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n          \u25bc                       \u25bc                         \u25bc                       \u25bc\n   (Multi-Channel Team)    (Technical Solo)         (Consultant / Founder)     (Budget Solo Rep)\n          \u2502                       \u2502                         \u2502                       \u2502\n          \u25bc                       \u25bc                         \u25bc                       \u25bc\n     [ Expandi ]         [ LinkedHelper 2 ]             [ Junior ]           [ Octopus CRM ]\n```\n\n### Step 1: Clarify Your Target Persona and Outbound Goals\nIf you are targeting enterprise buyers who ignore cold messages, sending 100 direct messages a week will yield poor results. In high-value, trust-driven markets, shift to strategic public engagement using a tool like **Junior**. If you run transactional B2B sales requiring multi-channel email touches, choose **Expandi**.\n\n### Step 2: Audit Your Risk Tolerance and Account Value\nIs your LinkedIn profile a primary asset with years of audience growth, published content, and business connections? If losing your profile would disrupt your pipeline, avoid cloud extensions using automated message blasts. Choose platforms operating locally on your desktop or solutions focused on public interaction.\n\n### Step 3: Assess Your Infrastructure and Hardware Capabilities\n* If you want sequences running automatically without keeping a computer turned on, choose dedicated cloud options like **Expandi** or **Zopto**.\n* If you prefer local control and native browser IPs, use desktop-native systems like **Junior** or **LinkedHelper 2**.\n\n---\n\n## Frequently Asked Questions\n\n### What is the safest alternative to Waalaxy for preventing account restrictions?\nTools that operate locally on your native desktop IP address (such as **Junior** or **LinkedHelper 2**) carry significantly lower detection risks than cloud-based sequence tools. Furthermore, tools that prioritize public post commenting over automated cold message blasts avoid connection limit flags and spam reports entirely.\n\n### Can I generate sales pipeline on LinkedIn without sending automated cold messages?\nYes. Engaging in public discussions through context-aware commenting attracts prospective buyers to your profile organically. When decision-makers read valuable comments on industry posts, they view your profile and initiate contact, creating warm inbound discussions without cold inbox friction.\n\n### Why do cloud-based outreach tools risk triggering security flags?\nCloud-based platforms execute actions from remote server data centers. If LinkedIn detects an account logging in from a cloud server IP while simultaneously being accessed from a user's mobile device IP, security algorithms flag the location mismatch. Dedicated proxy configurations mitigate this risk, but local desktop execution eliminates it entirely.\n\n### Is dynamic AI messaging effective in cold connection requests?\nWhile dynamic variables (like inserting company names) personalize cold text, prospects easily recognize automated templates. Contextual AI is much more effective when analyzing public posts and drafting tailored comments that demonstrate genuine industry insight.\n\n---\n\n## Operational Action Checklist\n\nWhen transitioning away from Waalaxy, follow this implementation process:\n\n1. **Audit Active Campaigns:** Pause all active cloud drip campaigns and allow your account to reset for 48 hours.\n2. **Clean Prospect Databases:** Export active prospect lists and response tracking data from your current platform.\n3. **Select Architecture Alignment:**\n   * For team-based cold email and LinkedIn drips: Deploy **Expandi**.\n   * For high-trust client acquisition and safe account growth: Deploy **Junior**.\n   * For desktop control and complex customized logic: Deploy **LinkedHelper 2**.\n4. **Establish Conservative Usage Limits:** Set initial daily action throttles to 30\u201350% of maximum allowances for the first 14 days.\n5. **Shift Focus to Public Engagement:** Allocate at least half of your outreach strategy to commenting on industry discussions to build warm inbound lead traffic.", "created_at": "2026-08-10T16:49:23.023160+00:00", "updated_at": "2026-08-10T16:49:23.023168+00:00"};
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js"></script>
+    <script>
+        function looksLikeHtml(content) {
+            return /<\/?[a-z][\s\S]*>/i.test(content);
+        }
+
+        function escapeHtml(content) {
+            return content
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function formatPlainText(content) {
+            return content
+                .split(/\n{2,}/)
+                .map(paragraph => `<p>${escapeHtml(paragraph).replace(/\n/g, '<br>')}</p>`)
+                .join('');
+        }
+
+        function renderArticleBody(rawContent) {
+            const content = (rawContent || '').trim();
+            if (!content) {
+                return '<p>This article has no content yet.</p>';
+            }
+
+            if (looksLikeHtml(content)) {
+                if (window.DOMPurify) {
+                    return window.DOMPurify.sanitize(content);
+                }
+                return content;
+            }
+
+            if (window.marked) {
+                const markdownHtml = window.marked.parse(content, {
+                    gfm: true,
+                    breaks: true,
+                    mangle: false,
+                    headerIds: true
+                });
+                if (window.DOMPurify) {
+                    return window.DOMPurify.sanitize(markdownHtml);
+                }
+                return markdownHtml;
+            }
+
+            return formatPlainText(content);
+        }
+
+        function createShareButtons(url, title, position) {
+            const encodedUrl = encodeURIComponent(url);
+            const encodedTitle = encodeURIComponent(title);
+            
+            const buttons = [
+                {
+                    name: 'LinkedIn',
+                    url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>'
+                },
+                {
+                    name: 'X',
+                    url: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>'
+                },
+                {
+                    name: 'Facebook',
+                    url: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>'
+                },
+                {
+                    name: 'WhatsApp',
+                    url: `https://api.whatsapp.com/send?text=${encodedTitle}%20${encodedUrl}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>'
+                },
+                {
+                    name: 'Reddit',
+                    url: `https://reddit.com/submit?url=${encodedUrl}&title=${encodedTitle}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.688-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg>'
+                },
+                {
+                    name: 'Email',
+                    url: `mailto:?subject=${encodedTitle}&body=${encodedUrl}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>'
+                }
+            ];
+
+            let html = `<div class="share-row ${position === 'top' ? 'top-share' : ''}">`;
+            
+            buttons.forEach(btn => {
+                html += `<a href="${btn.url}" target="_blank" rel="noopener noreferrer" class="share-button" data-cta="share-${position}-${btn.name.toLowerCase()}">
+                    ${btn.icon} ${btn.name}
+                </a>`;
+            });
+
+            html += `<button class="share-button" onclick="navigator.clipboard.writeText('${url.replace(/'/g, "\\'")}'); alert('Link copied to clipboard!');" data-cta="share-${position}-copy">
+                <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg> Copy Link
+            </button>`;
+
+            if (navigator.share) {
+                html += `<button class="share-button" onclick="navigator.share({title: '${title.replace(/'/g, "\\'")}', url: '${url.replace(/'/g, "\\'")}'}).catch(console.error);" data-cta="share-${position}-native">
+                    <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg> Share
+                </button>`;
+            }
+
+            html += `</div>`;
+            return html;
+        }
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            const container = document.getElementById('article-content');
+            
+            try {
+                let post;
+                
+                // If we have injected data (static page), use it directly
+                if (window.__INITIAL_ARTICLE_DATA__) {
+                    post = window.__INITIAL_ARTICLE_DATA__;
+                } else {
+                    // Otherwise, we are on the dynamic route, fetch from API
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const slug = urlParams.get('slug');
+                    
+                    if (!slug) {
+                        throw new Error('Article not found.');
+                    }
+                    
+                    // Redirect to the new static URL format
+                    window.location.replace(`/blog/${slug}/`);
+                    return;
+                }
+                
+                document.title = `${post.title} - Junior`;
+                
+                const date = new Date(post.published_at).toLocaleDateString();
+                
+                let html = `
+                    <header class="article-header">
+                        <h1 class="article-title">${post.title}</h1>
+                        <div class="article-meta">Published on ${date}</div>
+                    </header>
+                `;
+
+                const shareUrl = window.location.href;
+                html += createShareButtons(shareUrl, post.title, 'top');
+                
+                if (post.featured_image_url) {
+                    html += `<img src="${post.featured_image_url}" alt="${post.title}" class="article-featured-image">`;
+                }
+                
+                html += `
+                    <div class="article-content">
+                        ${renderArticleBody(post.content)}
+                    </div>
+                `;
+                
+                html += createShareButtons(shareUrl, post.title, 'bottom');
+                
+                container.innerHTML = html;
+            } catch (err) {
+                container.innerHTML = `<p>${err.message}</p>`;
+                console.error(err);
+            }
+        });
+    </script>
+</body>
+</html>
