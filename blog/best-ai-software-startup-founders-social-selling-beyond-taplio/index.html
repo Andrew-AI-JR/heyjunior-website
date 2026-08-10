@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article - Junior</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <script defer src="../../js/analytics.js"></script>
+    <script src="../../js/api-config.js"></script>
+    <style>
+        .article-container {
+            max-width: 860px;
+            margin: 48px auto;
+            padding: 0 20px;
+        }
+        .article-header {
+            margin-bottom: 32px;
+        }
+        .article-title {
+            font-size: clamp(2rem, 3vw, 2.9rem);
+            margin-bottom: 14px;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            color: #020617;
+        }
+        .article-meta {
+            color: #64748b;
+            font-size: 0.97rem;
+            font-weight: 500;
+        }
+        .article-featured-image {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            margin-bottom: 32px;
+        }
+        .article-content {
+            max-width: 72ch;
+            font-size: clamp(1.06rem, 1.2vw, 1.2rem);
+            line-height: 1.85;
+            color: #1f2937;
+        }
+        .article-content > *:first-child {
+            margin-top: 0;
+        }
+        .article-content > *:last-child {
+            margin-bottom: 0;
+        }
+        .article-content h2 {
+            margin-top: 2.1em;
+            margin-bottom: 0.8em;
+            line-height: 1.25;
+            letter-spacing: -0.01em;
+            color: #020617;
+        }
+        .article-content h3 {
+            margin-top: 1.7em;
+            margin-bottom: 0.65em;
+            line-height: 1.3;
+            letter-spacing: -0.005em;
+            color: #1e293b;
+        }
+        .article-content h4 {
+            margin-top: 1.4em;
+            margin-bottom: 0.55em;
+            line-height: 1.35;
+            color: #334155;
+        }
+        .article-content p {
+            margin: 0 0 1.3em;
+        }
+        .article-content ul,
+        .article-content ol {
+            margin: 0 0 1.3em 1.35em;
+            padding: 0;
+        }
+        .article-content li {
+            margin-bottom: 0.45em;
+        }
+        .article-content strong {
+            color: #0f172a;
+        }
+        .article-content a {
+            color: #1d4ed8;
+            text-decoration-thickness: 0.08em;
+            text-underline-offset: 0.16em;
+        }
+        .article-content blockquote {
+            margin: 0 0 1.5em;
+            padding: 0.9em 1.1em;
+            border-left: 4px solid #94a3b8;
+            color: #334155;
+            background: #f8fafc;
+            border-radius: 8px;
+        }
+        .article-content pre {
+            overflow-x: auto;
+            padding: 14px;
+            border-radius: 8px;
+            background: #0f172a;
+            color: #e2e8f0;
+            margin-bottom: 1.5em;
+            font-size: 0.93em;
+            line-height: 1.6;
+        }
+        .article-content code {
+            font-family: Consolas, "SFMono-Regular", Menlo, Monaco, monospace;
+            font-size: 0.95em;
+            background: #f1f5f9;
+            padding: 0.12em 0.35em;
+            border-radius: 4px;
+        }
+        .article-content pre code {
+            background: transparent;
+            padding: 0;
+        }
+        .article-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5em;
+            display: block;
+            overflow-x: auto;
+        }
+        .article-content th,
+        .article-content td {
+            border: 1px solid #cbd5e1;
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        .article-content th {
+            background: #f8fafc;
+            color: #0f172a;
+        }
+        .article-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin: 0.6em 0 1.3em;
+        }
+        .article-content hr {
+            border: none;
+            border-top: 1px solid #e2e8f0;
+            margin: 2em 0;
+        }
+        .article-content figure {
+            margin: 0 0 1.5em;
+        }
+        .article-content figcaption {
+            color: #64748b;
+            font-size: 0.92em;
+            margin-top: 0.55em;
+        }
+        .article-loading {
+            text-align: center;
+            padding: 40px;
+            color: #64748b;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 24px;
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        .share-row {
+            display: flex;
+            gap: 12px;
+            margin: 24px 0;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .share-row.top-share {
+            margin-top: 16px;
+            margin-bottom: 0;
+        }
+        .share-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-decoration: none;
+            color: #334155;
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .share-button:hover {
+            background: #e2e8f0;
+            color: #0f172a;
+            border-color: #cbd5e1;
+            text-decoration: none;
+        }
+        .share-button svg {
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+            fill: currentColor;
+        }
+        @media (max-width: 768px) {
+            .article-container {
+                margin: 28px auto;
+                padding: 0 16px;
+            }
+            .article-header {
+                margin-bottom: 24px;
+            }
+            .article-content {
+                font-size: 1.04rem;
+                line-height: 1.75;
+            }
+            .article-content table {
+                font-size: 0.93rem;
+            }
+            .article-content pre {
+                padding: 12px;
+            }
+        }
+    </style>
+
+    <link rel="canonical" href="https://heyjunior.ai/blog/best-ai-software-startup-founders-social-selling-beyond-taplio/">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://heyjunior.ai/blog/best-ai-software-startup-founders-social-selling-beyond-taplio/">
+    <meta property="og:title" content="Best AI Software for Startup Founders Doing Social Selling Tools Beyond Taplio">
+    <meta property="og:description" content="Explore top AI software beyond Taplio for startup founders. Build a safe, context-aware social selling stack that turns LinkedIn comments into qualified pipeline.">
+    <meta property="og:image" content="https://assets.bevisible.app/featured-images/j5752gac40f8nxa7gmszqyehx58aj802/best-ai-software-for-startup-founders-doing-social-1786198737537-cr3af4.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://heyjunior.ai/blog/best-ai-software-startup-founders-social-selling-beyond-taplio/">
+    <meta name="twitter:title" content="Best AI Software for Startup Founders Doing Social Selling Tools Beyond Taplio">
+    <meta name="twitter:description" content="Explore top AI software beyond Taplio for startup founders. Build a safe, context-aware social selling stack that turns LinkedIn comments into qualified pipeline.">
+    <meta name="twitter:image" content="https://assets.bevisible.app/featured-images/j5752gac40f8nxa7gmszqyehx58aj802/best-ai-software-for-startup-founders-doing-social-1786198737537-cr3af4.png">
+    
+</head>
+<body data-page="article" class="i18n-ready">
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <a href="../../index.html"><img src="../../images/junior-logo.png" alt="Junior Logo" class="logo-img"></a>
+            </div>
+            <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <div class="nav-group">
+                    <li><a href="../../index.html#use-cases">Use Cases</a></li>
+                    <li><a href="../../index.html#features">Features</a></li>
+                    <li><a href="../../why-commenting-works.html">Why Commenting Works</a></li>
+                    <li><a href="../../blog.html">Blog</a></li>
+                    <li><a href="../../try-it.html">Try It</a></li>
+                
+                    <li><a href="../../blog.html">Blog</a></li></div>
+                <div class="nav-actions">
+                    <li><a href="../../register.html?src=article-nav" class="cta-button">Start Free</a></li>
+                    <li><a href="../../portal.html" class="nav-login-link">Login</a></li>
+                </div>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="article-container" style="padding-top: 120px;">
+        <a href="../../blog.html" class="back-link">← Back to Blog</a>
+        
+        <div id="article-content">
+            <div class="article-loading">Loading article...</div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Junior. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        window.__INITIAL_ARTICLE_DATA__ = {"id": 67, "slug": "best-ai-software-startup-founders-social-selling-beyond-taplio", "title": "Best AI Software for Startup Founders Doing Social Selling Tools Beyond Taplio", "excerpt": "Explore top AI software beyond Taplio for startup founders. Build a safe, context-aware social selling stack that turns LinkedIn comments into qualified pipeline.", "featured_image_url": "https://assets.bevisible.app/featured-images/j5752gac40f8nxa7gmszqyehx58aj802/best-ai-software-for-startup-founders-doing-social-1786198737537-cr3af4.png", "published_at": "2026-08-08T14:00:00+00:00", "content": "# Best AI Software for Startup Founders Doing Social Selling Tools Beyond Taplio\n\nMost B2B startup founders who attempt social selling on LinkedIn follow a predictable playbook: they sign up for Taplio, schedule four AI-generated posts every week, monitor their impression charts, and wait for inbound leads to arrive in their inbox. Three months later, they find themselves with thousands of post views, dozens of likes from fellow founders, and precisely zero qualified discovery calls.\n\nBroadcasting content is only twenty percent of social selling. The remaining eighty percent happens in the comments section of your ideal prospects, inside relevant industry discussions, and through targeted conversations that turn public visibility into private pipeline.\n\nWhile Taplio excels as a personal branding calendar and content drafting assistant, it was never designed to be an end-to-end social selling engine. Founders who rely on Taplio alone suffer from a critical execution gap: they publish broadcast content into an empty room while their buyers are actively discussing real pain points elsewhere on the platform.\n\nBuilding a predictable social selling motion requires moving beyond basic scheduling tools. Startup founders need specialized AI software that identifies intent signals, engages buyers through context-aware public dialogue, protects personal account safety, and systematically moves warm interactions into direct sales conversations.\n\n---\n\n## Why Taplio Fall Short for Founders Generating Direct Pipeline\n\nTo understand why Taplio is insufficient for pipeline creation, you have to look at the functional difference between personal branding and social selling. Personal branding focuses on reach, followers, and broad topical authority. Social selling focuses on account coverage, prospect engagement, and conversion speed.\n\nTaplio relies primarily on scheduled posting, carousel builders, hook generators, and general account analytics. When founders treat Taplio as their entire LinkedIn toolkit, several systemic breakdowns occur:\n\n1. **Broadcast Friction:** Writing posts about your startup journey builds audience affinity over time, but it rarely forces an executive decision-maker to raise their hand today.\n2. **Generic Audience Engagement:** Taplio offers basic comment generation, but its workflows focus on engaging with your existing feed rather than systematically seeking out high-value posts written by target accounts.\n3. **Over-reliance on Cold Outreach:** Because Taplio does not generate direct public conversations with new prospects, founders often compensate by pairing it with cloud-based cold connection software. This exposes their personal LinkedIn accounts to severe platform restrictions.\n\nA study analyzing modern LinkedIn sales architectures highlighted that founders who rely exclusively on broadcast content take three times longer to generate their first ten sales pipeline opportunities compared to founders who actively participate in targeted buyer discussions [[10 Best AI Tools for LinkedIn Social Selling in 2026](https://thegro.ai/explore/en/list/10-best-ai-tools-for-linkedin-social-selling-in-2026?utm_source=chatgpt.com)].\n\n```\n  +-----------------------------------------------------------------------+\n  |                   THE BRANDING VS. SELLING TRAP                       |\n  +-----------------------------------------------------------------------+\n  |                                                                       |\n  |   TAPLIO ONLY (Personal Branding Focus)                               |\n  |   [Draft Post] ---> [Schedule] ---> [Broadcast to Feed]               |\n  |                                           |                           |\n  |                                           v                           |\n  |                          High Impressions / Zero Pipeline             |\n  |                                                                       |\n  |   MODERN SOCIAL SELLING STACK (Pipeline Focus)                        |\n  |   [Discover Buyer Posts] ---> [Strategic AI Commenting]               |\n  |                                           |                           |\n  |                                           v                           |\n  |   [Profile Visit] ---> [Warm DM] ---> [Qualified Demo Call]          |\n  |                                                                       |\n  +-----------------------------------------------------------------------+\n```\n\nAs highlighted in recent SaaS industry discussions on revenue generation, treating LinkedIn merely as an online resume or broadcast channel leaves immense pipeline on the table [[SaaS Founder LinkedIn Strategy](https://www.reddit.com/r/SaaS/comments/1ticj3j/its_2026_and_most_saas_founders_still_treat/?utm_source=chatgpt.com)]. Early-stage founders need software that automates the tedious work of prospect monitoring and comment drafting without sacrificing account safety or authentic domain expertise.\n\n---\n\n## The 4 Pillars of a Founder-Led AI Social Selling Stack\n\nA complete AI social selling architecture split into four distinct layers. Instead of trying to find a single tool that handles everything poorly, successful founders assemble a focused stack where each application handles a specific stage of the deal pipeline.\n\n![Excalidraw style diagram illustrating the four pillars of a founder led AI social selling stack.](https://assets.bevisible.app/inline-images/j5752gac40f8nxa7gmszqyehx58aj802/inline-1-1786198670169-khq67y.png)\n### 1. Intent Signal & Post Discovery\nBefore you can engage a prospect, you must know where they are speaking. Discovery tools monitor specific keywords, industry hashtags, key account profiles, and competitor posts to alert you when target buyers ask for recommendations or express active frustration with current solutions.\n\n### 2. Context-Aware AI Engagement\nOnce a relevant post is discovered, generic comments like \"Great insights!\" or \"Thanks for sharing!\" destroy founder credibility. You need AI software capable of ingesting the post's full context, reading your personal bio and startup positioning, and drafting a point-of-view comment that adds real technical or strategic value.\n\n### 3. Account-Safe Execution Architecture\nLinkedIn strictly monitors automated account activity. Cloud-based tools that send requests from remote data centers trigger anti-bot security systems. Founders require tools that execute actions locally on their own devices, mirroring human interaction patterns to safeguard their primary business assets.\n\n### 4. Direct Relationship & Deal Tracking\nComments spark initial visibility, but sales require tracking who responded, who viewed your profile, and when to send a warm direct message. Relationship management tools pull these social interactions into a clean pipeline view so zero warm conversations drop through the cracks.\n\n---\n\n## The Best AI Tools Beyond Taplio for Startup Founders\n\nTo build an engine that actually produces booked demos and client pipeline, founders should evaluate specialized tools designed for each step of the social selling journey.\n\n```\n+-------------------+--------------------------------+--------------------------------+\n| Tool              | Primary Role in Stack          | Key Advantage for Founders     |\n+-------------------+--------------------------------+--------------------------------+\n| Junior            | Strategic Public Commenting    | Local execution, bio-grounded  |\n|                   | & Conversation Starter         | contextual replies             |\n\n+-------------------+--------------------------------+--------------------------------+\n| AuthoredUp        | Post Formatting & Analytics    | Deep hook and preview editing  |\n|                   |                                | for rich native publishing     |\n\n+-------------------+--------------------------------+--------------------------------+\n| folk CRM          | LinkedIn Pipeline Management   | Light CRM tailored to social   |\n|                   |                                | contacts & relationship stages |\n\n+-------------------+--------------------------------+--------------------------------+\n| Sales Navigator   | Account & Prospect Filtering   | Precise ICP filtering and      |\n|                   |                                | buyer intent tracking          |\n\n+-------------------+--------------------------------+--------------------------------+\n| LeadDelta         | Connection Network Cleanup     | Tagging, filtering, and inbox  |\n|                   |                                | management for 1st-degree network|\n\n+-------------------+--------------------------------+--------------------------------+\n```\n\n### 1. Junior: Best for Strategic Public Commenting and Safe Pipeline Building\n\n[Junior](https://www.heyjunior.ai/) is an AI-powered LinkedIn automation platform engineered specifically to start authentic business conversations through strategic post commenting rather than generic spam. \n\nFor startup founders who need to build trust without spending four hours a day manually scanning feeds, Junior fills the gap that Taplio leaves open. Instead of firing off cold DMs that get flagged as spam or scheduling broadcast posts that get ignored, Junior helps you show up inside high-intent conversations where your prospective buyers are already active.\n\n```\n  +-----------------------------------------------------------------------+\n  |                    JUNIOR CONTEXTUAL ENGAGEMENT ENGINE                |\n  +-----------------------------------------------------------------------+\n  |                                                                       |\n  |  [ Target Prospect Post ]                                             |\n  |  \"We are struggling to scale our outbound pipeline without spam.\"    |\n  |                                                                       |\n  |  [ Founder Context Engine ]                                           |\n  |  Inputs: Startup Bio + Value Proposition + Tone + Local Execution     |\n  |                                                                       |\n  |  [ Junior Drafted Reply ]                                             |\n  |  \"The biggest bottleneck usually isn't list size\u2014it's jumping into    |\n  |   public context before hit send on cold DMs. Moving engagement to    |\n  |   prospect posts doubled our warm response rates last quarter.\"       |\n  |                                                                       |\n  +-----------------------------------------------------------------------+\n```\n\n#### Key Capabilities for Founders\n* **Context-Aware Comment Generation:** Junior ingests your personal background, company value proposition, and founder goals. It uses this context to draft thoughtful replies that sound like a seasoned industry expert rather than an automated bot.\n* **Local Machine Execution:** Unlike cloud-based connection tools that log into your LinkedIn account from distant server farms, Junior runs locally on your machine. It utilizes natural browser interaction patterns, protecting your profile from detection, search throttling, or account suspension.\n* **Warm Lead Conversion:** By providing insightful comments on targeted posts, Junior drives prospects to visit your founder profile and initiate warm direct messages. This bypasses crowded inboxes completely.\n\nTo see how Junior compares against content-focused platforms, review our detailed guide on [Junior vs Taplio for LinkedIn growth](https://www.heyjunior.ai/blog/junior-vs-taplio-for-linkedin-growth).\n\n### 2. AuthoredUp: Best for Content Formatting and Deep Post Analytics\n\nWhile Taplio offers post creation tools, founders who take content presentation seriously often migrate to AuthoredUp. AuthoredUp acts as a specialized workspace directly inside your browser, giving you real-time visual previews of how your posts will render across mobile, tablet, and desktop feeds.\n\n#### Why Founders Pair It with Engagement Tools\n* **Hook and Formatting Precision:** You can test bolding, bullet structures, and hook line breaks before hitting publish to maximize visual retention in the feed.\n* **Historical Analytics Comparison:** AuthoredUp provides detailed post readability scores and historical performance overlays, allowing you to see which post formats consistently trigger high comment counts.\n* **Content Draft Management:** It functions as a flexible scratchpad for capturing quick thoughts and turning them into polished long-form posts without clunky interface switching.\n\nFounders looking to expand their feed-monitoring toolkit can read our analysis on the [Best Tools to Find Relevant Linkedin Posts to Comment On Tools Beyond Taplio](https://www.heyjunior.ai/blog/best-tools-to-find-relevant-linkedin-posts-to-comment-on-tools-beyond-taplio).\n\n### 3. folk CRM & LeadDelta: Best for Relationship Tracking and Network Organization\n\nSocial selling falls apart if you cannot track who responded to your comments or engaged with your profile. Standard CRM platforms like Salesforce or HubSpot are often too heavy for founders managing early social conversations. Lightweight tools like folk CRM and LeadDelta solve this specific bottleneck.\n\n```\n  +-----------------------------------------------------------------------+\n  |                   SOCIAL PIPELINE STAGING WORKFLOW                    |\n  +-----------------------------------------------------------------------+\n  |                                                                       |\n  |   STAGE 1: Public Engagement (Junior)                                 |\n  |   Target prospect commented back on an industry thread                |\n  |                                                                       |\n  |   STAGE 2: Tag & Organize (LeadDelta)                                 |\n  |   Profile categorized under \"Q3 Target Accounts - SaaS\"               |\n  |                                                                       |\n  |   STAGE 3: Contextual CRM Pipeline (folk CRM)                         |\n  |   Moved to \"Warm Outreach Sent\" after initial profile visit           |\n  |                                                                       |\n  |   STAGE 4: Discovery Call Booked                                      |\n  |   Transitioned to primary sales CRM or calendar link                 |\n  |                                                                       |\n  +-----------------------------------------------------------------------+\n```\n\n#### Key Capabilities for Founders\n* **Contact Enrichment:** Import LinkedIn profile details, past conversation notes, and company data into custom CRM views with a single click.\n* **Tagging and Segmentation:** Group your 1st-degree connections by industry, buyer persona, warm engagement stage, or funding status.\n* **Inbox Streamlining:** Replace LinkedIn's native messenger with a structured inbox that lets you set follow-up reminders and track response statuses.\n\n### 4. LinkedIn Sales Navigator & Apollo.io: Best for Precision ICP Targeting\n\nFinding the right posts to engage with requires knowing exactly who your ideal customers are. LinkedIn Sales Navigator remains the industry standard for database accuracy, while Apollo.io adds deep contact enrichment and intent filters.\n\n#### How to Use Them in a Social Selling Engine\n* **Account Saved Lists:** Create targeted account lists of companies that match your exact size, funding stage, and technology stack.\n* **Lead Activity Alerts:** Configure Sales Navigator alerts to notify you whenever executive decision-makers at target accounts publish a new post, share an update, or change roles.\n* **Cross-Referencing Contact Data:** Use Apollo.io to pull company structural data, verifying that the person posting on LinkedIn holds actual budget-buying authority.\n\nFor additional insight into selecting software that fits your current operational scale, consult our breakdown of the [Best LinkedIn engagement tools 2026](https://www.heyjunior.ai/blog/best-linkedin-engagement-tools-2026).\n\n---\n\n## Comparing Taplio to Modern Founder Social Selling Software\n\nEvaluating software requires examining how each tool handles specific execution criteria. The comparison table below breaks down popular tools across core social selling dimensions.\n\n| Feature / Criteria | Taplio | Junior | folk CRM | Dripify / Cloud Bots |\n| :--- | :--- | :--- | :--- | :--- |\n| **Primary Focus** | Content generation & scheduling | Context-aware post engagement | Contact pipeline & contact organization | Automated connection requests & cold DMs |\n| **Lead Sourcing Method** | Inbound views on broadcast posts | Strategic public comment discovery | Import of engaged connections | Scraped profile lists |\n| **AI Personalization** | Generalized post writing prompts | Bio & goal-grounded post comments | Template-assisted messaging | Simple field insertion tags (`{first_name}`) |\n| **Account Safety Profile** | Low risk (Uses official scheduling APIs) | **Minimal risk (Runs locally on browser)** | Zero risk (Data management overlay) | High risk (Triggers cloud IP & pattern flags) |\n| **Foundational Selling Value** | Personal brand consistency | Direct conversation generation | Deal flow tracking | High-volume connection outreach |\n| **Ideal User Persona** | Creators & solo consultants | Founders, agencies, & sales reps | Founders & relationship managers | Outbound SDR teams |\n\n---\n\n## Why Strategic Commenting Beats Cold Outreach for Early Founders\n\nEarly-stage founders often fall into the trap of launching high-volume cold DM campaigns. They buy scrapers, load hundreds of profiles into automation tools like Dripify or PhantomBuster, and broadcast identical pitches.\n\nThis approach fails because buyer behavior has changed. Decision-makers receive dozens of automated DMs daily. Spam filters have tightened, and trust in uninvited messages is at an all-time low [[12 Best Social Selling Tools for LinkedIn in 2026](https://connectsafely.ai/articles/best-social-selling-tools-linkedin-2026?utm_source=chatgpt.com)].\n\n```\n  +-----------------------------------------------------------------------+\n  |                     COLD DM VS. PUBLIC ENGAGEMENT                     |\n  +-----------------------------------------------------------------------+\n  |                                                                       |\n  |   COLD OUTREACH PATHWAY (Low Trust, High Friction)                    |\n  |   Scrape Profile ---> Unsolicited DM ---> Ignored / Account Flagged    |\n  |                                                                       |\n  |   PUBLIC ENGAGEMENT PATHWAY (High Trust, Low Friction)                |\n  |   Find Active Buyer Post ---> Add High-Value Context Comment          |\n  |                                          |                            |\n  |                                          v                            |\n  |   Prospect Likes Comment ---> Profile Visit ---> Warm Inbound Inquiry |\n  |                                                                       |\n  +-----------------------------------------------------------------------+\n```\n\n### The \"Public Handshake\" Advantage\nCommenting on a prospect's public post operates like a public handshake at an industry conference. When you leave a thoughtful comment that expands on their point or offers a unique perspective:\n\n1. **You Provide Immediate Value:** You contribute positively to their post reach and discussion thread.\n2. **You Capture Peer Visibility:** Every other executive, team member, and potential customer reading that post sees your insight.\n3. **You Trigger Organic Curiosity:** The prospect naturally clicks on your profile to see who left the comment. When your profile is optimized with clear offer messaging, that view turns into a warm inbound inquiry.\n\nTo explore how commenting outpaces legacy outreach mechanics, read our strategic comparison on [Junior vs Dripify: finding consulting clients without automated messaging](https://www.heyjunior.ai/blog/junior-vs-dripify-finding-consulting-clients-without-automated-messaging).\n\n### Busting the Myth: \"AI Comments Are Just Generic Spam\"\nMany founders worry that using AI for commenting will produce robotic, low-quality responses like \"Awesome post!\" or \"Totally agree!\" \n\nThat reputation stems from low-tier tools that generate generic text based purely on post titles. Advanced tools like Junior approach generation fundamentally differently:\n\n* **Bio-Grounded Prompting:** The AI engine merges the post content with your personal founder bio, domain history, and product context.\n* **Goal-Oriented Stance:** You set explicit intent instructions, such as asking an insightful question, sharing a subtle counter-example, or adding technical nuance.\n* **Human-in-the-Loop Control:** Drafts appear right inside your browser interface, letting you review, tweak, or approve every response before posting.\n\nTo learn more about implementing safe AI interactions, check out our guide on [Safe AI engagement on LinkedIn](https://www.heyjunior.ai/blog/safe-ai-engagement-on-linkedin) and explore [Best AI Tools for Linkedin Commenting Tools Beyond Supergrow](https://www.heyjunior.ai/blog/best-ai-tools-for-linkedin-commenting-tools-beyond-supergrow).\n\n---\n\n## The Architecture of Account Safety: Local Execution vs. Cloud Automation\n\nIf you are using AI software for social selling, understanding the technical execution architecture is essential. The primary reason founders lose access to their LinkedIn accounts is not what they write, but *where and how* their tools execute actions.\n\n![Diagram comparing high risk cloud automation versus safe local browser execution architecture for LinkedIn safety.](https://assets.bevisible.app/inline-images/j5752gac40f8nxa7gmszqyehx58aj802/inline-2-1786198669394-h2947z.png)\n### Cloud-Based Automation Risks\nLegacy automation software runs on cloud servers hosted in distant data centers. When you connect your LinkedIn account to a cloud tool:\n\n* The platform logs into your account from an IP address in a completely different city or country.\n* Actions run continuously in the background, even when your computer is powered down.\n* Automation tools bypass natural browser canvas renderings, creating distinct browser fingerprint patterns that LinkedIn's security algorithms detect immediately.\n\nThis exposure results in account warnings, restricted search visibility, forced identity verification, or permanent account deletion.\n\n```\n  +-----------------------------------------------------------------------+\n  |              CLOUD BOT VS. LOCAL BROWSER ARCHITECTURE                 |\n  +-----------------------------------------------------------------------+\n  |                                                                       |\n  |   CLOUD AUTOMATION (HIGH RISK)                                        |\n  |   [Cloud Data Center] ---> Remote IP Mismatch ---> LinkedIn Security   |\n  |                                                            |          |\n  |                                                            v          |\n  |                                                    Account Flagged    |\n  |                                                                       |\n  |   LOCAL EXECUTION (SAFE)                                              |\n  |   [Your Computer] ---> Local Browser Session ---> Native LinkedIn API |\n  |                                                            |          |\n  |                                                            v          |\n  |                                                    Authentic Activity |\n  |                                                                       |\n  +-----------------------------------------------------------------------+\n```\n\n### Local Machine Browser Architecture\nModern tools like Junior use a local browser architecture. The software operates as a extension directly within your active browser session on your personal machine.\n\n1. **Natural IP Profile:** Every request originates from your standard residential or office IP address.\n2. **Authentic Session Cookies:** The tool uses your existing, active session tokens rather than generating isolated login attempts.\n3. **Human Behavioral Pauses:** Actions execute using natural delay distributions, mimicking realistic human reading, typing, and clicking behaviors.\n\nFor a deeper dive into safe account mechanics, review our guides on [Phantombuster Alternatives for Automate Linkedin Comments Safely](https://www.heyjunior.ai/blog/phantombuster-alternatives-for-automate-linkedin-comments-safely) and [Best Automate Linkedin Comments Safely Tools Beyond Phantombuster](https://www.heyjunior.ai/blog/best-automate-linkedin-comments-safely-tools-beyond-phantombuster).\n\n---\n\n## Real-World Case Example: How an Early-Stage SaaS Founder Generated 14 Discovery Calls in 30 Days\n\nConsider the experience of an early-stage B2B SaaS founder building dev-tool infrastructure. \n\n### The Problem\nThe founder had been using Taplio to post three times a week for two months. While the posts received positive comments from developer friends, the founder struggled to convert those views into enterprise trial signups. Cold outbound emails yielded less than a 1% response rate, and connection requests were frequently rejected.\n\n### The Strategy Shift\nThe founder shifted strategy from pure broadcast posting to strategic public engagement, building a lightweight social selling workflow:\n\n1. **ICP Monitoring:** Configured daily alerts for posts containing terms like \"CI/CD bottleneck,\" \"developer experience,\" and \"build times.\"\n2. **Contextual AI Commenting:** Deployed Junior to scan daily discussions and draft technical, bio-grounded replies explaining how specific build configurations impact deployment velocity.\n3. **Profile Optimization:** Redesigned their LinkedIn banner and headline to direct profile visitors to a 2-minute interactive platform demo.\n4. **Relationship Pipeline Tracking:** Added every executive who replied to a comment into folk CRM to track follow-up conversations.\n\n```\n  +-----------------------------------------------------------------------+\n  |                    30-DAY SOCIAL SELLING CAMPAIGN METRICS             |\n  +-----------------------------------------------------------------------+\n  |                                                                       |\n  |  Targeted Comments Published:       140 (approx. 5/day)               |\n  |  Prospect Comment Replies Received:   58 (41.4% engagement rate)       |\n  |  Founder Profile Views Generated:   380 (+210% vs baseline)           |\n  |  Warm Profile-Initiated DMs:        22 conversations                  |\n  |  Qualified Discovery Calls Booked:  14 booked calls                   |\n  |                                                                       |\n  +-----------------------------------------------------------------------+\n```\n\n### The Result\nBy participating in conversations prospects were already having, the founder booked 14 discovery calls in 30 days without sending a single cold connection message.\n\n---\n\n## Step-by-Step Guide: Setting Up a 30-Minute Daily Founder Social Selling Routine\n\nFounders do not have hours to waste scrolling social media feeds. The system below organizes your daily social selling routine into a focused 30-minute block.\n\n![Time breakdown visual showing a 30 minute daily social selling routine for startup founders.](https://assets.bevisible.app/inline-images/j5752gac40f8nxa7gmszqyehx58aj802/inline-3-1786198661711-q83itk.png)\n```\n+------------------+------------------------------------------------------+\n| Time Investment  | Specific Operational Action                          |\n+------------------+------------------------------------------------------+\n| Minutes 00 - 05  | Open discovery feeds and review targeted posts       |\n+------------------+------------------------------------------------------+\n| Minutes 05 - 20  | Generate, review, and publish 5-8 bio-grounded AI   |\n|                  | comments using Junior                                |\n\n+------------------+------------------------------------------------------+\n| Minutes 20 - 25  | Check profile views, incoming comment replies, and   |\n|                  | warm DMs                                             |\n\n+------------------+------------------------------------------------------+\n| Minutes 25 - 30  | Update relationship CRM (folk CRM/LeadDelta) and     |\n|                  | send follow-up details to engaged contacts           |\n\n+------------------+------------------------------------------------------+\n```\n\n### Step 1: Establish Your Positioning Inputs\nBefore launching your AI engagement software, define your foundational context. Input your detailed background, company product vision, target market pain points, and conversion goals into your AI tool. This ensures generated comments reflect true domain expertise rather than generic praise.\n\n### Step 2: Build High-Intent Post Discovery Lists\nSet up saved searches and monitoring feeds for three specific categories:\n* **Peer and Industry Leaders:** Posts written by respected figures in your market sector where your prospective buyers leave comments.\n* **Problem-Based Keywords:** Searches tracking active questions or complaints regarding industry challenges your product solves.\n* **Target Account Profiles:** Direct post feeds of decision-makers at target companies on your target account list.\n\n### Step 3: Run Contextual Engagement Cycles\nOpen your engagement workspace daily. Allow your AI engine to scan discovered posts and generate context-driven comment drafts. \n\nRead through each draft, confirm it aligns with your technical stance, make quick personal edits, and approve the output. Aim to leave five to eight high-value comments every morning.\n\n### Step 4: Convert Profile Traffic into Warm DMs\nWhen prospects engage with your comments or visit your profile, send a personalized direct message referencing the public conversation:\n\n> *\"Hey [Name], loved your point on [Topic] on [Author's] post earlier. We have been seeing a lot of teams tackle that exact constraint by adjusting their staging environments. Curious if you are seeing that same pattern across your team?\"*\n\nBecause you are referencing a shared, public context, warm message acceptance rates regularly exceed 60%.\n\n### Step 5: Log Activity and Track Lead Progression\nTag new contacts in LeadDelta or folk CRM. Move them through structured pipeline stages from \"Initial Comment\" to \"Warm Conversation\" to \"Discovery Scheduled.\"\n\n---\n\n## AI Social Selling Tool Evaluation Checklist for Founders\n\nBefore purchasing AI software for your social selling stack, evaluate each vendor against the checklist below to protect your brand reputation, budget, and account safety.\n\n![Evaluation checklist graphic for choosing safe AI social selling software for founders.](https://assets.bevisible.app/inline-images/j5752gac40f8nxa7gmszqyehx58aj802/inline-4-1786198658434-0ha74y.png)\n```\n+------------------------------------+---------------------------------------------------+-------+\n| Evaluation Criteria                | Operational Requirement                           | Pass? |\n+------------------------------------+---------------------------------------------------+-------+\n| Local Browser Architecture         | Executes actions locally on your machine          | [ ]   |\n|                                    | without remote data center IPs.                   |       |\n\n+------------------------------------+---------------------------------------------------+-------+\n| Bio-Grounded Prompting             | Ingests full founder bio and company value        | [ ]   |\n|                                    | proposition for context generation.               |       |\n\n+------------------------------------+---------------------------------------------------+-------+\n| Human-in-the-Loop Approval         | Allows review and editing of comments prior       | [ ]   |\n|                                    | to publishing.                                    |       |\n\n+------------------------------------+---------------------------------------------------+-------+\n| Post Discovery Capabilities        | Isolates high-intent prospect posts based on      | [ ]   |\n|                                    | target keywords and account lists.                |       |\n\n+------------------------------------+---------------------------------------------------+-------+\n| Organic Interaction Mimicry        | Uses variable delays and human typing patterns    | [ ]   |\n|                                    | to safeguard profile integrity.                   |       |\n\n+------------------------------------+---------------------------------------------------+-------+\n| Seamless Workflow Integration      | Works alongside lightweight relationship CRMs     | [ ]   |\n|                                    | for quick deal tracking.                          |       |\n\n+------------------------------------+---------------------------------------------------+-------+\n```\n\nFor a comprehensive evaluation framework, review our detailed guide on the [AI Tools for Linkedin Commenting Evaluation Checklist](https://www.heyjunior.ai/blog/ai-tools-for-linkedin-commenting-evaluation-checklist) and our companion [Automate Linkedin Comments Safely Evaluation Checklist](https://www.heyjunior.ai/blog/automate-linkedin-comments-safely-evaluation-checklist).\n\n---\n\n## Frequently Asked Questions\n\n### Is Taplio alone enough for a founder doing B2B social selling?\nTaplio is effective for personal branding, scheduling content, and writing posts. However, for active social selling that generates direct pipeline, it falls short. Broad content publishing needs to be paired with discovery and engagement tools like Junior to find target buyers, join active discussions, and spark direct conversations.\n\n### Will using AI tools for LinkedIn engagement get my profile restricted?\nYour account safety depends entirely on tool architecture. Cloud-based automation software that accesses your account from remote servers or sends mass automated connection requests carries a high risk of triggering security systems. Local tools like Junior execute actions directly within your active browser session, using natural interaction patterns to keep your account safe.\n\n### How does public commenting generate actual sales pipeline?\nWhen you leave insightful comments on posts written by target prospects or industry leaders, you demonstrate real domain expertise. This drives profile visits from decision-makers. When your profile clearly communicates your startup's value proposition, those views turn into warm inbound messages and discovery calls.\n\n### Should early founders focus on sending cold DMs or public commenting?\nPublic commenting consistently delivers higher ROI for early-stage founders. Cold DMs face low response rates and high spam report risks. Public commenting acts as a low-friction interaction that builds credibility before moving to direct messaging, resulting in significantly higher conversion rates.\n\n---\n\n## Building a Sustainable Founder-Led Growth Engine\n\nRelying solely on scheduled content publishing is no longer enough to build a reliable sales pipeline on LinkedIn. While tools like Taplio help build general brand visibility, generating real revenue requires showing up where your prospects are actively discussing their daily challenges.\n\nBy building a specialized social selling stack\u2014using LinkedIn Sales Navigator for targeting, [Junior](https://www.heyjunior.ai/) for safe, context-aware engagement, and folk CRM for relationship tracking\u2014startup founders can establish a predictable growth engine in just thirty minutes a day.\n\nStop waiting for scheduled posts to turn into inbound leads. Move beyond basic broadcast scheduling, jump into high-intent public discussions, and convert social interactions into qualified sales pipeline.", "created_at": "2026-08-08T14:19:22.357480+00:00", "updated_at": "2026-08-08T14:19:22.357487+00:00"};
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js"></script>
+    <script>
+        function looksLikeHtml(content) {
+            return /<\/?[a-z][\s\S]*>/i.test(content);
+        }
+
+        function escapeHtml(content) {
+            return content
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function formatPlainText(content) {
+            return content
+                .split(/\n{2,}/)
+                .map(paragraph => `<p>${escapeHtml(paragraph).replace(/\n/g, '<br>')}</p>`)
+                .join('');
+        }
+
+        function renderArticleBody(rawContent) {
+            const content = (rawContent || '').trim();
+            if (!content) {
+                return '<p>This article has no content yet.</p>';
+            }
+
+            if (looksLikeHtml(content)) {
+                if (window.DOMPurify) {
+                    return window.DOMPurify.sanitize(content);
+                }
+                return content;
+            }
+
+            if (window.marked) {
+                const markdownHtml = window.marked.parse(content, {
+                    gfm: true,
+                    breaks: true,
+                    mangle: false,
+                    headerIds: true
+                });
+                if (window.DOMPurify) {
+                    return window.DOMPurify.sanitize(markdownHtml);
+                }
+                return markdownHtml;
+            }
+
+            return formatPlainText(content);
+        }
+
+        function createShareButtons(url, title, position) {
+            const encodedUrl = encodeURIComponent(url);
+            const encodedTitle = encodeURIComponent(title);
+            
+            const buttons = [
+                {
+                    name: 'LinkedIn',
+                    url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>'
+                },
+                {
+                    name: 'X',
+                    url: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>'
+                },
+                {
+                    name: 'Facebook',
+                    url: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>'
+                },
+                {
+                    name: 'WhatsApp',
+                    url: `https://api.whatsapp.com/send?text=${encodedTitle}%20${encodedUrl}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>'
+                },
+                {
+                    name: 'Reddit',
+                    url: `https://reddit.com/submit?url=${encodedUrl}&title=${encodedTitle}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.688-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg>'
+                },
+                {
+                    name: 'Email',
+                    url: `mailto:?subject=${encodedTitle}&body=${encodedUrl}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>'
+                }
+            ];
+
+            let html = `<div class="share-row ${position === 'top' ? 'top-share' : ''}">`;
+            
+            buttons.forEach(btn => {
+                html += `<a href="${btn.url}" target="_blank" rel="noopener noreferrer" class="share-button" data-cta="share-${position}-${btn.name.toLowerCase()}">
+                    ${btn.icon} ${btn.name}
+                </a>`;
+            });
+
+            html += `<button class="share-button" onclick="navigator.clipboard.writeText('${url.replace(/'/g, "\\'")}'); alert('Link copied to clipboard!');" data-cta="share-${position}-copy">
+                <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg> Copy Link
+            </button>`;
+
+            if (navigator.share) {
+                html += `<button class="share-button" onclick="navigator.share({title: '${title.replace(/'/g, "\\'")}', url: '${url.replace(/'/g, "\\'")}'}).catch(console.error);" data-cta="share-${position}-native">
+                    <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg> Share
+                </button>`;
+            }
+
+            html += `</div>`;
+            return html;
+        }
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            const container = document.getElementById('article-content');
+            
+            try {
+                let post;
+                
+                // If we have injected data (static page), use it directly
+                if (window.__INITIAL_ARTICLE_DATA__) {
+                    post = window.__INITIAL_ARTICLE_DATA__;
+                } else {
+                    // Otherwise, we are on the dynamic route, fetch from API
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const slug = urlParams.get('slug');
+                    
+                    if (!slug) {
+                        throw new Error('Article not found.');
+                    }
+                    
+                    // Redirect to the new static URL format
+                    window.location.replace(`/blog/${slug}/`);
+                    return;
+                }
+                
+                document.title = `${post.title} - Junior`;
+                
+                const date = new Date(post.published_at).toLocaleDateString();
+                
+                let html = `
+                    <header class="article-header">
+                        <h1 class="article-title">${post.title}</h1>
+                        <div class="article-meta">Published on ${date}</div>
+                    </header>
+                `;
+
+                const shareUrl = window.location.href;
+                html += createShareButtons(shareUrl, post.title, 'top');
+                
+                if (post.featured_image_url) {
+                    html += `<img src="${post.featured_image_url}" alt="${post.title}" class="article-featured-image">`;
+                }
+                
+                html += `
+                    <div class="article-content">
+                        ${renderArticleBody(post.content)}
+                    </div>
+                `;
+                
+                html += createShareButtons(shareUrl, post.title, 'bottom');
+                
+                container.innerHTML = html;
+            } catch (err) {
+                container.innerHTML = `<p>${err.message}</p>`;
+                console.error(err);
+            }
+        });
+    </script>
+</body>
+</html>
