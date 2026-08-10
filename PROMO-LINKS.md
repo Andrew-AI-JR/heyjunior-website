@@ -58,6 +58,29 @@ https://heyjunior.ai/register.html?coupon=3FREEMONTHS
 
 ---
 
+## CareerBridgeIQ Partnership (30-Day Job Search Accelerator)
+
+Co-branded landing page with an embedded signup form. Attribution is recorded in the signup `metadata` (`signup_source`, `source`, and all `utm_*`) via `/api/users/create-with-payment`, not via a unique coupon. Cohort is keyed on `metadata.signup_source = "careerbridgeiq-partner"`.
+
+| Link | Coupon | Offer |
+|------|--------|-------|
+| `https://heyjunior.ai/careerbridgeiq/` | `1FREEMONTH` (auto-applied) | First 30 days free |
+| `https://heyjunior.ai/careerbridgeiq/?plan=basic` | `1FREEMONTH` | Pre-selects Basic |
+| `https://heyjunior.ai/careerbridgeiq/?plan=starter` | `1FREEMONTH` | Pre-selects Starter |
+| `https://heyjunior.ai/careerbridgeiq/?plan=standard` | `1FREEMONTH` | Pre-selects Standard |
+| `https://heyjunior.ai/careerbridgeiq/?plan=pro` | `1FREEMONTH` | Pre-selects Pro |
+
+UTM scheme for all placements: `utm_source=careerbridgeiq`, `utm_medium=partner`, `utm_campaign=30day`, and a per-placement `utm_content` (`landing-page`, `email`, `community-article`, `matt-linkedin`, `partner-page`).
+
+Canonical tracked link (landing-page placement):
+```
+https://heyjunior.ai/careerbridgeiq/?utm_source=careerbridgeiq&utm_medium=partner&utm_campaign=30day&utm_content=landing-page
+```
+
+Partner copy assets (trial-page section, email, community article, Matt's LinkedIn posts, permanent partner page, and the full tracking-link list) live in `campaign-assets/careerbridgeiq/`.
+
+---
+
 ## Custom Coupon via URL
 
 Any Stripe coupon can be applied to the normal register flow by appending `?coupon=CODE`:
