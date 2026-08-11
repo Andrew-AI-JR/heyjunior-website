@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article - Junior</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <script defer src="../../js/analytics.js"></script>
+    <script src="../../js/api-config.js"></script>
+    <style>
+        .article-container {
+            max-width: 860px;
+            margin: 48px auto;
+            padding: 0 20px;
+        }
+        .article-header {
+            margin-bottom: 32px;
+        }
+        .article-title {
+            font-size: clamp(2rem, 3vw, 2.9rem);
+            margin-bottom: 14px;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            color: #020617;
+        }
+        .article-meta {
+            color: #64748b;
+            font-size: 0.97rem;
+            font-weight: 500;
+        }
+        .article-featured-image {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            margin-bottom: 32px;
+        }
+        .article-content {
+            max-width: 72ch;
+            font-size: clamp(1.06rem, 1.2vw, 1.2rem);
+            line-height: 1.85;
+            color: #1f2937;
+        }
+        .article-content > *:first-child {
+            margin-top: 0;
+        }
+        .article-content > *:last-child {
+            margin-bottom: 0;
+        }
+        .article-content h2 {
+            margin-top: 2.1em;
+            margin-bottom: 0.8em;
+            line-height: 1.25;
+            letter-spacing: -0.01em;
+            color: #020617;
+        }
+        .article-content h3 {
+            margin-top: 1.7em;
+            margin-bottom: 0.65em;
+            line-height: 1.3;
+            letter-spacing: -0.005em;
+            color: #1e293b;
+        }
+        .article-content h4 {
+            margin-top: 1.4em;
+            margin-bottom: 0.55em;
+            line-height: 1.35;
+            color: #334155;
+        }
+        .article-content p {
+            margin: 0 0 1.3em;
+        }
+        .article-content ul,
+        .article-content ol {
+            margin: 0 0 1.3em 1.35em;
+            padding: 0;
+        }
+        .article-content li {
+            margin-bottom: 0.45em;
+        }
+        .article-content strong {
+            color: #0f172a;
+        }
+        .article-content a {
+            color: #1d4ed8;
+            text-decoration-thickness: 0.08em;
+            text-underline-offset: 0.16em;
+        }
+        .article-content blockquote {
+            margin: 0 0 1.5em;
+            padding: 0.9em 1.1em;
+            border-left: 4px solid #94a3b8;
+            color: #334155;
+            background: #f8fafc;
+            border-radius: 8px;
+        }
+        .article-content pre {
+            overflow-x: auto;
+            padding: 14px;
+            border-radius: 8px;
+            background: #0f172a;
+            color: #e2e8f0;
+            margin-bottom: 1.5em;
+            font-size: 0.93em;
+            line-height: 1.6;
+        }
+        .article-content code {
+            font-family: Consolas, "SFMono-Regular", Menlo, Monaco, monospace;
+            font-size: 0.95em;
+            background: #f1f5f9;
+            padding: 0.12em 0.35em;
+            border-radius: 4px;
+        }
+        .article-content pre code {
+            background: transparent;
+            padding: 0;
+        }
+        .article-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5em;
+            display: block;
+            overflow-x: auto;
+        }
+        .article-content th,
+        .article-content td {
+            border: 1px solid #cbd5e1;
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        .article-content th {
+            background: #f8fafc;
+            color: #0f172a;
+        }
+        .article-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin: 0.6em 0 1.3em;
+        }
+        .article-content hr {
+            border: none;
+            border-top: 1px solid #e2e8f0;
+            margin: 2em 0;
+        }
+        .article-content figure {
+            margin: 0 0 1.5em;
+        }
+        .article-content figcaption {
+            color: #64748b;
+            font-size: 0.92em;
+            margin-top: 0.55em;
+        }
+        .article-loading {
+            text-align: center;
+            padding: 40px;
+            color: #64748b;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 24px;
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        .share-row {
+            display: flex;
+            gap: 12px;
+            margin: 24px 0;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .share-row.top-share {
+            margin-top: 16px;
+            margin-bottom: 0;
+        }
+        .share-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-decoration: none;
+            color: #334155;
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .share-button:hover {
+            background: #e2e8f0;
+            color: #0f172a;
+            border-color: #cbd5e1;
+            text-decoration: none;
+        }
+        .share-button svg {
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+            fill: currentColor;
+        }
+        @media (max-width: 768px) {
+            .article-container {
+                margin: 28px auto;
+                padding: 0 16px;
+            }
+            .article-header {
+                margin-bottom: 24px;
+            }
+            .article-content {
+                font-size: 1.04rem;
+                line-height: 1.75;
+            }
+            .article-content table {
+                font-size: 0.93rem;
+            }
+            .article-content pre {
+                padding: 12px;
+            }
+        }
+    </style>
+
+    <link rel="canonical" href="https://heyjunior.ai/blog/best-linkedin-tools-for-lead-gen-agencies-beyond-waalaxy/">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://heyjunior.ai/blog/best-linkedin-tools-for-lead-gen-agencies-beyond-waalaxy/">
+    <meta property="og:title" content="Best Linkedin Tools for Lead Gen Agencies Tools Beyond Waalaxy">
+    <meta property="og:description" content="Discover top LinkedIn automation and engagement tools beyond Waalaxy for lead gen agencies. Scale multi-account outreach and safely boost client lead volume.">
+    <meta property="og:image" content="https://assets.bevisible.app/featured-images/j57fd66xt3ww3emhb2h8s4vg598akjvy/best-linkedin-tools-for-lead-gen-agencies-tools-be-1786457975135-tc51kz.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://heyjunior.ai/blog/best-linkedin-tools-for-lead-gen-agencies-beyond-waalaxy/">
+    <meta name="twitter:title" content="Best Linkedin Tools for Lead Gen Agencies Tools Beyond Waalaxy">
+    <meta name="twitter:description" content="Discover top LinkedIn automation and engagement tools beyond Waalaxy for lead gen agencies. Scale multi-account outreach and safely boost client lead volume.">
+    <meta name="twitter:image" content="https://assets.bevisible.app/featured-images/j57fd66xt3ww3emhb2h8s4vg598akjvy/best-linkedin-tools-for-lead-gen-agencies-tools-be-1786457975135-tc51kz.png">
+    
+</head>
+<body data-page="article" class="i18n-ready">
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <a href="../../index.html"><img src="../../images/junior-logo.png" alt="Junior Logo" class="logo-img"></a>
+            </div>
+            <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <div class="nav-group">
+                    <li><a href="../../index.html#use-cases">Use Cases</a></li>
+                    <li><a href="../../index.html#features">Features</a></li>
+                    <li><a href="../../why-commenting-works.html">Why Commenting Works</a></li>
+                    <li><a href="../../blog.html">Blog</a></li>
+                    <li><a href="../../try-it.html">Try It</a></li>
+                
+                    <li><a href="../../blog.html">Blog</a></li></div>
+                <div class="nav-actions">
+                    <li><a href="../../register.html?src=article-nav" class="cta-button">Start Free</a></li>
+                    <li><a href="../../portal.html" class="nav-login-link">Login</a></li>
+                </div>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="article-container" style="padding-top: 120px;">
+        <a href="../../blog.html" class="back-link">← Back to Blog</a>
+        
+        <div id="article-content">
+            <div class="article-loading">Loading article...</div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Junior. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        window.__INITIAL_ARTICLE_DATA__ = {"id": 70, "slug": "best-linkedin-tools-for-lead-gen-agencies-beyond-waalaxy", "title": "Best Linkedin Tools for Lead Gen Agencies Tools Beyond Waalaxy", "excerpt": "Discover top LinkedIn automation and engagement tools beyond Waalaxy for lead gen agencies. Scale multi-account outreach and safely boost client lead volume.", "featured_image_url": "https://assets.bevisible.app/featured-images/j57fd66xt3ww3emhb2h8s4vg598akjvy/best-linkedin-tools-for-lead-gen-agencies-tools-be-1786457975135-tc51kz.png", "published_at": "2026-08-11T14:00:00+00:00", "content": "# Best Linkedin Tools for Lead Gen Agencies Tools Beyond Waalaxy\n\nLead generation agencies running campaigns on LinkedIn face an uncomfortable truth in 2026: traditional connection message blasts no longer yield acceptable returns. Waalaxy gained immense popularity as an accessible, browser-based entry point for automated LinkedIn outreach, but growing agencies hit a ceiling quickly. Between strict connection request caps, increasing algorithm scrutiny, saturated prospect inboxes, and rigid client management options, relying solely on Waalaxy limits agency scale and exposes client profiles to account restrictions.\n\nScaling a lead generation agency requires a robust technology stack built for high deliverability, granular account safety, multi-account governance, and genuine relationship building. Instead of relying on mass-sending identical connection templates into crowded inboxes, high-performing agencies are combining multi-account cloud outreach, precision scraping, and AI-powered public post engagement.\n\nThis guide analyzes the best LinkedIn tools for lead generation agencies that need capabilities beyond Waalaxy, breaking down specialized software by account safety, multi-client management, and campaign performance.\n\n---\n\n## The Waalaxy Ceiling: Why Lead Gen Agencies Outgrow Entry-Level Automation\n\nWaalaxy built its reputation on simplicity. For solos and small teams, setting up an extension-based sequence to send connection requests and follow-ups takes minutes. However, running a multi-client agency on entry-level sequence software presents structural challenges that hurt margins and client retention.\n\n```\n+-----------------------------------------------------------------------+\n|                       THE WAALAXY AGENCY CEILING                       |\n+-----------------------------------------------------------------------+\n|  1. Inflexibility with Mass Connections                                |\n|     Hard caps (100-200/wk) make bulk outbound unsustainable           |\n|                                                                       |\n|  2. Inbox Fatigue & Low Acceptance Rates                                |\n|     Cold DMs face 3-8% acceptance when sent without prior interaction |\n|                                                                       |\n|  3. Browser Extension & Proxy Detection Risks                         |\n|     Shared client logins via extension triggers security challenges   |\n|                                                                       |\n|  4. Missing Public Feed Conversation Layer                            |\n|     Ignores high-intent discussions in comments where deals happen    |\n\n+-----------------------------------------------------------------------+\n```\n\n### Connection Limits and Saturated Inboxes\nLinkedIn restricts individual accounts to roughly 100 to 200 connection requests per week. When an agency relies entirely on direct connection sequences, each client account can only touch a small pool of leads monthly. Prospects on LinkedIn receive dozens of automated outreach messages every week, causing response rates for cold connection messages to drop into single digits.\n\n### Client Account Safety Risks\nWaalaxy relies heavily on a browser extension architecture combined with cloud sync. When agency account managers log into multiple client LinkedIn accounts across different browser sessions and locations, LinkedIn security flags suspicious login activity. A single temporary restriction on an executive client\u2019s profile damages agency trust instantly.\n\n### Lack of Public Feed Engagement Capabilities\nConnection-first tools operate exclusively inside private messaging threads. They ignore public feed activity where prospects actively post questions, voice frustrations, and evaluate industry providers. Agencies that ignore public post engagement miss out on high-intent sales conversations happening in open view.\n\n### The Myth of Volume-Based Outreach\nA common misconception among agency founders is that lower reply rates can be solved simply by adding more profiles to direct message sequences. In reality, scaling cold DMs across unengaged accounts increases spam reports and profile suspensions. Winning client pipelines requires warm, contextual interactions that turn cold prospects into receptive leads before a private message is ever sent.\n\n---\n\n## The Modern Agency LinkedIn Stack Architecture\n\nRather than relying on one software tool to handle every aspect of sales development, mature agencies construct a complementary stack across four operational layers.\n\n![Diagram illustrating the four layers of a modern agency LinkedIn lead generation tech stack.](https://assets.bevisible.app/inline-images/j57fd66xt3ww3emhb2h8s4vg598akjvy/inline-1-1786457889696-sceqec.png)\n1. **Public Feed Engagement & Warm-up (Inbound Layer):** Tools that interact with target prospect posts using intelligent, contextual comments. This establishes familiarity, builds trust, and drives profile views prior to cold outreach.\n2. **Multi-Account Outreach & Sequence Execution (Outbound Layer):** Cloud-based platforms built to rotate outreach across multiple team profiles with dedicated IP addresses and automated workspace routing.\n3. **Data Extraction & Lead Intelligence (Scraping Layer):** Engines that pull structured lead lists from Sales Navigator searches, event participant lists, and post reaction threads.\n4. **Omni-Channel Synchronization (Data Sync Layer):** Systems that connect LinkedIn activities with cold email sequences and agency CRMs to orchestrate unified touchpoints.\n\n---\n\n## Top 7 LinkedIn Tools for Lead Gen Agencies Beyond Waalaxy\n\nHere is a breakdown of the leading specialized software tools designed to scale agency operations safely and effectively.\n\n### 1. Junior\n\n[Junior](https://www.heyjunior.ai/) approaches B2B lead generation from a fundamentally different angle than traditional connection sequencers. Instead of flooding prospect inboxes with unsolicited private messages, Junior automates public post commenting to start authentic conversations directly on relevant LinkedIn discussions.\n\n```\n+-------------------------------------------------------------------------+\n|                  JUNIOR: LOCAL EXECUTION WORKFLOW                       |\n+-------------------------------------------------------------------------+\n|  Target Post Search  --> Context Extraction --> Local AI Generation    |\n|                                                       |                 |\n|  Direct Pipeline      <-- Natural Public Comment  <-- Human Safety Run  |\n\n+-------------------------------------------------------------------------+\n```\n\n#### Core Features for Agencies\n* **Context-Aware AI Commenting:** Analyzes original post content, author profile context, and user agency bios to draft insightful, human-sounding comments that add real value to industry discussions.\n* **Local Machine Execution:** Runs directly on the user's local machine rather than cloud server farms, mimicking natural browser interactions and avoiding generic cloud proxy flags.\n* **Targeted Post Finding:** Scans LinkedIn for specific industry conversations, prospect posts, and keyword discussions to place comments where target buyers are active.\n* **Context-Aware Personas:** Configures unique professional personas for each client profile, ensuring comments match exact brand voice guidelines and offer expertise tailored to target niches.\n\n#### Why It Beats Waalaxy for Lead Generation Agencies\nWhile Waalaxy forces client profiles into low-converting DM sequences, Junior builds warm public visibility that drives unsolicited profile visits, inbound connection requests, and high-trust conversations. Agencies use Junior to warm up key decision-makers before sending outreach or to generate leads entirely through public commentary.\n\nWhen comparing tools for safe engagement, agencies often look at dedicated commenting software like Supergrow or Taplio. For a complete comparison on how specialized commenting tools stack up, review our guide on the [best AI tools for LinkedIn commenting tools beyond Supergrow](https://www.heyjunior.ai/blog/best-ai-tools-for-linkedin-commenting-tools-beyond-supergrow). If you are comparing outreach models directly, read our detailed analysis on [Junior vs Dripify: finding consulting clients without automated messaging](https://www.heyjunior.ai/blog/junior-vs-dripify-finding-consulting-clients-without-automated-messaging).\n\n---\n\n### 2. HeyReach\n\nHeyReach is built specifically for high-volume lead generation agencies that manage multiple client sales reps or executive profiles simultaneously.\n\n```\n+-----------------------------------------------------------------------+\n|                      HEYREACH: AGENT ROTATION SYSTEM                   |\n+-----------------------------------------------------------------------+\n|                      [ Combined Target Lead List ]                    |\n|                                    |                                  |\n|         +--------------------------+--------------------------+       |\n|         |                          |                          |       |\n|  [ Client Profile A ]     [ Client Profile B ]     [ Client Profile C ] |\n|  Sends 15 msgs/day        Sends 15 msgs/day        Sends 15 msgs/day  |\n|         |                          |                          |       |\n|         +--------------------------+--------------------------+       |\n|                                    |                                  |\n|                      [ Unified Agency Dashboard ]                     |\n\n+-----------------------------------------------------------------------+\n```\n\n#### Key Capabilities\n* **Multi-Account Rotation:** Scales past single-account limits by rotating campaign outreach across dozens of LinkedIn accounts assigned to the same target lead list.\n* **Agency-First Dashboard:** Centralizes client workspaces, team member permissions, and unified campaign analytics under one interface.\n* **Native Sales Navigator Integration:** Imports lists directly from Sales Navigator without manual CSV exports [according to agency outreach reviews](https://www.heyreach.io/blog/best-linkedin-automation-tools).\n* **Smart Account Delays:** Simulates realistic user delays and varying daily activity caps to keep large account fleets operational.\n\n#### Agency Fit\nHeyReach excels when an agency needs to scale outbound connection volume across a client's entire enterprise sales team without splitting lead lists manually.\n\n---\n\n### 3. Expandi.io\n\nExpandi is an established cloud-based LinkedIn automation engine recognized for strict adherence to account safety protocols and agency white-labeling features.\n\n```\n+-----------------------------------------------------------------------+\n|                    EXPANDI.IO: ENTERPRISE SAFETY MODEL                |\n+-----------------------------------------------------------------------+\n|  Agency Campaign Builder                                              |\n|    \u2514\u2500> Dynamic Dedicated Residential IP Allocation                   |\n|          \u2514\u2500> Cloud Sequence Engine (InMail + Email + Connection)      |\n|                \u2514\u2500> Custom Webhook to Agency CRM                      |\n\n+-----------------------------------------------------------------------+\n```\n\n#### Key Capabilities\n* **Dedicated Residential IPs:** Assigns a unique, location-matched proxy IP to every client profile, preventing geographic login flags.\n* **Dynamic Smart Sequences:** Creates branching logic based on prospect behavior, such as sending an InMail if a connection request remains pending after five days.\n* **Image & GIF Personalization:** Integrates with tools like Hyperise to insert dynamic personalized images into direct messages.\n* **White-Label Client Portals:** Allows agencies to offer branded client dashboards where customers can view campaign results without managing backend configurations [as noted in industry partner reports](https://konsyg.com/top-10-b2b-lead-generation-tools-and-platforms-in-the-us-for-2026/).\n\n#### Agency Fit\nIdeal for agencies managing mid-market and enterprise client profiles that demand dedicated residential proxies and multi-touch branching sequences.\n\n---\n\n### 4. PhantomBuster\n\nPhantomBuster operates as a flexible data extraction and automation tool chest, offering individual automated scripts (called Phantoms and Flows) designed for advanced lead scraping.\n\n```\n+-----------------------------------------------------------------------+\n|                   PHANTOMBUSTER: DATA SCRAPING FLOW                   |\n+-----------------------------------------------------------------------+\n|  Sales Navigator Search  --> Extract List Members (Phantom 1)         |\n|                                    |                                  |\n|  Enrich Email / Data     <-- Extract Post Commenters (Phantom 2)      |\n|            |                                                          |\n|            v                                                          |\n|  Webhook Push to Cold Email Engine / Agency CRM                       |\n\n+-----------------------------------------------------------------------+\n```\n\n#### Key Capabilities\n* **Advanced Audience Scraping:** Extracts lead information from post likers, event attendees, group members, and targeted search queries [highlighted in PhantomBuster performance documentation](https://www.heyreach.io/blog/best-linkedin-automation-tools).\n* **Data Enrichment Chains:** Links multiple data extractions together, combining LinkedIn scraping with email discovery tools.\n* **Custom Webhooks and API Access:** Connects scraped prospect data to external agency CRMs, Google Sheets, or custom workflows automatically.\n\n#### Agency Fit\nPhantomBuster is a preferred choice for technical agency teams that build custom scraping pipelines and conduct multi-step market research rather than simple messaging sequences.\n\nFor agencies looking to automate commenting workflows safely without relying on extension scripts, check out our resource on [PhantomBuster alternatives to automate LinkedIn comments safely](https://www.heyjunior.ai/blog/phantombuster-alternatives-for-automate-linkedin-comments-safely).\n\n---\n\n### 5. Dripify\n\nDripify provides a visual campaign builder coupled with robust team management tools tailored for sales teams and lead generation consultancies.\n\n```\n+-----------------------------------------------------------------------+\n|                    DRIPIFY: VISUAL CAMPAIGN BUILDER                   |\n+-----------------------------------------------------------------------+\n|  [ Target Leads ] --> [ Profile View ] --> [ Wait 1 Day ]             |\n|                                                 |                     |\n|  [ End Flow ] <-- [ Send DM ] <-- [ Accepted? ] <-- [ Send Invite ]   |\n\n+-----------------------------------------------------------------------+\n```\n\n#### Key Capabilities\n* **Visual Drag-and-Drop Editor:** Builds complex sequence funnels incorporating profile views, post endorsements, connection invites, and follow-up messages [detailed in automated outreach guides](https://botdog.co/blog-posts/best-lead-generation-software-tools).\n* **Advanced Analytics Dashboard:** Tracks conversion metrics across team members, acceptance rates, and campaign response trends.\n* **Smart Inbox Management:** Allows account managers to respond to prospect messages from a centralized inbox without logging into individual LinkedIn client accounts.\n\n#### Agency Fit\nDripify is suited for agencies that prioritize clean, visual campaign construction and require streamlined inbox management for account managers.\n\n---\n\n### 6. Saleshandy\n\nWhile primarily known as a cold email platform, Saleshandy is widely integrated into modern agency stacks to complement LinkedIn outreach with multi-channel email campaigns.\n\n```\n+-----------------------------------------------------------------------+\n|                    SALESHANDY: OMNI-CHANNEL ENGINE                    |\n+-----------------------------------------------------------------------+\n|  LinkedIn Lead Scraping --> Data Verification --> Saleshandy Email Sequence\n|                                                       |               |\n|  Unified Agency CRM     <-- Prospect Engagement   <-- Automated Follow-up\n+-----------------------------------------------------------------------+\n```\n\n#### Key Capabilities\n* **High-Deliverability Email Sequencing:** Manages multi-domain email warmups, sender rotation, and bounce prevention [reviewed in sales generation rundowns](https://www.saleshandy.com/blog/lead-generation-software/).\n* **Unified Inbox:** Centralizes prospect replies across cold email campaigns for rapid SDR follow-up.\n* **CRM Integrations:** Syncs sequence activities and stage transitions directly with platforms like HubSpot and Salesforce.\n\n#### Agency Fit\nSaleshandy serves agencies running combined LinkedIn and email outreach programs, ensuring leads reached on social platforms are systematically followed up via verified email channels.\n\n---\n\n### 7. Botdog\n\nBotdog is a lightweight, cloud-native LinkedIn outreach tool designed for simpler campaign setups and smaller agency deployments.\n\n```\n+-----------------------------------------------------------------------+\n|                      BOTDOG: LIGHTWEIGHT WORKFLOW                     |\n+-----------------------------------------------------------------------+\n|  Sales Navigator List --> Native Cloud Queue --> Humanized Invite Sequence\n|                                                        |              |\n|  Direct Lead Hand-off <-- Simple Unified Inbox  <-- Reply Detection   |\n\n+-----------------------------------------------------------------------+\n```\n\n#### Key Capabilities\n* **Simple Setup Architecture:** Enables fast campaign launches with minimal technical configuration [outlined in outreach platform reviews](https://botdog.co/blog-posts/best-lead-generation-software-tools).\n* **Humanized Messaging Pacing:** Includes built-in random daily delay settings to emulate manual profile activity.\n* **Clean Interface:** Provides straightforward list imports and campaign tracking without clutter.\n\n#### Agency Fit\nBotdog works well for boutique agencies managing a small number of client accounts that prefer simplicity over complex multi-account rotation systems.\n\n---\n\n## Comprehensive Agency Tool Comparison Matrix\n\nTo select the right software for your agency's operating model, compare these platforms across safety architecture, agency scalability, primary function, and relative pricing structure.\n\n![Visual categorization of LinkedIn lead generation tools for agencies by capability.](https://assets.bevisible.app/inline-images/j57fd66xt3ww3emhb2h8s4vg598akjvy/inline-2-1786457878255-sv2txm.png)\n| Tool Name | Primary Niche / Capability | Account Safety Model | Multi-Account Scaling | Best For Lead Gen Agencies |\n| :--- | :--- | :--- | :--- | :--- |\n| **Junior** | AI Post Commenting & Public Conversations | Local Machine Execution | Individual client profiles with custom local settings | Agencies shifting from cold spam to high-converting public engagement and warm introductions |\n| **Waalaxy** | Basic Connection & Email Sequences | Chrome Extension / Basic Cloud | Limited (Requires separate extension instances) | Solo freelancers and small setups (Outgrown quickly by larger agencies) |\n| **HeyReach** | High-Volume Outbound Connection Rotation | Cloud-based with workspace assignment | Excellent (Native profile rotation across unified lead lists) | Agencies managing enterprise client teams with high lead volume demands |\n| **Expandi.io** | Enterprise Sequence Automation | Dedicated Cloud Residential IPs | High (White-label portals and centralized client dashboards) | Agencies requiring dedicated IP guarantees and complex dynamic branching |\n| **PhantomBuster** | Data Extraction & Webhook Pipelines | API / Cloud Execution Scripts | High (Flexible slot-based account connection) | Technical agencies building custom lead enrichment workflows |\n| **Dripify** | Visual Campaign Sequences & Team Inbox | Cloud Infrastructure | High (Team management and centralized inbox features) | Agencies needing clear visual campaign maps and account manager controls |\n| **Saleshandy** | Cold Email Delivery & Omni-Channel Sync | Multi-Domain SMTP Rotation | Excellent (Unlimited email accounts and client seat routing) | Agencies building integrated cold email and social selling funnels |\n| **Botdog** | Simplified Outbound Messaging | Basic Cloud Infrastructure | Moderate (Best for smaller client rosters) | Emerging agencies looking for straightforward, cost-effective connection setups |\n\n---\n\n## Scenario Spotlight: How Agency Apex B2B Scaled Pipeline by Replacing Cold Sequences with Public Engagement\n\nApex B2B, a mid-sized lead generation agency managing 14 client accounts in the enterprise SaaS sector, faced severe performance drops using traditional connection sequence tools like Waalaxy.\n\n```\n+-----------------------------------------------------------------------+\n|                 SCENARIO SPOTLIGHT: APEX B2B PIPELINE                 |\n+-----------------------------------------------------------------------+\n|  OLD MODEL (Waalaxy Sequences)                                        |\n|  1,000 Connection Requests --> 120 Accepted (12%) --> 4 Meetings (0.4%)|\n|                                                                       |\n|  NEW MODEL (Junior + Targeted Outreach)                               |\n|  300 Contextual Comments --> 180 Profile Views --> 26 Meetings (8.6%) |\n\n+-----------------------------------------------------------------------+\n```\n\n### The Challenge\nClient profiles were hitting LinkedIn connection caps within three days each week. Acceptance rates dropped below 12%, and overall message-to-meeting conversion fell to less than 0.5%. Worse, two client profiles received account security warnings due to extension-based proxy conflicts.\n\n### The Strategy Shift\nThe agency redesigned its fulfillment framework:\n\n1. **Phase 1 (Public Warm-Up):** Implemented **Junior** on client profiles to automatically scan for daily posts by target VP-level prospects. Junior drafted contextual, insightful comments based on each client founder's background.\n2. **Phase 2 (Profile Optimization):** Redesigned client profiles to act as landing pages, featuring clear calls-to-action leading to case studies.\n3. **Phase 3 (Precision Outreach):** Replaced bulk automated sequence blasts with personalized connection invites sent only to prospects who interacted with client comments or visited client profiles.\n\n### The Results\nWithin 60 days of pivoting to public feed engagement and local safety execution:\n* Profile views across client accounts increased by **310%**.\n* Inbound message requests from target prospects rose significantly.\n* Connection acceptance rates jumped from 12% to **54%** because prospects already recognized the client's name from public comments.\n* Monthly booked meetings per client doubled while connection request volume was cut by 60%.\n\n---\n\n## Account Safety Protocol: Browser Extensions vs. Local Execution vs. Cloud IPs\n\nAccount safety is the single most critical factor in agency operations. Losing a client's LinkedIn profile destroys client confidence and risks immediate contract cancellation. Understanding the technical execution models of automation software is critical.\n\n![Comparison graphic detailing account safety risks of browser extensions, cloud servers, and local execution.](https://assets.bevisible.app/inline-images/j57fd66xt3ww3emhb2h8s4vg598akjvy/inline-3-1786457873037-63i5au.png)\n```\n+-----------------------------------------------------------------------+\n|                     ACCOUNT SAFETY COMPARISON                          |\n+-----------------------------------------------------------------------+\n|  1. BROWSER EXTENSIONS (High Risk)                                    |\n|     Modifies DOM directly; injects scripts into active browser tab.   |\n|     Flags: Easy detection by security algorithms, script mismatch.    |\n|                                                                       |\n|  2. CLOUD INFRASTRUCTURE (Moderate to High Risk)                      |\n|     Runs on remote server farms; connects via API / Session Cookies.  |\n|     Flags: Datacenter IP ranges, sudden geo-location jumps.           |\n|                                                                       |\n|  3. LOCAL MACHINE EXECUTION (Lowest Risk)                             |\n|     Runs natively on local desktop environment.                       |\n|     Safety: Uses user's actual residential IP and standard browser.   |\n\n+-----------------------------------------------------------------------+\n```\n\n### 1. Extension-Based Execution (High Risk)\nTools operating as standard browser extensions inject code directly into the active browser Document Object Model (DOM). Security scripts easily detect non-human interaction patterns, rapid DOM manipulation, and mismatched extension signatures. When an agency logs into multiple clients via browser instances, security systems flag the session.\n\n### 2. Cloud Server Execution (Moderate to High Risk)\nCloud platforms run tasks on remote servers. While superior to simple browser extensions, they carry risks if the platform uses cheap datacenter IP ranges or if proxy locations jump drastically (e.g., a client logging in manually from New York while their cloud server sends messages from a European proxy). Agencies using cloud software must ensure static residential proxies are assigned per profile.\n\n### 3. Local Machine Execution (Lowest Risk)\nTools like **Junior** execute campaigns natively on the local computer where the user naturally logs into LinkedIn. Because interactions originate from the client's actual residential hardware and network connection, they do not trigger remote proxy alerts or server signature checks.\n\nTo evaluate safety protocols across your tool choices, consult our guide on [safe AI engagement on LinkedIn](https://www.heyjunior.ai/blog/safe-ai-engagement-on-linkedin) and review our [automate LinkedIn comments safely evaluation checklist](https://www.heyjunior.ai/blog/automate-linkedin-comments-safely-evaluation-checklist).\n\n---\n\n## Step-by-Step Evaluation Checklist for Agency Tech Stacks\n\nBefore committing to software subscriptions for your agency client roster, run each prospective tool through this checklist.\n\n```\n+-----------------------------------------------------------------------+\n|                AGENCY TOOL EVALUATION CHECKLIST                       |\n+-----------------------------------------------------------------------+\n|  [ ] MULTI-ACCOUNT GOVERNANCE                                         |\n|      Can you add/remove client profiles without re-creating campaigns?|\n|                                                                       |\n|  [ ] IP & INFRASTRUCTURE PROTECTION                                   |\n|      Does the tool run locally or assign dedicated residential proxies?|\n|                                                                       |\n|  [ ] FEED ENGAGEMENT VS. INBOX SPAM                                   |\n|      Does it support public comment generation or only private DMs?   |\n|                                                                       |\n|  [ ] UNIFIED CLIENT INBOX                                             |\n|      Can SDRs manage responses without logging into client profiles?  |\n|                                                                       |\n|  [ ] CAMPAIGN ROTATION                                                |\n|      Can lead lists be distributed dynamically across team members?   |\n\n+-----------------------------------------------------------------------+\n```\n\n### Multi-Account Governance & Workspace Isolation\n* Does the platform allow separate client workspaces with independent user roles?\n* Can account managers switch between accounts without logging out and risking re-authentication security triggers?\n\n### Deliverability & Behavioral Emulation\n* Does the software randomize delay times between actions?\n* Can daily interaction caps be set per account to keep profile activity within safe limits?\n\n### Conversation and Relationship Building Capabilities\n* Does the tool help start public conversations in post comments, or does it rely solely on direct messaging?\n* Can the software adapt its tone and language based on specific client personas and target industry verticals?\n\nFor a full framework on reviewing commenting platforms specifically, use our [AI tools for LinkedIn commenting evaluation checklist](https://www.heyjunior.ai/blog/ai-tools-for-linkedin-commenting-evaluation-checklist).\n\n---\n\n## How to Combine Public Commenting and Direct Outreach for Maximum Agency ROI\n\nThe most effective agency strategy combines public feed engagement with targeted direct outreach. This approach, known as the \"Warm Intro Framework,\" consistently beats pure cold sequence messaging.\n\n```\n+-----------------------------------------------------------------------+\n|                    THE WARM INTRO AGENCY FRAMEWORK                    |\n+-----------------------------------------------------------------------+\n| Step 1: Identify High-Intent Prospects via Sales Navigator Lists      |\n|                                   v                                   |\n| Step 2: Use Junior to Leave Insightful Comments on Prospect Posts    |\n|                                   v                                   |\n| Step 3: Prospect Recognizes Client Name & Views Optimized Profile     |\n|                                   v                                   |\n| Step 4: Send Contextual Connection Invite Referencing Public Post     |\n|                                   v                                   |\n| Step 5: Transition to High-Trust Direct Conversation in Messages      |\n\n+-----------------------------------------------------------------------+\n```\n\n### Step 1: Target List Building\nBuild search lists in Sales Navigator focusing on active users\u2014prospects who have posted on LinkedIn within the last 30 days. Active users convert at double the rate of inactive profiles [as noted in agency outreach discussions](https://www.reddit.com/r/Entrepreneur/comments/14pg0k9/best_lead_generation_tools/).\n\n### Step 2: Automated Warm-Up via Public Engagement\nDeploy **Junior** to monitor target prospects' public posts. When a prospect publishes content, Junior drafts a relevant, context-aware comment based on your client's unique professional bio. The prospect sees a thoughtful reply on their post, establishing initial name recognition.\n\n### Step 3: Triggered Outreach\nAfter public interactions take place, send a soft connection invite. Reference the recent discussion topic in your note. Because your client is already a recognized name in their notifications, acceptance rates increase dramatically.\n\n### Step 4: Converting Conversations into Pipeline\nOnce the connection is accepted, transition naturally into private messaging. Since context and familiarity have already been established, conversations move smoothly toward booking a call without feeling like an aggressive sales pitch.\n\nTo learn more about finding high-value conversations across LinkedIn, read our guide on the [best tools to find relevant LinkedIn posts to comment on tools beyond Taplio](https://www.heyjunior.ai/blog/best-tools-to-find-relevant-linkedin-posts-to-comment-on-tools-beyond-taplio). You can also explore how commenting tools compare in our analysis of [Junior vs Taplio for LinkedIn growth](https://www.heyjunior.ai/blog/junior-vs-taplio-for-linkedin-growth) and stay updated with the [best LinkedIn engagement tools](https://www.heyjunior.ai/blog/best-linkedin-engagement-tools-2026).\n\n---\n\n## Frequently Asked Questions\n\n### Why are lead gen agencies moving away from Waalaxy?\nAgencies are moving away from Waalaxy primarily because extension-based sequence tools struggle to scale safely across multiple client accounts. Strict connection caps, lower reply rates for cold DMs, and security flags caused by browser extension sessions make it difficult to deliver predictable agency returns. Modern agencies require multi-account rotation platforms or public post engagement tools that build trust before outreach.\n\n### How can an agency manage 20+ client LinkedIn accounts safely without account restrictions?\nTo manage 20+ client accounts safely, agencies should avoid logging into multiple accounts from a single browser session or sharing unverified cloud proxies. Use software that allocates dedicated static residential proxies matching each client's physical location, or utilize local machine execution tools like Junior. Additionally, spread daily outreach across multiple client profiles rather than maximizing activity on a single account.\n\n### Is public post commenting effective for B2B lead generation compared to cold messaging?\nYes, public post commenting is often significantly more effective than cold messaging because it operates in open view where target prospects are actively seeking discussions. Leaving valuable, context-aware comments establishes immediate authority, increases profile visits, and generates warm inbound interest. When combined with targeted outreach, prospects accept connection requests at much higher rates because they already recognize the sender.\n\n### Can Junior replace outreach sequencing software entirely?\nJunior can replace outreach sequencing software for agencies focused on high-trust, inbound-led lead generation and warm introductions. However, many agencies use Junior alongside specialized multi-account messaging platforms like HeyReach or Expandi. Junior handles the public feed engagement layer, while outbound platforms handle list distribution and direct message follow-ups.\n\n---\n\n## Upgrading Your Agency LinkedIn Stack Beyond Waalaxy\n\nOutgrowing Waalaxy is a natural step for lead generation agencies scaling past their first few clients. As LinkedIn's platform continues to prioritize real human interaction over automated inbox spam, agency survival depends on adopting tools that protect client profiles and deliver genuine value to prospects.\n\nBy shifting away from cold sequence blasts and building a stack that combines multi-account management, precision scraping, and AI-powered public feed engagement with **Junior**, your agency can bypass crowded inboxes, protect client profiles, and turn public visibility into direct client pipeline.", "created_at": "2026-08-11T14:49:22.977197+00:00", "updated_at": "2026-08-11T14:49:22.977202+00:00"};
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js"></script>
+    <script>
+        function looksLikeHtml(content) {
+            return /<\/?[a-z][\s\S]*>/i.test(content);
+        }
+
+        function escapeHtml(content) {
+            return content
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function formatPlainText(content) {
+            return content
+                .split(/\n{2,}/)
+                .map(paragraph => `<p>${escapeHtml(paragraph).replace(/\n/g, '<br>')}</p>`)
+                .join('');
+        }
+
+        function renderArticleBody(rawContent) {
+            const content = (rawContent || '').trim();
+            if (!content) {
+                return '<p>This article has no content yet.</p>';
+            }
+
+            if (looksLikeHtml(content)) {
+                if (window.DOMPurify) {
+                    return window.DOMPurify.sanitize(content);
+                }
+                return content;
+            }
+
+            if (window.marked) {
+                const markdownHtml = window.marked.parse(content, {
+                    gfm: true,
+                    breaks: true,
+                    mangle: false,
+                    headerIds: true
+                });
+                if (window.DOMPurify) {
+                    return window.DOMPurify.sanitize(markdownHtml);
+                }
+                return markdownHtml;
+            }
+
+            return formatPlainText(content);
+        }
+
+        function createShareButtons(url, title, position) {
+            const encodedUrl = encodeURIComponent(url);
+            const encodedTitle = encodeURIComponent(title);
+            
+            const buttons = [
+                {
+                    name: 'LinkedIn',
+                    url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>'
+                },
+                {
+                    name: 'X',
+                    url: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>'
+                },
+                {
+                    name: 'Facebook',
+                    url: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>'
+                },
+                {
+                    name: 'WhatsApp',
+                    url: `https://api.whatsapp.com/send?text=${encodedTitle}%20${encodedUrl}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>'
+                },
+                {
+                    name: 'Reddit',
+                    url: `https://reddit.com/submit?url=${encodedUrl}&title=${encodedTitle}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.688-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg>'
+                },
+                {
+                    name: 'Email',
+                    url: `mailto:?subject=${encodedTitle}&body=${encodedUrl}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>'
+                }
+            ];
+
+            let html = `<div class="share-row ${position === 'top' ? 'top-share' : ''}">`;
+            
+            buttons.forEach(btn => {
+                html += `<a href="${btn.url}" target="_blank" rel="noopener noreferrer" class="share-button" data-cta="share-${position}-${btn.name.toLowerCase()}">
+                    ${btn.icon} ${btn.name}
+                </a>`;
+            });
+
+            html += `<button class="share-button" onclick="navigator.clipboard.writeText('${url.replace(/'/g, "\\'")}'); alert('Link copied to clipboard!');" data-cta="share-${position}-copy">
+                <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg> Copy Link
+            </button>`;
+
+            if (navigator.share) {
+                html += `<button class="share-button" onclick="navigator.share({title: '${title.replace(/'/g, "\\'")}', url: '${url.replace(/'/g, "\\'")}'}).catch(console.error);" data-cta="share-${position}-native">
+                    <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg> Share
+                </button>`;
+            }
+
+            html += `</div>`;
+            return html;
+        }
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            const container = document.getElementById('article-content');
+            
+            try {
+                let post;
+                
+                // If we have injected data (static page), use it directly
+                if (window.__INITIAL_ARTICLE_DATA__) {
+                    post = window.__INITIAL_ARTICLE_DATA__;
+                } else {
+                    // Otherwise, we are on the dynamic route, fetch from API
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const slug = urlParams.get('slug');
+                    
+                    if (!slug) {
+                        throw new Error('Article not found.');
+                    }
+                    
+                    // Redirect to the new static URL format
+                    window.location.replace(`/blog/${slug}/`);
+                    return;
+                }
+                
+                document.title = `${post.title} - Junior`;
+                
+                const date = new Date(post.published_at).toLocaleDateString();
+                
+                let html = `
+                    <header class="article-header">
+                        <h1 class="article-title">${post.title}</h1>
+                        <div class="article-meta">Published on ${date}</div>
+                    </header>
+                `;
+
+                const shareUrl = window.location.href;
+                html += createShareButtons(shareUrl, post.title, 'top');
+                
+                if (post.featured_image_url) {
+                    html += `<img src="${post.featured_image_url}" alt="${post.title}" class="article-featured-image">`;
+                }
+                
+                html += `
+                    <div class="article-content">
+                        ${renderArticleBody(post.content)}
+                    </div>
+                `;
+                
+                html += createShareButtons(shareUrl, post.title, 'bottom');
+                
+                container.innerHTML = html;
+            } catch (err) {
+                container.innerHTML = `<p>${err.message}</p>`;
+                console.error(err);
+            }
+        });
+    </script>
+</body>
+</html>
