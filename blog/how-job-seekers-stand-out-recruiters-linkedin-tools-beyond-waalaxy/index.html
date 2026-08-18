@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article - Junior</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <script defer src="../../js/analytics.js"></script>
+    <script src="../../js/api-config.js"></script>
+    <style>
+        .article-container {
+            max-width: 860px;
+            margin: 48px auto;
+            padding: 0 20px;
+        }
+        .article-header {
+            margin-bottom: 32px;
+        }
+        .article-title {
+            font-size: clamp(2rem, 3vw, 2.9rem);
+            margin-bottom: 14px;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            color: #020617;
+        }
+        .article-meta {
+            color: #64748b;
+            font-size: 0.97rem;
+            font-weight: 500;
+        }
+        .article-featured-image {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            margin-bottom: 32px;
+        }
+        .article-content {
+            max-width: 72ch;
+            font-size: clamp(1.06rem, 1.2vw, 1.2rem);
+            line-height: 1.85;
+            color: #1f2937;
+        }
+        .article-content > *:first-child {
+            margin-top: 0;
+        }
+        .article-content > *:last-child {
+            margin-bottom: 0;
+        }
+        .article-content h2 {
+            margin-top: 2.1em;
+            margin-bottom: 0.8em;
+            line-height: 1.25;
+            letter-spacing: -0.01em;
+            color: #020617;
+        }
+        .article-content h3 {
+            margin-top: 1.7em;
+            margin-bottom: 0.65em;
+            line-height: 1.3;
+            letter-spacing: -0.005em;
+            color: #1e293b;
+        }
+        .article-content h4 {
+            margin-top: 1.4em;
+            margin-bottom: 0.55em;
+            line-height: 1.35;
+            color: #334155;
+        }
+        .article-content p {
+            margin: 0 0 1.3em;
+        }
+        .article-content ul,
+        .article-content ol {
+            margin: 0 0 1.3em 1.35em;
+            padding: 0;
+        }
+        .article-content li {
+            margin-bottom: 0.45em;
+        }
+        .article-content strong {
+            color: #0f172a;
+        }
+        .article-content a {
+            color: #1d4ed8;
+            text-decoration-thickness: 0.08em;
+            text-underline-offset: 0.16em;
+        }
+        .article-content blockquote {
+            margin: 0 0 1.5em;
+            padding: 0.9em 1.1em;
+            border-left: 4px solid #94a3b8;
+            color: #334155;
+            background: #f8fafc;
+            border-radius: 8px;
+        }
+        .article-content pre {
+            overflow-x: auto;
+            padding: 14px;
+            border-radius: 8px;
+            background: #0f172a;
+            color: #e2e8f0;
+            margin-bottom: 1.5em;
+            font-size: 0.93em;
+            line-height: 1.6;
+        }
+        .article-content code {
+            font-family: Consolas, "SFMono-Regular", Menlo, Monaco, monospace;
+            font-size: 0.95em;
+            background: #f1f5f9;
+            padding: 0.12em 0.35em;
+            border-radius: 4px;
+        }
+        .article-content pre code {
+            background: transparent;
+            padding: 0;
+        }
+        .article-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5em;
+            display: block;
+            overflow-x: auto;
+        }
+        .article-content th,
+        .article-content td {
+            border: 1px solid #cbd5e1;
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        .article-content th {
+            background: #f8fafc;
+            color: #0f172a;
+        }
+        .article-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin: 0.6em 0 1.3em;
+        }
+        .article-content hr {
+            border: none;
+            border-top: 1px solid #e2e8f0;
+            margin: 2em 0;
+        }
+        .article-content figure {
+            margin: 0 0 1.5em;
+        }
+        .article-content figcaption {
+            color: #64748b;
+            font-size: 0.92em;
+            margin-top: 0.55em;
+        }
+        .article-loading {
+            text-align: center;
+            padding: 40px;
+            color: #64748b;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 24px;
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        .share-row {
+            display: flex;
+            gap: 12px;
+            margin: 24px 0;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .share-row.top-share {
+            margin-top: 16px;
+            margin-bottom: 0;
+        }
+        .share-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-decoration: none;
+            color: #334155;
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .share-button:hover {
+            background: #e2e8f0;
+            color: #0f172a;
+            border-color: #cbd5e1;
+            text-decoration: none;
+        }
+        .share-button svg {
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+            fill: currentColor;
+        }
+        @media (max-width: 768px) {
+            .article-container {
+                margin: 28px auto;
+                padding: 0 16px;
+            }
+            .article-header {
+                margin-bottom: 24px;
+            }
+            .article-content {
+                font-size: 1.04rem;
+                line-height: 1.75;
+            }
+            .article-content table {
+                font-size: 0.93rem;
+            }
+            .article-content pre {
+                padding: 12px;
+            }
+        }
+    </style>
+
+    <link rel="canonical" href="https://heyjunior.ai/blog/how-job-seekers-stand-out-recruiters-linkedin-tools-beyond-waalaxy/">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://heyjunior.ai/blog/how-job-seekers-stand-out-recruiters-linkedin-tools-beyond-waalaxy/">
+    <meta property="og:title" content="Best How Job Seekers Can Stand Out to Recruiters On Linkedin Tools Beyond Waalaxy">
+    <meta property="og:description" content="Discover how job seekers can stand out to recruiters on LinkedIn using strategic public post engagement and safe local tools beyond Waalaxy.">
+    <meta property="og:image" content="https://assets.bevisible.app/featured-images/j57c1t0k03e84139gw0vgp47558b5bzh/best-how-job-seekers-can-stand-out-to-recruiters-o-1787069961398-7ydfi7.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://heyjunior.ai/blog/how-job-seekers-stand-out-recruiters-linkedin-tools-beyond-waalaxy/">
+    <meta name="twitter:title" content="Best How Job Seekers Can Stand Out to Recruiters On Linkedin Tools Beyond Waalaxy">
+    <meta name="twitter:description" content="Discover how job seekers can stand out to recruiters on LinkedIn using strategic public post engagement and safe local tools beyond Waalaxy.">
+    <meta name="twitter:image" content="https://assets.bevisible.app/featured-images/j57c1t0k03e84139gw0vgp47558b5bzh/best-how-job-seekers-can-stand-out-to-recruiters-o-1787069961398-7ydfi7.png">
+    
+</head>
+<body data-page="article" class="i18n-ready">
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <a href="../../index.html"><img src="../../images/junior-logo.png" alt="Junior Logo" class="logo-img"></a>
+            </div>
+            <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <div class="nav-group">
+                    <li><a href="../../index.html#use-cases">Use Cases</a></li>
+                    <li><a href="../../index.html#features">Features</a></li>
+                    <li><a href="../../why-commenting-works.html">Why Commenting Works</a></li>
+                    <li><a href="../../blog.html">Blog</a></li>
+                    <li><a href="../../try-it.html">Try It</a></li>
+                
+                    <li><a href="../../blog.html">Blog</a></li></div>
+                <div class="nav-actions">
+                    <li><a href="../../register.html?src=article-nav" class="cta-button">Start Free</a></li>
+                    <li><a href="../../portal.html" class="nav-login-link">Login</a></li>
+                </div>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="article-container" style="padding-top: 120px;">
+        <a href="../../blog.html" class="back-link">← Back to Blog</a>
+        
+        <div id="article-content">
+            <div class="article-loading">Loading article...</div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Junior. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        window.__INITIAL_ARTICLE_DATA__ = {"id": 77, "slug": "how-job-seekers-stand-out-recruiters-linkedin-tools-beyond-waalaxy", "title": "Best How Job Seekers Can Stand Out to Recruiters On Linkedin Tools Beyond Waalaxy", "excerpt": "Discover how job seekers can stand out to recruiters on LinkedIn using strategic public post engagement and safe local tools beyond Waalaxy.", "featured_image_url": "https://assets.bevisible.app/featured-images/j57c1t0k03e84139gw0vgp47558b5bzh/best-how-job-seekers-can-stand-out-to-recruiters-o-1787069961398-7ydfi7.png", "published_at": "2026-08-18T16:00:00+00:00", "content": "# Best How Job Seekers Can Stand Out to Recruiters On Linkedin Tools Beyond Waalaxy\n\nA talent acquisition manager opening LinkedIn on a Monday morning usually faces an inbox packed with dozens of identical automated messages. Most follow a predictable sequence generated by cloud automation platforms like Waalaxy: a sudden connection request, followed 24 hours later by a template asking if they have 15 minutes to chat about open roles. Because recruiters process high volumes of candidates daily, these cold inbox intrusions are routinely archived without being read.\n\nRelying purely on cold connection blasts to land interviews creates a severe numbers game with shrinking returns. While platforms such as Waalaxy built their reputation on bulk connection sequences and email scraping, LinkedIn\u2019s security updates and modern recruiter behaviors have shifted the balance. Today, standing out requires public visibility, context-rich engagement, and precise keyword indexing before you ever land in a recruiter's candidate pipeline.\n\nTo get noticed by hiring managers, job seekers need tools and strategies that go beyond cold DMs. Bypassing crowded candidate inboxes starts with understanding how modern recruitment workflows operate, why cloud-based mass outreach hurts account safety, and how alternative automation tools like Junior help professionals build organic visibility through public post commenting.\n\n---\n\n## How Recruiters Search and Evaluate Candidates on LinkedIn\n\nRecruiters do not scroll through the home feed to source talent. They rely heavily on specialized search tools like LinkedIn Recruiter, where candidates are filtered using precise parameters including current titles, geographic location, past employers, core skill badges, and active platform engagement.\n\n```\n+-----------------------------------------------------------------------+\n|                    RECRUITER SEARCH & EVALUATION                      |\n+-----------------------------------------------------------------------+\n|  1. QUERY SEARCH          | Filters by skills, titles, location &     |\n|                           | activity level in LinkedIn Recruiter.     |\n\n+---------------------------+-------------------------------------------+\n|  2. PROFILE SCREENING     | Scans profile headline, recent activity,  |\n|                           | and public contributions.                 |\n\n+---------------------------+-------------------------------------------+\n|  3. FIRST TOUCHPOINT      | Prioritizes candidates with warm public   |\n|                           | engagement over cold, unread DMs.         |\n\n+-----------------------------------------------------------------------+\n```\n\n![Hand-drawn Excalidraw diagram showing how recruiters search, index, and evaluate job candidate profiles on LinkedIn.](https://assets.bevisible.app/inline-images/j57c1t0k03e84139gw0vgp47558b5bzh/inline-1-1787069872497-s0uhkz.png)\nWhen a recruiter runs a search query, LinkedIn\u2019s algorithm prioritizes profiles that match target keywords while exhibiting signals of platform activity. Candidates who actively post or comment on industry topics frequently rank higher in search results than dormant profiles with identical experience.\n\n### Keyword Optimization and Profile Indexing\n\nTo appear in search results, your profile headline, summary, and experience sections must incorporate the exact phrases recruiters enter into their search bars. A title like \"Aspiring Marketing Professional Looking for Next Role\" contains almost zero indexable terms. A title such as \"Product Marketing Manager | B2B SaaS, Go-to-Market Strategy, Product Launches\" gives the search algorithm concrete keywords to index.\n\nAccording to official advice on [attracting recruiters on LinkedIn](https://www.linkedin.com/blog/member/archive/7-secrets-to-attracting-recruiters-on-linkedin), incorporating industry-specific keywords across your headline, skills, and past positions directly impacts how often your profile appears in recruiter queries. Ensuring your top 50 skills are explicitly tagged helps algorithms index your candidate profile correctly.\n\n### The Role of Signals and Preferences\n\nRecruiters also filter searches by candidate availability. Enabling specific visibility settings makes your profile discoverable to hiring teams using specialized tools. Candidates can configure their account settings to indicate interest without broadcasting it publicly. You can easily manage these visibility preferences by following the guide on [letting recruiters know you are open to work](https://www.linkedin.com/help/linkedin/answer/a507508/let-recruiters-know-you-re-open-to-work?lang=en).\n\nWhile signaling open status helps, the debate around the public `#OpenToWork` photo frame continues among career strategists. Short video clips on social platforms, including discussions on [how job search strategies function on LinkedIn](https://www.youtube.com/shorts/1jnwJqMfQBA), highlight that some hiring managers prefer candidate activity to reflect professional expertise rather than visible job-hunting flags.\n\n### Active vs. Passive Engagement Signals\n\nRecruiters look closely at candidate activity feeds. When a recruiter clicks on a profile from a search result, they check recent posts and comments to assess clear communication skills, industry involvement, and professional presence.\n\n| Evaluation Metric | Traditional Passive Profile | Strategic Active Profile |\n| :--- | :--- | :--- |\n| **Recruiter Search Visibility** | Moderate (based only on static text) | High (boosted by ongoing platform interactions) |\n| **First Impression** | Static resume page | Living proof of industry expertise and commentary |\n| **Inbound Response Rate** | Low (competes with hundreds of unread DMs) | High (recruiter recognizes name from public threads) |\n| **Trust Factor** | Neutral | High (validated through thoughtful public insights) |\n\n---\n\n## Why Waalaxy and Cloud Outreach Fall Short for Job Seekers\n\nWaalaxy gained popularity as an automated outreach engine designed primarily for outbound sales sequences. Its underlying design relies on sending automated connection requests, running message follow-up drips, and extracting candidate email addresses into external outreach queues.\n\n```\nTRADITIONAL CLOUD OUTREACH (Waalaxy)\n[ Cloud Server IP ] ---> [ Mass Connection Requests ] ---> [ Cold Direct Messages ] ---> High Recruiter Fatigue & Account Warnings\n\nLOCAL ORGANIC ENGAGEMENT (Junior)\n[ Desktop Execution ] ---> [ Strategic Post Discovery ] ---> [ Contextual Public Comments ] ---> Profile Views & Warm Recruiter Inbound\n```\n\nWhile bulk messaging works for high-volume sales prospecting, applying cold outreach to a job search introduces distinct disadvantages that can harm your professional reputation and account safety.\n\n### 1. Inboxes Are Saturated with Cold Pitch Templates\n\nRecruiters treat cold DMs from job seekers much like cold sales pitches. When dozens of applicants send identical \"I applied to role X, let's connect\" messages, inbox fatigue sets in. Automated sequences built in cloud messaging tools lack genuine context. They signal that the candidate is running a mass blast campaign rather than targeting specific team needs.\n\n### 2. Cloud IPs Trigger Platform Safety Algorithms\n\nCloud-based automation platforms operate by routing account actions through remote server farms and shared proxies. LinkedIn actively monitors connection patterns, login locations, and sudden surges in account activity. When a cloud tool sends dozens of automated connection requests from an external IP address, the platform can flag the activity, leading to account restrictions or temporary bans.\n\n### 3. Connection Limits Restrict Scope\n\nLinkedIn enforces weekly limits on connection requests. Relying entirely on direct outreach means your job search capacity hits a strict wall every week. If your response rate on cold DMs hovers around 2% to 5%, sending 100 automated connection requests yields only two or three meaningful conversations, while consuming your entire weekly outreach allowance.\n\n---\n\n## Top LinkedIn Tools Beyond Waalaxy for Job Seekers\n\nJob seekers who want consistent visibility need tools built for organic engagement, safer execution, and public presence rather than bulk messaging. The table below outlines how top alternatives compare across key criteria.\n\n| Tool | Core Mechanism | Safety Architecture | Primary Touchpoint | Ideal For |\n| :--- | :--- | :--- | :--- | :--- |\n| **Junior** | Context-aware public post commenting & discovery | Local desktop execution; natural interaction timings | Public post comment sections | Job seekers, consultants, and founders wanting warm inbound engagement |\n| **Taplio** | Post scheduling, viral content generation, outreach CRM | Cloud-based scheduling & chrome extension actions | Profile home feed posts | Content creators and personal brand builders |\n| **Supergrow** | Post creation, carousel builder, basic engagement | Web app interface with extension integrations | Written posts & visual content | Creators focused on high-volume posting |\n| **LinkedIn Recruiter / Native** | Boolean search, direct candidate filtering, native messaging | Native platform infrastructure | Direct platform search & internal InMail | Direct keyword alignment & native profile optimization |\n\n---\n\n### 1. Junior: Organic Engagement Through Strategic Post Commenting\n\nJunior approaches LinkedIn networking from a fundamentally different perspective. Instead of forcing candidates into crowded candidate DMs, Junior helps job seekers participate in active discussions taking place on public posts written by hiring managers, internal recruiters, and industry executives.\n\n```\n+-----------------------------------------------------------------------+\n|                        JUNIOR WORKFLOW SYSTEM                         |\n+-----------------------------------------------------------------------+\n|  1. PROFILE BIO & GOALS   | Ingests user career background, target    |\n|                           | titles, and domain expertise.             |\n\n+---------------------------+-------------------------------------------+\n|  2. POST DISCOVERY        | Scans LinkedIn for relevant discussions   |\n|                           | posted by recruiters and hiring managers. |\n\n+---------------------------+-------------------------------------------+\n|  3. LOCAL EXECUTION       | Runs locally on user machine to maintain  |\n|                           | realistic human interaction timing.        |\n\n+---------------------------+-------------------------------------------+\n|  4. CONTEXTUAL REPLIES    | Drafts articulate, human-sounding public  |\n|                           | comments that prompt profile views.       |\n\n+-----------------------------------------------------------------------+\n```\n\n#### How Junior Operates\n\nJunior runs directly on your computer rather than on a remote cloud server. This local execution model mirrors standard browser behavior, protecting account security while avoiding cloud proxy footprints. \n\n1. **Custom Background Alignment:** Junior analyzes your unique work history, target roles, technical skills, and career achievements.\n2. **Relevant Discussion Discovery:** The system identifies active posts published by hiring managers, recruiters, and key voices in your niche.\n3. **Context-Aware Drafting:** Junior drafts natural, highly context-aware public comments that showcase your knowledge without sounding like AI-generated filler.\n4. **Controlled Engagement Execution:** Actions are executed using natural human delay patterns, respecting account safety limits.\n\n#### Why Public Commenting Bypasses Cold Inboxes\n\nWhen you post an insightful comment on a recruiter's public update, three things happen immediately:\n\n* The recruiter receives a native notification showing your name, profile photo, and headline.\n* Other professionals reading the comment thread see your expertise displayed in context.\n* You establish a warm touchpoint before ever initiating a direct message or connection request.\n\nBy engaging publicly, job seekers transform cold outreach into warm inbound traffic. Hiring managers routinely click on profiles that contribute valuable insights to their threads. When they visit your profile, an optimized headline and clear experience section handle the rest.\n\nTo explore how commenting automation compares with other growth tools, read our detailed breakdown of [Junior vs Taplio for LinkedIn growth](https://www.heyjunior.ai/blog/junior-vs-taplio-for-linkedin-growth).\n\n---\n\n### 2. Taplio: Content Creation and Keyword Expansion\n\nTaplio focuses primarily on content generation and post scheduling. For job seekers who want to build a personal brand by posting long-form content, Taplio provides inspiration databases, viral post collections, and scheduling calendars.\n\n```\n[ Industry Topic Input ] ---> [ Taplio Content Engine ] ---> [ Scheduled Home Feed Posts ] ---> Audience Reach\n```\n\n#### Strengths for Job Seekers\n* **Content Inspiration:** Helps you identify trending topics within tech, finance, marketing, or engineering.\n* **Post Scheduling:** Allows candidates to queue up technical case studies, lessons learned, and industry perspectives weeks in advance.\n* **Analytics Tracking:** Displays which published posts drive profile views and engagement metrics.\n\n#### Key Limitations\nTaplio focuses on content creation rather than proactive engagement with target recruiters. Publishing posts relies on people finding your content through the feed algorithm. If your account has a small network, post reach remains limited. Combining post creation with targeted public outreach yields better results.\n\nFor a broader evaluation of discovery software, review our guide on the [best tools to find relevant LinkedIn posts to comment on tools beyond Taplio](https://www.heyjunior.ai/blog/best-tools-to-find-relevant-linkedin-posts-to-comment-on-tools-beyond-taplio).\n\n---\n\n### 3. Supergrow: Content Formatting and Carousel Management\n\nSupergrow serves professionals looking to establish visual authority on LinkedIn. It provides post creation tools, carousel formatting, and structured content scheduling.\n\n```\n[ Raw Career Lessons ] ---> [ Supergrow Visual Editor ] ---> [ PDF Carousel / Visual Post ] ---> Feed Authority\n```\n\n#### Strengths for Job Seekers\n* **Visual Presentation:** Converts project summaries, technical frameworks, and portfolio achievements into formatted visual slide decks.\n* **Drafting Tools:** Simplifies text styling, hook creation, and post formatting.\n\n#### Key Limitations\nLike Taplio, Supergrow is designed for publishing posts to your own feed. It does not automatically find posts from recruiters or engage in target comment sections where hiring decisions originate.\n\nLearn more about content creation tools by reading our evaluation of the [best AI tools for LinkedIn commenting tools beyond Supergrow](https://www.heyjunior.ai/blog/best-ai-tools-for-linkedin-commenting-tools-beyond-supergrow).\n\n---\n\n### 4. LinkedIn Native Tools & LinkedIn Recruiter Optimization\n\nNative platform tools remain essential for setting up candidate discovery channels. Before automating any public interaction, job seekers should configure native LinkedIn settings correctly.\n\n```\n[ Settings Preferences ] ---> [ Skills & Headline SEO ] ---> [ Indexing in Recruiter Database ]\n```\n\n#### Key Optimization Steps\n\n1. **Update Open to Work Preferences:** Set visibility to \"Recruiters Only\" if currently employed, or \"All LinkedIn Members\" if actively broadcasting availability. Guidance on configuring these settings is available in the official [LinkedIn Help documentation on open preferences](https://www.linkedin.com/help/linkedin/answer/a507508/let-recruiters-know-you-re-open-to-work?lang=en).\n2. **Align Core Headlines:** Replace generic descriptions with specific technical stack tags or job titles.\n3. **Skill Verification Badges:** Complete skill assessments and secure end-to-end endorsements from past colleagues. Short videos covering common profile mistakes on platforms like Instagram show how subtle errors on [LinkedIn profile setup cause recruiters to pass over candidates](https://www.instagram.com/reel/DZxMT8ytrAl/).\n\n---\n\n## Step-by-Step Strategy: How Job Seekers Stand Out Beyond Cold DMs\n\nMoving from ignored cold DMs to direct recruiter interest requires a systematic methodology. This five-step blueprint demonstrates how to combine profile optimization, strategic discovery, and automated local engagement.\n\n```\n+-----------------------------------------------------------------------+\n|                    THE WARM ENGAGEMENT FUNNEL                         |\n+-----------------------------------------------------------------------+\n|  STEP 1: PROFILE SEO      | Align headline, experience, and core tags |\n|                           | with target job listings.                 |\n\n+---------------------------+-------------------------------------------+\n|  STEP 2: TARGET LIST      | Build a list of 30-50 internal recruiters |\n|                           | and engineering/marketing leaders.        |\n\n+---------------------------+-------------------------------------------+\n|  STEP 3: PUBLIC COMMENTS  | Leave strategic context-aware comments on |\n|                           | their updates using local automation.     |\n\n+---------------------------+-------------------------------------------+\n|  STEP 4: INBOUND VIEWS    | Target contacts notice your comments and  |\n|                           | visit your optimized profile.             |\n\n+---------------------------+-------------------------------------------+\n|  STEP 5: WARM INQUIRY     | Send a brief direct message referencing   |\n|                           | the specific post discussion.             |\n\n+-----------------------------------------------------------------------+\n```\n\n![Field note sketch illustrating the 5-step warm engagement funnel for job seekers on LinkedIn.](https://assets.bevisible.app/inline-images/j57c1t0k03e84139gw0vgp47558b5bzh/inline-2-1787069878382-znx3b2.png)\n### Step 1: Optimize Your Profile for Search Engine Mechanics\n\nBefore driving traffic to your profile through public engagement, make sure your landing page converts visits into interview requests.\n\n* **Headline Structure:** `[Target Job Title] | [Core Specialty/Tech Stack] | [Quantifiable Achievement or Value Proposition]`\n* **About Section:** Write a concise three-paragraph summary outlining your core achievements, tools mastered, and problem-solving focus.\n* **Skills Section:** Pin your top three core skills that match target job descriptions.\n\n### Step 2: Build a Focused Contact List\n\nCreate a structured tracking system of target organizations and key decision-makers:\n\n1. Search for internal talent acquisition managers, talent partners, and engineering/marketing department leaders at target companies.\n2. Save their profile links into a organized tracking sheet or bookmark folder.\n3. Follow their public activity feeds so you receive updates whenever they post hiring announcements or industry thoughts.\n\n### Step 3: Execute Daily Strategic Commenting\n\nEngaging in public comment sections gets your name in front of decision-makers without filling up their private inbox.\n\n```\n[ Recruiter Post ] ---> [ Context-Aware Insightful Comment ] ---> [ Profile View ] ---> [ Inbound Dialogue ]\n```\n\nWhen a recruiter posts about an open position, team expansion, or industry trends, avoid generic replies like \"Great post!\" or \"I'm interested, check my profile.\" Instead, add real value:\n\n* **Good Example:** *\"Scaling a remote engineering team during rapid growth requires clear async communication norms. When we expanded our distributed workflow at my previous startup, setting up clear documentation guidelines reduced sync time significantly. Are you prioritizing timezone alignment or regional clusters for this headcount expansion?\"*\n\nThis type of response demonstrates domain knowledge, problem-solving experience, and active communication skills. Junior automates this process by reviewing post content alongside your background profile, drafting tailored comments that reflect your professional perspective.\n\n### Step 4: Monitor Inbound Profile Views and Trigger Warm Outreach\n\nWhen you leave insightful comments on target posts, hiring managers and recruiters will visit your profile.\n\n```\n+-----------------------------------------------------------------------+\n|                     WARM CONVERSATION TRANSITION                      |\n+-----------------------------------------------------------------------+\n|  NOTIFICATION RECEIVED   | \"Recruiter X viewed your profile\"         |\n+--------------------------+--------------------------------------------+\n|  CONTEXTUAL MESSAGE      | \"Hi [Name], noticed you viewed my profile |\n|                          | after my comment on your scaling post...\"  |\n\n+--------------------------+--------------------------------------------+\n|  OUTCOME                 | Higher response rate based on warm context |\n+-----------------------------------------------------------------------+\n```\n\nWhen you see a target recruiter in your \"Who's Viewed Your Profile\" list, send a brief warm message:\n\n> *\"Hi [Name], noticed you stopped by my profile after my comment on your post about scaling engineering teams. I've been following your updates at [Company] and noticed you're expanding your backend architecture team. I\u2019d love to share how I solved similar scaling challenges in my previous role if you're evaluating candidates for that opening.\"*\n\nBecause the recruiter already recognizes your name from their comment section, your message lands as a warm context-driven inquiry rather than unwanted inbox spam.\n\n### Step 5: Maintain Consistent Activity Patterns\n\nRecruiting timelines vary. A team that isn't hiring today might open a headcount next month. Consistent daily engagement keeps your profile visible in relevant feeds. Using desktop-based engagement platforms ensures your account remains active while respecting safe usage guidelines.\n\n---\n\n## Safety First: Protecting Your Account While Automating Job Search Activity\n\nUsing poorly designed automation platforms can cause permanent damage to your LinkedIn account. Platform security systems constantly monitor user accounts for signals that violate usage guidelines.\n\n```\n+-----------------------------------------------------------------------+\n|                      SAFETY ARCHITECTURE COMPARISON                   |\n+-----------------------------------------------------------------------+\n|  CLOUD TOOLS (High Risk)  | Remote Server IPs | Fixed Time Loops      |\n|                           | Bulk DM Batches   | Connection Requests   |\n\n+---------------------------+-------------------------------------------+\n|  LOCAL TOOLS (Safe Mode)  | Resident Local IP | Randomized Human Delays|\n|                           | Public Comments   | Strict Action Caps    |\n\n+-----------------------------------------------------------------------+\n```\n\n### Cloud-Based vs. Local Desktop Execution\n\nThe key distinction between traditional outreach tools and modern engagement platforms lies in their technical architecture.\n\n* **Cloud Automation (High Risk):** Platforms like Waalaxy manage actions from remote cloud servers. Login credentials, session tokens, and automated tasks originate from server farm IPs. When multiple accounts route actions through shared IP blocks, security algorithms flag the account for suspicious behavior.\n* **Local Desktop Execution (Safe):** Tools like Junior run directly on your personal computer. Actions take place within your standard desktop browser session, using your regular residential IP address and local browser cookies. This setup matches authentic human browser use, preserving account security.\n\nFor a deeper technical review of account safety architectures, consult our guide on [safe AI engagement on LinkedIn](https://www.heyjunior.ai/blog/safe-ai-engagement-on-linkedin).\n\n### Action Caps and Natural Interaction Timing\n\nAuthentic user engagement occurs at varying intervals. Human users do not execute actions every 30 seconds on a rigid clock cycle. Modern automation platforms mirror natural human timing by incorporating:\n\n1. **Randomized Action Delays:** Varying intervals between comment generations and post discoveries.\n2. **Conservative Action Caps:** Limiting daily comments to safe thresholds (e.g., 15 to 30 comments per day) rather than hundreds of daily connection blasts.\n3. **Natural Operating Hours:** Restricting activity to normal working hours based on your local timezone.\n\nTo review safety criteria when choosing automated engagement software, refer to our [automate LinkedIn comments safely evaluation checklist](https://www.heyjunior.ai/blog/automate-linkedin-comments-safely-evaluation-checklist) and our article on [Phantombuster alternatives to automate LinkedIn comments safely](https://www.heyjunior.ai/blog/phantombuster-alternatives-for-automate-linkedin-comments-safely).\n\n---\n\n## Practical Case Example: A Candidate's Transition from Cold DMs to Warm Engagement\n\nTo see how these concepts work in practice, consider the experience of a Senior Product Manager named Marcus, who was searching for a role after an unexpected layoff.\n\n```\nMARCUS'S JOB SEARCH CONVERSION RATE\n\n[ Approach A: Cold DMs via Cloud Automation ]\nSent: 150 Cold DMs ---> Replies: 3 ---> Interviews: 0 (Account flagged for 48 hours)\n\n[ Approach B: Local Commenting via Junior ]\nComments: 80 Public Threads ---> Profile Views: 42 ---> Warm DM Conversations: 11 ---> Interviews: 4\n```\n\n### The Initial Phase: Cold Messaging\n\nMarcus initially used cloud automation sequences to send 150 connection requests and follow-up DMs to tech recruiters over two weeks. The strategy produced poor outcomes:\n\n* **Total Sent:** 150 connection messages\n* **Acceptance Rate:** 12%\n* **Direct Messages Answered:** 3 standard templates (\"Thanks, apply on our portal\")\n* **Interview Invitations:** 0\n* **Platform Warning:** Received an automated warning regarding rapid connection requests.\n\n### The Shift to Public Post Commenting\n\nMarcus shifted his approach. He updated his profile headline to reflect key technical specialties and began using Junior to identify and engage with public posts written by talent leaders and VPs of Product at target companies.\n\nInstead of sending cold DMs, Marcus left articulate comments on industry updates, sharing specific insights on product roadmap prioritizations and discovery methodologies.\n\n### The Outcomes\n\nWithin three weeks of shifting to public engagement:\n\n* **Public Comments Executed:** 80 targeted post comments across 35 relevant corporate feeds.\n* **Inbound Profile Views:** 42 recruiters and product executives visited his profile.\n* **Warm Conversations Started:** 11 hiring managers replied directly to his comments or accepted context-driven connection requests.\n* **Interviews Secured:** 4 initial recruiter screens, leading to two final-round interview cycles.\n\nBy substituting cold inbox messages with meaningful public comments, Marcus bypassed crowded candidate DMs and turned public visibility into direct career opportunities.\n\n---\n\n## Evaluation Framework: Choosing the Right LinkedIn Tool for Your Job Search\n\nWhen evaluating LinkedIn software to support your job hunt, use this decision framework to select tools that protect your account and deliver real recruiter visibility.\n\n```\n+-----------------------------------------------------------------------+\n|                    TOOL EVALUATION SELECTION MATRIX                   |\n+-----------------------------------------------------------------------+\n|  GOAL: RECRUITER INBOUND   | Choose Local Engagement Tools (Junior)   |\n|                            | Focuses on contextual public comments.    |\n\n+----------------------------+------------------------------------------+\n|  GOAL: BRAND POSTING       | Choose Content Tools (Taplio / Supergrow) |\n|                            | Focuses on long-form post drafts.        |\n\n+----------------------------+------------------------------------------+\n|  GOAL: MASS EMAIL SALES    | Choose Outreach Engines (Waalaxy/Dripify) |\n|                            | High account risk; poor job search ROI.  |\n\n+-----------------------------------------------------------------------+\n```\n\n![Whiteboard comparison chart comparing cloud mass outreach tools, content tools, and local engagement tools.](https://assets.bevisible.app/inline-images/j57c1t0k03e84139gw0vgp47558b5bzh/inline-3-1787069879342-ny0ky2.png)\nUse the decision matrix below to evaluate software features against your career goals:\n\n| Feature Criteria | Waalaxy / Dripify | Taplio / Supergrow | Junior |\n| :--- | :--- | :--- | :--- |\n| **Primary Touchpoint** | Direct Messages & Email | Home Feed Posts | Public Comment Sections |\n| **Execution Architecture** | Cloud Servers (Higher Risk) | Web App / Extension | Local Desktop Execution (Safe) |\n| **Recruiter Friction** | High (Inbox Intrusion) | Low (Passive Viewing) | Zero (Public Value Addition) |\n| **Context Awareness** | Basic Keyword Substitution | AI Topic Drafting | Full Bio & Role-Aware Analysis |\n| **Account Safety Controls** | Proxy Dependence | Extension Based | Natural Delay Engine & Local IP |\n| **Primary Outcome** | Cold Message Volume | Brand Feed Reach | Inbound Profile Views & Interviews |\n\nFor a complete breakdown of selection criteria, read our [AI tools for LinkedIn commenting evaluation checklist](https://www.heyjunior.ai/blog/ai-tools-for-linkedin-commenting-evaluation-checklist). If you are currently comparing different message outreach platforms, review our detailed guide on [Junior vs Dripify for finding opportunities without automated messaging](https://www.heyjunior.ai/blog/junior-vs-dripify-finding-consulting-clients-without-automated-messaging).\n\n---\n\n## Frequently Asked Questions\n\n### Is the Open to Work banner helpful or harmful when trying to attract recruiters?\n\nThe `#OpenToWork` banner remains a point of discussion among career strategists. Video discussions on [debates surrounding the Open to Work banner](https://www.instagram.com/reel/DZe1NMxEvwh/) highlight that while the green photo frame clearly signals availability, some candidates prefer to enable the private \"Recruiters Only\" setting in account preferences. This privacy setting ensures recruiters using LinkedIn Recruiter can find your profile without displaying a public badge on your photo.\n\n### Why do recruiters ignore direct messages on LinkedIn?\n\nRecruiters regularly process high volumes of inbound messages from applicants, sales reps, and agencies. When a candidate sends a cold message that lacks specific context, it gets grouped with dozens of standard outreach notes. Engaging publicly on a recruiter's post builds familiar context before you ever land in their inbox.\n\n### Can recruiters tell if you are using automation tools?\n\nRecruiters can easily spot cloud messaging templates that use generic variables like `\"Loved your post about [Company_Name]!\"` On the other hand, natural public comments that reference specific arguments, technical concepts, or industry challenges reflect genuine human engagement.\n\n### How many LinkedIn posts should job seekers comment on daily?\n\nConsistency matters far more than volume. Leaving 5 to 15 well-articulated comments on relevant posts each business day creates continuous visibility without exceeding account safety thresholds or triggering platform warnings.\n\n---\n\n## A Tactical 7-Day Plan to Shift from Cold DMs to Warm Recruiter Inbound\n\nTo step away from cold outreach platforms and start building genuine candidate visibility, follow this one-week operational plan.\n\n```\n+-----------------------------------------------------------------------+\n|                    7-DAY IMPLEMENTATION TIMELINE                      |\n+-----------------------------------------------------------------------+\n|  DAY 1: PROFILE SEO      | Align headline and skills tags for index.  |\n|  DAY 2: TARGET LIST      | Identify 30 hiring managers & recruiters.  |\n|  DAY 3: LOCAL SETUP      | Configure Junior with background & bio.    |\n|  DAYS 4-6: ENGAGEMENT    | Execute 10 targeted comments per day.     |\n|  DAY 7: CONVERSATION     | Message recruiters who viewed your profile.|\n\n+-----------------------------------------------------------------------+\n```\n\n### Day 1: Clean Up Profile Keywords\nUpdate your headline, summary, and experience sections to reflect the exact technical terms and titles recruiters enter into search query fields. Refer to official guidelines on [attracting recruiters on LinkedIn](https://www.linkedin.com/blog/member/archive/7-secrets-to-attracting-recruiters-on-linkedin) to refine your keyword structure.\n\n### Day 2: Build Your Target Recruiter List\nFind 30 to 50 internal recruiters and department directors across your top target companies. Follow their activity feeds and save their profile links in a centralized document.\n\n### Day 3: Configure Local Automation\nSet up Junior on your desktop machine. Input your work history, career highlights, target role preferences, and communication style so the local AI drafts replies that match your professional tone.\n\n### Days 4 to 6: Execute Public Commenting Cycles\nRun daily engagement sessions to place 10 to 15 context-rich comments across your target recruiter lists. Monitor post discussions to respond promptly if authors reply to your comments.\n\n### Day 7: Convert Inbound Views into Outreach\nCheck your profile views. Send a brief warm message to every recruiter or hiring manager who viewed your page after seeing your comments.\n\nBy moving away from cloud messaging automation like Waalaxy and focusing on local, context-aware engagement platforms like Junior, job seekers build steady candidate visibility, protect their account security, and convert public interactions into meaningful interview opportunities. Explore our analysis of the [best LinkedIn engagement tools](https://www.heyjunior.ai/blog/best-linkedin-engagement-tools-2026) to elevate your job search strategy.", "created_at": "2026-08-18T16:49:22.573500+00:00", "updated_at": "2026-08-18T16:49:22.573505+00:00"};
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js"></script>
+    <script>
+        function looksLikeHtml(content) {
+            return /<\/?[a-z][\s\S]*>/i.test(content);
+        }
+
+        function escapeHtml(content) {
+            return content
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function formatPlainText(content) {
+            return content
+                .split(/\n{2,}/)
+                .map(paragraph => `<p>${escapeHtml(paragraph).replace(/\n/g, '<br>')}</p>`)
+                .join('');
+        }
+
+        function renderArticleBody(rawContent) {
+            const content = (rawContent || '').trim();
+            if (!content) {
+                return '<p>This article has no content yet.</p>';
+            }
+
+            if (looksLikeHtml(content)) {
+                if (window.DOMPurify) {
+                    return window.DOMPurify.sanitize(content);
+                }
+                return content;
+            }
+
+            if (window.marked) {
+                const markdownHtml = window.marked.parse(content, {
+                    gfm: true,
+                    breaks: true,
+                    mangle: false,
+                    headerIds: true
+                });
+                if (window.DOMPurify) {
+                    return window.DOMPurify.sanitize(markdownHtml);
+                }
+                return markdownHtml;
+            }
+
+            return formatPlainText(content);
+        }
+
+        function createShareButtons(url, title, position) {
+            const encodedUrl = encodeURIComponent(url);
+            const encodedTitle = encodeURIComponent(title);
+            
+            const buttons = [
+                {
+                    name: 'LinkedIn',
+                    url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>'
+                },
+                {
+                    name: 'X',
+                    url: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>'
+                },
+                {
+                    name: 'Facebook',
+                    url: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>'
+                },
+                {
+                    name: 'WhatsApp',
+                    url: `https://api.whatsapp.com/send?text=${encodedTitle}%20${encodedUrl}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>'
+                },
+                {
+                    name: 'Reddit',
+                    url: `https://reddit.com/submit?url=${encodedUrl}&title=${encodedTitle}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.688-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg>'
+                },
+                {
+                    name: 'Email',
+                    url: `mailto:?subject=${encodedTitle}&body=${encodedUrl}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>'
+                }
+            ];
+
+            let html = `<div class="share-row ${position === 'top' ? 'top-share' : ''}">`;
+            
+            buttons.forEach(btn => {
+                html += `<a href="${btn.url}" target="_blank" rel="noopener noreferrer" class="share-button" data-cta="share-${position}-${btn.name.toLowerCase()}">
+                    ${btn.icon} ${btn.name}
+                </a>`;
+            });
+
+            html += `<button class="share-button" onclick="navigator.clipboard.writeText('${url.replace(/'/g, "\\'")}'); alert('Link copied to clipboard!');" data-cta="share-${position}-copy">
+                <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg> Copy Link
+            </button>`;
+
+            if (navigator.share) {
+                html += `<button class="share-button" onclick="navigator.share({title: '${title.replace(/'/g, "\\'")}', url: '${url.replace(/'/g, "\\'")}'}).catch(console.error);" data-cta="share-${position}-native">
+                    <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg> Share
+                </button>`;
+            }
+
+            html += `</div>`;
+            return html;
+        }
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            const container = document.getElementById('article-content');
+            
+            try {
+                let post;
+                
+                // If we have injected data (static page), use it directly
+                if (window.__INITIAL_ARTICLE_DATA__) {
+                    post = window.__INITIAL_ARTICLE_DATA__;
+                } else {
+                    // Otherwise, we are on the dynamic route, fetch from API
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const slug = urlParams.get('slug');
+                    
+                    if (!slug) {
+                        throw new Error('Article not found.');
+                    }
+                    
+                    // Redirect to the new static URL format
+                    window.location.replace(`/blog/${slug}/`);
+                    return;
+                }
+                
+                document.title = `${post.title} - Junior`;
+                
+                const date = new Date(post.published_at).toLocaleDateString();
+                
+                let html = `
+                    <header class="article-header">
+                        <h1 class="article-title">${post.title}</h1>
+                        <div class="article-meta">Published on ${date}</div>
+                    </header>
+                `;
+
+                const shareUrl = window.location.href;
+                html += createShareButtons(shareUrl, post.title, 'top');
+                
+                if (post.featured_image_url) {
+                    html += `<img src="${post.featured_image_url}" alt="${post.title}" class="article-featured-image">`;
+                }
+                
+                html += `
+                    <div class="article-content">
+                        ${renderArticleBody(post.content)}
+                    </div>
+                `;
+                
+                html += createShareButtons(shareUrl, post.title, 'bottom');
+                
+                container.innerHTML = html;
+            } catch (err) {
+                container.innerHTML = `<p>${err.message}</p>`;
+                console.error(err);
+            }
+        });
+    </script>
+</body>
+</html>
