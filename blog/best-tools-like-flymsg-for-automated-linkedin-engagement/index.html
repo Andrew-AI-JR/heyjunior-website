@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article - Junior</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <script defer src="../../js/analytics.js"></script>
+    <script src="../../js/api-config.js"></script>
+    <style>
+        .article-container {
+            max-width: 860px;
+            margin: 48px auto;
+            padding: 0 20px;
+        }
+        .article-header {
+            margin-bottom: 32px;
+        }
+        .article-title {
+            font-size: clamp(2rem, 3vw, 2.9rem);
+            margin-bottom: 14px;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            color: #020617;
+        }
+        .article-meta {
+            color: #64748b;
+            font-size: 0.97rem;
+            font-weight: 500;
+        }
+        .article-featured-image {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            margin-bottom: 32px;
+        }
+        .article-content {
+            max-width: 72ch;
+            font-size: clamp(1.06rem, 1.2vw, 1.2rem);
+            line-height: 1.85;
+            color: #1f2937;
+        }
+        .article-content > *:first-child {
+            margin-top: 0;
+        }
+        .article-content > *:last-child {
+            margin-bottom: 0;
+        }
+        .article-content h2 {
+            margin-top: 2.1em;
+            margin-bottom: 0.8em;
+            line-height: 1.25;
+            letter-spacing: -0.01em;
+            color: #020617;
+        }
+        .article-content h3 {
+            margin-top: 1.7em;
+            margin-bottom: 0.65em;
+            line-height: 1.3;
+            letter-spacing: -0.005em;
+            color: #1e293b;
+        }
+        .article-content h4 {
+            margin-top: 1.4em;
+            margin-bottom: 0.55em;
+            line-height: 1.35;
+            color: #334155;
+        }
+        .article-content p {
+            margin: 0 0 1.3em;
+        }
+        .article-content ul,
+        .article-content ol {
+            margin: 0 0 1.3em 1.35em;
+            padding: 0;
+        }
+        .article-content li {
+            margin-bottom: 0.45em;
+        }
+        .article-content strong {
+            color: #0f172a;
+        }
+        .article-content a {
+            color: #1d4ed8;
+            text-decoration-thickness: 0.08em;
+            text-underline-offset: 0.16em;
+        }
+        .article-content blockquote {
+            margin: 0 0 1.5em;
+            padding: 0.9em 1.1em;
+            border-left: 4px solid #94a3b8;
+            color: #334155;
+            background: #f8fafc;
+            border-radius: 8px;
+        }
+        .article-content pre {
+            overflow-x: auto;
+            padding: 14px;
+            border-radius: 8px;
+            background: #0f172a;
+            color: #e2e8f0;
+            margin-bottom: 1.5em;
+            font-size: 0.93em;
+            line-height: 1.6;
+        }
+        .article-content code {
+            font-family: Consolas, "SFMono-Regular", Menlo, Monaco, monospace;
+            font-size: 0.95em;
+            background: #f1f5f9;
+            padding: 0.12em 0.35em;
+            border-radius: 4px;
+        }
+        .article-content pre code {
+            background: transparent;
+            padding: 0;
+        }
+        .article-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5em;
+            display: block;
+            overflow-x: auto;
+        }
+        .article-content th,
+        .article-content td {
+            border: 1px solid #cbd5e1;
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        .article-content th {
+            background: #f8fafc;
+            color: #0f172a;
+        }
+        .article-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin: 0.6em 0 1.3em;
+        }
+        .article-content hr {
+            border: none;
+            border-top: 1px solid #e2e8f0;
+            margin: 2em 0;
+        }
+        .article-content figure {
+            margin: 0 0 1.5em;
+        }
+        .article-content figcaption {
+            color: #64748b;
+            font-size: 0.92em;
+            margin-top: 0.55em;
+        }
+        .article-loading {
+            text-align: center;
+            padding: 40px;
+            color: #64748b;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 24px;
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        .share-row {
+            display: flex;
+            gap: 12px;
+            margin: 24px 0;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .share-row.top-share {
+            margin-top: 16px;
+            margin-bottom: 0;
+        }
+        .share-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-decoration: none;
+            color: #334155;
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .share-button:hover {
+            background: #e2e8f0;
+            color: #0f172a;
+            border-color: #cbd5e1;
+            text-decoration: none;
+        }
+        .share-button svg {
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+            fill: currentColor;
+        }
+        @media (max-width: 768px) {
+            .article-container {
+                margin: 28px auto;
+                padding: 0 16px;
+            }
+            .article-header {
+                margin-bottom: 24px;
+            }
+            .article-content {
+                font-size: 1.04rem;
+                line-height: 1.75;
+            }
+            .article-content table {
+                font-size: 0.93rem;
+            }
+            .article-content pre {
+                padding: 12px;
+            }
+        }
+    </style>
+
+    <link rel="canonical" href="https://heyjunior.ai/blog/best-tools-like-flymsg-for-automated-linkedin-engagement/">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://heyjunior.ai/blog/best-tools-like-flymsg-for-automated-linkedin-engagement/">
+    <meta property="og:title" content="Best Tools Like Flymsg But for Automated Linkedin Engagement Tools Beyond Flymsg">
+    <meta property="og:description" content="Discover the top tools like FlyMSG for automated LinkedIn engagement. Compare contextual AI, local desktop safety, and strategic commenting platforms.">
+    <meta property="og:image" content="https://assets.bevisible.app/featured-images/j575yhvfshrpjqs8yj1pzs0jsx8b5kgy/best-tools-like-flymsg-but-for-automated-linkedin-1787156436662-8snw1e.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://heyjunior.ai/blog/best-tools-like-flymsg-for-automated-linkedin-engagement/">
+    <meta name="twitter:title" content="Best Tools Like Flymsg But for Automated Linkedin Engagement Tools Beyond Flymsg">
+    <meta name="twitter:description" content="Discover the top tools like FlyMSG for automated LinkedIn engagement. Compare contextual AI, local desktop safety, and strategic commenting platforms.">
+    <meta name="twitter:image" content="https://assets.bevisible.app/featured-images/j575yhvfshrpjqs8yj1pzs0jsx8b5kgy/best-tools-like-flymsg-but-for-automated-linkedin-1787156436662-8snw1e.png">
+    
+</head>
+<body data-page="article" class="i18n-ready">
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <a href="../../index.html"><img src="../../images/junior-logo.png" alt="Junior Logo" class="logo-img"></a>
+            </div>
+            <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <div class="nav-group">
+                    <li><a href="../../index.html#use-cases">Use Cases</a></li>
+                    <li><a href="../../index.html#features">Features</a></li>
+                    <li><a href="../../why-commenting-works.html">Why Commenting Works</a></li>
+                    <li><a href="../../blog.html">Blog</a></li>
+                    <li><a href="../../try-it.html">Try It</a></li>
+                
+                    <li><a href="../../blog.html">Blog</a></li></div>
+                <div class="nav-actions">
+                    <li><a href="../../register.html?src=article-nav" class="cta-button">Start Free</a></li>
+                    <li><a href="../../portal.html" class="nav-login-link">Login</a></li>
+                </div>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="article-container" style="padding-top: 120px;">
+        <a href="../../blog.html" class="back-link">← Back to Blog</a>
+        
+        <div id="article-content">
+            <div class="article-loading">Loading article...</div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Junior. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        window.__INITIAL_ARTICLE_DATA__ = {"id": 78, "slug": "best-tools-like-flymsg-for-automated-linkedin-engagement", "title": "Best Tools Like Flymsg But for Automated Linkedin Engagement Tools Beyond Flymsg", "excerpt": "Discover the top tools like FlyMSG for automated LinkedIn engagement. Compare contextual AI, local desktop safety, and strategic commenting platforms.", "featured_image_url": "https://assets.bevisible.app/featured-images/j575yhvfshrpjqs8yj1pzs0jsx8b5kgy/best-tools-like-flymsg-but-for-automated-linkedin-1787156436662-8snw1e.png", "published_at": "2026-08-19T16:00:00+00:00", "content": "# Best Tools Like Flymsg But for Automated Linkedin Engagement Tools Beyond Flymsg\n\nIf you have used FlyMSG to speed up your daily messaging, you already know the power of shortcodes and text expanders. Built by Vengreso, FlyMSG gained popularity by helping sales professionals, recruiters, and marketers insert pre-written snippets (FlyPlates) and draft basic AI responses through features like FlyEngage AI. \n\nHowever, as LinkedIn algorithms change and buyers tune out canned responses, professionals looking for true automated LinkedIn engagement run into a hard wall with FlyMSG.\n\nFlyMSG is fundamentally a personal productivity assistant. It excels at saving keystrokes when you are manually typing messages, but it does not proactively find high-value conversations across LinkedIn, build context-aware multi-turn dialogue, or handle modern strategic commenting at scale. Relying on semi-manual snippet expansion to grow a pipeline leaves you manually scrolling through endless feeds, trying to think of relevant things to say on prospective client posts.\n\nThis guide explores the best tools like FlyMSG specifically built for automated LinkedIn engagement. We will evaluate how modern AI engagement engines differ from simple text expanders, analyze safe desktop-based alternatives, compare lead generation frameworks, and help you select the right platform beyond FlyMSG for your growth strategy.\n\n---\n\n## The Shift From Text Expansion to Strategic LinkedIn Engagement\n\nTo understand why professionals look beyond FlyMSG, it helps to examine how social selling on LinkedIn has evolved over the past few years.\n\nText expanders and browser-based snippet tools were built to solve a simple problem: repetitive typing. When sending dozens of outreach messages or dropping quick notes on connection requests, saving 30 seconds per message adds up over a work week. According to [LogicWeb's review of FlyMSG](https://www.logicweb.com/ai/flymsg/), these tools assist sales teams, HR professionals, and customer service teams by organizing templates and generating basic text responses.\n\nHowever, modern LinkedIn engagement is no longer about repeating template text faster. In fact, sending canned template text on LinkedIn public posts or private messages often backfires. Buyers recognize template comments (\"Great post! Thanks for sharing!\") instantly, and LinkedIn's feed algorithms deprioritize low-effort interactions.\n\n```\n+-----------------------------------------------------------------------+\n|                       EVOLUTION OF LINKEDIN ENGAGEMENT               |\n+-----------------------------------------------------------------------+\n|  1. MANUAL TEMPLATES     Static FlyPlates / Copy-paste scripts        |\n|                          High effort, low personalization             |\n\n+-----------------------------------------------------------------------+\n|  2. SEMI-AUTOMATED AI    Browser button AI generators (FlyMSG)        |\n|                          Faster typing, but manual discovery required  |\n\n+-----------------------------------------------------------------------+\n|  3. CLOUD SPAM BOT       Mass auto-DMs & connection request floods   |\n|                          High account suspension risk, low trust      |\n\n+-----------------------------------------------------------------------+\n|  4. CONTEXTUAL AI        Bio-aware post commenting & feed discovery   |\n|                          Runs locally, safe account operations,       |\n|                          converts visibility into qualified pipeline |\n\n+-----------------------------------------------------------------------+\n```\n\nAs detailed in [Vengreso's guide on LinkedIn automation tools](https://vengreso.com/blog/linkedin-automation), sales leaders need workflows that create actual conversations rather than just cold broadcast touchpoints.\n\n### Key Limitations of FlyMSG for Automated Engagement\n\n1. **No Automated Feed Discovery:** FlyMSG requires you to physically find the post on LinkedIn before generating a response. It does not monitor target accounts, track niche keywords, or compile a daily queue of strategic posts.\n2. **Generic Context Awareness:** While FlyMSG includes AI features like FlyEngage AI to assist with post comments, it generally relies on the immediate text of the post without deeply factoring in your personal background, offer details, or strategic goals.\n3. **Manual Interaction Loops:** FlyMSG requires manual user intervention for every single expander or comment prompt. If your goal is automated engagement across dozens of strategic posts daily, FlyMSG leaves the heavy lifting on your shoulders.\n4. **Focus on Direct Messaging over Public Visibility:** Text expanders prioritize private DMs. Today's top-performing creators and sales leaders know that public post commenting generates 5x to 10x more profile views than cold inbox messages because public comments demonstrate expertise to the entire thread audience.\n\nIf you are evaluating how to transition from basic snippet writing to dedicated public engagement, reviewing our [AI tools for LinkedIn commenting evaluation checklist](https://www.heyjunior.ai/blog/ai-tools-for-linkedin-commenting-evaluation-checklist) can clarify what technical features your team needs.\n\n---\n\n## What to Look for in a Dedicated LinkedIn Engagement Tool\n\nWhen moving beyond standard snippet expanders like FlyMSG, you need software specifically architected for relationship building and organic feed engagement. Here are the core pillars that separate advanced LinkedIn engagement platforms from basic text utilities.\n\n![Diagram illustrating four core pillars of dedicated LinkedIn engagement platforms](https://assets.bevisible.app/inline-images/j575yhvfshrpjqs8yj1pzs0jsx8b5kgy/inline-1-1787156251269-gjevoj.png)\n### 1. Account Safety and Execution Architecture\nLinkedIn strictly monitors browser behavior, request rates, and automated extensions. Cloud-based tools that send automated API requests from distant data center IP addresses frequently trigger account restrictions, verification checkpoints, or permanent bans. \n\nTools like Junior avoid cloud IP flagging by running locally on your own desktop machine. Local execution mirrors natural human behavior, using your local browser environment, realistic delays, and standard IP footprint so your account stays completely safe while running automated workflows.\n\n### 2. Contextual Feed Monitoring and Targeting\nInstead of expecting you to search LinkedIn manually, dedicated engagement tools continuously monitor target profiles, industry keywords, and prospect accounts. They compile a curated stream of high-intent discussions where your expertise will get noticed.\n\n### 3. Bio-Aware AI Comment Generation\nA major complaint with generic AI writing tools is that every comment sounds like ChatGPT: formal, overly enthusiastic, and filled with generic praise. Modern platforms train on your unique background, professional bio, portfolio highlights, and strategic business goals. When the software drafts a comment, it speaks in your voice, references relevant personal experiences, and adds genuine value to the author's topic.\n\n### 4. Transition Strategy from Public Visibility to Private Lead Flow\nCommenting on LinkedIn posts should not be an end in itself. High-value comments serve as conversation starters. The best engagement platforms help turn high-performing public comments into profile views, connection requests, and warm direct messages without resorting to cold spamming.\n\nTo explore safer engagement architectures in detail, see our analysis on [safe AI engagement on LinkedIn](https://www.heyjunior.ai/blog/safe-ai-engagement-on-linkedin).\n\n---\n\n## Top Tools Like FlyMSG for Automated LinkedIn Engagement\n\nBelow is a breakdown of the leading LinkedIn engagement and automation tools available today, categorized by their core functionality, automation style, and target use case.\n\n```\n+-----------------------------------------------------------------------------------+\n|                        LINKEDIN ENGAGEMENT TOOL TAXONOMY                          |\n+-----------------------------------------------------------------------------------+\n| CATEGORY                   | KEY CHARACTERISTIC          | EXAMPLE PLATFORMS     |\n+----------------------------+-----------------------------+-----------------------+\n| Strategic Post-Commenting  | Local execution, bio-aware  | Junior                |\n| & Conversation Starters    | public engagement, safe     |                       |\n\n+----------------------------+-----------------------------+-----------------------+\n| Content Creation &         | Post scheduling, basic AI   | Taplio, Supergrow     |\n| Feed Management Suites     | commenting plugins          |                       |\n\n+----------------------------+-----------------------------+-----------------------+\n| Outbound Sequence &        | Cloud scraping, direct DM   | PhantomBuster,        |\n| Message Automation         | sequences, webhooks         | Dripify               |\n\n+----------------------------+-----------------------------+-----------------------+\n| Snippet & Text Expansion   | Manual keyboard shortcuts,  | FlyMSG, TextBlaze,    |\n| Productivity Tools         | static template insertion   | Magical               |\n\n+----------------------------+-----------------------------+-----------------------+\n```\n\n---\n\n### 1. Junior (Best Overall for Safe, Strategic Post Commenting)\n\nJunior is an AI-powered LinkedIn automation tool engineered specifically to start authentic business conversations through strategic post commenting rather than generic message spam.\n\nWhile FlyMSG focuses on helping you type faster when you are already on a page, Junior takes over the heavy lifting of finding relevant discussions and generating context-aware, human-sounding comments. Designed for job seekers, sales reps, consultants, and founders, Junior replaces cold DMs by establishing your public presence on posts written by your ideal prospects.\n\n![Illustration of local desktop architecture for safe automated LinkedIn commenting](https://assets.bevisible.app/inline-images/j575yhvfshrpjqs8yj1pzs0jsx8b5kgy/inline-2-1787156254532-hgpop5.png)\n#### Why Junior Outperforms FlyMSG for Engagement:\n* **Local Desktop Execution:** Unlike cloud-based outreach tools or intrusive browser extensions, Junior runs directly on your machine. This protects account health by keeping your session, cookies, and IP address completely consistent with your normal browsing habits.\n* **Proactive Discovery:** Instead of manually searching LinkedIn, Junior finds relevant conversations, industry posts, and target prospect updates automatically.\n* **Deep Bio Integration:** Junior drafts responses grounded in your specific background, bio, and business goals. The result is a comment that reads like a thoughtful peer reaction, not an automated AI response.\n* **Warm Lead Conversion:** By providing insightful comments on high-visibility posts, Junior drives target prospects directly to your optimized profile, creating organic inbound connection requests.\n\nFor a deeper feature breakdown against scheduling-first tools, check out [Junior vs Taplio for LinkedIn growth](https://www.heyjunior.ai/blog/junior-vs-taplio-for-linkedin-growth).\n\n---\n\n### 2. Taplio\n\nTaplio is a popular all-in-one content creation and scheduling platform designed primarily for LinkedIn creators and personal brands.\n\nWhile FlyMSG helps with text expanding, Taplio provides a full suite for writing, scheduling, and analyzing LinkedIn posts. It includes AI generation tools for post creation and offers a central feed where users can reply to posts from target accounts or industry niches.\n\n#### Pros:\n* Powerful post scheduling and analytics dashboard.\n* Content generation engine trained on viral LinkedIn posts.\n* Built-in CRM-like features for tracking target accounts.\n\n#### Cons:\n* Heavy focus on content creation rather than automated background engagement.\n* Higher pricing tier for teams needing full engagement capabilities.\n* AI comments can sometimes feel standardized unless heavily customized.\n\nIf you are comparing broad content platforms against dedicated conversation tools, read our detailed comparison of the [best tools like Taplio to find relevant LinkedIn posts to comment on](https://www.heyjunior.ai/blog/best-tools-to-find-relevant-linkedin-posts-to-comment-on-tools-beyond-taplio).\n\n---\n\n### 3. Supergrow\n\nSupergrow focuses on helping founders, agencies, and creators build their LinkedIn audience through post formatting, carousel creation, and engagement support.\n\nLike FlyMSG, Supergrow offers AI writing assistance, but expands into full content visual formatting and basic engagement workflows. It allows users to engage with select feeds and craft comments faster.\n\n#### Pros:\n* Excellent text formatting and LinkedIn carousel design builders.\n* Streamlined dashboard for monitoring target post feeds.\n* AI generation assists with post ideas and quick replies.\n\n#### Cons:\n* Engagement is primarily browser-assisted rather than a true automated engine.\n* Lacks deep bio-driven customization for hyper-niche B2B sales leads.\n\nFor a broader evaluation of commenting tools in this tier, see our guide on the [best AI tools for LinkedIn commenting beyond Supergrow](https://www.heyjunior.ai/blog/best-ai-tools-for-linkedin-commenting-tools-beyond-supergrow).\n\n---\n\n### 4. PhantomBuster\n\nPhantomBuster is a cloud-based web scraping and workflow automation platform that offers pre-built scripts (\"Phantoms\") for LinkedIn outreach, profile extraction, and automated messaging.\n\nAs documented in [PhantomBuster's outreach guide](https://phantombuster.com/blog/ai-automation/linkedin-message-automation-tool/), PhantomBuster allows growth hackers to set up complex multi-step scraping and auto-messaging sequences.\n\n#### Pros:\n* High degree of flexibility for technical growth marketers.\n* Can pull lead data across multiple social platforms simultaneously.\n* Automates complex data collection and lead enrichment pipelines.\n\n#### Cons:\n* High account risk if misconfigured due to cloud-based execution and aggressive scraping behavior.\n* Lacks natural, bio-aware contextual AI for thoughtful post interactions.\n* Requires continuous monitoring to prevent hitting LinkedIn rate limits.\n\nTeams considering web scrapers should read our guide on [PhantomBuster alternatives for safe automated LinkedIn commenting](https://www.heyjunior.ai/blog/phantombuster-alternatives-for-automate-linkedin-comments-safely) and our [checklist for automating comments safely](https://www.heyjunior.ai/blog/automate-linkedin-comments-safely-evaluation-checklist).\n\n---\n\n### 5. Dripify\n\nDripify is an enterprise-focused LinkedIn sales automation platform designed for cold messaging, connection request drips, and lead tracking.\n\nDripify approaches LinkedIn outreach from an inbox-first perspective. It sets up drip sequences where prospects receive connection invites, followed by automated direct messages if they accept.\n\n#### Pros:\n* Intuitive visual drip campaign builder.\n* Team management capabilities with role-based access controls.\n* Built-in lead management inbox.\n\n#### Cons:\n* Focuses heavily on cold inbox messaging, which suffers from low response rates in saturated markets.\n* High risk of spam complaints if prospect targeting is imprecise.\n* Does not leverage public post commenting as a primary conversation driver.\n\nFor a detailed analysis on why public commenting often outperforms inbox drip sequences, explore [Junior vs Dripify: finding consulting clients without automated messaging](https://www.heyjunior.ai/blog/junior-vs-dripify-finding-consulting-clients-without-automated-messaging).\n\n---\n\n### 6. TextBlaze / Magical (Direct FlyMSG Text-Expander Competitors)\n\nIf your primary goal is strictly text expansion\u2014keyboard shortcuts for pre-written text without social media AI engagement\u2014tools like TextBlaze or Magical serve as direct alternatives to FlyMSG.\n\n#### Pros:\n* Works across all browser tabs, web apps, and web CRMs.\n* Lightweight extension footprint.\n* Easy variable fields (e.g., automatically inserting `{First_Name}`).\n\n#### Cons:\n* Zero proactive LinkedIn post discovery.\n* No contextual AI trained on post content or author bios.\n* Completely manual execution required for every line typed.\n\n---\n\n## Technical Comparison Matrix: FlyMSG vs Automated Engagement Tools\n\n| Feature / Capability | FlyMSG | Junior | Taplio / Supergrow | PhantomBuster / Dripify |\n| :--- | :--- | :--- | :--- | :--- |\n| **Primary Focus** | Text expansion & keyboard shortcuts | Strategic post commenting & lead engagement | Content scheduling & creator growth | Cold DM outreach & scraping sequences |\n| **Execution Architecture** | Browser extension | **Local desktop execution** (Max Safety) | Web app + browser extension | Cloud servers & proxies |\n| **Automated Feed Discovery** | No | **Yes** (Automated post monitoring) | Semi-automated feed lists | Scraping scripts |\n| **Bio-Aware AI Voice** | Basic prompt outputs | **Yes** (Deep persona & bio alignment) | Standard AI post prompts | Template variables |\n| **Account Safety Profile** | Safe (Manual trigger) | **Safe** (Local natural patterns) | Safe (Manual/Semi-auto) | Higher Risk (Cloud API/IPs) |\n| **Primary Growth Channel** | Manual DM / Email | **Public Commenting to Profile Conversion** | Post Publishing & Feed Replying | Direct Messaging / Connection Invites |\n| **Target Audience** | General professionals needing templates | **Job seekers, Consultants, Sales Teams, Founders** | Content creators & personal brands | Lead gen agencies & high-volume SDRs |\n\n---\n\n## Why Local Execution Matters for LinkedIn Engagement\n\nOne of the most critical factors when choosing a tool beyond FlyMSG is the underlying technical architecture. Most automation tools fail not because their copy is poor, but because their technical infrastructure alerts LinkedIn's fraud detection systems.\n\n```\nCLOUD-BASED ARCHITECTURE (High Risk)\n[ Your Computer ] ---> Sends trigger command\n                             |\n                             v\n                  [ Cloud Server IP ] ---> Logs into LinkedIn API\n                                                  |\n                                                  v\n                                      [ LinkedIn Security Flag ]\n                                      (IP mismatch, proxy detection)\n\nLOCAL DESKTOP ARCHITECTURE (Safe)\n[ Your Computer ] ---------------------> Interacts via local browser\n  (Your residential IP,                   with natural delay curves\n   cookies, session states)                       |\n                                                  v\n                                      [ Normal Account Activity ]\n```\n\nWhen you log into LinkedIn naturally, your session is tied to your local browser fingerprint, residential IP address, local storage cookies, and standard user behavior curves.\n\nWhen you use cloud-based automation:\n1. The software logs into your account from a data center server (e.g., AWS or DigitalOcean).\n2. LinkedIn detects a sudden geographical and IP jump.\n3. The cloud server sends automated web requests at unnatural speeds without rendering actual page DOM elements.\n4. LinkedIn flags the account, issuing CAPTCHAs, temporary restrictions, or permanent bans.\n\nTools designed with local execution run directly on your own computer. They control browser interactions locally, maintaining your authentic IP address and cookie state. This approach ensures your engagement actions look identical to organic human activity.\n\nTo understand how to evaluate safety protocols before deploying software across your sales team, review our roundup of the [best LinkedIn engagement tools for 2026](https://www.heyjunior.ai/blog/best-linkedin-engagement-tools-2026) and our guide to [tools that automate LinkedIn comments safely beyond PhantomBuster](https://www.heyjunior.ai/blog/best-automate-linkedin-comments-safely-tools-beyond-phantombuster).\n\n---\n\n## Practical Case Study: Moving From FlyMSG Shortcuts to Strategic Commenting\n\nTo see how upgrading from basic text expansion to dedicated engagement impacts results, consider the scenario of a B2B consulting agency owner, Sarah.\n\n### The Initial Setup with FlyMSG\nSarah used FlyMSG to manage her client outreach. She created five FlyPlates for connection requests and basic post responses. Every morning, she spent 45 minutes scrolling through her LinkedIn home feed, looking for posts by VP-level targets. \n\nWhen she found a post, she triggered FlyMSG, inserted a shortcode, modified the AI suggestion slightly, and posted the comment.\n\n* **Time spent daily:** 45\u201360 minutes.\n* **Posts engaged daily:** 6 to 8.\n* **Monthly profile views gained:** ~120.\n* **Consulting discovery calls booked per month:** 1.\n\n### The Problem\nSarah was doing all the discovery work manually. Her comments were often generic because she was rushing through her morning routine, and FlyMSG had no built-in knowledge of her client case studies or unique consulting framework.\n\n```\nFlyMSG Workflow (Manual Heavy):\nManual Scroll --> Find Post --> Click Extension --> Expand Template --> Edit Text --> Post\n[45-60 Minutes Spent Daily for 6-8 Comments]\n\nJunior Workflow (Automated Strategy):\nTarget List Configured --> Auto-Discovery Queue --> Bio-Aware Comment Drafted --> Strategic Posting\n[10 Minutes Review Time for 20-30 Contextual Comments]\n```\n\n### Transitioning to an Automated Engagement Platform (Junior)\nSarah switched to Junior to automate the discovery and contextual drafting phases. She configured Junior with her professional background, key target industries, and core business offers.\n\n1. **Automated Discovery:** Junior continuously monitored LinkedIn for posts published by strategic target roles within her target accounts.\n2. **Contextual AI Generation:** Instead of pasting static snippets, Junior analyzed each target post and drafted custom, bio-aware comments referencing Sarah's real-world strategy experience.\n3. **Local Desktop Execution:** Running locally on Sarah's MacBook, the platform published comments at natural intervals throughout the workday without triggering security alerts.\n\n### The Results After 30 Days\n* **Time spent daily:** 10 minutes reviewing the automated queue.\n* **Posts engaged daily:** 25 to 30.\n* **Monthly profile views gained:** 850+ (a 600% increase).\n* **Inbound connection requests from target buyers:** 34.\n* **Consulting discovery calls booked per month:** 6.\n\nBy moving away from manual snippet expansion and embracing targeted public engagement, Sarah turned her LinkedIn profile into an inbound lead magnet without increasing her daily work hours.\n\n---\n\n## How to Choose the Right Tool for Your Strategy\n\nSelecting the right software beyond FlyMSG depends entirely on your primary goal, team setup, and risk tolerance. Use this decision matrix to evaluate your options:\n\n![Whiteboard decision matrix comparing tools based on LinkedIn growth strategies](https://assets.bevisible.app/inline-images/j575yhvfshrpjqs8yj1pzs0jsx8b5kgy/inline-3-1787156253508-h7y44m.png)\n### Scenario A: You want to convert public visibility into sales pipeline or job offers\n* **Recommended Tool:** **Junior**\n* **Why:** Junior focuses on safe, local desktop execution and bio-aware post commenting. It automates conversation discovery and generates context-rich responses that attract prospects directly to your profile, bypassing crowded inbox cold DMs.\n\n### Scenario B: You are a solo creator focused on post publishing and carousel growth\n* **Recommended Tool:** **Taplio** or **Supergrow**\n* **Why:** If your primary challenge is thinking of what to post, formatting carousels, and scheduling content across a weekly calendar, creator-first suites provide superior post creation tools.\n\n### Scenario C: You are running high-volume, multi-channel outbound scrapers\n* **Recommended Tool:** **PhantomBuster**\n* **Why:** Technical growth teams needing to pull raw data from Sales Navigator and feed custom webhooks into external CRMs benefit from PhantomBuster's modular API approach, provided they accept the associated safety monitoring overhead.\n\n### Scenario D: You only need text shortcuts across multiple web applications\n* **Recommended Tool:** **FlyMSG** or **TextBlaze**\n* **Why:** If you spend your day writing repetitive customer support emails, browser ticketing notes, or standard message replies across multiple non-LinkedIn platforms, dedicated snippet expanders remain the most practical utility.\n\n---\n\n## Framework: Setting Up a Safe, High-Converting LinkedIn Engagement Workflow\n\nIf you decide to deploy an automated engagement platform like Junior, follow this step-by-step framework to maximize conversion while keeping your account safe.\n\n```\n+-----------------------------------------------------------------------------------+\n|                   5-STEP HIGH-CONVERTING ENGAGEMENT FRAMEWORK                      |\n+-----------------------------------------------------------------------------------+\n| STEP 1: OPTIMIZE PROFILE    Set headline as value proposition, clear CTA link      |\n+-----------------------------------------------------------------------------------+\n| STEP 2: DEFINE TARGET BIO   Train AI engine on your specific offer & case studies |\n+-----------------------------------------------------------------------------------+\n| STEP 3: SET DISCOVERY RULES Define niche keywords, industry hashtags, target roles|\n+-----------------------------------------------------------------------------------+\n| STEP 4: EXECUTE LOCALLY     Run software on desktop with natural interaction gaps |\n+-----------------------------------------------------------------------------------+\n| STEP 5: WARM INBOX BRIDGE   Follow up via DM with profile visitors & post likers   |\n+-----------------------------------------------------------------------------------+\n```\n\n### Step 1: Optimize Your Profile for Inbound Traffic\nBefore driving public visibility through comments, ensure your profile acts as a clean landing page.\n* **Headline:** Focus on who you help and the result you deliver (e.g., *\"Helping B2B SaaS teams scale pipeline without cold calls\"* rather than *\"Senior Account Executive\"*).\n* **Featured Section:** Place a direct booking link, portfolio piece, or case study at the top of your profile.\n* **About Section:** Structure your summary around buyer pain points and solutions.\n\n### Step 2: Feed the AI Deep Context\nAvoid generic AI prompts. Provide your engagement engine with:\n* Your target buyer personas.\n* Specific frameworks or methodology points you frequently advocate.\n* Topics you want to support or disagree with constructively.\n* Real-world statistics or outcomes from your recent work.\n\n### Step 3: Establish Safe Action Thresholds\nWhen setting up automated commenting, start conservatively:\n* **Week 1 (Warm-up):** 5 to 10 comments per day.\n* **Week 2:** 10 to 15 comments per day.\n* **Week 3+:** 20 to 30 comments per day.\n\nKeep interactions spread naturally across business hours rather than executing dozens of actions within a single 10-minute window.\n\n### Step 4: Bridge Public Engagement to Private Dialogue\nWhen prospects interact with your thoughtful comments or view your profile after reading your responses:\n1. Check your profile views daily.\n2. Send a personalized connection request mentioning the public post thread:\n   > *\"Hi [Name], saw your post about [Topic] earlier today and really enjoyed your perspective on [Point]. Thought I'd connect here!\"*\n3. Because you have already built credibility in the public comments, acceptance rates for these soft outreach messages routinely exceed 60%.\n\n---\n\n## Frequently Asked Questions (FAQs)\n\n### What is the main difference between FlyMSG and dedicated LinkedIn engagement tools?\nFlyMSG is primarily a text expander and snippet manager designed to help you type static templates faster using keyboard shortcodes, supported by basic AI writing features like FlyEngage AI. Dedicated LinkedIn engagement tools like Junior actively discover relevant industry posts, analyze post context, and automatically draft bio-aware comments to start conversations at scale without requiring manual scrolling.\n\n### Can automated LinkedIn commenting get my account banned?\nYes, if you use poorly designed cloud-based tools that violate LinkedIn's terms by using static cloud IPs, aggressive API scraping, or generic spam copy. However, tools like Junior run locally on your desktop machine, mirroring human browsing patterns, respecting standard session cookies, and executing actions at natural intervals to ensure account safety.\n\n### Is public post commenting more effective than sending cold LinkedIn DMs?\nFor most B2B professionals, yes. Cold DMs face declining response rates due to inbox fatigue and strict platform messaging filters. Public comments demonstrate your subject matter expertise to both the post author and everyone reading the thread. A single insightful comment can generate dozens of target profile views, turning cold outreach into warm inbound connection requests.\n\n### How does bio-aware AI differ from basic ChatGPT outputs?\nStandard ChatGPT outputs use generic phrasing, bullet points, and corporate jargon that make automated comments obvious. Bio-aware AI engines ingest your professional background, past project outcomes, unique tone of voice, and business goals. This allows the tool to draft responses that sound authentic, adding unique personal context to every thread.\n\n### Should I completely stop using text expanders like FlyMSG?\nNot necessarily. Text expanders remain useful for static, non-social tasks like inserting standard email signatures, standard meeting links, or recurring customer support text. However, for active B2B social selling, lead generation, and profile growth on LinkedIn, text expanders should be paired with or upgraded to dedicated, contextual engagement software.\n\n---\n\n## Making the Transition Beyond FlyMSG\n\nWhile text expanders like FlyMSG served an important role in the early days of digital productivity, today's competitive LinkedIn landscape demands tools built specifically for strategic conversation building.\n\nBy moving beyond simple keyboard shortcuts and implementing a local, bio-aware engagement platform, you can eliminate manual feed scrolling, protect your account health, and transform public post visibility into a consistent engine for warm sales opportunities, consulting clients, and career advancement.", "created_at": "2026-08-19T16:49:22.357449+00:00", "updated_at": "2026-08-19T16:49:22.357455+00:00"};
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js"></script>
+    <script>
+        function looksLikeHtml(content) {
+            return /<\/?[a-z][\s\S]*>/i.test(content);
+        }
+
+        function escapeHtml(content) {
+            return content
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function formatPlainText(content) {
+            return content
+                .split(/\n{2,}/)
+                .map(paragraph => `<p>${escapeHtml(paragraph).replace(/\n/g, '<br>')}</p>`)
+                .join('');
+        }
+
+        function renderArticleBody(rawContent) {
+            const content = (rawContent || '').trim();
+            if (!content) {
+                return '<p>This article has no content yet.</p>';
+            }
+
+            if (looksLikeHtml(content)) {
+                if (window.DOMPurify) {
+                    return window.DOMPurify.sanitize(content);
+                }
+                return content;
+            }
+
+            if (window.marked) {
+                const markdownHtml = window.marked.parse(content, {
+                    gfm: true,
+                    breaks: true,
+                    mangle: false,
+                    headerIds: true
+                });
+                if (window.DOMPurify) {
+                    return window.DOMPurify.sanitize(markdownHtml);
+                }
+                return markdownHtml;
+            }
+
+            return formatPlainText(content);
+        }
+
+        function createShareButtons(url, title, position) {
+            const encodedUrl = encodeURIComponent(url);
+            const encodedTitle = encodeURIComponent(title);
+            
+            const buttons = [
+                {
+                    name: 'LinkedIn',
+                    url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>'
+                },
+                {
+                    name: 'X',
+                    url: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>'
+                },
+                {
+                    name: 'Facebook',
+                    url: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>'
+                },
+                {
+                    name: 'WhatsApp',
+                    url: `https://api.whatsapp.com/send?text=${encodedTitle}%20${encodedUrl}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>'
+                },
+                {
+                    name: 'Reddit',
+                    url: `https://reddit.com/submit?url=${encodedUrl}&title=${encodedTitle}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.688-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg>'
+                },
+                {
+                    name: 'Email',
+                    url: `mailto:?subject=${encodedTitle}&body=${encodedUrl}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>'
+                }
+            ];
+
+            let html = `<div class="share-row ${position === 'top' ? 'top-share' : ''}">`;
+            
+            buttons.forEach(btn => {
+                html += `<a href="${btn.url}" target="_blank" rel="noopener noreferrer" class="share-button" data-cta="share-${position}-${btn.name.toLowerCase()}">
+                    ${btn.icon} ${btn.name}
+                </a>`;
+            });
+
+            html += `<button class="share-button" onclick="navigator.clipboard.writeText('${url.replace(/'/g, "\\'")}'); alert('Link copied to clipboard!');" data-cta="share-${position}-copy">
+                <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg> Copy Link
+            </button>`;
+
+            if (navigator.share) {
+                html += `<button class="share-button" onclick="navigator.share({title: '${title.replace(/'/g, "\\'")}', url: '${url.replace(/'/g, "\\'")}'}).catch(console.error);" data-cta="share-${position}-native">
+                    <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg> Share
+                </button>`;
+            }
+
+            html += `</div>`;
+            return html;
+        }
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            const container = document.getElementById('article-content');
+            
+            try {
+                let post;
+                
+                // If we have injected data (static page), use it directly
+                if (window.__INITIAL_ARTICLE_DATA__) {
+                    post = window.__INITIAL_ARTICLE_DATA__;
+                } else {
+                    // Otherwise, we are on the dynamic route, fetch from API
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const slug = urlParams.get('slug');
+                    
+                    if (!slug) {
+                        throw new Error('Article not found.');
+                    }
+                    
+                    // Redirect to the new static URL format
+                    window.location.replace(`/blog/${slug}/`);
+                    return;
+                }
+                
+                document.title = `${post.title} - Junior`;
+                
+                const date = new Date(post.published_at).toLocaleDateString();
+                
+                let html = `
+                    <header class="article-header">
+                        <h1 class="article-title">${post.title}</h1>
+                        <div class="article-meta">Published on ${date}</div>
+                    </header>
+                `;
+
+                const shareUrl = window.location.href;
+                html += createShareButtons(shareUrl, post.title, 'top');
+                
+                if (post.featured_image_url) {
+                    html += `<img src="${post.featured_image_url}" alt="${post.title}" class="article-featured-image">`;
+                }
+                
+                html += `
+                    <div class="article-content">
+                        ${renderArticleBody(post.content)}
+                    </div>
+                `;
+                
+                html += createShareButtons(shareUrl, post.title, 'bottom');
+                
+                container.innerHTML = html;
+            } catch (err) {
+                container.innerHTML = `<p>${err.message}</p>`;
+                console.error(err);
+            }
+        });
+    </script>
+</body>
+</html>
