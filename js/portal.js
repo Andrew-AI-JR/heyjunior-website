@@ -480,7 +480,10 @@ function displaySubscriptions(subscriptions, userData) {
     }
     
     const rawPlan = activeSub.plan || activeSub.plan_name || 'Standard';
-    const planName = window.JUNIOR_PRICING ? window.JUNIOR_PRICING.mapLegacyPlan(rawPlan) : rawPlan;
+    const isCardlessTrial = String(rawPlan).toLowerCase() === 'complimentary'
+        || (String(activeSub.status || '').toLowerCase() === 'trialing' && !activeSub.stripe_subscription_id);
+    const mappedPlan = window.JUNIOR_PRICING ? window.JUNIOR_PRICING.mapLegacyPlan(rawPlan) : rawPlan;
+    const planName = isCardlessTrial ? 'Complimentary (Basic)' : mappedPlan;
     document.getElementById('subscription-plan').textContent = planName;
     
     const status = activeSub.status || 'unknown';
@@ -526,15 +529,24 @@ function displaySubscriptions(subscriptions, userData) {
             if (trialMessageText && activeSub.current_period_end) {
                 const endDate = new Date(activeSub.current_period_end);
                 if (!isNaN(endDate.getTime())) {
-                    trialMessageText.textContent =
-                        'Your free trial is active until ' + endDate.toLocaleDateString() +
-                        '. Billing starts automatically after the trial unless you cancel in Manage Subscription.';
+                    trialMessageText.textContent = isCardlessTrial
+                        ? ('Your complimentary trial is active until ' + endDate.toLocaleDateString() +
+                            '. You will not be charged unless you subscribe.')
+                        : ('Your free trial is active until ' + endDate.toLocaleDateString() +
+                            '. Billing starts automatically after the trial unless you cancel in Manage Subscription.');
                 }
             }
         } else {
             trialMessage.style.display = 'none';
         }
     }
+
+    const manageBtn = document.getElementById('manage-subscription-btn');
+    const changePlanBtn = document.getElementById('change-plan-btn');
+    const subscribeKeepBtn = document.getElementById('subscribe-keep-btn');
+    if (manageBtn) manageBtn.style.display = isCardlessTrial ? 'none' : '';
+    if (changePlanBtn) changePlanBtn.style.display = isCardlessTrial ? 'none' : '';
+    if (subscribeKeepBtn) subscribeKeepBtn.style.display = isCardlessTrial ? '' : 'none';
     
     // Display period dates
     // Dates come from API as ISO strings or Unix timestamps

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="js/frame-guard.js"></script>
+    <meta name="description" content="Activate your 30-day Junior trial — no credit card required">
+    <title>Activate your free trial - Junior</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body data-page="claim-trial">
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="./images/junior-logo.png" alt="Junior Logo" class="logo-img">
+                </a>
+            </div>
+            <ul class="nav-links">
+                <div class="nav-actions">
+                    <li><a href="portal.html" class="cta-button">My Account</a></li>
+                </div>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="portal-container">
+        <div class="container">
+            <div id="claim-form-wrap" class="login-section" style="display: flex;">
+                <div class="login-card">
+                    <h2>Activate 30 days of Junior</h2>
+                    <p class="login-subtitle">No credit card required. Click below to start your complimentary trial.</p>
+                    <div id="claim-error" class="error-message" style="display: none;"></div>
+                    <button type="button" class="primary-button" id="claim-button">Activate my 30-day free trial</button>
+                    <div class="login-footer">
+                        <p>Already activated? <a href="portal.html">Open the portal</a></p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="claim-success-wrap" class="login-section" style="display: none;">
+                <div class="login-card">
+                    <h2>Your 30-day trial is active</h2>
+                    <p class="login-subtitle">Download Junior and sign in with the email and password you already chose. You will not be charged unless you subscribe later.</p>
+                    <div id="claim-downloads" style="margin: 20px 0;"></div>
+                    <p><a href="portal.html" class="primary-button" style="display: inline-block; text-decoration: none; text-align: center;">Go to my portal</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 Junior. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/api-config.js"></script>
+    <script src="js/release-manager.js"></script>
+    <script src="js/claim-trial.js"></script>
+</body>
+</html>
