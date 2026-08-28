@@ -523,7 +523,8 @@
     <script>
     (function () {
         var API_BASE_URL = window.getApiBaseUrl();
-        var COUPON_CODE = '1FREEMONTH';
+        // Trial length is granted server-side from metadata.signup_source
+        // ('careerbridgeiq-partner' -> 30-day Stripe trial). No coupon needed.
         var EMAIL_STORAGE_KEY = 'careerBridgeIqEmail';
         var PLAN_STORAGE_KEY = 'careerBridgeIqPlan';
         var PLAN_CONFIG = {
@@ -651,7 +652,6 @@
             var selectedPlanKey = getSelectedPlanKey();
             var metadata = {
                 signup_source: 'careerbridgeiq-partner',
-                promo_code: COUPON_CODE,
                 selected_plan: selectedPlanKey
             };
             var src = params.get('src') || 'careerbridgeiq';
@@ -693,7 +693,6 @@
                     email: email,
                     password: password,
                     price_id: selectedPlan.priceId,
-                    coupon_code: COUPON_CODE,
                     success_url: window.location.origin + '/success.html?session_id={CHECKOUT_SESSION_ID}',
                     cancel_url: window.location.origin + '/careerbridgeiq/?cancelled=true',
                     metadata: buildMetadata()
@@ -742,7 +741,6 @@
                 if (window.juniorTrack) {
                     window.juniorTrack('careerbridgeiq_checkout_redirect', {
                         campaign: 'careerbridgeiq',
-                        promo_code: COUPON_CODE,
                         plan: selectedPlanKey
                     });
                 }
