@@ -243,6 +243,42 @@
                     <h2>Download and install</h2>
                     <p>The full install walkthroughs with screenshots live in the <a href="windows-install-help.html">Windows guide</a> and the <a href="mac-install-help.html">macOS guide</a>. These are the most common blockers.</p>
                     <div class="support-faq">
+                        <section id="download-links-fail">
+                            <h3>Download links will not load</h3>
+                            <p><strong>What's happening:</strong> The page fetches the latest release from GitHub, and that lookup occasionally fails.</p>
+                            <p><strong>How to fix it:</strong></p>
+                            <ol>
+                                <li>Refresh the page and try the download button again.</li>
+                                <li>Download directly from the <a href="https://github.com/Andrew-AI-JR/Desktop-Releases/releases/latest" target="_blank" rel="noopener">releases page</a>.</li>
+                                <li>If neither works, email <a href="mailto:support@heyjunior.ai">support@heyjunior.ai</a> and we will send you a direct link.</li>
+                            </ol>
+                        </section>
+                        <section id="installer-did-not-start">
+                            <h3>I paid, but the installer never started downloading</h3>
+                            <p><strong>What's happening:</strong> Your browser blocked the automatic download. Payment went through fine.</p>
+                            <p><strong>How to fix it:</strong> Click the manual "Download Now" button on the success page, or log in at <a href="portal.html">My Account</a> and download from there.</p>
+                        </section>
+                        <section id="windows-smartscreen">
+                            <h3>Windows: "Windows protected your PC"</h3>
+                            <p><strong>What's happening:</strong> SmartScreen shows this while Microsoft code-signing reputation is still building for the installer. It is expected and the installer is safe.</p>
+                            <p><strong>How to fix it:</strong> Click <strong>More info</strong>, then <strong>Run anyway</strong>. Full walkthrough with screenshots: <a href="windows-install-help.html">Windows Install Help</a>.</p>
+                        </section>
+                        <section id="mac-gatekeeper">
+                            <h3>Mac: "unidentified developer" or the app will not open</h3>
+                            <p><strong>What's happening:</strong> macOS Gatekeeper blocks apps outside the App Store by default. This reflects signing policy, not malware detection.</p>
+                            <p><strong>How to fix it:</strong></p>
+                            <ol>
+                                <li>Right-click Junior.app and choose <strong>Open</strong>.</li>
+                                <li>Or go to <strong>System Settings → Privacy &amp; Security</strong> and click <strong>Open Anyway</strong>.</li>
+                                <li>Last resort, run this in Terminal: <code>xattr -cr /Applications/Junior.app</code></li>
+                            </ol>
+                            <p>Full walkthrough: <a href="mac-install-help.html">macOS Install Help</a>.</p>
+                        </section>
+                        <section id="mac-wrong-build">
+                            <h3>Mac: the app runs slowly or will not open at all</h3>
+                            <p><strong>What's happening:</strong> You may have the wrong build for your Mac. Intel builds run slowly on Apple Silicon (M1 and later), and mismatches can occasionally fail to open.</p>
+                            <p><strong>How to fix it:</strong> Check which chip you have under Apple menu → About This Mac, then download the matching build (Intel or Apple Silicon) from <a href="portal.html">My Account</a>.</p>
+                        </section>
                     </div>
                 </article>
 
@@ -250,6 +286,47 @@
                     <h2>First launch and LinkedIn</h2>
                     <p>The one-time LinkedIn connection is covered step by step in the <a href="setup-guide.html">First Launch Setup Guide</a>.</p>
                     <div class="support-faq">
+                        <section id="linkedin-login-fails">
+                            <h3>LinkedIn login, 2FA, or CAPTCHA fails during setup</h3>
+                            <p><strong>What's happening:</strong> LinkedIn shows security prompts (2FA codes, CAPTCHA) that you cannot answer if the browser is running invisibly in headless mode.</p>
+                            <p><strong>How to fix it:</strong></p>
+                            <ol>
+                                <li>Enable the <strong>2FA checkbox</strong> in Junior before starting. This helps even if you do not use 2FA.</li>
+                                <li>Run your first session in visible browser mode (headless off).</li>
+                                <li>Complete the login, 2FA, or CAPTCHA prompts yourself in the Chrome window Junior opens.</li>
+                                <li>Let Junior close the window when it finishes. Do not close it manually.</li>
+                            </ol>
+                        </section>
+                        <section id="login-every-time">
+                            <h3>Junior asks me to log in to LinkedIn every time</h3>
+                            <p><strong>What's happening:</strong> The saved LinkedIn session expired or your LinkedIn credentials changed. Junior stores session data, never your LinkedIn password, so when the session dies it must be captured again.</p>
+                            <p><strong>How to fix it:</strong> Repeat the one-time visible login from the <a href="setup-guide.html">First Launch Setup Guide</a> and let Junior close Chrome itself so the new session is saved.</p>
+                        </section>
+                        <section id="app-invalid-credentials">
+                            <h3>The desktop app says "invalid credentials"</h3>
+                            <p><strong>What's happening:</strong> The app logs in with your Junior account, the same email and password you use on this website, and needs an active subscription.</p>
+                            <p><strong>How to fix it:</strong></p>
+                            <ol>
+                                <li>Confirm you can log in at <a href="portal.html">My Account</a> with the same email and password.</li>
+                                <li>Check there that your subscription is active.</li>
+                                <li>If the website works but the app does not, email <a href="mailto:support@heyjunior.ai">support@heyjunior.ai</a>.</li>
+                            </ol>
+                        </section>
+                        <section id="chrome-wont-open">
+                            <h3>Chrome does not open or closes immediately</h3>
+                            <p><strong>What's happening:</strong> Junior drives a real Chrome session, so an outdated Chrome or operating system, or leftover Chrome windows, can stop it from starting cleanly.</p>
+                            <p><strong>How to fix it:</strong></p>
+                            <ol>
+                                <li>Update Chrome and your operating system, then restart your computer.</li>
+                                <li>Close every Chrome window before starting Junior again.</li>
+                                <li>If it still fails, try one run with browser extensions disabled to rule out a conflict.</li>
+                            </ol>
+                        </section>
+                        <section id="linkedin-session-expired">
+                            <h3>LinkedIn says my session expired</h3>
+                            <p><strong>What's happening:</strong> LinkedIn invalidated the stored cookies, which it does periodically or after a password change.</p>
+                            <p><strong>How to fix it:</strong> Sign out of LinkedIn and back in once in Chrome, then run one visible Junior session so the fresh session gets saved.</p>
+                        </section>
                     </div>
                 </article>
 
