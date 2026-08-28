@@ -121,12 +121,121 @@
                 <article class="support-card" id="account-login">
                     <h2>Account and login</h2>
                     <div class="support-faq">
+                        <section id="email-already-registered">
+                            <h3>Signup says my email is already registered</h3>
+                            <p><strong>What's happening:</strong> An account with that email already exists, so signup blocks the duplicate.</p>
+                            <p><strong>How to fix it:</strong></p>
+                            <ol>
+                                <li>Log in at <a href="portal.html">My Account</a> instead of creating a new account.</li>
+                                <li>If you do not remember your password, use <a href="forgot-password.html">forgot password</a>.</li>
+                            </ol>
+                        </section>
+                        <section id="login-fails">
+                            <h3>Login fails with "check your credentials"</h3>
+                            <p><strong>What's happening:</strong> The email or password does not match an active account. This is usually a typo or an old password.</p>
+                            <p><strong>How to fix it:</strong></p>
+                            <ol>
+                                <li>Recheck the email spelling, including the domain.</li>
+                                <li>Reset your password from the <a href="forgot-password.html">forgot password page</a>.</li>
+                                <li>If you are sure the account exists and reset does not help, email <a href="mailto:support@heyjunior.ai">support@heyjunior.ai</a>.</li>
+                            </ol>
+                        </section>
+                        <section id="logged-out">
+                            <h3>I keep getting logged out of the website</h3>
+                            <p><strong>What's happening:</strong> Website sessions are short-lived by design and only last for the browser tab you logged in with. Closing the tab, or leaving it open for a while, ends the session. This protects your account and is not a bug.</p>
+                            <p><strong>How to fix it:</strong> Sign in again at <a href="portal.html">My Account</a>. Nothing is lost when a session ends.</p>
+                        </section>
+                        <section id="reset-email-missing">
+                            <h3>The password reset email never arrived</h3>
+                            <p><strong>What's happening:</strong> Reset emails are only sent when the address matches an active account. The page always shows a success message either way, so nobody can use it to check whether an email is registered.</p>
+                            <p><strong>How to fix it:</strong></p>
+                            <ol>
+                                <li>Check your spam or junk folder for an email from Junior.</li>
+                                <li>Confirm you entered the same email you signed up with, then request again.</li>
+                                <li>If it still does not arrive and you are sure the account exists, email <a href="mailto:support@heyjunior.ai">support@heyjunior.ai</a>.</li>
+                            </ol>
+                        </section>
+                        <section id="reset-link-expired">
+                            <h3>My reset link is invalid or expired</h3>
+                            <p><strong>What's happening:</strong> Reset links expire quickly for security, and they only work with the complete link from the email.</p>
+                            <p><strong>How to fix it:</strong> Request a fresh link from the <a href="forgot-password.html">forgot password page</a> and use it right away. Click the link in the email directly rather than copying part of it.</p>
+                        </section>
+                        <section id="password-rejected">
+                            <h3>My new password is rejected</h3>
+                            <p><strong>What's happening:</strong> Passwords must be at least 8 characters, contain at least one uppercase letter, and both password fields must match.</p>
+                            <p><strong>How to fix it:</strong> Adjust the password to meet those rules and retype the confirmation field carefully.</p>
+                        </section>
+                        <section id="too-many-attempts">
+                            <h3>I am blocked after too many attempts</h3>
+                            <p><strong>What's happening:</strong> Login, signup, and password reset are rate limited to protect accounts from automated guessing.</p>
+                            <p><strong>How to fix it:</strong> Wait a minute or two, then try again once.</p>
+                        </section>
+                        <section id="no-social-login">
+                            <h3>There is no "Sign in with Google" or "Sign in with LinkedIn"</h3>
+                            <p><strong>What's happening:</strong> That is by design. Junior accounts use email and password only. Your LinkedIn login happens later, inside the Chrome window the desktop app opens, and is separate from your Junior account.</p>
+                            <p><strong>How to fix it:</strong> Create your account with an email and password at <a href="register.html">the signup page</a>, then connect LinkedIn during your first run using the <a href="setup-guide.html">First Launch Setup Guide</a>.</p>
+                        </section>
+                        <section id="signup-unavailable">
+                            <h3>Signup says it is temporarily unavailable</h3>
+                            <p><strong>What's happening:</strong> The signup script did not load in your browser. This is usually a hiccup, an ad blocker, or a privacy extension blocking scripts.</p>
+                            <p><strong>How to fix it:</strong></p>
+                            <ol>
+                                <li>Hard refresh the page (Ctrl+Shift+R on Windows, Cmd+Shift+R on Mac).</li>
+                                <li>Try a private/incognito window, or temporarily disable ad blockers for heyjunior.ai.</li>
+                            </ol>
+                        </section>
                     </div>
                 </article>
 
                 <article class="support-card" id="payment-subscription">
                     <h2>Payment and subscription</h2>
                     <div class="support-faq">
+                        <section id="checkout-cancelled">
+                            <h3>Checkout was cancelled</h3>
+                            <p><strong>What's happening:</strong> You came back from the Stripe payment page without completing payment, so no charge was made and no subscription started.</p>
+                            <p><strong>How to fix it:</strong> Restart checkout from <a href="register.html">the signup page</a>, or log in at <a href="portal.html">My Account</a> and complete your signup from there.</p>
+                        </section>
+                        <section id="checkout-wont-start">
+                            <h3>Checkout will not start</h3>
+                            <p><strong>What's happening:</strong> The secure Stripe checkout session could not be created. This is usually a temporary problem on the payment side.</p>
+                            <p><strong>How to fix it:</strong> Wait a moment and try again. If it keeps failing, email <a href="mailto:support@heyjunior.ai">support@heyjunior.ai</a> and we will finish the signup with you.</p>
+                        </section>
+                        <section id="payment-verification-failed">
+                            <h3>I paid, but the success page says verification failed</h3>
+                            <p><strong>What's happening:</strong> Stripe confirmed your payment, but our check of the payment ran before Stripe finished processing, or the page was opened without its payment reference. Your money is not lost.</p>
+                            <p><strong>How to fix it:</strong></p>
+                            <ol>
+                                <li>Wait a couple of minutes, then refresh the success page.</li>
+                                <li>Use the manual download button on the success page. It works even while verification catches up.</li>
+                                <li>If Stripe shows the payment window is still open, finish the payment there first.</li>
+                                <li>Still stuck after a few minutes? Email <a href="mailto:support@heyjunior.ai">support@heyjunior.ai</a> with the email you paid with.</li>
+                            </ol>
+                        </section>
+                        <section id="cannot-checkout-again">
+                            <h3>I cannot check out because I already have a subscription</h3>
+                            <p><strong>What's happening:</strong> You already have an active subscription, so a second checkout is blocked to prevent double billing.</p>
+                            <p><strong>How to fix it:</strong> Log in at <a href="portal.html">My Account</a> and use Manage Subscription to change your plan or payment method instead.</p>
+                        </section>
+                        <section id="portal-says-subscribe">
+                            <h3>The portal says "complete your signup" or "subscribe"</h3>
+                            <p><strong>What's happening:</strong> Your account exists but has no active subscription. Either checkout was never completed, the subscription was cancelled, or payment could not be collected.</p>
+                            <p><strong>How to fix it:</strong> Follow the button in <a href="portal.html">My Account</a> to finish checkout, or update your card if a payment failed.</p>
+                        </section>
+                        <section id="payment-failed">
+                            <h3>My card payment failed / my subscription shows past due</h3>
+                            <p><strong>What's happening:</strong> The latest invoice could not be charged, usually an expired or declined card. Stripe retries for a while, but access may pause until a payment succeeds.</p>
+                            <p><strong>How to fix it:</strong> Log in at <a href="portal.html">My Account</a>, open Manage Subscription, and update your payment method promptly.</p>
+                        </section>
+                        <section id="coupon-wont-apply">
+                            <h3>My coupon will not apply</h3>
+                            <p><strong>What's happening:</strong> The code is invalid, expired, or mistyped. Codes are checked against Stripe when you submit them.</p>
+                            <p><strong>How to fix it:</strong> Re-enter the code exactly as it was given to you. If it still fails, the offer has likely ended; you can check out without it or ask <a href="mailto:support@heyjunior.ai">support</a> whether it can be reissued.</p>
+                        </section>
+                        <section id="offer-wont-activate">
+                            <h3>My complimentary or trial offer link will not activate</h3>
+                            <p><strong>What's happening:</strong> Offer links carry a personal token and can expire. A link that is incomplete, forwarded, or too old will not activate.</p>
+                            <p><strong>How to fix it:</strong> Open the link directly from the original email, in the same browser you use for Junior. If it says the offer expired, email <a href="mailto:support@heyjunior.ai">support@heyjunior.ai</a>.</p>
+                        </section>
                     </div>
                 </article>
 
