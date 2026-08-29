@@ -899,14 +899,154 @@ section, div {
     color: #166534;
 }
 
+.plan-selector-option.plan-selector-option--enterprise,
+.form-group label.plan-selector-option--enterprise,
+.register-form label.plan-selector-option--enterprise {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: start;
+    gap: 8px 16px;
+    margin-top: 16px;
+    margin-bottom: 0;
+    padding: 16px 18px 16px 14px;
+    border-color: #818cf8;
+    border-left: 5px solid #4f46e5;
+    background: linear-gradient(135deg, #eef2ff 0%, #ffffff 62%);
+    box-shadow: 0 8px 20px rgba(79, 70, 229, 0.08);
+}
+
+.plan-selector-option.plan-selector-option--enterprise:hover {
+    border-color: #6366f1;
+    border-left-color: #4338ca;
+}
+
+.plan-selector-option.plan-selector-option--enterprise.selected {
+    border-color: #4f46e5;
+    background: linear-gradient(135deg, #e0e7ff 0%, #eef2ff 100%);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.18);
+}
+
+.plan-selector-option--enterprise input[type="radio"] {
+    margin: 22px 0 0;
+    accent-color: #4f46e5;
+}
+
+.plan-selector-enterprise-copy {
+    min-width: 0;
+}
+
+.plan-selector-kicker {
+    display: inline-block;
+    margin: 0 0 4px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: #4f46e5;
+    color: #fff;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.plan-selector-option--enterprise strong {
+    display: block;
+    font-size: 1.05rem;
+}
+
+.plan-selector-option--enterprise small {
+    margin: 4px 0 0;
+}
+
+.plan-selector-option--enterprise .plan-selector-prices {
+    margin: 0;
+    align-self: center;
+    text-align: right;
+    white-space: nowrap;
+}
+
+.pricing-companies {
+    max-width: 1200px;
+    margin: 40px auto 0;
+}
+
+.pricing-companies .pricing-card {
+    max-width: none;
+    display: grid;
+    grid-template-columns: minmax(220px, 0.9fr) minmax(0, 1.3fr) auto;
+    align-items: center;
+    gap: 28px 36px;
+    text-align: left;
+    padding: 32px 36px;
+    border: 2px solid #818cf8;
+    border-left: 6px solid #4f46e5;
+    background: linear-gradient(135deg, #eef2ff 0%, #ffffff 58%);
+    box-shadow: 0 12px 28px rgba(79, 70, 229, 0.1);
+}
+
+.pricing-companies .pricing-kicker {
+    display: inline-block;
+    margin-bottom: 8px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: #4f46e5;
+    color: #fff;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.pricing-companies .pricing-card h3 {
+    margin-bottom: 10px;
+}
+
+.pricing-companies .pricing-card .price {
+    font-size: 36px;
+    margin-bottom: 8px;
+}
+
+.pricing-companies .pricing-card .price-note {
+    margin-bottom: 0;
+}
+
+.pricing-companies .pricing-card ul {
+    margin-bottom: 0;
+}
+
+.pricing-companies .pricing-card .primary-button {
+    white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+    .pricing-companies .pricing-card {
+        grid-template-columns: 1fr;
+        text-align: center;
+        padding: 28px 22px;
+    }
+
+    .pricing-companies .pricing-card ul {
+        text-align: left;
+    }
+}
+
 @media (max-width: 640px) {
     .plan-selector-grid {
         grid-template-columns: 1fr;
     }
-}
-    gap: 30px;
-    max-width: 800px;
-    margin: 0 auto;
+
+    .plan-selector-option.plan-selector-option--enterprise,
+    .form-group label.plan-selector-option--enterprise,
+    .register-form label.plan-selector-option--enterprise {
+        grid-template-columns: auto minmax(0, 1fr);
+    }
+
+    .plan-selector-option.plan-selector-option--enterprise .plan-selector-prices,
+    .form-group label.plan-selector-option--enterprise .plan-selector-prices,
+    .register-form label.plan-selector-option--enterprise .plan-selector-prices {
+        grid-column: 2;
+        text-align: left;
+        white-space: normal;
+    }
 }
 
 .pricing-grid.pricing-grid-4 {
@@ -914,11 +1054,6 @@ section, div {
     max-width: 1200px;
     gap: 20px;
     align-items: stretch;
-}
-
-.pricing-companies {
-    max-width: 420px;
-    margin: 40px auto 0;
 }
 
 .pricing-grid.pricing-grid-4 .pricing-card {

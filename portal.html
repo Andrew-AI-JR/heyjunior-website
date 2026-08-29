@@ -185,13 +185,16 @@
                                     <small>80 comments/day + priority support</small>
                                     <div class="plan-selector-prices"><span class="new-price">$49.99/month</span></div>
                                 </label>
-                                <label class="plan-selector-option" for="portal-plan-enterprise">
-                                    <input type="radio" name="portal-plan" id="portal-plan-enterprise" value="enterprise">
-                                    <strong>Enterprise</strong>
-                                    <small>80 comments/day + company page commenting</small>
-                                    <div class="plan-selector-prices"><span class="new-price">$99/month</span></div>
-                                </label>
                             </div>
+                            <label class="plan-selector-option plan-selector-option--enterprise" for="portal-plan-enterprise">
+                                <input type="radio" name="portal-plan" id="portal-plan-enterprise" value="enterprise">
+                                <span class="plan-selector-enterprise-copy">
+                                    <span class="plan-selector-kicker">For companies</span>
+                                    <strong>Enterprise</strong>
+                                    <small>80 comments/day · Comment as your LinkedIn company page</small>
+                                </span>
+                                <div class="plan-selector-prices"><span class="new-price">$99/month</span></div>
+                            </label>
                             <button type="button" onclick="startPortalCheckout()" class="primary-button" id="portal-checkout-btn">Continue to secure checkout</button>
                             <p style="font-size: 0.9rem; color: #6b7280; margin-top: 12px;">Already paid? Refresh this page in a moment.</p>
                             <a href="#" onclick="showSubscriptionHistory(event); return false;" class="view-all-link" id="no-sub-history-link" style="display: none; margin-top: 8px; color: #667eea; text-decoration: none; font-size: 0.9rem;">View subscription history</a>
@@ -260,13 +263,16 @@
                                         <small>80 comments/day + priority support</small>
                                         <div class="plan-selector-prices"><span class="new-price">$49.99/month</span></div>
                                     </label>
-                                    <label class="plan-selector-option" for="change-plan-enterprise">
-                                        <input type="radio" name="change-plan" id="change-plan-enterprise" value="enterprise">
-                                        <strong>Enterprise</strong>
-                                        <small>80 comments/day + company page commenting</small>
-                                        <div class="plan-selector-prices"><span class="new-price">$99/month</span></div>
-                                    </label>
                                 </div>
+                                <label class="plan-selector-option plan-selector-option--enterprise" for="change-plan-enterprise">
+                                    <input type="radio" name="change-plan" id="change-plan-enterprise" value="enterprise">
+                                    <span class="plan-selector-enterprise-copy">
+                                        <span class="plan-selector-kicker">For companies</span>
+                                        <strong>Enterprise</strong>
+                                        <small>80 comments/day · Comment as your LinkedIn company page</small>
+                                    </span>
+                                    <div class="plan-selector-prices"><span class="new-price">$99/month</span></div>
+                                </label>
                                 <div style="display: flex; gap: 10px; align-items: center;">
                                     <button onclick="confirmChangePlan()" class="primary-button" id="confirm-change-plan-btn" style="padding: 10px 20px; font-size: 0.9rem;">Confirm Plan Change</button>
                                     <button onclick="hideChangePlanUI()" style="padding: 10px 20px; font-size: 0.9rem; background: transparent; border: 1px solid #d1d5db; border-radius: 8px; cursor: pointer; color: #6b7280;">Cancel</button>
