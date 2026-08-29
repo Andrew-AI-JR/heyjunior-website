@@ -6,7 +6,8 @@ window.JUNIOR_PRICING = {
         'basic': 'price_1TcWzqRxE6F23RwQ7FnKpQyU',
         'starter': 'price_1TqD2LRxE6F23RwQg0S18fTb',
         'standard': 'price_1RJMCrRxE6F23RwQEnHUwvFq',
-        'pro': 'price_1SX1LrRxE6F23RwQgWgIV1NK'
+        'pro': 'price_1SX1LrRxE6F23RwQgWgIV1NK',
+        'enterprise': 'price_1U9pPSRxE6F23RwQnxbshVb5'
     },
     
     // Display configuration for plans
@@ -29,6 +30,11 @@ window.JUNIOR_PRICING = {
         'pro': {
             label: 'Pro',
             price: 49.99,
+            dailyLimit: 80
+        },
+        'enterprise': {
+            label: 'Enterprise',
+            price: 99,
             dailyLimit: 80
         }
     },

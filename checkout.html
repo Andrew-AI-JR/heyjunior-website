@@ -108,6 +108,12 @@
                                 <small>80 comments/day + priority support</small>
                                 <div class="plan-selector-prices"><span class="new-price">$49.99/month</span></div>
                             </label>
+                            <label class="plan-selector-option" for="plan-enterprise">
+                                <input type="radio" name="plan" id="plan-enterprise" value="enterprise">
+                                <strong>Enterprise</strong>
+                                <small>80 comments/day + company page commenting</small>
+                                <div class="plan-selector-prices"><span class="new-price">$99/month</span></div>
+                            </label>
                         </div>
                     </div>
 
@@ -379,12 +385,13 @@
                 const appliedCoupon = sessionStorage.getItem('appliedCoupon');
                 
                 if (selectedPlan) {
-                    const PLAN_PRICES = { basic: '9.99', starter: '14.99', standard: '29.99', pro: '49.99' };
+                    const PLAN_PRICES = { basic: '9.99', starter: '14.99', standard: '29.99', pro: '49.99', enterprise: '99' };
                     const PLAN_NOTES = {
                         basic: 'Great for getting started • Cancel anytime',
                         starter: 'For steady networkers • Cancel anytime',
                         standard: 'Perfect for job seekers • Cancel anytime',
-                        pro: 'Maximum visibility • Cancel anytime'
+                        pro: 'Maximum visibility • Cancel anytime',
+                        enterprise: 'Comment as your company page • Cancel anytime'
                     };
                     const price = PLAN_PRICES[selectedPlan.value] || '29.99';
                     const note = PLAN_NOTES[selectedPlan.value] || PLAN_NOTES.standard;
@@ -454,7 +461,7 @@
             // Check URL params for pre-selected plan
             const urlParams = new URLSearchParams(window.location.search);
             const planParam = urlParams.get('plan');
-            if (planParam && ['basic', 'starter', 'standard', 'pro'].includes(planParam)) {
+            if (planParam && ['basic', 'starter', 'standard', 'pro', 'enterprise'].includes(planParam)) {
                 const planRadio = document.getElementById('plan-' + planParam);
                 if (planRadio) {
                     planRadio.checked = true;

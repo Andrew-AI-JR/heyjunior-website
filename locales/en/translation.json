@@ -192,11 +192,14 @@
     "starterName": "Starter",
     "standardName": "Standard",
     "proName": "Pro",
+    "enterpriseName": "Enterprise",
+    "companiesTitle": "For companies",
     "period": "/month",
     "priceNote": "Perfect for job seekers • Cancel anytime",
     "basicNote": "Great for getting started • Cancel anytime",
     "starterNote": "For steady networkers • Cancel anytime",
     "proNote": "Maximum visibility • Cancel anytime",
+    "enterpriseNote": "Comment as your company page • Cancel anytime",
     "features": {
       "basic": {
         "comments": "Up to 10 daily engagements"
@@ -209,6 +212,10 @@
       },
       "pro": {
         "comments": "Up to 80 daily engagements"
+      },
+      "enterprise": {
+        "comments": "Up to 80 daily engagements",
+        "companyPage": "Comment as your LinkedIn company page"
       },
       "targeting": "Hiring manager targeting",
       "analytics": "Performance analytics",

@@ -3,7 +3,8 @@
         basic: 'price_1TcWzqRxE6F23RwQ7FnKpQyU',
         starter: 'price_1TqD2LRxE6F23RwQg0S18fTb',
         standard: 'price_1RJMCrRxE6F23RwQEnHUwvFq',
-        pro: 'price_1SX1LrRxE6F23RwQgWgIV1NK'
+        pro: 'price_1SX1LrRxE6F23RwQgWgIV1NK',
+        enterprise: 'price_1U9pPSRxE6F23RwQnxbshVb5'
     };
 
     function getApiBaseUrl() {

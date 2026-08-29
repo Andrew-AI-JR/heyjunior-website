@@ -192,11 +192,14 @@
     "starterName": "Inicial",
     "standardName": "Estándar",
     "proName": "Pro",
+    "enterpriseName": "Enterprise",
+    "companiesTitle": "Para empresas",
     "period": "/mes",
     "priceNote": "Perfecto para buscadores de empleo • Cancela cuando quieras",
     "basicNote": "Ideal para empezar • Cancela cuando quieras",
     "starterNote": "Para networkers constantes • Cancela cuando quieras",
     "proNote": "Máxima visibilidad • Cancela cuando quieras",
+    "enterpriseNote": "Comenta como tu página de empresa • Cancela cuando quieras",
     "features": {
       "basic": {
         "comments": "10 comentarios IA por día"
@@ -209,6 +212,10 @@
       },
       "pro": {
         "comments": "80 comentarios IA por día"
+      },
+      "enterprise": {
+        "comments": "80 comentarios IA por día",
+        "companyPage": "Comenta como tu página de empresa de LinkedIn"
       },
       "targeting": "Segmentación de gerentes de contratación",
       "analytics": "Análisis de rendimiento",
