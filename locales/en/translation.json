@@ -73,6 +73,13 @@
   "badges": {
     "mostPopular": "Most Popular"
   },
+  "announcement": {
+    "junior3": {
+      "badge": "Junior 3.0",
+      "text": "Junior 3.0 shipped: an operator console for live runs, a dedicated Activity screen, and commenting as your LinkedIn company page.",
+      "cta": "See what shipped"
+    }
+  },
   "mechanismGraphic": {
     "title": "How Junior finds the right conversations",
     "subtitle": "Not every LinkedIn post is worth your time. Junior filters for the ones that matter.",
@@ -200,6 +207,8 @@
     "starterNote": "For steady networkers • Cancel anytime",
     "proNote": "Maximum visibility • Cancel anytime",
     "enterpriseNote": "Comment as your company page • Cancel anytime",
+    "enterpriseOfferLink": "Launch offer: one month free, then $99/month. Closes September 9, 2026.",
+    "enterpriseOfferRegister": "Launch offer: apply code JUNIOR3ENT for a free first month instead of the free week, then $99/month.",
     "features": {
       "basic": {
         "comments": "Up to 10 daily engagements"

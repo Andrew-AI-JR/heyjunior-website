@@ -81,6 +81,31 @@ Partner copy assets (trial-page section, email, community article, Matt's Linked
 
 ---
 
+## Junior 3.0 Launch -- Enterprise Offer
+
+One month of Enterprise free, starting when you claim it, then $99/month. A card is required, and the subscription can be cancelled any time from the billing portal. The coupon is 100% off for one month (`duration: once`) and is restricted to the Enterprise product only -- it does not apply to Basic, Starter, Standard, or Pro. Window is seven days, closing **September 9, 2026**.
+
+| Link | Coupon | Offer |
+|------|--------|-------|
+| `https://heyjunior.ai/junior-3.html` | -- | Launch page (what shipped in 3.0 plus the offer) |
+| `https://heyjunior.ai/register.html?plan=enterprise&coupon=JUNIOR3ENT` | `JUNIOR3ENT` | First month of Enterprise free, then $99/month |
+
+Canonical tracked conversion link (launch page placement):
+```
+https://heyjunior.ai/register.html?plan=enterprise&coupon=JUNIOR3ENT&src=junior3-launch-page
+```
+
+Channel values for `?src=` on either URL: `email-launch`, `email-offer`, `producthunt`, `linkedin`, `linkedin-company`, `x`, `hn`, `indiehackers`, `github`. On-site placements use `home-announcement`, `home-pricing-enterprise-offer`, and `junior3-launch-page`.
+
+Downloads always resolve to the current release; never link a pinned tag:
+```
+https://github.com/Andrew-AI-JR/Desktop-Releases/releases/latest
+```
+
+Customers with an active paid subscription upgrade through the in-app Stripe Billing Portal flow instead, where the discount is attached server-side from an allowlist. Customers already on Enterprise and customers currently in a trial are excluded from the offer.
+
+---
+
 ## Custom Coupon via URL
 
 Any Stripe coupon can be applied to the normal register flow by appending `?coupon=CODE`:
@@ -98,6 +123,7 @@ If no `?coupon=` is provided, the default `1FREEMONTH` is applied.
 | `1FREEMONTH` | (check Stripe dashboard) | 100% off first month | Normal register flow |
 | `JUNIOR50` | `promo_1TT14bRxE6F23RwQqyQUg5X0` | 50% off for 3 months | `/50off/` landing page |
 | `3FREEMONTHS` | (check Stripe dashboard) | 100% off for 3 months | `/free/` landing page, private email links |
+| `JUNIOR3ENT` | (check Stripe dashboard) | 100% off the first month of Enterprise only, `duration: once`, closes September 9, 2026 | `junior-3.html`, Junior 3.0 launch emails |
 
 ---
 
@@ -109,3 +135,4 @@ If no `?coupon=` is provided, the default `1FREEMONTH` is applied.
 | Starter | `price_1TqD2LRxE6F23RwQg0S18fTb` | $14.99 | 20 |
 | Standard | `price_1RJMCrRxE6F23RwQEnHUwvFq` | $29.99 | 50 |
 | Pro | `price_1SX1LrRxE6F23RwQgWgIV1NK` | $49.99 | 80 |
+| Enterprise | `price_1U9pPSRxE6F23RwQnxbshVb5` | $99 | 80, plus commenting as your LinkedIn company page |

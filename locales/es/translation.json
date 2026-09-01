@@ -73,6 +73,13 @@
   "badges": {
     "mostPopular": "Más Popular"
   },
+  "announcement": {
+    "junior3": {
+      "badge": "Junior 3.0",
+      "text": "Junior 3.0 ya está disponible: una consola de operación para las ejecuciones en vivo, una pantalla de Actividad dedicada y comentarios como tu página de empresa de LinkedIn.",
+      "cta": "Ver lo que se lanzó"
+    }
+  },
   "mechanismGraphic": {
     "title": "Cómo Junior encuentra las conversaciones correctas",
     "subtitle": "No todas las publicaciones de LinkedIn valen tu tiempo. Junior filtra las que importan.",
@@ -200,6 +207,8 @@
     "starterNote": "Para networkers constantes • Cancela cuando quieras",
     "proNote": "Máxima visibilidad • Cancela cuando quieras",
     "enterpriseNote": "Comenta como tu página de empresa • Cancela cuando quieras",
+    "enterpriseOfferLink": "Oferta de lanzamiento: un mes gratis y después $99/mes. Termina el 9 de septiembre de 2026.",
+    "enterpriseOfferRegister": "Oferta de lanzamiento: aplica el código JUNIOR3ENT para obtener el primer mes gratis en lugar de la semana gratis, y después $99/mes.",
     "features": {
       "basic": {
         "comments": "10 comentarios IA por día"

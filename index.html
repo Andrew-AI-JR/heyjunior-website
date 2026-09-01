@@ -15,7 +15,7 @@
     <meta name="twitter:image" content="https://heyjunior.ai/reseller-assets/global/social/social-card.png">
     <title>Turn LinkedIn conversations into opportunities - Junior</title>
     <link rel="canonical" href="https://heyjunior.ai/">
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/styles.css?v=20260901-junior3">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
@@ -44,6 +44,18 @@
       "offers": [
         {
           "@type": "Offer",
+          "name": "Basic",
+          "price": "9.99",
+          "priceCurrency": "USD"
+        },
+        {
+          "@type": "Offer",
+          "name": "Starter",
+          "price": "14.99",
+          "priceCurrency": "USD"
+        },
+        {
+          "@type": "Offer",
           "name": "Standard",
           "price": "29.99",
           "priceCurrency": "USD"
@@ -52,6 +64,12 @@
           "@type": "Offer",
           "name": "Pro",
           "price": "49.99",
+          "priceCurrency": "USD"
+        },
+        {
+          "@type": "Offer",
+          "name": "Enterprise",
+          "price": "99",
           "priceCurrency": "USD"
         }
       ]
@@ -98,6 +116,15 @@
             </div>
             <p class="hero-microcopy"><a href="why-commenting-works.html?src=home-hero-edu" data-cta="home-hero-education" style="color: #c7d2fe;">Your next opportunity may be outside your network. Learn why commenting works.</a></p>
             <p class="hero-microcopy" data-i18n="landingHomeGeneral.hero.microcopy">First week free · Card required at signup</p>
+        </div>
+    </section>
+
+    <section class="home-announcement" id="home-announcement">
+        <div class="container home-announcement-inner">
+            <span class="home-announcement-badge" data-i18n="announcement.junior3.badge">Junior 3.0</span>
+            <p class="home-announcement-text" data-i18n="announcement.junior3.text">Junior 3.0 shipped: an operator console for live runs, a dedicated Activity screen, and commenting as your LinkedIn company page.</p>
+            <a href="junior-3.html?src=home-announcement" class="home-announcement-link" data-cta="home-announcement" data-i18n="announcement.junior3.cta">See what shipped</a>
+            <button type="button" class="home-announcement-dismiss" id="home-announcement-dismiss" aria-controls="home-announcement" aria-label="Dismiss announcement">&times;</button>
         </div>
     </section>
 
@@ -316,6 +343,7 @@
                             <span class="period" data-i18n="pricing.period">/month</span>
                         </div>
                         <div class="price-note" data-i18n="pricing.enterpriseNote">Comment as your company page • Cancel anytime</div>
+                        <p class="pricing-offer-note"><a href="junior-3.html?src=home-pricing-enterprise-offer" data-cta="home-pricing-enterprise-offer" data-i18n="pricing.enterpriseOfferLink">Launch offer: one month free, then $99/month. Closes September 9, 2026.</a></p>
                     </div>
                     <ul>
                         <li>✅ <span data-i18n="pricing.features.enterprise.comments">Up to 80 daily engagements</span></li>
@@ -408,6 +436,29 @@
                 mobileToggle.addEventListener('click', function () {
                     this.classList.toggle('active');
                     navLinks.classList.toggle('active');
+                });
+            }
+
+            const announcement = document.getElementById('home-announcement');
+            const announcementDismiss = document.getElementById('home-announcement-dismiss');
+            if (announcement && announcementDismiss) {
+                const dismissedKey = 'junior3AnnouncementDismissed';
+                let dismissed = null;
+                try {
+                    dismissed = localStorage.getItem(dismissedKey);
+                } catch (e) {
+                    dismissed = null;
+                }
+                if (dismissed === '1') {
+                    announcement.style.display = 'none';
+                }
+                announcementDismiss.addEventListener('click', function () {
+                    announcement.style.display = 'none';
+                    try {
+                        localStorage.setItem(dismissedKey, '1');
+                    } catch (e) {
+                        // Dismissal is cosmetic; ignore storage failures.
+                    }
                 });
             }
         });

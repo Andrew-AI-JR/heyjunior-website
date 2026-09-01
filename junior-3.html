@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Junior 3.0 shipped: an operator console for live runs, a dedicated Activity screen, run insights, posts from company pages, and commenting as your LinkedIn company page on Enterprise.">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Junior 3.0 - Operator Console, Activity, and company page commenting">
+    <meta property="og:description" content="The Automation screen is now an operator console, Activity shows what Junior actually did, and Enterprise can comment as your LinkedIn company page.">
+    <meta property="og:image" content="https://heyjunior.ai/reseller-assets/global/social/social-card.png">
+    <meta property="og:url" content="https://heyjunior.ai/junior-3.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Junior 3.0 - Operator Console, Activity, and company page commenting">
+    <meta name="twitter:description" content="See what shipped in Junior 3.0, and claim one month of Enterprise free before the offer closes September 9, 2026.">
+    <meta name="twitter:image" content="https://heyjunior.ai/reseller-assets/global/social/social-card.png">
+    <title>Junior 3.0 is here | Junior</title>
+    <link rel="canonical" href="https://heyjunior.ai/junior-3.html">
+    <link rel="stylesheet" href="css/styles.css?v=20260901-junior3">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <script defer src="js/analytics.js"></script>
+</head>
+<body data-page="junior-3" class="i18n-ready">
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <img src="./images/junior-logo.png" alt="Junior Logo" class="logo-img">
+            </div>
+            <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <div class="nav-group">
+                    <li><a href="#what-shipped">What Shipped</a></li>
+                    <li><a href="#enterprise-offer">Enterprise Offer</a></li>
+                    <li><a href="#download">Download</a></li>
+                    <li><a href="index.html#pricing">Pricing</a></li>
+                    <li><a href="setup-guide.html">Setup Guide</a></li>
+                </div>
+                <div class="nav-actions">
+                    <li><a href="register.html?src=junior3-nav" class="cta-button">Start Free</a></li>
+                    <li><a href="index.html" class="nav-login-link">Back to Home</a></li>
+                </div>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="support-main">
+        <section class="hero conversion-hero hero-dark support-hero">
+            <div class="container narrow-container">
+                <p class="support-eyebrow">Junior 3.0</p>
+                <h1>Junior 3.0 is here</h1>
+                <p class="subtitle">The Automation screen is now an operator console, a dedicated Activity screen shows what Junior actually did, and Enterprise can comment as your LinkedIn company page. Junior still runs on your own machine, your own browser, and your own IP.</p>
+                <div class="cta-buttons">
+                    <a href="https://github.com/Andrew-AI-JR/Desktop-Releases/releases/latest" class="primary-button" target="_blank" rel="noopener" data-cta="junior3-hero-download">Download Junior 3.0</a>
+                    <a href="#enterprise-offer" class="secondary-button" data-cta="junior3-hero-offer">See the Enterprise offer</a>
+                </div>
+                <p class="hero-microcopy">Windows, macOS (Intel and Apple Silicon), and Linux (AppImage and .deb).</p>
+            </div>
+        </section>
+
+        <section class="support-section" id="what-shipped">
+            <div class="container support-container">
+                <article class="support-card">
+                    <h2>Operator Console</h2>
+                    <p>The Automation screen is now the daily workspace instead of a settings page you visit once.</p>
+                    <ul class="support-list">
+                        <li>Targeting, filters, and caps stay visible while a run is in progress. Nothing load-bearing is hidden behind a "simple mode".</li>
+                        <li>A run bar summarises the active identity and run state.</li>
+                        <li>An agent header reports one of four honest states: idle, needs you, working, problem. "Needs you" is a real pause, such as a login or MFA prompt, not a guess.</li>
+                        <li>The raw log is still there as a drawer. It was never removed.</li>
+                    </ul>
+                </article>
+
+                <article class="support-card">
+                    <h2>Activity</h2>
+                    <p>A dedicated third screen for what Junior actually did, replacing the cramped Recent Activity box on the Dashboard.</p>
+                    <ul class="support-list">
+                        <li>Filter by posted, skipped, or all. It defaults to posted.</li>
+                        <li>Skipped entries carry the reason, so an empty run is explainable instead of mysterious.</li>
+                        <li>Posted comments open on LinkedIn in one click.</li>
+                    </ul>
+                </article>
+
+                <article class="support-card">
+                    <h2>Run Insights</h2>
+                    <p>A "Review latest run" card on the Dashboard. You press it, Junior reviews the most recent session's own telemetry, and it reports what your configuration actually produced.</p>
+                    <ul class="support-list">
+                        <li>Manual only. It does not run in the background or phone home between runs.</li>
+                        <li>Rate limited to 3 reviews per day.</li>
+                    </ul>
+                </article>
+
+                <article class="support-card">
+                    <h2>Comment as your company page (Enterprise)</h2>
+                    <p>Junior can post as your LinkedIn company page instead of your personal profile.</p>
+                    <ul class="support-list">
+                        <li>Entitlement is fail-closed: if the check fails or the answer is unknown, company commenting stays locked rather than silently falling back to your personal profile.</li>
+                        <li>Identity is frozen mid-run, so a plan change can never switch who is posting halfway through.</li>
+                        <li>Saved company details stay visible and read-only when the feature is locked.</li>
+                    </ul>
+                </article>
+
+                <article class="support-card">
+                    <h2>Find posts from company pages</h2>
+                    <p>Point Junior at specific LinkedIn company pages and it harvests their official feeds alongside your keyword searches.</p>
+                    <ul class="support-list">
+                        <li>URL-only field. There is no limit on how many pages you add; a longer list just takes longer to cycle.</li>
+                        <li>Distinct from "Author companies", which filters by where a post's author works.</li>
+                        <li>Per-author cooldown is skipped on official company feeds, so an active page is not throttled to one comment.</li>
+                    </ul>
+                </article>
+
+                <article class="support-card">
+                    <h2>Better post selection and counting</h2>
+                    <ul class="support-list">
+                        <li>Posts older than 10 days are no longer eligible, so Junior stops commenting on stale threads.</li>
+                        <li>Comment action bars are no longer mistaken for posts during harvesting.</li>
+                        <li>Today's comment count survives an app restart, and a separate session counter shows the current run.</li>
+                        <li>Counts read from the real Documents path rather than a OneDrive-redirected copy.</li>
+                    </ul>
+                </article>
+
+                <article class="support-card">
+                    <h2>Reliability</h2>
+                    <ul class="support-list">
+                        <li>A crashed company-feed pass no longer loses comments that were already posted, and leftover pages are picked up on restart rather than silently skipped.</li>
+                        <li>Expired API tokens refresh mid-run instead of ending the session.</li>
+                        <li>The LinkedIn session is restored from the Junior Chrome profile, reducing repeat manual logins.</li>
+                        <li>Fixes for an installer crash, a stalled-run restart loop, and an unsolvable manual-login captcha.</li>
+                    </ul>
+                </article>
+
+                <article class="support-card launch-offer-card" id="enterprise-offer">
+                    <span class="launch-kicker">Launch offer</span>
+                    <h2>One month of Enterprise free, then $99/month</h2>
+                    <p>Enterprise is the plan that can comment as your LinkedIn company page. This offer is for people who post as a company.</p>
+                    <ol class="launch-offer-terms">
+                        <li>One month of Enterprise free, starting when you claim it, then $99/month.</li>
+                        <li>A card is required.</li>
+                        <li>Cancel any time from the billing portal.</li>
+                        <li>The code is <code class="launch-offer-code">JUNIOR3ENT</code>.</li>
+                        <li>The offer closes September 9, 2026.</li>
+                    </ol>
+                    <div class="support-button-row">
+                        <a href="register.html?plan=enterprise&amp;coupon=JUNIOR3ENT&amp;src=junior3-launch-page" class="primary-button" data-cta="junior3-offer-claim">Claim one month of Enterprise free</a>
+                    </div>
+                    <p>Following that link pre-applies the code at checkout. You can also enter it yourself at Stripe Checkout.</p>
+                </article>
+
+                <article class="support-card support-next" id="download">
+                    <h2>Download Junior 3.0</h2>
+                    <p>Junior runs on Windows, macOS (Intel and Apple Silicon), and Linux (AppImage and .deb). The download link always resolves to the current release.</p>
+                    <div class="support-button-row">
+                        <a href="https://github.com/Andrew-AI-JR/Desktop-Releases/releases/latest" class="primary-button" target="_blank" rel="noopener" data-cta="junior3-download-primary">Download the latest release</a>
+                        <a href="setup-guide.html" class="secondary-button" data-cta="junior3-download-setup-guide">First launch setup guide</a>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="index.html#features">Features</a></li>
+                        <li><a href="index.html#pricing">Pricing</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="setup-guide.html" data-cta="junior3-footer-setup-guide">First Launch Setup Guide</a></li>
+                        <li><a href="windows-install-help.html" data-cta="junior3-footer-windows-help">Windows Install Help</a></li>
+                        <li><a href="mac-install-help.html" data-cta="junior3-footer-mac-help">macOS Install Help</a></li>
+                        <li><a href="troubleshooting.html" data-cta="junior3-footer-troubleshooting">Troubleshooting</a></li>
+                    </ul>
+                </div>
+            </div>
+            <p>&copy; 2026 Junior. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/referral.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const mobileToggle = document.querySelector('.mobile-menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            if (mobileToggle && navLinks) {
+                mobileToggle.addEventListener('click', function () {
+                    this.classList.toggle('active');
+                    navLinks.classList.toggle('active');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
