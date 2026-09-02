@@ -76,8 +76,12 @@
   "announcement": {
     "junior3": {
       "badge": "Junior 3.0",
-      "text": "Junior 3.0 ya está disponible: una consola de operación para las ejecuciones en vivo, una pantalla de Actividad dedicada y comentarios como tu página de empresa de LinkedIn.",
-      "cta": "Ver lo que se lanzó"
+      "heroChip": "Junior 3.0 ya está aquí · primer mes de Enterprise gratis",
+      "headline": "Junior 3.0 ya está aquí",
+      "text": "Consola de operación para las ejecuciones en vivo, una pantalla de Actividad dedicada, Run Insights y comentarios como tu página de empresa de LinkedIn.",
+      "offer": "Oferta de lanzamiento: un mes de Enterprise gratis con el código JUNIOR3ENT. Después $99/mes. Termina el 9 de septiembre de 2026.",
+      "cta": "Ver lo que se lanzó",
+      "offerCta": "Reclamar un mes gratis"
     }
   },
   "mechanismGraphic": {

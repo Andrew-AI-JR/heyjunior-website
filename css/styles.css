@@ -8473,58 +8473,110 @@ body {
 /* Junior 3.0 launch: homepage announcement and launch page */
 /* ============================================================ */
 
-.home-announcement {
-    background: #eef2ff;
-    border-bottom: 1px solid #c7d2fe;
-    padding: 12px 0;
+.hero-launch-chip {
+    display: inline-block;
+    margin: 0 0 22px;
+    padding: 10px 18px;
+    border-radius: 999px;
+    background: #4f46e5;
+    color: #fff !important;
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.3;
+    text-decoration: none !important;
+    box-shadow: 0 8px 20px rgba(79, 70, 229, 0.35);
 }
 
-.home-announcement-inner {
+.hero-launch-chip:hover {
+    background: #4338ca;
+    color: #fff !important;
+}
+
+.home-launch {
+    background: linear-gradient(180deg, #312e81 0%, #1e1b4b 100%);
+    padding: 28px 0 40px;
+}
+
+.home-launch-card {
     position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 8px 14px;
-    padding-right: 34px;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 32px 36px 30px;
+    border: 1px solid rgba(199, 210, 254, 0.35);
+    border-radius: 16px;
+    background: #fff;
+    text-align: center;
+    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.18);
 }
 
 .home-announcement-badge {
     display: inline-block;
-    padding: 3px 10px;
+    padding: 4px 12px;
     border-radius: 999px;
     background: #4f46e5;
     color: #fff;
-    font-size: 0.72rem;
+    font-size: 0.78rem;
     font-weight: 700;
     letter-spacing: 0.04em;
     text-transform: uppercase;
 }
 
-.home-announcement-text {
-    margin: 0;
-    color: #1e293b;
-    font-size: 0.98rem;
+.home-launch-card h2 {
+    margin: 14px 0 10px;
+    color: #0f172a;
+    font-size: 2rem;
 }
 
-.home-announcement-link {
-    color: #4338ca;
+.home-launch-text {
+    margin: 0 auto 16px;
+    max-width: 640px;
+    color: #334155;
+    font-size: 1.15rem;
+    line-height: 1.55;
+}
+
+.home-launch-offer {
+    margin: 0 auto 22px;
+    max-width: 620px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    background: #eef2ff;
+    color: #312e81;
+    font-size: 1.05rem;
     font-weight: 700;
-    white-space: nowrap;
+}
+
+.home-launch-ctas {
+    justify-content: center;
+    margin-bottom: 0;
+}
+
+.home-launch .secondary-button {
+    background: #fff;
+    color: #2563eb !important;
+    border: 2px solid #2563eb;
+}
+
+.home-launch .secondary-button:hover {
+    background: #eff6ff;
+    color: #1d4ed8 !important;
 }
 
 .home-announcement-dismiss {
     position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
+    right: 10px;
+    top: 10px;
     padding: 4px 9px;
     border: none;
     background: none;
-    color: #4338ca;
-    font-size: 1.3rem;
+    color: #64748b;
+    font-size: 1.4rem;
     line-height: 1;
     cursor: pointer;
+}
+
+.home-announcement-dismiss:hover {
+    color: #0f172a;
 }
 
 .pricing-offer-note {
@@ -8574,8 +8626,16 @@ body {
 }
 
 @media (max-width: 640px) {
-    .home-announcement-inner {
-        justify-content: flex-start;
-        text-align: left;
+    .home-launch-card {
+        padding: 28px 18px 24px;
+    }
+
+    .home-launch-card h2 {
+        font-size: 1.55rem;
+    }
+
+    .home-launch-ctas .primary-button,
+    .home-launch-ctas .secondary-button {
+        width: 100%;
     }
 }

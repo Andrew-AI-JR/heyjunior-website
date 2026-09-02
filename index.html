@@ -15,7 +15,7 @@
     <meta name="twitter:image" content="https://heyjunior.ai/reseller-assets/global/social/social-card.png">
     <title>Turn LinkedIn conversations into opportunities - Junior</title>
     <link rel="canonical" href="https://heyjunior.ai/">
-    <link rel="stylesheet" href="css/styles.css?v=20260901-junior3">
+    <link rel="stylesheet" href="css/styles.css?v=20260902-junior3">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
@@ -108,6 +108,7 @@
 
     <section class="hero conversion-hero hero-dark">
         <div class="container">
+            <a href="#home-announcement" class="hero-launch-chip" data-cta="home-hero-launch-chip" data-i18n="announcement.junior3.heroChip">Junior 3.0 is out · first month of Enterprise free</a>
             <h1 data-i18n="landingHomeGeneral.hero.title">Turn LinkedIn conversations into real opportunities.</h1>
             <p class="subtitle" data-i18n="landingHomeGeneral.hero.subtitle">Junior helps you find relevant posts, write natural comments in your voice, and turn replies into interviews, pipeline, and client conversations.</p>
             <div class="cta-buttons conversion-hero-ctas">
@@ -119,12 +120,19 @@
         </div>
     </section>
 
-    <section class="home-announcement" id="home-announcement">
-        <div class="container home-announcement-inner">
-            <span class="home-announcement-badge" data-i18n="announcement.junior3.badge">Junior 3.0</span>
-            <p class="home-announcement-text" data-i18n="announcement.junior3.text">Junior 3.0 shipped: an operator console for live runs, a dedicated Activity screen, and commenting as your LinkedIn company page.</p>
-            <a href="junior-3.html?src=home-announcement" class="home-announcement-link" data-cta="home-announcement" data-i18n="announcement.junior3.cta">See what shipped</a>
-            <button type="button" class="home-announcement-dismiss" id="home-announcement-dismiss" aria-controls="home-announcement" aria-label="Dismiss announcement">&times;</button>
+    <section class="home-launch" id="home-announcement">
+        <div class="container">
+            <div class="home-launch-card">
+                <button type="button" class="home-announcement-dismiss" id="home-announcement-dismiss" aria-controls="home-announcement" aria-label="Dismiss announcement">&times;</button>
+                <span class="home-announcement-badge" data-i18n="announcement.junior3.badge">Junior 3.0</span>
+                <h2 data-i18n="announcement.junior3.headline">Junior 3.0 is here</h2>
+                <p class="home-launch-text" data-i18n="announcement.junior3.text">Operator Console for live runs, a dedicated Activity screen, Run Insights, and commenting as your LinkedIn company page.</p>
+                <p class="home-launch-offer" data-i18n="announcement.junior3.offer">Launch offer: one month of Enterprise free with code JUNIOR3ENT. Then $99/month. Closes September 9, 2026.</p>
+                <div class="cta-buttons home-launch-ctas">
+                    <a href="junior-3.html?src=home-announcement" class="primary-button" data-cta="home-announcement" data-i18n="announcement.junior3.cta">See what shipped</a>
+                    <a href="register.html?plan=enterprise&coupon=JUNIOR3ENT&src=home-announcement-offer" class="secondary-button" data-cta="home-announcement-offer" data-i18n="announcement.junior3.offerCta">Claim a free month</a>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -442,7 +450,7 @@
             const announcement = document.getElementById('home-announcement');
             const announcementDismiss = document.getElementById('home-announcement-dismiss');
             if (announcement && announcementDismiss) {
-                const dismissedKey = 'junior3AnnouncementDismissed';
+                const dismissedKey = 'junior3LaunchBandDismissed';
                 let dismissed = null;
                 try {
                     dismissed = localStorage.getItem(dismissedKey);
