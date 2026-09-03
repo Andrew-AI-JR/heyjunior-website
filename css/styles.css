@@ -8639,3 +8639,26 @@ body {
         width: 100%;
     }
 }
+
+.launchbuff-badge {
+    display: inline-block;
+    margin-top: 22px;
+    line-height: 0;
+}
+
+.launchbuff-badge img {
+    display: block;
+    width: 256px;
+    max-width: min(256px, 100%);
+    height: auto;
+}
+
+.launchbuff-strip {
+    background: #fff;
+    padding: 20px 16px 8px;
+    text-align: center;
+}
+
+.launchbuff-strip .launchbuff-badge {
+    margin-top: 0;
+}
