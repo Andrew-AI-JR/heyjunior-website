@@ -1991,6 +1991,63 @@ section, div {
     width: 100%;
     height: auto;
     display: block;
+    background: #0f172a;
+}
+
+.demo-video-teaser {
+    padding: 80px 0;
+    background: #f8fafc;
+}
+
+.demo-video-teaser-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: center;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.demo-video-teaser-link {
+    position: relative;
+    display: block;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+}
+
+.demo-video-teaser-poster {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.demo-video-teaser-play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: rgba(30, 64, 175, 0.9);
+    color: white;
+    font-size: 22px;
+    line-height: 64px;
+    text-align: center;
+    padding-left: 4px;
+}
+
+.demo-video-teaser-copy h2 {
+    font-size: 28px;
+    color: #1e40af;
+    margin-bottom: 12px;
+}
+
+@media (max-width: 768px) {
+    .demo-video-teaser-inner {
+        grid-template-columns: 1fr;
+    }
 }
 
 .screenshots-grid {

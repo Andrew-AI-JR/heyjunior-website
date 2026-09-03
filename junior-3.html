@@ -15,11 +15,23 @@
     <meta name="twitter:image" content="https://heyjunior.ai/reseller-assets/global/social/social-card.png">
     <title>Junior 3.0 is here | Junior</title>
     <link rel="canonical" href="https://heyjunior.ai/junior-3.html">
-    <link rel="stylesheet" href="css/styles.css?v=20260903-launchbuff">
+    <link rel="stylesheet" href="css/styles.css?v=20260903-demo-video">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <script defer src="js/analytics.js"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "VideoObject",
+      "name": "Junior 3.0 Product Demo",
+      "description": "Walkthrough of Junior 3.0: operator console, Activity screen, Run Insights, and company-page commenting.",
+      "thumbnailUrl": "https://heyjunior.ai/campaign-assets/demo-video/junior-3/poster.jpg",
+      "uploadDate": "2026-09-03",
+      "duration": "PT49S",
+      "contentUrl": "https://heyjunior.ai/campaign-assets/demo-video/junior-3/junior-3-demo-720p.mp4"
+    }
+    </script>
 </head>
 <body data-page="junior-3" class="i18n-ready">
     <nav class="navbar">
@@ -34,6 +46,7 @@
             </button>
             <ul class="nav-links">
                 <div class="nav-group">
+                    <li><a href="#demo-video">Watch Demo</a></li>
                     <li><a href="#what-shipped">What Shipped</a></li>
                     <li><a href="#enterprise-offer">Enterprise Offer</a></li>
                     <li><a href="#download">Download</a></li>
@@ -67,6 +80,27 @@
                 <a class="launchbuff-badge" href="https://launchbuff.com/products/junior-3-0-ldhs6h" target="_blank" rel="noopener noreferrer" title="Featured on LaunchBuff" data-cta="junior3-launchbuff">
                     <img src="https://launchbuff.com/badge-featured-dark.svg" alt="Featured on LaunchBuff" width="256" height="80" />
                 </a>
+            </div>
+        </section>
+
+        <section class="product-showcase" id="demo-video">
+            <div class="container">
+                <h2>See Junior 3.0 in action</h2>
+                <p class="section-subtitle">Operator Console, Activity, Run Insights, and company-page commenting — in under a minute.</p>
+                <div class="demo-video-container">
+                    <video
+                        class="demo-video"
+                        controls
+                        playsinline
+                        preload="metadata"
+                        poster="campaign-assets/demo-video/junior-3/poster.jpg"
+                        data-cta="junior3-demo-video"
+                    >
+                        <source src="campaign-assets/demo-video/junior-3/junior-3-demo-720p.mp4" type="video/mp4">
+                        <track kind="captions" src="campaign-assets/demo-video/junior-3/captions.vtt" srclang="en" label="English" default>
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
             </div>
         </section>
 
@@ -205,6 +239,13 @@
                 mobileToggle.addEventListener('click', function () {
                     this.classList.toggle('active');
                     navLinks.classList.toggle('active');
+                });
+            }
+            const demoVideo = document.querySelector('#demo-video .demo-video');
+            if (demoVideo && typeof window.juniorTrack === 'function') {
+                demoVideo.addEventListener('play', function onFirstPlay() {
+                    window.juniorTrack('video_play', { location: 'junior3-demo' });
+                    demoVideo.removeEventListener('play', onFirstPlay);
                 });
             }
         });
