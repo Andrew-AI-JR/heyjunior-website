@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article - Junior</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <script defer src="../../js/analytics.js"></script>
+    <script src="../../js/api-config.js"></script>
+    <style>
+        .article-container {
+            max-width: 860px;
+            margin: 48px auto;
+            padding: 0 20px;
+        }
+        .article-header {
+            margin-bottom: 32px;
+        }
+        .article-title {
+            font-size: clamp(2rem, 3vw, 2.9rem);
+            margin-bottom: 14px;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            color: #020617;
+        }
+        .article-meta {
+            color: #64748b;
+            font-size: 0.97rem;
+            font-weight: 500;
+        }
+        .article-featured-image {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            margin-bottom: 32px;
+        }
+        .article-content {
+            max-width: 72ch;
+            font-size: clamp(1.06rem, 1.2vw, 1.2rem);
+            line-height: 1.85;
+            color: #1f2937;
+        }
+        .article-content > *:first-child {
+            margin-top: 0;
+        }
+        .article-content > *:last-child {
+            margin-bottom: 0;
+        }
+        .article-content h2 {
+            margin-top: 2.1em;
+            margin-bottom: 0.8em;
+            line-height: 1.25;
+            letter-spacing: -0.01em;
+            color: #020617;
+        }
+        .article-content h3 {
+            margin-top: 1.7em;
+            margin-bottom: 0.65em;
+            line-height: 1.3;
+            letter-spacing: -0.005em;
+            color: #1e293b;
+        }
+        .article-content h4 {
+            margin-top: 1.4em;
+            margin-bottom: 0.55em;
+            line-height: 1.35;
+            color: #334155;
+        }
+        .article-content p {
+            margin: 0 0 1.3em;
+        }
+        .article-content ul,
+        .article-content ol {
+            margin: 0 0 1.3em 1.35em;
+            padding: 0;
+        }
+        .article-content li {
+            margin-bottom: 0.45em;
+        }
+        .article-content strong {
+            color: #0f172a;
+        }
+        .article-content a {
+            color: #1d4ed8;
+            text-decoration-thickness: 0.08em;
+            text-underline-offset: 0.16em;
+        }
+        .article-content blockquote {
+            margin: 0 0 1.5em;
+            padding: 0.9em 1.1em;
+            border-left: 4px solid #94a3b8;
+            color: #334155;
+            background: #f8fafc;
+            border-radius: 8px;
+        }
+        .article-content pre {
+            overflow-x: auto;
+            padding: 14px;
+            border-radius: 8px;
+            background: #0f172a;
+            color: #e2e8f0;
+            margin-bottom: 1.5em;
+            font-size: 0.93em;
+            line-height: 1.6;
+        }
+        .article-content code {
+            font-family: Consolas, "SFMono-Regular", Menlo, Monaco, monospace;
+            font-size: 0.95em;
+            background: #f1f5f9;
+            padding: 0.12em 0.35em;
+            border-radius: 4px;
+        }
+        .article-content pre code {
+            background: transparent;
+            padding: 0;
+        }
+        .article-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5em;
+            display: block;
+            overflow-x: auto;
+        }
+        .article-content th,
+        .article-content td {
+            border: 1px solid #cbd5e1;
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        .article-content th {
+            background: #f8fafc;
+            color: #0f172a;
+        }
+        .article-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin: 0.6em 0 1.3em;
+        }
+        .article-content hr {
+            border: none;
+            border-top: 1px solid #e2e8f0;
+            margin: 2em 0;
+        }
+        .article-content figure {
+            margin: 0 0 1.5em;
+        }
+        .article-content figcaption {
+            color: #64748b;
+            font-size: 0.92em;
+            margin-top: 0.55em;
+        }
+        .article-loading {
+            text-align: center;
+            padding: 40px;
+            color: #64748b;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 24px;
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        .share-row {
+            display: flex;
+            gap: 12px;
+            margin: 24px 0;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .share-row.top-share {
+            margin-top: 16px;
+            margin-bottom: 0;
+        }
+        .share-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-decoration: none;
+            color: #334155;
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .share-button:hover {
+            background: #e2e8f0;
+            color: #0f172a;
+            border-color: #cbd5e1;
+            text-decoration: none;
+        }
+        .share-button svg {
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+            fill: currentColor;
+        }
+        @media (max-width: 768px) {
+            .article-container {
+                margin: 28px auto;
+                padding: 0 16px;
+            }
+            .article-header {
+                margin-bottom: 24px;
+            }
+            .article-content {
+                font-size: 1.04rem;
+                line-height: 1.75;
+            }
+            .article-content table {
+                font-size: 0.93rem;
+            }
+            .article-content pre {
+                padding: 12px;
+            }
+        }
+    </style>
+
+    <link rel="canonical" href="https://heyjunior.ai/blog/engage-ai-alternatives-social-selling/">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://heyjunior.ai/blog/engage-ai-alternatives-social-selling/">
+    <meta property="og:title" content="Best Engage AI Alternatives for Social Selling Tools Beyond Engage AI">
+    <meta property="og:description" content="Discover top Engage AI alternatives for social selling. Compare safe LinkedIn engagement, inbound content tools, and multi-channel prospecting software.">
+    <meta property="og:image" content="https://assets.bevisible.app/featured-images/j57frdch0xgag67x3fk7wzxpqs8d6ph7/best-engage-ai-alternatives-for-social-selling-too-1788452328430-9efyqr.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://heyjunior.ai/blog/engage-ai-alternatives-social-selling/">
+    <meta name="twitter:title" content="Best Engage AI Alternatives for Social Selling Tools Beyond Engage AI">
+    <meta name="twitter:description" content="Discover top Engage AI alternatives for social selling. Compare safe LinkedIn engagement, inbound content tools, and multi-channel prospecting software.">
+    <meta name="twitter:image" content="https://assets.bevisible.app/featured-images/j57frdch0xgag67x3fk7wzxpqs8d6ph7/best-engage-ai-alternatives-for-social-selling-too-1788452328430-9efyqr.png">
+    
+</head>
+<body data-page="article" class="i18n-ready">
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <a href="../../index.html"><img src="../../images/junior-logo.png" alt="Junior Logo" class="logo-img"></a>
+            </div>
+            <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <div class="nav-group">
+                    <li><a href="../../index.html#use-cases">Use Cases</a></li>
+                    <li><a href="../../index.html#features">Features</a></li>
+                    <li><a href="../../why-commenting-works.html">Why Commenting Works</a></li>
+                    <li><a href="../../blog.html">Blog</a></li>
+                    <li><a href="../../try-it.html">Try It</a></li>
+                
+                    <li><a href="../../blog.html">Blog</a></li></div>
+                <div class="nav-actions">
+                    <li><a href="../../register.html?src=article-nav" class="cta-button">Start Free</a></li>
+                    <li><a href="../../portal.html" class="nav-login-link">Login</a></li>
+                </div>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="article-container" style="padding-top: 120px;">
+        <a href="../../blog.html" class="back-link">← Back to Blog</a>
+        
+        <div id="article-content">
+            <div class="article-loading">Loading article...</div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Junior. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        window.__INITIAL_ARTICLE_DATA__ = {"id": 92, "slug": "engage-ai-alternatives-social-selling", "title": "Best Engage AI Alternatives for Social Selling Tools Beyond Engage AI", "excerpt": "Discover top Engage AI alternatives for social selling. Compare safe LinkedIn engagement, inbound content tools, and multi-channel prospecting software.", "featured_image_url": "https://assets.bevisible.app/featured-images/j57frdch0xgag67x3fk7wzxpqs8d6ph7/best-engage-ai-alternatives-for-social-selling-too-1788452328430-9efyqr.png", "published_at": "2026-09-03T16:13:00+00:00", "content": "# Best Engage AI Alternatives for Social Selling Tools Beyond Engage AI\n\nDrop a generic \"Great post!\" or \"Thanks for sharing!\" on a prospect's LinkedIn update, and you might as well send them a handwritten note saying you did not actually read their content. As B2B buyers become increasingly skeptical of automation, the margin for error in social selling has practically vanished. \n\nEngage AI has built a strong reputation as a quick way to generate intelligent comments on LinkedIn [[1]](https://new.engage-ai.co/pricing/). However, as the platform matures, job seekers, founders, and sales teams are realizing that surviving in a crowded feed requires more than just a surface-level AI reply. Effective social selling is shifting away from mere comment generation toward context-aware engagement, holistic content creation, and multi-channel lead nurturing.\n\nIf you are evaluating Engage AI alternatives for social selling, you need to look at tools that actually drive pipeline rather than just boosting vanity metrics. Based on 2026 data and market shifts [[2]](https://www.capterra.com/p/218978/Engage-AI/alternatives/) [[3]](https://www.g2.com/products/engage-ai/competitors/alternatives), this guide breaks down the strongest alternatives\u2014both for dominating LinkedIn conversations and for expanding your social selling motion across other formats and channels.\n\n## Why Sales Teams Are Moving Beyond Standard Comment Generators\n\nThe initial promise of early AI commenting tools was simple: save time by letting an algorithm read a post and spit out a relevant reply. But the reality of relying on first-generation, cloud-based AI tools has introduced several critical friction points for modern sales teams.\n\nFirst, there is the **authenticity problem**. Many AI tools lack the personal context of the user. They summarize the author's post but fail to inject your unique viewpoint, your company's value proposition, or your specific expertise. The result is a comment that sounds like a textbook summary rather than a peer-to-peer conversation. \n\nSecond, there is the **platform safety issue**. The majority of legacy automation tools are cloud-based. They log into your LinkedIn account from remote servers, creating unnatural behavioral patterns that LinkedIn's security algorithms easily detect. This puts your account at risk of restrictions or permanent bans, a catastrophic failure mode for anyone relying on the platform for revenue.\n\nFinally, there is the **channel limitation**. While commenting is a powerful way to bypass the crowded inbox, social selling in 2026 often requires a blended approach. Buyers consume short-form video, look for social proof, and increasingly move high-touch conversations to direct messaging platforms like WhatsApp. \n\nTo build a robust pipeline, professionals need tools that support a broader, safer, and more personalized strategy. \n\n![Diagram comparing legacy cloud automation risks with safe local social selling execution.](https://assets.bevisible.app/inline-images/j57frdch0xgag67x3fk7wzxpqs8d6ph7/inline-1-1788452267689-petgom.png)\n## The Best Engage AI Alternative for LinkedIn: Junior\n\nWhen your goal is to replace cold DMs and turn public visibility into direct client conversations, the most direct alternative to Engage AI is **Junior**.\n\nJunior is an AI-powered LinkedIn automation tool specifically designed to start authentic conversations through strategic post commenting. Unlike generic tools that spam the feed with robotic agreements, Junior focuses on context and safety, making it the ideal choice for lead gen agencies, consultants, and sales teams who need to protect their professional reputation.\n\n### How Junior Solves the Automation Problem\n\nJunior takes a fundamentally different technical and philosophical approach to LinkedIn engagement:\n\n*   **Local Execution for Account Safety:** Instead of running on a remote cloud server that triggers LinkedIn's security warnings, Junior runs locally on your machine. It mimics natural human interaction patterns (scrolling, pausing, typing) from your actual IP address. If you are researching how to [Automate Linkedin Comments Safely Evaluation Checklist](https://www.heyjunior.ai/blog/automate-linkedin-comments-safely-evaluation-checklist), local execution is the non-negotiable first requirement.\n*   **Context-Aware Drafting:** Junior does not just read the prospect's post; it reads *you*. By integrating your unique bio, professional background, and specific networking goals, the AI drafts replies that sound distinctly human and highly relevant to your expertise. \n*   **Bypassing the Inbox:** Rather than relying on easily ignored connection requests and cold direct messages, Junior helps you find relevant industry discussions and insert yourself as a valuable contributor. This strategy routinely turns passive visibility into inbound profile views and direct interviews.\n\nIf your primary focus is generating pipeline directly on LinkedIn without risking your account, Junior is the purpose-built solution. You can read more about how this approach compares to legacy automation in our guide on [Safe AI engagement on LinkedIn](https://www.heyjunior.ai/blog/safe-ai-engagement-on-linkedin).\n\n![Workflow diagram showing context-aware AI comment drafting from target post to profile engagement.](https://assets.bevisible.app/inline-images/j57frdch0xgag67x3fk7wzxpqs8d6ph7/inline-2-1788452266331-zemc0v.png)\n## Top Engage AI Alternatives for Multi-Channel Social Selling\n\nWhile Junior dominates the strategic commenting space on LinkedIn, a mature social selling motion often involves content creation, video prospecting, and off-platform nurturing. According to recent software evaluations [[2]](https://www.capterra.com/p/218978/Engage-AI/alternatives/), several other tools excel at these complementary aspects of social selling.\n\n### 1. Predis.ai: The Content Creation Engine\nInstead of focusing solely on outbound engagement, Predis.ai flips the script by helping you attract leads through highly engaging inbound content. It is widely recognized for generating AI-powered social media posts, carousels, and ad creatives. For founders and job seekers, consistently publishing high-quality content is just as vital as commenting on others' posts. Predis.ai analyzes your brand voice and competitors to suggest content pillars that actually drive engagement, making it a strong alternative for users who want to build an inbound audience.\n\n### 2. Metricool: The Command Center\nSocial selling requires measurement. If you cannot track which posts or interactions are driving profile views and link clicks, you are flying blind. Metricool provides an all-in-one dashboard for managing, scheduling, and analyzing performance across multiple social media channels. While it doesn't generate conversational comments like Junior, it includes AI-powered scheduling and deep analytics that help sales teams figure out exactly when their target audience is online and what content formats they prefer.\n\n### 3. Tagembed: Building Social Proof\nIn B2B sales, buyers trust peers more than vendors. Tagembed is a unique addition to the social selling stack because it focuses on curating and displaying user-generated content (UGC). By aggregating positive reviews, LinkedIn shoutouts, and social mentions into a single feed that you can embed on your landing pages or digital portfolios, Tagembed weaponizes your social proof. When you leave an insightful comment using Junior and a prospect clicks your profile to visit your site, Tagembed ensures they are greeted with immediate, verified credibility.\n\n### 4. Submagic: Captions for B2B Video\nVideo is rapidly becoming the dominant format for social media marketing and personal branding [[4]](https://www.youtube.com/watch?v=v2Dx-k0-S9Y). Submagic is a highly recommended AI tool tailored specifically for short-form video content. It automatically generates dynamic, engaging captions with emojis and highlighted keywords. For consultants and sales reps recording quick \"thought leadership\" videos or personalized prospecting messages, Submagic ensures your content is accessible and engaging for the vast majority of LinkedIn users who watch videos with the sound off.\n\n### 5. Pictory AI: Scalable Personalized Prospecting\nSticking with the video theme, Pictory AI allows you to create highly polished video content from text scripts or long-form blog posts in minutes. In a social selling context, you can use Pictory to summarize an industry report or create a quick explainer video tailored to a specific target account. Sharing these rapid-production, high-value videos in your feed or via direct messages is a powerful way to stand out from text-only competitors.\n\n### 6. Rasayel & Spoki: High-Touch WhatsApp Automation\nOnce a conversation starts on LinkedIn, it frequently transitions to email or direct messaging platforms. In many global markets and tight-knit B2B communities, WhatsApp has become the preferred channel for closing deals. \n*   **Rasayel** is an all-in-one B2B sales platform explicitly built for WhatsApp. It allows teams to manage conversations collaboratively, ensuring no lead falls through the cracks once they leave social media. \n*   **Spoki** serves a similar role but leans heavily into marketing automation, allowing you to trigger personalized, automated customer journeys based on their interaction with your brand. \n\nBoth tools represent the \"next step\" in the social selling funnel after initial engagement has been secured.\n\n## Aligning Tools to Your Social Selling Strategy\n\nWith so many Engage AI alternatives available, the challenge is not finding a tool\u2014it is building a cohesive tech stack that aligns with your specific sales motion. Throwing random AI tools at your pipeline will only create confusion.\n\nHere is a simple framework for categorizing these tools based on your primary objective:\n\n| Objective | Primary Action | Recommended Tool | Core Benefit |\n| :--- | :--- | :--- | :--- |\n| **Outbound Engagement** | Commenting on target accounts' LinkedIn posts to start conversations. | **Junior** | Runs locally for safety; uses your bio to write authentic, non-spammy replies. |\n| **Inbound Attraction** | Publishing posts, carousels, and graphics to draw profile views. | **Predis.ai** | Generates brand-aligned content and tracks competitor strategies. |\n| **Video Prospecting** | Sharing short-form advice or personalized outreach videos. | **Submagic / Pictory AI** | Makes video creation fast and captions dynamic for silent viewing. |\n| **Off-Platform Nurturing** | Moving social leads into direct, high-touch messaging environments. | **Rasayel / Spoki** | Professionalizes WhatsApp outreach with CRM-like team features. |\n\nFor most B2B professionals, the most effective starting point is mastering outbound engagement. If you can master the art of the insightful comment, you guarantee visibility with decision-makers without needing a massive marketing budget. You can explore how this strategy compares to traditional outreach methods in our breakdown of [Junior vs Dripify: finding consulting clients without automated messaging](https://www.heyjunior.ai/blog/junior-vs-dripify-finding-consulting-clients-without-automated-messaging).\n\n![Framework chart displaying the four pillars of a modern AI social selling stack.](https://assets.bevisible.app/inline-images/j57frdch0xgag67x3fk7wzxpqs8d6ph7/inline-3-1788452259591-3dydww.png)\n## The Anatomy of a High-Converting Social Comment\n\nEven the best AI tool requires human steering. A common mistake when adopting Engage AI alternatives is treating the software as a \"set it and forget it\" magic wand. The AI is your co-pilot, but you remain the driver.\n\nTo turn public visibility into pipeline, your comments must consistently hit three distinct beats:\n\n### 1. The Anchor (Contextual Recognition)\nA high-converting comment proves you actually consumed the content. It anchors your reply to a specific phrase, data point, or emotion expressed in the original post. \n*   *Bad:* \"Great insights on sales here!\"\n*   *Good:* \"Your point about SDRs struggling with cloud-based tools hits home.\"\n\n### 2. The Value Add (Your Unique Perspective)\nThis is where tools like Junior shine. Because it incorporates your bio, it can inject your specific expertise. You must introduce a new variable to the conversation\u2014a brief anecdote, a counter-point, or an additional metric. \n*   *Bad:* \"I completely agree with everything you said.\"\n*   *Good:* \"We saw a similar trend last quarter, but noticed the drop-off happened mostly during the proposal stage rather than discovery.\"\n\n### 3. The Hook (The Open Loop)\nSocial selling is about starting conversations, not ending them. The best comments invite a reply from the author or other readers, driving further engagement and keeping your profile at the top of the feed.\n*   *Bad:* \"Thanks for sharing this.\"\n*   *Good:* \"Are you seeing this shift happening more in enterprise accounts, or is the mid-market adapting just as fast?\"\n\nIf you are evaluating different platforms, testing their ability to consistently generate these three elements is crucial. For a deeper dive into this testing process, refer to our [Best AI Tools for Linkedin Commenting Tools Beyond Supergrow](https://www.heyjunior.ai/blog/best-ai-tools-for-linkedin-commenting-tools-beyond-supergrow) guide.\n\n## Common Pitfalls in AI Social Selling\n\nThe landscape of AI tools for social media marketing is expanding rapidly [[5]](https://www.youtube.com/watch?v=P7iTtorsno0), but the adoption curve is littered with easily avoidable mistakes. \n\n**Over-Automation:** The most severe pitfall is automating volume at the expense of relevance. If you use a tool to comment on 500 posts a day, the generic nature of those comments will actively damage your brand. Decision-makers can spot an AI-generated platitude from a mile away. It is better to leave 20 highly contextual, thoughtful comments on key target accounts than 200 robotic ones.\n\n**Ignoring Platform Limits:** LinkedIn has strict thresholds for automation. Cloud-based tools that rapidly cycle through profiles and leave comments at superhuman speeds will inevitably trigger an account restriction. This is why prioritizing tools that utilize natural interaction patterns and local execution is vital for long-term survival.\n\n**Siloed Workflows:** Social selling does not end at the comment. If someone replies to your insight, sends a connection request, or visits your profile, you need a workflow to capture that momentum. Ensure your profile is optimized to convert traffic before you turn on any engagement engine.\n\n## Frequently Asked Questions\n\n### Are AI commenting tools safe to use on LinkedIn?\nSafety depends entirely on the architecture of the tool. Cloud-based extensions that log in via remote servers or inject code directly into LinkedIn's backend are highly risky and often lead to account bans. Tools like Junior, which run locally on your machine and mimic natural human input speeds, are significantly safer. We cover this extensively in our guide to [Best Automate Linkedin Comments Safely Tools Beyond Phantombuster](https://www.heyjunior.ai/blog/best-automate-linkedin-comments-safely-tools-beyond-phantombuster).\n\n### What is the real difference between social selling and cold outreach?\nCold outreach relies on interruption\u2014forcing your message into a prospect's inbox or voicemail without prior context. Social selling relies on attraction and participation. By consistently adding value to the public conversations your prospects are already having, you build familiarity and trust, making them much more receptive when you eventually propose a formal meeting.\n\n### Can AI completely replace human interaction in sales?\nNo, and attempting to do so is a recipe for failure. AI excels at analyzing large volumes of text, drafting structurally sound replies, and saving you time on the mechanical aspects of engagement. However, the final judgment of tone, nuance, and strategic alignment must remain human. AI should augment your expertise, not replace your personality. \n\n## Final Thoughts on Upgrading Your Tech Stack\n\nThe era of impressing prospects with generic, automated engagement is over. As buyers become more discerning, the tools you use to execute your social selling strategy must evolve. \n\nIf you are looking to replace Engage AI, start by defining your immediate bottleneck. If your goal is to build a massive inbound content engine, look toward platforms like Predis.ai or video generators like Pictory. If you need to manage complex, multi-channel pipelines on messaging apps, Rasayel is a strong candidate. \n\nBut if your primary objective is to bypass the ignored inbox, protect your account, and start genuine, high-value conversations directly in the LinkedIn feed, you need a tool built specifically for authentic engagement. Upgrading to a locally run, context-aware platform ensures your social selling efforts build your reputation rather than erode it.", "created_at": "2026-09-03T16:19:24.992084+00:00", "updated_at": "2026-09-03T16:19:24.992092+00:00"};
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js"></script>
+    <script>
+        function looksLikeHtml(content) {
+            return /<\/?[a-z][\s\S]*>/i.test(content);
+        }
+
+        function escapeHtml(content) {
+            return content
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function formatPlainText(content) {
+            return content
+                .split(/\n{2,}/)
+                .map(paragraph => `<p>${escapeHtml(paragraph).replace(/\n/g, '<br>')}</p>`)
+                .join('');
+        }
+
+        function renderArticleBody(rawContent) {
+            const content = (rawContent || '').trim();
+            if (!content) {
+                return '<p>This article has no content yet.</p>';
+            }
+
+            if (looksLikeHtml(content)) {
+                if (window.DOMPurify) {
+                    return window.DOMPurify.sanitize(content);
+                }
+                return content;
+            }
+
+            if (window.marked) {
+                const markdownHtml = window.marked.parse(content, {
+                    gfm: true,
+                    breaks: true,
+                    mangle: false,
+                    headerIds: true
+                });
+                if (window.DOMPurify) {
+                    return window.DOMPurify.sanitize(markdownHtml);
+                }
+                return markdownHtml;
+            }
+
+            return formatPlainText(content);
+        }
+
+        function createShareButtons(url, title, position) {
+            const encodedUrl = encodeURIComponent(url);
+            const encodedTitle = encodeURIComponent(title);
+            
+            const buttons = [
+                {
+                    name: 'LinkedIn',
+                    url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>'
+                },
+                {
+                    name: 'X',
+                    url: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>'
+                },
+                {
+                    name: 'Facebook',
+                    url: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>'
+                },
+                {
+                    name: 'WhatsApp',
+                    url: `https://api.whatsapp.com/send?text=${encodedTitle}%20${encodedUrl}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>'
+                },
+                {
+                    name: 'Reddit',
+                    url: `https://reddit.com/submit?url=${encodedUrl}&title=${encodedTitle}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.688-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg>'
+                },
+                {
+                    name: 'Email',
+                    url: `mailto:?subject=${encodedTitle}&body=${encodedUrl}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>'
+                }
+            ];
+
+            let html = `<div class="share-row ${position === 'top' ? 'top-share' : ''}">`;
+            
+            buttons.forEach(btn => {
+                html += `<a href="${btn.url}" target="_blank" rel="noopener noreferrer" class="share-button" data-cta="share-${position}-${btn.name.toLowerCase()}">
+                    ${btn.icon} ${btn.name}
+                </a>`;
+            });
+
+            html += `<button class="share-button" onclick="navigator.clipboard.writeText('${url.replace(/'/g, "\\'")}'); alert('Link copied to clipboard!');" data-cta="share-${position}-copy">
+                <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg> Copy Link
+            </button>`;
+
+            if (navigator.share) {
+                html += `<button class="share-button" onclick="navigator.share({title: '${title.replace(/'/g, "\\'")}', url: '${url.replace(/'/g, "\\'")}'}).catch(console.error);" data-cta="share-${position}-native">
+                    <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg> Share
+                </button>`;
+            }
+
+            html += `</div>`;
+            return html;
+        }
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            const container = document.getElementById('article-content');
+            
+            try {
+                let post;
+                
+                // If we have injected data (static page), use it directly
+                if (window.__INITIAL_ARTICLE_DATA__) {
+                    post = window.__INITIAL_ARTICLE_DATA__;
+                } else {
+                    // Otherwise, we are on the dynamic route, fetch from API
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const slug = urlParams.get('slug');
+                    
+                    if (!slug) {
+                        throw new Error('Article not found.');
+                    }
+                    
+                    // Redirect to the new static URL format
+                    window.location.replace(`/blog/${slug}/`);
+                    return;
+                }
+                
+                document.title = `${post.title} - Junior`;
+                
+                const date = new Date(post.published_at).toLocaleDateString();
+                
+                let html = `
+                    <header class="article-header">
+                        <h1 class="article-title">${post.title}</h1>
+                        <div class="article-meta">Published on ${date}</div>
+                    </header>
+                `;
+
+                const shareUrl = window.location.href;
+                html += createShareButtons(shareUrl, post.title, 'top');
+                
+                if (post.featured_image_url) {
+                    html += `<img src="${post.featured_image_url}" alt="${post.title}" class="article-featured-image">`;
+                }
+                
+                html += `
+                    <div class="article-content">
+                        ${renderArticleBody(post.content)}
+                    </div>
+                `;
+                
+                html += createShareButtons(shareUrl, post.title, 'bottom');
+                
+                container.innerHTML = html;
+            } catch (err) {
+                container.innerHTML = `<p>${err.message}</p>`;
+                console.error(err);
+            }
+        });
+    </script>
+</body>
+</html>
