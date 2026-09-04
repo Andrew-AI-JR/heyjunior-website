@@ -50,22 +50,26 @@
   },
   "landingHomeGeneral": {
     "hero": {
-      "title": "Turn LinkedIn conversations into real opportunities.",
-      "subtitle": "Junior helps you find relevant posts, write natural comments in your voice, and turn replies into interviews, pipeline, and client conversations.",
+      "title": "Junior comments on LinkedIn for you — in your voice.",
+      "subtitle": "It finds the posts that matter and writes comments people actually reply to. Those replies become interviews, clients, or pipeline.",
       "cta": "Start Free",
-      "secondaryCta": "Choose Your Use Case",
+      "secondaryCta": "See it in 30 seconds",
       "microcopy": "First week free · Card required at signup"
     },
     "proof": {
-      "title": "Conversation-first outreach that feels human",
-      "description": "Use Junior to show up in the right discussions with thoughtful comments instead of generic outreach."
+      "title": "What Junior does",
+      "description": "You tell Junior who you want to reach. It does the daily commenting. You step in when someone replies.",
+      "b1": "Finds the LinkedIn posts you should comment on",
+      "b2": "Writes the comment in your voice",
+      "b3": "Posts it for you, at a human pace",
+      "b4": "You step in when someone replies"
     },
     "faqCta": {
       "lead": "Pick the use case that matches your goals and start free.",
       "button": "Start Free"
     },
     "finalCta": {
-      "title": "Stop sending noise. Start better conversations.",
+      "title": "Stay visible on LinkedIn without spending hours scrolling.",
       "button": "Start Free",
       "microcopy": "First week free · Card required at signup"
     }
@@ -78,9 +82,9 @@
       "badge": "Junior 3.0",
       "heroChip": "Junior 3.0 is out · first month of Enterprise free",
       "headline": "Junior 3.0 is here",
-      "text": "Operator Console for live runs, a dedicated Activity screen, Run Insights, and commenting as your LinkedIn company page.",
+      "text": "Junior 3.0 makes it easier to see what Junior is doing, review the last session, and comment as your company page.",
       "offer": "Launch offer: one month of Enterprise free with code JUNIOR3ENT. Then $99/month. Closes September 9, 2026.",
-      "cta": "See what shipped",
+      "cta": "See what's new",
       "offerCta": "Claim a free month"
     }
   },
@@ -89,73 +93,73 @@
     "subtitle": "Not every LinkedIn post is worth your time. Junior filters for the ones that matter.",
     "titleJob": "How Junior finds the right hiring conversations",
     "subtitleJob": "Not every LinkedIn post is worth your time. Junior filters for the ones that lead to replies.",
-    "box1Title": "Post Context",
-    "box1Desc": "Junior analyzes the specific topic being discussed.",
-    "box2Title": "Your Background",
-    "box2Desc": "Combined with your unique bio, tone, and goals.",
-    "box3Title": "Relevant Reply",
-    "box3Desc": "A thoughtful comment that adds to their conversation."
+    "box1Title": "The right post",
+    "box1Desc": "Matches the people and topics you care about",
+    "box2Title": "Your background",
+    "box2Desc": "Your bio, tone, and goals",
+    "box3Title": "A comment you'd write",
+    "box3Desc": "A reply that sounds like you, not a template"
   },
   "trustReputation": {
     "title": "Your reputation stays protected",
-    "subtitle": "Junior is built to protect your brand from generic bot spam. Here is how we ensure quality.",
-    "item1Title": "No \"Crazy Comments\"",
-    "item1Desc": "Junior uses your specific bio, networking goals, and tone to generate replies. It never posts generic templates or off-brand spam.",
-    "item2Title": "Runs on your machine",
-    "item2Desc": "Your own browser, your own IP, your own session. No shared servers or cross-account fingerprinting.",
-    "item3Title": "Paced like a human",
-    "item3Desc": "Variable timing, natural scroll patterns, and conservative daily limits keep activity within normal ranges."
+    "subtitle": "Junior is built so you do not look like a spam bot. Here is how.",
+    "item1Title": "No generic comments",
+    "item1Desc": "Junior uses your bio, goals, and tone. It never posts copy-paste templates.",
+    "item2Title": "Runs on your computer",
+    "item2Desc": "Your browser, your login, your computer. Your login stays on your machine — it is not shared with other accounts.",
+    "item3Title": "Paced like a person",
+    "item3Desc": "It waits between comments and stays within conservative daily limits, the way a real person would."
   },
   "useCases": {
     "title": "Who Junior is built for",
-    "subtitle": "Choose the conversion path that matches your goal.",
+    "subtitle": "Pick the goal that matches how you use LinkedIn.",
     "jobSearch": {
       "title": "Job Seekers",
-      "description": "Turn comments into recruiter replies and interviews.",
-      "cta": "Explore Job Search"
+      "description": "Get recruiter replies from comments, not resume spam.",
+      "cta": "For job seekers"
     },
     "founders": {
       "title": "Founders",
-      "description": "Start high-quality conversations with buyers and partners.",
-      "cta": "Explore Founder-Led Sales"
+      "description": "Show up in the conversations your buyers already read.",
+      "cta": "For founders"
     },
     "consultants": {
       "title": "Consultants",
-      "description": "Start client conversations without cold DM spam.",
-      "cta": "Explore Consultant Growth"
+      "description": "Get found by clients in the comments, not in their spam folder.",
+      "cta": "For consultants"
     },
     "sales": {
       "title": "Sales Teams",
-      "description": "Warm up outbound through relevant comment engagement.",
-      "cta": "Explore Sales Use Case"
+      "description": "Warm the account in public before you send the DM.",
+      "cta": "For sales teams"
     },
     "partners": {
       "title": "Career Partners",
-      "description": "Help candidates create more hiring-side conversations.",
-      "cta": "Explore Partner Program"
+      "description": "Help candidates start conversations that lead to interviews.",
+      "cta": "For career partners"
     },
     "agencies": {
       "title": "Lead Gen Agencies",
-      "description": "Scale client engagement safely across accounts.",
-      "cta": "Explore Agency Use Case"
+      "description": "Do this for clients without looking like a bot.",
+      "cta": "For agencies"
     }
   },
   "stickyCta": {
     "label": "Start Free"
   },
   "features": {
-    "title": "Intelligent Engagement Features",
+    "title": "What you get",
     "aiComments": {
-      "title": "AI-Powered Comment Generation",
-      "description": "Generates personalized, context-aware comments that add value to conversations with hiring managers and recruiters."
+      "title": "Comments that sound like you",
+      "description": "Junior writes from your background and the post in front of it — not a generic template."
     },
     "naturalPatterns": {
-      "title": "Natural Interaction Patterns",
-      "description": "Mimics human-like engagement with variable response times and natural interaction flows for authentic conversations."
+      "title": "Runs on your computer",
+      "description": "Your browser, your login, your pace. Not a shared bot farm posting from someone else’s machine."
     },
     "smartPrioritization": {
-      "title": "Smart Post Prioritization",
-      "description": "Advanced algorithms identify and prioritize the most relevant job opportunities based on your skills and preferences."
+      "title": "Only the posts worth your time",
+      "description": "It looks for posts your buyers, clients, or hiring managers are already in — not the whole feed."
     },
     "networkOptimization": {
       "title": "Network Optimization",
@@ -170,8 +174,8 @@
       "description": "Maintains secure, persistent connections while respecting platform guidelines and best practices."
     },
     "analytics": {
-      "title": "Performance Analytics",
-      "description": "Tracks engagement metrics and response rates to help you refine your job search strategy."
+      "title": "See what got replies",
+      "description": "Review what Junior posted and which comments started a conversation."
     },
     "customizable": {
       "title": "Customizable Settings",
@@ -476,13 +480,13 @@
     }
   },
   "meta": {
-    "description": "Junior - AI-Powered LinkedIn Automation tool for job seekers",
-    "homeDescription": "Start getting interviews from conversations instead of resumes. Junior helps you find the right LinkedIn posts, write better comments, and turn replies into interviews.",
+    "description": "Junior comments on the right LinkedIn posts for you, in your voice.",
+    "homeDescription": "Junior comments on the right LinkedIn posts for you, in your voice. Those replies become interviews, clients, or sales conversations.",
     "checkoutDescription": "Get LinkedIn Automation Tool - Beta Access",
     "successDescription": "Download your LinkedIn Automation Tool - Junior",
     "myStoryDescription": "How one comment led to my only interview in 6 weeks — and why conversations beat resumes. The story behind Junior.",
-    "title": "Junior - AI-Powered LinkedIn Automation",
-    "homeTitle": "Start getting interviews from comments - Junior",
+    "title": "Junior comments on LinkedIn for you",
+    "homeTitle": "Junior comments on LinkedIn for you",
     "checkoutTitle": "Checkout - LinkedIn Automation Tool",
     "successTitle": "Success - LinkedIn Automation Tool",
     "myStoryTitle": "I applied to 300 jobs and got 1 interview – Junior"

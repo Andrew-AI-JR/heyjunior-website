@@ -50,24 +50,28 @@
   },
   "landingHomeGeneral": {
     "hero": {
-      "title": "Convierte conversaciones de LinkedIn en oportunidades reales.",
-      "subtitle": "Junior te ayuda a encontrar publicaciones relevantes, escribir comentarios naturales con tu voz y convertir respuestas en entrevistas, pipeline y conversaciones con clientes.",
+      "title": "Junior comenta en LinkedIn por ti — con tu voz.",
+      "subtitle": "Encuentra las publicaciones que importan y escribe comentarios a los que la gente responde. Esas respuestas se convierten en entrevistas, clientes o pipeline.",
       "cta": "Comienza Gratis",
-      "secondaryCta": "Elige tu caso de uso",
-      "microcopy": "Primer mes gratis · Tarjeta requerida al registrarte"
+      "secondaryCta": "Míralo en 30 segundos",
+      "microcopy": "Primera semana gratis · Tarjeta requerida al registrarte"
     },
     "proof": {
-      "title": "Alcance basado en conversaciones que se siente humano",
-      "description": "Usa Junior para participar en las discusiones correctas con comentarios útiles en lugar de outreach genérico."
+      "title": "Qué hace Junior",
+      "description": "Le dices a Junior a quién quieres llegar. Junior hace los comentarios diarios. Tú entras cuando alguien responde.",
+      "b1": "Encuentra las publicaciones de LinkedIn en las que deberías comentar",
+      "b2": "Escribe el comentario con tu voz",
+      "b3": "Lo publica por ti, a un ritmo humano",
+      "b4": "Tú entras cuando alguien responde"
     },
     "faqCta": {
       "lead": "Elige el caso de uso que coincide con tu objetivo y comienza gratis.",
       "button": "Comienza Gratis"
     },
     "finalCta": {
-      "title": "Deja de enviar ruido. Empieza mejores conversaciones.",
+      "title": "Mantente visible en LinkedIn sin pasar horas haciendo scroll.",
       "button": "Comienza Gratis",
-      "microcopy": "Primer mes gratis · Tarjeta requerida al registrarte"
+      "microcopy": "Primera semana gratis · Tarjeta requerida al registrarte"
     }
   },
   "badges": {
@@ -78,9 +82,9 @@
       "badge": "Junior 3.0",
       "heroChip": "Junior 3.0 ya está aquí · primer mes de Enterprise gratis",
       "headline": "Junior 3.0 ya está aquí",
-      "text": "Consola de operación para las ejecuciones en vivo, una pantalla de Actividad dedicada, Run Insights y comentarios como tu página de empresa de LinkedIn.",
+      "text": "Junior 3.0 hace más fácil ver lo que Junior está haciendo, revisar la última sesión y comentar como tu página de empresa.",
       "offer": "Oferta de lanzamiento: un mes de Enterprise gratis con el código JUNIOR3ENT. Después $99/mes. Termina el 9 de septiembre de 2026.",
-      "cta": "Ver lo que se lanzó",
+      "cta": "Ver lo nuevo",
       "offerCta": "Reclamar un mes gratis"
     }
   },
@@ -89,73 +93,73 @@
     "subtitle": "No todas las publicaciones de LinkedIn valen tu tiempo. Junior filtra las que importan.",
     "titleJob": "Cómo Junior encuentra las conversaciones de contratación correctas",
     "subtitleJob": "No todas las publicaciones de LinkedIn valen tu tiempo. Junior filtra las que generan respuestas.",
-    "box1Title": "Contexto del Post",
-    "box1Desc": "Junior analiza el tema específico que se está discutiendo.",
-    "box2Title": "Tu Experiencia",
-    "box2Desc": "Combinado con tu biografía, tono y objetivos únicos.",
-    "box3Title": "Respuesta Relevante",
-    "box3Desc": "Un comentario reflexivo que aporta a su conversación."
+    "box1Title": "La publicación correcta",
+    "box1Desc": "Coincide con las personas y temas que te importan",
+    "box2Title": "Tu experiencia",
+    "box2Desc": "Tu biografía, tono y objetivos",
+    "box3Title": "Un comentario que tú escribirías",
+    "box3Desc": "Una respuesta que suena a ti, no a una plantilla"
   },
   "trustReputation": {
     "title": "Tu reputación se mantiene protegida",
-    "subtitle": "Junior está construido para proteger tu marca del spam genérico de bots. Así es como aseguramos la calidad.",
-    "item1Title": "Sin \"Comentarios Locos\"",
-    "item1Desc": "Junior usa tu biografía específica, objetivos de networking y tono para generar respuestas. Nunca publica plantillas genéricas o spam fuera de marca.",
-    "item2Title": "Se ejecuta en tu máquina",
-    "item2Desc": "Tu propio navegador, tu propia IP, tu propia sesión. Sin servidores compartidos ni huellas digitales entre cuentas.",
-    "item3Title": "A un ritmo humano",
-    "item3Desc": "Tiempos variables, patrones de desplazamiento naturales y límites diarios conservadores mantienen la actividad dentro de rangos normales."
+    "subtitle": "Junior está pensado para que no parezcas un bot de spam. Así es como.",
+    "item1Title": "Sin comentarios genéricos",
+    "item1Desc": "Junior usa tu biografía, objetivos y tono. Nunca publica plantillas copiadas.",
+    "item2Title": "Se ejecuta en tu computadora",
+    "item2Desc": "Tu navegador, tu sesión, tu computadora. Tu inicio de sesión se queda en tu máquina — no se comparte con otras cuentas.",
+    "item3Title": "A un ritmo de persona",
+    "item3Desc": "Espera entre comentarios y respeta límites diarios conservadores, como lo haría una persona real."
   },
   "useCases": {
     "title": "Para quién está hecho Junior",
-    "subtitle": "Elige el camino de conversión que coincide con tu objetivo.",
+    "subtitle": "Elige el objetivo que coincide con cómo usas LinkedIn.",
     "jobSearch": {
       "title": "Buscadores de Empleo",
-      "description": "Convierte comentarios en respuestas de reclutadores y entrevistas.",
-      "cta": "Ver Búsqueda de Empleo"
+      "description": "Consigue respuestas de reclutadores con comentarios, no con spam de currículums.",
+      "cta": "Para buscadores de empleo"
     },
     "founders": {
       "title": "Fundadores",
-      "description": "Inicia conversaciones de alta calidad con compradores y partners.",
-      "cta": "Ver Ventas Founder-Led"
+      "description": "Aparece en las conversaciones que tus compradores ya leen.",
+      "cta": "Para fundadores"
     },
     "consultants": {
       "title": "Consultores",
-      "description": "Inicia conversaciones con clientes sin spam de mensajes fríos.",
-      "cta": "Ver Crecimiento de Consultoría"
+      "description": "Que los clientes te encuentren en los comentarios, no en su carpeta de spam.",
+      "cta": "Para consultores"
     },
     "sales": {
       "title": "Equipos de Ventas",
-      "description": "Calienta el outbound mediante comentarios relevantes.",
-      "cta": "Ver Caso de Uso de Ventas"
+      "description": "Calienta la cuenta en público antes de enviar el mensaje privado.",
+      "cta": "Para equipos de ventas"
     },
     "partners": {
       "title": "Partners de Carrera",
-      "description": "Ayuda a candidatos a generar más conversaciones con equipos de contratación.",
-      "cta": "Ver Programa de Partners"
+      "description": "Ayuda a los candidatos a iniciar conversaciones que lleven a entrevistas.",
+      "cta": "Para partners de carrera"
     },
     "agencies": {
       "title": "Agencias de Lead Gen",
-      "description": "Escala el engagement de clientes de forma segura entre cuentas.",
-      "cta": "Ver Caso de Agencias"
+      "description": "Haz esto por tus clientes sin parecer un bot.",
+      "cta": "Para agencias"
     }
   },
   "stickyCta": {
     "label": "Comienza Gratis"
   },
   "features": {
-    "title": "Características de Interacción Inteligente",
+    "title": "Lo que obtienes",
     "aiComments": {
-      "title": "Generación de Comentarios Impulsada por IA",
-      "description": "Genera comentarios personalizados y conscientes del contexto que agregan valor a las conversaciones con gerentes de contratación y reclutadores."
+      "title": "Comentarios que suenan a ti",
+      "description": "Junior escribe a partir de tu experiencia y de la publicación que tiene delante — no una plantilla genérica."
     },
     "naturalPatterns": {
-      "title": "Patrones de Interacción Natural",
-      "description": "Imita la interacción similar a la humana con tiempos de respuesta variables y flujos de interacción naturales para conversaciones auténticas."
+      "title": "Se ejecuta en tu computadora",
+      "description": "Tu navegador, tu sesión, tu ritmo. No una granja de bots publicando desde la máquina de otra persona."
     },
     "smartPrioritization": {
-      "title": "Priorización Inteligente de Publicaciones",
-      "description": "Algoritmos avanzados identifican y priorizan las oportunidades laborales más relevantes basadas en tus habilidades y preferencias."
+      "title": "Solo las publicaciones que valen tu tiempo",
+      "description": "Busca publicaciones en las que ya están tus compradores, clientes o gerentes de contratación — no todo el feed."
     },
     "networkOptimization": {
       "title": "Optimización de Red",
@@ -170,8 +174,8 @@
       "description": "Mantiene conexiones seguras y persistentes mientras respeta las pautas de la plataforma y las mejores prácticas."
     },
     "analytics": {
-      "title": "Análisis de Rendimiento",
-      "description": "Rastrea métricas de participación y tasas de respuesta para ayudarte a refinar tu estrategia de búsqueda de empleo."
+      "title": "Ve qué comentarios recibieron respuesta",
+      "description": "Revisa lo que Junior publicó y qué comentarios iniciaron una conversación."
     },
     "customizable": {
       "title": "Configuraciones Personalizables",
@@ -475,13 +479,13 @@
     }
   },
   "meta": {
-    "description": "Junior - Herramienta de Automatización de LinkedIn Impulsada por IA para buscadores de empleo",
-    "homeDescription": "Empieza a conseguir entrevistas a partir de conversaciones en lugar de currículums. Junior te ayuda a encontrar las publicaciones correctas de LinkedIn, escribir mejores comentarios y convertir respuestas en entrevistas.",
+    "description": "Junior comenta en las publicaciones correctas de LinkedIn por ti, con tu voz.",
+    "homeDescription": "Junior comenta en las publicaciones correctas de LinkedIn por ti, con tu voz. Esas respuestas se convierten en entrevistas, clientes o conversaciones de ventas.",
     "checkoutDescription": "Obtén la Herramienta de Automatización de LinkedIn - Acceso Beta",
     "successDescription": "Descarga tu Herramienta de Automatización de LinkedIn - Junior",
     "myStoryDescription": "Cómo un comentario llevó a mi única entrevista en 6 semanas — y por qué las conversaciones le ganan a los currículums. La historia detrás de Junior.",
-    "title": "Junior - Automatización de LinkedIn Impulsada por IA",
-    "homeTitle": "Empieza a conseguir entrevistas a partir de comentarios - Junior",
+    "title": "Junior comenta en LinkedIn por ti",
+    "homeTitle": "Junior comenta en LinkedIn por ti",
     "checkoutTitle": "Checkout - Herramienta de Automatización de LinkedIn",
     "successTitle": "Éxito - Herramienta de Automatización de LinkedIn",
     "myStoryTitle": "Apliqué a 300 empleos y conseguí 1 entrevista – Junior"
