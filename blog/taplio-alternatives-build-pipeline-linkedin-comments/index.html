@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article - Junior</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <script defer src="../../js/analytics.js"></script>
+    <script src="../../js/api-config.js"></script>
+    <style>
+        .article-container {
+            max-width: 860px;
+            margin: 48px auto;
+            padding: 0 20px;
+        }
+        .article-header {
+            margin-bottom: 32px;
+        }
+        .article-title {
+            font-size: clamp(2rem, 3vw, 2.9rem);
+            margin-bottom: 14px;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            color: #020617;
+        }
+        .article-meta {
+            color: #64748b;
+            font-size: 0.97rem;
+            font-weight: 500;
+        }
+        .article-featured-image {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            margin-bottom: 32px;
+        }
+        .article-content {
+            max-width: 72ch;
+            font-size: clamp(1.06rem, 1.2vw, 1.2rem);
+            line-height: 1.85;
+            color: #1f2937;
+        }
+        .article-content > *:first-child {
+            margin-top: 0;
+        }
+        .article-content > *:last-child {
+            margin-bottom: 0;
+        }
+        .article-content h2 {
+            margin-top: 2.1em;
+            margin-bottom: 0.8em;
+            line-height: 1.25;
+            letter-spacing: -0.01em;
+            color: #020617;
+        }
+        .article-content h3 {
+            margin-top: 1.7em;
+            margin-bottom: 0.65em;
+            line-height: 1.3;
+            letter-spacing: -0.005em;
+            color: #1e293b;
+        }
+        .article-content h4 {
+            margin-top: 1.4em;
+            margin-bottom: 0.55em;
+            line-height: 1.35;
+            color: #334155;
+        }
+        .article-content p {
+            margin: 0 0 1.3em;
+        }
+        .article-content ul,
+        .article-content ol {
+            margin: 0 0 1.3em 1.35em;
+            padding: 0;
+        }
+        .article-content li {
+            margin-bottom: 0.45em;
+        }
+        .article-content strong {
+            color: #0f172a;
+        }
+        .article-content a {
+            color: #1d4ed8;
+            text-decoration-thickness: 0.08em;
+            text-underline-offset: 0.16em;
+        }
+        .article-content blockquote {
+            margin: 0 0 1.5em;
+            padding: 0.9em 1.1em;
+            border-left: 4px solid #94a3b8;
+            color: #334155;
+            background: #f8fafc;
+            border-radius: 8px;
+        }
+        .article-content pre {
+            overflow-x: auto;
+            padding: 14px;
+            border-radius: 8px;
+            background: #0f172a;
+            color: #e2e8f0;
+            margin-bottom: 1.5em;
+            font-size: 0.93em;
+            line-height: 1.6;
+        }
+        .article-content code {
+            font-family: Consolas, "SFMono-Regular", Menlo, Monaco, monospace;
+            font-size: 0.95em;
+            background: #f1f5f9;
+            padding: 0.12em 0.35em;
+            border-radius: 4px;
+        }
+        .article-content pre code {
+            background: transparent;
+            padding: 0;
+        }
+        .article-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5em;
+            display: block;
+            overflow-x: auto;
+        }
+        .article-content th,
+        .article-content td {
+            border: 1px solid #cbd5e1;
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        .article-content th {
+            background: #f8fafc;
+            color: #0f172a;
+        }
+        .article-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin: 0.6em 0 1.3em;
+        }
+        .article-content hr {
+            border: none;
+            border-top: 1px solid #e2e8f0;
+            margin: 2em 0;
+        }
+        .article-content figure {
+            margin: 0 0 1.5em;
+        }
+        .article-content figcaption {
+            color: #64748b;
+            font-size: 0.92em;
+            margin-top: 0.55em;
+        }
+        .article-loading {
+            text-align: center;
+            padding: 40px;
+            color: #64748b;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 24px;
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        .share-row {
+            display: flex;
+            gap: 12px;
+            margin: 24px 0;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .share-row.top-share {
+            margin-top: 16px;
+            margin-bottom: 0;
+        }
+        .share-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-decoration: none;
+            color: #334155;
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .share-button:hover {
+            background: #e2e8f0;
+            color: #0f172a;
+            border-color: #cbd5e1;
+            text-decoration: none;
+        }
+        .share-button svg {
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+            fill: currentColor;
+        }
+        @media (max-width: 768px) {
+            .article-container {
+                margin: 28px auto;
+                padding: 0 16px;
+            }
+            .article-header {
+                margin-bottom: 24px;
+            }
+            .article-content {
+                font-size: 1.04rem;
+                line-height: 1.75;
+            }
+            .article-content table {
+                font-size: 0.93rem;
+            }
+            .article-content pre {
+                padding: 12px;
+            }
+        }
+    </style>
+
+    <link rel="canonical" href="https://heyjunior.ai/blog/taplio-alternatives-build-pipeline-linkedin-comments/">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://heyjunior.ai/blog/taplio-alternatives-build-pipeline-linkedin-comments/">
+    <meta property="og:title" content="Taplio Alternatives for Build Pipeline Using Linkedin Comments">
+    <meta property="og:description" content="Discover the best Taplio alternatives to safely build a sales pipeline using LinkedIn comments. Scale authentic engagement without risking account bans.">
+    <meta property="og:image" content="https://assets.bevisible.app/featured-images/j57c8tk7rw52s41rzr3zjpy7718d7d3w/taplio-alternatives-for-build-pipeline-using-linke-1789490904014-9hry6k.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://heyjunior.ai/blog/taplio-alternatives-build-pipeline-linkedin-comments/">
+    <meta name="twitter:title" content="Taplio Alternatives for Build Pipeline Using Linkedin Comments">
+    <meta name="twitter:description" content="Discover the best Taplio alternatives to safely build a sales pipeline using LinkedIn comments. Scale authentic engagement without risking account bans.">
+    <meta name="twitter:image" content="https://assets.bevisible.app/featured-images/j57c8tk7rw52s41rzr3zjpy7718d7d3w/taplio-alternatives-for-build-pipeline-using-linke-1789490904014-9hry6k.png">
+    
+</head>
+<body data-page="article" class="i18n-ready">
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <a href="../../index.html"><img src="../../images/junior-logo.png" alt="Junior Logo" class="logo-img"></a>
+            </div>
+            <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <div class="nav-group">
+                    <li><a href="../../index.html#use-cases">Use Cases</a></li>
+                    <li><a href="../../index.html#features">Features</a></li>
+                    <li><a href="../../why-commenting-works.html">Why Commenting Works</a></li>
+                    <li><a href="../../blog.html">Blog</a></li>
+                    <li><a href="../../try-it.html">Try It</a></li>
+                
+                    <li><a href="../../blog.html">Blog</a></li></div>
+                <div class="nav-actions">
+                    <li><a href="../../register.html?src=article-nav" class="cta-button">Start Free</a></li>
+                    <li><a href="../../portal.html" class="nav-login-link">Login</a></li>
+                </div>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="article-container" style="padding-top: 120px;">
+        <a href="../../blog.html" class="back-link">← Back to Blog</a>
+        
+        <div id="article-content">
+            <div class="article-loading">Loading article...</div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Junior. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        window.__INITIAL_ARTICLE_DATA__ = {"id": 104, "slug": "taplio-alternatives-build-pipeline-linkedin-comments", "title": "Taplio Alternatives for Build Pipeline Using Linkedin Comments", "excerpt": "Discover the best Taplio alternatives to safely build a sales pipeline using LinkedIn comments. Scale authentic engagement without risking account bans.", "featured_image_url": "https://assets.bevisible.app/featured-images/j57c8tk7rw52s41rzr3zjpy7718d7d3w/taplio-alternatives-for-build-pipeline-using-linke-1789490904014-9hry6k.png", "published_at": "2026-09-15T16:27:00+00:00", "content": "# Taplio Alternatives for Build Pipeline Using Linkedin Comments\n\nCold outreach on LinkedIn is suffering from diminishing returns. As decision-makers' inboxes become increasingly clogged with automated pitches and generic connection requests, response rates have plummeted. If you are an agency owner, sales professional, or founder, you likely already know that blasting 100 DMs a day is no longer a reliable growth strategy. \n\nThe real conversations\u2014the ones that lead to booked calls, closed deals, and high-value consulting clients\u2014are happening in the comments section. \n\nBuilding a sales, talent, or content pipeline through public engagement is one of the most underrated social selling strategies available today. Instead of cornering a prospect in a private message, you are demonstrating your expertise in a public square where the prospect, their peers, and thousands of second-degree connections can see it. \n\nHowever, scaling this strategy manually requires hours of scrolling, while legacy cloud-based automation tools often trigger account restrictions or generate robotic responses. If you are looking to systemize your comment strategy without compromising your account safety or your brand reputation, you need a process\u2014and a tech stack\u2014built specifically for authentic engagement.\n\nHere is a complete framework for turning LinkedIn comments into a predictable pipeline, along with the most effective software alternatives to execute it.\n\n## The Mechanics of Pipeline Generation Through Comments\n\nYou cannot comment on random posts in your feed and expect to generate revenue. Pipeline generation requires a highly targeted approach that moves specific people from public awareness to private dialogue.\n\n### Curating Your \"Dream 100\" List\n\nTo build a pipeline, your engagement must be intentional. Aimless scrolling is the enemy of productivity. Instead, you need to curate a specific list of targets.\n\n*   **Ideal Customer Profiles (ICPs):** Identify 30\u201350 key decision-makers you actively want to work with. These should be people who post at least once every two weeks.\n*   **Industry Creators:** Identify 10\u201320 large creators or thought leaders whose audience perfectly matches your ICP. When these creators post, your target buyers are in their comment sections.\n\nTurn on the bell notification (\ud83d\udd14) on every single profile on this list. Being one of the first five commenters on a post dramatically increases your visibility, as LinkedIn's algorithm will keep highly engaged early comments pinned near the top of the discussion.\n\n### The \"Value-First\" Comment Formula\n\nMost LinkedIn users leave comments that add zero value. Phrases like *\"Great post!\"*, *\"Totally agree, thanks for sharing,\"* or *\"Spot on!\"* are essentially digital noise. They do not position you as an expert, and they certainly do not compel a prospect to visit your profile. \n\nIf you want to pull leads out of the feed, use a structured approach to your replies.\n\n| Component | Purpose | Example |\n| :--- | :--- | :--- |\n| **The Validation** | Acknowledge a specific, nuanced point the author made to prove you actually read the post. | *\"I love your point about shifting from volume to quality in outbound sequences...\"* |\n| **The Counter / Expansion** | Add your own framework, a data point, or a contrasting perspective. | *\"...In fact, we found that personalizing just the first line based on their recent hiring data increases our reply rates by 40%.\"* |\n| **The Open Question** | End with a targeted question to spark a reply from the author. | *\"Are you seeing that shift happening more rapidly in enterprise or SMB sales teams right now?\"* |\n\n![Diagram breaking down the three-part value-first LinkedIn comment formula for building pipeline.](https://assets.bevisible.app/inline-images/j57c8tk7rw52s41rzr3zjpy7718d7d3w/inline-1-1789490843511-uozmkr.png)\nWhen you consistently deploy this framework on the posts of your Dream 100, you stop being a stranger and start becoming a familiar, respected peer. \n\n### The 3-Step Pipeline Conversion Strategy\n\nCommenting gets you noticed, but the pipeline is built when you successfully transition that public visibility into a private, commercial conversation. \n\n**Step 1: Hijack the Second-Degree Audience**\nWhen you leave a high-value comment on a popular industry post, you are not just talking to the author. You are speaking to the hundreds of relevant professionals reading the thread. By leaving an insightful expansion on the original post, you attract profile views from the author's audience. \n\n**Step 2: Monitor Profile Inbound**\nIf your profile is optimized to clearly state who you help and how you do it, those inbound profile views will turn into connection requests. You have effectively reversed the cold outreach dynamic. They are coming to you.\n\n**Step 3: The Low-Friction DM Transition**\nWhen you do decide to send a connection request or a DM to someone whose content you have been commenting on, the friction is gone. Your outreach is no longer cold. A message saying, *\"Really enjoyed our back-and-forth on Sarah's post about Q4 retention strategies. Would love to stay connected,\"* has a near 100% acceptance rate. \n\n## The Trouble with Cloud-Based Automation\n\nAs professionals realize the power of comment-driven pipelines, the immediate instinct is to automate the process. This is where many teams run into friction. \n\nTools like Taplio offer broad LinkedIn management features, including scheduling and AI commenting. However, when your primary goal is safe, authentic pipeline generation, traditional cloud-based tools introduce several critical liabilities.\n\nFirst, cloud-based tools require you to hand over your LinkedIn session cookies. Their servers then log into your account from an IP address that might be located halfway across the country\u2014or the world. LinkedIn's security algorithms are highly sensitive to automated cloud activity. Engaging heavily via a cloud proxy puts your account at significant risk of being restricted or permanently banned. \n\nSecond, the AI models powering legacy automation often rely on generic prompts. Because they are operating in the cloud across thousands of accounts, they struggle to capture your unique tone of voice, your specific industry terminology, and your overarching business goals. The result is AI that sounds exactly like AI, which instantly destroys the trust required to build a pipeline.\n\nIf you want to scale your engagement without risking your reputation, you have to look closely at [Junior vs Taplio for LinkedIn growth](https://www.heyjunior.ai/blog/junior-vs-taplio-for-linkedin-growth) to understand how local automation changes the game.\n\n## Top Alternatives for Comment-Driven Pipeline Generation\n\nIf you are moving away from traditional cloud platforms and want tools tailored specifically for building relationships and finding leads in the feed, here are the top approaches and alternatives.\n\n### 1. Junior: The Local, Context-Aware AI Agent\n\nFor professionals who want the scale of automation with the safety and nuance of human execution, Junior is designed specifically to replace cold DMs with strategic commenting. \n\nUnlike Taplio and other cloud-based suites, Junior runs locally on your own machine. It utilizes your actual browser profile and IP address, mirroring natural human interaction patterns. This local architecture bypasses the severe security risks associated with cloud-based LinkedIn automation, keeping your account fundamentally safe.\n\nBeyond security, Junior excels at context. It does not just summarize a post and spit out an agreeable sentence. It analyzes the specific discussion, cross-references it with your unique professional bio, and drafts replies that align with your specific pipeline goals. If you are a sales consultant targeting SaaS founders, Junior will draft comments that highlight your consulting expertise in the context of the founder's post. \n\nIt is designed to bypass the crowded inbox entirely, turning public visibility into direct interviews, client conversations, and warm leads. \n\n### 2. Manual Curation Workflows \n\nIf you are not ready for AI generation but want to move away from bloated software, you can build a manual pipeline system. This involves bookmarking the URLs of your target accounts in a dedicated browser folder or a spreadsheet. \n\nEvery morning, you open the top 10 URLs, check for recent posts, and leave highly personalized comments. While this requires zero software budget and carries zero account risk, it is highly unscalable. Manually tracking who posted, who you engaged with, and who replied requires meticulous CRM management and a lot of administrative time that could be spent actually closing deals.\n\nFor those trying to bridge the gap between manual work and automation, finding the right software is critical. Reviewing a comprehensive [Automate Linkedin Comments Safely Evaluation Checklist](https://www.heyjunior.ai/blog/automate-linkedin-comments-safely-evaluation-checklist) can help you decide which parts of the manual process are worth automating.\n\n### 3. Data Extractors (Phantombuster and Scrapers)\n\nSome lead generation agencies attempt to build comment pipelines by daisy-chaining multiple tools together. They might use a data extraction tool like Phantombuster to scrape the recent posts of their target accounts, export that data to a Google Sheet, push the text through an OpenAI API to generate comments, and then manually copy-paste those comments back into LinkedIn.\n\nWhile this allows for granular control over the data, it is a fragile, engineering-heavy workflow. APIs break, web structures change, and the constant importing and exporting of CSV files is tedious. Furthermore, relying on heavy scraping tools can still flag LinkedIn's anti-bot mechanisms. If you are currently reliant on heavy data scrapers, you should explore [Phantombuster Alternatives for Automate Linkedin Comments Safely](https://www.heyjunior.ai/blog/phantombuster-alternatives-for-automate-linkedin-comments-safely) to find more streamlined workflows.\n\n### 4. Niche AI Engagement Tools\n\nThere are several lighter-weight Chrome extensions designed solely to generate comments on the fly. Tools like Supergrow and its competitors sit in your browser and offer a button to generate a reply when you view a post. \n\nWhile convenient, many of these lack the deep contextual awareness of your overarching business goals. They react well to the text in front of them, but they do not proactively seek out the relevant discussions that build your specific pipeline. To evaluate the broader landscape of these extensions, explore the [Best AI Tools for Linkedin Commenting Tools Beyond Supergrow](https://www.heyjunior.ai/blog/best-ai-tools-for-linkedin-commenting-tools-beyond-supergrow).\n\n![Comparison graphic contrasting cloud-based LinkedIn automation risks with safe local AI architecture.](https://assets.bevisible.app/inline-images/j57c8tk7rw52s41rzr3zjpy7718d7d3w/inline-2-1789490851275-aq1u4u.png)\n## Advanced Tactics to Maximize Comment Visibility\n\nThe tool you choose is only the engine; the strategy is the steering wheel. To maximize the pipeline generated from your commenting efforts, implement these advanced tactics.\n\n### Master the \"First 60 Minutes\" Window\n\nLinkedIn heavily weighs the engagement a post receives in its first hour. If you comment on a post 24 hours after it was published, you are talking to an empty room. \n\nThis is why turning on notifications for your target prospects is non-negotiable. If you can deploy a value-add comment within the first 60 minutes of a post going live, your comment will likely be pinned near the top of the thread by the algorithm. When the post inevitably gains traction later in the day, every single person who views it will read your insight first.\n\n### Engage with Other Commenters\n\nDo not just reply to the original author. Some of your best prospects are lurking in the replies. If a Director of Marketing leaves a thoughtful comment on a post, reply directly to *their* comment. \n\nThis sends a notification straight to their app, completely bypassing the noise of their DM inbox. You are engaging them on their specific thoughts, which is highly flattering and instantly builds rapport. \n\n### Transitioning to the Inbox\n\nThe goal of this entire process is to eventually move the prospect off the timeline and into your pipeline. The trigger for this transition is reciprocity. \n\nDo not send a connection request immediately after leaving your first comment. Wait until the prospect has replied to your comment or engaged with your profile. Once that reciprocity is established, send a connection request with a note that references the public interaction:\n\n*\"Hey David, great exchanging thoughts with you on the revenue operations post this morning. I noticed we are tackling similar challenges regarding CRM adoption. Would be great to stay connected.\"*\n\nThis approach changes the dynamic entirely. You are no longer a salesperson begging for 15 minutes of their time; you are a peer expanding a mutually beneficial conversation. For strategies on finding these precise posts to engage with in the first place, look into the [Best Tools to Find Relevant Linkedin Posts to Comment On Tools Beyond Taplio](https://www.heyjunior.ai/blog/best-tools-to-find-relevant-linkedin-posts-to-comment-on-tools-beyond-taplio).\n\n## Protecting Your Account While Scaling\n\nThe biggest roadblock to scaling a comment pipeline is account safety. LinkedIn has aggressively updated its security protocols to stamp out automated behavior. \n\nIf you are using tools that rapidly open and close tabs, send hundreds of requests per hour, or log in from suspicious IPs, your account will eventually face a shadowban or outright suspension. \n\nThis is the primary reason why local execution is vital. By using tools that run directly on your machine, leveraging your standard browser environment and your home or office IP address, you mimic human behavior precisely. \n\nAlways adhere to daily limits. Leaving 20 to 30 highly targeted, deeply contextual comments per day will generate vastly more pipeline than blasting 200 generic AI replies. Quality engagement compounds; spam only burns bridges. For a deeper dive into protecting your profile, read up on [Safe AI engagement on LinkedIn](https://www.heyjunior.ai/blog/safe-ai-engagement-on-linkedin).\n\n## Frequently Asked Questions (FAQs)\n\n### How many comments should I write per day to see results?\nFor pipeline generation, aim for 20 to 30 high-quality comments per day. Consistency is more important than volume. Engaging thoughtfully with 20 targeted decision-makers every day will yield more booked calls within a month than sporadically leaving 100 generic comments once a week. \n\n### Can AI write comments that actually sound like me?\nYes, but only if the tool is context-aware. Generic AI models generate corporate, overly enthusiastic text that is easily identifiable. Advanced tools that analyze your bio, your specific business goals, and the nuanced context of the original post can generate drafts that accurately reflect your professional voice. You should always review and tweak these drafts before posting.\n\n### What happens if LinkedIn flags my account for using automation?\nIf LinkedIn detects unsafe automation (typically from cloud-based IPs or erratic behavior patterns), they will usually issue a warning and log you out. Repeated offenses lead to temporary restrictions, where you cannot send connection requests or messages. Continued violations will result in permanent account bans. This is why utilizing local, safety-first automation is critical for long-term growth.\n\nGenerating a pipeline through LinkedIn comments is the natural evolution of digital networking. Buyers are tired of being pitched, but they are desperate for genuine insights and peer-level conversation. By shifting your focus from the crowded inbox to the public feed, and by leveraging safe, context-aware tools to scale that engagement, you can build a predictable revenue engine based entirely on authentic interactions.", "created_at": "2026-09-15T16:49:26.700872+00:00", "updated_at": "2026-09-15T16:49:26.700875+00:00"};
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js"></script>
+    <script>
+        function looksLikeHtml(content) {
+            return /<\/?[a-z][\s\S]*>/i.test(content);
+        }
+
+        function escapeHtml(content) {
+            return content
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function formatPlainText(content) {
+            return content
+                .split(/\n{2,}/)
+                .map(paragraph => `<p>${escapeHtml(paragraph).replace(/\n/g, '<br>')}</p>`)
+                .join('');
+        }
+
+        function renderArticleBody(rawContent) {
+            const content = (rawContent || '').trim();
+            if (!content) {
+                return '<p>This article has no content yet.</p>';
+            }
+
+            if (looksLikeHtml(content)) {
+                if (window.DOMPurify) {
+                    return window.DOMPurify.sanitize(content);
+                }
+                return content;
+            }
+
+            if (window.marked) {
+                const markdownHtml = window.marked.parse(content, {
+                    gfm: true,
+                    breaks: true,
+                    mangle: false,
+                    headerIds: true
+                });
+                if (window.DOMPurify) {
+                    return window.DOMPurify.sanitize(markdownHtml);
+                }
+                return markdownHtml;
+            }
+
+            return formatPlainText(content);
+        }
+
+        function createShareButtons(url, title, position) {
+            const encodedUrl = encodeURIComponent(url);
+            const encodedTitle = encodeURIComponent(title);
+            
+            const buttons = [
+                {
+                    name: 'LinkedIn',
+                    url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>'
+                },
+                {
+                    name: 'X',
+                    url: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>'
+                },
+                {
+                    name: 'Facebook',
+                    url: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>'
+                },
+                {
+                    name: 'WhatsApp',
+                    url: `https://api.whatsapp.com/send?text=${encodedTitle}%20${encodedUrl}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>'
+                },
+                {
+                    name: 'Reddit',
+                    url: `https://reddit.com/submit?url=${encodedUrl}&title=${encodedTitle}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.688-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg>'
+                },
+                {
+                    name: 'Email',
+                    url: `mailto:?subject=${encodedTitle}&body=${encodedUrl}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>'
+                }
+            ];
+
+            let html = `<div class="share-row ${position === 'top' ? 'top-share' : ''}">`;
+            
+            buttons.forEach(btn => {
+                html += `<a href="${btn.url}" target="_blank" rel="noopener noreferrer" class="share-button" data-cta="share-${position}-${btn.name.toLowerCase()}">
+                    ${btn.icon} ${btn.name}
+                </a>`;
+            });
+
+            html += `<button class="share-button" onclick="navigator.clipboard.writeText('${url.replace(/'/g, "\\'")}'); alert('Link copied to clipboard!');" data-cta="share-${position}-copy">
+                <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg> Copy Link
+            </button>`;
+
+            if (navigator.share) {
+                html += `<button class="share-button" onclick="navigator.share({title: '${title.replace(/'/g, "\\'")}', url: '${url.replace(/'/g, "\\'")}'}).catch(console.error);" data-cta="share-${position}-native">
+                    <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg> Share
+                </button>`;
+            }
+
+            html += `</div>`;
+            return html;
+        }
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            const container = document.getElementById('article-content');
+            
+            try {
+                let post;
+                
+                // If we have injected data (static page), use it directly
+                if (window.__INITIAL_ARTICLE_DATA__) {
+                    post = window.__INITIAL_ARTICLE_DATA__;
+                } else {
+                    // Otherwise, we are on the dynamic route, fetch from API
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const slug = urlParams.get('slug');
+                    
+                    if (!slug) {
+                        throw new Error('Article not found.');
+                    }
+                    
+                    // Redirect to the new static URL format
+                    window.location.replace(`/blog/${slug}/`);
+                    return;
+                }
+                
+                document.title = `${post.title} - Junior`;
+                
+                const date = new Date(post.published_at).toLocaleDateString();
+                
+                let html = `
+                    <header class="article-header">
+                        <h1 class="article-title">${post.title}</h1>
+                        <div class="article-meta">Published on ${date}</div>
+                    </header>
+                `;
+
+                const shareUrl = window.location.href;
+                html += createShareButtons(shareUrl, post.title, 'top');
+                
+                if (post.featured_image_url) {
+                    html += `<img src="${post.featured_image_url}" alt="${post.title}" class="article-featured-image">`;
+                }
+                
+                html += `
+                    <div class="article-content">
+                        ${renderArticleBody(post.content)}
+                    </div>
+                `;
+                
+                html += createShareButtons(shareUrl, post.title, 'bottom');
+                
+                container.innerHTML = html;
+            } catch (err) {
+                container.innerHTML = `<p>${err.message}</p>`;
+                console.error(err);
+            }
+        });
+    </script>
+</body>
+</html>
