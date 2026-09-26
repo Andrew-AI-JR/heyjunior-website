@@ -539,9 +539,9 @@ function updateInstallationInstructions(platform) {
                     <li>Check the <strong>"2FA"</strong> checkbox, then click <strong>"Start Automation"</strong></li>
                     <li>A Chrome window will open — log in to LinkedIn, and Junior will close the window automatically</li>
                 </ol>
-                <p style="margin-top: 15px; padding: 12px; background: #dbeafe; border-radius: 8px; color: #1e40af;">
+                <p style="margin-top: 15px; padding: 12px; background: #D8EFFB; border-radius: 8px; color: #255DB8;">
                     <strong>💡 First run only:</strong> The LinkedIn login is a one-time setup. Future runs use your saved session.
-                    <a href="setup-guide.html" target="_blank" style="color: #3b82f6; font-weight: 600; text-decoration: underline;">Full setup guide →</a>
+                    <a href="setup-guide.html" target="_blank" style="color: #2F6FD6; font-weight: 600; text-decoration: underline;">Full setup guide →</a>
                 </p>
             `;
       break;
@@ -567,9 +567,9 @@ function updateInstallationInstructions(platform) {
                     <li>Check the <strong>"2FA"</strong> checkbox, then click <strong>"Start Automation"</strong></li>
                     <li>A Chrome window will open — log in to LinkedIn, and Junior will close the window automatically</li>
                 </ol>
-                <p style="margin-top: 15px; padding: 12px; background: #dbeafe; border-radius: 8px; color: #1e40af;">
+                <p style="margin-top: 15px; padding: 12px; background: #D8EFFB; border-radius: 8px; color: #255DB8;">
                     <strong>💡 First run only:</strong> The right-click and LinkedIn login are one-time steps. Future runs work normally.
-                    <a href="setup-guide.html" target="_blank" style="color: #3b82f6; font-weight: 600; text-decoration: underline;">Full setup guide →</a>
+                    <a href="setup-guide.html" target="_blank" style="color: #2F6FD6; font-weight: 600; text-decoration: underline;">Full setup guide →</a>
                 </p>
             `;
       break;

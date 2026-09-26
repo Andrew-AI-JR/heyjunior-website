@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="js/frame-guard.js"></script>
-    <meta name="description" content="Get your first week free. Junior comments on the right LinkedIn posts for you, in your voice.">
-    <title>Get Started Free - Junior</title>
-    <link rel="stylesheet" href="css/styles.css?v=20260829-enterprise-band">
+    <meta name="description" content="Start your free Junior trial. Comment on your buyers&#39; LinkedIn posts as your company page or as you, in your voice.">
+    <title>Start your free trial - Junior</title>
+    <link rel="stylesheet" href="css/styles.css?v=20260926-inksky">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
@@ -28,13 +28,13 @@
     <main class="register-page">
         <div class="register-shell">
             <header class="register-header" aria-label="Junior">
-                <img src="./images/junior-logo.png" alt="Junior Logo" class="register-logo">
+                <a href="index.html"><img src="./images/junior-logo.png" alt="Hey Junior" class="register-logo"></a>
             </header>
 
             <section class="register-card">
                 <div id="register-direct-hook" class="register-hook" hidden>
-                    <h1>Get your first week free</h1>
-                    <p class="register-hook-outcome">Junior comments on the right LinkedIn posts for you, in your voice. Those replies become interviews, clients, or pipeline.</p>
+                    <h1 id="register-direct-title">Start your free trial</h1>
+                    <p class="register-hook-outcome" id="register-direct-sub">Junior comments on your buyers&#39; LinkedIn posts as your company page or as you, and brings every reply into one inbox.</p>
                 </div>
 
                 <div id="register-hook" class="register-hook">
@@ -86,23 +86,11 @@
 
                 <div id="register-signup-gate" class="register-signup-gate" hidden>
 
-                    <div id="email-step" class="register-email-step">
-                        <p class="register-transition">What email should we use for your Junior account?</p>
-                        <p class="register-microcopy"><a href="why-commenting-works.html?src=register-email-edu" data-cta="register-email-education">Your next opportunity may be in a conversation outside your current network.</a></p>
-                        <div class="form-group">
-                            <input type="email" id="email-step-input" placeholder="you@example.com" autocomplete="email" required>
-                        </div>
-                        <button type="button" id="email-step-button" class="primary-button register-submit">Continue</button>
-                        <p class="register-microcopy">No spam. First week is free.</p>
+                    <div id="cancelled-banner" class="register-status register-status-info" hidden aria-live="polite">
+                        No problem. Your trial hasn't started and you haven't been charged. Pick up where you left off below.
                     </div>
 
-                    <div id="cancelled-banner" class="register-status register-status-error" hidden aria-live="polite">
-                        Payment was not completed. You can try again below.
-                    </div>
-
-                    <div id="full-signup-step" class="register-full-signup-step" hidden>
-                        <p class="register-transition">Almost there &mdash; choose a plan and set a password.</p>
-
+                    <div id="full-signup-step" class="register-full-signup-step">
                         <form id="register-form" class="register-form" novalidate>
                             <input type="hidden" id="referral-code-field">
 
@@ -111,84 +99,73 @@
                                 <input type="email" id="reg-email" placeholder="you@example.com" autocomplete="email" required>
                             </div>
 
-                            <div class="form-group register-plan-selection">
-                                <label>Choose your plan</label>
+                            <div class="form-group">
+                                <label for="reg-password">Create a password</label>
+                                <div class="password-field">
+                                    <input type="password" id="reg-password" placeholder="At least 8 characters, 1 uppercase" autocomplete="new-password" required minlength="8" aria-describedby="password-help">
+                                    <button type="button" id="password-toggle" class="password-toggle" aria-label="Show password">Show</button>
+                                </div>
+                                <small id="password-help" class="password-help">Minimum 8 characters, with at least one uppercase letter. You'll use this to sign in to the Junior app.</small>
+                            </div>
+
+                            <fieldset class="form-group register-plan-selection">
+                                <legend>Choose your plan</legend>
+                                <label class="plan-selector-option plan-selector-option--enterprise" for="reg-plan-enterprise">
+                                    <input type="radio" name="reg-plan" id="reg-plan-enterprise" value="enterprise">
+                                    <span class="plan-selector-enterprise-copy">
+                                        <span class="plan-selector-kicker">For your company</span>
+                                        <strong>Enterprise</strong>
+                                        <small>Comment as your LinkedIn company page or as you · 80 comments/day · replies inbox · priority support</small>
+                                    </span>
+                                    <div class="plan-selector-prices"><span class="old-price">$99/mo</span><span class="new-price">14 days free</span></div>
+                                </label>
+                                <p class="register-plan-subhead">For individuals</p>
                                 <div class="plan-selector-grid">
-                                    <label class="plan-selector-option" for="reg-plan-basic">
+                                    <label class="plan-selector-option" for="reg-plan-basic" id="reg-plan-basic-option" hidden>
                                         <input type="radio" name="reg-plan" id="reg-plan-basic" value="basic">
                                         <strong>Basic</strong>
                                         <small>10 comments/day</small>
-                                        <div class="plan-selector-prices"><span class="old-price">$9.99</span><span class="new-price">Free for 1 week</span></div>
+                                        <div class="plan-selector-prices"><span class="old-price">$9.99/mo</span><span class="new-price">7 days free</span></div>
                                     </label>
                                     <label class="plan-selector-option" for="reg-plan-starter">
                                         <input type="radio" name="reg-plan" id="reg-plan-starter" value="starter">
                                         <strong>Starter</strong>
                                         <small>20 comments/day</small>
-                                        <div class="plan-selector-prices"><span class="old-price">$14.99</span><span class="new-price">Free for 1 week</span></div>
+                                        <div class="plan-selector-prices"><span class="old-price">$14.99/mo</span><span class="new-price">7 days free</span></div>
                                     </label>
                                     <label class="plan-selector-option" for="reg-plan-standard">
                                         <input type="radio" name="reg-plan" id="reg-plan-standard" value="standard">
                                         <strong>Standard</strong>
                                         <small>50 comments/day</small>
-                                        <div class="plan-selector-prices"><span class="old-price">$29.99</span><span class="new-price">Free for 1 week</span></div>
+                                        <div class="plan-selector-prices"><span class="old-price">$29.99/mo</span><span class="new-price">7 days free</span></div>
                                     </label>
                                     <label class="plan-selector-option" for="reg-plan-pro">
                                         <input type="radio" name="reg-plan" id="reg-plan-pro" value="pro">
                                         <strong>Pro</strong>
                                         <small>80 comments/day + priority support</small>
-                                        <div class="plan-selector-prices"><span class="old-price">$49.99</span><span class="new-price">Free for 1 week</span></div>
+                                        <div class="plan-selector-prices"><span class="old-price">$49.99/mo</span><span class="new-price">7 days free</span></div>
                                     </label>
                                 </div>
-                                <label class="plan-selector-option plan-selector-option--enterprise" for="reg-plan-enterprise">
-                                    <input type="radio" name="reg-plan" id="reg-plan-enterprise" value="enterprise">
-                                    <span class="plan-selector-enterprise-copy">
-                                        <span class="plan-selector-kicker" data-i18n="pricing.companiesTitle">For companies</span>
-                                        <strong data-i18n="pricing.enterpriseName">Enterprise</strong>
-                                        <small>80 comments/day · Comment as your LinkedIn company page</small>
-                                        <small data-i18n="pricing.enterpriseOfferRegister">Launch offer: apply code JUNIOR3ENT for a free first month instead of the free week, then $99/month.</small>
-                                    </span>
-                                    <div class="plan-selector-prices"><span class="old-price">$99</span><span class="new-price">Free for 1 week</span></div>
-                                </label>
-                            </div>
+                            </fieldset>
 
-                            <div class="form-group">
-                                <label for="reg-password">Password</label>
-                                <div class="password-field">
-                                    <input type="password" id="reg-password" placeholder="Create a password" autocomplete="new-password" required minlength="8">
-                                    <button type="button" id="password-toggle" class="password-toggle" aria-label="Show password">Show</button>
-                                </div>
-                                <small class="password-help">Minimum 8 characters, at least one uppercase letter.</small>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="reg-password-confirm">Confirm password</label>
-                                <div class="password-field">
-                                    <input type="password" id="reg-password-confirm" placeholder="Re-enter your password" autocomplete="new-password" required minlength="8">
-                                    <button type="button" id="password-confirm-toggle" class="password-toggle" aria-label="Show confirm password">Show</button>
-                                </div>
-                            </div>
-
-                            <label for="terms-agree-register" class="register-terms">
-                                <input type="checkbox" id="terms-agree-register">
-                                <span>I agree to the <a href="terms.html" target="_blank" rel="noopener">Terms of Service</a></span>
-                            </label>
+                            <p id="register-trial-terms" class="register-trial-terms" aria-live="polite">$0 today. Your plan starts after the free trial unless you cancel.</p>
 
                             <button type="submit" id="register-button" class="primary-button register-submit" data-cta="register-continue-payment">
-                                <span id="register-button-text">Continue to secure checkout &mdash; 7 days free</span>
+                                <span id="register-button-text">Continue to secure checkout</span>
                             </button>
-                            <p class="register-microcopy">You will be redirected to Stripe to enter your card securely. Your first 7 days are free; billing starts after the trial.</p>
+
+                            <p class="register-microcopy register-legal">By continuing you agree to the <a href="terms.html" target="_blank" rel="noopener">Terms of Service</a> and <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a>. You'll enter your card on Stripe's secure checkout and can cancel anytime before the trial ends.</p>
 
                             <div id="register-status" class="register-status" hidden aria-live="polite"></div>
                             <div id="register-error" class="register-status register-status-error" hidden aria-live="polite"></div>
 
                             <ul class="register-trust-list">
-                                <li>First week free</li>
+                                <li>$0 today</li>
                                 <li>Cancel anytime</li>
-                                <li>Set up in under 2 minutes</li>
+                                <li>Setup in about 5 minutes</li>
                             </ul>
 
-                            <p class="register-secondary-links">Already have an account? <a href="portal.html">Log in here</a></p>
-                            <p class="register-secondary-links">Forgot your password? <a href="forgot-password.html">Reset it here</a></p>
+                            <p class="register-secondary-links">Already have an account? <a href="portal.html">Log in</a> · <a href="forgot-password.html">Forgot password?</a></p>
                         </form>
                     </div>
 
@@ -196,7 +173,7 @@
             </section>
 
             <footer class="register-footer">
-                <p><a href="mailto:support@heyjunior.ai">support@heyjunior.ai</a> · <a href="setup-guide.html" data-cta="register-footer-setup-guide">First Launch Setup Guide</a> · <a href="windows-install-help.html" data-cta="register-footer-windows-help">Windows Install Help</a> · <a href="mac-install-help.html" data-cta="register-footer-mac-help">macOS Install Help</a> · <a href="why-commenting-works.html?src=register-footer-edu" data-cta="register-footer-education">Why Commenting Works</a> · <a href="terms.html">Terms of Service</a></p>
+                <p><a href="mailto:support@heyjunior.ai">support@heyjunior.ai</a> · <a href="setup-guide.html" data-cta="register-footer-setup-guide">First Launch Setup Guide</a> · <a href="windows-install-help.html" data-cta="register-footer-windows-help">Windows Install Help</a> · <a href="mac-install-help.html" data-cta="register-footer-mac-help">macOS Install Help</a> · <a href="why-commenting-works.html?src=register-footer-edu" data-cta="register-footer-education">Why Commenting Works</a> · <a href="terms.html">Terms of Service</a> · <a href="privacy.html">Privacy Policy</a></p>
             </footer>
         </div>
     </main>
@@ -205,6 +182,6 @@
     <script src="js/api-config.js"></script>
     <script src="js/pricing-config.js"></script>
     <script src="js/signup-shared.js"></script>
-    <script src="js/register.js?v=20260425-register-personalized"></script>
+    <script src="js/register.js?v=20260926-onescreen"></script>
 </body>
 </html>

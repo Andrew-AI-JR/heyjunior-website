@@ -13,26 +13,31 @@ window.JUNIOR_PRICING = {
     // Display configuration for plans
     PLANS: {
         'basic': {
+            trialDays: 7,
             label: 'Basic',
             price: 9.99,
             dailyLimit: 10
         },
         'starter': {
+            trialDays: 7,
             label: 'Starter',
             price: 14.99,
             dailyLimit: 20
         },
         'standard': {
+            trialDays: 7,
             label: 'Standard',
             price: 29.99,
             dailyLimit: 50
         },
         'pro': {
+            trialDays: 7,
             label: 'Pro',
             price: 49.99,
             dailyLimit: 80
         },
         'enterprise': {
+            trialDays: 14,
             label: 'Enterprise',
             price: 99,
             dailyLimit: 80

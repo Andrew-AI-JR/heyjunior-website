@@ -60,7 +60,7 @@ function initializeCheckoutUI() {
     const detectedLabel = document.createElement('div');
     detectedLabel.className = 'platform-detected';
     detectedLabel.style.cssText = `
-            background: #f0f9ff;
+            background: #EEF7FD;
             border: 1px solid #0ea5e9;
             border-radius: 6px;
             padding: 8px 12px;

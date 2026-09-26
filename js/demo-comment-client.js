@@ -43,6 +43,8 @@
     };
     var bio = state.userBio.trim();
     if (bio) payload.user_bio = bio;
+    if (state.networkingGoal) payload.networking_goal = state.networkingGoal;
+    if (state.postType) payload.post_type = state.postType;
     return payload;
   }
 

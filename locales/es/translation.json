@@ -80,10 +80,10 @@
   "announcement": {
     "junior3": {
       "badge": "Junior 3.0",
-      "heroChip": "Junior 3.0 ya está aquí · primer mes de Enterprise gratis",
+      "heroChip": "Junior 3.0 ya está aquí · comenta como tu página de empresa",
       "headline": "Junior 3.0 ya está aquí",
       "text": "Junior 3.0 hace más fácil ver lo que Junior está haciendo, revisar la última sesión y comentar como tu página de empresa.",
-      "offer": "Oferta de lanzamiento: un mes de Enterprise gratis con el código JUNIOR3ENT. Después $99/mes. Termina el 9 de septiembre de 2026.",
+      "offer": "Enterprise comenta como tu página de empresa o como tú. 14 días gratis y después $99/mes.",
       "cta": "Ver lo nuevo",
       "offerCta": "Reclamar un mes gratis"
     }
@@ -215,8 +215,8 @@
     "starterNote": "Para networkers constantes • Cancela cuando quieras",
     "proNote": "Máxima visibilidad • Cancela cuando quieras",
     "enterpriseNote": "Comenta como tu página de empresa • Cancela cuando quieras",
-    "enterpriseOfferLink": "Oferta de lanzamiento: un mes gratis y después $99/mes. Termina el 9 de septiembre de 2026.",
-    "enterpriseOfferRegister": "Oferta de lanzamiento: aplica el código JUNIOR3ENT para obtener el primer mes gratis en lugar de la semana gratis, y después $99/mes.",
+    "enterpriseOfferLink": "14 días gratis y después $99/mes.",
+    "enterpriseOfferRegister": "14 días gratis y después $99/mes. Requiere acceso de administrador a tu página de empresa en LinkedIn.",
     "features": {
       "basic": {
         "comments": "10 comentarios IA por día"

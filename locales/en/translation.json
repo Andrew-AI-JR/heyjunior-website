@@ -52,7 +52,7 @@
     "hero": {
       "title": "Junior comments on LinkedIn for you — in your voice.",
       "subtitle": "It finds the posts that matter and writes comments people actually reply to. Those replies become interviews, clients, or pipeline.",
-      "cta": "Start Free",
+      "cta": "Start free trial",
       "secondaryCta": "See it in 30 seconds",
       "microcopy": "First week free · Card required at signup"
     },
@@ -66,11 +66,11 @@
     },
     "faqCta": {
       "lead": "Pick the use case that matches your goals and start free.",
-      "button": "Start Free"
+      "button": "Start free trial"
     },
     "finalCta": {
       "title": "Stay visible on LinkedIn without spending hours scrolling.",
-      "button": "Start Free",
+      "button": "Start free trial",
       "microcopy": "First week free · Card required at signup"
     }
   },
@@ -80,10 +80,10 @@
   "announcement": {
     "junior3": {
       "badge": "Junior 3.0",
-      "heroChip": "Junior 3.0 is out · first month of Enterprise free",
+      "heroChip": "Junior 3.0 is out · comment as your company page",
       "headline": "Junior 3.0 is here",
       "text": "Junior 3.0 makes it easier to see what Junior is doing, review the last session, and comment as your company page.",
-      "offer": "Launch offer: one month of Enterprise free with code JUNIOR3ENT. Then $99/month. Closes September 9, 2026.",
+      "offer": "Enterprise comments as your company page or as you. 14 days free, then $99/month.",
       "cta": "See what's new",
       "offerCta": "Claim a free month"
     }
@@ -145,7 +145,7 @@
     }
   },
   "stickyCta": {
-    "label": "Start Free"
+    "label": "Start free trial"
   },
   "features": {
     "title": "What you get",
@@ -215,8 +215,8 @@
     "starterNote": "For steady networkers • Cancel anytime",
     "proNote": "Maximum visibility • Cancel anytime",
     "enterpriseNote": "Comment as your company page • Cancel anytime",
-    "enterpriseOfferLink": "Launch offer: one month free, then $99/month. Closes September 9, 2026.",
-    "enterpriseOfferRegister": "Launch offer: apply code JUNIOR3ENT for a free first month instead of the free week, then $99/month.",
+    "enterpriseOfferLink": "14 days free, then $99/month.",
+    "enterpriseOfferRegister": "14 days free, then $99/month. Needs admin access to your LinkedIn company page.",
     "features": {
       "basic": {
         "comments": "Up to 10 daily engagements"

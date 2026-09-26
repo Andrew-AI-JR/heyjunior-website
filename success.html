@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex">
     <script src="js/frame-guard.js"></script>
-    <meta name="description" content="Thank you for your purchase - LinkedIn Automation Tool">
-    <title>Success - LinkedIn Automation Tool</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <meta name="description" content="Your Junior trial is on. Download the app and post your first comment today.">
+    <title>Your trial is on - Junior</title>
+    <link rel="stylesheet" href="css/styles.css?v=20260926-inksky">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
@@ -57,14 +58,18 @@
             <!-- Loading State -->
             <div id="loading-state" class="success-header">
                 <div class="success-icon">⏳</div>
-                <h1 data-i18n="success.title">Verifying Your Payment...</h1>
-                <p data-i18n="success.subtitle">Please wait while we confirm your payment and set up your account.</p>
+                <h1>Setting up your trial...</h1>
+                <p>This takes a few seconds. You haven't been charged.</p>
             </div>
 
             <!-- Success State -->
             <div id="success-state" class="success-header" style="display: none;">
                 <div class="success-icon">✅</div>
-                <h1>Thank You for Your Purchase!</h1>
+                <h1>Your free trial is on</h1>
+                <p class="activation-lead">Let's get Junior's first comment posted today. Most people are done in about 5 minutes.</p>
+                <div id="mobile-desktop-note" class="activation-mobile-note" hidden>
+                    <strong>Junior is a desktop app for Windows and Mac.</strong> Open <a href="portal.html">heyjunior.ai/portal.html</a> on your computer and log in with the email and password you just created to download it.
+                </div>
                 <div id="auto-download-message">
                     <p>Your download will start automatically in <span id="countdown">5</span> seconds...</p>
                     <div class="progress-container">
@@ -80,14 +85,14 @@
             <!-- Error State -->
             <div id="error-state" class="success-header" style="display: none;">
                 <div class="success-icon">❌</div>
-                <h1 data-i18n="success.errorTitle">Payment Verification Failed</h1>
-                <p data-i18n="success.errorMessage">We couldn't verify your payment. Please contact support.</p>
+                <h1>We couldn't confirm your trial yet</h1>
+                <p>This usually clears up in a minute. Refresh this page, or email <a href="mailto:support@heyjunior.ai">support@heyjunior.ai</a> and we'll sort it out.</p>
             </div>
 
             <!-- Download Section -->
             <div id="download-section" class="download-section" style="display: none;">
-                <h2 data-i18n="success.downloadReady">📥 Download Your Software</h2>
-                <p data-i18n="success.downloadButton">Your subscription is active! Download the application for your platform:</p>
+                <h2>Step 1: Download Junior</h2>
+                <p>We picked the right version for your computer. <a href="#" id="show-all-downloads" class="activation-inline-link">Need a different version?</a></p>
 
                 <div class="download-options">
                     <!-- Windows Download -->
@@ -156,33 +161,27 @@
                 </div>
             </div>
 
-            <!-- Next Steps -->
-            <div class="next-steps">
-                <h2>🚀 Next Steps</h2>
+            <!-- Activation checklist -->
+            <div class="next-steps activation-checklist">
+                <h2>Your first-day checklist</h2>
                 <ol>
-                    <li><strong>Download</strong> - The installer for your platform should start automatically</li>
-                    <li><strong>Install</strong> - Run the installer and follow the on-screen instructions</li>
-                    <li><strong>Launch</strong> - Open Junior after installation completes</li>
-                    <li><strong>Connect LinkedIn</strong> - Check the "2FA" checkbox, then click "Start Automation." A Chrome window will open — log in to LinkedIn, and Junior will close the window automatically</li>
-                    <li><strong>You're set</strong> - Junior remembers your session. No login needed on future runs</li>
+                    <li><strong>Download and install.</strong> Your computer may show a security warning the first time. That's expected: on Windows click "More info" then "Run anyway"; on Mac right-click Junior and choose "Open". <a href="windows-install-help.html">Windows help</a> · <a href="mac-install-help.html">Mac help</a></li>
+                    <li><strong>Sign in to Junior</strong> with the email and password you just created.</li>
+                    <li><strong>Connect LinkedIn.</strong> Check "2FA", click "Start Automation", and log in to LinkedIn in the Chrome window that opens. Your session stays on your computer.</li>
+                    <li><strong>Tell Junior who matters.</strong> Add your bio, goal and search terms, or import your target accounts. <a href="onboarding.html?src=success-onboarding" data-cta="success-nextsteps-onboarding">Onboarding guide</a></li>
+                    <li><strong>On Enterprise? Add your company page.</strong> Pick the LinkedIn company page you administer so Junior can comment as your brand.</li>
+                    <li><strong>Watch the first comments go out</strong> in the Activity tab, then check the Inbox for replies.</li>
                 </ol>
-                <div style="margin-top: 20px; padding: 15px; background: #dbeafe; border-radius: 8px; text-align: center;">
-                    <p style="margin: 0; color: #1e40af;">
-                        Need more detail? Read the <a href="setup-guide.html" style="color: #3b82f6; font-weight: 600;">full First Launch Setup Guide →</a>
-                    </p>
-                    <p style="margin: 10px 0 0; color: #1e40af;">
-                        Set up your bio and search terms: <a href="onboarding.html?src=success-onboarding" data-cta="success-nextsteps-onboarding" style="color: #3b82f6; font-weight: 600;">Onboarding Guide →</a>
-                    </p>
-                    <p style="margin: 10px 0 0; color: #1e40af;">
-                        Want the strategy behind better replies? <a href="why-commenting-works.html?src=success-nextsteps-edu" data-cta="success-nextsteps-education" style="color: #3b82f6; font-weight: 600;">Read Why Commenting Works →</a>
-                    </p>
+                <div class="activation-help">
+                    <p>Stuck on any step? Email <a href="mailto:support@heyjunior.ai?subject=Help%20setting%20up%20Junior" data-cta="success-help-email">support@heyjunior.ai</a> and the founder will help you get set up, usually the same day.</p>
+                    <p>More detail: <a href="setup-guide.html">First launch setup guide</a> · <a href="troubleshooting.html">Troubleshooting</a> · <a href="why-commenting-works.html?src=success-nextsteps-edu" data-cta="success-nextsteps-education">Why commenting works</a></p>
                 </div>
             </div>
 
             <!-- Support Section -->
             <div id="support-section" class="support-section" style="display: none;">
-                <h3 data-i18n="success.needHelp">Need Help?</h3>
-                <p data-i18n="success.support">Our support team is here to assist you with setup and any questions.</p>
+                <h3>Need help?</h3>
+                <p>We're happy to help you with setup and any questions.</p>
                 <div class="support-links">
                     <a href="mailto:support@heyjunior.ai" data-i18n="success.emailSupport">📧 Email Support</a>
                     <a href="https://www.linkedin.com/company/hey-junior/" target="_blank" data-i18n="success.linkedinSupport">💼 LinkedIn</a>
@@ -191,16 +190,16 @@
 
             <!-- Error Support Section -->
             <div id="error-support-section" class="support-section" style="display: none;">
-                <h3 data-i18n="success.paymentIssue">⚠️ Payment Issue</h3>
-                <p data-i18n="success.paymentIssueDescription">There was an issue verifying your payment. This could be due to:</p>
+                <h3>Trial not confirmed</h3>
+                <p>We couldn't confirm your trial. This can happen when:</p>
                 <ul>
-                    <li data-i18n="success.paymentProcessing">Payment is still processing (please wait a few minutes and refresh)</li>
-                    <li data-i18n="success.paymentDeclined">Payment was declined by your bank</li>
-                    <li data-i18n="success.technicalIssue">Technical issue with the payment processor</li>
+                    <li>Stripe is still processing (wait a minute and refresh)</li>
+                    <li>Your bank declined the card check</li>
+                    <li>There was a temporary technical problem</li>
                 </ul>
                 <div class="support-links">
-                    <a href="mailto:support@heyjunior.ai" data-i18n="success.contactSupport">📧 Contact Support</a>
-                    <a href="register.html?src=success-retry" data-i18n="success.tryAgain">🔄 Try Again</a>
+                    <a href="mailto:support@heyjunior.ai">Contact support</a>
+                    <a href="register.html?src=success-retry">Try again</a>
                 </div>
             </div>
         </div>
@@ -217,9 +216,9 @@
                 <div class="footer-section">
                     <h4 data-i18n="footer.legal.title">Legal</h4>
                     <ul>
-                        <li><a href="#" data-i18n="footer.legal.privacy">Privacy Policy</a></li>
+                        <li><a href="privacy.html" data-i18n="footer.legal.privacy">Privacy Policy</a></li>
                         <li><a href="terms.html" data-i18n="footer.legal.terms">Terms of Service</a></li>
-                        <li><a href="#" data-i18n="footer.legal.cookies">Cookie Policy</a></li>
+                        <li><a href="privacy.html#cookies" data-i18n="footer.legal.cookies">Cookie Policy</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
@@ -281,7 +280,27 @@
     <!-- Load release manager first (must load before success.js) -->
     <script src="js/release-manager.js"></script>
     <script src="js/api-config.js"></script>
-    <script src="js/success.js?v=2.2"></script>
+    <script src="js/success.js?v=2.3"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var ua = navigator.userAgent || '';
+            var isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(ua) && !/Macintosh|Windows NT/i.test(ua);
+            var note = document.getElementById('mobile-desktop-note');
+            if (note && isMobile) note.hidden = false;
+
+            var showAll = document.getElementById('show-all-downloads');
+            if (showAll) {
+                showAll.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    document.querySelectorAll('.download-option').forEach(function (option) {
+                        option.style.display = 'block';
+                    });
+                    showAll.hidden = true;
+                    if (window.juniorTrack) window.juniorTrack('success_show_all_downloads');
+                });
+            }
+        });
+    </script>
     <!-- Simple i18n initialization script -->
     <script src="js/i18n-simple.js"></script>
     

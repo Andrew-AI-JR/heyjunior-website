@@ -3,19 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Junior comments on the right LinkedIn posts for you, in your voice. People reply — and those replies become interviews, clients, or sales conversations.">
+    <meta name="description" content="Junior comments on your buyers' LinkedIn posts as your company page or as you, in your voice, and brings every reply into one inbox. Try Enterprise free for 14 days.">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Junior - Comments on LinkedIn for you, in your voice">
-    <meta property="og:description" content="Junior finds the posts that matter and comments like you would. Start free, then pick the use case that matches your goal.">
+    <meta property="og:title" content="Junior - Put your company in your buyers' LinkedIn conversations">
+    <meta property="og:description" content="Junior finds your target accounts' posts, comments as your company page or as you, and turns replies into pipeline.">
     <meta property="og:image" content="https://heyjunior.ai/reseller-assets/global/social/social-card.png">
     <meta property="og:url" content="https://heyjunior.ai">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Junior - Comments on LinkedIn for you, in your voice">
-    <meta name="twitter:description" content="Job seekers, founders, consultants, and sales teams use Junior to get replies from LinkedIn comments.">
+    <meta name="twitter:title" content="Junior - Put your company in your buyers' LinkedIn conversations">
+    <meta name="twitter:description" content="Comment as your company page or as you, on the posts your target accounts care about. Every reply lands in one inbox.">
     <meta name="twitter:image" content="https://heyjunior.ai/reseller-assets/global/social/social-card.png">
-    <title>Junior comments on LinkedIn for you - Junior</title>
+    <title>Junior - LinkedIn social selling for your company page and team</title>
     <link rel="canonical" href="https://heyjunior.ai/">
-    <link rel="stylesheet" href="css/styles.css?v=20260904-messaging">
+    <link rel="stylesheet" href="css/styles.css?v=20260926-inksky">
+    <link rel="stylesheet" href="css/home.css?v=20260926-inksky">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
@@ -39,48 +40,34 @@
       "name": "Junior",
       "applicationCategory": "BusinessApplication",
       "operatingSystem": ["Windows", "macOS"],
-      "description": "Junior comments on the right LinkedIn posts for you, in your voice, so replies can become interviews, clients, or sales conversations.",
+      "description": "Junior finds your buyers' LinkedIn posts, comments as your company page or as you, in your voice, and brings every reply into one inbox.",
       "url": "https://heyjunior.ai",
       "offers": [
-        {
-          "@type": "Offer",
-          "name": "Basic",
-          "price": "9.99",
-          "priceCurrency": "USD"
-        },
-        {
-          "@type": "Offer",
-          "name": "Starter",
-          "price": "14.99",
-          "priceCurrency": "USD"
-        },
-        {
-          "@type": "Offer",
-          "name": "Standard",
-          "price": "29.99",
-          "priceCurrency": "USD"
-        },
-        {
-          "@type": "Offer",
-          "name": "Pro",
-          "price": "49.99",
-          "priceCurrency": "USD"
-        },
-        {
-          "@type": "Offer",
-          "name": "Enterprise",
-          "price": "99",
-          "priceCurrency": "USD"
-        }
+        { "@type": "Offer", "name": "Enterprise", "price": "99", "priceCurrency": "USD" },
+        { "@type": "Offer", "name": "Pro", "price": "49.99", "priceCurrency": "USD" },
+        { "@type": "Offer", "name": "Standard", "price": "29.99", "priceCurrency": "USD" },
+        { "@type": "Offer", "name": "Starter", "price": "14.99", "priceCurrency": "USD" },
+        { "@type": "Offer", "name": "Basic", "price": "9.99", "priceCurrency": "USD" }
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "Does Junior need my LinkedIn password?", "acceptedAnswer": { "@type": "Answer", "text": "No. Junior runs on your computer. You sign in to LinkedIn in a browser on your own machine, and your session stays there." } },
+        { "@type": "Question", "name": "Can Junior comment as my company page?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, on the Enterprise plan. You need admin access to the LinkedIn company page. Junior checks the identity on every comment so a brand comment never posts under a personal name." } },
+        { "@type": "Question", "name": "Is LinkedIn automation risk-free?", "acceptedAnswer": { "@type": "Answer", "text": "No automation is risk-free. Junior keeps the risk low by running on your computer, pacing like a person and staying within daily limits you set." } }
       ]
     }
     </script>
 </head>
-<body data-page="home">
+<body data-page="home" class="hj i18n-ready">
     <nav class="navbar">
         <div class="container">
             <div class="logo">
-                <img src="./images/junior-logo.png" alt="Junior Logo" class="logo-img">
+                <a href="index.html"><img src="./images/junior-logo.png" alt="Hey Junior" class="logo-img"></a>
             </div>
             <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
                 <span></span>
@@ -89,398 +76,445 @@
             </button>
             <ul class="nav-links">
                 <div class="nav-group">
-                    <li><a href="#use-cases" data-i18n="navigation.useCases">Use Cases</a></li>
-                    <li><a href="#features" data-i18n="navigation.features">Features</a></li>
-                    <li><a href="why-commenting-works.html" data-cta="home-nav-education">Why Commenting Works</a></li>
-                    <li><a href="#pricing" data-i18n="navigation.pricing">Pricing</a></li>
-                
-                    <li><a href="try-it.html">Try It</a></li>
-                    <li><a href="blog.html">Blog</a></li></div>
+                    <li><a href="#features" data-cta="home-nav-features">Product</a></li>
+                    <li><a href="#how-it-works" data-cta="home-nav-how">How it works</a></li>
+                    <li><a href="#pricing" data-cta="home-nav-pricing">Pricing</a></li>
+                    <li><a href="#use-cases" data-cta="home-nav-use-cases">Use cases</a></li>
+                    <li><a href="try-it.html?src=home-nav" data-cta="home-nav-try-it">Try it</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                </div>
                 <div class="nav-actions">
-                    <li><a href="register.html?src=home-nav" class="cta-button">Start Free</a></li>
-                    <li><a href="my-story.html" class="my-story-link" data-i18n="navigation.myStory">My Story</a></li>
-                    <li id="login-link"><a href="portal.html" class="nav-login-link" data-i18n="navigation.login">Login</a></li>
-                    <li id="portal-link" style="display: none;"><a href="portal.html" class="nav-login-link">My Account</a></li>
+                    <li id="login-link"><a href="portal.html" class="nav-login-link">Log in</a></li>
+                    <li id="portal-link" style="display: none;"><a href="portal.html" class="nav-login-link">My account</a></li>
+                    <li><a href="register.html?plan=enterprise&amp;src=home-nav" class="cta-button" data-cta="home-nav-primary">Start free trial</a></li>
                 </div>
             </ul>
         </div>
     </nav>
 
-    <section class="hero conversion-hero hero-dark">
-        <div class="container">
-            <a href="#home-announcement" class="hero-launch-chip" data-cta="home-hero-launch-chip" data-i18n="announcement.junior3.heroChip">Junior 3.0 is out · first month of Enterprise free</a>
-            <h1 data-i18n="landingHomeGeneral.hero.title">Junior comments on LinkedIn for you — in your voice.</h1>
-            <p class="subtitle" data-i18n="landingHomeGeneral.hero.subtitle">It finds the posts that matter and writes comments people actually reply to. Those replies become interviews, clients, or pipeline.</p>
-            <div class="cta-buttons conversion-hero-ctas">
-                <a href="register.html?src=home-hero" class="primary-button" data-cta="home-hero-primary" data-i18n="landingHomeGeneral.hero.cta">Start Free</a>
-                <a href="try-it.html" class="secondary-button" data-cta="home-hero-secondary" data-i18n="landingHomeGeneral.hero.secondaryCta">See it in 30 seconds</a>
-            </div>
-            <p class="hero-microcopy"><a href="why-commenting-works.html?src=home-hero-edu" data-cta="home-hero-education" style="color: #c7d2fe;">Your next opportunity may be outside your network. Learn why commenting works.</a></p>
-            <p class="hero-microcopy" data-i18n="landingHomeGeneral.hero.microcopy">First week free · Card required at signup</p>
-        </div>
-    </section>
-
-    <section class="home-launch" id="home-announcement">
-        <div class="container">
-            <div class="home-launch-card">
-                <button type="button" class="home-announcement-dismiss" id="home-announcement-dismiss" aria-controls="home-announcement" aria-label="Dismiss announcement">&times;</button>
-                <span class="home-announcement-badge" data-i18n="announcement.junior3.badge">Junior 3.0</span>
-                <h2 data-i18n="announcement.junior3.headline">Junior 3.0 is here</h2>
-                <p class="home-launch-text" data-i18n="announcement.junior3.text">Junior 3.0 makes it easier to see what Junior is doing, review the last session, and comment as your company page.</p>
-                <p class="home-launch-offer" data-i18n="announcement.junior3.offer">Launch offer: one month of Enterprise free with code JUNIOR3ENT. Then $99/month. Closes September 9, 2026.</p>
-                <div class="cta-buttons home-launch-ctas">
-                    <a href="junior-3.html?src=home-announcement" class="primary-button" data-cta="home-announcement" data-i18n="announcement.junior3.cta">See what's new</a>
-                    <a href="register.html?plan=enterprise&coupon=JUNIOR3ENT&src=home-announcement-offer" class="secondary-button" data-cta="home-announcement-offer" data-i18n="announcement.junior3.offerCta">Claim a free month</a>
+    <main>
+        <section class="hj-hero">
+            <div class="hj-wrap hj-hero-grid">
+                <div>
+                    <span class="hj-kicker">LinkedIn social selling on autopilot</span>
+                    <h1>Put your company in your buyers' <em>LinkedIn conversations.</em> Every day.</h1>
+                    <p class="hj-hero-sub">Junior finds the posts your target accounts are talking about, comments as your company page or as you, in your voice, and brings every reply into one inbox so your team can turn it into pipeline.</p>
+                    <div class="hj-hero-ctas">
+                        <a href="register.html?plan=enterprise&amp;src=home-hero" class="hj-btn hj-btn-primary" data-cta="home-hero-primary">Start 14-day Enterprise trial</a>
+                        <a href="try-it.html?goal=sales&amp;src=home-hero" class="hj-btn hj-btn-ghost" data-cta="home-hero-try-it">See a comment for your business</a>
+                    </div>
+                    <p class="hj-hero-fine"><span>$0 today</span> · <span>Card required</span> · <span>Cancel anytime</span> · <span>Runs on your Windows or Mac computer</span></p>
                 </div>
-                <a class="launchbuff-badge" href="https://launchbuff.com/products/junior-3-0-ldhs6h" target="_blank" rel="noopener noreferrer" title="Featured on LaunchBuff" data-cta="home-launchbuff">
-                    <img src="https://launchbuff.com/badge-featured-dark.svg" alt="Featured on LaunchBuff" width="256" height="80" />
+                <div class="hj-reply-stack" aria-label="Real activity from Junior's own company page">
+                    <div class="hj-reply is-junior">
+                        <div class="hj-reply-top"><span class="hj-reply-who">Hey Junior (company page)</span><span class="hj-pill dark">Posted by Junior</span></div>
+                        <p>We see the "agent sprawl" problem often in conversations around AI product development. Combining deterministic software with probabilistic models is often key to managing this complexity.</p>
+                        <p class="hj-reply-meta">On a Salesforce post · target account · verified</p>
+                    </div>
+                    <div class="hj-reply">
+                        <div class="hj-reply-top"><span class="hj-reply-who">Okta</span><span class="hj-pill">Replied</span></div>
+                        <p>Focus on core features, leave auth to us!</p>
+                    </div>
+                    <div class="hj-reply">
+                        <div class="hj-reply-top"><span class="hj-reply-who">Karina Lozano, M.S.</span><span class="hj-pill">Replied</span></div>
+                        <p>I'd actually be curious, what are some of the biggest challenges you're seeing customer success teams deal with right now?</p>
+                    </div>
+                    <p class="hj-reply-caption">Real comment and replies from Junior's own company page, September 2026.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="hj-proof" aria-label="Results">
+            <div class="hj-wrap">
+                <div class="hj-proof-grid">
+                    <div class="hj-stat"><strong>453</strong><span>conversations started by Junior's company page</span></div>
+                    <div class="hj-stat"><strong>22</strong><span>replies to the company page, from brands like Okta</span></div>
+                    <div class="hj-stat"><strong>209</strong><span>replies to our founder's personal comments</span></div>
+                    <div class="hj-stat"><strong>115</strong><span>connection requests from people who saw those comments</span></div>
+                </div>
+                <p class="hj-proof-note">Junior's own results, from the Junior app as of September 26, 2026. Your results will depend on your market, targets and settings.</p>
+            </div>
+        </section>
+
+        <section id="how-it-works">
+            <div class="hj-wrap">
+                <div class="hj-section-head">
+                    <span class="hj-kicker">How it works</span>
+                    <h2>Junior does the daily commenting. Your team takes the conversations.</h2>
+                    <p>Show up where buyers already talk, without anyone scrolling LinkedIn for an hour a day.</p>
+                </div>
+                <ol class="hj-steps">
+                    <li class="hj-step">
+                        <h3>Tell Junior who matters</h3>
+                        <p>Import target companies and people, or set the industries, topics and search terms your buyers care about.</p>
+                    </li>
+                    <li class="hj-step">
+                        <h3>Junior finds the right posts</h3>
+                        <p>It reads your target accounts' company pages and searches LinkedIn, scoring each post for relevance before it engages.</p>
+                    </li>
+                    <li class="hj-step">
+                        <h3>It comments as you or your brand</h3>
+                        <p>Each comment is written from your background, your goal and the post in front of it, then posted at a human pace.</p>
+                    </li>
+                    <li class="hj-step">
+                        <h3>Replies land in one inbox</h3>
+                        <p>Junior drafts a response to every reply. Send it in a click, let auto-reply handle it, or hand it to a rep.</p>
+                    </li>
+                </ol>
+            </div>
+        </section>
+
+        <section id="features" class="hj-features">
+            <div class="hj-wrap">
+                <div class="hj-section-head">
+                    <span class="hj-kicker">Product</span>
+                    <h2>Everything you need to turn LinkedIn engagement into pipeline</h2>
+                    <p>Built for founders, sales teams and consultants who sell to other businesses.</p>
+                </div>
+
+                <div class="hj-feature">
+                    <div class="hj-feature-copy">
+                        <span class="hj-kicker">Enterprise</span>
+                        <h3>Your brand in the conversation, safely</h3>
+                        <p>Junior comments as your LinkedIn company page, so your brand stays visible on the accounts you're chasing without anyone managing the page by hand.</p>
+                        <ul class="hj-checks">
+                            <li>Company comments use your brand voice and bio, with an optional "we/our" opener.</li>
+                            <li>Identity checks on every comment, so a brand comment never goes out under someone's personal name.</li>
+                            <li>Junior returns to key company pages every few hours and adds reactions after brand comments.</li>
+                            <li>Comment as the company page or as yourself, from the same plan.</li>
+                        </ul>
+                    </div>
+                    <figure>
+                        <div class="hj-shot"><img src="images/product/activity.webp" alt="Junior's Activity view showing verified comments posted as the Hey Junior company page on posts from target accounts like Salesforce, Gong and Aircall" width="1065" height="915" loading="lazy"></div>
+                        <figcaption class="hj-shot-cap">Activity view: verified company-page comments on target accounts.</figcaption>
+                    </figure>
+                </div>
+
+                <div class="hj-feature flip">
+                    <div class="hj-feature-copy">
+                        <span class="hj-kicker">Replies inbox</span>
+                        <h3>Never lose a reply again</h3>
+                        <p>Every reply and mention lands in one inbox, grouped by post and person, with the next step already drafted.</p>
+                        <ul class="hj-checks">
+                            <li>AI-drafted replies that use the original post and the full thread.</li>
+                            <li>Optional auto-reply, so hot conversations get an answer even on busy days.</li>
+                            <li>Filters for needs reply, high priority, target accounts and handoffs.</li>
+                            <li>Snooze a thread and it comes back when the prospect replies again.</li>
+                        </ul>
+                    </div>
+                    <figure>
+                        <div class="hj-shot"><img src="images/product/inbox-replies.webp" alt="Junior's Conversation Inbox with replies from people and brands, a drafted reply and buttons to send, wait or mark as converted" width="756" height="1050" loading="lazy"></div>
+                        <figcaption class="hj-shot-cap">Conversation Inbox: replies to Junior's company page, with a drafted response.</figcaption>
+                    </figure>
+                </div>
+
+                <div class="hj-feature">
+                    <div class="hj-feature-copy">
+                        <span class="hj-kicker">Target accounts</span>
+                        <h3>Focus on the logos you're chasing</h3>
+                        <p>Import your account list and Junior prioritizes their posts, so social selling supports your account plan instead of random scrolling.</p>
+                        <ul class="hj-checks">
+                            <li>Add companies and people by hand or by CSV, and tier them.</li>
+                            <li>A timeline for every account shows each comment Junior made there.</li>
+                            <li>Each comment records who it was for, with a direct link to follow up.</li>
+                        </ul>
+                    </div>
+                    <figure>
+                        <div class="hj-shot"><img src="images/product/target-accounts.webp" alt="Junior's Target Accounts list with tiered companies and a timeline of comments on Apollo posts" width="761" height="890" loading="lazy"></div>
+                        <figcaption class="hj-shot-cap">Target Accounts: an account timeline for Apollo.</figcaption>
+                    </figure>
+                </div>
+
+                <div class="hj-mini-grid">
+                    <div class="hj-mini">
+                        <h4>Goal-driven writing</h4>
+                        <p>Set a goal such as finding customers or partnerships and choose a standard or more natural style, so comments aim at business outcomes and sound human.</p>
+                    </div>
+                    <div class="hj-mini">
+                        <h4>Run Insights</h4>
+                        <p>See what Junior engaged with, what it skipped and why, with one-click suggestions such as dropping keywords that underperform.</p>
+                    </div>
+                    <div class="hj-mini">
+                        <h4>Numbers you can report</h4>
+                        <p>Dashboards count only comments LinkedIn verified, plus replies, reactions and connection requests, so reporting to leadership holds up.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="hj-wrap hj-quote-grid">
+                <div class="hj-quote">
+                    <blockquote>"It immediately cut down the onslaught of corporate-AI generated content and opened up a floodgate of the posts and comments from other humans that I needed to connect with. Within a few weeks of using it I can attest to a significant increase of connections and conversations that otherwise just would not have happened."</blockquote>
+                    <cite><strong>Dmitri Kozlovski, PMP</strong>Project manager, consulting, healthcare and life sciences · public LinkedIn comment · <a href="images/product/testimonial-dmitri.webp" target="_blank" rel="noopener">see the original</a></cite>
+                </div>
+                <a class="hj-video" href="junior-3.html?src=home-video#demo-video" data-cta="home-demo-video">
+                    <div class="hj-video-thumb" style="background-image: url('campaign-assets/demo-video/junior-3/poster.jpg');" role="img" aria-label="Junior 3.0 demo video"></div>
+                    <div class="hj-video-body">
+                        <strong>Watch Junior work, in under a minute</strong>
+                        <span>See Junior comment, review what it posted, and comment as a company page.</span>
+                    </div>
                 </a>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="use-cases" class="use-cases-section">
-        <div class="container">
-            <h2 data-i18n="useCases.title">Who Junior is built for</h2>
-            <p class="section-subtitle" data-i18n="useCases.subtitle">Pick the goal that matches how you use LinkedIn.</p>
-            <div class="use-cases-grid">
-                <article class="use-case-card">
-                    <h3 data-i18n="useCases.sales.title">Sales Teams</h3>
-                    <p data-i18n="useCases.sales.description">Warm the account in public before you send the DM.</p>
-                    <a href="sales.html" class="primary-button" data-cta="home-usecase-sales" data-i18n="useCases.sales.cta">For sales teams</a>
-                </article>
-                <article class="use-case-card">
-                    <h3 data-i18n="useCases.agencies.title">Lead Gen Agencies</h3>
-                    <p data-i18n="useCases.agencies.description">Do this for clients without looking like a bot.</p>
-                    <a href="agencies.html" class="primary-button" data-cta="home-usecase-agencies" data-i18n="useCases.agencies.cta">For agencies</a>
-                </article>
-                <article class="use-case-card">
-                    <h3 data-i18n="useCases.jobSearch.title">Job Seekers</h3>
-                    <p data-i18n="useCases.jobSearch.description">Get recruiter replies from comments, not resume spam.</p>
-                    <a href="job-search.html" class="primary-button" data-cta="home-usecase-job" data-i18n="useCases.jobSearch.cta">For job seekers</a>
-                </article>
-                <article class="use-case-card">
-                    <h3 data-i18n="useCases.founders.title">Founders</h3>
-                    <p data-i18n="useCases.founders.description">Show up in the conversations your buyers already read.</p>
-                    <a href="founders.html" class="primary-button" data-cta="home-usecase-founders" data-i18n="useCases.founders.cta">For founders</a>
-                </article>
-                <article class="use-case-card">
-                    <h3 data-i18n="useCases.consultants.title">Consultants</h3>
-                    <p data-i18n="useCases.consultants.description">Get found by clients in the comments, not in their spam folder.</p>
-                    <a href="consultants.html" class="primary-button" data-cta="home-usecase-consultants" data-i18n="useCases.consultants.cta">For consultants</a>
-                </article>
-                <article class="use-case-card">
-                    <h3 data-i18n="useCases.partners.title">Career Partners</h3>
-                    <p data-i18n="useCases.partners.description">Help candidates start conversations that lead to interviews.</p>
-                    <a href="linkedin-partners.html" class="primary-button" data-cta="home-usecase-partners" data-i18n="useCases.partners.cta">For career partners</a>
-                </article>
-            </div>
-        </div>
-    </section>
-
-    <section class="what-it-does">
-        <div class="container narrow-container">
-            <h2 data-i18n="landingHomeGeneral.proof.title">What Junior does</h2>
-            <p class="section-subtitle" data-i18n="landingHomeGeneral.proof.description">You tell Junior who you want to reach. It does the daily commenting. You step in when someone replies.</p>
-            <ul class="what-list">
-                <li data-i18n="landingHomeGeneral.proof.b1">Finds the LinkedIn posts you should comment on</li>
-                <li data-i18n="landingHomeGeneral.proof.b2">Writes the comment in your voice</li>
-                <li data-i18n="landingHomeGeneral.proof.b3">Posts it for you, at a human pace</li>
-                <li data-i18n="landingHomeGeneral.proof.b4">You step in when someone replies</li>
-            </ul>
-            <div class="cta-buttons">
-                <a href="register.html?src=home-proof" class="primary-button" data-cta="home-proof-primary">Start Free</a>
-                <a href="why-commenting-works.html" class="secondary-button" data-cta="home-proof-secondary">Why commenting works</a>
-            </div>
-        </div>
-    </section>
-
-    <section id="features" class="features">
-        <div class="container">
-            <h2 data-i18n="features.title">What you get</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <h3 data-i18n="features.aiComments.title">Comments that sound like you</h3>
-                    <p data-i18n="features.aiComments.description">Junior writes from your background and the post in front of it — not a generic template.</p>
+        <section class="hj-safety" id="safety">
+            <div class="hj-wrap">
+                <div class="hj-section-head">
+                    <span class="hj-kicker">Your reputation comes first</span>
+                    <h2>Help that feels human, never like a bot farm</h2>
                 </div>
-                <div class="feature-card">
-                    <h3 data-i18n="features.smartPrioritization.title">Only the posts worth your time</h3>
-                    <p data-i18n="features.smartPrioritization.description">It looks for posts your buyers, clients, or hiring managers are already in — not the whole feed.</p>
-                </div>
-                <div class="feature-card">
-                    <h3 data-i18n="features.naturalPatterns.title">Runs on your computer</h3>
-                    <p data-i18n="features.naturalPatterns.description">Your browser, your login, your pace. Not a shared bot farm posting from someone else’s machine.</p>
-                </div>
-                <div class="feature-card">
-                    <h3 data-i18n="features.analytics.title">See what got replies</h3>
-                    <p data-i18n="features.analytics.description">Review what Junior posted and which comments started a conversation.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="demo-video-teaser" id="home-demo-video">
-        <div class="container">
-            <div class="demo-video-teaser-inner">
-                <a href="junior-3.html#demo-video" class="demo-video-teaser-link" data-cta="home-demo-teaser">
-                    <img src="campaign-assets/demo-video/junior-3/poster.jpg" alt="Junior 3.0 product demo preview" class="demo-video-teaser-poster" width="640" height="360" loading="lazy">
-                    <span class="demo-video-teaser-play" aria-hidden="true">▶</span>
-                </a>
-                <div class="demo-video-teaser-copy">
-                    <h2>Watch Junior 3.0 in action</h2>
-                    <p class="section-subtitle">See Junior comment, review what it posted, and comment as your company — in under a minute.</p>
-                    <a href="junior-3.html#demo-video" class="secondary-button" data-cta="home-demo-teaser-cta">Watch the demo</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="trust-section">
-        <div class="container narrow-container">
-            <h2 data-i18n="trustReputation.title">Your reputation stays protected</h2>
-            <p class="section-subtitle" data-i18n="trustReputation.subtitle">Junior is built so you do not look like a spam bot. Here is how.</p>
-            <div class="trust-grid">
-                <div class="trust-item">
-                    <strong data-i18n="trustReputation.item1Title">No generic comments</strong>
-                    <p data-i18n="trustReputation.item1Desc">Junior uses your bio, goals, and tone. It never posts copy-paste templates.</p>
-                </div>
-                <div class="trust-item">
-                    <strong data-i18n="trustReputation.item2Title">Runs on your computer</strong>
-                    <p data-i18n="trustReputation.item2Desc">Your browser, your login, your computer. Your login stays on your machine — it is not shared with other accounts.</p>
-                </div>
-                <div class="trust-item">
-                    <strong data-i18n="trustReputation.item3Title">Paced like a person</strong>
-                    <p data-i18n="trustReputation.item3Desc">It waits between comments and stays within conservative daily limits, the way a real person would.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="how-signals-section">
-        <div class="container narrow-container">
-            <h2 data-i18n="mechanismGraphic.title">How Junior finds the right conversations</h2>
-            <p class="section-subtitle" data-i18n="mechanismGraphic.subtitle">Not every LinkedIn post is worth your time. Junior filters for the ones that matter.</p>
-            
-            <div class="mechanism-pipeline">
-                <div class="mechanism-box">
-                    <div class="mechanism-icon">🎯</div>
-                    <strong data-i18n="mechanismGraphic.box1Title">The right post</strong>
-                    <p data-i18n="mechanismGraphic.box1Desc">Matches the people and topics you care about</p>
-                </div>
-                <div class="mechanism-arrow">➕</div>
-                <div class="mechanism-box">
-                    <div class="mechanism-icon">👤</div>
-                    <strong data-i18n="mechanismGraphic.box2Title">Your Context</strong>
-                    <p data-i18n="mechanismGraphic.box2Desc">Your bio, tone, and goals</p>
-                </div>
-                <div class="mechanism-arrow">➔</div>
-                <div class="mechanism-box mechanism-box-highlight">
-                    <div class="mechanism-icon">💬</div>
-                    <strong data-i18n="mechanismGraphic.box3Title">Authentic Comment</strong>
-                    <p data-i18n="mechanismGraphic.box3Desc">A reply you'd actually write</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="pricing" class="pricing">
-        <div class="container">
-            <h2 data-i18n="pricing.title">Choose Your Plan</h2>
-            <p class="pricing-promo">Get your <strong>First Week FREE</strong> — Card required at signup</p>
-            <div class="pricing-grid pricing-grid-4">
-                <div class="pricing-card">
-                    <h3 data-i18n="pricing.basicName">Basic</h3>
-                    <div class="price">
-                        <span class="currency">$</span>
-                        <span class="amount">9.99</span>
-                        <span class="period" data-i18n="pricing.period">/month</span>
+                <div class="hj-safety-grid">
+                    <div class="hj-mini">
+                        <h4>Runs on your computer</h4>
+                        <p>Your browser, your login, your machine. Your LinkedIn password is never sent to us or shared with other accounts.</p>
                     </div>
-                    <div class="price-note" data-i18n="pricing.basicNote">Great for getting started • Cancel anytime</div>
-                    <ul>
-                        <li>✅ <span data-i18n="pricing.features.basic.comments">Up to 10 daily engagements</span></li>
-                        <li>✅ <span data-i18n="pricing.features.targeting">Hiring manager targeting</span></li>
-                        <li>✅ <span data-i18n="pricing.features.analytics">Performance analytics</span></li>
-                        <li>✅ <span data-i18n="pricing.features.support">Email support</span></li>
-                    </ul>
-                    <a href="register.html?plan=basic&src=home-pricing-basic" class="primary-button" data-cta="home-pricing-basic">Start Free</a>
-                </div>
-                <div class="pricing-card">
-                    <h3 data-i18n="pricing.starterName">Starter</h3>
-                    <div class="price">
-                        <span class="currency">$</span>
-                        <span class="amount">14.99</span>
-                        <span class="period" data-i18n="pricing.period">/month</span>
+                    <div class="hj-mini">
+                        <h4>Paced like a person</h4>
+                        <p>Junior waits between actions, skips stale posts and stays within the daily limit you choose.</p>
                     </div>
-                    <div class="price-note" data-i18n="pricing.starterNote">For steady networkers • Cancel anytime</div>
-                    <ul>
-                        <li>✅ <span data-i18n="pricing.features.starter.comments">Up to 20 daily engagements</span></li>
-                        <li>✅ <span data-i18n="pricing.features.targeting">Hiring manager targeting</span></li>
-                        <li>✅ <span data-i18n="pricing.features.analytics">Performance analytics</span></li>
-                        <li>✅ <span data-i18n="pricing.features.support">Email support</span></li>
-                    </ul>
-                    <a href="register.html?plan=starter&src=home-pricing-starter" class="primary-button" data-cta="home-pricing-starter">Start Free</a>
-                </div>
-                <div class="pricing-card featured">
-                    <div class="best-value">MOST POPULAR</div>
-                    <h3 data-i18n="pricing.standardName">Standard</h3>
-                    <div class="price">
-                        <span class="currency">$</span>
-                        <span class="amount">29.99</span>
-                        <span class="period" data-i18n="pricing.period">/month</span>
+                    <div class="hj-mini">
+                        <h4>No generic comments</h4>
+                        <p>Every comment is written for the specific post from your bio, goals and tone. No copy-paste templates, no "Great insight!"</p>
                     </div>
-                    <div class="price-note">Great for individuals and small teams • Cancel anytime</div>
-                    <ul>
-                        <li>✅ <span data-i18n="pricing.features.standard.comments">Up to 50 daily engagements</span></li>
-                        <li>✅ <span data-i18n="pricing.features.targeting">Hiring manager targeting</span></li>
-                        <li>✅ <span data-i18n="pricing.features.analytics">Performance analytics</span></li>
-                        <li>✅ <span data-i18n="pricing.features.support">Email support</span></li>
-                    </ul>
-                    <a href="register.html?plan=standard&src=home-pricing-standard" class="primary-button" data-cta="home-pricing-standard">Start Free</a>
-                </div>
-                <div class="pricing-card">
-                    <h3 data-i18n="pricing.proName">Pro</h3>
-                    <div class="price">
-                        <span class="currency">$</span>
-                        <span class="amount">49.99</span>
-                        <span class="period" data-i18n="pricing.period">/month</span>
+                    <div class="hj-mini">
+                        <h4>You see everything</h4>
+                        <p>Review every posted and skipped comment, with a link back to LinkedIn, and change settings any time.</p>
                     </div>
-                    <div class="price-note" data-i18n="pricing.proNote">Maximum visibility • Cancel anytime</div>
-                    <ul>
-                        <li>✅ <span data-i18n="pricing.features.pro.comments">Up to 80 daily engagements</span></li>
-                        <li>✅ <span data-i18n="pricing.features.targeting">Hiring manager targeting</span></li>
-                        <li>✅ <span data-i18n="pricing.features.analytics">Performance analytics</span></li>
-                        <li>✅ <span data-i18n="pricing.features.prioritySupport">Priority email support</span></li>
-                    </ul>
-                    <a href="register.html?plan=pro&src=home-pricing-pro" class="primary-button" data-cta="home-pricing-pro">Start Free</a>
                 </div>
+                <p class="hj-safety-note">An honest note: no LinkedIn automation is completely risk-free, and LinkedIn's rules can change. Junior is designed to keep the risk low with local execution, conservative pacing and full visibility. See our <a href="terms.html">Terms of Service</a>.</p>
             </div>
-            <div class="pricing-companies">
-                <div class="pricing-card">
-                    <div class="pricing-companies-copy">
-                        <span class="pricing-kicker" data-i18n="pricing.companiesTitle">For companies</span>
-                        <h3 data-i18n="pricing.enterpriseName">Enterprise</h3>
-                        <div class="price">
-                            <span class="currency">$</span>
-                            <span class="amount">99</span>
-                            <span class="period" data-i18n="pricing.period">/month</span>
-                        </div>
-                        <div class="price-note" data-i18n="pricing.enterpriseNote">Comment as your company page • Cancel anytime</div>
-                        <p class="pricing-offer-note"><a href="junior-3.html?src=home-pricing-enterprise-offer" data-cta="home-pricing-enterprise-offer" data-i18n="pricing.enterpriseOfferLink">Launch offer: one month free, then $99/month. Closes September 9, 2026.</a></p>
-                    </div>
-                    <ul>
-                        <li>✅ <span data-i18n="pricing.features.enterprise.comments">Up to 80 daily engagements</span></li>
-                        <li>✅ <span data-i18n="pricing.features.enterprise.companyPage">Comment as your LinkedIn company page</span></li>
-                        <li>✅ <span data-i18n="pricing.features.targeting">Hiring manager targeting</span></li>
-                        <li>✅ <span data-i18n="pricing.features.prioritySupport">Priority email support</span></li>
-                    </ul>
-                    <a href="register.html?plan=enterprise&src=home-pricing-enterprise" class="primary-button" data-cta="home-pricing-enterprise">Start Free</a>
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <section class="home-final-cta">
-        <div class="container narrow-container">
-            <h2 data-i18n="landingHomeGeneral.finalCta.title">Stay visible on LinkedIn without spending hours scrolling.</h2>
-            <a href="register.html?src=home-final" class="primary-button" data-cta="home-final-primary" data-i18n="landingHomeGeneral.finalCta.button">Start Free</a>
-            <p class="cta-microcopy"><a href="why-commenting-works.html?src=home-final-edu" data-cta="home-final-education" style="color: #c7d2fe;">See how commenting uncovers opportunities beyond job descriptions.</a></p>
-            <p class="cta-microcopy" data-i18n="landingHomeGeneral.finalCta.microcopy">First week free · Card required at signup</p>
-        </div>
-    </section>
+        <section id="pricing">
+            <div class="hj-wrap">
+                <div class="hj-section-head">
+                    <span class="hj-kicker">Pricing</span>
+                    <h2>Simple monthly pricing. Start free.</h2>
+                    <p>Every plan starts with a free trial. You won't be charged until it ends, and you can cancel anytime.</p>
+                </div>
+
+                <div class="hj-pricing-company">
+                    <div>
+                        <span class="hj-kicker">For your company</span>
+                        <h3>Enterprise</h3>
+                        <p>Comment as your LinkedIn company page or as you, on the accounts that matter, with every reply in one inbox.</p>
+                        <ul class="hj-checks">
+                            <li>Comment as your company page, with identity checks</li>
+                            <li>Up to 80 comments a day</li>
+                            <li>Replies inbox with AI-drafted replies and auto-reply</li>
+                            <li>Target accounts, account timelines and Run Insights</li>
+                            <li>Priority support and help with setup</li>
+                        </ul>
+                    </div>
+                    <div class="hj-price-box">
+                        <div class="hj-price">$99 <small>/ month</small></div>
+                        <a href="register.html?plan=enterprise&amp;src=home-pricing-enterprise" class="hj-btn hj-btn-primary" data-cta="home-pricing-enterprise">Start 14-day free trial</a>
+                        <p class="hj-price-fine">14 days free, then $99/month. Card required, $0 today. Setup takes about five minutes and needs admin access to your LinkedIn company page.</p>
+                    </div>
+                </div>
+
+                <h3 class="hj-subhead">For individuals</h3>
+                <div class="hj-plans">
+                    <div class="hj-plan">
+                        <h4>Starter</h4>
+                        <div class="hj-price">$14.99 <small>/ month</small></div>
+                        <ul class="hj-checks">
+                            <li>Up to 20 comments a day</li>
+                            <li>Targeting by company, industry and topic</li>
+                            <li>Replies inbox and Run Insights</li>
+                            <li>Email support</li>
+                        </ul>
+                        <a href="register.html?plan=starter&amp;src=home-pricing-starter" class="hj-btn hj-btn-outline" data-cta="home-pricing-starter">Start 7-day free trial</a>
+                    </div>
+                    <div class="hj-plan popular">
+                        <span class="hj-pill">Most popular</span>
+                        <h4>Standard</h4>
+                        <div class="hj-price">$29.99 <small>/ month</small></div>
+                        <ul class="hj-checks">
+                            <li>Up to 50 comments a day</li>
+                            <li>Targeting by company, industry and topic</li>
+                            <li>Replies inbox and Run Insights</li>
+                            <li>Email support</li>
+                        </ul>
+                        <a href="register.html?plan=standard&amp;src=home-pricing-standard" class="hj-btn hj-btn-primary" data-cta="home-pricing-standard">Start 7-day free trial</a>
+                    </div>
+                    <div class="hj-plan">
+                        <h4>Pro</h4>
+                        <div class="hj-price">$49.99 <small>/ month</small></div>
+                        <ul class="hj-checks">
+                            <li>Up to 80 comments a day</li>
+                            <li>Targeting by company, industry and topic</li>
+                            <li>Replies inbox and Run Insights</li>
+                            <li>Priority email support</li>
+                        </ul>
+                        <a href="register.html?plan=pro&amp;src=home-pricing-pro" class="hj-btn hj-btn-outline" data-cta="home-pricing-pro">Start 7-day free trial</a>
+                    </div>
+                </div>
+                <p class="hj-pricing-foot">Individual plans include a 7-day free trial. Looking for a job? <a href="job-search.html?src=home-pricing" data-cta="home-pricing-jobseeker">See plans for job seekers from $9.99</a>. Already a customer? <a href="https://billing.stripe.com/p/login/28EfZjeBvdfSdjF5us3cc00" target="_blank" rel="noopener">Manage your subscription</a>.</p>
+            </div>
+        </section>
+
+        <section id="use-cases" class="hj-features">
+            <div class="hj-wrap">
+                <div class="hj-section-head">
+                    <span class="hj-kicker">Use cases</span>
+                    <h2>Built for people who sell to businesses</h2>
+                </div>
+                <div class="hj-cases">
+                    <a class="hj-case" href="sales.html" data-cta="home-case-sales"><strong>Sales teams</strong><span>Warm the account in public before the first DM.</span><em>For sales teams &rarr;</em></a>
+                    <a class="hj-case" href="founders.html" data-cta="home-case-founders"><strong>Founders</strong><span>Show up in the conversations your buyers and investors already read.</span><em>For founders &rarr;</em></a>
+                    <a class="hj-case" href="consultants.html" data-cta="home-case-consultants"><strong>Consultants</strong><span>Get found by clients in the comments, not their spam folder.</span><em>For consultants &rarr;</em></a>
+                    <a class="hj-case" href="agencies.html" data-cta="home-case-agencies"><strong>Lead gen agencies</strong><span>Run it for clients without sounding copy-pasted.</span><em>For agencies &rarr;</em></a>
+                </div>
+                <p class="hj-also">Also used by <a href="job-search.html" data-cta="home-case-jobseekers">job seekers</a> and <a href="linkedin-partners.html" data-cta="home-case-partners">career coaches and partners</a>. New to the idea? <a href="why-commenting-works.html?src=home-use-cases" data-cta="home-case-education">Read why commenting works</a>.</p>
+            </div>
+        </section>
+
+        <section id="faq">
+            <div class="hj-wrap">
+                <div class="hj-section-head center">
+                    <span class="hj-kicker">FAQ</span>
+                    <h2>Questions to ask before software touches your LinkedIn</h2>
+                </div>
+                <div class="hj-faq">
+                    <details>
+                        <summary>Does Junior need my LinkedIn password?</summary>
+                        <p>No. Junior runs on your computer. You sign in to LinkedIn in a browser on your own machine, and your session stays there. See our <a href="privacy.html">Privacy Policy</a>.</p>
+                    </details>
+                    <details>
+                        <summary>Can Junior comment as my company page?</summary>
+                        <p>Yes, on the Enterprise plan. You need admin access to the LinkedIn company page. Junior checks the identity on every comment so a brand comment never posts under a personal name, and it can still comment as you too.</p>
+                    </details>
+                    <details>
+                        <summary>Will the comments sound generic?</summary>
+                        <p>The point is the opposite. Junior writes from your background, your goal and tone, and the specific post. You can <a href="try-it.html?goal=sales&amp;src=home-faq">try it on a real post</a> before you sign up.</p>
+                    </details>
+                    <details>
+                        <summary>How do I find the right people to engage with?</summary>
+                        <p>Import your target companies and people, or give Junior industries, topics and search terms. Role works as a search term too. Junior scores each post for relevance and skips the rest.</p>
+                    </details>
+                    <details>
+                        <summary>What happens when someone replies?</summary>
+                        <p>The reply lands in your Conversation Inbox with a drafted response. Send it, edit it, turn on auto-reply, or hand it to a teammate.</p>
+                    </details>
+                    <details>
+                        <summary>What happens after the free trial?</summary>
+                        <p>Enterprise is free for 14 days and individual plans for 7. You pay $0 today, and your plan starts at the end of the trial unless you cancel. You can cancel anytime from the <a href="https://billing.stripe.com/p/login/28EfZjeBvdfSdjF5us3cc00" target="_blank" rel="noopener">billing portal</a>.</p>
+                    </details>
+                    <details>
+                        <summary>What do I need to install?</summary>
+                        <p>Junior is a desktop app for Windows 10 or later and macOS (Intel and Apple Silicon). See the <a href="setup-guide.html">setup guide</a>, <a href="windows-install-help.html">Windows help</a> and <a href="mac-install-help.html">Mac help</a>.</p>
+                    </details>
+                    <details>
+                        <summary>Is any LinkedIn automation completely risk-free?</summary>
+                        <p>No. LinkedIn can restrict automated activity and its rules can change. Junior is designed around local execution, conservative pacing and visible activity, but no product can honestly promise zero risk.</p>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <section class="hj-final">
+            <div class="hj-wrap">
+                <h2>Your next customer is already talking on LinkedIn.</h2>
+                <p>Let Junior join the conversation as your company and your team. Try Enterprise free for 14 days.</p>
+                <div class="hj-hero-ctas">
+                    <a href="register.html?plan=enterprise&amp;src=home-final" class="hj-btn hj-btn-primary" data-cta="home-final-primary">Start 14-day Enterprise trial</a>
+                    <a href="mailto:support@heyjunior.ai?subject=Junior%20demo%20for%20my%20team" class="hj-btn hj-btn-ghost" data-cta="home-final-talk">Talk to the founder</a>
+                </div>
+            </div>
+        </section>
+    </main>
 
     <footer class="footer footer-dark">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h4 data-i18n="footer.contact.title">Contact</h4>
-                    <p data-i18n="footer.contact.email">Email: support@heyjunior.ai</p>
-                    <p><a href="https://www.linkedin.com/company/hey-junior/" target="_blank" data-i18n="footer.contact.linkedin">linkedin.com/company/hey-junior</a></p>
+                    <h4>Contact</h4>
+                    <p>Email: <a href="mailto:support@heyjunior.ai">support@heyjunior.ai</a></p>
+                    <p><a href="https://www.linkedin.com/company/hey-junior/" target="_blank" rel="noopener">linkedin.com/company/hey-junior</a></p>
+                    <p><a href="my-story.html">My story</a></p>
                 </div>
                 <div class="footer-section">
-                    <h4>Use Cases</h4>
+                    <h4>Use cases</h4>
                     <ul>
-                        <li><a href="job-search.html">Job Seekers</a></li>
+                        <li><a href="sales.html">Sales teams</a></li>
                         <li><a href="founders.html">Founders</a></li>
                         <li><a href="consultants.html">Consultants</a></li>
-                        <li><a href="sales.html">Sales Teams</a></li>
                         <li><a href="agencies.html">Agencies</a></li>
-                        <li><a href="linkedin-partners.html">Career Partners</a></li>
+                        <li><a href="job-search.html">Job seekers</a></li>
+                        <li><a href="linkedin-partners.html">Career partners</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
-                    <h4 data-i18n="footer.legal.title">Legal</h4>
+                    <h4>Product</h4>
                     <ul>
-                        <li><a href="terms.html" data-i18n="footer.legal.terms">Terms of Service</a></li>
+                        <li><a href="try-it.html?src=home-footer">Try it</a></li>
+                        <li><a href="junior-3.html">What's new in 3.0</a></li>
+                        <li><a href="why-commenting-works.html" data-cta="home-footer-education">Why commenting works</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="linkedin-automation-tool.html">LinkedIn automation tool</a></li>
+                        <li><a href="best-linkedin-automation-tools.html">Best LinkedIn automation tools</a></li>
+                        <li><a href="junior-vs-dripify.html">Junior vs Dripify</a></li>
+                        <li><a href="junior-vs-expandi.html">Junior vs Expandi</a></li>
+                        <li><a href="junior-vs-heyreach.html">Junior vs HeyReach</a></li>
+                        <li><a href="junior-vs-phantombuster.html">Junior vs PhantomBuster</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
                     <h4>Support</h4>
                     <ul>
-                        <li><a href="portal.html">My Account</a></li>
+                        <li><a href="portal.html">My account</a></li>
                         <li><a href="troubleshooting.html" data-cta="home-footer-troubleshooting">Troubleshooting</a></li>
-                        <li><a href="setup-guide.html" data-cta="home-footer-setup-guide">First Launch Setup Guide</a></li>
-                        <li><a href="onboarding.html" data-cta="home-footer-onboarding">Onboarding Guide</a></li>
-                        <li><a href="windows-install-help.html" data-cta="home-footer-windows-help">Windows Install Help</a></li>
-                        <li><a href="mac-install-help.html" data-cta="home-footer-mac-help">macOS Install Help</a></li>
-                        <li><a href="why-commenting-works.html" data-cta="home-footer-education">Why Commenting Works</a></li>
-                        <li><a href="linkedin-automation-tool.html">LinkedIn Automation Tool</a></li>
-                        <li><a href="best-linkedin-automation-tools.html">Best LinkedIn Automation Tools</a></li>
-                        <li><a href="https://billing.stripe.com/p/login/28EfZjeBvdfSdjF5us3cc00" target="_blank">Manage Subscription</a></li>
+                        <li><a href="setup-guide.html" data-cta="home-footer-setup-guide">First launch setup guide</a></li>
+                        <li><a href="onboarding.html" data-cta="home-footer-onboarding">Onboarding guide</a></li>
+                        <li><a href="windows-install-help.html" data-cta="home-footer-windows-help">Windows install help</a></li>
+                        <li><a href="mac-install-help.html" data-cta="home-footer-mac-help">macOS install help</a></li>
+                        <li><a href="https://billing.stripe.com/p/login/28EfZjeBvdfSdjF5us3cc00" target="_blank" rel="noopener">Manage subscription</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="terms.html">Terms of Service</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p data-i18n="footer.copyright">&copy; 2026 Junior. All rights reserved.</p>
+                <p>&copy; 2026 Junior Labs LLC. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
-    <a href="register.html?src=home-sticky" class="sticky-global-cta" data-cta="home-sticky" data-i18n="stickyCta.label">Start Free</a>
+    <a href="register.html?plan=enterprise&amp;src=home-sticky" class="sticky-global-cta" data-cta="home-sticky">Start free trial</a>
 
-    <script src="js/i18n-simple.js"></script>
     <script src="js/referral.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const token = sessionStorage.getItem('userToken') || sessionStorage.getItem('accessToken');
-            const loginLink = document.getElementById('login-link');
-            const portalLink = document.getElementById('portal-link');
-            if (token) {
-                if (portalLink) portalLink.style.display = 'block';
-                if (loginLink) loginLink.style.display = 'none';
-            } else {
-                if (loginLink) loginLink.style.display = 'block';
-                if (portalLink) portalLink.style.display = 'none';
+            var token = null;
+            try {
+                token = sessionStorage.getItem('userToken') || sessionStorage.getItem('accessToken');
+            } catch (e) {
+                token = null;
             }
+            var loginLink = document.getElementById('login-link');
+            var portalLink = document.getElementById('portal-link');
+            if (loginLink) loginLink.style.display = token ? 'none' : 'block';
+            if (portalLink) portalLink.style.display = token ? 'block' : 'none';
 
-            const mobileToggle = document.querySelector('.mobile-menu-toggle');
-            const navLinks = document.querySelector('.nav-links');
+            var mobileToggle = document.querySelector('.mobile-menu-toggle');
+            var navLinks = document.querySelector('.nav-links');
             if (mobileToggle && navLinks) {
                 mobileToggle.addEventListener('click', function () {
                     this.classList.toggle('active');
                     navLinks.classList.toggle('active');
                 });
-            }
-
-            const announcement = document.getElementById('home-announcement');
-            const announcementDismiss = document.getElementById('home-announcement-dismiss');
-            if (announcement && announcementDismiss) {
-                const dismissedKey = 'junior3LaunchBandDismissed';
-                let dismissed = null;
-                try {
-                    dismissed = localStorage.getItem(dismissedKey);
-                } catch (e) {
-                    dismissed = null;
-                }
-                if (dismissed === '1') {
-                    announcement.style.display = 'none';
-                }
-                announcementDismiss.addEventListener('click', function () {
-                    announcement.style.display = 'none';
-                    try {
-                        localStorage.setItem(dismissedKey, '1');
-                    } catch (e) {
-                        // Dismissal is cosmetic; ignore storage failures.
-                    }
+                navLinks.querySelectorAll('a[href^="#"]').forEach(function (a) {
+                    a.addEventListener('click', function () {
+                        mobileToggle.classList.remove('active');
+                        navLinks.classList.remove('active');
+                    });
                 });
             }
         });

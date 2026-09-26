@@ -37,7 +37,7 @@
                 
                     <li><a href="blog.html">Blog</a></li></div>
                 <div class="nav-actions">
-                    <li><a href="register.html?src=tryit-nav" class="cta-button">Start Free</a></li>
+                    <li><a href="register.html?src=tryit-nav" class="cta-button">Start free trial</a></li>
                     <li><a href="portal.html" class="nav-login-link">Login</a></li>
                 </div>
             </ul>
@@ -46,14 +46,19 @@
 
     <main class="reddit-lp" style="padding-top: 120px;">
         <section class="rl-hero">
-            <h1>See How Junior Helps You Start More Relevant Conversations on LinkedIn</h1>
-            <p>Paste a post. Add your background. Generate a personalized comment in seconds.</p>
+            <h1>See what Junior would say on a real LinkedIn post</h1>
+            <p>Paste a post from someone you want to reach, add a line about you or your company, and Junior writes the comment it would post. No LinkedIn login needed.</p>
             <p class="rl-hero-trust">You get 3 free tries — then we ask you to sign up.</p>
         </section>
 
         <section class="rl-section rl-interactive-demo" id="try-it">
             <h2 class="rl-h2">Generate your comment</h2>
             <form class="rl-demo-form" id="tryit-demo-form">
+                <fieldset class="rl-demo-field tryit-goal">
+                    <legend>What do you want from LinkedIn?</legend>
+                    <label class="tryit-goal-option"><input type="radio" name="tryit-goal" value="sales" checked> Find customers or clients</label>
+                    <label class="tryit-goal-option"><input type="radio" name="tryit-goal" value="jobs"> Get hired</label>
+                </fieldset>
                 <div class="rl-demo-field">
                     <label for="tryit-post">LinkedIn Post</label>
                     <textarea id="tryit-post" class="rl-demo-textarea" rows="7" maxlength="3000" required placeholder="Paste a LinkedIn post you'd like to comment on..."></textarea>
@@ -143,7 +148,7 @@
         <section class="rl-section rl-conversion-section" id="tryit-lockout" hidden>
             <p class="rl-emphasis" id="tryit-lockout-message">You have used all 3 free tries.</p>
             <p>Create an account to keep generating comments for live posts.</p>
-            <a href="register.html?src=tryit-lockout&ref=demo" class="rl-button" id="tryit-lockout-cta">Start Free</a>
+            <a href="register.html?src=tryit-lockout&ref=demo" class="rl-button" id="tryit-lockout-cta">Start free trial</a>
         </section>
     </main>
 
@@ -164,6 +169,7 @@
                         <li><a href="why-commenting-works.html">Why Commenting Works</a></li>
                         <li><a href="portal.html">My Account</a></li>
                         <li><a href="terms.html">Terms</a></li>
+                        <li><a href="privacy.html">Privacy</a></li>
                     </ul>
                 </div>
             </div>

@@ -43,12 +43,16 @@
             return 'Password must contain at least one uppercase letter.';
         }
 
-        if (!passwordConfirm) {
-            return 'Please confirm your password.';
-        }
+        // Confirmation is optional: the one-screen register form uses a show/hide
+        // toggle instead of a second password field (pass null to skip).
+        if (passwordConfirm !== null && passwordConfirm !== undefined) {
+            if (!passwordConfirm) {
+                return 'Please confirm your password.';
+            }
 
-        if (password !== passwordConfirm) {
-            return 'Passwords do not match. Please try again.';
+            if (password !== passwordConfirm) {
+                return 'Passwords do not match. Please try again.';
+            }
         }
 
         if (!termsAccepted) {

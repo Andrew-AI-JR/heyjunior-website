@@ -830,7 +830,7 @@ function createCommentCard(comment) {
     // Build link HTML - show link if URL exists
     let linkHtml = '';
     if (linkedinUrl) {
-        linkHtml = `<div style="margin-top: 8px;"><a href="${escapeHtml(linkedinUrl)}" target="_blank" rel="noopener noreferrer" style="color: #2563eb; font-size: 0.85rem; text-decoration: none; font-weight: 500;">${linkText} →</a></div>`;
+        linkHtml = `<div style="margin-top: 8px;"><a href="${escapeHtml(linkedinUrl)}" target="_blank" rel="noopener noreferrer" style="color: #2F6FD6; font-size: 0.85rem; text-decoration: none; font-weight: 500;">${linkText} →</a></div>`;
     }
     
     card.innerHTML = `

@@ -11,6 +11,32 @@
   ];
   var LOADER_INTERVAL_MS = 4000;
 
+  // Two demo modes. "sales" (default) is for people selling to businesses;
+  // "jobs" keeps the original hiring-post demo for job seekers.
+  var SALES_SCENARIOS = [
+    {
+      label: 'B2B founder',
+      post:
+        "We keep adding tools to fix process problems, but every new tool seems to create another place where information gets lost. Starting to think the problem isn't the tools, it's the handoffs.",
+      bio:
+        "Founder of a B2B workflow automation startup. We help operations teams connect the tools they already have instead of buying new ones."
+    },
+    {
+      label: 'Sales consultant',
+      post:
+        "Our SDR team is booking plenty of meetings, but almost half of them no-show. We've added more reminder emails and it hasn't helped. Has anyone actually fixed this?",
+      bio:
+        "Sales consultant who helps B2B teams fix pipeline leaks. I ran SDR teams at two SaaS companies and now coach reps on qualification and follow-up."
+    },
+    {
+      label: 'Company page',
+      post:
+        "Hot take: most SaaS churn is decided in the first 30 days. If customers don't hit value during onboarding, no QBR is going to save the account later.",
+      bio:
+        "We're a customer success platform. We help SaaS teams spot churn risk early by tracking product adoption during onboarding. Write as the company, using we/our."
+    }
+  ];
+
   var SAMPLE_SCENARIOS = [
     {
       label: 'Data engineer',
@@ -43,6 +69,24 @@
   ];
 
   var sampleIndex = 0;
+  var JOB_SCENARIOS = SAMPLE_SCENARIOS;
+
+  function detectMode() {
+    try {
+      var qs = new URLSearchParams(window.location.search);
+      var goal = (qs.get('goal') || '').toLowerCase();
+      if (goal === 'jobs' || goal === 'job' || goal === 'jobseeker') return 'jobs';
+      if (goal === 'sales' || goal === 'customers') return 'sales';
+      var src = (qs.get('src') || '').toLowerCase();
+      if (/(job|reddit|career|hiring|resume|layoff)/.test(src)) return 'jobs';
+    } catch (_e) {
+      /* default below */
+    }
+    return 'sales';
+  }
+
+  var mode = detectMode();
+  SAMPLE_SCENARIOS = mode === 'jobs' ? JOB_SCENARIOS : SALES_SCENARIOS;
 
   var STORAGE = {
     attempts: 'juniorTryItAttempts',
@@ -58,6 +102,8 @@
     tone: 'professional',
     suggestedAngle: '',
     comment: null,
+    networkingGoal: mode === 'jobs' ? 'job_search' : 'sales_leads',
+    postType: mode === 'jobs' ? 'hiring' : 'general',
     verified: false,
     fallback: false,
     shouldComment: null,
@@ -135,7 +181,8 @@
   }
 
   function buildSignupUrl(src) {
-    var url = 'register.html?src=' + encodeURIComponent(src) + '&ref=demo';
+    var url = 'register.html?src=' + encodeURIComponent(src) + '&ref=demo' +
+      (mode === 'jobs' ? '&audience=jobseeker' : '&audience=company');
     if (state.suggestedAngle.trim()) {
       url += '&angle=' + encodeURIComponent(state.suggestedAngle.trim());
     }
@@ -324,10 +371,14 @@
       if (qual.should_comment === false) {
         return {
           validate:
-            'We read your LinkedIn post and your background. This demo only personalizes hiring posts, and this one did not qualify.',
+            mode === 'jobs'
+              ? 'We read your LinkedIn post and your background. This demo only personalizes hiring posts, and this one did not qualify.'
+              : 'We read your LinkedIn post and your background. Junior would skip this post for your goal, the same way it skips posts in the app.',
           approach: 'Junior did not pick a personalized approach for this post.',
           comment:
-            'What you see below is a generic example, not a comment built from your post and profile. Try one of the sample hiring posts above.'
+            mode === 'jobs'
+              ? 'What you see below is a generic example, not a comment built from your post and profile. Try one of the sample hiring posts above.'
+              : 'What you see below is a generic example. Try a sample, or paste a post from someone you would like to sell to.'
         };
       }
       return {
@@ -434,7 +485,9 @@
       if (isSampleOnly) {
         resultContext.hidden = false;
         resultContext.textContent =
-          'Try a matched sample hiring post above, then generate again to see real personalization.';
+          mode === 'jobs'
+            ? 'Try a matched sample hiring post above, then generate again to see real personalization.'
+            : 'Try a sample post above, then generate again to see real personalization.';
       } else {
         resultContext.hidden = true;
         resultContext.textContent = '';
@@ -549,7 +602,11 @@
       state.status = isSampleOnly ? 'fallback' : 'success';
 
       if (isSampleOnly) {
-        setError('This demo works on hiring posts. Try a sample or paste a job listing.');
+        setError(
+          mode === 'jobs'
+            ? 'This demo works on hiring posts. Try a sample or paste a job listing.'
+            : 'Junior would skip this post for your goal. Try a sample, or paste a post from a buyer, prospect or industry leader.'
+        );
       }
 
       if (isLockedOut()) {
@@ -663,6 +720,21 @@
     return true;
   }
 
+  function updateModeCopy() {
+    var bioInput = $('tryit-bio');
+    var bioLabel = document.querySelector('label[for="tryit-bio"]');
+    if (bioInput) {
+      bioInput.placeholder = mode === 'jobs'
+        ? 'e.g. I build data pipelines in Python and SQL, with 5 years in analytics engineering...'
+        : 'e.g. We help SaaS teams cut churn by tracking onboarding. Or: I run a sales consultancy for B2B startups...';
+    }
+    if (bioLabel) {
+      bioLabel.textContent = mode === 'jobs'
+        ? 'About you — 2 to 3 sentences'
+        : 'About you or your company — 2 to 3 sentences';
+    }
+  }
+
   function loadSample() {
     applySample(true);
   }
@@ -692,6 +764,24 @@
     var sampleBtn = $('tryit-load-sample');
 
     if (sampleBtn) sampleBtn.addEventListener('click', loadSample);
+
+    var modeInputs = document.querySelectorAll('input[name="tryit-goal"]');
+    modeInputs.forEach(function (input) {
+      input.checked = input.value === mode;
+      input.addEventListener('change', function () {
+        if (!input.checked || input.value === mode) return;
+        mode = input.value;
+        SAMPLE_SCENARIOS = mode === 'jobs' ? JOB_SCENARIOS : SALES_SCENARIOS;
+        state.networkingGoal = mode === 'jobs' ? 'job_search' : 'sales_leads';
+        state.postType = mode === 'jobs' ? 'hiring' : 'general';
+        sampleIndex = 0;
+        applySample(false);
+        updateSignupLinks();
+        updateModeCopy();
+        track('tryit_goal_changed', { goal: mode });
+      });
+    });
+    updateModeCopy();
 
     if (form) {
       form.addEventListener('submit', function (event) {
