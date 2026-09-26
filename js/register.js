@@ -182,6 +182,32 @@ function skipDemoShowSignup(audience) {
     }
 }
 
+function saveSignupLead(email) {
+    // Lets us send one "finish signing up" email if the account is never
+    // created. Fire-and-forget: it must never slow down or block signup.
+    try {
+        var selected = document.querySelector('input[name="reg-plan"]:checked');
+        var source = '';
+        try {
+            source = sessionStorage.getItem('marketingSource') || '';
+        } catch (e) {
+            source = '';
+        }
+        fetch(API_BASE_URL + '/api/users/signup-lead', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                email: email,
+                source: source || null,
+                plan: selected ? selected.value : null
+            }),
+            keepalive: true
+        }).catch(function () { /* ignore */ });
+    } catch (e) {
+        // Ignore: lead capture is optional.
+    }
+}
+
 function initEmailCapture() {
     var regEmail = document.getElementById('reg-email');
     if (!regEmail) return;
@@ -205,9 +231,12 @@ function initEmailCapture() {
         } catch (e) {
             // Storage is a convenience only.
         }
-        if (!tracked && window.juniorTrack) {
+        if (!tracked) {
             tracked = true;
-            window.juniorTrack('register_email_captured');
+            if (window.juniorTrack) {
+                window.juniorTrack('register_email_captured');
+            }
+            saveSignupLead(email);
         }
     });
 }

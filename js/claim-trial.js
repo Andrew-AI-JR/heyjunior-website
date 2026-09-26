@@ -9,6 +9,45 @@
         return new URLSearchParams(window.location.search).get('token') || '';
     }
 
+    var offer = { days: 30, plan: 'basic' };
+
+    function buttonLabel() {
+        return 'Activate my ' + offer.days + '-day free trial';
+    }
+
+    function applyOfferCopy() {
+        var isEnterprise = offer.plan === 'enterprise';
+        var product = isEnterprise ? 'Junior Enterprise' : 'Junior';
+        var title = $('claim-title');
+        var subtitle = $('claim-subtitle');
+        var successTitle = $('claim-success-title');
+        var btn = $('claim-button');
+        if (title) title.textContent = 'Activate ' + offer.days + ' days of ' + product;
+        if (subtitle) {
+            subtitle.textContent = isEnterprise
+                ? 'No credit card required. Comment as your LinkedIn company page or as you. You will need admin access to the company page.'
+                : 'No credit card required. Click below to start your complimentary trial.';
+        }
+        if (successTitle) successTitle.textContent = 'Your ' + offer.days + '-day trial is active';
+        if (btn && !btn.disabled) btn.textContent = buttonLabel();
+        document.title = 'Activate ' + offer.days + ' days of ' + product + ' - Junior';
+    }
+
+    async function loadOffer(token) {
+        try {
+            var response = await fetch(API_BASE + '/api/payments/abandoned-checkout-offer/' + encodeURIComponent(token));
+            if (!response.ok) return;
+            var data = await response.json();
+            if (data && data.valid) {
+                if (typeof data.trial_days === 'number' && data.trial_days > 0) offer.days = data.trial_days;
+                if (data.plan === 'enterprise') offer.plan = 'enterprise';
+                applyOfferCopy();
+            }
+        } catch (err) {
+            // Keep the default copy; the claim itself still works.
+        }
+    }
+
     function storeTokens(data) {
         if (data.access_token) {
             sessionStorage.setItem('userToken', data.access_token);
@@ -74,7 +113,7 @@
             errorEl.textContent = err.message || 'Unable to activate this offer.';
             errorEl.style.display = 'block';
             btn.disabled = false;
-            btn.textContent = 'Activate my 30-day free trial';
+            btn.textContent = buttonLabel();
         }
     }
 
@@ -85,6 +124,9 @@
                 event.preventDefault();
                 activate();
             });
+        }
+        if (tokenFromUrl()) {
+            loadOffer(tokenFromUrl());
         }
         if (!tokenFromUrl()) {
             const errorEl = $('claim-error');
