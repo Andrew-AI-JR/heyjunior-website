@@ -9,12 +9,12 @@
     <meta property="og:description" content="Paste a post, add your bio, pick a tone, and generate a personalized LinkedIn comment.">
     <meta property="og:url" content="https://heyjunior.ai/try-it.html">
     <title>Try Junior</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/styles.css?v=20261005-cro">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <script src="js/api-config.js"></script>
-    <script defer src="js/analytics.js"></script>
+    <script defer src="js/analytics.js?v=20261005-pii"></script>
 </head>
 <body data-page="try-it" class="i18n-ready">
     <nav class="navbar">
@@ -37,7 +37,7 @@
                 
                     <li><a href="blog.html">Blog</a></li></div>
                 <div class="nav-actions">
-                    <li><a href="register.html?src=tryit-nav" class="cta-button">Start free trial</a></li>
+                    <li><a href="register.html?src=tryit-nav&amp;audience=company&amp;identity=company" class="cta-button">Start free trial</a></li>
                     <li><a href="portal.html" class="nav-login-link">Login</a></li>
                 </div>
             </ul>
@@ -59,6 +59,9 @@
                     <label class="tryit-goal-option"><input type="radio" name="tryit-goal" value="sales" checked> Find customers or clients</label>
                     <label class="tryit-goal-option"><input type="radio" name="tryit-goal" value="jobs"> Get hired</label>
                 </fieldset>
+
+                <button type="button" class="tryit-sample-btn" id="tryit-load-sample">Try a sample</button>
+
                 <div class="rl-demo-field">
                     <label for="tryit-post">LinkedIn Post</label>
                     <textarea id="tryit-post" class="rl-demo-textarea" rows="7" maxlength="3000" required placeholder="Paste a LinkedIn post you'd like to comment on..."></textarea>
@@ -71,8 +74,6 @@
                     <p class="rl-demo-help tryit-char-count" id="tryit-bio-count" aria-live="polite">0 / 2000</p>
                     <p class="rl-demo-help tryit-bio-warn" id="tryit-bio-warn">Adding your background strongly improves personalization.</p>
                 </div>
-
-                <button type="button" class="tryit-sample-btn" id="tryit-load-sample">Try a sample</button>
 
                 <div class="rl-demo-field">
                     <label for="tryit-tone">Tone</label>
@@ -100,32 +101,6 @@
         </section>
 
         <section class="rl-section rl-result tryit-result" id="tryit-demo-result" hidden>
-            <div class="tryit-what-happened" id="tryit-what-happened" hidden>
-                <p class="tryit-what-happened-title">How Junior wrote this</p>
-                <ol class="tryit-what-steps">
-                    <li class="tryit-what-step" id="tryit-step-validate">
-                        <span class="tryit-step-label">1. Read &amp; validate</span>
-                        <p class="tryit-step-text" id="tryit-step-validate-text"></p>
-                        <ul class="tryit-match-reasons" id="tryit-match-reasons" hidden></ul>
-                    </li>
-                    <li class="tryit-what-step" id="tryit-step-approach">
-                        <span class="tryit-step-label">2. Pick an approach</span>
-                        <p class="tryit-step-text" id="tryit-step-approach-text"></p>
-                    </li>
-                    <li class="tryit-what-step" id="tryit-step-comment">
-                        <span class="tryit-step-label">3. Write the comment</span>
-                        <p class="tryit-step-text" id="tryit-step-comment-text"></p>
-                    </li>
-                </ol>
-            </div>
-
-            <div class="tryit-approach-block" id="tryit-approach-block" hidden>
-                <label for="tryit-suggested-angle" class="rl-result-label">Edit the approach</label>
-                <p class="tryit-approach-help" id="tryit-approach-help">Tweak how you want to connect to this post, then regenerate.</p>
-                <textarea id="tryit-suggested-angle" class="rl-demo-textarea tryit-approach-field" rows="3" maxlength="500" placeholder="How Junior would connect your experience to this post…"></textarea>
-                <button type="button" class="rl-button tryit-regenerate-btn" id="tryit-regenerate-button">Regenerate with this approach</button>
-            </div>
-
             <p class="tryit-result-context" id="tryit-result-context" hidden></p>
 
             <div class="tryit-comment-header">
@@ -141,14 +116,41 @@
 
             <div class="rl-share-actions rl-share-actions-single">
                 <button type="button" class="rl-share-button rl-share-button-primary" id="tryit-copy-comment">Copy comment</button>
-                <a href="register.html?src=tryit&ref=demo" class="rl-share-button tryit-success-cta" id="tryit-success-cta">Start free with this approach</a>
+                <a href="register.html?src=tryit&amp;audience=company&amp;identity=company" class="rl-share-button tryit-success-cta" id="tryit-success-cta" data-cta="tryit-success-primary">Start your 14-day trial</a>
             </div>
+            <p class="tryit-success-alt" id="tryit-success-alt">14 days free, card required, $0 today. <a href="register.html?src=tryit-personal&amp;audience=company&amp;identity=personal" id="tryit-success-personal" data-cta="tryit-success-personal">Commenting as yourself? Start an individual plan</a></p>
+
+            <details class="tryit-what-happened" id="tryit-what-happened" hidden>
+                <summary class="tryit-what-happened-title">How Junior wrote this</summary>
+                <ol class="tryit-what-steps">
+                    <li class="tryit-what-step" id="tryit-step-validate">
+                        <span class="tryit-step-label">1. Read &amp; validate</span>
+                        <p class="tryit-step-text" id="tryit-step-validate-text"></p>
+                        <ul class="tryit-match-reasons" id="tryit-match-reasons" hidden></ul>
+                    </li>
+                    <li class="tryit-what-step" id="tryit-step-approach">
+                        <span class="tryit-step-label">2. Pick an approach</span>
+                        <p class="tryit-step-text" id="tryit-step-approach-text"></p>
+                    </li>
+                    <li class="tryit-what-step" id="tryit-step-comment">
+                        <span class="tryit-step-label">3. Write the comment</span>
+                        <p class="tryit-step-text" id="tryit-step-comment-text"></p>
+                    </li>
+                </ol>
+
+                <div class="tryit-approach-block" id="tryit-approach-block" hidden>
+                    <label for="tryit-suggested-angle" class="rl-result-label">Edit the approach</label>
+                    <p class="tryit-approach-help" id="tryit-approach-help">Tweak how you want to connect to this post, then regenerate.</p>
+                    <textarea id="tryit-suggested-angle" class="rl-demo-textarea tryit-approach-field" rows="3" maxlength="500" placeholder="How Junior would connect your experience to this post…"></textarea>
+                    <button type="button" class="rl-button tryit-regenerate-btn" id="tryit-regenerate-button">Regenerate with this approach</button>
+                </div>
+            </details>
         </section>
 
         <section class="rl-section rl-conversion-section" id="tryit-lockout" hidden>
             <p class="rl-emphasis" id="tryit-lockout-message">You have used all 3 free tries.</p>
-            <p>Create an account to keep generating comments for live posts.</p>
-            <a href="register.html?src=tryit-lockout&ref=demo" class="rl-button" id="tryit-lockout-cta">Start free trial</a>
+            <p>Create an account to keep generating comments for live posts. 14 days free, card required, $0 today.</p>
+            <a href="register.html?src=tryit-lockout&amp;audience=company&amp;identity=company" class="rl-button" id="tryit-lockout-cta" data-cta="tryit-lockout-primary">Start your 14-day trial</a>
         </section>
     </main>
 
@@ -178,6 +180,6 @@
     </footer>
 
     <script defer src="js/demo-comment-client.js"></script>
-    <script defer src="js/try-it-demo.js"></script>
+    <script defer src="js/try-it-demo.js?v=20261005-output-first"></script>
 </body>
 </html>

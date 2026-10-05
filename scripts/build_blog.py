@@ -1,4 +1,5 @@
 import os
+import re
 import sys
 import json
 import urllib.request
@@ -78,18 +79,14 @@ def generate_static_page(template_html, article):
     # Simple script to inject the article data directly into the page so JS doesn't need to fetch it
     article_json = json.dumps(article).replace('</script>', '<\\/script>')
     
-    html = html.replace('<script defer src="js/analytics.js"></script>', f'<script defer src="../../js/analytics.js"></script>')
-    html = html.replace('<script src="js/api-config.js"></script>', f'<script src="../../js/api-config.js"></script>')
-    html = html.replace('href="css/styles.css"', 'href="../../css/styles.css"')
-    html = html.replace('src="./images/junior-logo.png"', 'src="../../images/junior-logo.png"')
-    
-    # Fix relative links
-    html = html.replace('href="index.html', 'href="../../index.html')
-    html = html.replace('href="why-commenting-works.html"', 'href="../../why-commenting-works.html"')
-    html = html.replace('href="blog.html"', 'href="../../blog.html"')
-    html = html.replace('href="try-it.html"', 'href="../../try-it.html"')
-    html = html.replace('href="register.html', 'href="../../register.html')
-    html = html.replace('href="portal.html"', 'href="../../portal.html"')
+    # Generated pages live two levels down (blog/<slug>/index.html), so root-relative
+    # assets and pages need a ../../ prefix. Query strings (?v=, ?src=) are preserved.
+    html = re.sub(r'(src|href)="(?:\./)?(js|css|images)/', r'\1="../../\2/', html)
+    html = re.sub(
+        r'href="(index|why-commenting-works|blog|try-it|register|portal|terms|privacy)\.html',
+        r'href="../../\1.html',
+        html,
+    )
     
     # Inject the data script before the main script
     html = html.replace('<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>', 

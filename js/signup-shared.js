@@ -121,6 +121,9 @@
         if (options.couponCode) {
             requestBody.coupon_code = options.couponCode;
         }
+        if (options.attribution) {
+            requestBody.attribution = options.attribution;
+        }
 
         var response = await fetch(getApiBaseUrl() + '/api/users/register', {
             method: 'POST',

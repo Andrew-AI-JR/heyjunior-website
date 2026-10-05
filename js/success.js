@@ -37,39 +37,94 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   sessionStorage.setItem('stripeSessionId', sessionId);
+  applyIdentityChecklist();
 
-  // Verify payment first, then start download. Timeout after 10s so user is never stuck.
-  const VERIFY_TIMEOUT_MS = 10000;
-  let verified = false;
+  const numericUserId = userId ? parseInt(userId, 10) : null;
+  document.getElementById('pending-retry-btn')?.addEventListener('click', () => {
+    if (window.juniorTrack) window.juniorTrack('success_manual_retry');
+    runVerification(sessionId, numericUserId);
+  });
 
-  try {
-    verified = await verifyPaymentWithRetries(sessionId, userId ? parseInt(userId) : null, VERIFY_TIMEOUT_MS);
-  } catch (error) {
-    console.warn('Payment verification did not complete in time or failed:', error.message);
-  }
+  await runVerification(sessionId, numericUserId);
+});
 
-  var postRedirect = localStorage.getItem('postPaymentRedirect');
-  var redirectTimestamp = parseInt(localStorage.getItem('postPaymentTimestamp') || '0', 10);
-  var redirectExpired = (Date.now() - redirectTimestamp) > 3600000;
+// Stripe usually confirms within seconds, but the subscription webhook can lag.
+// Roughly a minute of polling with backoff, well under the API's rate limit.
+const VERIFY_DELAYS_MS = [0, 2000, 3000, 5000, 8000, 10000, 12000, 15000];
+const SHOW_PENDING_AFTER_ATTEMPTS = 3;
 
-  localStorage.removeItem('postPaymentRedirect');
-  localStorage.removeItem('postPaymentTimestamp');
-  localStorage.removeItem('campaignUserId');
+async function runVerification(sessionId, userId) {
+  showState('loading');
+  const result = await pollVerification(sessionId, userId);
 
-  if (postRedirect === 'portal' && !redirectExpired) {
-    window.location.href = 'portal.html';
+  if (result.status === 'active') {
+    if (consumePortalRedirect()) {
+      window.location.href = 'portal.html';
+      return;
+    }
+    startDownloadCountdown();
     return;
   }
 
-  if (verified) {
-    console.log('Payment verified - starting auto-download countdown');
-    startDownloadCountdown();
-  } else {
-    console.warn('Verification incomplete - showing manual download option');
-    showSuccess();
-    showManualDownloadFallback();
+  if (window.juniorTrack) {
+    window.juniorTrack('success_verification_unconfirmed', { status: result.status });
   }
-});
+  if (result.status === 'incomplete') {
+    showError();
+  } else {
+    showState('pending-timeout');
+  }
+}
+
+async function pollVerification(sessionId, userId) {
+  let last = { status: 'error' };
+  for (let attempt = 0; attempt < VERIFY_DELAYS_MS.length; attempt++) {
+    if (VERIFY_DELAYS_MS[attempt]) {
+      await new Promise((resolve) => setTimeout(resolve, VERIFY_DELAYS_MS[attempt]));
+    }
+    last = await verifyPaymentAndSetupAccount(sessionId, userId);
+    if (last.status === 'active' || last.status === 'incomplete') return last;
+    if (attempt + 1 === SHOW_PENDING_AFTER_ATTEMPTS) showState('pending');
+  }
+  return last;
+}
+
+function consumePortalRedirect() {
+  const postRedirect = localStorage.getItem('postPaymentRedirect');
+  const redirectTimestamp = parseInt(localStorage.getItem('postPaymentTimestamp') || '0', 10);
+  localStorage.removeItem('postPaymentRedirect');
+  localStorage.removeItem('postPaymentTimestamp');
+  localStorage.removeItem('campaignUserId');
+  return postRedirect === 'portal' && (Date.now() - redirectTimestamp) <= 3600000;
+}
+
+function applyIdentityChecklist() {
+  let identity = null;
+  try {
+    identity = sessionStorage.getItem('juniorPostingIdentity');
+  } catch (e) {
+    identity = null;
+  }
+  // Unknown identity: skip both identity-specific steps rather than show contradictory ones.
+  document.querySelectorAll('[data-identity]').forEach((el) => {
+    el.hidden = el.getAttribute('data-identity') !== identity;
+  });
+}
+
+const STATE_IDS = ['loading-state', 'pending-state', 'pending-timeout-state', 'success-state', 'error-state'];
+
+function showState(name) {
+  STATE_IDS.forEach((id) => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = id === name + '-state' ? 'block' : 'none';
+  });
+  ['support-section', 'activation-checklist', 'instructions-container'].forEach((id) => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = name === 'success' ? 'block' : 'none';
+  });
+  const errorSupport = document.getElementById('error-support-section');
+  if (errorSupport) errorSupport.style.display = name === 'error' ? 'block' : 'none';
+}
 
 /**
  * Update all download links with latest release URLs
@@ -122,29 +177,12 @@ async function updateDownloadLinks() {
   }
 }
 
-async function verifyPaymentWithRetries(sessionId, userId, maxWaitMs) {
-  const started = Date.now();
-  const intervalMs = 2000;
-  let lastError = null;
-
-  while (Date.now() - started < maxWaitMs) {
-    try {
-      const ok = await verifyPaymentAndSetupAccount(sessionId, userId);
-      if (ok) return true;
-    } catch (err) {
-      lastError = err;
-      console.warn('[Success] verify attempt failed:', err.message);
-    }
-    await new Promise((resolve) => setTimeout(resolve, intervalMs));
-  }
-
-  if (lastError) throw lastError;
-  throw new Error('Verification timed out');
-}
-
+/**
+ * One verification attempt. Resolves to { status } where status is:
+ * active (trial or subscription confirmed), pending (checkout done, subscription
+ * not confirmed yet), incomplete (checkout open or expired) or error.
+ */
 async function verifyPaymentAndSetupAccount(sessionId, userId) {
-  console.log('Verifying payment success...', { sessionId, userId });
-
   const userToken = sessionStorage.getItem('userToken');
   const headers = { 'Content-Type': 'application/json' };
   if (userToken) {
@@ -156,17 +194,25 @@ async function verifyPaymentAndSetupAccount(sessionId, userId) {
     body.user_id = userId;
   }
 
-  const response = await fetch(`${API_BASE_URL}/api/payments/verify-success`, {
-    method: 'POST',
-    headers: headers,
-    body: JSON.stringify(body)
-  });
+  let response;
+  let data = {};
+  try {
+    response = await fetch(`${API_BASE_URL}/api/payments/verify-success`, {
+      method: 'POST',
+      headers: headers,
+      body: JSON.stringify(body)
+    });
+    data = await response.json().catch(() => ({}));
+  } catch (err) {
+    console.warn('[Success] verify attempt failed:', err.message);
+    return { status: 'error' };
+  }
 
-  const data = await response.json();
-  console.log('Payment verification response:', data);
-
+  if (response.status === 400) {
+    return { status: 'incomplete', message: data.detail };
+  }
   if (!response.ok) {
-    throw new Error(data.detail || 'Payment verification failed');
+    return { status: 'error' };
   }
 
   if (data.success && data.subscription_active) {
@@ -183,53 +229,14 @@ async function verifyPaymentAndSetupAccount(sessionId, userId) {
       sessionStorage.setItem('userEmail', data.email);
     }
     sessionStorage.setItem('subscriptionActive', 'true');
-    console.log('Payment verified successfully');
-    return true;
+    return { status: 'active' };
   }
 
-  throw new Error('Payment was not successful or subscription is not active');
-}
-
-async function loadAccountDetails(accessToken) {
-  try {
-    console.log('Loading account details...');
-
-    const response = await fetch(`${API_BASE_URL}/api/payments/get-account-access`, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Content-Type': 'application/json'
-      }
-    });
-
-    const data = await response.json();
-    console.log('Account details:', data);
-
-    if (response.ok && data.has_subscription) {
-      // Update UI with account details
-      updateAccountDetails(data);
-
-      // Show API access section if user has subscription
-      if (data.api_key) {
-        showApiAccess(data.api_key);
-      }
-    }
-
-  } catch (error) {
-    console.error('Error loading account details:', error);
-    // Don't throw here - payment was successful, this is just additional info
-  }
+  return { status: 'pending' };
 }
 
 function showSuccess() {
-  // Hide loading state
-  document.getElementById('loading-state').style.display = 'none';
-
-  // Show success state
-  document.getElementById('success-state').style.display = 'block';
-  document.getElementById('support-section').style.display = 'block';
-
-  console.log('Success state displayed');
+  showState('success');
 }
 
 function startDownloadCountdown() {
@@ -387,78 +394,11 @@ function showManualDownloadFallback() {
 }
 
 function showError(message) {
-  // Hide loading state
-  document.getElementById('loading-state').style.display = 'none';
-
-  // Show error state
-  document.getElementById('error-state').style.display = 'block';
-  document.getElementById('error-support-section').style.display = 'block';
-
-  // Update error message if needed
-  const errorHeader = document.querySelector('#error-state h1');
-  if (errorHeader && message) {
-    errorHeader.textContent = 'Payment Verification Failed';
+  showState('error');
+  const detail = document.getElementById('error-detail');
+  if (detail && message) {
+    detail.textContent = message;
   }
-
-  console.log('Error state displayed:', message);
-}
-
-function updateAccountDetails(accountData) {
-  // Update subscription details
-  if (accountData.tier) {
-    const statusElement = document.getElementById('subscription-status');
-    statusElement.textContent = `Active (${accountData.tier})`;
-  }
-
-  if (accountData.expires_at) {
-    const expiryInfo = document.createElement('p');
-    const expiryDate = new Date(accountData.expires_at).toLocaleDateString();
-    expiryInfo.innerHTML = `Next billing date: <strong>${expiryDate}</strong>`;
-    document.getElementById('account-details').appendChild(expiryInfo);
-  }
-
-  console.log('Account details updated');
-}
-
-function showApiAccess(apiKey) {
-  const apiSection = document.getElementById('api-access-section');
-  const apiKeyDisplay = document.getElementById('api-key-display');
-
-  if (apiSection && apiKeyDisplay) {
-    // Mask the API key for security (show first 8 and last 4 characters)
-    const maskedKey = apiKey.length > 12 ?
-      apiKey.substring(0, 8) + '...' + apiKey.substring(apiKey.length - 4) :
-      apiKey;
-
-    apiKeyDisplay.textContent = maskedKey;
-    apiKeyDisplay.setAttribute('data-full-key', apiKey);
-
-    // Add copy functionality
-    const copyButton = document.getElementById('copy-api-key');
-    if (copyButton) {
-      copyButton.addEventListener('click', () => copyApiKey(apiKey));
-    }
-
-    apiSection.style.display = 'block';
-    console.log('API access section displayed');
-  }
-}
-
-function copyApiKey(apiKey) {
-  navigator.clipboard.writeText(apiKey).then(() => {
-    const button = document.getElementById('copy-api-key');
-    const originalText = button.textContent;
-    button.textContent = '✅ Copied!';
-
-    setTimeout(() => {
-      button.textContent = originalText;
-    }, 2000);
-
-    console.log('API key copied to clipboard');
-  }).catch(err => {
-    console.error('Failed to copy API key:', err);
-    alert('Failed to copy API key. Please select and copy manually.');
-  });
 }
 
 function setupDownloadSection() {
@@ -531,7 +471,7 @@ function updateInstallationInstructions(platform) {
       instructions = `
                 <h3>🖥️ Windows Installation</h3>
                 <ol>
-                    <li>Download the installer (Junior.Setup.1.0.40.exe)</li>
+                    <li>Download the installer</li>
                     <li>Right-click the downloaded file and select "Run as administrator"</li>
                     <li>If Windows shows a security warning, click "More info" then "Run anyway"</li>
                     <li>Follow the installation wizard</li>

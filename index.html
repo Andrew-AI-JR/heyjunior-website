@@ -15,12 +15,13 @@
     <meta name="twitter:image" content="https://heyjunior.ai/reseller-assets/global/social/social-card.png">
     <title>Junior - LinkedIn social selling for your company page and team</title>
     <link rel="canonical" href="https://heyjunior.ai/">
-    <link rel="stylesheet" href="css/styles.css?v=20260926-inksky">
-    <link rel="stylesheet" href="css/home.css?v=20260926-inksky">
+    <link rel="stylesheet" href="css/styles.css?v=20261005-cro">
+    <link rel="stylesheet" href="css/home.css?v=20261005-cro">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <script defer src="js/analytics.js"></script>
+    <script defer src="js/analytics.js?v=20261005-pii"></script>
+    <script defer src="js/sticky-cta.js?v=20261005"></script>
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -86,7 +87,7 @@
                 <div class="nav-actions">
                     <li id="login-link"><a href="portal.html" class="nav-login-link">Log in</a></li>
                     <li id="portal-link" style="display: none;"><a href="portal.html" class="nav-login-link">My account</a></li>
-                    <li><a href="register.html?plan=enterprise&amp;src=home-nav" class="cta-button" data-cta="home-nav-primary">Start free trial</a></li>
+                    <li><a href="register.html?plan=enterprise&amp;src=home-nav&amp;audience=company&amp;identity=company" class="cta-button" data-cta="home-nav-primary">Start free trial</a></li>
                 </div>
             </ul>
         </div>
@@ -96,14 +97,15 @@
         <section class="hj-hero">
             <div class="hj-wrap hj-hero-grid">
                 <div>
-                    <span class="hj-kicker">LinkedIn social selling on autopilot</span>
-                    <h1>Put your company in your buyers' <em>LinkedIn conversations.</em> Every day.</h1>
-                    <p class="hj-hero-sub">Junior finds the posts your target accounts are talking about, comments as your company page or as you, in your voice, and brings every reply into one inbox so your team can turn it into pipeline.</p>
-                    <div class="hj-hero-ctas">
-                        <a href="register.html?plan=enterprise&amp;src=home-hero" class="hj-btn hj-btn-primary" data-cta="home-hero-primary">Start 14-day Enterprise trial</a>
-                        <a href="try-it.html?goal=sales&amp;src=home-hero" class="hj-btn hj-btn-ghost" data-cta="home-hero-try-it">See a comment for your business</a>
+                    <span class="hj-kicker">LinkedIn engagement for B2B businesses</span>
+                    <h1>Get your business into the <em>LinkedIn conversations</em> that matter.</h1>
+                    <p class="hj-hero-sub">Junior finds relevant posts from your target accounts, writes and posts comments in your voice as your company page or personal profile, and brings replies into one inbox for follow-up.</p>
+                    <div class="hj-hero-ctas" id="hero-ctas">
+                        <a href="register.html?plan=enterprise&amp;src=home-hero&amp;audience=company&amp;identity=company" class="hj-btn hj-btn-primary" data-cta="home-hero-primary">Start your 14-day trial</a>
+                        <a href="try-it.html?goal=sales&amp;src=home-hero" class="hj-btn hj-btn-ghost" data-cta="home-hero-try-it">See a sample comment</a>
                     </div>
-                    <p class="hj-hero-fine"><span>$0 today</span> · <span>Card required</span> · <span>Cancel anytime</span> · <span>Runs on your Windows or Mac computer</span></p>
+                    <p class="hj-hero-fine">Company-page plan: <span>14 days free, then $99/month.</span> <span>Card required.</span> <span>Cancel anytime.</span></p>
+                    <p class="hj-hero-fine">Desktop app for Windows and Mac. Company-page commenting needs LinkedIn page admin access. <a href="#pricing-individual" data-cta="home-hero-individual">Commenting as yourself? See individual plans</a>.</p>
                 </div>
                 <div class="hj-reply-stack" aria-label="Real activity from Junior's own company page">
                     <div class="hj-reply is-junior">
@@ -132,7 +134,7 @@
                     <div class="hj-stat"><strong>209</strong><span>replies to our founder's personal comments</span></div>
                     <div class="hj-stat"><strong>115</strong><span>connection requests from people who saw those comments</span></div>
                 </div>
-                <p class="hj-proof-note">Junior's own results, from the Junior app as of September 26, 2026. Your results will depend on your market, targets and settings.</p>
+                <p class="hj-proof-note">Junior's own results, from the Junior app as of September 26, 2026. Your results will depend on your market, targets and settings. <a href="try-it.html?goal=sales&amp;src=home-proof" data-cta="home-proof-try-it">Try this for your business &rarr;</a></p>
             </div>
         </section>
 
@@ -239,22 +241,45 @@
                         <p>Dashboards count only comments LinkedIn verified, plus replies, reactions and connection requests, so reporting to leadership holds up.</p>
                     </div>
                 </div>
+                <p class="hj-section-cta">Target accounts in, verified comments out, replies in one inbox. <a href="register.html?plan=enterprise&amp;src=home-features&amp;audience=company&amp;identity=company" class="hj-btn hj-btn-primary" data-cta="home-features-primary">Start your 14-day trial</a></p>
+            </div>
+        </section>
+
+        <section id="demo-video" class="hj-video-section">
+            <div class="hj-wrap">
+                <div class="hj-section-head">
+                    <span class="hj-kicker">See it work</span>
+                    <h2>Watch Junior work, in under a minute</h2>
+                    <p>Junior comments, you review what it posted, and it comments as a company page.</p>
+                </div>
+                <div class="hj-video-frame">
+                    <video controls playsinline preload="none" poster="campaign-assets/demo-video/junior-3/poster.jpg" width="1280" height="720" data-cta="home-demo-video">
+                        <source src="campaign-assets/demo-video/junior-3/junior-3-demo-720p.mp4" type="video/mp4">
+                        <track kind="captions" src="campaign-assets/demo-video/junior-3/captions.vtt" srclang="en" label="English" default>
+                        <a href="junior-3.html?src=home-video#demo-video">Watch the demo video</a>
+                    </video>
+                </div>
             </div>
         </section>
 
         <section>
-            <div class="hj-wrap hj-quote-grid">
-                <div class="hj-quote">
-                    <blockquote>"It immediately cut down the onslaught of corporate-AI generated content and opened up a floodgate of the posts and comments from other humans that I needed to connect with. Within a few weeks of using it I can attest to a significant increase of connections and conversations that otherwise just would not have happened."</blockquote>
-                    <cite><strong>Dmitri Kozlovski, PMP</strong>Project manager, consulting, healthcare and life sciences · public LinkedIn comment · <a href="images/product/testimonial-dmitri.webp" target="_blank" rel="noopener">see the original</a></cite>
+            <div class="hj-wrap">
+                <div class="hj-section-head">
+                    <span class="hj-kicker">From customers</span>
+                    <h2>What people say after the first run</h2>
                 </div>
-                <a class="hj-video" href="junior-3.html?src=home-video#demo-video" data-cta="home-demo-video">
-                    <div class="hj-video-thumb" style="background-image: url('campaign-assets/demo-video/junior-3/poster.jpg');" role="img" aria-label="Junior 3.0 demo video"></div>
-                    <div class="hj-video-body">
-                        <strong>Watch Junior work, in under a minute</strong>
-                        <span>See Junior comment, review what it posted, and comment as a company page.</span>
+                <div class="hj-quote-grid">
+                    <div class="hj-quote">
+                        <blockquote>"It immediately cut down the onslaught of corporate-AI generated content and opened up a floodgate of the posts and comments from other humans that I needed to connect with. Within a few weeks of using it I can attest to a significant increase of connections and conversations that otherwise just would not have happened."</blockquote>
+                        <cite><strong>Dmitri Kozlovski, PMP</strong>Project manager, consulting, healthcare and life sciences · public LinkedIn comment · <a href="images/product/testimonial-dmitri.webp" target="_blank" rel="noopener">view screenshot</a></cite>
                     </div>
-                </a>
+                    <figure class="hj-proof-shot">
+                        <a href="images/product/proof-enterprise-whatsapp.webp" target="_blank" rel="noopener" data-cta="home-proof-enterprise">
+                            <img src="images/product/proof-enterprise-whatsapp.webp" alt="Private message from an Enterprise customer after their first run: oh wow, it worked, its there, that's amazing, yes, thank you, followed by a screenshot of their Junior dashboard showing 15 of 52 comments posted today" width="454" height="628" loading="lazy">
+                        </a>
+                        <figcaption>Enterprise customer, after their first run · private message, identity redacted</figcaption>
+                    </figure>
+                </div>
             </div>
         </section>
 
@@ -309,12 +334,12 @@
                     </div>
                     <div class="hj-price-box">
                         <div class="hj-price">$99 <small>/ month</small></div>
-                        <a href="register.html?plan=enterprise&amp;src=home-pricing-enterprise" class="hj-btn hj-btn-primary" data-cta="home-pricing-enterprise">Start 14-day free trial</a>
+                        <a href="register.html?plan=enterprise&amp;src=home-pricing-enterprise&amp;audience=company&amp;identity=company" class="hj-btn hj-btn-primary" data-cta="home-pricing-enterprise">Start 14-day free trial</a>
                         <p class="hj-price-fine">14 days free, then $99/month. Card required, $0 today. Setup takes about five minutes and needs admin access to your LinkedIn company page.</p>
                     </div>
                 </div>
 
-                <h3 class="hj-subhead">For individuals</h3>
+                <h3 class="hj-subhead" id="pricing-individual">For individuals</h3>
                 <div class="hj-plans">
                     <div class="hj-plan">
                         <h4>Starter</h4>
@@ -325,7 +350,7 @@
                             <li>Replies inbox and Run Insights</li>
                             <li>Email support</li>
                         </ul>
-                        <a href="register.html?plan=starter&amp;src=home-pricing-starter" class="hj-btn hj-btn-outline" data-cta="home-pricing-starter">Start 7-day free trial</a>
+                        <a href="register.html?plan=starter&amp;src=home-pricing-starter&amp;audience=company&amp;identity=personal" class="hj-btn hj-btn-outline" data-cta="home-pricing-starter">Start 14-day free trial</a>
                     </div>
                     <div class="hj-plan popular">
                         <span class="hj-pill">Most popular</span>
@@ -337,7 +362,7 @@
                             <li>Replies inbox and Run Insights</li>
                             <li>Email support</li>
                         </ul>
-                        <a href="register.html?plan=standard&amp;src=home-pricing-standard" class="hj-btn hj-btn-primary" data-cta="home-pricing-standard">Start 7-day free trial</a>
+                        <a href="register.html?plan=standard&amp;src=home-pricing-standard&amp;audience=company&amp;identity=personal" class="hj-btn hj-btn-primary" data-cta="home-pricing-standard">Start 14-day free trial</a>
                     </div>
                     <div class="hj-plan">
                         <h4>Pro</h4>
@@ -348,10 +373,10 @@
                             <li>Replies inbox and Run Insights</li>
                             <li>Priority email support</li>
                         </ul>
-                        <a href="register.html?plan=pro&amp;src=home-pricing-pro" class="hj-btn hj-btn-outline" data-cta="home-pricing-pro">Start 7-day free trial</a>
+                        <a href="register.html?plan=pro&amp;src=home-pricing-pro&amp;audience=company&amp;identity=personal" class="hj-btn hj-btn-outline" data-cta="home-pricing-pro">Start 14-day free trial</a>
                     </div>
                 </div>
-                <p class="hj-pricing-foot">Individual plans include a 7-day free trial. Looking for a job? <a href="job-search.html?src=home-pricing" data-cta="home-pricing-jobseeker">See plans for job seekers from $9.99</a>. Already a customer? <a href="https://billing.stripe.com/p/login/28EfZjeBvdfSdjF5us3cc00" target="_blank" rel="noopener">Manage your subscription</a>.</p>
+                <p class="hj-pricing-foot">Every plan includes a 14-day free trial. Looking for a job? <a href="job-search.html?src=home-pricing" data-cta="home-pricing-jobseeker">See plans for job seekers from $9.99</a>. Already a customer? <a href="https://billing.stripe.com/p/login/28EfZjeBvdfSdjF5us3cc00" target="_blank" rel="noopener">Manage your subscription</a>.</p>
             </div>
         </section>
 
@@ -400,7 +425,19 @@
                     </details>
                     <details>
                         <summary>What happens after the free trial?</summary>
-                        <p>Enterprise is free for 14 days and individual plans for 7. You pay $0 today, and your plan starts at the end of the trial unless you cancel. You can cancel anytime from the <a href="https://billing.stripe.com/p/login/28EfZjeBvdfSdjF5us3cc00" target="_blank" rel="noopener">billing portal</a>.</p>
+                        <p>Every plan is free for 14 days. Your card is collected at checkout, you pay $0 today, and your plan starts at the end of the trial unless you cancel. You can cancel anytime from the <a href="https://billing.stripe.com/p/login/28EfZjeBvdfSdjF5us3cc00" target="_blank" rel="noopener">billing portal</a>.</p>
+                    </details>
+                    <details>
+                        <summary>Do I approve comments before they post?</summary>
+                        <p>No. Junior posts automatically within your settings and the daily limit you choose. Every posted and skipped comment shows up in the Activity tab with a link to LinkedIn, so you can review it and edit or delete it there. Replies to people only go out automatically if you turn on auto-reply.</p>
+                    </details>
+                    <details>
+                        <summary>Do I need to keep my computer on?</summary>
+                        <p>Yes, while Junior is working. Junior runs in the desktop app on your computer, so it only finds posts and comments while the app is running and the computer is awake. If the computer sleeps or you close the app, nothing is posted until Junior runs again.</p>
+                    </details>
+                    <details>
+                        <summary>What data goes to the AI?</summary>
+                        <p>To write a comment, Junior sends your bio, goal and tone settings and the post it is replying to to Google's AI models on Google Cloud. Your LinkedIn password and browser session stay on your computer. The <a href="privacy.html">Privacy Policy</a> lists everything we store.</p>
                     </details>
                     <details>
                         <summary>What do I need to install?</summary>
@@ -419,8 +456,8 @@
                 <h2>Your next customer is already talking on LinkedIn.</h2>
                 <p>Let Junior join the conversation as your company and your team. Try Enterprise free for 14 days.</p>
                 <div class="hj-hero-ctas">
-                    <a href="register.html?plan=enterprise&amp;src=home-final" class="hj-btn hj-btn-primary" data-cta="home-final-primary">Start 14-day Enterprise trial</a>
-                    <a href="mailto:support@heyjunior.ai?subject=Junior%20demo%20for%20my%20team" class="hj-btn hj-btn-ghost" data-cta="home-final-talk">Talk to the founder</a>
+                    <a href="register.html?plan=enterprise&amp;src=home-final&amp;audience=company&amp;identity=company" class="hj-btn hj-btn-primary" data-cta="home-final-primary">Start 14-day Enterprise trial</a>
+                    <a href="mailto:support@heyjunior.ai?subject=Help%20setting%20up%20Junior" class="hj-btn hj-btn-ghost" data-cta="home-final-talk">Get help with setup</a>
                 </div>
             </div>
         </section>
@@ -487,7 +524,7 @@
         </div>
     </footer>
 
-    <a href="register.html?plan=enterprise&amp;src=home-sticky" class="sticky-global-cta" data-cta="home-sticky">Start free trial</a>
+    <a href="register.html?plan=enterprise&amp;src=home-sticky&amp;audience=company&amp;identity=company" class="sticky-global-cta" data-cta="home-sticky">Start free trial</a>
 
     <script src="js/referral.js"></script>
     <script>
@@ -515,6 +552,16 @@
                         mobileToggle.classList.remove('active');
                         navLinks.classList.remove('active');
                     });
+                });
+            }
+
+            var demoVideo = document.querySelector('#demo-video video');
+            if (demoVideo) {
+                demoVideo.addEventListener('play', function onFirstPlay() {
+                    if (typeof window.juniorTrack === 'function') {
+                        window.juniorTrack('video_play', { location: 'home-demo' });
+                    }
+                    demoVideo.removeEventListener('play', onFirstPlay);
                 });
             }
         });

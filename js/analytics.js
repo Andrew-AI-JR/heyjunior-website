@@ -12,6 +12,12 @@
   if (src) {
     safeSet(sessionStorage, 'marketingSource', src);
   }
+  // First touch survives later src= placements so signup attribution keeps the
+  // channel that brought the visitor, not the last button they clicked.
+  if (!safeGet(localStorage, 'juniorFirstTouchSource')) {
+    safeSet(localStorage, 'juniorFirstTouchSource', src || qs.get('utm_source') || 'direct');
+    safeSet(localStorage, 'juniorFirstTouchPath', window.location.pathname);
+  }
 
   var utmKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
   utmKeys.forEach(function (key) {
@@ -46,6 +52,12 @@
       if (val) utm[key] = val;
     });
     return utm;
+  }
+
+  // Query strings can carry checkout session ids, user ids and demo text.
+  function stripQuery(value) {
+    if (typeof value !== 'string') return value;
+    return value.split('#')[0].split('?')[0];
   }
 
   function getParam(name) {
@@ -184,14 +196,18 @@
       return 'generate_click';
     }
     if (
-      name === 'reddit_comment_preview_shown' ||
       name === 'reddit_comment_preview_fallback_shown' ||
-      name === 'linkedin_visibility_comment_preview_shown' ||
       name === 'linkedin_visibility_comment_preview_fallback_shown' ||
-      name === 'register_demo_result_shown' ||
       name === 'register_demo_fallback_shown' ||
-      name === 'tryit_result_shown' ||
       name === 'tryit_fallback_shown'
+    ) {
+      return 'demo_fallback_shown';
+    }
+    if (
+      name === 'reddit_comment_preview_shown' ||
+      name === 'linkedin_visibility_comment_preview_shown' ||
+      name === 'register_demo_result_shown' ||
+      name === 'tryit_result_shown'
     ) {
       return 'generate_success';
     }
@@ -220,7 +236,7 @@
         utm: getParam('utm_content') || safeGet(sessionStorage, 'utm_content') || null
       }, data || {}),
       ts: new Date().toISOString(),
-      url: window.location.href
+      url: window.location.origin + window.location.pathname
     };
 
     console.log('TRACK:', payload);
@@ -240,7 +256,7 @@
       source: getSource(),
       page: document.body ? document.body.getAttribute('data-page') || 'unknown' : 'unknown',
       path: window.location.pathname,
-      referrer: document.referrer || null
+      referrer: stripQuery(document.referrer) || null
     };
     var payload = Object.assign(base, getUtm(), props || {});
     var event = {
@@ -301,7 +317,7 @@
 
     trackEvent('cta_click', {
       location: el.getAttribute('data-cta'),
-      href: el.getAttribute('href')
+      href: stripQuery(el.getAttribute('href'))
     });
   });
 

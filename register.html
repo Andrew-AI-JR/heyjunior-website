@@ -6,7 +6,7 @@
     <script src="js/frame-guard.js"></script>
     <meta name="description" content="Start your free Junior trial. Comment on your buyers&#39; LinkedIn posts as your company page or as you, in your voice.">
     <title>Start your free trial - Junior</title>
-    <link rel="stylesheet" href="css/styles.css?v=20260926-inksky">
+    <link rel="stylesheet" href="css/styles.css?v=20261005-cro">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
@@ -22,7 +22,7 @@
     <!-- End Reddit Pixel -->
 
     <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "c7e2267943804acdb5bfcd009f02f537"}'></script><!-- End Cloudflare Web Analytics -->
-    <script src="js/analytics.js"></script>
+    <script src="js/analytics.js?v=20261005-pii"></script>
 </head>
 <body data-page="register" class="i18n-ready">
     <main class="register-page">
@@ -109,7 +109,17 @@
                                 <small id="password-help" class="password-help">Minimum 8 characters, with at least one uppercase letter. You'll use this to sign in to the Junior app.</small>
                             </div>
 
-                            <fieldset class="form-group register-plan-selection">
+                            <div class="register-plan-summary" aria-live="polite">
+                                <div class="register-plan-summary-copy">
+                                    <span class="register-plan-summary-kicker">Your plan</span>
+                                    <strong id="register-summary-plan">Enterprise</strong>
+                                    <span id="register-summary-price">14 days free, then $99/month</span>
+                                    <small id="register-summary-scope"></small>
+                                </div>
+                                <button type="button" id="register-change-plan" class="register-change-plan" aria-expanded="false" aria-controls="register-plan-selection">Change plan</button>
+                            </div>
+
+                            <fieldset id="register-plan-selection" class="form-group register-plan-selection" hidden>
                                 <legend>Choose your plan</legend>
                                 <label class="plan-selector-option plan-selector-option--enterprise" for="reg-plan-enterprise">
                                     <input type="radio" name="reg-plan" id="reg-plan-enterprise" value="enterprise">
@@ -126,25 +136,25 @@
                                         <input type="radio" name="reg-plan" id="reg-plan-basic" value="basic">
                                         <strong>Basic</strong>
                                         <small>10 comments/day</small>
-                                        <div class="plan-selector-prices"><span class="old-price">$9.99/mo</span><span class="new-price">7 days free</span></div>
+                                        <div class="plan-selector-prices"><span class="old-price">$9.99/mo</span><span class="new-price">14 days free</span></div>
                                     </label>
                                     <label class="plan-selector-option" for="reg-plan-starter">
                                         <input type="radio" name="reg-plan" id="reg-plan-starter" value="starter">
                                         <strong>Starter</strong>
                                         <small>20 comments/day</small>
-                                        <div class="plan-selector-prices"><span class="old-price">$14.99/mo</span><span class="new-price">7 days free</span></div>
+                                        <div class="plan-selector-prices"><span class="old-price">$14.99/mo</span><span class="new-price">14 days free</span></div>
                                     </label>
                                     <label class="plan-selector-option" for="reg-plan-standard">
                                         <input type="radio" name="reg-plan" id="reg-plan-standard" value="standard">
                                         <strong>Standard</strong>
                                         <small>50 comments/day</small>
-                                        <div class="plan-selector-prices"><span class="old-price">$29.99/mo</span><span class="new-price">7 days free</span></div>
+                                        <div class="plan-selector-prices"><span class="old-price">$29.99/mo</span><span class="new-price">14 days free</span></div>
                                     </label>
                                     <label class="plan-selector-option" for="reg-plan-pro">
                                         <input type="radio" name="reg-plan" id="reg-plan-pro" value="pro">
                                         <strong>Pro</strong>
                                         <small>80 comments/day + priority support</small>
-                                        <div class="plan-selector-prices"><span class="old-price">$49.99/mo</span><span class="new-price">7 days free</span></div>
+                                        <div class="plan-selector-prices"><span class="old-price">$49.99/mo</span><span class="new-price">14 days free</span></div>
                                     </label>
                                 </div>
                             </fieldset>
@@ -181,8 +191,8 @@
 
     <script src="js/referral.js"></script>
     <script src="js/api-config.js"></script>
-    <script src="js/pricing-config.js"></script>
-    <script src="js/signup-shared.js"></script>
-    <script src="js/register.js?v=20260926-onescreen"></script>
+    <script src="js/pricing-config.js?v=20261005-14d"></script>
+    <script src="js/signup-shared.js?v=20261005-attr"></script>
+    <script src="js/register.js?v=20261005-identity"></script>
 </body>
 </html>

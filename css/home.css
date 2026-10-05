@@ -108,18 +108,14 @@
 .hj .hj-quote cite { font-style: normal; color: #C5D0DB; font-size: 0.95rem; line-height: 1.5; }
 .hj .hj-quote cite strong { color: #fff; display: block; }
 .hj .hj-quote a { color: var(--hj-sky-on-dark); }
-.hj .hj-video {
-    display: flex; flex-direction: column; border-radius: 16px; overflow: hidden; border: 1px solid var(--hj-line);
-    text-decoration: none; color: var(--hj-ink); background: #fff;
-}
-.hj .hj-video-thumb { position: relative; aspect-ratio: 16 / 9; background: var(--hj-ink) center/cover no-repeat; }
-.hj .hj-video-thumb::after {
-    content: ""; position: absolute; inset: 0; margin: auto; width: 64px; height: 64px; border-radius: 50%;
-    background: rgba(255,255,255,.95) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 7l8 5-8 5z' fill='%230B0F14'/%3E%3C/svg%3E") center/28px no-repeat;
-}
-.hj .hj-video-body { padding: 20px; }
-.hj .hj-video-body strong { display: block; font-size: 1.1rem; margin-bottom: 6px; }
-.hj .hj-video-body span { color: var(--hj-slate); font-size: 0.95rem; }
+.hj .hj-proof-shot { margin: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--hj-sky-soft); border: 1px solid var(--hj-line); border-radius: 16px; padding: 20px; }
+.hj .hj-proof-shot a { display: block; line-height: 0; }
+.hj .hj-proof-shot img { display: block; width: 100%; max-width: 360px; height: auto; border-radius: 10px; box-shadow: 0 12px 30px rgba(11,15,20,.12); }
+.hj .hj-proof-shot figcaption { margin-top: 12px; font-size: 0.85rem; color: var(--hj-slate); text-align: center; line-height: 1.5; }
+.hj .hj-video-section { background: #F7FAFC; }
+.hj .hj-video-frame { border-radius: 16px; overflow: hidden; border: 1px solid var(--hj-line); background: var(--hj-ink); box-shadow: 0 20px 50px rgba(11,15,20,.12); max-width: 960px; }
+.hj .hj-video-frame video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; }
+.hj .hj-section-cta { margin: 48px 0 0; display: flex; flex-wrap: wrap; align-items: center; gap: 16px; font-size: 1.05rem; color: var(--hj-ink); font-weight: 500; }
 
 /* Safety */
 .hj .hj-safety { background: var(--hj-sky-soft); }
@@ -200,3 +196,7 @@
     .hj .hj-stat strong { font-size: 1.8rem; }
 }
 .hj .hj-pricing-foot a, .hj .hj-safety-note a, .hj .hj-proof-note a { color: var(--hj-blue); font-weight: 600; }
+
+/* Small blue text on sky backgrounds falls below 4.5:1, so use the darker blues there. */
+.hj .hj-pricing-company .hj-kicker { color: var(--hj-deep); }
+.hj .hj-proof .hj-kicker, .hj .hj-safety .hj-kicker, .hj .hj-proof-note a, .hj .hj-safety-note a { color: var(--hj-blue-pressed); }

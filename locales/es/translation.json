@@ -26,7 +26,7 @@
       "title": "Empieza a conseguir entrevistas a partir de comentarios — no de currículums.",
       "subtitle": "Junior comenta en las publicaciones correctas de LinkedIn por ti, con tu voz. Conversaciones reales. Respuestas reales. Sin enviar currículums al vacío.",
       "cta": "Comienza la prueba gratis",
-      "microcopy": "Prueba gratis de 14 días · Sin tarjeta de crédito",
+      "microcopy": "14 días gratis · Tarjeta requerida al registrarte",
       "proofLabel": "Respuestas reales de conversaciones reales en LinkedIn:"
     },
     "whatItDoes": {
@@ -36,16 +36,16 @@
       "b3": "Consigue que la gente responda",
       "b4": "Convierte conversaciones en entrevistas",
       "cta": "Comienza la prueba gratis",
-      "microcopy": "Prueba gratis de 14 días · Sin tarjeta de crédito"
+      "microcopy": "14 días gratis · Tarjeta requerida al registrarte"
     },
     "faqCta": {
-      "lead": "¿Sigues aplicando y no recibes respuestas? Prueba Junior gratis — sin tarjeta de crédito.",
+      "lead": "¿Sigues aplicando y no recibes respuestas? Prueba Junior gratis durante 14 días.",
       "button": "Comienza la prueba gratis"
     },
     "finalCta": {
       "title": "Deja de aplicar. Empieza conversaciones.",
       "button": "Comienza la prueba gratis",
-      "microcopy": "Prueba gratis de 14 días · Sin tarjeta de crédito"
+      "microcopy": "14 días gratis · Tarjeta requerida al registrarte"
     }
   },
   "landingHomeGeneral": {
@@ -54,7 +54,7 @@
       "subtitle": "Encuentra las publicaciones que importan y escribe comentarios a los que la gente responde. Esas respuestas se convierten en entrevistas, clientes o pipeline.",
       "cta": "Comienza Gratis",
       "secondaryCta": "Míralo en 30 segundos",
-      "microcopy": "Primera semana gratis · Tarjeta requerida al registrarte"
+      "microcopy": "14 días gratis · Tarjeta requerida al registrarte"
     },
     "proof": {
       "title": "Qué hace Junior",
@@ -71,7 +71,7 @@
     "finalCta": {
       "title": "Mantente visible en LinkedIn sin pasar horas haciendo scroll.",
       "button": "Comienza Gratis",
-      "microcopy": "Primera semana gratis · Tarjeta requerida al registrarte"
+      "microcopy": "14 días gratis · Tarjeta requerida al registrarte"
     }
   },
   "badges": {
@@ -85,7 +85,7 @@
       "text": "Junior 3.0 hace más fácil ver lo que Junior está haciendo, revisar la última sesión y comentar como tu página de empresa.",
       "offer": "Enterprise comenta como tu página de empresa o como tú. 14 días gratis y después $99/mes.",
       "cta": "Ver lo nuevo",
-      "offerCta": "Reclamar un mes gratis"
+      "offerCta": "Empieza 14 días gratis"
     }
   },
   "mechanismGraphic": {
@@ -468,7 +468,7 @@
       "p1": "Lo hice disponible como producto.",
       "cta": "https://heyjunior.ai/register.html",
       "bullet1": "Prueba gratis de 14 días",
-      "bullet2": "Sin tarjeta de crédito",
+      "bullet2": "$0 hoy, cancela cuando quieras",
       "button": "Comienza tu prueba gratis de 14 días"
     },
     "close": {

@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex">
     <script src="js/frame-guard.js"></script>
-    <meta name="description" content="Your Junior trial is on. Download the app and post your first comment today.">
-    <title>Your trial is on - Junior</title>
-    <link rel="stylesheet" href="css/styles.css?v=20260926-inksky">
+    <meta name="description" content="Finish setting up Junior: download the app and post your first comment today.">
+    <title>Welcome to Junior</title>
+    <link rel="stylesheet" href="css/styles.css?v=20261005-cro">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
@@ -25,7 +25,7 @@
     <!-- End Reddit Pixel -->
 
     <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "c7e2267943804acdb5bfcd009f02f537"}'></script><!-- End Cloudflare Web Analytics -->
-    <script src="js/analytics.js"></script>
+    <script src="js/analytics.js?v=20261005-pii"></script>
 </head>
 <body data-page="success">
     <!-- Navigation -->
@@ -62,6 +62,20 @@
                 <p>This takes a few seconds. You haven't been charged.</p>
             </div>
 
+            <div id="pending-state" class="success-header" style="display: none;" aria-live="polite">
+                <div class="success-icon">⏳</div>
+                <h1>We're confirming your trial</h1>
+                <p>Stripe has your checkout. We're waiting for it to confirm the subscription, which can take up to a minute. Keep this page open.</p>
+            </div>
+
+            <div id="pending-timeout-state" class="success-header" style="display: none;" aria-live="polite">
+                <div class="success-icon">⏳</div>
+                <h1>Your trial is still being confirmed</h1>
+                <p>Your checkout went through, but Stripe hasn't confirmed the subscription yet. You haven't been charged today.</p>
+                <p><button type="button" id="pending-retry-btn" class="primary-button">Check again</button></p>
+                <p>Your welcome email also has the download links, and the app works as soon as the trial is confirmed. Still stuck after a few minutes? Email <a href="mailto:support@heyjunior.ai?subject=Trial%20not%20confirmed">support@heyjunior.ai</a> and we'll sort it out the same day.</p>
+            </div>
+
             <!-- Success State -->
             <div id="success-state" class="success-header" style="display: none;">
                 <div class="success-icon">✅</div>
@@ -85,8 +99,9 @@
             <!-- Error State -->
             <div id="error-state" class="success-header" style="display: none;">
                 <div class="success-icon">❌</div>
-                <h1>We couldn't confirm your trial yet</h1>
-                <p>This usually clears up in a minute. Refresh this page, or email <a href="mailto:support@heyjunior.ai">support@heyjunior.ai</a> and we'll sort it out.</p>
+                <h1>Your checkout wasn't finished</h1>
+                <p id="error-detail">Your trial hasn't started and you haven't been charged.</p>
+                <p>Go back to signup and use the same email and password to pick up where you left off, or email <a href="mailto:support@heyjunior.ai">support@heyjunior.ai</a>.</p>
             </div>
 
             <!-- Download Section -->
@@ -155,21 +170,22 @@
             </div>
 
             <!-- Installation Instructions -->
-            <div class="instructions-container">
+            <div class="instructions-container" id="instructions-container" style="display: none;">
                 <div class="instructions-box">
                     <!-- Instructions will be dynamically inserted based on platform -->
                 </div>
             </div>
 
             <!-- Activation checklist -->
-            <div class="next-steps activation-checklist">
+            <div class="next-steps activation-checklist" id="activation-checklist" style="display: none;">
                 <h2>Your first-day checklist</h2>
                 <ol>
                     <li><strong>Download and install.</strong> Your computer may show a security warning the first time. That's expected: on Windows click "More info" then "Run anyway"; on Mac right-click Junior and choose "Open". <a href="windows-install-help.html">Windows help</a> · <a href="mac-install-help.html">Mac help</a></li>
                     <li><strong>Sign in to Junior</strong> with the email and password you just created.</li>
                     <li><strong>Connect LinkedIn.</strong> Check "2FA", click "Start Automation", and log in to LinkedIn in the Chrome window that opens. Your session stays on your computer.</li>
+                    <li data-identity="company"><strong>Add your company page.</strong> Pick the LinkedIn company page you administer so Junior can comment as your brand. You need admin access to that page on LinkedIn.</li>
                     <li><strong>Tell Junior who matters.</strong> Add your bio, goal and search terms, or import your target accounts. <a href="onboarding.html?src=success-onboarding" data-cta="success-nextsteps-onboarding">Onboarding guide</a></li>
-                    <li><strong>On Enterprise? Add your company page.</strong> Pick the LinkedIn company page you administer so Junior can comment as your brand.</li>
+                    <li data-identity="personal"><strong>Keep it personal.</strong> Junior comments as you, so write your bio the way you'd introduce yourself to the people you want to reach.</li>
                     <li><strong>Watch the first comments go out</strong> in the Activity tab, then check the Inbox for replies.</li>
                 </ol>
                 <div class="activation-help">
@@ -190,16 +206,11 @@
 
             <!-- Error Support Section -->
             <div id="error-support-section" class="support-section" style="display: none;">
-                <h3>Trial not confirmed</h3>
-                <p>We couldn't confirm your trial. This can happen when:</p>
-                <ul>
-                    <li>Stripe is still processing (wait a minute and refresh)</li>
-                    <li>Your bank declined the card check</li>
-                    <li>There was a temporary technical problem</li>
-                </ul>
+                <h3>Trial not started</h3>
+                <p>This happens when checkout was closed before the card step finished, the checkout link expired, or your bank declined the card check.</p>
                 <div class="support-links">
+                    <a href="register.html?src=success-retry">Finish signing up</a>
                     <a href="mailto:support@heyjunior.ai">Contact support</a>
-                    <a href="register.html?src=success-retry">Try again</a>
                 </div>
             </div>
         </div>
@@ -280,7 +291,7 @@
     <!-- Load release manager first (must load before success.js) -->
     <script src="js/release-manager.js"></script>
     <script src="js/api-config.js"></script>
-    <script src="js/success.js?v=2.3"></script>
+    <script src="js/success.js?v=20261005-checklist"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var ua = navigator.userAgent || '';

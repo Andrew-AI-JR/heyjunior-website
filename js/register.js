@@ -49,22 +49,28 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     var isRedditFlow = src.indexOf('reddit') !== -1;
     var audience = getSignupAudience(src, qs);
+    var identity = getPostingIdentity(qs, audience);
+    try {
+        sessionStorage.setItem('juniorPostingIdentity', identity);
+    } catch (e) {
+        // Storage is a convenience only.
+    }
 
     if (isRedditFlow) {
         // Reddit traffic sees the instant comment demo first; the one-screen
         // signup form appears under the generated comment.
         initInstantCommentDemo();
     } else {
-        skipDemoShowSignup(audience);
+        skipDemoShowSignup(audience, identity);
     }
     initEmailCapture();
 
     applyTryItSignupHandoff(src, qs);
     loadReferralCode();
     
-    // Plan: the URL wins; otherwise Enterprise for company (B2B) traffic and
-    // Standard for individual / job-seeker traffic. Basic is only offered to
-    // job-seeker traffic or when a link asks for it.
+    // Plan: the URL wins; otherwise Enterprise when posting as a company page,
+    // Basic for job seekers (the advertised $9.99 entry price) and Standard for
+    // other individuals.
     var plan = (qs.get('plan') || '').toLowerCase();
     var basicOption = document.getElementById('reg-plan-basic-option');
     if (basicOption && (audience === 'jobseeker' || plan === 'basic')) {
@@ -72,7 +78,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     var planInput = plan ? document.getElementById('reg-plan-' + plan) : null;
     if (!planInput) {
-        planInput = document.getElementById(audience === 'jobseeker' ? 'reg-plan-standard' : 'reg-plan-enterprise');
+        var defaultPlan = 'reg-plan-enterprise';
+        if (audience === 'jobseeker') defaultPlan = 'reg-plan-basic';
+        else if (identity === 'personal') defaultPlan = 'reg-plan-standard';
+        planInput = document.getElementById(defaultPlan);
     }
     if (planInput) {
         planInput.checked = true;
@@ -104,10 +113,23 @@ document.addEventListener('DOMContentLoaded', () => {
         updatePlanVisualState();
         updateTrialCopy();
     }
+
+    document.getElementById('register-change-plan')?.addEventListener('click', function () {
+        var selection = document.getElementById('register-plan-selection');
+        if (!selection) return;
+        var opening = selection.hidden;
+        selection.hidden = !opening;
+        this.setAttribute('aria-expanded', opening ? 'true' : 'false');
+        this.textContent = opening ? 'Done' : 'Change plan';
+        if (opening) {
+            selection.querySelector('input[name="reg-plan"]:checked')?.focus();
+            if (window.juniorTrack) window.juniorTrack('register_change_plan_opened');
+        }
+    });
 });
 
 function applyTryItSignupHandoff(src, qs) {
-    if (!src || src.indexOf('tryit') === -1) return;
+    if (!src || (src.indexOf('tryit') === -1 && src.indexOf('demo') === -1)) return;
 
     var storedBio = sessionStorage.getItem('juniorTryItUserBio');
     var backgroundInput = document.getElementById('register-demo-background');
@@ -115,9 +137,14 @@ function applyTryItSignupHandoff(src, qs) {
         backgroundInput.value = storedBio;
     }
 
+    // Older demo links carried the suggested angle in the URL; keep it in the
+    // session and remove it from the address bar so it is never logged or shared.
     var angleFromQuery = qs.get('angle');
     if (angleFromQuery) {
         sessionStorage.setItem('juniorTryItSuggestedAngle', angleFromQuery);
+        qs.delete('angle');
+        var cleanSearch = qs.toString();
+        history.replaceState(null, '', window.location.pathname + (cleanSearch ? '?' + cleanSearch : '') + window.location.hash);
     }
 }
 
@@ -126,15 +153,63 @@ function getSignupAudience(src, qs) {
     if (explicit === 'jobseeker' || explicit === 'company') return explicit;
     var plan = (qs.get('plan') || '').toLowerCase();
     if (plan === 'basic') return 'jobseeker';
+    // Legacy links without audience=; new CTAs always pass it explicitly.
     var s = (src || '').toLowerCase();
     if (/(job|reddit|basics|career|layoff|seeker|resume|hiring|partners-|applying|linkedin-visibility)/.test(s)) return 'jobseeker';
+    return 'company';
+}
+
+function getPostingIdentity(qs, audience) {
+    var explicit = (qs.get('identity') || '').toLowerCase();
+    if (explicit === 'personal' || explicit === 'company') return explicit;
+    var plan = (qs.get('plan') || '').toLowerCase();
+    if (plan === 'enterprise') return 'company';
+    if (plan || audience === 'jobseeker') return 'personal';
     return 'company';
 }
 
 function getPlanTrialDays(planKey) {
     var plans = window.JUNIOR_PRICING && window.JUNIOR_PRICING.PLANS;
     if (plans && plans[planKey] && plans[planKey].trialDays) return plans[planKey].trialDays;
-    return planKey === 'enterprise' ? 14 : 7;
+    return 14;
+}
+
+function formatPlanPrice(planInfo) {
+    if (!planInfo) return '';
+    return '$' + (planInfo.price % 1 === 0 ? planInfo.price : planInfo.price.toFixed(2)) + '/month';
+}
+
+function attributionValue(value) {
+    if (!value) return null;
+    var cleaned = String(value).replace(/[^A-Za-z0-9_\-./]/g, '-').slice(0, 80);
+    return cleaned || null;
+}
+
+// Only Enterprise can comment as a company page, so the plan chosen at submit wins over the landing link.
+function syncPostingIdentity(planKey) {
+    var explicit = (new URLSearchParams(window.location.search).get('identity') || '').toLowerCase();
+    var identity = planKey === 'enterprise' && explicit !== 'personal' ? 'company' : 'personal';
+    try {
+        sessionStorage.setItem('juniorPostingIdentity', identity);
+    } catch (e) {
+        // Storage is a convenience only.
+    }
+}
+
+function buildSignupAttribution() {
+    var read = function (storage, key) {
+        try {
+            return storage.getItem(key);
+        } catch (e) {
+            return null;
+        }
+    };
+    return {
+        first_touch_source: attributionValue(read(localStorage, 'juniorFirstTouchSource')),
+        cta_placement: attributionValue(read(sessionStorage, 'marketingSource')),
+        landing_path: attributionValue(read(localStorage, 'juniorFirstTouchPath')),
+        posting_identity: read(sessionStorage, 'juniorPostingIdentity')
+    };
 }
 
 function getSubmitLabel() {
@@ -157,11 +232,25 @@ function updateTrialCopy() {
     var start = new Date();
     start.setDate(start.getDate() + days);
     var startLabel = start.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-    var price = planInfo ? '$' + (planInfo.price % 1 === 0 ? planInfo.price : planInfo.price.toFixed(2)) + '/month' : 'your plan';
-    terms.textContent = '$0 today. ' + days + ' days free, then ' + price + ' starting ' + startLabel + ' unless you cancel.';
+    var price = formatPlanPrice(planInfo) || 'your plan';
+    // Estimated from today; Stripe sets the authoritative date at checkout.
+    terms.textContent = '$0 today. ' + days + ' days free, then ' + price + ' from about ' + startLabel + ' unless you cancel.';
+    updatePlanSummary(selected, planInfo, days);
 }
 
-function skipDemoShowSignup(audience) {
+function updatePlanSummary(selected, planInfo, days) {
+    var name = document.getElementById('register-summary-plan');
+    var price = document.getElementById('register-summary-price');
+    var scope = document.getElementById('register-summary-scope');
+    if (!name || !price || !scope) return;
+    name.textContent = planInfo ? planInfo.label : selected.value;
+    price.textContent = days + ' days free, then ' + (formatPlanPrice(planInfo) || 'your plan');
+    var option = selected.closest('.plan-selector-option');
+    var detail = option ? option.querySelector('small') : null;
+    scope.textContent = detail ? detail.textContent : '';
+}
+
+function skipDemoShowSignup(audience, identity) {
     var hook = document.getElementById('register-hook');
     var directHook = document.getElementById('register-direct-hook');
     var demo = document.getElementById('register-demo');
@@ -174,11 +263,13 @@ function skipDemoShowSignup(audience) {
     if (directHook) directHook.hidden = false;
     if (signupGate) signupGate.hidden = false;
 
+    var title = document.getElementById('register-direct-title');
+    var sub = document.getElementById('register-direct-sub');
     if (audience === 'jobseeker') {
-        var title = document.getElementById('register-direct-title');
-        var sub = document.getElementById('register-direct-sub');
-        if (title) title.textContent = 'Get your first week free';
+        if (title) title.textContent = 'Get 14 days free';
         if (sub) sub.textContent = 'Junior comments on hiring managers\u2019 and recruiters\u2019 LinkedIn posts in your voice, so the right people notice you before you apply.';
+    } else if (identity === 'personal') {
+        if (sub) sub.textContent = 'Junior comments on your buyers\u2019 LinkedIn posts as you, in your voice, and brings every reply into one inbox.';
     }
 }
 
@@ -446,6 +537,7 @@ async function handleRegistration(e) {
     try {
         const referralCode = document.getElementById('referral-code-field').value;
         const selectedPlanKey = selectedPlan.value;
+        syncPostingIdentity(selectedPlanKey);
 
         const urlParams = new URLSearchParams(window.location.search);
         const couponFromUrl = urlParams.get('coupon');
@@ -463,6 +555,7 @@ async function handleRegistration(e) {
             selectedPlanKey: selectedPlanKey,
             referralCode: referralCode || null,
             couponCode: couponCode || null,
+            attribution: buildSignupAttribution(),
             successUrl: window.location.origin + '/success.html',
             cancelUrl: window.location.origin + '/register.html' + window.location.search
         });

@@ -180,21 +180,52 @@
     }
   }
 
-  function buildSignupUrl(src) {
-    var url = 'register.html?src=' + encodeURIComponent(src) + '&ref=demo' +
-      (mode === 'jobs' ? '&audience=jobseeker' : '&audience=company');
-    if (state.suggestedAngle.trim()) {
-      url += '&angle=' + encodeURIComponent(state.suggestedAngle.trim());
+  // The suggested angle travels in sessionStorage (persistSignupContext), never in the URL,
+  // so it can't leak into analytics, referrers or shared links.
+  function buildSignupUrl(src, identity) {
+    if (mode === 'jobs') {
+      return 'register.html?src=' + encodeURIComponent(src) + '&audience=jobseeker&identity=personal';
     }
-    return url;
+    return 'register.html?src=' + encodeURIComponent(src) + '&audience=company&identity=' +
+      (identity === 'personal' ? 'personal' : 'company');
   }
 
   function updateSignupLinks() {
     var lockoutCta = $('tryit-lockout-cta');
     var successCta = $('tryit-success-cta');
-    var href = buildSignupUrl('tryit');
+    var successPersonal = $('tryit-success-personal');
     if (lockoutCta) lockoutCta.href = buildSignupUrl('tryit-lockout');
-    if (successCta) successCta.href = href;
+    if (successCta) successCta.href = buildSignupUrl('tryit');
+    if (successPersonal) {
+      successPersonal.href = buildSignupUrl('tryit-personal', 'personal');
+      successPersonal.hidden = mode === 'jobs';
+    }
+  }
+
+  var MATCH_REASON_LABELS = {
+    A: 'Matches your networking goal',
+    B: 'Author or company fits your targets',
+    C: 'Topic overlaps your expertise'
+  };
+
+  function readableMatchReasons(raw) {
+    if (!Array.isArray(raw)) return [];
+    var seen = {};
+    var out = [];
+    raw.forEach(function (item) {
+      if (typeof item !== 'string') return;
+      var text = item.trim();
+      var label = MATCH_REASON_LABELS[text.toUpperCase()] || (text.length > 2 ? text : '');
+      if (label && !seen[label]) {
+        seen[label] = true;
+        out.push(label);
+      }
+    });
+    return out;
+  }
+
+  function hasRealResult() {
+    return Boolean(state.comment) && !state.fallback && state.shouldComment !== false;
   }
 
   function setError(message) {
@@ -365,7 +396,7 @@
     var qual = data.qualification || {};
     var angle = qual.suggested_angle || data.suggested_angle || '';
     var score = typeof qual.priority_score === 'number' ? qual.priority_score : null;
-    var reasons = Array.isArray(qual.match_reasons) ? qual.match_reasons : [];
+    var reasons = readableMatchReasons(qual.match_reasons);
 
     if (isSampleOnly) {
       if (qual.should_comment === false) {
@@ -427,7 +458,7 @@
     var isSampleOnly = state.fallback || state.shouldComment === false;
     var hasAngle = Boolean(state.suggestedAngle.trim());
     var qual = data.qualification || {};
-    var matchReasons = Array.isArray(qual.match_reasons) ? qual.match_reasons : [];
+    var matchReasons = readableMatchReasons(qual.match_reasons);
 
     var result = $('tryit-demo-result');
     var commentBox = $('tryit-demo-comment');
@@ -446,6 +477,7 @@
     var matchReasonsEl = $('tryit-match-reasons');
     var copyButton = $('tryit-copy-comment');
     var successCta = $('tryit-success-cta');
+    var successAlt = $('tryit-success-alt');
 
     var steps = buildWhatHappenedSteps(data, isSampleOnly);
 
@@ -498,6 +530,7 @@
     if (verifiedBadge) verifiedBadge.hidden = !(state.verified && !isSampleOnly);
     if (copyButton) copyButton.hidden = isSampleOnly;
     if (successCta) successCta.hidden = isSampleOnly;
+    if (successAlt) successAlt.hidden = isSampleOnly;
 
     if (result) {
       result.hidden = false;
@@ -596,6 +629,13 @@
       if (!isSampleOnly) {
         setAttempts(getAttempts() + 1);
         updateAttemptsUI();
+      }
+
+      if (isSampleOnly && isRegenerate && hasRealResult()) {
+        state.status = 'fallback';
+        setError('That approach did not produce a better comment, so your previous one is still shown. Try a different approach.');
+        track('tryit_fallback_shown', { source: 'try-it-page', kept_previous: true });
+        return;
       }
 
       showResult(data);
