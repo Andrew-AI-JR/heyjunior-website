@@ -18,7 +18,9 @@ No coupon is applied. New signups get the standard Stripe trial (card collected 
 
 ---
 
-## 50% Off LinkedIn Campaign
+## 50% Off LinkedIn Campaign (ended)
+
+`JUNIOR50` has expired in Stripe. `/50off/` now redirects to `register.html?src=promo-50off` with no coupon (standard trial). The table below is kept for history only.
 
 | Link | Coupon | Offer |
 |------|--------|-------|
