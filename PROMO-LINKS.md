@@ -6,15 +6,15 @@ Quick reference for all active checkout links and their coupon codes.
 
 ## Normal Signup (all visitors)
 
+No coupon is applied. New signups get the standard Stripe trial (card collected at signup).
+
 | Link | Coupon | Offer |
 |------|--------|-------|
-| `https://heyjunior.ai/register.html` | `1FREEMONTH` (auto-applied) | First month free, card required |
-| `https://heyjunior.ai/register.html?plan=basic` | `1FREEMONTH` | Pre-selects Basic plan |
-| `https://heyjunior.ai/register.html?plan=starter` | `1FREEMONTH` | Pre-selects Starter plan |
-| `https://heyjunior.ai/register.html?plan=basic` | `1FREEMONTH` | Pre-selects Basic plan |
-| `https://heyjunior.ai/register.html?plan=starter` | `1FREEMONTH` | Pre-selects Starter plan |
-| `https://heyjunior.ai/register.html?plan=standard` | `1FREEMONTH` | Pre-selects Standard plan |
-| `https://heyjunior.ai/register.html?plan=pro` | `1FREEMONTH` | Pre-selects Pro plan |
+| `https://heyjunior.ai/register.html` | -- | Standard trial, card required |
+| `https://heyjunior.ai/register.html?plan=basic` | -- | Pre-selects Basic plan |
+| `https://heyjunior.ai/register.html?plan=starter` | -- | Pre-selects Starter plan |
+| `https://heyjunior.ai/register.html?plan=standard` | -- | Pre-selects Standard plan |
+| `https://heyjunior.ai/register.html?plan=pro` | -- | Pre-selects Pro plan |
 
 ---
 
@@ -64,11 +64,11 @@ Co-branded landing page with an embedded signup form. Attribution is recorded in
 
 | Link | Coupon | Offer |
 |------|--------|-------|
-| `https://heyjunior.ai/careerbridgeiq/` | `1FREEMONTH` (auto-applied) | First 30 days free |
-| `https://heyjunior.ai/careerbridgeiq/?plan=basic` | `1FREEMONTH` | Pre-selects Basic |
-| `https://heyjunior.ai/careerbridgeiq/?plan=starter` | `1FREEMONTH` | Pre-selects Starter |
-| `https://heyjunior.ai/careerbridgeiq/?plan=standard` | `1FREEMONTH` | Pre-selects Standard |
-| `https://heyjunior.ai/careerbridgeiq/?plan=pro` | `1FREEMONTH` | Pre-selects Pro |
+| `https://heyjunior.ai/careerbridgeiq/` | -- | 30-day Stripe trial (keyed on `signup_source`) |
+| `https://heyjunior.ai/careerbridgeiq/?plan=basic` | -- | Pre-selects Basic |
+| `https://heyjunior.ai/careerbridgeiq/?plan=starter` | -- | Pre-selects Starter |
+| `https://heyjunior.ai/careerbridgeiq/?plan=standard` | -- | Pre-selects Standard |
+| `https://heyjunior.ai/careerbridgeiq/?plan=pro` | -- | Pre-selects Pro |
 
 UTM scheme for all placements: `utm_source=careerbridgeiq`, `utm_medium=partner`, `utm_campaign=30day`, and a per-placement `utm_content` (`landing-page`, `email`, `community-article`, `matt-linkedin`, `partner-page`).
 
@@ -108,11 +108,11 @@ Customers with an active paid subscription upgrade through the in-app Stripe Bil
 
 ## Custom Coupon via URL
 
-Any Stripe coupon can be applied to the normal register flow by appending `?coupon=CODE`:
+Any **active Stripe promotion code** can be applied to the normal register flow by appending `?coupon=CODE`:
 ```
-https://heyjunior.ai/register.html?coupon=YOUR_COUPON_CODE
+https://heyjunior.ai/register.html?coupon=YOUR_PROMO_CODE
 ```
-If no `?coupon=` is provided, the default `1FREEMONTH` is applied.
+The API only accepts active promotion codes. Coupon names and raw coupon IDs are rejected, except for the server-side cancellation offer code (`CANCELLATION_OFFER_CODE` -> `CANCELLATION_OFFER_STRIPE_COUPON_ID`) and IDs listed in `ALLOWED_DIRECT_COUPON_IDS`. To launch a new offer, create a promotion code in Stripe, ideally with an expiry or `max_redemptions`.
 
 ---
 
@@ -120,9 +120,9 @@ If no `?coupon=` is provided, the default `1FREEMONTH` is applied.
 
 | Code | Stripe Promo ID | Offer | Used On |
 |------|-----------------|-------|---------|
-| `1FREEMONTH` | (check Stripe dashboard) | 100% off first month | Normal register flow |
-| `JUNIOR50` | `promo_1TT14bRxE6F23RwQqyQUg5X0` | 50% off for 3 months | `/50off/` landing page |
-| `3FREEMONTHS` | (check Stripe dashboard) | 100% off for 3 months | `/free/` landing page, private email links |
+| `JUNIOR50` | `promo_1TT14bRxE6F23RwQqyQUg5X0` (inactive, expired) | 50% off for 3 months | `/50off/` landing page |
+| `3FREEMONTHS` | `promo_1TaIX0RxE6F23RwQxkpABoOm` | 100% off for 3 months | `/free/` landing page, private email links |
+| `WINBACK` | server-mapped to coupon `sw5J3M9U` | 100% off next invoice (`duration: once`) | Cancellation win-back email |
 | `JUNIOR3ENT` | (check Stripe dashboard) | 100% off the first month of Enterprise only, `duration: once`, closes September 9, 2026 | `junior-3.html`, Junior 3.0 launch emails |
 
 ---
