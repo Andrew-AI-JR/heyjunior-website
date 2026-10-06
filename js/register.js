@@ -610,7 +610,10 @@ async function handleRegistration(e) {
             msg = (error && error.message) || 'Something went wrong. Please try again.';
             console.error('[Register] registration error:', error);
             if (window.juniorTrack) {
-                window.juniorTrack('register_submit_error', { reason: 'server' });
+                window.juniorTrack('register_submit_error', {
+                    reason: (error && error.type) || 'unknown',
+                    status: (error && error.status) || null
+                });
             }
         }
 

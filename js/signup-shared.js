@@ -68,10 +68,11 @@
             return response.json();
         }
 
-        var text = await response.text();
+        await response.text();
         throw {
             type: 'server',
-            message: text || 'Registration failed. Please try again.'
+            status: response.status,
+            message: 'Something went wrong on our end. Please try again in a moment.'
         };
     }
 
@@ -135,9 +136,11 @@
 
         if (!response.ok) {
             var errorMessage = buildErrorMessage(data);
-            if (response.status === 409 || errorMessage.toLowerCase().indexOf('already exists') !== -1) {
+            var lowered = errorMessage.toLowerCase();
+            if (response.status === 409 || lowered.indexOf('already exists') !== -1 || lowered.indexOf('already registered') !== -1) {
                 throw {
                     type: 'duplicate_email',
+                    status: response.status,
                     message: errorMessage
                 };
             }
@@ -145,19 +148,24 @@
             if (response.status >= 500) {
                 throw {
                     type: 'server',
+                    status: response.status,
                     message: 'Something went wrong on our end. Please try again in a moment.'
                 };
             }
 
             throw {
-                type: 'server',
-                message: errorMessage
+                type: response.status === 429 ? 'rate_limited' : 'rejected',
+                status: response.status,
+                message: response.status === 429
+                    ? 'Too many attempts. Please wait a minute and try again.'
+                    : errorMessage
             };
         }
 
         if (!data.checkout_url) {
             throw {
-                type: 'server',
+                type: 'no_checkout_url',
+                status: response.status,
                 message: 'Unable to start secure checkout. Please try again.'
             };
         }
