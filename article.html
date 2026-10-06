@@ -260,7 +260,7 @@
                     <li><a href="try-it.html">Try It</a></li>
                 </div>
                 <div class="nav-actions">
-                    <li><a href="register.html?src=article-nav&amp;audience=company&amp;identity=company" class="cta-button">Start free trial</a></li>
+                    <li><a href="register.html?src=article-nav&amp;audience=company&amp;identity=personal" class="cta-button" id="article-nav-trial">Start free trial</a></li>
                     <li><a href="portal.html" class="nav-login-link">Login</a></li>
                 </div>
             </ul>
@@ -428,8 +428,16 @@
                 const date = new Date(post.published_at).toLocaleDateString();
                 const assetRoot = window.__INITIAL_ARTICLE_DATA__ ? '../../' : '';
                 const ctaSrc = 'blog-' + String(post.slug || 'article').replace(/[^a-z0-9-]/gi, '').slice(0, 60);
-                const tryItHref = assetRoot + 'try-it.html?goal=sales&src=' + encodeURIComponent(ctaSrc);
-                const trialHref = assetRoot + 'register.html?plan=enterprise&src=' + encodeURIComponent(ctaSrc) + '&audience=company&identity=company';
+                const isJobSeekerPost = /(job|recruit|hiring|career|resume|interview|candidate|applicant|sonara)/i
+                    .test((post.slug || '') + ' ' + (post.title || ''));
+                const tryItHref = assetRoot + 'try-it.html?goal=' + (isJobSeekerPost ? 'jobs' : 'sales') + '&src=' + encodeURIComponent(ctaSrc);
+                const trialHref = isJobSeekerPost
+                    ? assetRoot + 'register.html?src=' + encodeURIComponent(ctaSrc) + '&audience=jobseeker&identity=personal'
+                    : assetRoot + 'register.html?plan=enterprise&src=' + encodeURIComponent(ctaSrc) + '&audience=company&identity=company';
+                const navTrial = document.getElementById('article-nav-trial');
+                if (navTrial && isJobSeekerPost) {
+                    navTrial.href = assetRoot + 'register.html?src=article-nav&audience=jobseeker&identity=personal';
+                }
                 
                 const safeTitle = escapeHtml(post.title || '');
                 let html = `
@@ -451,8 +459,8 @@
                         ${renderArticleBody(post.content)}
                     </div>
                     <aside class="article-cta" aria-label="Try Junior">
-                        <h2>See what Junior would say on a post from your market</h2>
-                        <p>Paste a real LinkedIn post and get the comment Junior would write for your business. No login needed.</p>
+                        <h2>${isJobSeekerPost ? 'See what Junior would say on a recruiter or hiring manager post' : 'See what Junior would say on a post from your market'}</h2>
+                        <p>${isJobSeekerPost ? 'Paste a real LinkedIn post and get the comment Junior would write for your job search. No login needed.' : 'Paste a real LinkedIn post and get the comment Junior would write for your business. No login needed.'}</p>
                         <div class="article-cta-actions">
                             <a href="${tryItHref}" class="primary-button" data-cta="article-cta-try-it">See a sample comment</a>
                             <a href="${trialHref}" class="article-cta-secondary" data-cta="article-cta-trial">Start a 14-day free trial</a>
