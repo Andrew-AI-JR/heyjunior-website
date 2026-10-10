@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article - Junior</title>
+    <link rel="stylesheet" href="../../css/styles.css?v=20261005-cro">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <script defer src="../../js/analytics.js?v=20261005-pii"></script>
+    <script src="../../js/api-config.js"></script>
+    <style>
+        .article-container {
+            max-width: 860px;
+            margin: 48px auto;
+            padding: 0 20px;
+        }
+        .article-header {
+            margin-bottom: 32px;
+        }
+        .article-cta {
+            margin: 40px 0 8px;
+            padding: 28px;
+            border-radius: 14px;
+            background: #EEF7FD;
+            border: 1px solid #DCE6EE;
+        }
+        .article-cta h2 { margin: 0 0 8px; font-size: 1.4rem; line-height: 1.25; color: #0B0F14; }
+        .article-cta p { margin: 0 0 16px; color: #5B6674; line-height: 1.6; }
+        .article-cta-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; margin-bottom: 12px; }
+        .article-cta-secondary { color: #255DB8; font-weight: 700; }
+        .article-cta .article-cta-fine { margin: 0; font-size: 0.88rem; }
+        .article-title {
+            font-size: clamp(2rem, 3vw, 2.9rem);
+            margin-bottom: 14px;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            color: #020617;
+        }
+        .article-meta {
+            color: #64748b;
+            font-size: 0.97rem;
+            font-weight: 500;
+        }
+        .article-featured-image {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            margin-bottom: 32px;
+        }
+        .article-content {
+            max-width: 72ch;
+            font-size: clamp(1.06rem, 1.2vw, 1.2rem);
+            line-height: 1.85;
+            color: #1f2937;
+        }
+        .article-content > *:first-child {
+            margin-top: 0;
+        }
+        .article-content > *:last-child {
+            margin-bottom: 0;
+        }
+        .article-content h2 {
+            margin-top: 2.1em;
+            margin-bottom: 0.8em;
+            line-height: 1.25;
+            letter-spacing: -0.01em;
+            color: #020617;
+        }
+        .article-content h3 {
+            margin-top: 1.7em;
+            margin-bottom: 0.65em;
+            line-height: 1.3;
+            letter-spacing: -0.005em;
+            color: #1e293b;
+        }
+        .article-content h4 {
+            margin-top: 1.4em;
+            margin-bottom: 0.55em;
+            line-height: 1.35;
+            color: #334155;
+        }
+        .article-content p {
+            margin: 0 0 1.3em;
+        }
+        .article-content ul,
+        .article-content ol {
+            margin: 0 0 1.3em 1.35em;
+            padding: 0;
+        }
+        .article-content li {
+            margin-bottom: 0.45em;
+        }
+        .article-content strong {
+            color: #0B0F14;
+        }
+        .article-content a {
+            color: #255DB8;
+            text-decoration-thickness: 0.08em;
+            text-underline-offset: 0.16em;
+        }
+        .article-content blockquote {
+            margin: 0 0 1.5em;
+            padding: 0.9em 1.1em;
+            border-left: 4px solid #94a3b8;
+            color: #334155;
+            background: #f8fafc;
+            border-radius: 8px;
+        }
+        .article-content pre {
+            overflow-x: auto;
+            padding: 14px;
+            border-radius: 8px;
+            background: #0B0F14;
+            color: #e2e8f0;
+            margin-bottom: 1.5em;
+            font-size: 0.93em;
+            line-height: 1.6;
+        }
+        .article-content code {
+            font-family: Consolas, "SFMono-Regular", Menlo, Monaco, monospace;
+            font-size: 0.95em;
+            background: #f1f5f9;
+            padding: 0.12em 0.35em;
+            border-radius: 4px;
+        }
+        .article-content pre code {
+            background: transparent;
+            padding: 0;
+        }
+        .article-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5em;
+            display: block;
+            overflow-x: auto;
+        }
+        .article-content th,
+        .article-content td {
+            border: 1px solid #cbd5e1;
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        .article-content th {
+            background: #f8fafc;
+            color: #0B0F14;
+        }
+        .article-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin: 0.6em 0 1.3em;
+        }
+        .article-content hr {
+            border: none;
+            border-top: 1px solid #e2e8f0;
+            margin: 2em 0;
+        }
+        .article-content figure {
+            margin: 0 0 1.5em;
+        }
+        .article-content figcaption {
+            color: #64748b;
+            font-size: 0.92em;
+            margin-top: 0.55em;
+        }
+        .article-loading {
+            text-align: center;
+            padding: 40px;
+            color: #64748b;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 24px;
+            color: #2F6FD6;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        .share-row {
+            display: flex;
+            gap: 12px;
+            margin: 24px 0;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .share-row.top-share {
+            margin-top: 16px;
+            margin-bottom: 0;
+        }
+        .share-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-decoration: none;
+            color: #334155;
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .share-button:hover {
+            background: #e2e8f0;
+            color: #0B0F14;
+            border-color: #cbd5e1;
+            text-decoration: none;
+        }
+        .share-button svg {
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+            fill: currentColor;
+        }
+        @media (max-width: 768px) {
+            .article-container {
+                margin: 28px auto;
+                padding: 0 16px;
+            }
+            .article-header {
+                margin-bottom: 24px;
+            }
+            .article-content {
+                font-size: 1.04rem;
+                line-height: 1.75;
+            }
+            .article-content table {
+                font-size: 0.93rem;
+            }
+            .article-content pre {
+                padding: 12px;
+            }
+        }
+    </style>
+
+    <link rel="canonical" href="https://heyjunior.ai/blog/best-ai-social-selling-tools-linkedin/">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://heyjunior.ai/blog/best-ai-social-selling-tools-linkedin/">
+    <meta property="og:title" content="Best AI social selling tools for LinkedIn relationship building">
+    <meta property="og:description" content="Discover the best AI social selling tools for LinkedIn. Learn how to switch from cold DMs to strategic post commenting to build real relationships and pipeline.">
+    <meta property="og:image" content="https://assets.bevisible.app/featured-images/j57d395wh6816zdee473d367e58f68y6/best-ai-social-selling-tools-for-linkedin-relation-1791389946959-i17k49.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://heyjunior.ai/blog/best-ai-social-selling-tools-linkedin/">
+    <meta name="twitter:title" content="Best AI social selling tools for LinkedIn relationship building">
+    <meta name="twitter:description" content="Discover the best AI social selling tools for LinkedIn. Learn how to switch from cold DMs to strategic post commenting to build real relationships and pipeline.">
+    <meta name="twitter:image" content="https://assets.bevisible.app/featured-images/j57d395wh6816zdee473d367e58f68y6/best-ai-social-selling-tools-for-linkedin-relation-1791389946959-i17k49.png">
+    
+</head>
+<body data-page="article" class="i18n-ready">
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <a href="../../index.html"><img src="../../images/junior-logo.png" alt="Junior Logo" class="logo-img"></a>
+            </div>
+            <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <div class="nav-group">
+                    <li><a href="../../index.html#use-cases">Use Cases</a></li>
+                    <li><a href="../../index.html#features">Features</a></li>
+                    <li><a href="../../why-commenting-works.html">Why Commenting Works</a></li>
+                    <li><a href="../../blog.html">Blog</a></li>
+                    <li><a href="../../try-it.html">Try It</a></li>
+                </div>
+                <div class="nav-actions">
+                    <li><a href="../../register.html?src=article-nav&amp;audience=company&amp;identity=personal" class="cta-button" id="article-nav-trial">Start free trial</a></li>
+                    <li><a href="../../portal.html" class="nav-login-link">Login</a></li>
+                </div>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="article-container" style="padding-top: 120px;">
+        <a href="../../blog.html" class="back-link">← Back to Blog</a>
+        
+        <div id="article-content">
+            <div class="article-loading">Loading article...</div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Junior. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        window.__INITIAL_ARTICLE_DATA__ = {"id": 127, "slug": "best-ai-social-selling-tools-linkedin", "title": "Best AI social selling tools for LinkedIn relationship building", "excerpt": "Discover the best AI social selling tools for LinkedIn. Learn how to switch from cold DMs to strategic post commenting to build real relationships and pipeline.", "featured_image_url": "https://assets.bevisible.app/featured-images/j57d395wh6816zdee473d367e58f68y6/best-ai-social-selling-tools-for-linkedin-relation-1791389946959-i17k49.png", "published_at": "2026-10-10T16:12:00+00:00", "content": "# Best AI social selling tools for LinkedIn relationship building\n\nIf you have logged into LinkedIn anytime in the past week, you have likely opened your inbox to a wall of identical, uninspired messages. \"Hope you are doing well. I noticed we share mutual connections...\" Followed swiftly by a pitch for lead generation, software development, or coaching services. \n\nThe inbox has become a dumping ground for lazy automation. As artificial intelligence has lowered the cost of generating text to near zero, the volume of cold outbound messaging has skyrocketed. But while the volume has increased, the conversion rates have plummeted. Buyers are fatigued. They have developed a blind spot for the standard LinkedIn Direct Message. \n\nThe most effective sales teams, founders, and job seekers have quietly abandoned the cold DM strategy altogether. Instead, they are turning public visibility into direct pipeline by leveraging AI for a different purpose: strategic, high-context post commenting. They are moving the conversation out of the crowded, high-friction inbox and into the public feed where relationships naturally begin. \n\nThis shift requires a new approach to outreach and a new stack of software. In this guide, we will break down the foundational rules of modern social selling, evaluate the tools that actually work, and explore how to use AI to scale your authentic networking without risking your account or your reputation.\n\n![Diagram comparing the declining results of cold LinkedIn DM outreach versus public high-context post commenting.](https://assets.bevisible.app/inline-images/j57d395wh6816zdee473d367e58f68y6/inline-1-1791389901954-7ia5ns.png)\n## The shift from volume outreach to visibility-driven social selling\n\nFor years, the standard playbook for LinkedIn growth was a numbers game. You bought a cloud-based automation tool, loaded a list of two thousand scraped profiles, set up a five-step messaging sequence, and walked away. The tool would max out your daily connection limits, and you hoped that a 1% conversion rate would yield enough meetings to justify the software cost.\n\nThat era is over. As [recent analysis on the state of LinkedIn outreach](https://nethunt.com/blog/linkedin-outreach/) points out, after testing numerous AI-based messaging tools, none have been able to independently replicate a genuinely human, unprompted interaction in a cold DM context. When people receive a message that feels even slightly robotic, they hit \"Ignore.\"\n\nSocial selling has fundamentally changed from a push model to a pull model. \n\n### Why the comment section is the new inbox\n\nWhen you send a cold message, you are interrupting someone's day and asking for their time. You are operating from a deficit of trust. \n\nWhen you leave an insightful, context-aware comment on someone's public post, you are giving them exactly what they want: validation, engagement, and visibility on their content. You are operating from a surplus of goodwill. \n\nFurthermore, the comment section is public. A single, highly valuable comment on a viral post by an industry leader can be seen by thousands of potential buyers in your target demographic. The original poster appreciates the engagement, and the secondary audience sees your expertise. \n\n### The role of AI in the new playbook\n\nIf commenting is so effective, why isn't everyone doing it manually? The answer is scale. Finding the right posts, reading them thoroughly, synthesizing a thoughtful response, and executing this fifty times a day is a full-time job. \n\nThis is where artificial intelligence becomes invaluable. But the goal of AI in this context is not to replace the human element. The goal is to act as a highly competent research assistant that surfaces the right opportunities and drafts a starting point based on your unique expertise. Effective AI-driven selling focuses on enhancing human connection by streamlining the heavy lifting of research and personalization.\n\n## The 4-part blueprint to AI social selling\n\nMoving from chaotic scrolling to a systematic lead generation engine requires structure. We can look to [the fundamental blueprint for proactive networking](https://www.inventive.ai/blog-posts/4-part-blueprint-to-social-selling-on-linkedin) which emphasizes identifying key people in your industry and engaging them systematically. \n\nTo execute this with AI, you need a four-step framework.\n\n### 1. Account and persona identification\nBefore you can engage, you need to know who you are targeting. This is not about building a list of 10,000 random titles. This is about identifying 100 to 200 high-intent prospects who are actively posting or commenting on LinkedIn. AI tools can help filter through company data, intent signals, and recent activity to build a highly targeted watch list.\n\n### 2. Signal monitoring and opportunity surfacing\nOnce your list is built, you cannot waste hours scrolling your feed hoping the algorithm shows you their content. You need a system that monitors your target accounts and alerts you the moment they publish a post or engage in a discussion. AI can analyze these posts in real-time to determine if they match your predefined topics of expertise.\n\n### 3. Context-aware drafting\nWhen a relevant post is found, the AI steps in to analyze the sentiment, extract the core argument, and cross-reference it with your personal bio, case studies, or stated opinions. It then drafts a reply that sounds like you\u2014not a generic ChatGPT platitude like \"Great post, thanks for sharing!\" but a nuanced addition to the conversation.\n\n### 4. Human-in-the-loop review and transition\nThis is the critical failure point for most automation. You must never let AI auto-post on your behalf without review. The final step of the blueprint is the human operator reviewing the drafted comment, tweaking the tone, hitting publish, and then\u2014only after a back-and-forth public conversation has occurred\u2014transitioning the relationship to a direct message.\n\n![Flowchart illustrating the 4-step AI social selling blueprint from persona identification to human-in-the-loop review.](https://assets.bevisible.app/inline-images/j57d395wh6816zdee473d367e58f68y6/inline-2-1791389893020-cuun56.png)\n## Foundational best practices for AI social selling\n\nBefore integrating software into your daily routine, you must establish the groundwork. Even the most sophisticated AI commenting strategy will fail if your foundational presence is weak.\n\n### Optimize your profile for credibility first\n\nYour profile is your landing page. If you execute a brilliant commenting strategy, the immediate result is that prospects will click your name to view your profile. If they land on a page that looks like a spam account or reads like a desperate sales pitch, they will bounce immediately.\n\nBuilding real credibility through work experience, specific results, and clear value propositions is mandatory. As experts note when discussing the [basics of building trust and credibility online](https://www.youtube.com/watch?v=MEZGJx1QjpE&t=403), authenticity is the baseline requirement for trust. Before you ever deploy an AI assistant to help you network, you must ensure your headline clearly articulates who you help and how you do it, and your featured section contains tangible proof of your competence.\n\n### Train your AI on your specific voice\n\nGeneric AI output is easy to spot. It relies heavily on transitional phrases like \"Moreover,\" \"Furthermore,\" and \"In today's fast-paced world.\" It uses a sanitized, overly enthusiastic corporate tone. \n\nTo make AI work for social selling, you must provide it with a comprehensive dataset of your own voice. This means feeding the system your previous successful posts, your specific contrarian opinions about your industry, your case studies, and your natural vocabulary. \n\n### Avoid the \"agree and praise\" trap\n\nA common mistake when using AI to generate comments is letting it default to sycophancy. \"This is such an incredible insight, John! I completely agree that AI is changing sales. Thanks for sharing this masterpiece!\"\n\nThis adds zero value to the conversation. A best practice for prompt engineering or configuring your AI tools is to mandate that every comment must add net-new information to the thread. The AI should be instructed to:\n* Provide a counter-example (politely).\n* Add a supporting statistic from your own experience.\n* Ask a highly specific follow-up question that forces the original poster to expand on their thought.\n\n## Top AI Social Selling Tools for LinkedIn\n\nThe software landscape for LinkedIn automation is vast, but it is heavily fragmented. Tools generally fall into four categories: commenting and relationship building, account intelligence, traditional sequence automation, and data scraping.\n\nChoosing the right tool depends entirely on your strategy. If you are committed to the modern, visibility-driven approach, your stack will look very different from a team running volume-based cold outreach. \n\nHere is a breakdown of the best platforms in the market for executing an AI social selling strategy.\n\n### 1. Junior (Best for relationship building via strategic comments)\n\nJunior is fundamentally different from traditional LinkedIn automation. It is an AI-powered networking assistant explicitly designed to start authentic conversations through strategic post commenting rather than generic DM spam. \n\nWhile most tools focus on the inbox, Junior focuses on the feed. It helps professionals bypass the noise by finding relevant discussions among your target audience and drafting context-aware, human-sounding replies. \n\n**How it works:**\nYou provide Junior with your unique bio, your goals, and your specific areas of expertise. Instead of blasting connection requests, Junior monitors LinkedIn for posts and conversations that match your target criteria. When it finds a relevant discussion, it acts as a ghostwriter, suggesting a nuanced reply based on your specific background. \n\n**Key advantages:**\n* **Local execution:** Unlike cloud-based connection tools that trigger LinkedIn's security algorithms by logging in from random server IP addresses, Junior runs locally on the user's machine. This mirrors natural human interaction patterns and protects account safety.\n* **Hyper-personalization:** Because it leverages your unique bio, the comments do not sound like generic AI. They sound like a seasoned practitioner adding value to a peer's discussion.\n* **Inbox bypass:** By focusing entirely on public visibility and genuine comment-driven interactions, it generates inbound profile views and inbound connection requests, effectively reversing the traditional cold outbound model.\n\nFor users trying to decide between content scheduling and genuine engagement, understanding the difference is key. You can explore how Junior compares to content-focused platforms in our guide on [Junior vs Taplio for LinkedIn growth](https://www.heyjunior.ai/blog/junior-vs-taplio-for-linkedin-growth).\n\n### 2. LinkedIn Sales Navigator (Best for account intelligence)\n\nYou cannot discuss social selling without mentioning LinkedIn's own enterprise tool. While Sales Navigator does not automate your commenting or outreach, its AI features have quietly become some of the most powerful intelligence-gathering mechanisms available. \n\nSales Navigator's integration of AI focuses heavily on intent data and account mapping. As noted in LinkedIn's own resources on how AI enhances sales, modern sales teams use these intelligence layers to [compare actual team performance to pre-set targets](https://business.linkedin.com/sell/resources/sales-terms/ai-in-sales) and identify buying signals before a prospect even realizes they have a problem.\n\n**Key advantages:**\n* **Account IQ:** Uses generative AI to summarize massive amounts of information about a target company, including recent earnings calls, leadership changes, and market challenges, synthesizing it into a single brief.\n* **Relationship mapping:** Automatically suggests the best path into an account based on your existing network and past interactions.\n* **Platform safety:** Because it is a native LinkedIn product, there is zero risk of account restriction when using its search and intelligence features.\n\nSales Navigator is best used in tandem with an execution tool. You use Navigator to build the highly targeted lists, and you use a tool like Junior to execute the engagement strategy against those lists. \n\n### 3. Expandi (Best for traditional sequence automation)\n\nFor teams that still rely heavily on direct messaging and email sequences, Expandi remains a dominant player in the cloud-based automation space. While we strongly advocate for the comment-first approach, some mature sales organizations still require multi-channel sequence builders.\n\nExpandi allows you to create complex logic paths. For example, if a prospect does not accept a connection request within three days, the tool can automatically pivot to sending them an InMail or a cold email. \n\n**Key advantages:**\n* **Omnichannel outreach:** Blends LinkedIn automation with email sequencing.\n* **Smart limits:** Has built-in randomized delays and daily limits to mimic human behavior better than older generation tools. \n* **Dynamic personalization:** Allows for custom images and GIFs in outreach messages.\n\nHowever, users must be cautious. Because Expandi is cloud-based, you must manage dedicated IP addresses carefully. Furthermore, relying entirely on automated messaging often leads to the exact inbox fatigue buyers are currently experiencing. If you are comparing heavy automation sequences against comment-driven networking, see our breakdown on [Junior vs Dripify: finding consulting clients without automated messaging](https://www.heyjunior.ai/blog/junior-vs-dripify-finding-consulting-clients-without-automated-messaging).\n\n### 4. Taplio / Supergrow (Best for outbound content generation)\n\nSocial selling has two sides: outbound engagement (commenting on others' posts) and inbound attraction (publishing your own content). Taplio and Supergrow dominate the inbound attraction side of the AI equation.\n\nThese platforms are essentially AI-powered content operating systems. They analyze top-performing posts across LinkedIn, provide you with trending formats, and use AI to help you draft your own daily posts. \n\n**Key advantages:**\n* **Content ideation:** Never stare at a blank page again. These tools provide endless prompts based on your niche.\n* **Scheduling and analytics:** Robust queues for planning months of content in advance, paired with deep analytics on which posts drive the most profile views.\n* **CRM integrations:** Basic features to track who engages with your content so you can follow up.\n\nThe limitation of content-generation tools is that posting into a void does not build an audience if you have no initial reach. You must pair a strong content creation habit with an aggressive outbound engagement strategy. For a deeper dive into tools that handle the engagement side of this equation, review our guide on the [Best AI Tools for Linkedin Commenting Tools Beyond Supergrow](https://www.heyjunior.ai/blog/best-ai-tools-for-linkedin-commenting-tools-beyond-supergrow).\n\n### 5. Phantombuster (Best for data scraping and enrichment)\n\nPhantombuster is not a social selling tool in the traditional sense; it is a data extraction engine. It uses \"Phantoms\" (small automated scripts) to scrape data from LinkedIn, such as event attendees, group members, or the likers of a specific viral post.\n\n**Key advantages:**\n* **Niche targeting:** If a competitor's CEO posts a controversial opinion and gets 500 likes, Phantombuster can scrape the profile data of every person who liked it, giving you a highly targeted list of prospects who care about that topic.\n* **Workflow chaining:** You can chain scripts together. For example, scrape a list of profiles, find their corporate email addresses, and push that data into your CRM.\n\nThe drawback is the technical learning curve and the aggressive nature of the scraping, which LinkedIn actively monitors. If you rely heavily on scraping and are looking for safer engagement methods, consider exploring [Best Automate Linkedin Comments Safely Tools Beyond Phantombuster](https://www.heyjunior.ai/blog/best-automate-linkedin-comments-safely-tools-beyond-phantombuster).\n\n![Categorized overview diagram displaying the landscape of LinkedIn AI tools across commenting, intelligence, content, and data](https://assets.bevisible.app/inline-images/j57d395wh6816zdee473d367e58f68y6/inline-3-1791389899402-j09481.png)\n## The Comment-First Strategy: A step-by-step workflow\n\nNow that we understand the tools, we need to map out the daily workflow. The goal is to spend no more than 30 to 45 minutes a day executing this strategy, yielding higher quality conversations than hours of manual cold DMing.\n\n### Step 1: Curate your digital environment\nThe LinkedIn feed is naturally optimized for broad engagement, viral memes, and algorithm-friendly platitudes. You must aggressively train your feed.\n* Unfollow connections who post irrelevant content.\n* \"Ring the bell\" on the profiles of your top 50 target prospects so you are notified the moment they post.\n* Follow specific industry hashtags and bookmark them.\n* Use a tool that isolates posts from your specific lists so you do not get distracted by the main timeline. (For more on this curation process, check out [Best Tools to Find Relevant Linkedin Posts to Comment On Tools Beyond Taplio](https://www.heyjunior.ai/blog/best-tools-to-find-relevant-linkedin-posts-to-comment-on-tools-beyond-taplio)).\n\n### Step 2: The daily engagement sprint\nDedicate your first 20 minutes to your target list. When a prospect posts, use your AI tool to analyze the post. \n\nIf the prospect posts a link to a company press release, skip it. No amount of AI can make a comment on a boring press release sound authentic. \nIf the prospect posts an observation about a problem in their business, this is your strike zone. Generate a draft comment, review it to ensure it includes a specific insight from your background, and post it.\n\n### Step 3: Engaging with the secondary audience\nDedicate your next 10 minutes to commenting on posts from industry influencers\u2014people who share your target audience but are not direct competitors. Your goal here is not to sell to the influencer. Your goal is to write a comment so valuable that it becomes the \"Top Comment\" on a post with 100,000 views. This essentially serves as free billboard advertising for your profile.\n\n### Step 4: The natural transition to the DM\nYou have left a thoughtful comment. The prospect replied to your comment. You replied back. Now, the transition to the inbox feels entirely natural. \n\nInstead of a cold pitch, your DM looks like this:\n*\"Hey Sarah, loved your point about the supply chain bottlenecks in the comments today. I actually have a template we use internally to bypass that exact vendor issue. Happy to shoot it over here if it's helpful. No worries if not.\"*\n\nBecause you have established rapport in public, the acceptance rate for this type of connection request frequently exceeds 70%, and the reply rate is exponentially higher than a cold blast.\n\n## Case Scenario: Turning a single viral thread into discovery calls\n\nTo understand the leverage of AI automation when applied to public engagement rather than private spam, consider a common scenario for B2B founders. \n\nMany founders experiment with AI outreach tools, only to find themselves burning through leads with nothing to show for it. In extreme cases of pivoting strategy, founders have documented how hyper-focused, non-spam approaches completely transform their pipeline. As one automation agency founder detailed, the right strategy can rapidly generate life-changing revenue\u2014[booking hundreds of calls and generating significant income](https://www.youtube.com/watch?v=ZeBbeonLqnU&vl=en) by abandoning the traditional limits of manual networking and adopting AI-assisted workflows.\n\nLet's look at a practical, scaled-down version of this. \n\nA consultant targeting VP-level marketing executives stops sending 100 connection requests a week. Instead, they identify a highly contentious post written by a prominent marketing influencer regarding the death of third-party cookies. \n\nThe consultant uses their AI assistant to rapidly summarize the 1,500-word post and cross-reference it against the consultant's own recent blog post on zero-party data. The AI drafts a highly technical, contrarian comment challenging one of the influencer's minor points using specific data. \n\nThe consultant edits the comment for tone and posts it within the first hour of the influencer's post going live. \n\nBecause the comment is insightful and slightly contrarian, it sparks a debate. Five different VP-level marketers (the exact target demographic) reply to the consultant's comment to agree or disagree. \n\nThe consultant spends the next twenty minutes replying to those individuals. By the end of the day, three of those VPs have viewed the consultant's profile and sent an inbound connection request. The consultant accepts, sends a personalized voice note referencing the debate, and books two discovery calls by the end of the week. \n\nZero outbound connection requests were sent. Zero cold DMs were fired. But by leveraging AI to rapidly synthesize complex information and draft a high-quality public response, the consultant generated high-intent inbound pipeline. \n\n## Contrarian view: Scaling back your connection requests increases your meeting rate\n\nThis brings us to a fundamentally contrarian reality in modern social selling. \n\nMost sales managers track KPIs based on volume: How many connections did you send? How many InMails were used? \n\nThe math used to make sense: Send 1,000 requests, get 200 acceptances, book 10 meetings, close 1 deal. \n\nBut as buyers have adapted, that math is broken. Today, sending 1,000 generic requests might yield 50 acceptances, 1 angry reply, and zero meetings. Furthermore, maxing out your connection requests signals to LinkedIn's spam filters that you are acting aggressively, lowering the organic reach of your content and putting your account at risk.\n\nThe contrarian truth is that **reducing your outbound connection volume to near zero forces you to rely on engagement.** When you cannot use the crutch of bulk messaging, you are forced to write better comments, publish better content, and engage more thoughtfully. \n\nWhen you prioritize visibility and engagement over inbox volume, the algorithm rewards you with higher reach, and prospects lower their defensive shields. The metric you should be tracking is not \"Connections Sent,\" but \"Meaningful Public Conversations Started.\" \n\n## Technical safety: Protecting your LinkedIn account while using AI\n\nLinkedIn actively fights against generic automation. Their user agreement strictly prohibits the use of bots that scrape data or mimic human behavior aggressively. \n\nIf you choose the wrong AI social selling tool, you risk a temporary restriction or a permanent ban. \n\n### Cloud vs. Local automation\n\nThe most critical safety distinction is how the software interacts with LinkedIn's servers. \n\n**Cloud-based tools** require you to hand over your session cookies or login credentials. The software then logs into your account from a server (often located in a different city or country than you). To LinkedIn's security systems, this looks like someone in AWS US-East just logged into an account that is normally accessed from a residential IP in London. This triggers immediate red flags. \n\nFurthermore, cloud tools often operate on rigid, mathematical schedules. They send exactly one message every 4.2 minutes. Human beings do not behave this way.\n\n**Local automation tools** (like Junior) run directly on your own machine. They utilize your existing, authenticated browser session and your own IP address. When the tool executes a search or helps draft a comment, it appears to LinkedIn exactly as if you were doing it manually. \n\n### Engagement velocity\n\nEven with local tools, safety requires managing your velocity. If a human being typically leaves 5 comments a day, and suddenly an AI tool is leaving 300 comments an hour, the account will be flagged. \n\nBest practices for account safety dictate a slow ramp-up period. Start by using AI to assist with 10 to 15 high-quality comments per day. Gradually increase this as your account health proves stable, but recognize that in comment-driven social selling, quality mathematically outperforms quantity. \n\nFor a comprehensive checklist of security measures you should take before automating anything, review our guide on [Safe AI engagement on LinkedIn](https://www.heyjunior.ai/blog/safe-ai-engagement-on-linkedin).\n\n## AI Tools for LinkedIn Commenting Evaluation Checklist\n\nIf you are evaluating software to help implement this strategy, do not get distracted by feature bloat. Many tools offer massive suites of features that look great on a pricing page but are never used by actual sales teams. \n\nFocus your evaluation on these core criteria:\n\n| Feature/Capability | Why it matters | What to look for |\n| :--- | :--- | :--- |\n| **Context Window Processing** | Poor AI just reads the last sentence of a post. Good AI reads the entire thread, the original post, and the author's bio. | Ensure the tool can summarize long-form posts accurately before suggesting a draft. |\n| **Custom Persona Upload** | Without this, you will sound like a generic bot. | The ability to upload your resume, past posts, company value proposition, and specific writing tone instructions. |\n| **Local IP Execution** | Protects your account from instant cloud-based bans. | Avoid tools that require a dedicated proxy or virtual private server just to run safely. |\n| **Feed Filtering** | Finding the posts is 80% of the battle. | The tool should bypass the algorithmic main feed and pull posts strictly from your defined target lists or Sales Navigator. |\n| **Human-in-the-Loop Design** | Auto-posting is brand suicide. | The UI must force you to review, edit, and manually approve every single comment before it goes live. |\n\nFor a more exhaustive breakdown of how to audit your software choices, refer to our [AI Tools for Linkedin Commenting Evaluation Checklist](https://www.heyjunior.ai/blog/ai-tools-for-linkedin-commenting-evaluation-checklist).\n\n## FAQs about AI social selling on LinkedIn\n\n### How many AI-assisted comments should I leave daily?\nFor optimal results and account safety, aim for 15 to 25 high-quality comments per day. Spread these across your direct target prospects (to build relationships) and industry influencers (to build visibility). Consistency over a 90-day period is vastly more important than trying to leave 100 comments in a single weekend. \n\n### Will LinkedIn ban me for using AI to write comments?\nLinkedIn does not ban users for using generative AI to help write text. They ban users for using aggressive bots that scrape data, send thousands of spam messages, and manipulate engagement metrics (like buying fake likes). If you use a safe, locally run tool to draft comments that you manually review and publish, your account remains well within safe operational boundaries. \n\n### Does AI social selling work for job seekers?\nAbsolutely. In fact, it is often more effective for job seekers than for salespeople. Instead of cold pitching a recruiter, a job seeker can use AI tools to monitor the posts of hiring managers at target companies. By consistently leaving insightful, technically sound comments on a VP of Engineering's posts, a software developer bypasses the resume pile and establishes direct intellectual rapport. \n\n### How do I measure the ROI of a comment-first strategy?\nTrack three primary metrics:\n1. **Inbound profile views:** This shows your comments are intriguing enough to warrant a click.\n2. **Inbound connection requests from target personas:** This proves you have generated authority.\n3. **Conversations transitioned to DMs:** This is your actual pipeline metric. \n\nIf you are evaluating tools heading into the new year, you can see how these metrics align with broader industry trends in our overview of the [Best LinkedIn engagement tools 2026](https://www.heyjunior.ai/blog/best-linkedin-engagement-tools-2026).\n\n## Final thoughts on leveraging AI for relationships\n\nThe era of blasting thousands of generic messages into the void is definitively over. Buyers are too smart, spam filters are too strict, and the noise is simply too loud. \n\nHowever, the fundamental human desire for connection, validation, and interesting conversation remains unchanged. Artificial intelligence, when deployed correctly, does not replace this human element. It acts as an amplifier. It allows you to find the exact right conversations at the exact right time, giving you the context you need to showcase your expertise without spending hours staring at a screen.\n\nBy shifting your focus from the private inbox to the public feed, operating safely from your local machine, and prioritizing the quality of your engagement over the sheer volume of your outreach, you can turn LinkedIn from a frustrating time-sink into a reliable engine for long-term relationships and consistent revenue.", "created_at": "2026-10-10T16:19:27.562746+00:00", "updated_at": "2026-10-10T16:19:27.562751+00:00"};
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js"></script>
+    <script>
+        function looksLikeHtml(content) {
+            return /<\/?[a-z][\s\S]*>/i.test(content);
+        }
+
+        function escapeHtml(content) {
+            return content
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function formatPlainText(content) {
+            return content
+                .split(/\n{2,}/)
+                .map(paragraph => `<p>${escapeHtml(paragraph).replace(/\n/g, '<br>')}</p>`)
+                .join('');
+        }
+
+        // The page header already renders the title, so drop a leading H1 the CMS repeats in the body.
+        function stripLeadingTitle(content) {
+            if (looksLikeHtml(content)) {
+                return content.replace(/^\s*<h1\b[^>]*>[\s\S]*?<\/h1>\s*/i, '');
+            }
+            return content.replace(/^\s*#\s+[^\n]*\n+/, '');
+        }
+
+        function renderArticleBody(rawContent) {
+            const content = stripLeadingTitle((rawContent || '').trim()).trim();
+            if (!content) {
+                return '<p>This article has no content yet.</p>';
+            }
+
+            if (looksLikeHtml(content)) {
+                if (window.DOMPurify) {
+                    return window.DOMPurify.sanitize(content);
+                }
+                return content;
+            }
+
+            if (window.marked) {
+                const markdownHtml = window.marked.parse(content, {
+                    gfm: true,
+                    breaks: true,
+                    mangle: false,
+                    headerIds: true
+                });
+                if (window.DOMPurify) {
+                    return window.DOMPurify.sanitize(markdownHtml);
+                }
+                return markdownHtml;
+            }
+
+            return formatPlainText(content);
+        }
+
+        function createShareButtons(url, title, position) {
+            const encodedUrl = encodeURIComponent(url);
+            const encodedTitle = encodeURIComponent(title);
+            
+            const buttons = [
+                {
+                    name: 'LinkedIn',
+                    url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>'
+                },
+                {
+                    name: 'X',
+                    url: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>'
+                },
+                {
+                    name: 'Facebook',
+                    url: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>'
+                },
+                {
+                    name: 'WhatsApp',
+                    url: `https://api.whatsapp.com/send?text=${encodedTitle}%20${encodedUrl}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>'
+                },
+                {
+                    name: 'Reddit',
+                    url: `https://reddit.com/submit?url=${encodedUrl}&title=${encodedTitle}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.688-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg>'
+                },
+                {
+                    name: 'Email',
+                    url: `mailto:?subject=${encodedTitle}&body=${encodedUrl}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>'
+                }
+            ];
+
+            let html = `<div class="share-row ${position === 'top' ? 'top-share' : ''}">`;
+            
+            buttons.forEach(btn => {
+                html += `<a href="${btn.url}" target="_blank" rel="noopener noreferrer" class="share-button" data-cta="share-${position}-${btn.name.toLowerCase()}">
+                    ${btn.icon} ${btn.name}
+                </a>`;
+            });
+
+            html += `<button class="share-button" onclick="navigator.clipboard.writeText('${url.replace(/'/g, "\\'")}'); alert('Link copied to clipboard!');" data-cta="share-${position}-copy">
+                <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg> Copy Link
+            </button>`;
+
+            if (navigator.share) {
+                html += `<button class="share-button" onclick="navigator.share({title: '${title.replace(/'/g, "\\'")}', url: '${url.replace(/'/g, "\\'")}'}).catch(console.error);" data-cta="share-${position}-native">
+                    <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg> Share
+                </button>`;
+            }
+
+            html += `</div>`;
+            return html;
+        }
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            const container = document.getElementById('article-content');
+            
+            try {
+                let post;
+                
+                // If we have injected data (static page), use it directly
+                if (window.__INITIAL_ARTICLE_DATA__) {
+                    post = window.__INITIAL_ARTICLE_DATA__;
+                } else {
+                    // Otherwise, we are on the dynamic route, fetch from API
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const slug = urlParams.get('slug');
+                    
+                    if (!slug) {
+                        throw new Error('Article not found.');
+                    }
+                    
+                    // Redirect to the new static URL format
+                    window.location.replace(`/blog/${slug}/`);
+                    return;
+                }
+                
+                document.title = `${post.title} - Junior`;
+                
+                const date = new Date(post.published_at).toLocaleDateString();
+                const assetRoot = window.__INITIAL_ARTICLE_DATA__ ? '../../' : '';
+                const ctaSrc = 'blog-' + String(post.slug || 'article').replace(/[^a-z0-9-]/gi, '').slice(0, 60);
+                const isJobSeekerPost = /(job|recruit|hiring|career|resume|interview|candidate|applicant|sonara)/i
+                    .test((post.slug || '') + ' ' + (post.title || ''));
+                const tryItHref = assetRoot + 'try-it.html?goal=' + (isJobSeekerPost ? 'jobs' : 'sales') + '&src=' + encodeURIComponent(ctaSrc);
+                const trialHref = isJobSeekerPost
+                    ? assetRoot + 'register.html?src=' + encodeURIComponent(ctaSrc) + '&audience=jobseeker&identity=personal'
+                    : assetRoot + 'register.html?plan=enterprise&src=' + encodeURIComponent(ctaSrc) + '&audience=company&identity=company';
+                const navTrial = document.getElementById('article-nav-trial');
+                if (navTrial && isJobSeekerPost) {
+                    navTrial.href = assetRoot + 'register.html?src=article-nav&audience=jobseeker&identity=personal';
+                }
+                
+                const safeTitle = escapeHtml(post.title || '');
+                let html = `
+                    <header class="article-header">
+                        <h1 class="article-title">${safeTitle}</h1>
+                        <div class="article-meta">Published on ${date}</div>
+                    </header>
+                `;
+
+                const shareUrl = window.location.origin + window.location.pathname;
+                html += createShareButtons(shareUrl, post.title, 'top');
+                
+                if (post.featured_image_url) {
+                    html += `<img src="${escapeHtml(post.featured_image_url)}" alt="${safeTitle}" class="article-featured-image">`;
+                }
+                
+                html += `
+                    <div class="article-content">
+                        ${renderArticleBody(post.content)}
+                    </div>
+                    <aside class="article-cta" aria-label="Try Junior">
+                        <h2>${isJobSeekerPost ? 'See what Junior would say on a recruiter or hiring manager post' : 'See what Junior would say on a post from your market'}</h2>
+                        <p>${isJobSeekerPost ? 'Paste a real LinkedIn post and get the comment Junior would write for your job search. No login needed.' : 'Paste a real LinkedIn post and get the comment Junior would write for your business. No login needed.'}</p>
+                        <div class="article-cta-actions">
+                            <a href="${tryItHref}" class="primary-button" data-cta="article-cta-try-it">See a sample comment</a>
+                            <a href="${trialHref}" class="article-cta-secondary" data-cta="article-cta-trial">Start a 14-day free trial</a>
+                        </div>
+                        <p class="article-cta-fine">14 days free on every plan. Card required, $0 today, cancel anytime.</p>
+                    </aside>
+                `;
+                
+                html += createShareButtons(shareUrl, post.title, 'bottom');
+                
+                container.innerHTML = html;
+            } catch (err) {
+                container.innerHTML = `<p>${err.message}</p>`;
+                console.error(err);
+            }
+        });
+    </script>
+</body>
+</html>
