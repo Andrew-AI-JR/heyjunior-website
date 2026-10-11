@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article - Junior</title>
+    <link rel="stylesheet" href="../../css/styles.css?v=20261005-cro">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <script defer src="../../js/analytics.js?v=20261005-pii"></script>
+    <script src="../../js/api-config.js"></script>
+    <style>
+        .article-container {
+            max-width: 860px;
+            margin: 48px auto;
+            padding: 0 20px;
+        }
+        .article-header {
+            margin-bottom: 32px;
+        }
+        .article-cta {
+            margin: 40px 0 8px;
+            padding: 28px;
+            border-radius: 14px;
+            background: #EEF7FD;
+            border: 1px solid #DCE6EE;
+        }
+        .article-cta h2 { margin: 0 0 8px; font-size: 1.4rem; line-height: 1.25; color: #0B0F14; }
+        .article-cta p { margin: 0 0 16px; color: #5B6674; line-height: 1.6; }
+        .article-cta-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; margin-bottom: 12px; }
+        .article-cta-secondary { color: #255DB8; font-weight: 700; }
+        .article-cta .article-cta-fine { margin: 0; font-size: 0.88rem; }
+        .article-title {
+            font-size: clamp(2rem, 3vw, 2.9rem);
+            margin-bottom: 14px;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            color: #020617;
+        }
+        .article-meta {
+            color: #64748b;
+            font-size: 0.97rem;
+            font-weight: 500;
+        }
+        .article-featured-image {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            margin-bottom: 32px;
+        }
+        .article-content {
+            max-width: 72ch;
+            font-size: clamp(1.06rem, 1.2vw, 1.2rem);
+            line-height: 1.85;
+            color: #1f2937;
+        }
+        .article-content > *:first-child {
+            margin-top: 0;
+        }
+        .article-content > *:last-child {
+            margin-bottom: 0;
+        }
+        .article-content h2 {
+            margin-top: 2.1em;
+            margin-bottom: 0.8em;
+            line-height: 1.25;
+            letter-spacing: -0.01em;
+            color: #020617;
+        }
+        .article-content h3 {
+            margin-top: 1.7em;
+            margin-bottom: 0.65em;
+            line-height: 1.3;
+            letter-spacing: -0.005em;
+            color: #1e293b;
+        }
+        .article-content h4 {
+            margin-top: 1.4em;
+            margin-bottom: 0.55em;
+            line-height: 1.35;
+            color: #334155;
+        }
+        .article-content p {
+            margin: 0 0 1.3em;
+        }
+        .article-content ul,
+        .article-content ol {
+            margin: 0 0 1.3em 1.35em;
+            padding: 0;
+        }
+        .article-content li {
+            margin-bottom: 0.45em;
+        }
+        .article-content strong {
+            color: #0B0F14;
+        }
+        .article-content a {
+            color: #255DB8;
+            text-decoration-thickness: 0.08em;
+            text-underline-offset: 0.16em;
+        }
+        .article-content blockquote {
+            margin: 0 0 1.5em;
+            padding: 0.9em 1.1em;
+            border-left: 4px solid #94a3b8;
+            color: #334155;
+            background: #f8fafc;
+            border-radius: 8px;
+        }
+        .article-content pre {
+            overflow-x: auto;
+            padding: 14px;
+            border-radius: 8px;
+            background: #0B0F14;
+            color: #e2e8f0;
+            margin-bottom: 1.5em;
+            font-size: 0.93em;
+            line-height: 1.6;
+        }
+        .article-content code {
+            font-family: Consolas, "SFMono-Regular", Menlo, Monaco, monospace;
+            font-size: 0.95em;
+            background: #f1f5f9;
+            padding: 0.12em 0.35em;
+            border-radius: 4px;
+        }
+        .article-content pre code {
+            background: transparent;
+            padding: 0;
+        }
+        .article-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5em;
+            display: block;
+            overflow-x: auto;
+        }
+        .article-content th,
+        .article-content td {
+            border: 1px solid #cbd5e1;
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        .article-content th {
+            background: #f8fafc;
+            color: #0B0F14;
+        }
+        .article-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin: 0.6em 0 1.3em;
+        }
+        .article-content hr {
+            border: none;
+            border-top: 1px solid #e2e8f0;
+            margin: 2em 0;
+        }
+        .article-content figure {
+            margin: 0 0 1.5em;
+        }
+        .article-content figcaption {
+            color: #64748b;
+            font-size: 0.92em;
+            margin-top: 0.55em;
+        }
+        .article-loading {
+            text-align: center;
+            padding: 40px;
+            color: #64748b;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 24px;
+            color: #2F6FD6;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        .share-row {
+            display: flex;
+            gap: 12px;
+            margin: 24px 0;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .share-row.top-share {
+            margin-top: 16px;
+            margin-bottom: 0;
+        }
+        .share-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-decoration: none;
+            color: #334155;
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .share-button:hover {
+            background: #e2e8f0;
+            color: #0B0F14;
+            border-color: #cbd5e1;
+            text-decoration: none;
+        }
+        .share-button svg {
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+            fill: currentColor;
+        }
+        @media (max-width: 768px) {
+            .article-container {
+                margin: 28px auto;
+                padding: 0 16px;
+            }
+            .article-header {
+                margin-bottom: 24px;
+            }
+            .article-content {
+                font-size: 1.04rem;
+                line-height: 1.75;
+            }
+            .article-content table {
+                font-size: 0.93rem;
+            }
+            .article-content pre {
+                padding: 12px;
+            }
+        }
+    </style>
+
+    <link rel="canonical" href="https://heyjunior.ai/blog/ai-commenting-linkedin-job-search/">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://heyjunior.ai/blog/ai-commenting-linkedin-job-search/">
+    <meta property="og:title" content="How to use AI commenting to network on LinkedIn during a job search">
+    <meta property="og:description" content="Discover what software helps job seekers network on LinkedIn. Learn how AI commenting cuts through inbox noise, builds relationships, and lands interviews.">
+    <meta property="og:image" content="https://assets.bevisible.app/featured-images/j578bsrk8pethnevb5pbcz4x9s8f7fdt/how-to-use-ai-commenting-to-network-on-linkedin-du-1791474539224-nyfljn.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://heyjunior.ai/blog/ai-commenting-linkedin-job-search/">
+    <meta name="twitter:title" content="How to use AI commenting to network on LinkedIn during a job search">
+    <meta name="twitter:description" content="Discover what software helps job seekers network on LinkedIn. Learn how AI commenting cuts through inbox noise, builds relationships, and lands interviews.">
+    <meta name="twitter:image" content="https://assets.bevisible.app/featured-images/j578bsrk8pethnevb5pbcz4x9s8f7fdt/how-to-use-ai-commenting-to-network-on-linkedin-du-1791474539224-nyfljn.png">
+    
+</head>
+<body data-page="article" class="i18n-ready">
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <a href="../../index.html"><img src="../../images/junior-logo.png" alt="Junior Logo" class="logo-img"></a>
+            </div>
+            <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <div class="nav-group">
+                    <li><a href="../../index.html#use-cases">Use Cases</a></li>
+                    <li><a href="../../index.html#features">Features</a></li>
+                    <li><a href="../../why-commenting-works.html">Why Commenting Works</a></li>
+                    <li><a href="../../blog.html">Blog</a></li>
+                    <li><a href="../../try-it.html">Try It</a></li>
+                </div>
+                <div class="nav-actions">
+                    <li><a href="../../register.html?src=article-nav&amp;audience=company&amp;identity=personal" class="cta-button" id="article-nav-trial">Start free trial</a></li>
+                    <li><a href="../../portal.html" class="nav-login-link">Login</a></li>
+                </div>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="article-container" style="padding-top: 120px;">
+        <a href="../../blog.html" class="back-link">← Back to Blog</a>
+        
+        <div id="article-content">
+            <div class="article-loading">Loading article...</div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Junior. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        window.__INITIAL_ARTICLE_DATA__ = {"id": 128, "slug": "ai-commenting-linkedin-job-search", "title": "How to use AI commenting to network on LinkedIn during a job search", "excerpt": "Discover what software helps job seekers network on LinkedIn. Learn how AI commenting cuts through inbox noise, builds relationships, and lands interviews.", "featured_image_url": "https://assets.bevisible.app/featured-images/j578bsrk8pethnevb5pbcz4x9s8f7fdt/how-to-use-ai-commenting-to-network-on-linkedin-du-1791474539224-nyfljn.png", "published_at": "2026-10-11T15:38:00+00:00", "content": "# How to use AI commenting to network on LinkedIn during a job search\n\nIf you have spent any time searching for a job on LinkedIn recently, you have likely run into the same frustrating wall: the \"Easy Apply\" button is a black hole, and hiring managers' direct message inboxes are impenetrable fortresses of unread spam. \n\nYou spend hours crafting the perfect cold outreach message to a Director of Engineering or a VP of Marketing, only for it to be buried under fifty automated pitches from lead generation agencies and hundreds of identical connection requests from other job seekers.\n\nThe traditional advice for LinkedIn networking relies on volume. The old playbook tells you to scrape emails, use automation tools to blast connection requests, and follow up aggressively. But the reality of the 2026 job market is that attention is scarce, and patience for unsolicited pitches is at an all-time low. \n\nTo actually stand out, you have to bypass the inbox entirely and engage where decision-makers are actively looking for validation and interaction: their public posts. \n\nThis is where the paradigm of networking software shifts. Instead of using tools to automate direct messages, savvy job seekers are using AI commenting to build public visibility, demonstrate their expertise in context, and earn the right to a conversation. \n\n![Diagram comparing ignored cold LinkedIn messages with the high-visibility public commenting workflow.](https://assets.bevisible.app/inline-images/j578bsrk8pethnevb5pbcz4x9s8f7fdt/inline-1-1791474489709-btrnri.png)\n## The silent failure of the modern LinkedIn job search\n\nWhen professionals ask, \"What software helps job seekers network on LinkedIn?\" they are usually looking for a shortcut to getting their resume in front of a human. \n\nThe typical tech stack for a modern job seeker has evolved rapidly over the last few years, but it has largely optimized the wrong part of the process. We have become incredibly efficient at organizing our failures rather than creating new opportunities.\n\nConsider the typical workflow. A job seeker finds a role, logs it in a spreadsheet, searches the company for the hiring manager, and sends a connection request with a note. Because this process is tedious, they look for software to speed it up. They end up with a mix of tools that make them faster at doing things that do not work.\n\nThe fundamental flaw in this approach is that it treats networking as a transaction rather than an interaction. Hiring managers do not want to be networked *at*. When they log into LinkedIn, they are not looking for more work\u2014which is exactly what a cold DM asking for a \"quick 15-minute chat\" represents. They are looking to consume content, share their own ideas, and build their own personal brands.\n\nIf you interrupt their day with a direct request, you are a nuisance. If you publicly validate their ideas with a thoughtful, context-rich comment on their latest post, you are a peer.\n\n## Breaking down the job search software stack\n\nTo understand where AI commenting fits into your strategy, we need to categorize the types of software job seekers currently use to navigate LinkedIn. Not all tools serve the same purpose, and relying on the wrong category to start conversations will leave you frustrated.\n\n### 1. Job Search CRMs and Trackers\n\nThese are the organizational backbones of a modern job hunt. Tools like Teal and Huntr operate as browser extensions that sit on top of your LinkedIn experience. \n\nWhen you find an interesting job description or identify a key executive at a target company, you use these tools to clip the information into a visual pipeline (often a Kanban board). They help you track when you applied, who you reached out to, and when you need to follow up. \n\n**The verdict for networking:** Highly recommended for organization, but completely ineffective for actual relationship building. A CRM tracks your networking; it does not do the networking for you. \n\n### 2. Contact finders and referral identifiers\n\nWhen the LinkedIn inbox fails, job seekers often try to move the conversation to email. This requires contact intelligence tools.\n\nSoftware like JobWizard or various email scrapers (like Apollo or Hunter.io) will overlay on a LinkedIn profile and reveal the person's corporate email address. Referral tools will automatically cross-reference your network to show you if you have 2nd-degree connections or alumni ties to a specific company.\n\n**The verdict for networking:** Useful for taking a warm conversation off-platform, but using these tools to send cold emails to hiring managers often results in the same fate as a cold LinkedIn DM: deletion. \n\n### 3. Mass connection and messaging automation\n\nThis is the category that most people think of when they hear \"LinkedIn networking software,\" and it is also the most dangerous. \n\nHistorically, job seekers have turned to cloud-based automation tools to scrape lists of recruiters and blast out hundreds of automated connection requests per week. They load up a generic template (\"Hi [First Name], I see you work at [Company]...\") and let the software run in the background.\n\n**The verdict for networking:** Actively harmful. LinkedIn's algorithm strictly monitors and penalizes heavy automation. Using these tools puts your account at risk of suspension. Furthermore, the hiring managers you are trying to impress can spot an automated DM from a mile away. If you want to learn more about why traditional automation is failing, reviewing [Safe AI engagement on LinkedIn](https://www.heyjunior.ai/blog/safe-ai-engagement-on-linkedin) is a good place to start.\n\n### 4. AI Commenting and Contextual Engagement\n\nThis is the emerging frontier for job seekers. Instead of automating private outreach, these tools focus on public interaction. \n\nSoftware in this category helps you identify when your target decision-makers post content and assists you in drafting thoughtful, human-sounding replies based on your unique background. It solves the \"blank page syndrome\" of networking, allowing you to engage meaningfully with dozens of leaders every day without spending hours drafting replies from scratch.\n\n![Overview of four LinkedIn job search software categories and their relationship-building effectiveness.](https://assets.bevisible.app/inline-images/j578bsrk8pethnevb5pbcz4x9s8f7fdt/inline-2-1791474487668-202e34.png)\n## Why public engagement outperforms cold DMs\n\nTo understand why AI commenting is so effective, you have to look at the psychology of the modern LinkedIn user, specifically the hiring managers, VPs, and founders you want to work for.\n\n### The dopamine loop of content creation\n\nWhen a VP of Product or a Director of Sales publishes a post on LinkedIn, they are putting themselves out there. Whether they are sharing a lesson learned, a strong opinion on industry trends, or celebrating a team win, they want engagement. \n\nWhen they hit \"post,\" they experience a subtle anxiety: *Will anyone care? Will this get likes? Will people agree with me?*\n\nWhen you send that same VP a cold DM asking for a job, you are adding a task to their to-do list. When you leave a highly relevant, insightful comment on their post, you are giving them the exact validation they were seeking. You are feeding their dopamine loop.\n\nHiring managers rarely check their \"Other\" or \"Pending\" message requests. But they check their notifications tab obsessively to see who is commenting on their posts. By engaging publicly, you are placing your name, your headline, and your expertise at the very top of their attention hierarchy.\n\n### The power of proximity\n\nNetworking through commenting allows you to demonstrate your competence rather than just claiming it. \n\nIf you are a job-seeking data analyst, you could send a DM that says, \"I am a great data analyst, please look at my resume.\" Or, you could find a post where the Head of Data at your target company is discussing the challenges of migrating to a new data warehouse, and leave a comment detailing a specific hurdle you overcame in a similar migration.\n\nThe latter approach proves your value instantly. It shows you understand their world, you speak their language, and you have relevant experience. It places you in proximity to their expertise. \n\nWhen you consistently show up in the comments of industry leaders, you transition from being \"just another applicant\" to being a recognized face in their professional orbit.\n\n## Enter AI commenting: The new networking cheat code\n\nIf commenting is so powerful, why don't more job seekers do it? \n\nBecause it is incredibly time-consuming and mentally exhausting. \n\nTo execute this strategy manually, you have to hunt down the right people, continuously check if they have posted anything new, read their content, synthesize your thoughts, and write a compelling reply that doesn't sound generic. Doing this for one person takes five minutes. Doing it for forty target companies takes hours you don't have.\n\nThis is exactly what AI commenting software solves. By leveraging [Best LinkedIn engagement tools 2026](https://www.heyjunior.ai/blog/best-linkedin-engagement-tools-2026), job seekers can scale their public networking without sacrificing quality.\n\n### Overcoming the \"blank page\" syndrome\n\nThe biggest hurdle in commenting is knowing what to say. When confronted with a long, detailed post from an industry leader, it is easy to freeze. You don't want to sound stupid, but you also know that commenting \"Great post! Agree completely!\" is useless. Generic cheerleading does not win interviews.\n\nA sophisticated AI commenting tool acts as your conversational co-pilot. When you view a post, the software analyzes the core argument, extracts the key themes, and suggests multiple angles for a response. \n\nYou might choose to respectfully disagree, expand on one specific point, share a related anecdote, or ask a probing follow-up question. The AI drafts the initial response, giving you a strong foundation to edit and personalize.\n\n### Context-aware vs. generic AI\n\nIt is crucial to differentiate between generic AI and context-aware AI. \n\nIn the early days of generative AI, people used basic browser extensions that fed a post into ChatGPT with a prompt like \"Write a friendly reply.\" The result was an influx of robotic, overly enthusiastic comments filled with rocket ship emojis and the word \"Delve.\"\n\nDecision-makers learned to ignore these immediately.\n\nModern AI commenting tools, like Junior, operate differently. They require you to input your professional bio, your specific skills, your industry experience, and your tone of voice. When Junior drafts a comment, it doesn't just analyze the post; it cross-references the post with *your* background. \n\nIf a hiring manager posts about the difficulties of agile software development, and your profile indicates you are a certified Scrum Master with five years of experience in fintech, the AI will draft a comment that explicitly references your specific background to validate their point. It sounds like you, because it is based on your actual experience. \n\n![Diagram illustrating the difference between generic AI responses and context-aware LinkedIn commenting.](https://assets.bevisible.app/inline-images/j578bsrk8pethnevb5pbcz4x9s8f7fdt/inline-3-1791474487145-schoux.png)\n## Building a networking system with AI commenting\n\nKnowing that the software exists is only half the battle. To land interviews, you need a systematic approach. You cannot just wander around the LinkedIn feed commenting on random posts. You need a targeted strategy.\n\nHere is a step-by-step framework for using AI commenting software to bypass the resume pile and start conversations with hiring managers.\n\n### Phase 1: Identifying the right targets\n\nYour first step is to build a highly curated list of target accounts. Do not focus exclusively on external recruiters; they are often overwhelmed and acting as gatekeepers. You want to engage with the people who actually feel the pain of the open role: the hiring managers, department heads, and senior individual contributors at your target companies.\n\n1.  **Define your target companies:** Make a list of 20-30 companies you actively want to work for.\n2.  **Map the organizational chart:** Use LinkedIn search to find the Directors, VPs, and Senior Managers in the department you want to join. \n3.  **Identify the active creators:** This is the most critical step. Not everyone posts on LinkedIn. Look at the \"Activity\" section of your targets. Filter out the people who haven't posted or commented in the last 90 days. You are looking for the 20% of leaders who are actively trying to build a presence on the platform.\n\n### Phase 2: Setting up targeted listening\n\nOnce you have your list of active targets, you need a way to know when they publish content. Relying on the standard LinkedIn newsfeed is a recipe for failure; the algorithm will hide the posts you actually want to see in favor of viral trends.\n\nIf you are exploring the landscape of tools that help you curate this feed, looking at the [Best Tools to Find Relevant Linkedin Posts to Comment On Tools Beyond Taplio](https://www.heyjunior.ai/blog/best-tools-to-find-relevant-linkedin-posts-to-comment-on-tools-beyond-taplio) will give you a sense of your options. \n\nThe goal is to create a focused dashboard or use a tool that alerts you when your target list publishes. You want to be one of the first people to comment on their posts. Early comments get more visibility from the author and gather more likes from subsequent readers, anchoring your profile at the top of the comment section.\n\n### Phase 3: Crafting the perfect comment\n\nWhen your target posts, it is time to engage. Using your AI commenting tool, you want to aim for one of four specific types of responses that are proven to generate dialogue.\n\n**The \"Yes, and...\" Comment**\nThis is the most reliable approach. The AI helps you summarize their core point and add a supporting piece of evidence from your own experience. \n*Example:* \"Spot on about the shift toward product-led growth, Sarah. When I was leading the transition at [Previous Company], we found that removing the gated demo increased our qualified pipeline by 40%. Did you experience a similar friction point with your sales team?\"\n\n**The Thoughtful Question**\nPeople love to demonstrate their expertise. Asking a highly specific, intelligent question based on their post proves you read it carefully and gives them an easy opening to reply to you directly.\n*Example:* \"This framework for handling customer churn is fascinating. I'm curious\u2014how do you adapt this model when dealing with enterprise clients who have multi-year contracts versus month-to-month SMBs?\"\n\n**The Respectful Disagreement**\nUse this sparingly, but it is highly effective for standing out. If done politely, challenging a premise shows deep industry knowledge and confidence\u2014traits every hiring manager looks for.\n*Example:* \"I agree with your premise on the importance of speed to lead, but I've actually found that delaying the initial call to gather more account intelligence yields higher conversion rates. Have you tested speed versus personalization recently?\"\n\n**The Tactical Summary**\nIf a leader posts a long, rambling thought, using AI to distill their post into three actionable bullet points is incredibly valuable for other readers. The author will appreciate you making their content more accessible.\n\n### Phase 4: The transition to the DM\n\nThe ultimate goal of AI commenting is not just to be a top commenter; it is to land an interview. But you cannot rush the transition.\n\nThe rule of thumb is the \"Rule of Three.\" Wait until you have successfully interacted with a hiring manager in the comments section on three separate occasions. You want them to have seen your face, read your name, and appreciated your insights multiple times.\n\nOnce you have established that baseline familiarity, *then* you make the move to the direct messages. \n\nBecause you have built social capital, your DM is no longer cold. It is warm.\n\n**The Transition Script:**\n*\"Hi [Name], I've really been enjoying our back-and-forths in the comments recently\u2014your insights on [Topic] have been incredibly helpful. I noticed your team is currently expanding the [Department] group. Based on our alignment on [Industry Trend], I'd love to formally put my hat in the ring for the role. Would you be open to a brief chat next week?\"*\n\nThis approach boasts a drastically higher response rate than a cold pitch because you have already proven your competence in public.\n\n![The Rule of Three progression showing three strategic comment interactions leading to a warm LinkedIn DM.](https://assets.bevisible.app/inline-images/j578bsrk8pethnevb5pbcz4x9s8f7fdt/inline-4-1791474488950-bkyjlk.png)\n## A practical scenario: Landing an interview through comments\n\nTo make this concrete, let\u2019s look at a realistic scenario of how this software-assisted networking plays out in the real world. \n\nMeet Marcus, a mid-level B2B copywriter looking to transition into a senior content marketing role at a major SaaS company. For two months, Marcus had been using job boards, applying to 15 roles a week, and sending generic DMs to marketing directors using a mass-automation tool. His interview rate was exactly 0%.\n\nHe changed his strategy and adopted an AI-powered local engagement tool. \n\n1. **Targeting:** Marcus identified the VP of Marketing at his dream company. The VP posted twice a week about content strategy.\n2. **Engagement:** On Tuesday, the VP posted about the death of SEO-driven blog posts. Marcus used his AI tool to draft a comment detailing how his previous company pivoted from keyword-stuffing to thought leadership, increasing time-on-page by 200%. The AI perfectly blended the VP's premise with Marcus's actual resume stats. \n3. **The Reaction:** The VP replied to the comment, saying, \"That's exactly the shift we are trying to make right now. Great insight, Marcus.\"\n4. **The Follow-up:** On Thursday, the VP posted again. Marcus engaged again, this time asking a smart question about attribution software. The VP replied again.\n5. **The Close:** On Friday, Marcus sent a connection request. The note read: *\"Hi Sarah, really enjoyed our chats in the comments this week. Saw you're looking for a Senior Content Strategist to help lead that pivot to thought-leadership. I'd love to chat about it.\"*\n\nSarah accepted the connection and replied five minutes later with a link to her calendar. \n\nMarcus didn't hack the system. He just used software to help him execute the most fundamentally human networking strategy: showing genuine interest and demonstrating competence.\n\n## The safety dilemma: Cloud automation vs. local execution\n\nIf you are going to use software to help you network on LinkedIn, you must understand the technical risks. LinkedIn is actively fighting a war against bots, spam, and automation. If you choose the wrong type of tool, you risk having your account permanently restricted, which is a death sentence for a job search.\n\nFor years, the standard approach was cloud-based automation. Tools like Phantombuster or Dripify operate on remote servers. You give them your LinkedIn credentials, and they log into your account from an IP address that might be hundreds of miles away from where you actually live. They run scripts in the background, clicking buttons and sending messages while you sleep.\n\nLinkedIn's security algorithms are incredibly adept at catching this. If they see your account logging in from AWS servers in Virginia while you are supposedly browsing from a laptop in Chicago, they flag you. If they detect superhuman clicking speeds or rigid, robotic navigation patterns, they ban you.\n\nIf you are researching tools in this category, comparing your options through an [Automate Linkedin Comments Safely Evaluation Checklist](https://www.heyjunior.ai/blog/automate-linkedin-comments-safely-evaluation-checklist) is essential to protect your profile.\n\n### The advantage of local execution\n\nThis is why the next generation of networking software\u2014specifically AI commenting tools like Junior\u2014has moved away from the cloud and embraced local execution.\n\nLocal execution means the software runs directly on your actual computer, within your own browser window. It uses your residential IP address, your unique browser footprint, and your active session cookies. \n\nFrom LinkedIn's perspective, the software is indistinguishable from you sitting at your desk and typing. When a tool like Junior drafts a comment for you, it isn't injecting code from a remote server; it is interacting with the interface the exact same way a human would.\n\nThis architecture protects your account safety while still providing the immense leverage of AI-assisted drafting and discovery. When exploring [Phantombuster Alternatives for Automate Linkedin Comments Safely](https://www.heyjunior.ai/blog/phantombuster-alternatives-for-automate-linkedin-comments-safely), local execution should be your non-negotiable requirement.\n\n## Expanding beyond comments: The holistic engagement strategy\n\nWhile commenting is the tip of the spear for getting noticed, a truly effective networking strategy uses software to manage the entire lifecycle of the relationship. \n\nIf you are comparing different approaches, such as [Junior vs Taplio for LinkedIn growth](https://www.heyjunior.ai/blog/junior-vs-taplio-for-linkedin-growth), you will notice that comprehensive tools do more than just generate text. They help you curate a specific networking environment.\n\n### Curating your feed\n\nYour LinkedIn feed is naturally chaotic, filled with updates from high school friends, viral polls, and company announcements you don't care about. AI networking tools allow you to bypass this noise by creating custom feeds of just your target accounts. \n\nInstead of scrolling for an hour hoping to find a relevant post from a hiring manager, you can open your tool and instantly see every piece of content published by your target list in the last 24 hours. This turns a highly inefficient process into a focused, 15-minute daily routine.\n\n### Engaging with secondary targets\n\nDon't just limit your commenting to the final decision-maker. Hiring is often a collaborative process. If you want to join the design team, don't just target the VP of Design. Engage with the Senior Designers and the Product Managers they work closely with. \n\nWhen you eventually secure an interview, those secondary targets will likely be on the interview panel. Imagine walking into a Zoom interview and having the panelists already recognize your name because you've been leaving thoughtful comments on their posts for the last month. You walk in with immediate credibility.\n\n## Metrics that matter: Tracking your networking ROI\n\nWhen you use software to network, you need to measure whether it is actually working. Job seekers often track the wrong metrics\u2014they measure activity (how many applications sent, how many DMs blasted) rather than outcomes.\n\nWhen you pivot to an AI commenting strategy, here are the key performance indicators (KPIs) you should monitor to gauge your success:\n\n*   **Profile Views from Target Companies:** This is your leading indicator. If you are leaving great comments on a hiring manager's post, their natural reaction is to click your face to see who you are. A spike in profile views from your target companies means your comments are hitting the mark.\n*   **Inbound Connection Requests:** Are people from your target industry sending *you* requests after seeing your comments? This is a sign that your AI-assisted insights are establishing you as a thought leader.\n*   **Comment-to-Conversation Conversion Rate:** Out of the 10 people you regularly engage with in the comments, how many transition into a positive DM conversation? \n*   **Interview Request Rate:** The ultimate metric. Are these warm conversations turning into formal discussions about open roles?\n\nIf you are generating comments but not seeing an increase in profile views, your comments are likely too generic. You need to adjust your AI tool's settings, feed it more specific details about your background, and ensure you are pushing for more opinionated, insightful responses.\n\n## Why this strategy works for consultants and freelancers, too\n\nWhile this guide focuses on job seekers looking for full-time W-2 employment, the exact same software and strategy apply to independent consultants, fractional executives, and freelancers looking for clients.\n\nIn fact, the lines between \"hunting for a job\" and \"hunting for a client\" have completely blurred on LinkedIn. In both scenarios, you are trying to convince a decision-maker to trust you with their money and their problems. \n\nConsultants who rely on mass messaging tools face the exact same inbox saturation as job seekers. By shifting to a public engagement strategy, consultants can demonstrate their authority in real-time. For a deeper look at how this applies to client acquisition, analyzing [Junior vs Dripify: finding consulting clients without automated messaging](https://www.heyjunior.ai/blog/junior-vs-dripify-finding-consulting-clients-without-automated-messaging) reveals how authentic conversation outperforms automated pitching every time.\n\n## Preparing your profile for the spotlight\n\nThere is one critical prerequisite to using AI commenting software successfully: your LinkedIn profile must be optimized. \n\nNetworking software will drive highly targeted traffic to your profile. Hiring managers will read your insightful comment, become intrigued, and click through to your page. If they land on a profile with no banner image, a vague headline (\"Seeking new opportunities\"), and an outdated summary, you will lose the momentum instantly.\n\nBefore you start generating comments, ensure your profile acts as a high-converting landing page:\n\n1.  **The Headline:** Make it clear what you do and the value you bring. Instead of \"Marketing Professional,\" use \"B2B SaaS Product Marketer | Scaling GTM strategies for early-stage startups.\"\n2.  **The Featured Section:** Pin examples of your best work, case studies, or even highly successful posts you've written. Give them immediate proof of your competence.\n3.  **The About Section:** Write this in the first person. Tell the story of your career, highlight your major wins, and clearly state the types of problems you are passionate about solving.\n\nWhen your profile aligns perfectly with the expertise you are demonstrating in the comments section, the transition from \"stranger\" to \"candidate\" is seamless.\n\n![Wireframe diagram highlighting the three critical LinkedIn profile elements needed to convert profile visits into interviews.](https://assets.bevisible.app/inline-images/j578bsrk8pethnevb5pbcz4x9s8f7fdt/inline-5-1791474492624-vd9wv3.png)\n## Frequently Asked Questions about AI LinkedIn Networking\n\n**Is it obvious to hiring managers that I am using AI to comment?**\nIt is only obvious if you use cheap, generic AI prompts that spit out robotic praise. If you use a sophisticated tool that grounds the output in your actual resume and professional bio, the comments will sound like you. The AI isn't inventing thoughts; it is acting as an editor and a structural guide for your actual expertise.\n\n**Can LinkedIn ban my account for using networking software?**\nYes, if you use the wrong kind. Cloud-based tools that scrape data and automate mass DMs frequently trigger LinkedIn's security algorithms, leading to account restrictions. To stay safe, you must use software that operates locally in your own browser, mimicking human interaction patterns.\n\n**How long does it take to see results from a commenting strategy?**\nUnlike sending 100 cold emails and getting a rejection the next day, public networking is a compounding strategy. You will typically see an immediate increase in profile views within the first week. By week two or three, consistent engagement with target accounts should yield warm DM conversations. By a month in, you should be generating interviews.\n\n**Should I stop applying to jobs entirely?**\nNo. You should view AI commenting as a parallel strategy. When you find an open role you want, submit the formal application, but then immediately switch to your networking software. Find the hiring manager for that role and begin your engagement strategy. Your goal is to make sure that when they see your name in the ATS (Applicant Tracking System), they already recognize you from the comments section.\n\n## The future of the job search\n\nThe days of treating LinkedIn like a digital classifieds section are over. The platform has evolved into a bustling, global professional networking event. You wouldn't walk into a real-world networking mixer, shove your resume into someone's hands without saying hello, and walk away. Yet, that is exactly what traditional mass-apply and mass-DM software encourages you to do online.\n\nThe software that actually helps job seekers network on LinkedIn today is the software that facilitates genuine human connection at scale. By using AI commenting to step out of the crowded inbox and into the public square, you stop begging for attention and start commanding it. \n\nYou position yourself not as a desperate candidate, but as a peer, an expert, and a valuable addition to their network. And in a crowded job market, that is exactly how you win the interview.", "created_at": "2026-10-11T15:49:26.563144+00:00", "updated_at": "2026-10-11T15:49:26.563148+00:00"};
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js"></script>
+    <script>
+        function looksLikeHtml(content) {
+            return /<\/?[a-z][\s\S]*>/i.test(content);
+        }
+
+        function escapeHtml(content) {
+            return content
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function formatPlainText(content) {
+            return content
+                .split(/\n{2,}/)
+                .map(paragraph => `<p>${escapeHtml(paragraph).replace(/\n/g, '<br>')}</p>`)
+                .join('');
+        }
+
+        // The page header already renders the title, so drop a leading H1 the CMS repeats in the body.
+        function stripLeadingTitle(content) {
+            if (looksLikeHtml(content)) {
+                return content.replace(/^\s*<h1\b[^>]*>[\s\S]*?<\/h1>\s*/i, '');
+            }
+            return content.replace(/^\s*#\s+[^\n]*\n+/, '');
+        }
+
+        function renderArticleBody(rawContent) {
+            const content = stripLeadingTitle((rawContent || '').trim()).trim();
+            if (!content) {
+                return '<p>This article has no content yet.</p>';
+            }
+
+            if (looksLikeHtml(content)) {
+                if (window.DOMPurify) {
+                    return window.DOMPurify.sanitize(content);
+                }
+                return content;
+            }
+
+            if (window.marked) {
+                const markdownHtml = window.marked.parse(content, {
+                    gfm: true,
+                    breaks: true,
+                    mangle: false,
+                    headerIds: true
+                });
+                if (window.DOMPurify) {
+                    return window.DOMPurify.sanitize(markdownHtml);
+                }
+                return markdownHtml;
+            }
+
+            return formatPlainText(content);
+        }
+
+        function createShareButtons(url, title, position) {
+            const encodedUrl = encodeURIComponent(url);
+            const encodedTitle = encodeURIComponent(title);
+            
+            const buttons = [
+                {
+                    name: 'LinkedIn',
+                    url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>'
+                },
+                {
+                    name: 'X',
+                    url: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>'
+                },
+                {
+                    name: 'Facebook',
+                    url: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>'
+                },
+                {
+                    name: 'WhatsApp',
+                    url: `https://api.whatsapp.com/send?text=${encodedTitle}%20${encodedUrl}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>'
+                },
+                {
+                    name: 'Reddit',
+                    url: `https://reddit.com/submit?url=${encodedUrl}&title=${encodedTitle}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.688-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg>'
+                },
+                {
+                    name: 'Email',
+                    url: `mailto:?subject=${encodedTitle}&body=${encodedUrl}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>'
+                }
+            ];
+
+            let html = `<div class="share-row ${position === 'top' ? 'top-share' : ''}">`;
+            
+            buttons.forEach(btn => {
+                html += `<a href="${btn.url}" target="_blank" rel="noopener noreferrer" class="share-button" data-cta="share-${position}-${btn.name.toLowerCase()}">
+                    ${btn.icon} ${btn.name}
+                </a>`;
+            });
+
+            html += `<button class="share-button" onclick="navigator.clipboard.writeText('${url.replace(/'/g, "\\'")}'); alert('Link copied to clipboard!');" data-cta="share-${position}-copy">
+                <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg> Copy Link
+            </button>`;
+
+            if (navigator.share) {
+                html += `<button class="share-button" onclick="navigator.share({title: '${title.replace(/'/g, "\\'")}', url: '${url.replace(/'/g, "\\'")}'}).catch(console.error);" data-cta="share-${position}-native">
+                    <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg> Share
+                </button>`;
+            }
+
+            html += `</div>`;
+            return html;
+        }
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            const container = document.getElementById('article-content');
+            
+            try {
+                let post;
+                
+                // If we have injected data (static page), use it directly
+                if (window.__INITIAL_ARTICLE_DATA__) {
+                    post = window.__INITIAL_ARTICLE_DATA__;
+                } else {
+                    // Otherwise, we are on the dynamic route, fetch from API
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const slug = urlParams.get('slug');
+                    
+                    if (!slug) {
+                        throw new Error('Article not found.');
+                    }
+                    
+                    // Redirect to the new static URL format
+                    window.location.replace(`/blog/${slug}/`);
+                    return;
+                }
+                
+                document.title = `${post.title} - Junior`;
+                
+                const date = new Date(post.published_at).toLocaleDateString();
+                const assetRoot = window.__INITIAL_ARTICLE_DATA__ ? '../../' : '';
+                const ctaSrc = 'blog-' + String(post.slug || 'article').replace(/[^a-z0-9-]/gi, '').slice(0, 60);
+                const isJobSeekerPost = /(job|recruit|hiring|career|resume|interview|candidate|applicant|sonara)/i
+                    .test((post.slug || '') + ' ' + (post.title || ''));
+                const tryItHref = assetRoot + 'try-it.html?goal=' + (isJobSeekerPost ? 'jobs' : 'sales') + '&src=' + encodeURIComponent(ctaSrc);
+                const trialHref = isJobSeekerPost
+                    ? assetRoot + 'register.html?src=' + encodeURIComponent(ctaSrc) + '&audience=jobseeker&identity=personal'
+                    : assetRoot + 'register.html?plan=enterprise&src=' + encodeURIComponent(ctaSrc) + '&audience=company&identity=company';
+                const navTrial = document.getElementById('article-nav-trial');
+                if (navTrial && isJobSeekerPost) {
+                    navTrial.href = assetRoot + 'register.html?src=article-nav&audience=jobseeker&identity=personal';
+                }
+                
+                const safeTitle = escapeHtml(post.title || '');
+                let html = `
+                    <header class="article-header">
+                        <h1 class="article-title">${safeTitle}</h1>
+                        <div class="article-meta">Published on ${date}</div>
+                    </header>
+                `;
+
+                const shareUrl = window.location.origin + window.location.pathname;
+                html += createShareButtons(shareUrl, post.title, 'top');
+                
+                if (post.featured_image_url) {
+                    html += `<img src="${escapeHtml(post.featured_image_url)}" alt="${safeTitle}" class="article-featured-image">`;
+                }
+                
+                html += `
+                    <div class="article-content">
+                        ${renderArticleBody(post.content)}
+                    </div>
+                    <aside class="article-cta" aria-label="Try Junior">
+                        <h2>${isJobSeekerPost ? 'See what Junior would say on a recruiter or hiring manager post' : 'See what Junior would say on a post from your market'}</h2>
+                        <p>${isJobSeekerPost ? 'Paste a real LinkedIn post and get the comment Junior would write for your job search. No login needed.' : 'Paste a real LinkedIn post and get the comment Junior would write for your business. No login needed.'}</p>
+                        <div class="article-cta-actions">
+                            <a href="${tryItHref}" class="primary-button" data-cta="article-cta-try-it">See a sample comment</a>
+                            <a href="${trialHref}" class="article-cta-secondary" data-cta="article-cta-trial">Start a 14-day free trial</a>
+                        </div>
+                        <p class="article-cta-fine">14 days free on every plan. Card required, $0 today, cancel anytime.</p>
+                    </aside>
+                `;
+                
+                html += createShareButtons(shareUrl, post.title, 'bottom');
+                
+                container.innerHTML = html;
+            } catch (err) {
+                container.innerHTML = `<p>${err.message}</p>`;
+                console.error(err);
+            }
+        });
+    </script>
+</body>
+</html>
