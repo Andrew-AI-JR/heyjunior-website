@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article - Junior</title>
+    <link rel="stylesheet" href="../../css/styles.css?v=20261005-cro">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <script defer src="../../js/analytics.js?v=20261005-pii"></script>
+    <script src="../../js/api-config.js"></script>
+    <style>
+        .article-container {
+            max-width: 860px;
+            margin: 48px auto;
+            padding: 0 20px;
+        }
+        .article-header {
+            margin-bottom: 32px;
+        }
+        .article-cta {
+            margin: 40px 0 8px;
+            padding: 28px;
+            border-radius: 14px;
+            background: #EEF7FD;
+            border: 1px solid #DCE6EE;
+        }
+        .article-cta h2 { margin: 0 0 8px; font-size: 1.4rem; line-height: 1.25; color: #0B0F14; }
+        .article-cta p { margin: 0 0 16px; color: #5B6674; line-height: 1.6; }
+        .article-cta-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; margin-bottom: 12px; }
+        .article-cta-secondary { color: #255DB8; font-weight: 700; }
+        .article-cta .article-cta-fine { margin: 0; font-size: 0.88rem; }
+        .article-title {
+            font-size: clamp(2rem, 3vw, 2.9rem);
+            margin-bottom: 14px;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            color: #020617;
+        }
+        .article-meta {
+            color: #64748b;
+            font-size: 0.97rem;
+            font-weight: 500;
+        }
+        .article-featured-image {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            margin-bottom: 32px;
+        }
+        .article-content {
+            max-width: 72ch;
+            font-size: clamp(1.06rem, 1.2vw, 1.2rem);
+            line-height: 1.85;
+            color: #1f2937;
+        }
+        .article-content > *:first-child {
+            margin-top: 0;
+        }
+        .article-content > *:last-child {
+            margin-bottom: 0;
+        }
+        .article-content h2 {
+            margin-top: 2.1em;
+            margin-bottom: 0.8em;
+            line-height: 1.25;
+            letter-spacing: -0.01em;
+            color: #020617;
+        }
+        .article-content h3 {
+            margin-top: 1.7em;
+            margin-bottom: 0.65em;
+            line-height: 1.3;
+            letter-spacing: -0.005em;
+            color: #1e293b;
+        }
+        .article-content h4 {
+            margin-top: 1.4em;
+            margin-bottom: 0.55em;
+            line-height: 1.35;
+            color: #334155;
+        }
+        .article-content p {
+            margin: 0 0 1.3em;
+        }
+        .article-content ul,
+        .article-content ol {
+            margin: 0 0 1.3em 1.35em;
+            padding: 0;
+        }
+        .article-content li {
+            margin-bottom: 0.45em;
+        }
+        .article-content strong {
+            color: #0B0F14;
+        }
+        .article-content a {
+            color: #255DB8;
+            text-decoration-thickness: 0.08em;
+            text-underline-offset: 0.16em;
+        }
+        .article-content blockquote {
+            margin: 0 0 1.5em;
+            padding: 0.9em 1.1em;
+            border-left: 4px solid #94a3b8;
+            color: #334155;
+            background: #f8fafc;
+            border-radius: 8px;
+        }
+        .article-content pre {
+            overflow-x: auto;
+            padding: 14px;
+            border-radius: 8px;
+            background: #0B0F14;
+            color: #e2e8f0;
+            margin-bottom: 1.5em;
+            font-size: 0.93em;
+            line-height: 1.6;
+        }
+        .article-content code {
+            font-family: Consolas, "SFMono-Regular", Menlo, Monaco, monospace;
+            font-size: 0.95em;
+            background: #f1f5f9;
+            padding: 0.12em 0.35em;
+            border-radius: 4px;
+        }
+        .article-content pre code {
+            background: transparent;
+            padding: 0;
+        }
+        .article-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5em;
+            display: block;
+            overflow-x: auto;
+        }
+        .article-content th,
+        .article-content td {
+            border: 1px solid #cbd5e1;
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        .article-content th {
+            background: #f8fafc;
+            color: #0B0F14;
+        }
+        .article-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin: 0.6em 0 1.3em;
+        }
+        .article-content hr {
+            border: none;
+            border-top: 1px solid #e2e8f0;
+            margin: 2em 0;
+        }
+        .article-content figure {
+            margin: 0 0 1.5em;
+        }
+        .article-content figcaption {
+            color: #64748b;
+            font-size: 0.92em;
+            margin-top: 0.55em;
+        }
+        .article-loading {
+            text-align: center;
+            padding: 40px;
+            color: #64748b;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 24px;
+            color: #2F6FD6;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        .share-row {
+            display: flex;
+            gap: 12px;
+            margin: 24px 0;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .share-row.top-share {
+            margin-top: 16px;
+            margin-bottom: 0;
+        }
+        .share-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-decoration: none;
+            color: #334155;
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .share-button:hover {
+            background: #e2e8f0;
+            color: #0B0F14;
+            border-color: #cbd5e1;
+            text-decoration: none;
+        }
+        .share-button svg {
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+            fill: currentColor;
+        }
+        @media (max-width: 768px) {
+            .article-container {
+                margin: 28px auto;
+                padding: 0 16px;
+            }
+            .article-header {
+                margin-bottom: 24px;
+            }
+            .article-content {
+                font-size: 1.04rem;
+                line-height: 1.75;
+            }
+            .article-content table {
+                font-size: 0.93rem;
+            }
+            .article-content pre {
+                padding: 12px;
+            }
+        }
+    </style>
+
+    <link rel="canonical" href="https://heyjunior.ai/blog/write-better-linkedin-comments-ai/">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://heyjunior.ai/blog/write-better-linkedin-comments-ai/">
+    <meta property="og:title" content="How to write better LinkedIn comments using AI without sounding automated">
+    <meta property="og:description" content="Learn how to write authentic LinkedIn comments with AI. Avoid robotic buzzwords, use angle prompts, and scale engagement without damaging your brand.">
+    <meta property="og:image" content="https://assets.bevisible.app/featured-images/j5782njexwr03s510zwdh8sn958f7s1y/how-to-write-better-linkedin-comments-using-ai-wit-1791649090673-m0xnuv.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://heyjunior.ai/blog/write-better-linkedin-comments-ai/">
+    <meta name="twitter:title" content="How to write better LinkedIn comments using AI without sounding automated">
+    <meta name="twitter:description" content="Learn how to write authentic LinkedIn comments with AI. Avoid robotic buzzwords, use angle prompts, and scale engagement without damaging your brand.">
+    <meta name="twitter:image" content="https://assets.bevisible.app/featured-images/j5782njexwr03s510zwdh8sn958f7s1y/how-to-write-better-linkedin-comments-using-ai-wit-1791649090673-m0xnuv.png">
+    
+</head>
+<body data-page="article" class="i18n-ready">
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <a href="../../index.html"><img src="../../images/junior-logo.png" alt="Junior Logo" class="logo-img"></a>
+            </div>
+            <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <div class="nav-group">
+                    <li><a href="../../index.html#use-cases">Use Cases</a></li>
+                    <li><a href="../../index.html#features">Features</a></li>
+                    <li><a href="../../why-commenting-works.html">Why Commenting Works</a></li>
+                    <li><a href="../../blog.html">Blog</a></li>
+                    <li><a href="../../try-it.html">Try It</a></li>
+                </div>
+                <div class="nav-actions">
+                    <li><a href="../../register.html?src=article-nav&amp;audience=company&amp;identity=personal" class="cta-button" id="article-nav-trial">Start free trial</a></li>
+                    <li><a href="../../portal.html" class="nav-login-link">Login</a></li>
+                </div>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="article-container" style="padding-top: 120px;">
+        <a href="../../blog.html" class="back-link">← Back to Blog</a>
+        
+        <div id="article-content">
+            <div class="article-loading">Loading article...</div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Junior. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        window.__INITIAL_ARTICLE_DATA__ = {"id": 130, "slug": "write-better-linkedin-comments-ai", "title": "How to write better LinkedIn comments using AI without sounding automated", "excerpt": "Learn how to write authentic LinkedIn comments with AI. Avoid robotic buzzwords, use angle prompts, and scale engagement without damaging your brand.", "featured_image_url": "https://assets.bevisible.app/featured-images/j5782njexwr03s510zwdh8sn958f7s1y/how-to-write-better-linkedin-comments-using-ai-wit-1791649090673-m0xnuv.png", "published_at": "2026-10-13T16:04:00+00:00", "content": "# How to write better LinkedIn comments using AI without sounding automated\n\nIf you spend more than five minutes on LinkedIn, you have already seen it. Below a thoughtfully written post about leadership or sales strategy sits a comment that reads: *\"This is a profound insight! In today's digital landscape, we must leverage these intricate tapestries of innovation to truly elevate our paradigms. What are your thoughts on this?\"*\n\nEveryone knows a machine wrote it. The original poster ignores it, other commenters scroll past it, and the person who posted it has just quietly damaged their professional reputation. Sales leaders and founders are catching on. In fact, prominent voices like Josh Braun have publicly called out the rising trend of painfully obvious AI-generated activity flooding the feed [1](https://www.linkedin.com/posts/josh-braun_ive-noticed-a-new-trend-on-linkedin-ai-generated-activity-7256041838174728192-bYC_). \n\nWhen you use automation poorly, you do not look like a thought leader. You look like a spammer. \n\nYet, abandoning AI altogether is an overcorrection. For job seekers, sales teams, and consultants trying to bypass crowded inboxes and turn public visibility into direct interviews or pipeline, commenting is a highly effective strategy. Staring at a blank screen trying to formulate 15 insightful comments a day is exhausting. \n\nThe secret to writing better LinkedIn comments with AI is a fundamental shift in how you use the technology: you must treat AI as a thought partner, not an autopilot.\n\n## The uncanny valley of LinkedIn engagement\n\nThe problem with most AI LinkedIn comments is that they fail because one prompt tries to do too many jobs at once. When you paste a post into ChatGPT and say, \"Write a LinkedIn comment for this,\" the model defaults to the safest, most generic average of human communication [2](https://promptsdaily.substack.com/p/ai-linkedin-comments). \n\nIt agrees completely with the author. It restates the original point using longer, more complex words. It adopts an overly enthusiastic tone. It finishes with a rhetorical question.\n\nThis creates an \"uncanny valley\" effect. The grammar is perfect, but the soul is missing. When you are trying to build trust with a prospect or catch the eye of a hiring manager, this sycophancy works against you. Genuine human interaction involves nuance, shared experiences, slight disagreements, and specific tactical additions. \n\nTo break out of the uncanny valley, you need a workflow that constrains the AI and forces it to adopt your actual communication style.\n\n## Step 1: Prime the AI with your personal brand voice\n\nGeneric AI comments are easily spotted because they lack a distinct point of view. Before you ask any AI model to help you generate engagement, you have to teach it how you speak.\n\n### Provide historical context\nThe most effective way to train an AI on your voice is to feed it examples of your past, unassisted writing. Pull five to ten of your best organic comments or short LinkedIn posts. \n\nGive the model a prompt like this:\n> \"I am going to provide you with several examples of comments I have written on LinkedIn. Analyze my tone, sentence structure, and vocabulary. Notice how I avoid corporate jargon and speak directly. Acknowledge when you have learned my voice.\"\n\n### Establish strict negative constraints\nKnowing what to say is only half the battle; knowing what *not* to say is where AI usually fails. You need to build a guardrail of negative constraints. If you read discussions among social media marketers, the consensus is clear: you can train AI to sound natural, but you must aggressively filter out its default vocabulary [4](https://www.reddit.com/r/SocialMediaMarketing/comments/1pgfgyp/anyone_here_using_ai_to_write_linkedin_posts_that/).\n\nGive your AI strict rules before generating ideas:\n*   Never use the words: delve, leverage, tapestry, overarching, profound, intricate, or paradigm.\n*   Never use passive voice.\n*   Do not start with \"Great post!\" or \"I completely agree!\"\n*   Do not end the comment with \"What do you think?\" or \"Do you agree?\"\n*   Keep sentences varied in length. \n\n![Diagram showing AI negative constraints and voice guardrails for natural LinkedIn comments](https://assets.bevisible.app/inline-images/j5782njexwr03s510zwdh8sn958f7s1y/inline-1-1791649043349-786jlo.png)\nIf you want to maintain long-term safety and consistency across your profile, relying on raw ChatGPT prompts for every interaction gets tedious. This is where specialized platforms come in. You can read more about evaluating these workflows in our guide on [Safe AI engagement on LinkedIn](https://www.heyjunior.ai/blog/safe-ai-engagement-on-linkedin).\n\n## Step 2: Prompt for angles, not answers\n\nThe biggest mistake professionals make is asking the AI to write the final comment. Instead, you should use AI to suggest different *ways* to look at a post so you don't just echo what the original author said. \n\nCopy the target post, paste it into your AI tool, and ask for angles. Here are four specific frameworks to extract unique perspectives.\n\n### The Contrarian Angle\nIf everyone in the comments is agreeing with the author, the easiest way to stand out is respectful disagreement or highlighting an edge case. \n*   **The Prompt:** \"Identify the core argument of this post. Then, give me three reasons why this advice might fail in a B2B enterprise sales environment. Keep the pushback professional but direct.\"\n\n### The Additive Framework Angle\nSometimes a post is conceptually great, but lacks a tactical next step. You can use AI to build a bridge between theory and practice.\n*   **The Prompt:** \"This post discusses the importance of async communication. Suggest three specific tools or daily habits a manager could implement tomorrow to make this actionable. Bullet points only.\"\n\n### The Experiential Angle\nAI cannot invent your personal history, but it can remind you of themes to draw from based on your bio.\n*   **The Prompt:** \"Based on my background as a SaaS founder, what is a specific, painful lesson I likely learned that validates the author's point here? Give me a brief scenario I can flesh out in my own words.\"\n\n### The Analytical Angle\nWhen dealing with data-heavy posts, AI can help you spot trends or missing variables that others gloss over.\n*   **The Prompt:** \"Look at the statistics shared in this post. What is one variable or external factor the author isn't considering that might skew these numbers?\"\n\nBy prompting for angles, you maintain complete ownership of the idea. The AI acts as your brainstorming partner, presenting you with a menu of smart perspectives that you can then write out in your own voice. You can find similar tactical prompt structures in recent expert breakdowns [3](https://www.forbes.com/sites/jodiecook/2025/04/30/5-chatgpt-prompts-to-write-linkedin-comments-that-are-actually-good/).\n\n## Step 3: Structuring the perfect AI-assisted comment\n\nOnce you have your angle, you need to structure the comment for maximum readability. Whether you are drafting it yourself based on AI ideas, or having the AI draft a version based on your chosen angle, a strong comment follows a specific architecture.\n\n| Component | Purpose | Example |\n| :--- | :--- | :--- |\n| **The Hook** | Acknowledge the specific point you are addressing, proving you read the post. | \"Most teams get stuck on point #3\u2014trying to scale outbound too early.\" |\n| **The Value Add** | Introduce your AI-brainstormed angle, personal experience, or tactical addition. | \"We found that capping our reps at 20 highly researched accounts per week actually doubled our meeting booked rate. The bottleneck wasn't activity, it was relevance.\" |\n| **The Exit** | Close cleanly without being needy. Add a period and walk away. | \"Volume is a trap if the messaging is weak.\" |\n\nNotice what is missing from the structure above: sycophancy and forced questions. \n\n![Diagram breaking down the three-part architecture of a high-impact LinkedIn comment](https://assets.bevisible.app/inline-images/j5782njexwr03s510zwdh8sn958f7s1y/inline-2-1791649046495-llq7x7.png)\n## The 10-second human review process\n\nEven with the best prompts and negative constraints, an AI will occasionally slip a robotic phrase into your draft. Never copy, paste, and post blindly. Implement a strict 10-second human review pass.\n\nWhen reviewing a draft, look for the following red flags:\n1.  **The \"Summary\" Intro:** Does the comment start by summarizing what the author just said? Delete the first sentence. Get straight to the point.\n2.  **Adjective Overload:** Did the AI call the strategy \"groundbreaking,\" \"revolutionary,\" or \"essential\"? Strip the adjectives out. Let the facts speak for themselves.\n3.  **The Robotic Sign-off:** Does it end with an open-ended question that sounds like a high school debate prompt? Delete it.\n\nA quick edit transforms a 90% good AI draft into a 100% human-sounding interaction. \n\n## Scaling engagement without sacrificing your account\n\nThere is an operational reality to LinkedIn growth: volume matters. If you are a consultant trying to build pipeline or a job seeker trying to get noticed by recruiters, leaving one great comment a week won't move the needle. You need to be visible on 10 to 15 relevant posts a day.\n\nSome users try to solve this by using cloud-based bulk commenting tools, hitting a button to drop 50 generic comments in three minutes [5](https://www.youtube.com/watch?v=pbG0YF7Ufxw). This is a fast track to getting your account restricted. LinkedIn's spam filters are highly attuned to sudden bursts of identical, cloud-based API activity.\n\nScaling engagement safely requires a different technical approach. This is why Junior was built to run locally on your machine rather than in the cloud. It mimics natural human interaction patterns, protects your account safety, and most importantly, it generates context-aware drafts based on your specific bio and goals. \n\nInstead of spamming a feed, a local tool finds the exact conversations where your expertise matters and prepares a draft that aligns with your negative constraints and voice. You review, tweak, and post. It bridges the gap between the speed of automation and the authenticity of human thought. \n\nIf you are evaluating how to build this kind of safe volume, you can compare different approaches in our breakdown of [Junior vs Taplio for LinkedIn growth](https://www.heyjunior.ai/blog/junior-vs-taplio-for-linkedin-growth).\n\n## Myth-busting: \"Real thought leaders don't use AI\"\n\nA common objection from purists is that any use of AI in social engagement is inherently deceptive. The argument assumes that if you didn't formulate the idea entirely in a vacuum, it doesn't count.\n\nThis ignores how professional writing has worked for centuries. Executives have speechwriters. Authors have editors. Politicians have debate prep teams. Nobody generates perfect, isolated ideas. We bounce thoughts off colleagues, read articles to spark inspiration, and use tools to refine our delivery.\n\nUsing AI as a thought partner to overcome blank-page syndrome is no different than turning to the person next to you and asking, \"What do you think about this new algorithm update?\" The AI provides the spark; you provide the fire. The deception only occurs when you outsource the *thinking* entirely, allowing the machine to post generic fluff under your name. \n\nWhen you constrain the AI, feed it your experiences, and heavily edit the output, the final comment is yours. The AI just helped you get there in three minutes instead of fifteen. For an expanded look at the current tool landscape that supports this methodology, check out the [Best AI Tools for Linkedin Commenting Tools Beyond Supergrow](https://www.heyjunior.ai/blog/best-ai-tools-for-linkedin-commenting-tools-beyond-supergrow).\n\n## Frequently Asked Questions\n\n### How do you write better LinkedIn comments with AI safely?\nSafety comes down to both content and technical execution. Content-wise, avoid repetitive phrasing and ensure every comment adds unique value based on your personal experiences. Technically, avoid cloud-based automation tools that fire comments via unauthorized APIs in rapid succession. Use tools that operate locally and require human approval.\n\n### What words give away an AI comment?\nThe most common giveaways are words that sound artificially academic or overly dramatic for a business context. Watch out for: delve, leverage, navigate, landscape, testament, intricate, align, underscore, and overarching. \n\n### Can LinkedIn detect and penalize AI comments?\nLinkedIn algorithms are increasingly adept at spotting the repetitive syntactic patterns of unprompted ChatGPT output. While they may not outright ban an account for a few generic comments, those comments are often algorithmically deprioritized. More importantly, human readers detect them instantly, which destroys the social capital you are trying to build.\n\n## Moving beyond the auto-reply\n\nTreating LinkedIn like a broadcast channel where you dump generic AI comments is a losing strategy. The platform rewards specific, nuanced, and slightly flawed human interaction. \n\nBy shifting your AI use from \"write this for me\" to \"help me find a unique angle,\" you protect your personal brand while still gaining massive efficiency. Prime the model with your voice, set strict boundaries on what it cannot say, and always take ten seconds to manually edit the final output. \n\nWhen you stop trying to automate the relationship and start using AI to facilitate better conversations, you stop being ignored in the feed and start driving actual pipeline.", "created_at": "2026-10-13T16:19:27.178894+00:00", "updated_at": "2026-10-13T16:19:27.178901+00:00"};
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js"></script>
+    <script>
+        function looksLikeHtml(content) {
+            return /<\/?[a-z][\s\S]*>/i.test(content);
+        }
+
+        function escapeHtml(content) {
+            return content
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function formatPlainText(content) {
+            return content
+                .split(/\n{2,}/)
+                .map(paragraph => `<p>${escapeHtml(paragraph).replace(/\n/g, '<br>')}</p>`)
+                .join('');
+        }
+
+        // The page header already renders the title, so drop a leading H1 the CMS repeats in the body.
+        function stripLeadingTitle(content) {
+            if (looksLikeHtml(content)) {
+                return content.replace(/^\s*<h1\b[^>]*>[\s\S]*?<\/h1>\s*/i, '');
+            }
+            return content.replace(/^\s*#\s+[^\n]*\n+/, '');
+        }
+
+        function renderArticleBody(rawContent) {
+            const content = stripLeadingTitle((rawContent || '').trim()).trim();
+            if (!content) {
+                return '<p>This article has no content yet.</p>';
+            }
+
+            if (looksLikeHtml(content)) {
+                if (window.DOMPurify) {
+                    return window.DOMPurify.sanitize(content);
+                }
+                return content;
+            }
+
+            if (window.marked) {
+                const markdownHtml = window.marked.parse(content, {
+                    gfm: true,
+                    breaks: true,
+                    mangle: false,
+                    headerIds: true
+                });
+                if (window.DOMPurify) {
+                    return window.DOMPurify.sanitize(markdownHtml);
+                }
+                return markdownHtml;
+            }
+
+            return formatPlainText(content);
+        }
+
+        function createShareButtons(url, title, position) {
+            const encodedUrl = encodeURIComponent(url);
+            const encodedTitle = encodeURIComponent(title);
+            
+            const buttons = [
+                {
+                    name: 'LinkedIn',
+                    url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>'
+                },
+                {
+                    name: 'X',
+                    url: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>'
+                },
+                {
+                    name: 'Facebook',
+                    url: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>'
+                },
+                {
+                    name: 'WhatsApp',
+                    url: `https://api.whatsapp.com/send?text=${encodedTitle}%20${encodedUrl}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>'
+                },
+                {
+                    name: 'Reddit',
+                    url: `https://reddit.com/submit?url=${encodedUrl}&title=${encodedTitle}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.688-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg>'
+                },
+                {
+                    name: 'Email',
+                    url: `mailto:?subject=${encodedTitle}&body=${encodedUrl}`,
+                    icon: '<svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>'
+                }
+            ];
+
+            let html = `<div class="share-row ${position === 'top' ? 'top-share' : ''}">`;
+            
+            buttons.forEach(btn => {
+                html += `<a href="${btn.url}" target="_blank" rel="noopener noreferrer" class="share-button" data-cta="share-${position}-${btn.name.toLowerCase()}">
+                    ${btn.icon} ${btn.name}
+                </a>`;
+            });
+
+            html += `<button class="share-button" onclick="navigator.clipboard.writeText('${url.replace(/'/g, "\\'")}'); alert('Link copied to clipboard!');" data-cta="share-${position}-copy">
+                <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg> Copy Link
+            </button>`;
+
+            if (navigator.share) {
+                html += `<button class="share-button" onclick="navigator.share({title: '${title.replace(/'/g, "\\'")}', url: '${url.replace(/'/g, "\\'")}'}).catch(console.error);" data-cta="share-${position}-native">
+                    <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg> Share
+                </button>`;
+            }
+
+            html += `</div>`;
+            return html;
+        }
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            const container = document.getElementById('article-content');
+            
+            try {
+                let post;
+                
+                // If we have injected data (static page), use it directly
+                if (window.__INITIAL_ARTICLE_DATA__) {
+                    post = window.__INITIAL_ARTICLE_DATA__;
+                } else {
+                    // Otherwise, we are on the dynamic route, fetch from API
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const slug = urlParams.get('slug');
+                    
+                    if (!slug) {
+                        throw new Error('Article not found.');
+                    }
+                    
+                    // Redirect to the new static URL format
+                    window.location.replace(`/blog/${slug}/`);
+                    return;
+                }
+                
+                document.title = `${post.title} - Junior`;
+                
+                const date = new Date(post.published_at).toLocaleDateString();
+                const assetRoot = window.__INITIAL_ARTICLE_DATA__ ? '../../' : '';
+                const ctaSrc = 'blog-' + String(post.slug || 'article').replace(/[^a-z0-9-]/gi, '').slice(0, 60);
+                const isJobSeekerPost = /(job|recruit|hiring|career|resume|interview|candidate|applicant|sonara)/i
+                    .test((post.slug || '') + ' ' + (post.title || ''));
+                const tryItHref = assetRoot + 'try-it.html?goal=' + (isJobSeekerPost ? 'jobs' : 'sales') + '&src=' + encodeURIComponent(ctaSrc);
+                const trialHref = isJobSeekerPost
+                    ? assetRoot + 'register.html?src=' + encodeURIComponent(ctaSrc) + '&audience=jobseeker&identity=personal'
+                    : assetRoot + 'register.html?plan=enterprise&src=' + encodeURIComponent(ctaSrc) + '&audience=company&identity=company';
+                const navTrial = document.getElementById('article-nav-trial');
+                if (navTrial && isJobSeekerPost) {
+                    navTrial.href = assetRoot + 'register.html?src=article-nav&audience=jobseeker&identity=personal';
+                }
+                
+                const safeTitle = escapeHtml(post.title || '');
+                let html = `
+                    <header class="article-header">
+                        <h1 class="article-title">${safeTitle}</h1>
+                        <div class="article-meta">Published on ${date}</div>
+                    </header>
+                `;
+
+                const shareUrl = window.location.origin + window.location.pathname;
+                html += createShareButtons(shareUrl, post.title, 'top');
+                
+                if (post.featured_image_url) {
+                    html += `<img src="${escapeHtml(post.featured_image_url)}" alt="${safeTitle}" class="article-featured-image">`;
+                }
+                
+                html += `
+                    <div class="article-content">
+                        ${renderArticleBody(post.content)}
+                    </div>
+                    <aside class="article-cta" aria-label="Try Junior">
+                        <h2>${isJobSeekerPost ? 'See what Junior would say on a recruiter or hiring manager post' : 'See what Junior would say on a post from your market'}</h2>
+                        <p>${isJobSeekerPost ? 'Paste a real LinkedIn post and get the comment Junior would write for your job search. No login needed.' : 'Paste a real LinkedIn post and get the comment Junior would write for your business. No login needed.'}</p>
+                        <div class="article-cta-actions">
+                            <a href="${tryItHref}" class="primary-button" data-cta="article-cta-try-it">See a sample comment</a>
+                            <a href="${trialHref}" class="article-cta-secondary" data-cta="article-cta-trial">Start a 14-day free trial</a>
+                        </div>
+                        <p class="article-cta-fine">14 days free on every plan. Card required, $0 today, cancel anytime.</p>
+                    </aside>
+                `;
+                
+                html += createShareButtons(shareUrl, post.title, 'bottom');
+                
+                container.innerHTML = html;
+            } catch (err) {
+                container.innerHTML = `<p>${err.message}</p>`;
+                console.error(err);
+            }
+        });
+    </script>
+</body>
+</html>
