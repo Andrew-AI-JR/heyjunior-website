@@ -3,57 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Junior for job seekers: start real hiring conversations from LinkedIn comments instead of resume blasting.">
+    <meta name="description" content="Junior for job seekers: find the LinkedIn posts recruiters and hiring managers are writing, comment in your own voice, and turn replies into real conversations. 14 days free, then $9.99/month.">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Junior for Job Seekers - Start conversations that lead to interviews">
-    <meta property="og:description" content="Find relevant hiring posts, write thoughtful comments in your voice, and turn replies into interviews.">
+    <meta property="og:description" content="Find relevant hiring posts, write thoughtful comments in your voice, and turn replies into conversations with recruiters and hiring managers.">
     <meta property="og:image" content="https://heyjunior.ai/reseller-assets/global/social/social-card.png">
     <meta property="og:url" content="https://heyjunior.ai/job-search.html">
-    <title>Junior for Job Seekers</title>
+    <meta name="twitter:card" content="summary_large_image">
+    <title>Junior for Job Seekers - Get noticed by hiring managers on LinkedIn</title>
+    <link rel="canonical" href="https://heyjunior.ai/job-search.html">
     <link rel="stylesheet" href="css/styles.css?v=20261005-cro">
+    <link rel="stylesheet" href="css/home.css?v=20261027-paths">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <script defer src="js/analytics.js?v=20261005-pii"></script>
     <script defer src="js/sticky-cta.js?v=20261005"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "Will Junior guarantee interviews?", "acceptedAnswer": { "@type": "Answer", "text": "No tool can guarantee interviews. Junior helps you start more relevant conversations with recruiters and hiring managers, which can lead to better opportunities." } },
+        { "@type": "Question", "name": "Does Junior replace job applications?", "acceptedAnswer": { "@type": "Answer", "text": "No. It works alongside your applications by making you visible in the hiring conversations happening on LinkedIn." } },
+        { "@type": "Question", "name": "How much does Junior cost for job seekers?", "acceptedAnswer": { "@type": "Answer", "text": "Basic is free for 14 days, then $9.99 a month for up to 10 comments a day. Cancel anytime." } }
+      ]
+    }
+    </script>
 </head>
-<body data-page="job-search" class="audience-page i18n-ready">
+<body data-page="job-search" class="hj i18n-ready">
     <nav class="navbar">
         <div class="container">
-            <div class="logo"><img src="./images/junior-logo.png" alt="Junior Logo" class="logo-img"></div>
-            <button class="mobile-menu-toggle" aria-label="Toggle mobile menu"><span></span><span></span><span></span></button>
+            <div class="logo">
+                <a href="index.html"><img src="./images/junior-logo.png" alt="Hey Junior" class="logo-img"></a>
+            </div>
+            <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
             <ul class="nav-links">
                 <div class="nav-group">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="job-search.html">Job Seekers</a></li>
-                    <li><a href="founders.html">Founders</a></li>
-                    <li><a href="consultants.html">Consultants</a></li>
-                    <li><a href="sales.html">Sales</a></li>
-                    <li><a href="agencies.html">Agencies</a></li>
-                
-                    <li><a href="try-it.html">Try It</a></li>
-                    <li><a href="blog.html">Blog</a></li></div>
+                    <li><a href="business.html" data-cta="job-search-nav-business">For companies</a></li>
+                    <li><a href="individuals.html" data-cta="job-search-nav-individuals">For individuals</a></li>
+                    <li><a href="job-search.html" aria-current="page" data-cta="job-search-nav-jobseekers">Job seekers</a></li>
+                    <li><a href="#pricing" data-cta="job-search-nav-pricing">Pricing</a></li>
+                    <li><a href="try-it.html?goal=job&amp;src=job-search-nav" data-cta="job-search-nav-try-it">Try it</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                </div>
                 <div class="nav-actions">
-                    <li><a href="register.html?src=job-search-nav&amp;audience=jobseeker&amp;identity=personal" class="cta-button">Start free trial</a></li>
+                    <li id="login-link"><a href="portal.html" class="nav-login-link">Log in</a></li>
+                    <li id="portal-link" style="display: none;"><a href="portal.html" class="nav-login-link">My account</a></li>
+                    <li><a href="register.html?plan=basic&amp;src=job-search-nav&amp;audience=jobseeker&amp;identity=personal" class="cta-button" data-cta="job-search-nav-primary">Start free trial</a></li>
                 </div>
             </ul>
         </div>
     </nav>
 
-    <main class="audience-main">
-        <section class="audience-hero hero-dark">
-            <div class="container narrow-container">
-                <p class="audience-eyebrow">For Job Seekers</p>
-                <h1>Stop resume blasting. Start hiring conversations.</h1>
-                <p>Junior finds the right LinkedIn hiring posts and drafts comments in your voice so you can start real conversations with recruiters and hiring managers.</p>
-                <div class="cta-buttons">
-                    <a href="register.html?src=job-search-hero&amp;audience=jobseeker&amp;identity=personal" class="primary-button" data-cta="job-search-hero-primary">Start free trial</a>
-                    <a href="why-commenting-works.html?src=job-search-hero-edu" class="secondary-button" data-cta="job-search-hero-secondary">Why commenting works</a>
+    <main>
+        <section class="hj-hero">
+            <div class="hj-wrap hj-hero-grid">
+                <div>
+                    <span class="hj-kicker">For job seekers</span>
+                    <h1>Stop resume blasting. <em>Start hiring conversations.</em></h1>
+                    <p class="hj-hero-sub">Junior finds the LinkedIn posts recruiters and hiring managers are writing right now, comments in your voice from your background, and brings their replies into one inbox so you can follow up.</p>
+                    <div class="hj-hero-ctas">
+                        <a href="register.html?plan=basic&amp;src=job-search-hero&amp;audience=jobseeker&amp;identity=personal" class="hj-btn hj-btn-primary" data-cta="job-search-hero-primary">Start your 14-day trial</a>
+                        <a href="why-commenting-works.html?src=job-search-hero-edu" class="hj-btn hj-btn-ghost" data-cta="job-search-hero-secondary">Why commenting works</a>
+                    </div>
+                    <p class="hj-hero-fine"><span>14 days free, then $9.99/month.</span> <span>Card required.</span> <span>Cancel anytime.</span> Desktop app for Windows and Mac.</p>
                 </div>
-                <p class="hero-microcopy">14 days free, then plans from $9.99/month · Card required at signup</p>
-            </div>
-        </section>
-
-        <section class="user-proof">
-            <div class="container narrow-container">
-                <figure class="user-proof-card">
+                <figure class="hj-hero-quote">
                     <blockquote>"I'm having fun with this tool and it has already gotten me 1 interview."</blockquote>
                     <img src="images/product/proof-jobseeker-email.webp" alt="Excerpt of the original support email: I hope this information helps with development. I'm having fun with this tool and it has already gotten me 1 interview." width="600" height="46" loading="lazy">
                     <figcaption>Junior user · support message, identity redacted</figcaption>
@@ -61,89 +81,152 @@
             </div>
         </section>
 
-        <section id="proof" class="real-engagement">
-            <div class="container">
-                <h2>Real replies from real LinkedIn conversations</h2>
-                <p class="section-subtitle">Junior helps you show up with thoughtful comments that get hiring-side responses.</p>
-                <div class="engagement-grid">
-                    <div class="engagement-item"><img src="./images/comment-7.png" alt="Reply from hiring-side conversation" class="engagement-screenshot"></div>
-                    <div class="engagement-item"><img src="./images/comment-8.png" alt="Hiring post engagement reply" class="engagement-screenshot"></div>
-                    <div class="engagement-item"><img src="./images/comment-9.png" alt="Reply to tailored LinkedIn comment" class="engagement-screenshot"></div>
+        <section id="how-it-works">
+            <div class="hj-wrap">
+                <div class="hj-section-head">
+                    <span class="hj-kicker">How it works</span>
+                    <h2>Get seen where hiring actually happens</h2>
+                    <p>Many roles get filled through conversations before or alongside the job post. Junior puts you in those threads every day, without hours of scrolling.</p>
                 </div>
-                <div class="cta-buttons" style="margin-top: 24px;">
-                    <a href="register.html?src=job-search-proof&amp;audience=jobseeker&amp;identity=personal" class="primary-button" data-cta="job-search-proof-primary">Start free trial</a>
+                <ol class="hj-steps">
+                    <li class="hj-step">
+                        <h3>Tell Junior what you want</h3>
+                        <p>Add your background, the roles you're after and the companies you'd love to work for.</p>
+                    </li>
+                    <li class="hj-step">
+                        <h3>Junior finds hiring posts</h3>
+                        <p>It looks for posts from recruiters, hiring managers and teams in your field, and skips anything that isn't relevant.</p>
+                    </li>
+                    <li class="hj-step">
+                        <h3>It comments as you</h3>
+                        <p>Each comment is written from your experience for that specific post, so it sounds like you, not a template.</p>
+                    </li>
+                    <li class="hj-step">
+                        <h3>You take the conversation</h3>
+                        <p>Replies land in one inbox with a drafted response, so you can move a promising thread toward an interview.</p>
+                    </li>
+                </ol>
+            </div>
+        </section>
+
+        <section id="proof" class="hj-features">
+            <div class="hj-wrap">
+                <div class="hj-section-head">
+                    <span class="hj-kicker">Real replies</span>
+                    <h2>Thoughtful comments get hiring-side responses</h2>
+                    <p>Replies from real LinkedIn conversations started with Junior.</p>
+                </div>
+                <div class="hj-proof-imgs">
+                    <img src="./images/comment-7.png" alt="Reply from a hiring-side conversation on LinkedIn" loading="lazy">
+                    <img src="./images/comment-8.png" alt="Reply to a comment on a hiring post" loading="lazy">
+                    <img src="./images/comment-9.png" alt="Reply to a tailored LinkedIn comment" loading="lazy">
                 </div>
             </div>
         </section>
 
-        <section class="what-it-does">
-            <div class="container narrow-container">
-                <h2>How Junior helps your job search</h2>
-                <ul class="what-list">
-                    <li>Finds posts where hiring teams are active right now</li>
-                    <li>Writes natural comments aligned with your background</li>
-                    <li>Helps you turn replies into real conversations</li>
-                    <li>Keeps your activity consistent without spending hours daily</li>
-                </ul>
-                <p class="section-subtitle">Opportunity often appears outside your existing network. Junior helps you find those in-progress threads and join with relevance.</p>
-                <a href="register.html?src=job-search-mid&amp;audience=jobseeker&amp;identity=personal" class="primary-button" data-cta="job-search-mid-primary">Start free trial</a>
-                <p style="margin-top: 14px;"><a href="why-commenting-works.html?src=job-search-mid-edu" data-cta="job-search-mid-secondary">Read the strategy behind conversation-led visibility →</a></p>
-            </div>
-        </section>
-
-        <section class="faq-section">
-            <div class="container">
-                <h2>Common questions</h2>
-                <div class="faq-grid">
-                    <div class="faq-item"><h3>Will this guarantee interviews?</h3><p>No tool can guarantee interviews. Junior helps you create more relevant conversations that can lead to better opportunities.</p></div>
-                    <div class="faq-item"><h3>Does this replace applications?</h3><p>No. It complements applications by increasing your visibility in hiring conversations.</p></div>
-                    <div class="faq-item"><h3>How fast can I start?</h3><p>Setup takes a few minutes. After that, you can start engaging immediately.</p></div>
+        <section id="pricing">
+            <div class="hj-wrap">
+                <div class="hj-section-head">
+                    <span class="hj-kicker">Pricing</span>
+                    <h2>Priced for a job search</h2>
+                    <p>Free for 14 days. You won't be charged until the trial ends, and you can cancel anytime, including the day you sign your offer.</p>
                 </div>
-            </div>
-        </section>
-
-        <section class="how-signals-section">
-            <div class="container narrow-container">
-                <h2 data-i18n="mechanismGraphic.titleJob">How Junior finds the right hiring conversations</h2>
-                <p class="section-subtitle" data-i18n="mechanismGraphic.subtitleJob">Not every LinkedIn post is worth your time. Junior filters for the ones that lead to replies.</p>
-                
-                <div class="mechanism-pipeline">
-                    <div class="mechanism-box">
-                        <div class="mechanism-icon">🎯</div>
-                        <strong data-i18n="mechanismGraphic.box1Title">High-Signal Post</strong>
-                        <p data-i18n="mechanismGraphic.box1Desc">Matches your target roles & topics</p>
+                <div class="hj-plans two">
+                    <div class="hj-plan popular">
+                        <span class="hj-pill">Best for job seekers</span>
+                        <h4>Basic</h4>
+                        <div class="hj-price">$9.99 <small>/ month</small></div>
+                        <ul class="hj-checks">
+                            <li>Up to 10 comments a day</li>
+                            <li>Finds hiring posts by role, company and topic</li>
+                            <li>Comments written from your background</li>
+                            <li>Replies inbox for recruiter conversations</li>
+                        </ul>
+                        <a href="register.html?plan=basic&amp;src=job-search-pricing-basic&amp;audience=jobseeker&amp;identity=personal" class="hj-btn hj-btn-primary" data-cta="job-search-pricing-basic">Start 14-day free trial</a>
                     </div>
-                    <div class="mechanism-arrow">➕</div>
-                    <div class="mechanism-box">
-                        <div class="mechanism-icon">👤</div>
-                        <strong data-i18n="mechanismGraphic.box2Title">Your Context</strong>
-                        <p data-i18n="mechanismGraphic.box2Desc">Your bio, tone, and goals</p>
+                    <div class="hj-plan">
+                        <h4>Starter</h4>
+                        <div class="hj-price">$14.99 <small>/ month</small></div>
+                        <ul class="hj-checks">
+                            <li>Up to 20 comments a day</li>
+                            <li>For a wider search across more companies</li>
+                            <li>Replies inbox and Run Insights</li>
+                            <li>Email support</li>
+                        </ul>
+                        <a href="register.html?plan=starter&amp;src=job-search-pricing-starter&amp;audience=jobseeker&amp;identity=personal" class="hj-btn hj-btn-outline" data-cta="job-search-pricing-starter">Start 14-day free trial</a>
                     </div>
-                    <div class="mechanism-arrow">➔</div>
-                    <div class="mechanism-box mechanism-box-highlight">
-                        <div class="mechanism-icon">💬</div>
-                        <strong data-i18n="mechanismGraphic.box3Title">Authentic Comment</strong>
-                        <p data-i18n="mechanismGraphic.box3Desc">A reply you'd actually write</p>
+                </div>
+                <p class="hj-pricing-foot">Coach job seekers or run a career program? <a href="linkedin-partners.html" data-cta="job-search-pricing-partners">Partner with us</a>. Already a customer? <a href="https://billing.stripe.com/p/login/28EfZjeBvdfSdjF5us3cc00" target="_blank" rel="noopener">Manage your subscription</a>.</p>
+            </div>
+        </section>
+
+        <section class="hj-safety" id="safety">
+            <div class="hj-wrap">
+                <div class="hj-section-head">
+                    <span class="hj-kicker">Your reputation stays protected</span>
+                    <h2>Recruiters see a thoughtful person, not a bot</h2>
+                </div>
+                <div class="hj-safety-grid">
+                    <div class="hj-mini">
+                        <h4>No generic comments</h4>
+                        <p>Junior writes from your bio, goals and tone for each specific post. No templates, no "Great insight!"</p>
                     </div>
+                    <div class="hj-mini">
+                        <h4>Runs on your computer</h4>
+                        <p>Your own browser, your own login. Your LinkedIn password is never sent to us.</p>
+                    </div>
+                    <div class="hj-mini">
+                        <h4>Paced like a person</h4>
+                        <p>Junior waits between actions and stays within the daily limit you choose.</p>
+                    </div>
+                    <div class="hj-mini">
+                        <h4>You see everything</h4>
+                        <p>Every posted and skipped comment is listed with a link back to LinkedIn.</p>
+                    </div>
+                </div>
+                <p class="hj-safety-note">An honest note: no LinkedIn automation is completely risk-free, and LinkedIn's rules can change. Junior is designed to keep the risk low with local execution, conservative pacing and full visibility. See our <a href="terms.html">Terms of Service</a>.</p>
+            </div>
+        </section>
+
+        <section id="faq">
+            <div class="hj-wrap">
+                <div class="hj-section-head center">
+                    <span class="hj-kicker">FAQ</span>
+                    <h2>Common questions from job seekers</h2>
+                </div>
+                <div class="hj-faq">
+                    <details>
+                        <summary>Will this guarantee interviews?</summary>
+                        <p>No tool can guarantee interviews. Junior helps you start more relevant conversations with recruiters and hiring managers, which can lead to better opportunities.</p>
+                    </details>
+                    <details>
+                        <summary>Does this replace applications?</summary>
+                        <p>No. It works alongside your applications by making you visible in the hiring conversations happening on LinkedIn.</p>
+                    </details>
+                    <details>
+                        <summary>Which plan should I pick?</summary>
+                        <p>Start with Basic. Ten thoughtful comments a day is plenty for most searches. Move to Starter if you're targeting a lot of companies or roles at once.</p>
+                    </details>
+                    <details>
+                        <summary>How fast can I start?</summary>
+                        <p>Setup takes a few minutes in the desktop app. After that, Junior starts finding posts and commenting the same day. See the <a href="setup-guide.html">setup guide</a>.</p>
+                    </details>
+                    <details>
+                        <summary>Do I need to keep my computer on?</summary>
+                        <p>Yes, while Junior is working. It runs in the desktop app, so it only comments while the app is open and the computer is awake.</p>
+                    </details>
                 </div>
             </div>
         </section>
 
-        <section class="trust-section">
-            <div class="container narrow-container">
-                <h2 data-i18n="trustReputation.title">Your reputation stays protected</h2>
-                <div class="trust-grid">
-                    <div class="trust-item"><strong data-i18n="trustReputation.item1Title">No "Crazy Comments"</strong><p data-i18n="trustReputation.item1Desc">Junior uses your specific bio, networking goals, and tone to generate replies. It never posts generic templates or off-brand spam.</p></div>
-                    <div class="trust-item"><strong data-i18n="trustReputation.item2Title">Runs on your machine</strong><p data-i18n="trustReputation.item2Desc">Your own browser, your own IP, your own session. No shared servers or cross-account fingerprinting.</p></div>
-                    <div class="trust-item"><strong data-i18n="trustReputation.item3Title">Paced like a human</strong><p data-i18n="trustReputation.item3Desc">Variable timing, natural scroll patterns, and conservative daily limits keep activity within normal ranges.</p></div>
-                </div>
-            </div>
-        </section>
-
-        <section class="home-final-cta">
-            <div class="container narrow-container">
+        <section class="hj-final">
+            <div class="hj-wrap">
                 <h2>Start better conversations this week.</h2>
-                <a href="register.html?src=job-search-final&amp;audience=jobseeker&amp;identity=personal" class="primary-button" data-cta="job-search-final-primary">Start free trial</a>
+                <p>Free for 14 days, then $9.99 a month. Cancel anytime.</p>
+                <div class="hj-hero-ctas">
+                    <a href="register.html?plan=basic&amp;src=job-search-final&amp;audience=jobseeker&amp;identity=personal" class="hj-btn hj-btn-primary" data-cta="job-search-final-primary">Start your 14-day trial</a>
+                    <a href="try-it.html?goal=job&amp;src=job-search-final" class="hj-btn hj-btn-ghost" data-cta="job-search-final-try-it">Try it on a real post</a>
+                </div>
             </div>
         </section>
     </main>
@@ -151,26 +234,49 @@
     <footer class="footer footer-dark">
         <div class="container">
             <div class="footer-content">
-                <div class="footer-section"><h4>Use Cases</h4><ul><li><a href="index.html">Overview</a></li><li><a href="founders.html">Founders</a></li><li><a href="consultants.html">Consultants</a></li><li><a href="sales.html">Sales</a></li><li><a href="agencies.html">Agencies</a></li><li><a href="linkedin-partners.html">Partners</a></li></ul></div>
-                <div class="footer-section"><h4>Legal</h4><ul><li><a href="terms.html">Terms of Service</a></li><li><a href="privacy.html">Privacy Policy</a></li></ul></div>
-                <div class="footer-section"><h4>Support</h4><ul><li><a href="portal.html">My Account</a></li><li><a href="troubleshooting.html" data-cta="job-search-footer-troubleshooting">Troubleshooting</a></li><li><a href="setup-guide.html" data-cta="job-search-footer-setup-guide">First Launch Setup Guide</a></li><li><a href="windows-install-help.html" data-cta="job-search-footer-windows-help">Windows Install Help</a></li><li><a href="mac-install-help.html" data-cta="job-search-footer-mac-help">macOS Install Help</a></li><li><a href="why-commenting-works.html?src=job-search-footer-edu" data-cta="job-search-footer-education">Why Commenting Works</a></li><li><a href="https://billing.stripe.com/p/login/28EfZjeBvdfSdjF5us3cc00" target="_blank">Manage Subscription</a></li></ul></div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>Email: <a href="mailto:support@heyjunior.ai">support@heyjunior.ai</a></p>
+                    <p><a href="my-story.html">My story</a></p>
+                </div>
+                <div class="footer-section">
+                    <h4>Who it's for</h4>
+                    <ul>
+                        <li><a href="business.html">Companies</a></li>
+                        <li><a href="individuals.html">Individuals</a></li>
+                        <li><a href="job-search.html">Job seekers</a></li>
+                        <li><a href="linkedin-partners.html">Career partners</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="portal.html">My account</a></li>
+                        <li><a href="troubleshooting.html" data-cta="job-search-footer-troubleshooting">Troubleshooting</a></li>
+                        <li><a href="setup-guide.html" data-cta="job-search-footer-setup-guide">First launch setup guide</a></li>
+                        <li><a href="windows-install-help.html" data-cta="job-search-footer-windows-help">Windows install help</a></li>
+                        <li><a href="mac-install-help.html" data-cta="job-search-footer-mac-help">macOS install help</a></li>
+                        <li><a href="why-commenting-works.html?src=job-search-footer-edu" data-cta="job-search-footer-education">Why commenting works</a></li>
+                        <li><a href="https://billing.stripe.com/p/login/28EfZjeBvdfSdjF5us3cc00" target="_blank" rel="noopener">Manage subscription</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="terms.html">Terms of Service</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Junior Labs LLC. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
-    <a href="register.html?src=job-search-sticky&amp;audience=jobseeker&amp;identity=personal" class="sticky-global-cta" data-cta="job-search-sticky">Start free trial</a>
+    <a href="register.html?plan=basic&amp;src=job-search-sticky&amp;audience=jobseeker&amp;identity=personal" class="sticky-global-cta" data-cta="job-search-sticky">Start free trial</a>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const mobileToggle = document.querySelector('.mobile-menu-toggle');
-            const navLinks = document.querySelector('.nav-links');
-            if (mobileToggle && navLinks) {
-                mobileToggle.addEventListener('click', function () {
-                    this.classList.toggle('active');
-                    navLinks.classList.toggle('active');
-                });
-            }
-        });
-    </script>
+    <script src="js/referral.js"></script>
+    <script src="js/hj-page.js?v=20261027"></script>
 </body>
 </html>
