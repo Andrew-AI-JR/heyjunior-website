@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Junior · Crece en LinkedIn sin pasar el día comentando</title>
+<meta name="description" content="Junior comenta por ti en LinkedIn, en español y con tu tono. Gratis 5 comentarios al día, sin tarjeta. Plan LATAM desde US$7,99.">
+<link rel="canonical" href="https://heyjunior.ai/es/">
+<link rel="alternate" hreflang="es" href="https://heyjunior.ai/es/">
+<link rel="alternate" hreflang="en" href="https://heyjunior.ai/">
+<meta property="og:title" content="Junior · Tu LinkedIn crece mientras trabajas">
+<meta property="og:description" content="Gratis 5 comentarios al día, sin tarjeta. Plan LATAM desde US$7,99/mes.">
+<meta property="og:url" content="https://heyjunior.ai/es/">
+<meta property="og:locale" content="es_419">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fbf8f3; --surface: #ffffff; --ink: #1c1a17; --muted: #6b655c; --line: #e8e1d5;
+    --accent: #e4572e; --accent-ink: #ffffff; --deep: #17324d; --soft: #fdeee8; --ok: #2f7d4f;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --bg:#14130f; --surface:#1d1c18; --ink:#f3efe7; --muted:#a59e92; --line:#302d27; --accent:#f06a40; --deep:#9cc3e6; --soft:#2a1d17; --ok:#6cc08f; }
+  }
+  :root[data-theme="dark"] { --bg:#14130f; --surface:#1d1c18; --ink:#f3efe7; --muted:#a59e92; --line:#302d27; --accent:#f06a40; --deep:#9cc3e6; --soft:#2a1d17; --ok:#6cc08f; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.55 Inter, system-ui, sans-serif; }
+  a { color: inherit; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
+  header { display:flex; justify-content:space-between; align-items:center; padding:20px 0; }
+  .logo { font-family: Fraunces, Georgia, serif; font-weight:700; font-size:24px; letter-spacing:-.02em; }
+  .logo span { color: var(--accent); }
+  nav a { text-decoration:none; color:var(--muted); margin-left:20px; font-size:15px; }
+  h1, h2, h3 { font-family: Fraunces, Georgia, serif; letter-spacing:-.02em; line-height:1.1; margin:0; }
+  .hero { display:grid; grid-template-columns: 1.1fr .9fr; gap:48px; align-items:center; padding:48px 0 72px; }
+  .hero h1 { font-size: clamp(36px, 5.5vw, 60px); }
+  .hero h1 em { font-style: normal; color: var(--accent); }
+  .hero p.lead { font-size:19px; color:var(--muted); margin:20px 0 28px; max-width: 34ch; }
+  .btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; border:0; border-radius:999px; padding:14px 22px; font:600 16px Inter, sans-serif; cursor:pointer; text-decoration:none; }
+  .btn-primary { background:var(--accent); color:var(--accent-ink); }
+  .btn-ghost { background:transparent; color:var(--ink); border:1.5px solid var(--line); }
+  .btn:disabled { opacity:.5; cursor:not-allowed; }
+  .note { font-size:14px; color:var(--muted); margin-top:12px; }
+  .demo { background:var(--surface); border:1px solid var(--line); border-radius:20px; padding:20px; box-shadow: 0 20px 40px -24px rgba(23,50,77,.35); }
+  .post { border-bottom:1px solid var(--line); padding-bottom:14px; }
+  .who { display:flex; gap:10px; align-items:center; font-size:14px; }
+  .avatar { width:36px; height:36px; border-radius:50%; background:var(--deep); opacity:.85; }
+  .who b { display:block; } .who small { color:var(--muted); }
+  .post p { margin:10px 0 0; font-size:15px; }
+  .reply { margin-top:14px; background:var(--soft); border-radius:14px; padding:12px 14px; font-size:15px; }
+  .reply .tag { font-size:12px; font-weight:600; color:var(--accent); text-transform:uppercase; letter-spacing:.06em; }
+  section { padding: 64px 0; }
+  .eyebrow { text-transform:uppercase; letter-spacing:.1em; font-size:13px; font-weight:600; color:var(--accent); margin-bottom:10px; }
+  .steps { display:grid; grid-template-columns: repeat(3,1fr); gap:20px; margin-top:28px; counter-reset: s; }
+  .step { background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:22px; }
+  .step::before { counter-increment:s; content: counter(s); font-family:Fraunces, serif; font-size:32px; color:var(--accent); display:block; margin-bottom:6px; }
+  .step h3 { font-size:20px; margin-bottom:6px; }
+  .step p { margin:0; color:var(--muted); font-size:15px; }
+  .toggle { display:inline-flex; background:var(--surface); border:1px solid var(--line); border-radius:999px; padding:4px; margin:24px 0; }
+  .toggle button { border:0; background:transparent; padding:8px 16px; border-radius:999px; font:500 14px Inter; color:var(--muted); cursor:pointer; }
+  .toggle button[aria-pressed="true"] { background:var(--ink); color:var(--bg); }
+  .plans { display:grid; grid-template-columns: 1fr 1fr; gap:20px; }
+  .plan { background:var(--surface); border:1px solid var(--line); border-radius:20px; padding:28px; display:flex; flex-direction:column; }
+  .plan.featured { border:2px solid var(--accent); position:relative; }
+  .badge { position:absolute; top:-12px; left:24px; background:var(--accent); color:var(--accent-ink); font-size:12px; font-weight:600; padding:4px 10px; border-radius:999px; }
+  .plan h3 { font-size:24px; }
+  .price { font-family:Fraunces, serif; font-size:44px; font-weight:700; margin:12px 0 2px; }
+  .price small { font-family:Inter; font-size:15px; font-weight:400; color:var(--muted); }
+  .plan ul { list-style:none; padding:0; margin:18px 0 24px; flex:1; }
+  .plan li { padding:6px 0 6px 26px; position:relative; font-size:15px; }
+  .plan li::before { content:""; position:absolute; left:4px; top:12px; width:10px; height:6px; border-left:2px solid var(--ok); border-bottom:2px solid var(--ok); transform:rotate(-45deg); }
+  form.inline { display:flex; flex-direction:column; gap:10px; }
+  input[type=email], input[type=password], select { width:100%; padding:13px 16px; border-radius:12px; border:1.5px solid var(--line); background:var(--bg); color:var(--ink); font:16px Inter; }
+  .pay { display:grid; grid-template-columns:1fr; gap:10px; }
+  .msg { font-size:14px; margin-top:8px; min-height:1.2em; }
+  .msg.err { color: var(--accent); } .msg.ok { color: var(--ok); }
+  .sr { position:absolute; left:-9999px; }
+  .hint { font-size:13px; color:var(--muted); margin:-4px 0 0; }
+  .country-row { max-width:420px; margin:0 0 24px; }
+  .country-row label { display:block; font-size:14px; font-weight:600; margin-bottom:6px; }
+  .unavailable { display:none; background:var(--soft); border-radius:12px; padding:12px 14px; font-size:14px; margin-bottom:12px; }
+  .faq details { border-bottom:1px solid var(--line); padding:16px 0; }
+  .faq summary { cursor:pointer; font-weight:600; font-size:17px; list-style:none; }
+  .faq summary::after { content:"+"; float:right; color:var(--accent); font-size:22px; line-height:1; }
+  .faq details[open] summary::after { content:"–"; }
+  .faq p { color:var(--muted); margin:10px 0 0; }
+  .cta-band { background:var(--deep); color:#fff; border-radius:24px; padding:40px; display:flex; justify-content:space-between; align-items:center; gap:20px; flex-wrap:wrap; }
+  .cta-band h2 { font-size:30px; color:#fff; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .cta-band h2, :root:not([data-theme="light"]) .cta-band { color:#14130f; } }
+  :root[data-theme="dark"] .cta-band, :root[data-theme="dark"] .cta-band h2 { color:#14130f; }
+  footer { padding:40px 0; color:var(--muted); font-size:14px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; }
+  @media (max-width: 820px) {
+    .hero, .plans, .steps { grid-template-columns: 1fr; }
+    .hero { padding-top: 24px; gap: 32px; }
+    nav a:not(:last-child) { display:none; }
+    .cta-band { padding: 28px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="logo">junior<span>.</span></div>
+    <nav><a href="#como">Cómo funciona</a><a href="#precios">Precios</a><a href="#faq">Preguntas</a><a class="btn btn-ghost" style="padding:8px 16px" href="#precios">Empieza gratis</a></nav>
+  </header>
+
+  <div class="hero">
+    <div>
+      <div class="eyebrow">Para profesionales de Latinoamérica</div>
+      <h1>Tu LinkedIn crece <em>mientras trabajas</em>.</h1>
+      <p class="lead">Junior lee las publicaciones de tu sector y comenta por ti, en español y con tu tono. Más visibilidad, más conexiones, sin pasar el día en LinkedIn.</p>
+      <a class="btn btn-primary" href="#precios">Empieza gratis, sin tarjeta</a>
+      <div class="note">5 comentarios al día gratis. Plan LATAM desde US$7,99/mes · App para Windows y Mac.</div>
+    </div>
+    <div class="demo" aria-label="Ejemplo de comentario generado por Junior">
+      <div class="post">
+        <div class="who"><div class="avatar"></div><div><b>Directora de Talento</b><small>Santiago · hace 2 h</small></div></div>
+        <p>Este año contratamos 40 personas y el factor común no fue el CV: fue cómo se mostraban en LinkedIn antes de postular.</p>
+      </div>
+      <div class="reply">
+        <div class="tag">Comentario de Junior</div>
+        Totalmente de acuerdo. Lo que más me ha servido es compartir avances concretos de mis proyectos: abre conversaciones que un CV nunca abriría. ¿Qué tipo de publicaciones te llamaron más la atención?
+      </div>
+    </div>
+  </div>
+</div>
+
+<section id="como">
+  <div class="wrap">
+    <div class="eyebrow">Cómo funciona</div>
+    <h2 style="font-size:36px">Listo en cinco minutos</h2>
+    <div class="steps">
+      <div class="step"><h3>Crea tu cuenta</h3><p>Correo y contraseña. Descargas la app para Windows o Mac e inicias sesión.</p></div>
+      <div class="step"><h3>Elige industria y país</h3><p>Junior encuentra publicaciones relevantes para tu carrera o tu negocio.</p></div>
+      <div class="step"><h3>Elige tu tono</h3><p>Profesional cercano, directo o entusiasta. Junior comenta a un ritmo natural.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="precios">
+  <div class="wrap">
+    <div class="eyebrow">Precios</div>
+    <h2 style="font-size:36px">Empieza gratis. Mejora cuando quieras.</h2>
+    <div class="country-row" style="margin-top:24px">
+      <label for="country">Tu país</label>
+      <select id="country" autocomplete="country">
+        <option value="AR">Argentina</option>
+        <option value="BO">Bolivia</option>
+        <option value="CL">Chile</option>
+        <option value="PY">Paraguay</option>
+        <option value="PE">Perú</option>
+        <option value="OTHER">Otro país</option>
+      </select>
+    </div>
+    <div class="unavailable" id="latam-unavailable">Por ahora Junior Gratis y Junior LATAM están disponibles solo en Argentina, Bolivia, Chile, Paraguay y Perú. <a href="/">Ver los planes internacionales</a>.</div>
+    <div class="toggle" role="group" aria-label="Frecuencia de pago" style="margin-top:0">
+      <button type="button" data-interval="monthly" aria-pressed="true">Mensual</button>
+      <button type="button" data-interval="annual" aria-pressed="false">Anual · 2 meses gratis</button>
+    </div>
+    <div class="plans">
+      <div class="plan">
+        <h3>Junior Gratis</h3>
+        <div class="price">US$0 <small>para siempre</small></div>
+        <ul>
+          <li>5 comentarios por día</li>
+          <li>Comentarios en español y portugués</li>
+          <li>Segmentación por industria y país</li>
+          <li>Sin tarjeta de crédito</li>
+        </ul>
+        <form class="inline" id="free-form">
+          <label class="sr" for="free-email">Correo</label>
+          <input id="free-email" type="email" required placeholder="tu@correo.com" autocomplete="email">
+          <label class="sr" for="free-password">Contraseña</label>
+          <input id="free-password" type="password" required minlength="8" placeholder="Crea una contraseña" autocomplete="new-password">
+          <p class="hint">Mínimo 8 caracteres y una mayúscula. La usarás para entrar a la app.</p>
+          <button class="btn btn-ghost" type="submit" id="free-submit">Crear cuenta gratis</button>
+          <div class="msg" id="free-msg" role="status"></div>
+        </form>
+      </div>
+
+      <div class="plan featured">
+        <span class="badge">Solo Latinoamérica</span>
+        <h3>Junior LATAM</h3>
+        <div class="price" id="latam-price">US$7,99 <small>/ mes</small></div>
+        <div class="note" id="latam-sub" style="margin:0">Con el código FUNDADOR: 25% de descuento de por vida para los primeros 100.</div>
+        <ul>
+          <li>Hasta 50 comentarios por día</li>
+          <li>Segmentación completa: ubicación, industria y empresa</li>
+          <li>Control de relevancia y elección de tono</li>
+          <li>Panel de impacto en LinkedIn</li>
+          <li>Soporte por correo</li>
+        </ul>
+        <form class="inline" id="paid-form">
+          <label class="sr" for="paid-email">Correo</label>
+          <input id="paid-email" type="email" required placeholder="tu@correo.com" autocomplete="email">
+          <label class="sr" for="paid-password">Contraseña</label>
+          <input id="paid-password" type="password" required minlength="8" placeholder="Contraseña" autocomplete="new-password">
+          <p class="hint">¿Ya tienes Junior Gratis? Usa el mismo correo y contraseña.</p>
+          <div class="pay">
+            <button class="btn btn-primary" type="submit" id="pay-card">Continuar al pago</button>
+          </div>
+          <div class="msg" id="paid-msg" role="status"></div>
+        </form>
+        <div class="note">Pago seguro con tarjeta de crédito o débito. Escribe FUNDADOR en la página de pago. Cancela cuando quieras. Precio en dólares; tu banco puede convertirlo a moneda local.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap faq">
+    <div class="eyebrow">Preguntas frecuentes</div>
+    <h2 style="font-size:36px;margin-bottom:12px">Lo que todos preguntan</h2>
+    <details><summary>¿Es seguro para mi cuenta de LinkedIn?</summary><p>Junior comenta a un ritmo natural y con límites diarios conservadores. Ninguna herramienta de automatización puede garantizar nada sobre las políticas de LinkedIn, por eso los límites vienen activados desde el inicio.</p></details>
+    <details><summary>¿Necesito tarjeta para el plan gratis?</summary><p>No. Solo tu correo y una contraseña. Tienes 5 comentarios por día, todos los días.</p></details>
+    <details><summary>¿Cómo pago?</summary><p>Con tarjeta de crédito o débito, en la página de pago segura de Stripe.</p></details>
+    <details><summary>¿Por qué el plan LATAM solo está disponible en algunos países?</summary><p>Es un precio especial para profesionales de Latinoamérica. Verificamos el país de la tarjeta al momento de la compra; si no coincide, cancelamos y devolvemos el pago.</p></details>
+    <details><summary>¿Puedo cancelar cuando quiera?</summary><p>Sí. Cancelas desde tu cuenta y mantienes el acceso hasta el final del período pagado.</p></details>
+    <details><summary>¿La app está en español?</summary><p>La app está en inglés por ahora. Los comentarios se escriben en el idioma de cada publicación: en español, portugués o inglés.</p></details>
+    <details><summary>¿Qué necesito para usarla?</summary><p>Una computadora con Windows o Mac y tu cuenta de LinkedIn. Junior funciona mientras la app está abierta.</p></details>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="cta-band">
+    <h2>Empieza hoy con 5 comentarios gratis.</h2>
+    <a class="btn btn-primary" href="#precios">Crear cuenta gratis</a>
+  </div>
+  <footer><span>© 2026 Junior · heyjunior.ai</span><span><a href="mailto:support@heyjunior.ai">support@heyjunior.ai</a> · <a href="/terms.html">Términos</a> · <a href="/privacy.html">Privacidad</a> · <a href="/">English</a></span></footer>
+</div>
+
+<script>
+(function () {
+  var API = 'https://junior-api-915940312680.us-west1.run.app';
+  var PRICES = { monthly: 'price_1UWMssRxE6F23RwQjFOAnFGy', annual: 'price_1UWMstRxE6F23RwQ97L6TBKo' };
+  var ENABLED = ['AR', 'BO', 'CL', 'PE', 'PY'];
+  var TIMEZONES = {
+    'America/Argentina': 'AR', 'America/Buenos_Aires': 'AR', 'America/Cordoba': 'AR', 'America/Mendoza': 'AR',
+    'America/La_Paz': 'BO', 'America/Santiago': 'CL', 'America/Punta_Arenas': 'CL', 'Pacific/Easter': 'CL',
+    'America/Lima': 'PE', 'America/Asuncion': 'PY'
+  };
+  var interval = 'monthly';
+  var $ = function (id) { return document.getElementById(id); };
+
+  // Referral: ?ref=CODE (or ?via=CODE) is kept 30 days, like the rest of heyjunior.ai.
+  function referralCode() {
+    var params = new URLSearchParams(location.search);
+    var code = params.get('ref') || params.get('via');
+    try {
+      if (code) {
+        localStorage.setItem('referralCode', code.toUpperCase());
+        localStorage.setItem('referralTimestamp', String(Date.now()));
+      }
+      var stored = localStorage.getItem('referralCode');
+      var at = parseInt(localStorage.getItem('referralTimestamp') || '0', 10);
+      if (stored && Date.now() - at <= 30 * 864e5) return stored;
+    } catch (e) {}
+    return code ? code.toUpperCase() : null;
+  }
+  var ref = referralCode();
+
+  function guessCountry() {
+    try {
+      var tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+      for (var key in TIMEZONES) { if (tz.indexOf(key) === 0) return TIMEZONES[key]; }
+    } catch (e) {}
+    return 'OTHER';
+  }
+  function country() { return $('country').value; }
+  function eligible() { return ENABLED.indexOf(country()) !== -1; }
+  function applyCountry() {
+    var ok = eligible();
+    $('latam-unavailable').style.display = ok ? 'none' : 'block';
+    ['free-submit', 'pay-card'].forEach(function (id) { $(id).disabled = !ok; });
+  }
+  $('country').value = guessCountry();
+  $('country').addEventListener('change', applyCountry);
+  applyCountry();
+
+  function msg(el, text, ok) { el.textContent = text; el.className = 'msg ' + (ok ? 'ok' : 'err'); }
+  function post(path, body, token) {
+    var headers = { 'Content-Type': 'application/json' };
+    if (token) headers.Authorization = 'Bearer ' + token;
+    return fetch(API + path, { method: 'POST', headers: headers, body: JSON.stringify(body) })
+      .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { status: r.status, body: j }; }); });
+  }
+  function errorText(r) {
+    var d = r.body && r.body.detail;
+    var text = typeof d === 'string' ? d : (Array.isArray(d) && d[0] && d[0].msg) || '';
+    if (/uppercase/i.test(text)) return 'La contraseña necesita al menos una letra mayúscula.';
+    if (/8 characters/i.test(text)) return 'La contraseña necesita al menos 8 caracteres.';
+    if (/email/i.test(text) && r.status === 422) return 'Revisa tu correo.';
+    if (r.status === 403) return 'Este plan no está disponible en tu país.';
+    if (r.status === 429) return 'Demasiados intentos. Espera un minuto e inténtalo de nuevo.';
+    return 'No pudimos completar el registro. Inténtalo de nuevo o escríbenos a support@heyjunior.ai.';
+  }
+  function busy(button, on) {
+    button.dataset.label = button.dataset.label || button.textContent;
+    button.disabled = on || !eligible();
+    button.textContent = on ? 'Un momento…' : button.dataset.label;
+  }
+
+  document.querySelectorAll('.toggle button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      interval = b.dataset.interval;
+      document.querySelectorAll('.toggle button').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+      $('latam-price').innerHTML = interval === 'annual' ? 'US$79,90 <small>/ año</small>' : 'US$7,99 <small>/ mes</small>';
+      $('latam-sub').textContent = interval === 'annual' ? 'Equivale a US$6,66 al mes.' : 'Con el código FUNDADOR: 25% de descuento de por vida para los primeros 100.';
+    });
+  });
+
+  $('free-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var button = $('free-submit');
+    busy(button, true);
+    post('/api/users/register-free', {
+      email: $('free-email').value.trim(), password: $('free-password').value,
+      country: country(), referral_code: ref
+    }).then(function (r) {
+      busy(button, false);
+      if (r.status === 201) return (location.href = '/es/gracias.html?plan=gratis');
+      if (r.status === 409) return msg($('free-msg'), 'Ya tienes una cuenta con este correo. Descarga la app e inicia sesión.', true);
+      msg($('free-msg'), errorText(r));
+    }).catch(function () { busy(button, false); msg($('free-msg'), 'No pudimos conectar. Inténtalo en un momento.'); });
+  });
+
+  function checkoutBody() {
+    return {
+      price_id: PRICES[interval], country: country(), referral_code: ref,
+      success_url: location.origin + '/es/gracias.html?plan=latam&session_id={CHECKOUT_SESSION_ID}',
+      cancel_url: location.origin + '/es/#precios'
+    };
+  }
+  function goToCheckout(r) {
+    var url = r.body && (r.body.checkout_url || r.body.url);
+    if ((r.status === 200 || r.status === 201) && url) { location.href = url; return true; }
+    return false;
+  }
+
+  $('paid-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var button = $('pay-card');
+    var email = $('paid-email').value.trim(), password = $('paid-password').value;
+    busy(button, true);
+    var body = checkoutBody();
+    body.email = email; body.password = password;
+    post('/api/users/register', body).then(function (r) {
+      if (goToCheckout(r)) return;
+      if (r.status !== 409) { busy(button, false); return msg($('paid-msg'), errorText(r)); }
+      // Existing account (for example Junior Gratis): sign in and open checkout for it.
+      return post('/api/users/token', { email: email, password: password }).then(function (login) {
+        if (login.status !== 200 || !login.body.access_token) {
+          busy(button, false);
+          return msg($('paid-msg'), 'Ya tienes una cuenta con este correo y la contraseña no coincide. Puedes recuperarla en heyjunior.ai/forgot-password.html');
+        }
+        return post('/api/payments/create-checkout-session', checkoutBody(), login.body.access_token).then(function (c) {
+          if (goToCheckout(c)) return;
+          busy(button, false);
+          msg($('paid-msg'), c.status === 400 ? 'Tu cuenta ya tiene un plan de pago. Escríbenos a support@heyjunior.ai para cambiarlo.' : errorText(c));
+        });
+      });
+    }).catch(function () { busy(button, false); msg($('paid-msg'), 'No pudimos conectar. Inténtalo en un momento.'); });
+  });
+})();
+</script>
+</body>
+</html>
