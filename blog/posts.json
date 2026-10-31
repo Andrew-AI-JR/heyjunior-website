@@ -1,6 +1,14 @@
 {
   "posts": [
     {
+      "id": 148,
+      "slug": "safe-linkedin-outreach-architecture",
+      "title": "Architecture guide for safe LinkedIn outreach",
+      "excerpt": "Discover the technical and behavioral architecture needed for safe LinkedIn outreach. Learn why local execution and feed commenting outperform cold DMs.",
+      "featured_image_url": "https://assets.bevisible.app/featured-images/j577m4j15z4qh9ef4h2sqjqr398h3mp4/architecture-guide-for-safe-linkedin-outreach-1793204323308-culdxx.png",
+      "published_at": "2026-10-31T15:59:00+00:00"
+    },
+    {
       "id": 147,
       "slug": "social-selling-benchmarks-startup-founders",
       "title": "State of social selling benchmarks for startup founders",
