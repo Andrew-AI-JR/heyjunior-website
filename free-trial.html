@@ -4,25 +4,85 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="js/frame-guard.js"></script>
-    <meta name="description" content="Try Junior free for 14 days. No credit card, nothing to cancel: the trial simply ends unless you choose a plan.">
-    <title>Free trial, no credit card - Junior</title>
+    <meta name="description" content="Junior finds the LinkedIn posts that matter to you, comments in your voice and brings every reply into one inbox. Free for 14 days, no credit card.">
+    <title>Try Junior free for 14 days, no credit card</title>
     <link rel="canonical" href="https://heyjunior.ai/free-trial.html">
-    <meta property="og:title" content="Try Junior free for 14 days. No credit card.">
-    <meta property="og:description" content="Junior comments on LinkedIn for you so the right people notice you. Free for 14 days, no card, nothing to cancel.">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Get noticed on LinkedIn without living on LinkedIn. Free for 14 days, no credit card.">
+    <meta property="og:description" content="Junior finds the posts recruiters, hiring managers and clients are writing, comments in your voice, and brings every reply into one inbox.">
     <meta property="og:url" content="https://heyjunior.ai/free-trial.html">
+    <meta property="og:image" content="https://heyjunior.ai/images/free-trial-card.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="627">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://heyjunior.ai/images/free-trial-card.png">
     <link rel="stylesheet" href="css/styles.css?v=20261005-cro">
     <script defer src="js/analytics.js?v=20261005-pii"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        .trial-points { list-style: none; padding: 0; margin: 4px 0 20px; text-align: left; }
-        .trial-points li { padding: 4px 0 4px 24px; position: relative; }
-        .trial-points li::before { content: "\2713"; position: absolute; left: 0; color: #1a7f4b; font-weight: 700; }
-        .trial-badge { display: inline-block; background: #e8f5ee; color: #1a7f4b; font-weight: 700; border-radius: 999px; padding: 6px 14px; margin-bottom: 12px; }
+        .ft { --ink: #0f1f3d; --muted: #52607a; --ok: #1a7f4b; --line: #dbe4f0; --soft: #f3f7fc; }
+        .ft-hero { padding: 118px 0 40px; }
+        .ft-hero .container { display: grid; grid-template-columns: 1.15fr 1fr; grid-template-areas: "intro form" "details form"; column-gap: 48px; align-items: start; }
+        .ft-intro { grid-area: intro; }
+        .ft-details { grid-area: details; }
+        #trial-form-wrap, #trial-success-wrap { grid-area: form; padding: 0; min-height: 0; }
+        .ft-badge { display: inline-block; background: #e8f5ee; color: var(--ok); font-weight: 700; border-radius: 999px; padding: 6px 14px; margin-bottom: 16px; font-size: 14px; }
+        .ft-hero h1 { font-size: 44px; line-height: 1.15; color: var(--ink); margin: 0 0 16px; }
+        .ft-lead { font-size: 19px; color: var(--muted); margin: 0 0 24px; max-width: 34em; }
+        .ft-checks { list-style: none; padding: 0; margin: 0 0 24px; }
+        .ft-checks li { padding: 5px 0 5px 28px; position: relative; color: var(--ink); }
+        .ft-checks li::before { content: "\2713"; position: absolute; left: 2px; color: var(--ok); font-weight: 700; }
+        .ft-proof-strip { display: flex; gap: 28px; flex-wrap: wrap; border-top: 1px solid var(--line); padding-top: 18px; }
+        .ft-proof-strip strong { display: block; font-size: 26px; color: var(--ink); }
+        .ft-proof-strip span { font-size: 13px; color: var(--muted); }
+        .ft-note { font-size: 12px; color: var(--muted); margin-top: 8px; }
+        .ft .login-card { margin: 0; max-width: none; width: 100%; box-sizing: border-box; }
+        .ft-form-title { font-size: 24px; margin: 0 0 6px; color: var(--ink); }
+        .ft-form-sub { color: var(--muted); margin: 0 0 18px; font-size: 15px; }
+        .ft-section { padding: 56px 0; }
+        .ft-section.alt { background: var(--soft); }
+        .ft-section h2 { font-size: 32px; color: var(--ink); margin: 0 0 8px; text-align: center; }
+        .ft-section .ft-sub { text-align: center; color: var(--muted); margin: 0 auto 32px; max-width: 40em; }
+        .ft-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; counter-reset: step; }
+        .ft-step { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 20px; }
+        .ft-step::before { counter-increment: step; content: counter(step); display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 50%; background: #2f6fde; color: #fff; font-weight: 700; margin-bottom: 10px; }
+        .ft-step h3 { font-size: 17px; margin: 0 0 6px; color: var(--ink); }
+        .ft-step p { font-size: 15px; color: var(--muted); margin: 0; }
+        .ft-quotes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .ft-quote { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 22px; margin: 0; }
+        .ft-quote p { margin: 0 0 12px; color: var(--ink); font-size: 16px; }
+        .ft-quote footer { font-size: 13px; color: var(--muted); }
+        .ft-safe { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px 32px; max-width: 900px; margin: 0 auto; }
+        .ft-safe div { padding-left: 28px; position: relative; }
+        .ft-safe div::before { content: "\2713"; position: absolute; left: 2px; color: var(--ok); font-weight: 700; }
+        .ft-safe strong { color: var(--ink); }
+        .ft-honest { max-width: 900px; margin: 20px auto 0; font-size: 14px; color: var(--muted); text-align: center; }
+        .ft-faq { max-width: 760px; margin: 0 auto; }
+        .ft-faq details { border-bottom: 1px solid var(--line); padding: 14px 0; }
+        .ft-faq summary { cursor: pointer; font-weight: 600; color: var(--ink); }
+        .ft-faq p { color: var(--muted); margin: 10px 0 0; }
+        .ft-final { text-align: center; }
+        .ft-final .primary-button { display: inline-block; text-decoration: none; width: auto; padding-left: 32px; padding-right: 32px; }
+        @media (max-width: 900px) {
+            .ft-hero .container { grid-template-columns: 1fr; grid-template-areas: "intro" "form" "details"; row-gap: 24px; }
+            .ft-hero h1 { font-size: 32px; }
+            .ft-lead { font-size: 17px; }
+            .ft-steps { grid-template-columns: 1fr 1fr; }
+            .ft-quotes { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 560px) {
+            .ft-hero { padding-top: 96px; }
+            .ft-proof-strip { gap: 14px 24px; }
+            .ft-proof-strip strong { font-size: 20px; }
+            .ft-steps, .ft-safe { grid-template-columns: 1fr; }
+            .ft-section { padding: 40px 0; }
+            .ft-section h2 { font-size: 26px; }
+        }
     </style>
 </head>
-<body class="i18n-ready" data-page="free-trial">
+<body class="i18n-ready ft" data-page="free-trial">
     <nav class="navbar">
         <div class="container">
             <div class="logo">
@@ -38,18 +98,31 @@
         </div>
     </nav>
 
-    <section class="portal-container">
+    <section class="ft-hero">
         <div class="container">
+            <div class="ft-intro">
+                <span class="ft-badge">14 days free &middot; No credit card</span>
+                <h1>Get noticed on LinkedIn without living on LinkedIn.</h1>
+                <p class="ft-lead">Junior finds the posts recruiters, hiring managers and clients are writing right now, comments in your voice from your background, and brings every reply into one inbox so you can follow up.</p>
+            </div>
+            <div class="ft-details">
+                <ul class="ft-checks">
+                    <li>About five minutes of setup, then Junior works while you do your actual job</li>
+                    <li>Every comment written for that specific post. No templates, no "Great insight!"</li>
+                    <li>No card, nothing to cancel: the trial simply ends unless you choose a plan</li>
+                </ul>
+                <div class="ft-proof-strip">
+                    <div><strong>3,000+</strong><span>impressions on one user's Junior comments</span></div>
+                    <div><strong>An interview</strong><span>for one job seeker, in their words</span></div>
+                    <div><strong>Windows &amp; Mac</strong><span>desktop app</span></div>
+                </div>
+                <p class="ft-note">From Junior users' own messages, identities redacted. Your results will depend on your market and settings.</p>
+            </div>
+
             <div id="trial-form-wrap" class="login-section" style="display: flex;">
                 <form class="login-card" id="trial-form" novalidate>
-                    <span class="trial-badge">No credit card required</span>
-                    <h2><span id="trial-days-title">14</span> days of Junior, free</h2>
-                    <p class="login-subtitle">Junior comments on LinkedIn for you, in your voice, so hiring managers and buyers start to notice you.</p>
-                    <ul class="trial-points">
-                        <li>Full Junior for <span class="trial-days">14</span> days</li>
-                        <li>No card, nothing to cancel: the trial just ends</li>
-                        <li>Keep going after that only if you choose a plan</li>
-                    </ul>
+                    <h2 class="ft-form-title">Start your free <span id="trial-days-title">14</span> days</h2>
+                    <p class="ft-form-sub">Junior Basic: up to 10 thoughtful comments a day. No credit card.</p>
                     <div id="trial-error" class="error-message" style="display: none;" role="alert"></div>
                     <div class="form-group">
                         <label for="trial-email">Email</label>
@@ -70,26 +143,95 @@
 
             <div id="trial-success-wrap" class="login-section" style="display: none;">
                 <div class="login-card">
-                    <h2>Your free trial has started</h2>
-                    <p class="login-subtitle">You have <span class="trial-days">14</span> days of Junior, no card on file. Download the app and sign in with the email and password you just chose.</p>
-                    <div id="trial-downloads" style="margin: 20px 0;"></div>
-                    <p class="login-subtitle" style="font-size: 14px;">Junior is a desktop app for Windows and Mac. On your phone? Open heyjunior.ai/portal.html on your computer later to download it. We also emailed you the links.</p>
+                    <h2 class="ft-form-title">Your free trial has started</h2>
+                    <p class="ft-form-sub">You have <span class="trial-days">14</span> days of Junior, no card on file. Download the app and sign in with the email and password you just chose.</p>
+                    <div id="trial-downloads" style="margin: 16px 0;"></div>
+                    <p class="ft-form-sub" style="font-size: 14px;">Junior is a desktop app for Windows and Mac. On your phone? We emailed you the links, or open heyjunior.ai/portal.html on your computer later.</p>
                     <p><a href="setup-guide.html" class="primary-button" style="display: inline-block; text-decoration: none; text-align: center;">Read the 5-minute setup guide</a></p>
                 </div>
             </div>
         </div>
     </section>
 
+    <section class="ft-section alt">
+        <div class="container">
+            <h2>Set it up once. Junior keeps you visible every day.</h2>
+            <p class="ft-sub">Many opportunities start in the comments, before or alongside the job post or the sales call. Junior puts you in those threads without hours of scrolling.</p>
+            <div class="ft-steps">
+                <div class="ft-step"><h3>Tell Junior about you</h3><p>Your background, your goal (a new role, clients, partners) and the tone you write in.</p></div>
+                <div class="ft-step"><h3>Pick who to reach</h3><p>Companies and people you want to reach, or the roles, industries and topics you care about.</p></div>
+                <div class="ft-step"><h3>Junior comments as you</h3><p>It scores each post for relevance, skips the rest, and writes a comment for that post at a human pace.</p></div>
+                <div class="ft-step"><h3>You take the conversations</h3><p>Replies land in one inbox with a drafted response. Send it, edit it, or move the thread toward a meeting.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="ft-section">
+        <div class="container">
+            <h2>What people say after a few weeks</h2>
+            <p class="ft-sub">Real messages from Junior users.</p>
+            <div class="ft-quotes">
+                <blockquote class="ft-quote">
+                    <p>"It immediately cut down the onslaught of corporate-AI generated content and opened up a floodgate of the posts and comments from other humans that I needed to connect with. Within a few weeks of using it I can attest to a significant increase of connections and conversations that otherwise just would not have happened."</p>
+                    <footer>Project manager, consulting, healthcare and life sciences &middot; public LinkedIn comment</footer>
+                </blockquote>
+                <blockquote class="ft-quote">
+                    <p>"I'm having fun with this tool and it has already gotten me 1 interview."</p>
+                    <footer>Junior user &middot; support message, identity redacted</footer>
+                </blockquote>
+                <blockquote class="ft-quote">
+                    <p>"It works in background to give us the reach, we have more than 3000 impressions on the comments generated by the system."</p>
+                    <footer>Junior user &middot; private message, identity redacted</footer>
+                </blockquote>
+            </div>
+        </div>
+    </section>
+
+    <section class="ft-section alt">
+        <div class="container">
+            <h2>Your reputation comes first</h2>
+            <p class="ft-sub">People see a thoughtful person, not a bot.</p>
+            <div class="ft-safe">
+                <div><strong>Your browser, your login.</strong> Junior runs on your computer. Your LinkedIn password is never sent to us.</div>
+                <div><strong>Written for each post.</strong> Comments come from your bio, goals and tone, for the specific post in front of them.</div>
+                <div><strong>Human pace.</strong> Junior waits between actions, skips stale posts and stays within the daily limit you choose.</div>
+                <div><strong>Full visibility.</strong> Every posted and skipped comment is listed with a link back to LinkedIn.</div>
+            </div>
+            <p class="ft-honest">An honest note: no LinkedIn automation is completely risk-free, and LinkedIn's rules can change. Junior keeps the risk low with local execution, conservative pacing and full visibility.</p>
+        </div>
+    </section>
+
+    <section class="ft-section">
+        <div class="container">
+            <h2>Questions</h2>
+            <div class="ft-faq">
+                <details><summary>Do I need a credit card?</summary><p>No. Start with your email and a password. When the 14 days are up the trial simply ends. You only pay if you choose a plan.</p></details>
+                <details><summary>What do I get during the trial?</summary><p>Junior Basic: up to 10 comments a day on posts that match your goals, the replies inbox with drafted responses, and the activity log of everything Junior posted and skipped.</p></details>
+                <details><summary>What happens after 14 days?</summary><p>Junior stops commenting and shows you the plans. Basic is $9.99 a month for job seekers. Nothing is charged automatically.</p></details>
+                <details><summary>Do I need to keep my computer on?</summary><p>Yes, while Junior is working. It runs in the desktop app for Windows and Mac, so it comments while the app is open and the computer is awake.</p></details>
+                <details><summary>Will this guarantee interviews or clients?</summary><p>No tool can. Junior helps you start more relevant conversations with the people you want to reach, which is where many opportunities begin.</p></details>
+            </div>
+        </div>
+    </section>
+
+    <section class="ft-section alt ft-final">
+        <div class="container">
+            <h2>Start better conversations this week.</h2>
+            <p class="ft-sub">14 days free. No credit card. Nothing to cancel.</p>
+            <a href="#trial-form-wrap" class="primary-button" id="trial-final-cta">Start my free trial</a>
+        </div>
+    </section>
+
     <footer class="footer">
         <div class="container">
             <div class="footer-bottom">
-                <p>&copy; 2026 Junior. All rights reserved.</p>
+                <p>&copy; 2026 Junior Labs LLC. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
     <script src="js/api-config.js"></script>
     <script src="js/release-manager.js"></script>
-    <script src="js/free-trial.js?v=20261102"></script>
+    <script src="js/free-trial.js?v=20261102b"></script>
 </body>
 </html>
