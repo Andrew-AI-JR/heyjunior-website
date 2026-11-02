@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Junior for job seekers: find the LinkedIn posts recruiters and hiring managers are writing, comment in your own voice, and turn replies into real conversations. 14 days free, then $9.99/month.">
+    <meta name="description" content="Junior for job seekers: find the LinkedIn posts recruiters and hiring managers are writing, comment in your own voice, turn replies into real conversations, and optionally Easy Apply to fresh jobs. 14 days free, then $9.99/month.">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Junior for Job Seekers - Start conversations that lead to interviews">
-    <meta property="og:description" content="Find relevant hiring posts, write thoughtful comments in your voice, and turn replies into conversations with recruiters and hiring managers.">
+    <meta property="og:description" content="Find relevant hiring posts, write thoughtful comments in your voice, turn replies into conversations with recruiters and hiring managers, and optionally Easy Apply to fresh jobs.">
     <meta property="og:image" content="https://heyjunior.ai/reseller-assets/global/social/social-card.png">
     <meta property="og:url" content="https://heyjunior.ai/job-search.html">
     <meta name="twitter:card" content="summary_large_image">
@@ -25,7 +25,8 @@
       "@type": "FAQPage",
       "mainEntity": [
         { "@type": "Question", "name": "Will Junior guarantee interviews?", "acceptedAnswer": { "@type": "Answer", "text": "No tool can guarantee interviews. Junior helps you start more relevant conversations with recruiters and hiring managers, which can lead to better opportunities." } },
-        { "@type": "Question", "name": "Does Junior replace job applications?", "acceptedAnswer": { "@type": "Answer", "text": "No. It works alongside your applications by making you visible in the hiring conversations happening on LinkedIn." } },
+        { "@type": "Question", "name": "Does Junior replace job applications?", "acceptedAnswer": { "@type": "Answer", "text": "No. Commenting works alongside your applications by making you visible in the hiring conversations happening on LinkedIn. If you turn on Easy Apply, Junior can also fill in LinkedIn Easy Apply applications for you." } },
+        { "@type": "Question", "name": "Can Junior apply to jobs for me?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, for LinkedIn Easy Apply jobs, if you turn it on. Junior fills each application from answers you saved and never guesses a required question: that job is skipped and the question waits for you. Until you turn on submitting, Junior stops at the Review page and sends nothing. It is included on every plan that comments as you, including the 14-day trial." } },
         { "@type": "Question", "name": "How much does Junior cost for job seekers?", "acceptedAnswer": { "@type": "Answer", "text": "Basic is free for 14 days, then $9.99 a month for up to 10 comments a day. Cancel anytime." } }
       ]
     }
@@ -66,7 +67,7 @@
                 <div>
                     <span class="hj-kicker">For job seekers</span>
                     <h1>Stop resume blasting. <em>Start hiring conversations.</em></h1>
-                    <p class="hj-hero-sub">Junior finds the LinkedIn posts recruiters and hiring managers are writing right now, comments in your voice from your background, and brings their replies into one inbox so you can follow up.</p>
+                    <p class="hj-hero-sub">Junior finds the LinkedIn posts recruiters and hiring managers are writing right now, comments in your voice from your background, and brings their replies into one inbox so you can follow up. Turn on Easy Apply and it can apply to fresh jobs too, using only answers you've given it.</p>
                     <div class="hj-hero-ctas">
                         <a href="register.html?plan=basic&amp;src=job-search-hero&amp;audience=jobseeker&amp;identity=personal" class="hj-btn hj-btn-primary" data-cta="job-search-hero-primary">Start your 14-day trial</a>
                         <a href="why-commenting-works.html?src=job-search-hero-edu" class="hj-btn hj-btn-ghost" data-cta="job-search-hero-secondary">Why commenting works</a>
@@ -124,6 +125,43 @@
             </div>
         </section>
 
+        <section id="easy-apply">
+            <div class="hj-wrap">
+                <div class="hj-section-head">
+                    <span class="hj-kicker">Easy Apply</span>
+                    <h2>Apply to fresh jobs between comments</h2>
+                    <p>Optional and off until you turn it on. Junior searches LinkedIn Jobs for the roles and places you set, Easy Apply jobs only, newest first, and fills in each application from answers you saved.</p>
+                </div>
+                <div class="hj-mini-grid">
+                    <div class="hj-mini">
+                        <h4>Fresh jobs that fit</h4>
+                        <p>By default Junior only opens jobs posted in the last hour and skips jobs with more than 100 applicants. Titles and places that don't match your search are skipped too.</p>
+                    </div>
+                    <div class="hj-mini">
+                        <h4>Your answers, never guesses</h4>
+                        <p>Save your answers once: work authorization, sponsorship, years of experience, degree, pay and start date. If a required question has no saved answer, Junior skips that job and the question waits for you. Answer it once and it's used next time.</p>
+                    </div>
+                    <div class="hj-mini">
+                        <h4>Dry run until you say so</h4>
+                        <p>Until you turn on submitting, Junior fills each application up to Review, saves a screenshot and discards it. Nothing is sent. Once on, it submits at most 3 a day in the first week.</p>
+                    </div>
+                    <div class="hj-mini">
+                        <h4>Paced, with a daily limit</h4>
+                        <p>A few applications at a time, only in the hours you choose, up to your daily limit (10 by default, 25 at most). If LinkedIn shows a limit or a warning, Junior stops applying for the day.</p>
+                    </div>
+                    <div class="hj-mini">
+                        <h4>Companies you skip</h4>
+                        <p>Junior never applies to companies on your block list, such as your current employer, to a company you applied to in the last 30 days, or to a job you already applied to.</p>
+                    </div>
+                    <div class="hj-mini">
+                        <h4>Every application listed</h4>
+                        <p>Each job shows as applied, filled to Review, waiting for your answer, skipped or couldn't finish.</p>
+                    </div>
+                </div>
+                <p class="hj-safety-note">What it doesn't do: Junior only handles LinkedIn Easy Apply, not applications on company websites. It sends the resume LinkedIn selects for you and doesn't write cover letters. Demographic questions get "decline to answer" when that option is offered. Easy Apply runs in the desktop app when Junior comments as you on hiring posts, and it's included on Basic, Starter and the 14-day trial.</p>
+            </div>
+        </section>
+
         <section id="pricing">
             <div class="hj-wrap">
                 <div class="hj-section-head">
@@ -141,6 +179,7 @@
                             <li>Finds hiring posts by role, company and topic</li>
                             <li>Comments written from your background</li>
                             <li>Replies inbox for recruiter conversations</li>
+                            <li>Optional Easy Apply to fresh jobs</li>
                         </ul>
                         <a href="register.html?plan=basic&amp;src=job-search-pricing-basic&amp;audience=jobseeker&amp;identity=personal" class="hj-btn hj-btn-primary" data-cta="job-search-pricing-basic">Start 14-day free trial</a>
                     </div>
@@ -151,6 +190,7 @@
                             <li>Up to 20 comments a day</li>
                             <li>For a wider search across more companies</li>
                             <li>Replies inbox and Run Insights</li>
+                            <li>Optional Easy Apply to fresh jobs</li>
                             <li>Email support</li>
                         </ul>
                         <a href="register.html?plan=starter&amp;src=job-search-pricing-starter&amp;audience=jobseeker&amp;identity=personal" class="hj-btn hj-btn-outline" data-cta="job-search-pricing-starter">Start 14-day free trial</a>
@@ -201,7 +241,11 @@
                     </details>
                     <details>
                         <summary>Does this replace applications?</summary>
-                        <p>No. It works alongside your applications by making you visible in the hiring conversations happening on LinkedIn.</p>
+                        <p>No. Commenting works alongside your applications by making you visible in the hiring conversations happening on LinkedIn. If you turn on <a href="#easy-apply">Easy Apply</a>, Junior can also fill in LinkedIn Easy Apply applications for you.</p>
+                    </details>
+                    <details>
+                        <summary>Can Junior apply to jobs for me?</summary>
+                        <p>Yes, for LinkedIn Easy Apply jobs, if you turn it on. Junior fills each application from answers you saved and never guesses a required question: that job is skipped and the question waits for you. Until you turn on submitting, Junior stops at the Review page and sends nothing. It's included on every plan that comments as you, including the 14-day trial.</p>
                     </details>
                     <details>
                         <summary>Which plan should I pick?</summary>
@@ -213,7 +257,7 @@
                     </details>
                     <details>
                         <summary>Do I need to keep my computer on?</summary>
-                        <p>Yes, while Junior is working. It runs in the desktop app, so it only comments while the app is open and the computer is awake.</p>
+                        <p>Yes, while Junior is working. It runs in the desktop app, so it only comments and applies while the app is open and the computer is awake.</p>
                     </details>
                 </div>
             </div>
