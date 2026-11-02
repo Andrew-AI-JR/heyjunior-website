@@ -71,6 +71,8 @@
   form.inline { display:flex; flex-direction:column; gap:10px; }
   input[type=email], input[type=password], select { width:100%; padding:13px 16px; border-radius:12px; border:1.5px solid var(--line); background:var(--bg); color:var(--ink); font:16px Inter; }
   .pay { display:grid; grid-template-columns:1fr; gap:10px; }
+  .btn-paypal { background:#ffc439; color:#111; border:0; }
+  .btn-paypal[hidden] { display:none; }
   .msg { font-size:14px; margin-top:8px; min-height:1.2em; }
   .msg.err { color: var(--accent); } .msg.ok { color: var(--ok); }
   .sr { position:absolute; left:-9999px; }
@@ -198,11 +200,12 @@
           <input id="paid-password" type="password" required minlength="8" placeholder="Contraseña" autocomplete="new-password">
           <p class="hint">¿Ya tienes Junior Gratis? Usa el mismo correo y contraseña.</p>
           <div class="pay">
-            <button class="btn btn-primary" type="submit" id="pay-card">Continuar al pago</button>
+            <button class="btn btn-primary" type="submit" id="pay-card">Pagar con tarjeta</button>
+            <button class="btn btn-paypal" type="button" id="pay-paypal" hidden>Pagar con PayPal</button>
           </div>
           <div class="msg" id="paid-msg" role="status"></div>
         </form>
-        <div class="note">Pago seguro con tarjeta de crédito o débito. Escribe FUNDADOR en la página de pago. Cancela cuando quieras. Precio en dólares; tu banco puede convertirlo a moneda local.</div>
+        <div class="note" id="pay-note">Pago seguro con tarjeta de crédito o débito. Escribe FUNDADOR en la página de pago. Cancela cuando quieras. Precio en dólares; tu banco puede convertirlo a moneda local.</div>
       </div>
     </div>
   </div>
@@ -214,7 +217,7 @@
     <h2 style="font-size:36px;margin-bottom:12px">Lo que todos preguntan</h2>
     <details><summary>¿Es seguro para mi cuenta de LinkedIn?</summary><p>Junior comenta a un ritmo natural y con límites diarios conservadores. Ninguna herramienta de automatización puede garantizar nada sobre las políticas de LinkedIn, por eso los límites vienen activados desde el inicio.</p></details>
     <details><summary>¿Necesito tarjeta para el plan gratis?</summary><p>No. Solo tu correo y una contraseña. Tienes 5 comentarios por día, todos los días.</p></details>
-    <details><summary>¿Cómo pago?</summary><p>Con tarjeta de crédito o débito, en la página de pago segura de Stripe.</p></details>
+    <details><summary>¿Cómo pago?</summary><p id="faq-pay">Con tarjeta de crédito o débito, en la página de pago segura de Stripe.</p></details>
     <details><summary>¿Por qué el plan LATAM solo está disponible en algunos países?</summary><p>Es un precio especial para profesionales de Latinoamérica. Verificamos el país de la tarjeta al momento de la compra; si no coincide, cancelamos y devolvemos el pago.</p></details>
     <details><summary>¿Puedo cancelar cuando quiera?</summary><p>Sí. Cancelas desde tu cuenta y mantienes el acceso hasta el final del período pagado.</p></details>
     <details><summary>¿La app está en español?</summary><p>La app está en inglés por ahora. Los comentarios se escriben en el idioma de cada publicación: en español, portugués o inglés.</p></details>
@@ -272,7 +275,7 @@
   function applyCountry() {
     var ok = eligible();
     $('latam-unavailable').style.display = ok ? 'none' : 'block';
-    ['free-submit', 'pay-card'].forEach(function (id) { $(id).disabled = !ok; });
+    ['free-submit', 'pay-card', 'pay-paypal'].forEach(function (id) { $(id).disabled = !ok; });
   }
   $('country').value = guessCountry();
   $('country').addEventListener('change', applyCountry);
@@ -361,6 +364,55 @@
         });
       });
     }).catch(function () { busy(button, false); msg($('paid-msg'), 'No pudimos conectar. Inténtalo en un momento.'); });
+  });
+
+  // PayPal: shown only once the API has PayPal set up. Same account rules as the card:
+  // a new email gets Junior Gratis first, an existing one signs in; then PayPal takes over.
+  fetch(API + '/api/payments/paypal/config')
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (c) {
+      if (!c || !c.enabled) return;
+      $('pay-paypal').hidden = false;
+      $('pay-note').textContent = 'Paga con tarjeta de crédito o débito, o con tu cuenta PayPal. El código FUNDADOR se aplica en el pago con tarjeta. Cancela cuando quieras. Precio en dólares.';
+      $('faq-pay').textContent = 'Con tarjeta de crédito o débito en la página de pago segura de Stripe, o con tu cuenta PayPal (saldo, tarjeta o cuenta bancaria vinculada). Con PayPal puedes cancelar cuando quieras desde tu cuenta PayPal.';
+    })
+    .catch(function () {});
+
+  function signIn(email, password) {
+    return post('/api/users/register-free', { email: email, password: password, country: country(), referral_code: ref })
+      .then(function (r) {
+        if (r.status === 201) return r.body.access_token;
+        if (r.status !== 409) throw r;
+        return post('/api/users/token', { email: email, password: password }).then(function (login) {
+          if (login.status !== 200 || !login.body.access_token) throw { status: 'password' };
+          return login.body.access_token;
+        });
+      });
+  }
+
+  $('pay-paypal').addEventListener('click', function () {
+    var form = $('paid-form');
+    if (!form.reportValidity()) return;
+    var button = $('pay-paypal');
+    var email = $('paid-email').value.trim(), password = $('paid-password').value;
+    busy(button, true);
+    signIn(email, password).then(function (token) {
+      return post('/api/payments/paypal/subscribe', {
+        plan: interval === 'annual' ? 'latam_annual' : 'latam_monthly', country: country(),
+        return_url: location.origin + '/es/gracias.html?plan=latam&pago=paypal',
+        cancel_url: location.origin + '/es/#precios'
+      }, token);
+    }).then(function (r) {
+      if (r.status === 200 && r.body.approve_url) return (location.href = r.body.approve_url);
+      busy(button, false);
+      if (r.status === 400 && r.body.detail === 'already_subscribed') return msg($('paid-msg'), 'Tu cuenta ya tiene un plan de pago. Escríbenos a support@heyjunior.ai para cambiarlo.');
+      if (r.status === 502 || r.status === 503) return msg($('paid-msg'), 'PayPal no está disponible en este momento. Inténtalo en un momento o paga con tarjeta.');
+      msg($('paid-msg'), errorText(r));
+    }).catch(function (err) {
+      busy(button, false);
+      if (err && err.status === 'password') return msg($('paid-msg'), 'Ya tienes una cuenta con este correo y la contraseña no coincide. Puedes recuperarla en heyjunior.ai/forgot-password.html');
+      msg($('paid-msg'), err && err.status ? errorText(err) : 'No pudimos conectar. Inténtalo en un momento.');
+    });
   });
 })();
 </script>

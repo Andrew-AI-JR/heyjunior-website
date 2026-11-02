@@ -76,6 +76,20 @@
     document.getElementById('lead').textContent = 'Tu plan Junior LATAM se activa en cuanto se confirma el pago: hasta 50 comentarios por día. Descarga la app e inicia sesión con tu correo y contraseña.';
     document.getElementById('pending').style.display = 'block';
   }
+  if (params.get('pago') === 'paypal') {
+    document.getElementById('pending').textContent = 'Si tu cuenta PayPal está registrada fuera de Argentina, Bolivia, Chile, Paraguay o Perú, cancelaremos la suscripción y devolveremos el pago automáticamente.';
+    var sub = params.get('subscription_id');
+    if (sub) {
+      // Activate right away instead of waiting for PayPal's notification.
+      fetch('https://junior-api-915940312680.us-west1.run.app/api/payments/paypal/confirm', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ subscription_id: sub })
+      }).then(function (r) { return r.ok ? r.json() : null; }).then(function (res) {
+        if (res && res.status === 'active') {
+          document.getElementById('lead').textContent = 'Tu plan Junior LATAM está activo: hasta 50 comentarios por día. Descarga la app e inicia sesión con tu correo y contraseña.';
+        }
+      }).catch(function () {});
+    }
+  }
 
   // Point the buttons at the files of the latest desktop release.
   fetch('https://api.github.com/repos/Andrew-AI-JR/Desktop-Releases/releases/latest')
