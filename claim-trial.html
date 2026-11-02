@@ -36,6 +36,11 @@
                     <h2 id="claim-title">Activate your free Junior trial</h2>
                     <p class="login-subtitle" id="claim-subtitle">No credit card required. Click below to start your complimentary trial.</p>
                     <div id="claim-error" class="error-message" style="display: none;"></div>
+                    <div class="form-group" id="claim-password-group" style="display: none;">
+                        <label for="claim-password">Create a password for your Junior account</label>
+                        <input type="password" id="claim-password" placeholder="At least 8 characters, 1 uppercase" autocomplete="new-password" minlength="8">
+                        <small class="password-help">You'll use your email and this password to sign in to the Junior app.</small>
+                    </div>
                     <button type="button" class="primary-button" id="claim-button">Activate my free trial</button>
                     <div class="login-footer">
                         <p>Already activated? <a href="portal.html">Open the portal</a></p>
@@ -46,7 +51,7 @@
             <div id="claim-success-wrap" class="login-section" style="display: none;">
                 <div class="login-card">
                     <h2 id="claim-success-title">Your free trial is active</h2>
-                    <p class="login-subtitle">Download Junior and sign in with the email and password you already chose. You will not be charged unless you subscribe later.</p>
+                    <p class="login-subtitle">Download Junior and sign in with your email and Junior password. You will not be charged unless you choose a plan later.</p>
                     <div id="claim-downloads" style="margin: 20px 0;"></div>
                     <p><a href="portal.html" class="primary-button" style="display: inline-block; text-decoration: none; text-align: center;">Go to my portal</a></p>
                 </div>
@@ -64,6 +69,6 @@
 
     <script src="js/api-config.js"></script>
     <script src="js/release-manager.js"></script>
-    <script src="js/claim-trial.js"></script>
+    <script src="js/claim-trial.js?v=20261102-webinar"></script>
 </body>
 </html>

@@ -9,7 +9,12 @@
         return new URLSearchParams(window.location.search).get('token') || '';
     }
 
-    var offer = { days: 30, plan: 'basic' };
+    // Webinar registrants (?offer=webinar) may not have a Junior account yet;
+    // their claim creates one with the password they choose here.
+    var isWebinar = new URLSearchParams(window.location.search).get('offer') === 'webinar';
+    var offerPath = isWebinar ? '/api/payments/webinar-offer/' : '/api/payments/abandoned-checkout-offer/';
+
+    var offer = { days: 30, plan: 'basic', needsPassword: false };
 
     function buttonLabel() {
         return 'Activate my ' + offer.days + '-day free trial';
@@ -35,17 +40,23 @@
 
     async function loadOffer(token) {
         try {
-            var response = await fetch(API_BASE + '/api/payments/abandoned-checkout-offer/' + encodeURIComponent(token));
+            var response = await fetch(API_BASE + offerPath + encodeURIComponent(token));
             if (!response.ok) return;
             var data = await response.json();
             if (data && data.valid) {
                 if (typeof data.trial_days === 'number' && data.trial_days > 0) offer.days = data.trial_days;
                 if (data.plan === 'enterprise') offer.plan = 'enterprise';
+                if (isWebinar && data.has_account === false) showPasswordField();
                 applyOfferCopy();
             }
         } catch (err) {
             // Keep the default copy; the claim itself still works.
         }
+    }
+
+    function showPasswordField() {
+        offer.needsPassword = true;
+        $('claim-password-group').style.display = 'block';
     }
 
     function storeTokens(data) {
@@ -97,11 +108,15 @@
         btn.textContent = 'Activating...';
         errorEl.style.display = 'none';
         try {
+            const body = offer.needsPassword ? JSON.stringify({ password: $('claim-password').value }) : undefined;
             const response = await fetch(
-                API_BASE + '/api/payments/abandoned-checkout-offer/' + encodeURIComponent(token) + '/claim',
-                { method: 'POST', headers: { 'Content-Type': 'application/json' } }
+                API_BASE + offerPath + encodeURIComponent(token) + '/claim',
+                { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: body }
             );
             const data = await response.json().catch(function () { return {}; });
+            if (data.error_code === 'password_required') {
+                showPasswordField();
+            }
             if (!response.ok || !data.ok) {
                 throw new Error(data.detail || data.error || 'Unable to activate this offer.');
             }
