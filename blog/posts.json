@@ -1,6 +1,14 @@
 {
   "posts": [
     {
+      "id": 150,
+      "slug": "ai-sales-stack-architecture",
+      "title": "Defining the modern AI sales stack for B2B teams",
+      "excerpt": "Explore the 4-layer modern AI sales stack architecture. Move past linear spam sequences to signal-driven enrichment, autonomous AI SDRs, and social selling.",
+      "featured_image_url": "https://assets.bevisible.app/featured-images/j575hk1eqz5enydczfdm8f99x58h2507/defining-the-modern-ai-sales-stack-for-b2b-teams-1793380710860-omrfdx.png",
+      "published_at": "2026-11-02T16:47:00+00:00"
+    },
+    {
       "id": 149,
       "slug": "junior-vs-taplio-linkedin-comments",
       "title": "Junior vs Taplio for LinkedIn comments",
