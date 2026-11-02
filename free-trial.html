@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="js/frame-guard.js"></script>
+    <meta name="description" content="Try Junior free for 14 days. No credit card, nothing to cancel: the trial simply ends unless you choose a plan.">
+    <title>Free trial, no credit card - Junior</title>
+    <link rel="canonical" href="https://heyjunior.ai/free-trial.html">
+    <meta property="og:title" content="Try Junior free for 14 days. No credit card.">
+    <meta property="og:description" content="Junior comments on LinkedIn for you so the right people notice you. Free for 14 days, no card, nothing to cancel.">
+    <meta property="og:url" content="https://heyjunior.ai/free-trial.html">
+    <link rel="stylesheet" href="css/styles.css?v=20261005-cro">
+    <script defer src="js/analytics.js?v=20261005-pii"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        .trial-points { list-style: none; padding: 0; margin: 4px 0 20px; text-align: left; }
+        .trial-points li { padding: 4px 0 4px 24px; position: relative; }
+        .trial-points li::before { content: "\2713"; position: absolute; left: 0; color: #1a7f4b; font-weight: 700; }
+        .trial-badge { display: inline-block; background: #e8f5ee; color: #1a7f4b; font-weight: 700; border-radius: 999px; padding: 6px 14px; margin-bottom: 12px; }
+    </style>
+</head>
+<body data-page="free-trial">
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="./images/junior-logo.png" alt="Junior Logo" class="logo-img">
+                </a>
+            </div>
+            <ul class="nav-links">
+                <div class="nav-actions">
+                    <li><a href="portal.html" class="cta-button">My Account</a></li>
+                </div>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="portal-container">
+        <div class="container">
+            <div id="trial-form-wrap" class="login-section" style="display: flex;">
+                <form class="login-card" id="trial-form" novalidate>
+                    <span class="trial-badge">No credit card required</span>
+                    <h2><span id="trial-days-title">14</span> days of Junior, free</h2>
+                    <p class="login-subtitle">Junior comments on LinkedIn for you, in your voice, so hiring managers and buyers start to notice you.</p>
+                    <ul class="trial-points">
+                        <li>Full Junior for <span class="trial-days">14</span> days</li>
+                        <li>No card, nothing to cancel: the trial just ends</li>
+                        <li>Keep going after that only if you choose a plan</li>
+                    </ul>
+                    <div id="trial-error" class="error-message" style="display: none;" role="alert"></div>
+                    <div class="form-group">
+                        <label for="trial-email">Email</label>
+                        <input type="email" id="trial-email" required autocomplete="email" placeholder="you@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="trial-password">Create a password</label>
+                        <input type="password" id="trial-password" required minlength="8" autocomplete="new-password" placeholder="At least 8 characters, 1 uppercase">
+                        <small class="password-help">You'll use your email and this password to sign in to the Junior app.</small>
+                    </div>
+                    <button type="submit" class="primary-button" id="trial-button">Start my free trial</button>
+                    <div class="login-footer">
+                        <p>Already have an account? <a href="portal.html">Sign in</a></p>
+                        <p style="font-size: 13px;">By starting the trial you agree to the <a href="terms.html">Terms</a> and <a href="privacy.html">Privacy Policy</a>.</p>
+                    </div>
+                </form>
+            </div>
+
+            <div id="trial-success-wrap" class="login-section" style="display: none;">
+                <div class="login-card">
+                    <h2>Your free trial has started</h2>
+                    <p class="login-subtitle">You have <span class="trial-days">14</span> days of Junior, no card on file. Download the app and sign in with the email and password you just chose.</p>
+                    <div id="trial-downloads" style="margin: 20px 0;"></div>
+                    <p class="login-subtitle" style="font-size: 14px;">Junior is a desktop app for Windows and Mac. On your phone? Open heyjunior.ai/portal.html on your computer later to download it. We also emailed you the links.</p>
+                    <p><a href="setup-guide.html" class="primary-button" style="display: inline-block; text-decoration: none; text-align: center;">Read the 5-minute setup guide</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 Junior. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/api-config.js"></script>
+    <script src="js/release-manager.js"></script>
+    <script src="js/free-trial.js?v=20261102"></script>
+</body>
+</html>
