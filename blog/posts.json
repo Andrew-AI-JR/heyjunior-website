@@ -1,6 +1,14 @@
 {
   "posts": [
     {
+      "id": 151,
+      "slug": "state-of-linkedin-engagement-automation-2026",
+      "title": "State of LinkedIn Engagement and Automation in 2026",
+      "excerpt": "Discover how LinkedIn automation has evolved in 2026. Learn why cold DMs fail, how local AI comment engagement works, and how to safely build pipeline.",
+      "featured_image_url": "https://assets.bevisible.app/featured-images/j577m1a9hkf0v2khj0a0d89n5h8h29rs/state-of-linkedin-engagement-and-automation-in-202-1793465294901-q00pwj.png",
+      "published_at": "2026-11-03T16:44:00+00:00"
+    },
+    {
       "id": 150,
       "slug": "ai-sales-stack-architecture",
       "title": "Defining the modern AI sales stack for B2B teams",
