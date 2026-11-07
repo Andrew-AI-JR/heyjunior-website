@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex">
+    <script src="js/frame-guard.js"></script>
+    <meta name="description" content="Your personal 14-day Junior trial. No credit card.">
+    <title>Your free 14 days of Junior</title>
+    <link rel="stylesheet" href="css/styles.css?v=20261005-cro">
+    <script defer src="js/analytics.js?v=20261005-pii"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        .sf { --ink: #0f1f3d; --muted: #52607a; --ok: #1a7f4b; --line: #dbe4f0; }
+        .sf-hero { padding: 118px 0 56px; }
+        .sf-hero .container { display: grid; grid-template-columns: 1.1fr 1fr; column-gap: 48px; align-items: start; }
+        .sf-badge { display: inline-block; background: #e8f5ee; color: var(--ok); font-weight: 700; border-radius: 999px; padding: 6px 14px; margin-bottom: 16px; font-size: 14px; }
+        .sf-hero h1 { font-size: 40px; line-height: 1.15; color: var(--ink); margin: 0 0 16px; }
+        .sf-lead { font-size: 18px; color: var(--muted); margin: 0 0 20px; max-width: 34em; }
+        .sf-checks { list-style: none; padding: 0; margin: 0; }
+        .sf-checks li { padding: 5px 0 5px 28px; position: relative; color: var(--ink); }
+        .sf-checks li::before { content: "\2713"; position: absolute; left: 2px; color: var(--ok); font-weight: 700; }
+        .sf-note { font-size: 13px; color: var(--muted); margin-top: 16px; max-width: 34em; }
+        .sf .login-section { padding: 0; min-height: 0; }
+        .sf .login-card { margin: 0; max-width: none; width: 100%; box-sizing: border-box; }
+        .sf-form-title { font-size: 24px; margin: 0 0 6px; color: var(--ink); }
+        .sf-form-sub { color: var(--muted); margin: 0 0 18px; font-size: 15px; }
+        .sf-link { background: none; border: 0; color: #2f6fde; padding: 0; cursor: pointer; font-size: 13px; }
+        @media (max-width: 900px) {
+            .sf-hero .container { grid-template-columns: 1fr; row-gap: 24px; }
+            .sf-hero h1 { font-size: 30px; }
+        }
+        @media (max-width: 560px) { .sf-hero { padding-top: 96px; } }
+    </style>
+</head>
+<body class="i18n-ready sf" data-page="start-free">
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="./images/junior-logo.png" alt="Junior Logo" class="logo-img">
+                </a>
+            </div>
+            <ul class="nav-links">
+                <div class="nav-actions">
+                    <li><a href="portal.html" class="cta-button">My Account</a></li>
+                </div>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="sf-hero">
+        <div class="container">
+            <div class="sf-intro">
+                <span class="sf-badge"><span class="trial-days">14</span> days free &middot; No credit card</span>
+                <h1 id="sf-headline">Your free <span class="trial-days">14</span> days of Junior <span class="plan-name">Pro</span></h1>
+                <p class="sf-lead">Junior finds LinkedIn posts worth replying to and drafts comments in your voice, from your background and the post itself. It runs in your own browser, on your own machine.</p>
+                <ul class="sf-checks">
+                    <li>Every comment written for that specific post</li>
+                    <li>An Activity log of everything Junior posted and skipped, with the reason</li>
+                    <li id="sf-company-line" style="display: none;">Comment as your LinkedIn company page, not only your personal profile</li>
+                    <li>No card, nothing to cancel: the trial simply ends unless you choose a plan</li>
+                </ul>
+                <p class="sf-note">New accounts start with a lower daily comment limit that ramps up over your first weeks, to keep your LinkedIn account safe. Junior is a desktop app for Windows, Mac and Linux.</p>
+            </div>
+
+            <div id="sf-form-wrap" class="login-section" style="display: flex;">
+                <form class="login-card" id="sf-form" novalidate>
+                    <h2 class="sf-form-title">Start your <span class="trial-days">14</span> free days</h2>
+                    <p class="sf-form-sub">Create your Junior account. No credit card.</p>
+                    <div id="sf-error" class="error-message" style="display: none;" role="alert"></div>
+                    <div class="form-group">
+                        <label for="sf-email">Email</label>
+                        <input type="email" id="sf-email" autocomplete="email" readonly>
+                        <button type="button" class="sf-link" id="sf-change-email">Use a different email</button>
+                    </div>
+                    <div class="form-group">
+                        <label for="sf-password">Create a password</label>
+                        <input type="password" id="sf-password" autocomplete="new-password" placeholder="At least 8 characters, 1 uppercase">
+                        <small class="password-help">You'll use your email and this password to sign in to the Junior app.</small>
+                    </div>
+                    <button type="submit" class="primary-button" id="sf-button">Start my free trial</button>
+                    <div class="login-footer">
+                        <p>Already have an account? <a href="portal.html">Sign in</a></p>
+                        <p style="font-size: 13px;">By starting the trial you agree to the <a href="terms.html">Terms</a> and <a href="privacy.html">Privacy Policy</a>.
+                            <a href="privacy.html#outbound">Why did I get this email?</a></p>
+                    </div>
+                </form>
+            </div>
+
+            <div id="sf-invalid-wrap" class="login-section" style="display: none;">
+                <div class="login-card">
+                    <h2 class="sf-form-title" id="sf-invalid-title">This link has expired</h2>
+                    <p class="sf-form-sub" id="sf-invalid-text">You can still try Junior free for 14 days, no credit card.</p>
+                    <p><a href="free-trial.html?src=outbound-expired" class="primary-button" style="display: inline-block; text-decoration: none; text-align: center;">Start a free trial</a></p>
+                </div>
+            </div>
+
+            <div id="sf-success-wrap" class="login-section" style="display: none;">
+                <div class="login-card">
+                    <h2 class="sf-form-title">Your free trial has started</h2>
+                    <p class="sf-form-sub">You have <span class="trial-days">14</span> days of Junior <span class="plan-name">Pro</span>, no card on file. Download the app and sign in with the email and password you just chose.</p>
+                    <div id="sf-downloads" style="margin: 16px 0;"></div>
+                    <p><a href="setup-guide.html" class="primary-button" style="display: inline-block; text-decoration: none; text-align: center;">Read the 5-minute setup guide</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 Junior Labs LLC. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/api-config.js"></script>
+    <script src="js/release-manager.js"></script>
+    <script src="js/start-free.js?v=20261107"></script>
+</body>
+</html>
