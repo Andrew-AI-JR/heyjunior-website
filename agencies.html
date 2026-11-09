@@ -3,115 +3,290 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Junior comments on LinkedIn for your clients, in their voice, from each client’s own computer — so the work does not look like a bot farm.">
+    <meta name="description" content="Junior comments on LinkedIn in each client's voice, from each client's own computer, and shows what every target account got them. Built for agencies that run LinkedIn engagement for clients.">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Junior for Lead Gen Agencies - Comment for clients without looking like a bot">
-    <meta property="og:description" content="Each client runs Junior on their own computer. You deliver comments that sound like them.">
+    <meta property="og:title" content="Junior for lead gen agencies - Comment for clients without looking like a bot">
+    <meta property="og:description" content="Each client runs Junior on their own computer. You deliver comments that sound like them, and results you can show.">
+    <meta property="og:image" content="https://heyjunior.ai/reseller-assets/global/social/social-card.png">
     <meta property="og:url" content="https://heyjunior.ai/agencies.html">
-    <title>Junior for Lead Gen Agencies</title>
+    <meta name="twitter:card" content="summary_large_image">
+    <title>Junior for lead gen agencies - Comment for clients without looking like a bot</title>
+    <link rel="canonical" href="https://heyjunior.ai/agencies.html">
     <link rel="stylesheet" href="css/styles.css?v=20261005-cro">
+    <link rel="stylesheet" href="css/home.css?v=20261109-33">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <script defer src="js/analytics.js?v=20261005-pii"></script>
     <script defer src="js/sticky-cta.js?v=20261005"></script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Can we run Junior from our office for all our clients?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Junior is designed to run on each client's own computer. That keeps IP addresses, sessions and browsers separate for every account, which is safer than running many accounts from one place."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do you offer agency pricing?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Each client account uses a standard subscription. Email us to talk about volume."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can we show clients what Junior did?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Every target shows its results, the Activity log lists every posted and skipped post with the reason, and the dashboards count only comments LinkedIn verified."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Will LinkedIn detect this?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Junior runs locally and paces itself like a person, but every third-party tool carries platform risk. We design for low risk and are honest that no tool can promise zero."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does Junior need my LinkedIn password?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Junior runs on your computer. You sign in to LinkedIn in a browser on your own machine, and your session stays there. See our Privacy Policy."
+      }
+    }
+  ]
+}
+    </script>
 </head>
-<body data-page="agencies" class="audience-page i18n-ready">
+<body data-page="agencies" class="hj i18n-ready">
     <nav class="navbar">
         <div class="container">
-            <div class="logo"><img src="./images/junior-logo.png" alt="Junior Logo" class="logo-img"></div>
-            <button class="mobile-menu-toggle" aria-label="Toggle mobile menu"><span></span><span></span><span></span></button>
+            <div class="logo">
+                <a href="index.html"><img src="./images/junior-logo.png" alt="Hey Junior" class="logo-img"></a>
+            </div>
+            <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
             <ul class="nav-links">
                 <div class="nav-group">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="job-search.html">Job Seekers</a></li>
-                    <li><a href="founders.html">Founders</a></li>
-                    <li><a href="consultants.html">Consultants</a></li>
-                    <li><a href="sales.html">Sales</a></li>
-                
-                    <li><a href="try-it.html">Try It</a></li>
-                    <li><a href="blog.html">Blog</a></li></div>
-                <div class="nav-actions"><li><a href="register.html?src=agencies-nav&amp;audience=company&amp;identity=company" class="cta-button">Start free trial</a></li></div>
+                    <li><a href="business.html" data-cta="agencies-nav-business">For companies</a></li>
+                    <li><a href="individuals.html" data-cta="agencies-nav-individuals">For individuals</a></li>
+                    <li><a href="job-search.html" data-cta="agencies-nav-jobseekers">Job seekers</a></li>
+                    <li><a href="#pricing" data-cta="agencies-nav-pricing">Pricing</a></li>
+                    <li><a href="try-it.html?src=agencies-nav" data-cta="agencies-nav-try-it">Try it</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                </div>
+                <div class="nav-actions">
+                    <li id="login-link"><a href="portal.html" class="nav-login-link">Log in</a></li>
+                    <li id="portal-link" style="display: none;"><a href="portal.html" class="nav-login-link">My account</a></li>
+                    <li><a href="register.html?plan=enterprise&amp;src=agencies-sticky&amp;audience=company&amp;identity=company" class="cta-button" data-cta="agencies-nav-primary">Start free trial</a></li>
+                </div>
             </ul>
         </div>
     </nav>
 
-    <main class="audience-main">
-        <section class="audience-hero hero-dark">
-            <div class="container narrow-container">
-                <p class="audience-eyebrow">For Lead Gen Agencies</p>
-                <h1>Do this for clients without looking like a bot.</h1>
-                <p>Junior comments on LinkedIn in each client’s voice. It runs on their computer, with their login — not from a shared server posting for a dozen accounts.</p>
-                <div class="cta-buttons">
-                    <a href="register.html?src=agencies-hero&amp;audience=company&amp;identity=company" class="primary-button" data-cta="agencies-hero-primary">Start free trial</a>
-                    <a href="why-commenting-works.html?src=agencies-hero-edu" class="secondary-button" data-cta="agencies-hero-secondary">Why commenting works</a>
-                </div>
-            </div>
-        </section>
-
-        <section id="workflow" class="what-it-does">
-            <div class="container narrow-container">
-                <h2>How agencies use Junior</h2>
-                <ul class="what-list">
-                    <li>Each client runs Junior on their own computer, with their own LinkedIn login</li>
-                    <li>Comments are written from that client’s background and the post in front of them</li>
-                    <li>Activity stays paced like a person, not a blast</li>
-                    <li>You can show clients what posted and what got replies</li>
-                </ul>
-                <p class="section-subtitle">Across industries, similar demand and risk problems show up in different threads. Junior helps your clients join those overlaps with useful context.</p>
-                <a href="register.html?src=agencies-mid&amp;audience=company&amp;identity=company" class="primary-button" data-cta="agencies-mid-primary">Start free trial</a>
-                <p style="margin-top: 14px;"><a href="why-commenting-works.html?src=agencies-mid-edu" data-cta="agencies-mid-secondary">Read the strategy behind conversation-led visibility →</a></p>
-            </div>
-        </section>
-
-        <section class="enterprise-band" id="enterprise">
-            <div class="container enterprise-band-grid">
+    <main>
+        <section class="hj-hero">
+            <div class="hj-wrap hj-hero-grid">
                 <div>
-                    <span class="eb-kicker">Enterprise</span>
-                    <h2>Run brand-voice commenting for clients, safely</h2>
-                    <p>On Enterprise, Junior comments as a client's company page with identity checks on every comment, so a brand comment never goes out under a personal name. Every reply lands in one inbox.</p>
-                    <ul>
-                        <li>Comment as your company page or as you, with identity checks</li>
-                        <li>Target accounts: import your list and see a timeline per account</li>
-                        <li>Replies inbox with AI-drafted replies and optional auto-reply</li>
-                        <li>Up to 80 comments a day and priority support</li>
-                    </ul>
-                    <a href="register.html?plan=enterprise&amp;src=agencies-enterprise&amp;audience=company&amp;identity=company" class="primary-button" data-cta="agencies-enterprise">Start 14-day Enterprise trial</a>
-                    <p class="eb-fine">14 days free, then $99/month. $0 today, cancel anytime. <a href="index.html#pricing">See all plans</a></p>
+                    <span class="hj-kicker">For lead gen agencies</span>
+                    <h1>Run LinkedIn engagement for clients, <em>without looking like a bot</em>.</h1>
+                    <p class="hj-hero-sub">Junior comments in each client's voice, as the client or their company page. It runs on the client's own computer with their own login, not on a shared server posting for a dozen accounts.</p>
+                    <div class="hj-hero-ctas">
+                        <a href="register.html?plan=enterprise&amp;src=agencies-hero&amp;audience=company&amp;identity=company" class="hj-btn hj-btn-primary" data-cta="agencies-hero-primary">Start 14-day Enterprise trial</a>
+                        <a href="try-it.html?goal=sales&amp;src=agencies-hero" class="hj-btn hj-btn-ghost" data-cta="agencies-hero-try-it">See a sample comment</a>
+                    </div>
+                    <p class="hj-hero-fine"><span>Enterprise: 14 days free, then $99/month.</span> <span>Card required, $0 today.</span> Commenting as yourself? <a href="free-trial.html?src=agencies-hero" data-cta="agencies-hero-no-card">Start free with no card</a>.</p>
                 </div>
-                <figure>
-                    <div class="eb-shot"><img src="images/product/activity.webp" alt="Junior's Activity view showing verified comments posted as a company page on target accounts" width="1065" height="915" loading="lazy"></div>
-                    <figcaption class="eb-cap">Real company-page comments on target accounts, from Junior's own account.</figcaption>
-                </figure>
-            </div>
-        </section>
-
-        <section class="trust-section">
-            <div class="container narrow-container">
-                <h2>Designed for per-account safety</h2>
-                <div class="trust-grid">
-                    <div class="trust-item"><strong>One device per client</strong><p>Each client runs Junior locally with their own browser session and IP address.</p></div>
-                    <div class="trust-item"><strong>No cross-account exposure</strong><p>Sessions, cookies, and fingerprints stay unique. No shared infrastructure between accounts.</p></div>
-                    <div class="trust-item"><strong>Honest risk disclosure</strong><p>All third-party tools carry platform risk. Junior is architected for minimum detection surface, but we do not promise zero risk.</p></div>
+                <div class="hj-reply-stack" aria-label="Real activity from Junior's own company page">
+                    <div class="hj-reply is-junior">
+                        <div class="hj-reply-top"><span class="hj-reply-who">Hey Junior (company page)</span><span class="hj-pill dark">Posted by Junior</span></div>
+                        <p>We see the "agent sprawl" problem often in conversations around AI product development. Combining deterministic software with probabilistic models is often key to managing this complexity.</p>
+                        <p class="hj-reply-meta">On a Salesforce post · target account · verified</p>
+                    </div>
+                    <div class="hj-reply">
+                        <div class="hj-reply-top"><span class="hj-reply-who">Okta</span><span class="hj-pill">Replied</span></div>
+                        <p>Focus on core features, leave auth to us!</p>
+                    </div>
+                    <p class="hj-reply-caption">Real comment and reply from Junior's own company page, September 2026.</p>
                 </div>
             </div>
         </section>
 
-        <section class="faq-section">
-            <div class="container">
-                <h2>Agency concerns, addressed</h2>
-                <div class="faq-grid">
-                    <div class="faq-item"><h3>Can we run this from our office for clients?</h3><p>Junior is designed to run on each client's own machine for maximum safety. This keeps IPs, sessions, and browser fingerprints unique per account.</p></div>
-                    <div class="faq-item"><h3>Will LinkedIn detect this?</h3><p>Junior uses human-behavioral modeling and runs locally, but all third-party tools carry inherent platform risk. We design for minimal detection surface.</p></div>
-                    <div class="faq-item"><h3>Do you offer agency pricing?</h3><p>Each client account uses a standard subscription. Contact us to discuss volume arrangements.</p></div>
+        <section id="how-it-works">
+            <div class="hj-wrap">
+                <div class="hj-section-head">
+                    <span class="hj-kicker">How agencies use Junior</span>
+                    <h2>One client, one computer, one voice</h2>
+                    <p>Each client account uses its own Junior subscription on its own machine, so sessions, IP addresses and browsers never mix.</p>
                 </div>
-                <div class="cta-buttons" style="margin-top: 20px;">
-                    <a href="register.html?src=agencies-objection&amp;audience=company&amp;identity=company" class="primary-button" data-cta="agencies-objection-primary">Start free trial</a>
+                <ol class="hj-steps">
+                    <li class="hj-step">
+                        <h3>Set up each client</h3>
+                        <p>Install Junior on the client's computer, sign in to their LinkedIn there, and add their bio, goal and tone.</p>
+                    </li>
+                    <li class="hj-step">
+                        <h3>Load their targets</h3>
+                        <p>Import the client's target accounts and people from CSV or Salesforce, or set the topics and roles they care about.</p>
+                    </li>
+                    <li class="hj-step">
+                        <h3>Junior comments as them</h3>
+                        <p>Each comment is written for the post from the client's positioning, as the client or their company page, at a human pace.</p>
+                    </li>
+                    <li class="hj-step">
+                        <h3>Show what it got them</h3>
+                        <p>Replies land in one inbox per client, and every target shows its results, so client reporting is easy.</p>
+                    </li>
+                </ol>
+            </div>
+        </section>
+
+        <section id="features" class="hj-features">
+            <div class="hj-wrap">
+                <div class="hj-section-head">
+                    <span class="hj-kicker">What you get</span>
+                    <h2>Engagement you can show clients</h2>
+                </div>
+                <div class="hj-mini-grid four">
+                    <div class="hj-mini">
+                        <h4>Results per target</h4>
+                        <p>Comments, replies, people who engaged and how far each target has got, for every client account.</p>
+                    </div>
+                    <div class="hj-mini">
+                        <h4>Brand voice, safely</h4>
+                        <p>On Enterprise, Junior comments as a client's company page with an identity check on every comment.</p>
+                    </div>
+                    <div class="hj-mini">
+                        <h4>Replies handled</h4>
+                        <p>Every reply lands in one inbox with a draft that uses the whole thread, plus optional auto-reply for busy days.</p>
+                    </div>
+                    <div class="hj-mini">
+                        <h4>See what it did, and why</h4>
+                        <p>Every posted and skipped post is listed with the reason, and Junior suggests setting changes after each run.</p>
+                    </div>
+                </div>
+                <p class="hj-section-cta">Comments that sound like each client, results you can report. <a href="why-commenting-works.html?src=agencies-features" data-cta="agencies-why-commenting">Why commenting works &rarr;</a></p>
+            </div>
+        </section>
+
+        <section id="pricing" class="hj-safety">
+            <div class="hj-wrap">
+                <div class="hj-section-head">
+                    <span class="hj-kicker">Pricing</span>
+                    <h2>One subscription per client account</h2>
+                    <p>Each client account uses a standard subscription. Running Junior for several clients? <a href="mailto:support@heyjunior.ai?subject=Agency%20pricing">Email us about volume pricing</a>.</p>
+                </div>
+                <div class="hj-plans two">
+                    <div class="hj-plan popular">
+                        <span class="hj-pill">Your company page</span>
+                        <h4>Enterprise</h4>
+                        <div class="hj-price">$99 <small>/ month</small></div>
+                        <ul class="hj-checks">
+                            <li>Comment as your company page or as you, with identity checks</li>
+                            <li>Up to 80 comments a day</li>
+                            <li>Targets with results per account, Salesforce import and export</li>
+                            <li>Priority support and help with setup</li>
+                        </ul>
+                        <a href="register.html?plan=enterprise&amp;src=agencies-pricing-enterprise&amp;audience=company&amp;identity=company" class="hj-btn hj-btn-primary" data-cta="agencies-pricing-enterprise">Start 14-day Enterprise trial</a>
+                        <p class="hj-price-fine">14 days free, then $99/month. Card required, $0 today. Needs admin access to your LinkedIn company page.</p>
+                    </div>
+                    <div class="hj-plan">
+                        
+                        <h4>Starter, Standard or Pro</h4>
+                        <div class="hj-price">from $14.99 <small>/ month</small></div>
+                        <ul class="hj-checks">
+                            <li>Comment as yourself, 20 to 80 comments a day</li>
+                            <li>Targets with results on each company and person</li>
+                            <li>Replies inbox with drafted replies and optional auto-reply</li>
+                            <li>Run Insights and suggested setting changes</li>
+                        </ul>
+                        <a href="free-trial.html?src=agencies-pricing-personal" class="hj-btn hj-btn-outline" data-cta="agencies-pricing-personal">Start free, no card</a>
+                        <p class="hj-price-fine">The no-card trial is Basic for 14 days. Pick Starter, Standard or Pro any time.</p>
+                    </div>
+                </div>
+                <p class="hj-pricing-foot">See every plan on the <a href="index.html#pricing" data-cta="agencies-pricing-all">pricing page</a>.</p>
+            </div>
+        </section>
+
+        <section id="safety">
+            <div class="hj-wrap">
+                <div class="hj-section-head">
+                    <span class="hj-kicker">Your reputation comes first</span>
+                    <h2>Help that feels human, never like a bot farm</h2>
+                </div>
+                <div class="hj-safety-grid">
+                    <div class="hj-mini">
+                        <h4>Runs on your computer</h4>
+                        <p>Your browser, your login, your machine and IP. Your LinkedIn password is never sent to us.</p>
+                    </div>
+                    <div class="hj-mini">
+                        <h4>Paced like a person</h4>
+                        <p>Junior waits between actions, keeps searches within daily and hourly limits, slows down at night and stops if LinkedIn signs you out.</p>
+                    </div>
+                    <div class="hj-mini">
+                        <h4>No generic comments</h4>
+                        <p>Every comment is written for the specific post from your bio, goals and tone. No "Great insight!"</p>
+                    </div>
+                    <div class="hj-mini">
+                        <h4>You see everything</h4>
+                        <p>Every posted and skipped post is listed with the reason, and a link back to LinkedIn. Change settings any time.</p>
+                    </div>
+                </div>
+                <p class="hj-safety-note">An honest note: no LinkedIn automation is completely risk-free, and LinkedIn's rules can change. Junior is designed to keep the risk low with local execution, conservative pacing and full visibility. See our <a href="terms.html">Terms of Service</a>.</p>
+            </div>
+        </section>
+
+        <section id="faq">
+            <div class="hj-wrap">
+                <div class="hj-section-head center">
+                    <span class="hj-kicker">FAQ</span>
+                    <h2>Agency questions</h2>
+                </div>
+                <div class="hj-faq">
+                    <details>
+                        <summary>Can we run Junior from our office for all our clients?</summary>
+                        <p>Junior is designed to run on each client's own computer. That keeps IP addresses, sessions and browsers separate for every account, which is safer than running many accounts from one place.</p>
+                    </details>
+                    <details>
+                        <summary>Do you offer agency pricing?</summary>
+                        <p>Each client account uses a standard subscription. <a href="mailto:support@heyjunior.ai?subject=Agency%20pricing">Email us</a> to talk about volume.</p>
+                    </details>
+                    <details>
+                        <summary>Can we show clients what Junior did?</summary>
+                        <p>Yes. Every target shows its results, the Activity log lists every posted and skipped post with the reason, and the dashboards count only comments LinkedIn verified.</p>
+                    </details>
+                    <details>
+                        <summary>Will LinkedIn detect this?</summary>
+                        <p>Junior runs locally and paces itself like a person, but every third-party tool carries platform risk. We design for low risk and are honest that no tool can promise zero.</p>
+                    </details>
+                    <details>
+                        <summary>Does Junior need my LinkedIn password?</summary>
+                        <p>No. Junior runs on your computer. You sign in to LinkedIn in a browser on your own machine, and your session stays there. See our <a href="privacy.html">Privacy Policy</a>.</p>
+                    </details>
                 </div>
             </div>
         </section>
 
-        <section class="home-final-cta">
-            <div class="container narrow-container">
+        <section class="hj-final">
+            <div class="hj-wrap">
                 <h2>Add LinkedIn engagement to your agency offering.</h2>
-                <a href="register.html?src=agencies-final&amp;audience=company&amp;identity=company" class="primary-button" data-cta="agencies-final-primary">Start free trial</a>
+                <p>Start with one client. Free for 14 days.</p>
+                <div class="hj-hero-ctas">
+                    <a href="register.html?plan=enterprise&amp;src=agencies-final&amp;audience=company&amp;identity=company" class="hj-btn hj-btn-primary" data-cta="agencies-final-primary">Start 14-day Enterprise trial</a>
+                    <a href="try-it.html?src=agencies-final" class="hj-btn hj-btn-ghost" data-cta="agencies-final-try-it">Try it on a real post</a>
+                </div>
             </div>
         </section>
     </main>
@@ -119,26 +294,48 @@
     <footer class="footer footer-dark">
         <div class="container">
             <div class="footer-content">
-                <div class="footer-section"><h4>Use Cases</h4><ul><li><a href="job-search.html">Job Seekers</a></li><li><a href="founders.html">Founders</a></li><li><a href="consultants.html">Consultants</a></li><li><a href="sales.html">Sales</a></li><li><a href="linkedin-partners.html">Partners</a></li></ul></div>
-                <div class="footer-section"><h4>Legal</h4><ul><li><a href="terms.html">Terms of Service</a></li><li><a href="privacy.html">Privacy Policy</a></li></ul></div>
-                <div class="footer-section"><h4>Support</h4><ul><li><a href="portal.html">My Account</a></li><li><a href="troubleshooting.html" data-cta="agencies-footer-troubleshooting">Troubleshooting</a></li><li><a href="setup-guide.html" data-cta="agencies-footer-setup-guide">First Launch Setup Guide</a></li><li><a href="windows-install-help.html" data-cta="agencies-footer-windows-help">Windows Install Help</a></li><li><a href="mac-install-help.html" data-cta="agencies-footer-mac-help">macOS Install Help</a></li><li><a href="why-commenting-works.html?src=agencies-footer-edu" data-cta="agencies-footer-education">Why Commenting Works</a></li><li><a href="https://billing.stripe.com/p/login/28EfZjeBvdfSdjF5us3cc00" target="_blank">Manage Subscription</a></li></ul></div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>Email: <a href="mailto:support@heyjunior.ai">support@heyjunior.ai</a></p>
+                    <p><a href="https://www.linkedin.com/company/hey-junior/" target="_blank" rel="noopener">linkedin.com/company/hey-junior</a></p>
+                </div>
+                <div class="footer-section">
+                    <h4>Who it's for</h4>
+                    <ul>
+                        <li><a href="business.html">Companies</a></li>
+                        <li><a href="sales.html">Sales teams</a></li>
+                        <li><a href="agencies.html">Agencies</a></li>
+                        <li><a href="founders.html">Founders</a></li>
+                        <li><a href="consultants.html">Consultants</a></li>
+                        <li><a href="job-search.html">Job seekers</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="portal.html">My account</a></li>
+                        <li><a href="setup-guide.html">First launch setup guide</a></li>
+                        <li><a href="troubleshooting.html">Troubleshooting</a></li>
+                        <li><a href="whats-new.html">What's new</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="terms.html">Terms of Service</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Junior Labs LLC. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
-    <a href="register.html?src=agencies-sticky&amp;audience=company&amp;identity=company" class="sticky-global-cta" data-cta="agencies-sticky">Start free trial</a>
+    <a href="register.html?plan=enterprise&amp;src=agencies-sticky&amp;audience=company&amp;identity=company" class="sticky-global-cta" data-cta="agencies-sticky">Start free trial</a>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const mobileToggle = document.querySelector('.mobile-menu-toggle');
-            const navLinks = document.querySelector('.nav-links');
-            if (mobileToggle && navLinks) {
-                mobileToggle.addEventListener('click', function () {
-                    this.classList.toggle('active');
-                    navLinks.classList.toggle('active');
-                });
-            }
-        });
-    </script>
+    <script src="js/referral.js"></script>
+    <script src="js/hj-page.js?v=20261027"></script>
 </body>
 </html>
