@@ -16,7 +16,7 @@
     <title>Junior - LinkedIn commenting for your company and for you</title>
     <link rel="canonical" href="https://heyjunior.ai/">
     <link rel="stylesheet" href="css/styles.css?v=20261005-cro">
-    <link rel="stylesheet" href="css/home.css?v=20261027-paths2">
+    <link rel="stylesheet" href="css/home.css?v=20261109-32">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
@@ -57,6 +57,7 @@
       "@context": "https://schema.org",
       "@type": "FAQPage",
       "mainEntity": [
+        { "@type": "Question", "name": "Can I try Junior without a credit card?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Start Junior Basic free for 14 days with just an email and a password. Add a card any time during the trial to keep going, and you won't be charged until the 14 days are up. If you don't, the trial simply ends." } },
         { "@type": "Question", "name": "Does Junior need my LinkedIn password?", "acceptedAnswer": { "@type": "Answer", "text": "No. Junior runs on your computer. You sign in to LinkedIn in a browser on your own machine, and your session stays there." } },
         { "@type": "Question", "name": "Can Junior comment as my company page?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, on the Enterprise plan. You need admin access to the LinkedIn company page. Junior checks the identity on every comment so a brand comment never posts under a personal name." } },
         { "@type": "Question", "name": "Can Junior apply to jobs for me?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, for LinkedIn Easy Apply jobs, if you turn it on. Junior fills each application from answers you saved and never guesses a required question: that job is skipped and the question waits for you. Until you turn on submitting, it stops at the Review page and sends nothing. It is included on every plan that comments as you, including the 14-day trial." } },
@@ -101,7 +102,7 @@
                     <span class="hj-kicker">LinkedIn engagement for companies and professionals</span>
                     <h1>Get into the <em>LinkedIn conversations</em> that matter.</h1>
                     <p class="hj-hero-sub">Junior finds the right posts, comments in your voice as your company page or as yourself, and brings every reply into one inbox for follow-up.</p>
-                    <p class="hj-hero-fine"><span>Every plan is free for 14 days.</span> <span>Card required.</span> <span>Cancel anytime.</span> Desktop app for Windows and Mac. <a href="try-it.html?src=home-hero" data-cta="home-hero-try-it">See a sample comment first</a>.</p>
+                    <p class="hj-hero-fine"><span>Every plan is free for 14 days.</span> <a href="free-trial.html?src=home-hero" data-cta="home-hero-no-card">Try it with no credit card</a>, or <a href="try-it.html?src=home-hero" data-cta="home-hero-try-it">see a sample comment first</a>. Desktop app for Windows and Mac.</p>
                 </div>
                 <div class="hj-reply-stack" aria-label="Real activity from Junior's own company page">
                     <div class="hj-reply is-junior">
@@ -225,29 +226,35 @@
 
                 <div class="hj-feature">
                     <div class="hj-feature-copy">
-                        <span class="hj-kicker">Target accounts</span>
-                        <h3>Focus on the logos you're chasing</h3>
-                        <p>Import your account list and Junior prioritizes their posts, so social selling supports your account plan instead of random scrolling.</p>
+                        <span class="hj-kicker">Targets</span>
+                        <h3>Know what every target got you</h3>
+                        <p>Add the companies and people you're chasing and Junior puts their posts first. Then it shows what came of it, target by target, so you know where to spend your own time.</p>
                         <ul class="hj-checks">
-                            <li>Add companies and people by hand or by CSV, and tier them.</li>
-                            <li>A timeline for every account shows each comment Junior made there.</li>
-                            <li>Each comment records who it was for, with a direct link to follow up.</li>
+                            <li>Results on every target: comments, replies, people who engaged and how far each one has got.</li>
+                            <li>A plain line on what Junior is doing for each target right now, and a nudge on your Today page when one replies.</li>
+                            <li>Effort against results, with suggestions on which targets to keep and which to drop.</li>
+                            <li>A short brief on a person before you follow up yourself, and the full story of every account.</li>
+                            <li>Import from Salesforce or CSV, and export the people who engaged back as leads.</li>
                         </ul>
                     </div>
                     <figure>
                         <div class="hj-shot"><img src="images/product/target-accounts.webp" alt="Junior's Target Accounts list with tiered companies and a timeline of comments on Apollo posts" width="761" height="890" loading="lazy"></div>
-                        <figcaption class="hj-shot-cap">Target Accounts: an account timeline for Apollo.</figcaption>
+                        <figcaption class="hj-shot-cap">Targets: an account timeline for Apollo.</figcaption>
                     </figure>
                 </div>
 
-                <div class="hj-mini-grid">
+                <div class="hj-mini-grid four">
                     <div class="hj-mini">
                         <h4>Goal-driven writing</h4>
                         <p>Set a goal such as finding customers or partnerships and choose a standard or more natural style, so comments aim at business outcomes and sound human.</p>
                     </div>
                     <div class="hj-mini">
-                        <h4>Run Insights</h4>
-                        <p>See what Junior engaged with, what it skipped and why, with one-click suggestions such as dropping keywords that underperform.</p>
+                        <h4>See what it did, and why</h4>
+                        <p>Your Today page, a live Highlights feed and a status that always gives a reason. Every comment shows why it matched, and every skipped post says why in plain words.</p>
+                    </div>
+                    <div class="hj-mini">
+                        <h4>It tunes itself</h4>
+                        <p>After each run Junior suggests setting changes, with the evidence behind them, plus new search terms to try. Apply in one click and undo any time.</p>
                     </div>
                     <div class="hj-mini">
                         <h4>Numbers you can report</h4>
@@ -341,7 +348,7 @@
                 <div class="hj-section-head">
                     <span class="hj-kicker">Pricing</span>
                     <h2>Simple monthly pricing. Start free.</h2>
-                    <p>Every plan starts with a 14-day free trial. You won't be charged until it ends, and you can cancel anytime.</p>
+                    <p>Every plan starts with a 14-day free trial. You won't be charged until it ends, and you can cancel anytime. Not ready to add a card? <a href="free-trial.html?src=home-pricing" data-cta="home-pricing-no-card">Try Basic free for 14 days with no card</a>.</p>
                 </div>
 
                 <div data-tabs="Pricing by audience">
@@ -424,7 +431,7 @@
                             <li>Replies inbox for recruiter conversations</li>
                             <li>Optional Easy Apply to fresh jobs</li>
                         </ul>
-                        <a href="register.html?plan=basic&amp;src=home-pricing-basic&amp;audience=jobseeker&amp;identity=personal" class="hj-btn hj-btn-primary" data-cta="home-pricing-basic">Start 14-day free trial</a>
+                        <a href="free-trial.html?src=home-pricing-basic" class="hj-btn hj-btn-primary" data-cta="home-pricing-basic">Start free, no card</a>
                     </div>
                     <div class="hj-plan">
                         <h4>Starter</h4>
@@ -483,6 +490,10 @@
                     <details>
                         <summary>Does Junior need my LinkedIn password?</summary>
                         <p>No. Junior runs on your computer. You sign in to LinkedIn in a browser on your own machine, and your session stays there. See our <a href="privacy.html">Privacy Policy</a>.</p>
+                    </details>
+                    <details>
+                        <summary>Can I try Junior without a credit card?</summary>
+                        <p>Yes. <a href="free-trial.html?src=home-faq">Start Junior Basic free for 14 days</a> with just an email and a password. Add a card any time during the trial to keep going, and you won't be charged until the 14 days are up. If you don't, the trial simply ends.</p>
                     </details>
                     <details>
                         <summary>Can I use Junior just for myself?</summary>
@@ -544,7 +555,7 @@
                     <a href="register.html?plan=enterprise&amp;src=home-final&amp;audience=company&amp;identity=company" class="hj-btn hj-btn-primary" data-cta="home-final-primary">Start free for my company</a>
                     <a href="register.html?plan=standard&amp;src=home-final-individual&amp;audience=company&amp;identity=personal" class="hj-btn hj-btn-ghost" data-cta="home-final-individual">Start free for me</a>
                 </div>
-                <p class="hj-hero-fine">Looking for a job? <a href="register.html?plan=basic&amp;src=home-final-jobseeker&amp;audience=jobseeker&amp;identity=personal" data-cta="home-final-jobseeker">Start on Basic, $9.99/month after 14 free days</a>. Need a hand? <a href="mailto:support@heyjunior.ai?subject=Help%20setting%20up%20Junior" data-cta="home-final-talk">Get help with setup</a>.</p>
+                <p class="hj-hero-fine">Looking for a job, or just want to try it? <a href="free-trial.html?src=home-final-jobseeker" data-cta="home-final-jobseeker">Start Basic free for 14 days, no card needed</a>. Need a hand? <a href="mailto:support@heyjunior.ai?subject=Help%20setting%20up%20Junior" data-cta="home-final-talk">Get help with setup</a>.</p>
             </div>
         </section>
     </main>
@@ -575,7 +586,7 @@
                     <h4>Product</h4>
                     <ul>
                         <li><a href="try-it.html?src=home-footer">Try it</a></li>
-                        <li><a href="junior-3.html">What's new in 3.0</a></li>
+                        <li><a href="https://github.com/Andrew-AI-JR/Desktop-Releases/releases/latest" rel="noopener">Latest release notes</a></li>
                         <li><a href="why-commenting-works.html" data-cta="home-footer-education">Why commenting works</a></li>
                         <li><a href="blog.html">Blog</a></li>
                         <li><a href="linkedin-automation-tool.html">LinkedIn automation tool</a></li>
