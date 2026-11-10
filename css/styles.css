@@ -1270,6 +1270,33 @@ section, div {
     border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+/* Product Hunt launch badge (footer). The footer is dark on every page, so it uses PH's dark theme. */
+.footer .ph-badge {
+    display: inline-block;
+    margin-bottom: 20px;
+    line-height: 0;
+    border-radius: 10px;
+    opacity: 0.9;
+    transition: opacity 0.2s;
+}
+
+.footer .ph-badge:hover,
+.footer .ph-badge:focus-visible {
+    opacity: 1;
+}
+
+.footer .ph-badge:focus-visible {
+    outline: 2px solid #8FC3F0;
+    outline-offset: 3px;
+}
+
+.footer .ph-badge img {
+    display: block;
+    width: 250px;
+    max-width: 100%;
+    height: auto;
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
     .benefits {
