@@ -476,11 +476,10 @@ function updateInstallationInstructions(platform) {
                     <li>If Windows shows a security warning, click "More info" then "Run anyway"</li>
                     <li>Follow the installation wizard</li>
                     <li>Launch Junior from your desktop or Start menu</li>
-                    <li>Check the <strong>"2FA"</strong> checkbox, then click <strong>"Start Automation"</strong></li>
-                    <li>A Chrome window will open — log in to LinkedIn, and Junior will close the window automatically</li>
+                    <li>Sign in to Junior, then follow the setup window: it connects LinkedIn (sign in once in the Chrome window that opens; Junior closes it for you) and runs your first 5 comments</li>
                 </ol>
                 <p style="margin-top: 15px; padding: 12px; background: #D8EFFB; border-radius: 8px; color: #255DB8;">
-                    <strong>💡 First run only:</strong> The LinkedIn login is a one-time setup. Future runs use your saved session.
+                    <strong>💡 One-time setup:</strong> You connect LinkedIn once. Future runs use your saved session.
                     <a href="setup-guide.html" target="_blank" style="color: #2F6FD6; font-weight: 600; text-decoration: underline;">Full setup guide →</a>
                 </p>
             `;
@@ -504,11 +503,10 @@ function updateInstallationInstructions(platform) {
                     <li><strong>Right-click</strong> Junior.app and select "Open" (not double-click!)</li>
                     <li>Click "Open" again in the security dialog</li>
                     <li>Junior will now launch successfully ✅</li>
-                    <li>Check the <strong>"2FA"</strong> checkbox, then click <strong>"Start Automation"</strong></li>
-                    <li>A Chrome window will open — log in to LinkedIn, and Junior will close the window automatically</li>
+                    <li>Sign in to Junior, then follow the setup window: it connects LinkedIn (sign in once in the Chrome window that opens; Junior closes it for you) and runs your first 5 comments</li>
                 </ol>
                 <p style="margin-top: 15px; padding: 12px; background: #D8EFFB; border-radius: 8px; color: #255DB8;">
-                    <strong>💡 First run only:</strong> The right-click and LinkedIn login are one-time steps. Future runs work normally.
+                    <strong>💡 One-time setup:</strong> The right-click and connecting LinkedIn happen once. Future runs work normally.
                     <a href="setup-guide.html" target="_blank" style="color: #2F6FD6; font-weight: 600; text-decoration: underline;">Full setup guide →</a>
                 </p>
             `;

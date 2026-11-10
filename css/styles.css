@@ -8355,6 +8355,12 @@ body {
     font-size: 0.95rem;
 }
 
+/* Setup guide anchors (in-app Help links) land below the fixed navbar. */
+.support-step[id],
+.support-card[id] {
+    scroll-margin-top: 96px;
+}
+
 .support-step-warning {
     background: #fffbeb;
     border-color: #fcd34d;

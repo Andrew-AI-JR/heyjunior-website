@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="First launch setup guide for Junior: connect LinkedIn, handle 2FA, and complete your initial session safely.">
+    <meta name="description" content="Set up Junior in about 5 minutes: pick your goal, connect LinkedIn, add your bio and search terms, and run your first 5 comments.">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Junior First Launch Setup Guide">
-    <meta property="og:description" content="Use this guide to complete your first Junior run and save your authenticated session.">
+    <meta property="og:title" content="Junior Setup Guide">
+    <meta property="og:description" content="The six setup steps in the Junior desktop app, one by one, with fixes for common problems.">
     <meta property="og:image" content="https://heyjunior.ai/reseller-assets/global/social/social-card.png">
     <meta property="og:url" content="https://heyjunior.ai/setup-guide.html">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Junior First Launch Setup Guide">
-    <meta name="twitter:description" content="Step-by-step setup for first launch, login, and 2FA flow.">
+    <meta name="twitter:title" content="Junior Setup Guide">
+    <meta name="twitter:description" content="The six setup steps in the Junior desktop app, one by one.">
     <meta name="twitter:image" content="https://heyjunior.ai/reseller-assets/global/social/social-card.png">
-    <title>Junior First Launch Setup Guide</title>
+    <title>Junior Setup Guide</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -51,88 +51,123 @@
     <main class="support-main">
         <section class="hero conversion-hero hero-dark support-hero">
             <div class="container narrow-container">
-                <p class="support-eyebrow">First Launch Setup</p>
-                <h1>Set up Junior once, then run with confidence.</h1>
-                <p class="subtitle">This one-time flow opens Chrome, completes LinkedIn authentication, and saves your session so future runs are faster.</p>
+                <p class="support-eyebrow">Setup Guide</p>
+                <h1>Set up Junior in about 5 minutes.</h1>
+                <p class="subtitle">The first time you open Junior, a setup window walks you through six short steps. This page explains each one, in the same order, with fixes if something goes wrong.</p>
                 <div class="cta-buttons">
-                    <a href="#setup-steps" class="primary-button">See Setup Steps</a>
-                    <a href="why-commenting-works.html" class="secondary-button">See Strategy Page</a>
+                    <a href="#setup-steps" class="primary-button">See the six steps</a>
+                    <a href="#troubleshooting" class="secondary-button">Something went wrong</a>
                 </div>
             </div>
         </section>
 
         <section class="support-section" id="setup-steps">
             <div class="container support-container">
-                <article class="support-card support-alert">
-                    <h2>Important before starting</h2>
-                    <p>Always enable the <strong>2FA checkbox</strong> on your first run. Even without explicit 2FA enabled, this makes the login handoff more reliable.</p>
-                </article>
-
                 <article class="support-card">
                     <h2>Before you start</h2>
                     <ul class="support-list">
-                        <li>Install Junior first (<a href="windows-install-help.html">Windows guide</a> / <a href="mac-install-help.html">macOS guide</a>).</li>
-                        <li>Have your LinkedIn credentials ready.</li>
-                        <li>Keep your 2FA device available if LinkedIn prompts for it.</li>
-                        <li>Confirm Google Chrome is installed.</li>
+                        <li>Install Junior (<a href="windows-install-help.html">Windows guide</a> / <a href="mac-install-help.html">macOS guide</a>) and sign in with your Junior email and password.</li>
+                        <li>Make sure Google Chrome is installed.</li>
+                        <li>Have your LinkedIn sign-in and your phone nearby, in case LinkedIn asks for a code.</li>
                     </ul>
+                    <p>The setup window opens by itself the first time. To open it again later, click <strong>Help</strong> at the top of Junior, then <strong>Run setup again</strong>.</p>
                 </article>
 
                 <article class="support-card">
-                    <h2>Step-by-step first run</h2>
+                    <h2>The six setup steps</h2>
                     <div class="support-steps">
-                        <section class="support-step">
-                            <h3>Step 1: Launch Junior</h3>
-                            <p>Open Junior from your desktop, Start menu, or Applications folder.</p>
+                        <section class="support-step" id="welcome">
+                            <h3>Step 1: Your goal</h3>
+                            <p>Choose <strong>Find a job</strong> (Junior comments on hiring posts that fit you) or <strong>Grow my network</strong> (Junior comments on posts in your field). You can change this later on the Automation tab.</p>
+                            <p>Commenting as a company page (Enterprise)? Finish setup with your own profile first, then switch to <strong>Comment as my company</strong> on the Automation tab.</p>
                         </section>
-                        <section class="support-step support-step-warning">
-                            <h3>Step 2: Check the 2FA box</h3>
-                            <p>Enable the 2FA checkbox before clicking start for a clean login handoff.</p>
+
+                        <section class="support-step" id="system">
+                            <h3>Step 2: Check your computer</h3>
+                            <p>Junior checks that Google Chrome and its own engine are installed. Green ticks mean you are ready.</p>
+                            <ul>
+                                <li><strong>Google Chrome not found:</strong> install it from <a href="https://www.google.com/chrome/" rel="noopener">google.com/chrome</a>, then click <strong>Check again</strong>.</li>
+                                <li><strong>Junior engine missing:</strong> reinstall Junior from your <a href="portal.html">account page</a>, then check again.</li>
+                            </ul>
                         </section>
-                        <section class="support-step">
-                            <h3>Step 3: Click Start Automation</h3>
-                            <p>Junior opens Chrome automatically.</p>
+
+                        <section class="support-step support-step-warning" id="linkedin">
+                            <h3>Step 3: Connect LinkedIn</h3>
+                            <ol>
+                                <li>Click <strong>Open Chrome and sign in</strong>.</li>
+                                <li>Sign in to LinkedIn in the Chrome window that opens. If LinkedIn asks for a code or a phone approval, do that too.</li>
+                                <li>Keep Chrome open. When your LinkedIn feed appears, Junior saves your session and closes Chrome by itself, usually within a few seconds.</li>
+                            </ol>
+                            <p>Junior never sees or stores your LinkedIn password; it keeps only the signed-in session, on your computer. You do this once per computer, unless LinkedIn signs you out.</p>
                         </section>
-                        <section class="support-step">
-                            <h3>Step 4: Log in to LinkedIn</h3>
-                            <p>Complete login normally in the opened Chrome window.</p>
+
+                        <section class="support-step" id="about">
+                            <h3>Step 4: About you</h3>
+                            <p><strong>Your bio:</strong> 2 to 3 sentences about your role, your experience, and what you are looking for or offering. Junior reads it before writing every comment, so the more specific it is, the more the comments sound like you.</p>
+                            <p><em>Example:</em> "I am a data engineer with 5 years of experience building pipelines with Python and AWS. I am looking for senior data engineering roles at mid-size companies."</p>
+                            <p><strong>Link (optional):</strong> a link Junior can include in your best comments. Job seekers often use a Calendly link; founders and consultants use their website.</p>
+                            <p>You can skip this step, but comments are much better with a bio.</p>
                         </section>
-                        <section class="support-step support-step-success">
-                            <h3>Step 5: Let Junior close the window</h3>
-                            <p>Junior closes Chrome when session capture succeeds. Do not close it manually.</p>
+
+                        <section class="support-step" id="search">
+                            <h3>Step 5: What to look for</h3>
+                            <p>Search terms are what Junior types into LinkedIn search to find posts to comment on. Click a suggestion or type your own, separated by commas. You need at least one; 5 to 10 work best.</p>
+                            <ul>
+                                <li><strong>Find a job:</strong> think like a recruiter posting a job: "hiring product manager", "join our team", "we are hiring remote".</li>
+                                <li><strong>Grow my network:</strong> topics your audience posts about: "SaaS", "product management", "AI startups".</li>
+                            </ul>
+                        </section>
+
+                        <section class="support-step support-step-success" id="first_run">
+                            <h3>Step 6: Your first run</h3>
+                            <p>Click <strong>Start my first run</strong>. Junior works in the background and stops after <strong>5 comments</strong>, so you can read them on the <strong>Activity</strong> tab and check they sound like you. Watch progress in <strong>Live Activity</strong> on the Automation tab, and press <strong>Stop</strong> at any time.</p>
+                            <p>When you are happy with the comments, press <strong>Start</strong> on the Automation tab. From then on Junior uses your normal daily limit.</p>
                         </section>
                     </div>
                 </article>
 
-                <article class="support-card">
-                    <h2>FAQ</h2>
+                <article class="support-card" id="troubleshooting">
+                    <h2>If something goes wrong</h2>
                     <div class="support-faq">
                         <section>
-                            <h3>Do I need to log in every time?</h3>
-                            <p>No. This process is one-time per device unless your LinkedIn session expires or credentials change.</p>
+                            <h3>Chrome opened and then closed, or never opened</h3>
+                            <p>Close every Chrome window and click <strong>Open Chrome and sign in</strong> again. If Chrome still will not open, restart your computer and try once more.</p>
                         </section>
                         <section>
-                            <h3>Does Junior save my password?</h3>
-                            <p>No. Junior stores session data, not your LinkedIn password.</p>
+                            <h3>"LinkedIn was not connected"</h3>
+                            <p>Junior closes Chrome itself once you reach your feed. If Chrome was closed first, or sign-in took longer than 5 minutes, click the button and sign in again. Finish any LinkedIn security check you are shown.</p>
                         </section>
                         <section>
-                            <h3>Need help?</h3>
-                            <p>Email <a href="mailto:support@heyjunior.ai">support@heyjunior.ai</a> and we will help directly.</p>
+                            <h3>Junior says it has nothing to search for</h3>
+                            <p>Add at least one search term (step 5), or on the Automation tab under <strong>Who &amp; where</strong>.</p>
+                        </section>
+                        <section>
+                            <h3>The first run found few posts</h3>
+                            <p>Add more search terms, or make them broader. Junior keeps looking until it reaches 5 comments or you press Stop.</p>
+                        </section>
+                        <section>
+                            <h3>LinkedIn signed me out later</h3>
+                            <p>Click <strong>Help</strong>, then <strong>Run setup again</strong>, and repeat step 3. Or, on the Automation tab, open <strong>Account</strong> and turn on <strong>Open Chrome so you can sign in to LinkedIn again on the next run</strong>.</p>
+                        </section>
+                        <section>
+                            <h3>Do I need to sign in every time?</h3>
+                            <p>No. Junior reuses your saved session until LinkedIn signs you out.</p>
+                        </section>
+                        <section>
+                            <h3>Still stuck?</h3>
+                            <p>In Junior, click <strong>Help</strong>, then <strong>Open log file</strong>, and email the file to <a href="mailto:support@heyjunior.ai?subject=Help%20setting%20up%20Junior">support@heyjunior.ai</a>. We usually reply the same day.</p>
                         </section>
                     </div>
                 </article>
 
-                <article class="support-card support-next">
-                    <h2>Next: set up your profile and search terms</h2>
-                    <p>Now that Junior is connected to LinkedIn, set up your bio, search terms, and filters so it writes comments that sound like you.</p>
-                    <div class="support-button-row">
-                        <a href="onboarding.html" class="primary-button" data-cta="setup-guide-onboarding">Set Up Your Profile</a>
-                    </div>
+                <article class="support-card support-alert">
+                    <h2>Using a version before 3.2.24?</h2>
+                    <p>Older versions have no setup window. Update Junior when it offers, or set up by hand: on the <strong>Automation</strong> tab, add your bio and search terms, open <strong>Account</strong> and turn on <strong>Open Chrome so you can sign into LinkedIn</strong>, then click <strong>Start</strong> and sign in to LinkedIn in the Chrome window. Do not close Chrome until Junior closes it.</p>
                 </article>
 
                 <article class="support-card support-next">
-                    <h2>Install help if you need it</h2>
-                    <p>If setup fails before login, return to your operating system guide and retry installation first. For anything else, check the troubleshooting guide.</p>
+                    <h2>Install help</h2>
+                    <p>If Junior will not install or open, start with your operating system guide.</p>
                     <div class="support-button-row">
                         <a href="windows-install-help.html" class="secondary-button">Windows Install Help</a>
                         <a href="mac-install-help.html" class="secondary-button">macOS Install Help</a>
