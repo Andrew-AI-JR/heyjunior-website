@@ -337,7 +337,8 @@ function displayUserData(userData) {
 
     const resellerNav = document.getElementById('reseller-nav-item');
     if (resellerNav) {
-        resellerNav.style.display = userData.is_reseller ? 'list-item' : 'none';
+        // Every account can join the partner program, so the link is always shown.
+        resellerNav.style.display = 'list-item';
     }
 
     const resellerRow = document.getElementById('reseller-status-row');
@@ -1006,7 +1007,13 @@ async function handleLogin(event) {
         if (email) {
             sessionStorage.setItem('userEmail', email);
         }
-        
+
+        // Signed in from the partner page: go back there to finish joining.
+        if (new URLSearchParams(window.location.search).get('next') === 'partners') {
+            window.location.href = 'reseller-dashboard.html';
+            return;
+        }
+
         // Hide login form and load dashboard
         hideLoginForm();
         
