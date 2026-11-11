@@ -18,7 +18,7 @@ async function parseApiError(response) {
 function fetchAuth(url, options = {}) {
   return window.juniorFetchWithAuth(url, {
     ...options,
-    auth401Redirect: 'portal.html',
+    auth401Redirect: 'portal.html?next=partners',
   });
 }
 
@@ -282,7 +282,14 @@ function applyOnboardingPanelCopy(me, status) {
     newLink.style.display = me?.stripe_connect_account_id ? 'inline-block' : 'none';
   }
 
-  if (status === 'approved') {
+  if (status === 'join') {
+    if (heading) heading.textContent = 'Become a partner';
+    if (lead) {
+      lead.textContent =
+        'Earn 20% of every payment from people who sign up with your partner link. Pick your country and set up payouts below. That is all it takes to join.';
+    }
+    if (detail) detail.textContent = 'Your partner link appears here as soon as payouts are set up.';
+  } else if (status === 'approved') {
     if (heading) {
       heading.textContent = me?.stripe_connect_account_id ? 'Finish Stripe setup' : 'Connect Stripe';
     }
@@ -305,8 +312,7 @@ function applyOnboardingPanelCopy(me, status) {
   } else {
     if (heading) heading.textContent = 'Stripe payout setup';
     if (lead) {
-      lead.textContent =
-        'When your partner application is approved, you will use Stripe Express here for payouts. If you are already approved, open Stripe below.';
+      lead.textContent = 'Pick your country and set up payouts below to start earning commissions.';
     }
     if (detail) {
       const label = status == null || status === '' ? 'not set' : String(status);
@@ -472,20 +478,8 @@ async function loadResellerView() {
     return;
   }
 
-  if (!me.is_reseller) {
-    showEl('reseller-not-eligible', true);
-    setLoading(false);
-    return;
-  }
-
   if (me.reseller_status === 'suspended') {
     showEl('reseller-suspended', true);
-    setLoading(false);
-    return;
-  }
-
-  if (me.reseller_status === 'pending') {
-    showEl('reseller-pending', true);
     setLoading(false);
     return;
   }
@@ -515,7 +509,8 @@ async function loadResellerView() {
     return;
   }
 
-  const status = me.reseller_status;
+  // Anyone with an account can join: choosing payout details enrolls them (POST /api/resellers/onboard).
+  const status = me.is_reseller && me.reseller_status !== 'pending' ? me.reseller_status : 'join';
   showEl('reseller-onboarding-panel', true);
   applyOnboardingPanelCopy(me, status);
   await populateCountrySelector();
