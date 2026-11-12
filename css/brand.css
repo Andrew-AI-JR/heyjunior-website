@@ -224,3 +224,26 @@ code, pre, kbd { font-family: var(--sig-mono); }
     .hj .hj-step { border-right: 0; border-bottom: 1px solid var(--sig-line); padding: 18px 0 !important; }
     .hj .hj-steps { grid-template-columns: 1fr; }
 }
+
+/* Logo row: company pages that replied to Junior's comments */
+.hj .hj-logos { background: var(--sig-black); color: #E8E8EC; padding: 36px 0; border-bottom: 1px solid var(--sig-line-dark); }
+.hj .hj-logos-title { font-family: var(--sig-mono); font-size: 0.8rem; text-transform: lowercase; color: var(--sig-blue-on-dark); margin: 0 0 18px; }
+.hj .hj-logos-title::before { content: "[ "; }
+.hj .hj-logos-title::after { content: " ]"; }
+.hj .hj-logos-row { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 1px; background: var(--sig-line-dark); border: 1px solid var(--sig-line-dark); }
+.hj .hj-logos-row li {
+    display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 76px; padding: 12px;
+    background: var(--sig-black); font-family: var(--sig-display); font-weight: 500; font-size: 1.05rem;
+    letter-spacing: -0.02em; color: #E8E8EC;
+}
+.hj .hj-logo-mark { width: 24px; height: 24px; flex: none; background: currentColor; -webkit-mask: var(--logo) center / contain no-repeat; mask: var(--logo) center / contain no-repeat; }
+.hj .hj-logo-mark.is-hubspot { --logo: url("../images/logos/hubspot.svg"); }
+.hj .hj-logo-mark.is-hootsuite { --logo: url("../images/logos/hootsuite.svg"); }
+.hj .hj-logo-mark.is-okta { --logo: url("../images/logos/okta.svg"); }
+.hj .hj-logo-tile { width: 24px; height: 24px; flex: none; display: inline-flex; align-items: center; justify-content: center; border: 1.5px solid currentColor; font-family: var(--sig-mono); font-size: 0.75rem; font-weight: 400; }
+.hj .hj-logos-note { font-family: var(--sig-mono); font-size: 0.72rem; color: var(--sig-muted-dark); margin: 14px 0 0; }
+@media (max-width: 980px) { .hj .hj-logos-row { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 560px) {
+    .hj .hj-logos-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .hj .hj-logos-row li { font-size: 0.95rem; min-height: 60px; }
+}
