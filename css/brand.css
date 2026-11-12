@@ -338,9 +338,11 @@ code, pre, kbd { font-family: var(--sig-mono); }
 .hj .hj-hero-logos .hj-logo-mark.is-sendible { width: 36px; }
 .hj .hj-hero-logos .hj-logo-word { height: 24px; width: 125px; }
 .hj .hj-hero-logos .hj-logos-note { color: #8E8E98; font-size: 0.8rem; margin-top: 20px; }
+@media (max-width: 1180px) {
+    .hj .hj-hero-logos .hj-logos-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px 20px; }
+}
 @media (max-width: 980px) {
     .hj .hj-hero-logos { margin-top: 48px; }
-    .hj .hj-hero-logos .hj-logos-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px 20px; }
 }
 @media (max-width: 560px) {
     .hj .hj-hero-logos .hj-logos-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
