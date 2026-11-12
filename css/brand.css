@@ -285,9 +285,16 @@ code, pre, kbd { font-family: var(--sig-mono); }
 .hj .hj-shot-cap, .hj .hj-proof-shot figcaption, .hj .hj-proof-card figcaption, .hj .hj-price-fine { font-size: 0.85rem; }
 .hj .hj-path em, .hj .hj-case em { font-weight: 500; }
 
-/* Hero reply cards: a touch lighter so they read as cards */
-.hj .hj-reply, .hj .hj-reply.is-junior { background: #18181C; }
-.hj .hj-reply p { color: #E4E4EA; }
+/* Hero reply cards: light cards on the black hero, for contrast */
+.hj .hj-reply-stack { gap: 10px; border: 0; }
+.hj .hj-reply, .hj .hj-reply.is-junior { background: var(--sig-paper); color: var(--sig-black); border: 0; padding: 16px 18px; }
+.hj .hj-reply.is-junior { background: #E6EDFF; box-shadow: inset 3px 0 0 var(--sig-blue); }
+.hj .hj-reply-who { color: var(--sig-black); }
+.hj .hj-reply p { color: #2A2A30; }
+.hj .hj-reply-meta { color: var(--sig-muted) !important; }
+.hj .hj-reply .hj-pill { color: var(--sig-blue-ink); border-color: var(--sig-blue-ink); }
+.hj .hj-reply .hj-pill.dark { background: var(--sig-blue-ink); border-color: var(--sig-blue-ink); color: #FFFFFF; }
+.hj .hj-reply-caption { border-top: 0; padding: 2px 2px 0; color: #B9B9C2; }
 
 /* Audience paths: no solid blue panel competing with the button */
 .hj .hj-path.is-primary { background: transparent; box-shadow: inset 0 3px 0 var(--sig-blue); }
