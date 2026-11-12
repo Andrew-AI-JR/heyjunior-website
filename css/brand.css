@@ -251,3 +251,67 @@ code, pre, kbd { font-family: var(--sig-mono); }
     .hj .hj-logos-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .hj .hj-logos-row li { font-size: 0.95rem; min-height: 60px; }
 }
+
+/* ---------- Dial-down (Nov 2026): easier to read, one thing pops per screen ----------
+   Only the hero, the company pricing card and the final CTA stay black. Mono is kept for
+   small section labels and step numbers; everything people read is in Space Grotesk. */
+
+/* Headline: blue text instead of a solid blue block */
+.hj .hj-hero h1 em { background: none; color: var(--sig-blue-on-dark); padding: 0; }
+.hj .hj-hero h1 { font-size: clamp(2.3rem, 5vw, 3.6rem); line-height: 1.06; }
+.hj .hj-hero-sub { color: #E4E4EA; font-size: 1.2rem; }
+.hj .hj-hero-fine { color: #B9B9C2; }
+.hj .hj-hero .hj-hero-ctas { margin: 4px 0 18px; }
+.hj .hj-hero .hj-btn { min-height: 52px; padding: 14px 24px; font-size: 1.05rem; }
+.hj .hj-btn-ghost { color: #FFFFFF !important; border-color: #4A4A52 !important; }
+.hj .hj-btn-ghost:hover { border-color: #FFFFFF !important; background: transparent !important; }
+
+/* Section labels: mono, sentence case, no brackets */
+.hj .hj-kicker, .enterprise-band .eb-kicker, .hj .hj-logos-title { text-transform: none; font-size: 0.82rem; letter-spacing: 0.01em; }
+.hj .hj-kicker::before, .hj .hj-kicker::after, .enterprise-band .eb-kicker::before, .enterprise-band .eb-kicker::after,
+.hj .hj-logos-title::before, .hj .hj-logos-title::after { content: none; }
+.footer h4 { text-transform: none; }
+.footer h4::before { content: none; }
+
+/* Readable text back in the sans face */
+.hj .hj-pill, .hj .hj-reply-who, .hj .hj-reply-meta, .hj .hj-reply-caption, .hj .hj-path em, .hj .hj-proof-note,
+.hj .hj-shot-cap, .hj .hj-proof-shot figcaption, .hj .hj-proof-card figcaption, .enterprise-band .eb-cap,
+.hj .hj-price-fine, .hj .hj-price small, .hj .hj-case em, .hj .hj-logos-note, .footer-bottom p, .hero-dark .hero-microcopy {
+    font-family: var(--sig-display);
+}
+.hj .hj-pill { text-transform: none; font-weight: 500; }
+.hj .hj-reply-who { font-weight: 500; font-size: 0.95rem; }
+.hj .hj-reply-meta, .hj .hj-reply-caption, .hj .hj-proof-note, .hj .hj-logos-note { font-size: 0.85rem; }
+.hj .hj-shot-cap, .hj .hj-proof-shot figcaption, .hj .hj-proof-card figcaption, .hj .hj-price-fine { font-size: 0.85rem; }
+.hj .hj-path em, .hj .hj-case em { font-weight: 500; }
+
+/* Hero reply cards: a touch lighter so they read as cards */
+.hj .hj-reply, .hj .hj-reply.is-junior { background: #18181C; }
+.hj .hj-reply p { color: #E4E4EA; }
+
+/* Audience paths: no solid blue panel competing with the button */
+.hj .hj-path.is-primary { background: transparent; box-shadow: inset 0 3px 0 var(--sig-blue); }
+.hj .hj-path.is-primary:hover { background: var(--sig-black-2); }
+.hj .hj-path.is-primary strong { color: #FFFFFF; }
+.hj .hj-path.is-primary span { color: var(--sig-muted-dark); }
+.hj .hj-path.is-primary em { color: var(--sig-blue-on-dark); }
+.hj .hj-path span { color: #B9B9C2; }
+
+/* Logo row and results move to light backgrounds, so the hero ends and the page breathes */
+.hj .hj-logos { background: var(--sig-paper); color: var(--sig-black); border-bottom: 1px solid var(--sig-line); }
+.hj .hj-logos-title { color: var(--sig-muted); }
+.hj .hj-logos-row { background: var(--sig-line); border-color: var(--sig-line); }
+.hj .hj-logos-row li { background: var(--sig-paper); color: #2A2A30; }
+.hj .hj-logos-note { color: var(--sig-muted); }
+
+.hj .hj-proof { background: var(--sig-white); color: var(--sig-black); border-bottom: 1px solid var(--sig-line); }
+.hj .hj-proof .hj-kicker { color: var(--sig-blue-ink) !important; }
+.hj .hj-stat { border-top-color: var(--sig-black); }
+.hj .hj-stat strong { color: var(--sig-black); }
+.hj .hj-stat:first-child strong, .hj .hj-proof-group:last-child .hj-stat:first-child strong { color: var(--sig-blue-ink); }
+.hj .hj-stat span { color: var(--sig-muted); }
+.hj .hj-proof-note { color: var(--sig-muted); }
+.hj .hj-proof-note a { color: var(--sig-blue-ink) !important; }
+
+/* Light sections: body copy a little darker for contrast */
+.hj .hj-section-head p, .hj .hj-feature p, .hj .hj-step p, .hj .hj-mini p, .hj .hj-case span { color: #45454D; }
