@@ -12,10 +12,21 @@
   if (src) {
     safeSet(sessionStorage, 'marketingSource', src);
   }
+  // Junior desktop 3.2.39 tags comment links ?jr=c<content id>: short, because
+  // it shows in the public LinkedIn comment. Read it as utm tags so a visit
+  // traces back to the comment (backend wins report joins on utm_content).
+  var jrTag = qs.get('jr');
+  if (!/^c\d{1,12}$/.test(jrTag || '')) jrTag = null;
+  if (jrTag && !qs.get('utm_source')) {
+    safeSet(sessionStorage, 'utm_source', 'linkedin');
+    safeSet(sessionStorage, 'utm_medium', 'junior_comment');
+    safeSet(sessionStorage, 'utm_content', jrTag);
+    if (!src) safeSet(sessionStorage, 'marketingSource', 'junior_comment');
+  }
   // First touch survives later src= placements so signup attribution keeps the
   // channel that brought the visitor, not the last button they clicked.
   if (!safeGet(localStorage, 'juniorFirstTouchSource')) {
-    safeSet(localStorage, 'juniorFirstTouchSource', src || qs.get('utm_source') || 'direct');
+    safeSet(localStorage, 'juniorFirstTouchSource', src || qs.get('utm_source') || (jrTag ? 'junior_comment' : 'direct'));
     safeSet(localStorage, 'juniorFirstTouchPath', window.location.pathname);
   }
 
