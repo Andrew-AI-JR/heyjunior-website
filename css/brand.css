@@ -350,3 +350,49 @@ code, pre, kbd { font-family: var(--sig-mono); }
     .hj .hj-hero-logos .hj-logo-mark { width: 26px; height: 26px; }
     .hj .hj-hero-logos .hj-logo-word { height: 20px; width: 104px; }
 }
+
+/* Reply volume (Nov 2026): replaces the old proof band. Black band, real numbers, a rebuilt Today card. */
+.hj .hj-volume { background: var(--sig-blue); color: var(--sig-black); border-bottom: 1px solid var(--sig-black); }
+.hj .hj-volume-grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 56px; align-items: center; }
+.hj .hj-volume .hj-kicker { color: var(--sig-black) !important; }
+.hj .hj-volume h2 { color: var(--sig-black); font-size: clamp(2rem, 4vw, 3rem); line-height: 1.05; margin: 12px 0 18px; }
+.hj .hj-volume-copy > p { color: var(--sig-black); font-size: 1.1rem; line-height: 1.6; max-width: 34em; }
+.hj .hj-volume-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin-top: 32px; }
+.hj .hj-volume .hj-stat { border-top: 2px solid var(--sig-black); }
+.hj .hj-volume .hj-stat strong { color: var(--sig-black); }
+.hj .hj-volume .hj-stat:first-child strong { color: #FFFFFF; }
+.hj .hj-volume .hj-stat span { color: var(--sig-black); }
+.hj .hj-volume .hj-proof-note { color: var(--sig-black); margin-top: 28px; }
+.hj .hj-volume .hj-proof-note a { color: var(--sig-black) !important; text-decoration: underline; }
+
+.hj .hj-volume-app { margin: 0; }
+.hj .hj-app-card { box-shadow: 10px 10px 0 var(--sig-black); background: var(--sig-paper); color: var(--sig-black); padding: 22px; display: grid; gap: 18px; }
+.hj .hj-app-bar { display: flex; justify-content: space-between; align-items: baseline; font-size: 1.4rem; font-weight: 500; letter-spacing: -0.02em; }
+.hj .hj-app-live { font-family: var(--sig-mono); font-size: 0.8rem; font-weight: 400; color: var(--sig-muted); letter-spacing: 0; }
+.hj .hj-app-label { display: block; font-family: var(--sig-mono); font-size: 0.8rem; color: var(--sig-muted); margin-bottom: 10px; text-transform: lowercase; }
+.hj .hj-app-needs { background: #FFF6D6; box-shadow: inset 3px 0 0 #E2B200; padding: 14px 16px; }
+.hj .hj-app-needs .hj-app-label { color: #6B5300; }
+.hj .hj-app-row { display: flex; justify-content: space-between; align-items: center; gap: 16px; background: #FFFFFF; padding: 14px 16px; }
+.hj .hj-app-row strong { display: block; font-size: 1.2rem; font-weight: 500; }
+.hj .hj-app-row span { font-size: 0.9rem; color: var(--sig-muted); }
+.hj .hj-app-row .hj-app-btn { flex: none; background: var(--sig-blue); color: var(--sig-black); font-size: 0.9rem; font-weight: 500; padding: 8px 14px; }
+.hj .hj-app-chart { background: #FFFFFF; padding: 14px 16px 12px; }
+.hj .hj-bars { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; align-items: end; height: 170px; }
+.hj .hj-bars li { display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 100%; }
+.hj .hj-bars li::before { content: ""; order: 1; width: 100%; height: calc(var(--v) / 21 * 120px); min-height: 4px; background: #C9D7F7; }
+.hj .hj-bars li.is-peak::before { background: var(--sig-blue); }
+.hj .hj-bars b { order: 0; font-family: var(--sig-mono); font-size: 0.8rem; font-weight: 400; color: var(--sig-muted); margin-bottom: 4px; }
+.hj .hj-bars li.is-peak b { color: var(--sig-blue-ink); font-weight: 500; font-size: 0.95rem; }
+.hj .hj-bars span { order: 2; font-family: var(--sig-mono); font-size: 0.75rem; color: var(--sig-muted); margin-top: 6px; }
+.hj .hj-volume-app .hj-shot-cap { color: var(--sig-black); margin-top: 18px; }
+@media (max-width: 980px) {
+    .hj .hj-volume-grid { grid-template-columns: 1fr; gap: 40px; }
+}
+@media (max-width: 560px) {
+    .hj .hj-volume-stats { grid-template-columns: 1fr; gap: 16px; }
+    .hj .hj-app-row { flex-direction: column; align-items: flex-start; }
+    .hj .hj-bars { gap: 6px; }
+}
+
+/* The floating CTA keeps a black edge so it still shows on the blue band */
+.sticky-global-cta { box-shadow: 0 0 0 2px var(--sig-black) !important; }
