@@ -1,0 +1,120 @@
+/* Junior help assistant widget (js/help-assistant.js). */
+.ha-box {
+  display: flex;
+  flex-direction: column;
+  background: var(--sig-white, #fff);
+  border: 1px solid var(--sig-line, #D9D9D3);
+  border-radius: 14px;
+  overflow: hidden;
+  text-align: left;
+  color: var(--sig-black, #0A0A0B);
+  box-shadow: 0 10px 30px rgba(10, 10, 11, 0.08);
+}
+.ha-box[hidden] { display: none; }
+.ha-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 10px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--sig-line, #D9D9D3);
+  background: var(--sig-paper, #F4F4F1);
+}
+.ha-head strong { font-family: var(--sig-display, system-ui, sans-serif); font-size: 16px; }
+.ha-note { color: var(--sig-muted, #5D5D66); font-size: 13px; flex: 1 1 200px; }
+.ha-close {
+  margin-left: auto;
+  border: 0;
+  background: none;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--sig-muted, #5D5D66);
+}
+.ha-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+  min-height: 180px;
+  max-height: 420px;
+  overflow-y: auto;
+}
+.ha-msg { display: flex; }
+.ha-user { justify-content: flex-end; }
+.ha-bubble {
+  max-width: 85%;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 15px;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+.ha-bubble p { margin: 0; }
+/* Dark hero sections style every <p> white and large; the widget keeps its own text. */
+.ha-box p, .hero-dark .ha-box p {
+  color: var(--sig-black, #0A0A0B);
+  font-size: 15px;
+  line-height: 1.55;
+  opacity: 1;
+}
+.ha-bubble p + p { margin-top: 6px; }
+.ha-assistant .ha-bubble { background: var(--sig-paper, #F4F4F1); }
+.ha-user .ha-bubble { background: var(--hj-sky, #E3EBFF); }
+.ha-wait .ha-bubble { color: var(--sig-muted, #5D5D66); font-style: italic; }
+.ha-sources { margin-top: 8px; font-size: 13px; color: var(--sig-muted, #5D5D66); }
+.ha-sources a, .ha-email { color: var(--sig-blue-ink, #1F55E0); }
+.ha-email { display: inline-block; margin-top: 8px; font-weight: 600; font-size: 14px; }
+.ha-form {
+  display: flex;
+  gap: 8px;
+  padding: 12px;
+  border-top: 1px solid var(--sig-line, #D9D9D3);
+}
+.ha-input {
+  flex: 1;
+  resize: none;
+  font: inherit;
+  font-size: 15px;
+  padding: 10px 12px;
+  border: 1px solid var(--sig-line, #D9D9D3);
+  border-radius: 10px;
+  min-width: 0;
+}
+.ha-input:focus { outline: 2px solid var(--sig-blue, #3D7DFF); outline-offset: 1px; }
+.ha-send {
+  border: 0;
+  border-radius: 10px;
+  padding: 0 18px;
+  font-weight: 700;
+  background: var(--sig-blue, #3D7DFF);
+  color: var(--sig-black, #0A0A0B);
+  cursor: pointer;
+}
+.ha-send:disabled { opacity: 0.5; cursor: wait; }
+.ha-launch {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 1000;
+  border: 0;
+  border-radius: 999px;
+  padding: 12px 20px;
+  font-weight: 700;
+  background: var(--sig-black, #0A0A0B);
+  color: var(--sig-white, #fff);
+  box-shadow: 0 6px 20px rgba(10, 10, 11, 0.25);
+  cursor: pointer;
+}
+.ha-floating {
+  position: fixed;
+  right: 20px;
+  bottom: 76px;
+  z-index: 1001;
+  width: min(400px, calc(100vw - 32px));
+}
+.ha-floating .ha-list { max-height: min(420px, 55vh); }
+@media (max-width: 480px) {
+  .ha-floating { right: 16px; left: 16px; width: auto; }
+  .ha-bubble { max-width: 92%; }
+}

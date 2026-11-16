@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Junior help center: ask the help assistant, or find answers on setup, your trial and billing, keeping Junior running, and comments.">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Junior Help Center">
+    <meta property="og:description" content="Ask a question and get the answer from Junior's help pages, or browse the most common answers.">
+    <meta property="og:image" content="https://heyjunior.ai/reseller-assets/global/social/social-card.png">
+    <meta property="og:url" content="https://heyjunior.ai/help.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <title>Junior Help Center</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script defer src="js/analytics.js?v=20261005-pii"></script>
+    <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "c7e2267943804acdb5bfcd009f02f537"}'></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/brand.css?v=20261111-pop2">
+    <link rel="stylesheet" href="css/help-assistant.css?v=20261116">
+    <style>
+        .hc-hero-box { max-width: 720px; margin: 28px auto 0; }
+        .hc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 16px;
+        }
+        .hc-card {
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 18px 20px;
+            background: #fff;
+            text-align: left;
+        }
+        .hc-card h3 { margin: 0 0 10px; font-size: 18px; }
+        .hc-card ul { list-style: none; margin: 0; padding: 0; }
+        .hc-card li + li { margin-top: 8px; }
+        .hc-card a { color: #1F55E0; text-decoration: none; line-height: 1.45; }
+        .hc-card a:hover { text-decoration: underline; }
+        .hc-more { margin-top: 12px; font-size: 14px; }
+        .hc-stuck ol { margin: 10px 0 0 22px; line-height: 1.7; color: #334155; }
+    </style>
+</head>
+<body data-page="help">
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <img src="./images/junior-logo.png" alt="Junior Logo" class="logo-img">
+            </div>
+            <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <div class="nav-group">
+                    <li><a href="setup-guide.html">Setup Guide</a></li>
+                    <li><a href="troubleshooting.html">Troubleshooting</a></li>
+                    <li><a href="index.html#pricing">Pricing</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                </div>
+                <div class="nav-actions">
+                    <li><a href="portal.html" class="my-story-link">My Account</a></li>
+                    <li><a href="index.html" class="nav-login-link">Back to Home</a></li>
+                </div>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="support-main">
+        <section class="hero conversion-hero hero-dark support-hero">
+            <div class="container narrow-container">
+                <p class="support-eyebrow">Help center</p>
+                <h1>How can we help?</h1>
+                <p class="subtitle">Ask in your own words and get the answer from our help pages, any time. Or pick a topic below.</p>
+                <div class="hc-hero-box" id="help-assistant"></div>
+            </div>
+        </section>
+
+        <section class="support-section">
+            <div class="container support-container">
+                <h2>Most asked</h2>
+                <div class="hc-grid">
+                    <article class="hc-card">
+                        <h3>Getting started</h3>
+                        <ul>
+                            <li><a href="setup-guide.html">Set up Junior in about 5 minutes</a></li>
+                            <li><a href="windows-install-help.html">Windows says "Windows protected your PC"</a></li>
+                            <li><a href="mac-install-help.html">Mac says the app can't be opened</a></li>
+                            <li><a href="troubleshooting.html#linkedin-login-fails">LinkedIn login, 2FA or CAPTCHA fails</a></li>
+                            <li><a href="troubleshooting.html#chrome-wont-open">Chrome doesn't open or closes right away</a></li>
+                        </ul>
+                    </article>
+                    <article class="hc-card">
+                        <h3>Your trial and billing</h3>
+                        <ul>
+                            <li><a href="troubleshooting.html#add-card">My free trial has no card. How do I keep Junior?</a></li>
+                            <li><a href="troubleshooting.html#cancel">How do I cancel?</a></li>
+                            <li><a href="troubleshooting.html#change-plan">How do I change my plan?</a></li>
+                            <li><a href="troubleshooting.html#invoices">Where are my invoices and receipts?</a></li>
+                            <li><a href="troubleshooting.html#refund">Can I get a refund?</a></li>
+                        </ul>
+                    </article>
+                    <article class="hc-card">
+                        <h3>Keeping Junior running</h3>
+                        <ul>
+                            <li><a href="troubleshooting.html#computer-on">Does my computer need to stay on?</a></li>
+                            <li><a href="troubleshooting.html#pacing">Why does Junior slow down or stop for the day?</a></li>
+                            <li><a href="troubleshooting.html#chrome-updated">Junior stopped after Chrome updated</a></li>
+                            <li><a href="troubleshooting.html#updates">How do I update Junior?</a></li>
+                            <li><a href="troubleshooting.html#crash-resume">Junior closed unexpectedly</a></li>
+                        </ul>
+                    </article>
+                    <article class="hc-card">
+                        <h3>Comments and results</h3>
+                        <ul>
+                            <li><a href="troubleshooting.html#comments-not-publishing">Junior finds posts, but comments don't publish</a></li>
+                            <li><a href="troubleshooting.html#hit-comment-limit">I hit a daily or monthly limit</a></li>
+                            <li><a href="troubleshooting.html#comments-quality">Comments sound generic, or few good posts</a></li>
+                            <li><a href="troubleshooting.html#skipped-post">Junior skipped a post I wanted</a></li>
+                            <li><a href="troubleshooting.html#linkedin-restricted">LinkedIn warned or restricted my account</a></li>
+                        </ul>
+                    </article>
+                    <article class="hc-card">
+                        <h3>Your account</h3>
+                        <ul>
+                            <li><a href="troubleshooting.html#login-fails">Login fails with "check your credentials"</a></li>
+                            <li><a href="troubleshooting.html#reset-email-missing">The password reset email never arrived</a></li>
+                            <li><a href="troubleshooting.html#change-email">Change the email on my account</a></li>
+                            <li><a href="troubleshooting.html#new-computer">Use Junior on a new or second computer</a></li>
+                            <li><a href="troubleshooting.html#delete-account">Delete my account and data</a></li>
+                        </ul>
+                    </article>
+                    <article class="hc-card">
+                        <h3>Everything else</h3>
+                        <ul>
+                            <li><a href="troubleshooting.html">All troubleshooting answers</a></li>
+                            <li><a href="whats-new.html">What's new in Junior</a></li>
+                            <li><a href="why-commenting-works.html">Why commenting works</a></li>
+                            <li><a href="portal.html">My Account (download, plan, billing)</a></li>
+                        </ul>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="support-section">
+            <div class="container support-container">
+                <article class="support-card hc-stuck">
+                    <h2>Still stuck?</h2>
+                    <p>Email <a href="mailto:support@heyjunior.ai?subject=Help%20with%20Junior">support@heyjunior.ai</a>. We usually reply within one business day. To get a fix in one reply, include:</p>
+                    <ol>
+                        <li>Windows or Mac.</li>
+                        <li>What you tried, and what happened instead.</li>
+                        <li>A screenshot, or the log file: click Help at the top of Junior, then Open log file.</li>
+                    </ol>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="setup-guide.html" data-cta="help-footer-setup">Setup Guide</a></li>
+                        <li><a href="troubleshooting.html" data-cta="help-footer-troubleshooting">Troubleshooting</a></li>
+                        <li><a href="why-commenting-works.html" data-cta="help-footer-education">Why Commenting Works</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="windows-install-help.html" data-cta="help-footer-windows">Windows Install Help</a></li>
+                        <li><a href="mac-install-help.html" data-cta="help-footer-mac">macOS Install Help</a></li>
+                        <li><a href="portal.html" data-cta="help-footer-portal">My Account</a></li>
+                        <li><a href="mailto:support@heyjunior.ai" data-cta="help-footer-email">Email Support</a></li>
+                    </ul>
+                </div>
+            </div>
+            <p>&copy; 2026 Junior. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/api-config.js"></script>
+    <script src="js/help-assistant.js?v=20261116"></script>
+    <script src="js/i18n-simple.js"></script>
+    <script src="js/referral.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const mobileToggle = document.querySelector('.mobile-menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            if (mobileToggle && navLinks) {
+                mobileToggle.addEventListener('click', function () {
+                    this.classList.toggle('active');
+                    navLinks.classList.toggle('active');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
