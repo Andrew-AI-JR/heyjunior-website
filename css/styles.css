@@ -7974,6 +7974,16 @@ body {
     color: #fff !important;
 }
 
+/* .secondary-button is white-on-transparent for dark sections; use .on-light on white ones. */
+.secondary-button.on-light {
+    border-color: #1F55E0;
+    color: #1F55E0 !important;
+}
+.secondary-button.on-light:hover {
+    background: #E3EBFF;
+    color: #1745BF !important;
+}
+
 .use-cases-section {
     padding: 72px 0;
 }
@@ -8427,6 +8437,15 @@ body {
 
 .support-next p {
     margin-bottom: 12px;
+}
+
+/* Text links on the dark "next step" cards: the default blue is unreadable on #0B0F14. */
+.support-next a:not([class*="button"]) {
+    color: #7AA5FF;
+    text-decoration: underline;
+}
+.support-next a:not([class*="button"]):hover {
+    color: #FFFFFF;
 }
 
 .support-next .primary-button {
