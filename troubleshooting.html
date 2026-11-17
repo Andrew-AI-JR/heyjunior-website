@@ -369,19 +369,19 @@
                     <div class="support-faq">
                         <section id="linkedin-login-fails">
                             <h3>LinkedIn login, 2FA, or CAPTCHA fails during setup</h3>
-                            <p><strong>What's happening:</strong> LinkedIn shows security prompts (2FA codes, CAPTCHA) that you cannot answer if the browser is running invisibly in headless mode.</p>
+                            <p><strong>What's happening:</strong> LinkedIn sometimes asks for a code, a phone approval, or a CAPTCHA when you sign in. Junior can't answer those for you, so the sign-in has to be finished by you in the Chrome window Junior opens.</p>
                             <p><strong>How to fix it:</strong></p>
                             <ol>
-                                <li>Enable the <strong>2FA checkbox</strong> in Junior before starting. This helps even if you do not use 2FA.</li>
-                                <li>Run your first session in visible browser mode (headless off).</li>
-                                <li>Complete the login, 2FA, or CAPTCHA prompts yourself in the Chrome window Junior opens.</li>
-                                <li>Let Junior close the window when it finishes. Do not close it manually.</li>
+                                <li>In Junior, click <strong>Help</strong> at the top, then <strong>Run setup again</strong>, and go to the Connect LinkedIn step.</li>
+                                <li>Click <strong>Open Chrome and sign in</strong>, then sign in to LinkedIn in the Chrome window that opens.</li>
+                                <li>If LinkedIn asks for a code, a phone approval, or a CAPTCHA, complete it in that window. Keep your phone nearby.</li>
+                                <li>Keep Chrome open until your LinkedIn feed appears. Junior saves the session and closes Chrome by itself. Don't close it yourself.</li>
                             </ol>
                         </section>
                         <section id="login-every-time">
                             <h3>Junior asks me to log in to LinkedIn every time</h3>
                             <p><strong>What's happening:</strong> The saved LinkedIn session expired or your LinkedIn credentials changed. Junior stores session data, never your LinkedIn password, so when the session dies it must be captured again.</p>
-                            <p><strong>How to fix it:</strong> Repeat the one-time visible login from the <a href="setup-guide.html">First Launch Setup Guide</a> and let Junior close Chrome itself so the new session is saved.</p>
+                            <p><strong>How to fix it:</strong> In Junior, click <strong>Help</strong>, then <strong>Run setup again</strong>, and redo the Connect LinkedIn step (see the <a href="setup-guide.html#linkedin">setup guide</a>). Let Junior close Chrome itself so the new session is saved.</p>
                         </section>
                         <section id="app-invalid-credentials">
                             <h3>The desktop app says "invalid credentials"</h3>
