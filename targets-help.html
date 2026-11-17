@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="How Target Accounts work in Junior: add companies and people, tiers and weekly limits, import from LinkedIn or Salesforce, and why Junior may not have commented on a target yet.">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Target Accounts in Junior | Help">
+    <meta property="og:description" content="How Target Accounts work in Junior: add companies and people, tiers and weekly limits, import from LinkedIn or Salesforce, and why Junior may not have commented on a target yet.">
+    <meta property="og:image" content="https://heyjunior.ai/reseller-assets/global/social/social-card.png">
+    <meta property="og:url" content="https://heyjunior.ai/targets-help.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Target Accounts in Junior | Help">
+    <meta name="twitter:description" content="How Target Accounts work in Junior: add companies and people, tiers and weekly limits, import from LinkedIn or Salesforce, and why Junior may not have commented on a target yet.">
+    <meta name="twitter:image" content="https://heyjunior.ai/reseller-assets/global/social/social-card.png">
+    <title>Target Accounts in Junior | Help</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script defer src="js/analytics.js?v=20261005-pii"></script>
+    <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "c7e2267943804acdb5bfcd009f02f537"}'></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/brand.css?v=20261111-pop2">
+    <link rel="stylesheet" href="css/help-assistant.css?v=20261117">
+    <style>
+        .fh-toc { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .fh-toc a { display: block; padding: 12px 14px; border: 1px solid #e2e8f0; border-radius: 10px; background: #f8fafc; color: #1e293b; font-weight: 500; text-decoration: none; }
+        .fh-toc a:hover { border-color: #2F6FD6; color: #2F6FD6; }
+        @media (max-width: 640px) { .fh-toc { grid-template-columns: 1fr; } }
+        .support-faq section ol, .support-faq section ul { margin: 10px 0 0 22px; color: #334155; line-height: 1.7; }
+        .support-faq section p + p, .support-faq section ul + p, .support-faq section ol + p { margin-top: 10px; }
+        .fh-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 15px; }
+        .fh-table th, .fh-table td { text-align: left; padding: 8px 10px; border-bottom: 1px solid #e2e8f0; vertical-align: top; }
+        .fh-table th { color: #0B0F14; }
+        kbd { font-family: var(--sig-mono, monospace); font-size: 13px; padding: 1px 6px; border: 1px solid #cbd5e1; border-radius: 4px; background: #f8fafc; }
+    </style>
+</head>
+<body data-page="help">
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <img src="./images/junior-logo.png" alt="Junior Logo" class="logo-img">
+            </div>
+            <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <div class="nav-group">
+                    <li><a href="windows-install-help.html">Windows Help</a></li>
+                    <li><a href="mac-install-help.html">macOS Help</a></li>
+                    <li><a href="index.html#pricing">Pricing</a></li>
+                
+                    <li><a href="try-it.html">Try It</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="help.html">Help</a></li></div>
+                <div class="nav-actions">
+                    <li><a href="why-commenting-works.html" class="my-story-link">Why Commenting Works</a></li>
+                    <li><a href="index.html" class="nav-login-link">Back to Home</a></li>
+                </div>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="support-main">
+        <section class="hero conversion-hero hero-dark support-hero">
+            <div class="container narrow-container">
+                <p class="support-eyebrow">Help: Targets</p>
+                <h1>Target Accounts: comment where it counts.</h1>
+                <p class="subtitle">Tell Junior which companies and people matter most, and it puts their posts first. This page covers adding them, the weekly limits, importing a list, and the suggestions Junior makes.</p>
+                <div class="cta-buttons">
+                    <a href="#contents" class="primary-button">Jump to a topic</a>
+                    <a href="help.html" class="secondary-button">Ask the help assistant</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="support-section" id="contents">
+            <div class="container support-container">
+                <article class="support-card">
+                    <h2>On this page</h2>
+                    <ul class="fh-toc">
+                        <li><a href="#targets-basics">How Targets work</a></li>
+                        <li><a href="#targets-add">Adding targets</a></li>
+                        <li><a href="#targets-suggestions">Suggestions and your list</a></li>
+                        <li><a href="#targets-problems">If something isn't working</a></li>
+                    </ul>
+                </article>
+
+                <article class="support-card" id="targets-basics">
+                    <h2>How Targets work</h2>
+                    <div class="support-faq">
+                        <section id="what-targets-do">
+                            <h3>What does the Targets tab do?</h3>
+                            <p>Targets is your priority list. When Junior finds posts from a target company, its people, or a target person, it gives them a boost and comments on them before other posts, within the weekly limits below.</p>
+                            <p>Open it with <strong>Targets</strong> in the menu at the top of Junior. Each target shows what Junior has done for it so far: comments, replies and other results.</p>
+                        </section>
+                        <section id="tiers">
+                            <h3>What do Tier 1, 2 and 3 mean?</h3>
+                            <p>The tier sets how many comments Junior may post each week across a company and all of its people:</p>
+                            <table class="fh-table">
+                            <tr><th>Tier</th><th>Comments a week (company and its people together)</th></tr>
+                            <tr><td>Tier 1</td><td>Up to 7</td></tr>
+                            <tr><td>Tier 2</td><td>Up to 5</td></tr>
+                            <tr><td>Tier 3</td><td>Up to 3</td></tr>
+                            </table>
+                            <p>Use Tier 1 for the few accounts you care about most.</p>
+                        </section>
+                        <section id="person-limits">
+                            <h3>How often does Junior comment on a target person?</h3>
+                            <p>Junior checks a target person's posts once a day and comments on their posts at most once a week. It needs their LinkedIn profile URL to find their posts.</p>
+                        </section>
+                        <section id="sync">
+                            <h3>Is my list saved if I change computers?</h3>
+                            <p>Yes, if <strong>Keep target accounts in my Junior account</strong> is on (at the top of the Targets tab). Your list is kept in your Junior account, and each computer keeps a copy, so runs work even without a connection. Sign in on the new computer with the same Junior email and the list comes back.</p>
+                        </section>
+                    </div>
+                </article>
+
+                <article class="support-card" id="targets-add">
+                    <h2>Adding targets</h2>
+                    <div class="support-faq">
+                        <section id="add-account">
+                            <h3>Add a company</h3>
+                            <ol>
+                            <li>On the Targets tab, open <strong>Add or import accounts and people</strong>.</li>
+                            <li>Under <strong>Add account</strong>, fill in the company name and, if you have them, its website domain (for example acme.com) and its LinkedIn company URL. The LinkedIn URL helps Junior find the company's own posts.</li>
+                            <li>Pick a tier, add notes if you like, and click <strong>Add account</strong>.</li>
+                            </ol>
+                        </section>
+                        <section id="add-person">
+                            <h3>Add a person</h3>
+                            <ol>
+                            <li>Under <strong>Add person</strong>, enter their full name, title and LinkedIn profile URL. The profile URL is required for Junior to find their posts.</li>
+                            <li>Optionally pick a <strong>Persona</strong>: Recruiter, Hiring manager, Founder / exec, Peer, or Other. The persona shapes the tone of Junior's comments on their posts. Other adds no hint.</li>
+                            <li>Set a <strong>Priority</strong> from 0 to 100. Higher gives their posts a bigger boost when Junior picks what to comment on.</li>
+                            <li>Link them to one of your target companies under <strong>Account</strong>, or leave <strong>No account</strong>, then click <strong>Add person</strong>.</li>
+                            </ol>
+                        </section>
+                        <section id="import-csv">
+                            <h3>Import a list (LinkedIn connections or Salesforce)</h3>
+                            <p>Under <strong>Import CSV</strong>, choose a file, click <strong>Check file</strong> to preview it, then <strong>Import</strong>.</p>
+                            <ul>
+                            <li><strong>Your LinkedIn connections:</strong> on LinkedIn, go to Settings, then Data privacy, then Get a copy of your data, and choose Connections. Pick the Connections.csv file LinkedIn sends you.</li>
+                            <li><strong>Salesforce:</strong> Accounts, Contacts or Leads reports work. Website becomes the domain, and Rating Hot, Warm or Cold becomes Tier 1, 2 or 3. Save .xlsx reports as CSV first.</li>
+                            <li><strong>Your own file:</strong> use columns like First Name, Last Name, URL, Company, Position.</li>
+                            </ul>
+                        </section>
+                        <section id="export-salesforce">
+                            <h3>Export to Salesforce</h3>
+                            <p>Under <strong>Export for Salesforce</strong>, click <strong>Engaged people as Leads</strong> or <strong>Target accounts &amp; people</strong>. Junior saves CSV files on your computer with Salesforce's standard column names, ready for Salesforce's Data Import Wizard (Setup, then Data Import Wizard).</p>
+                        </section>
+                    </div>
+                </article>
+
+                <article class="support-card" id="targets-suggestions">
+                    <h2>Suggestions and your list</h2>
+                    <div class="support-faq">
+                        <section id="tune-list">
+                            <h3>What is “Tune your list”?</h3>
+                            <p>Suggestions based on what Junior saw and what came back, such as targets to add, pause or remove. Nothing changes until you press a button. <strong>Not now</strong> hides a suggestion for 30 days.</p>
+                        </section>
+                        <section id="suggested-people">
+                            <h3>Where do the suggested people and companies come from?</h3>
+                            <ul>
+                            <li><strong>People who engaged with you:</strong> people who replied to Junior's comments, reacted to them, or reacted to target posts Junior commented on.</li>
+                            <li><strong>Companies you applied to:</strong> companies from your Easy Apply jobs that aren't targets yet. Adding one makes Junior comment on posts by the company and its people. Easy Apply works the same either way.</li>
+                            <li><strong>People you've crossed paths with:</strong> people at your target companies who replied, reacted, or wrote posts Junior commented on.</li>
+                            <li><strong>Local voices:</strong> people in your locations that Junior found with LinkedIn people search. They follow their own rules, not the target limits. Remove them, or turn this off, on the Automation tab under Locations.</li>
+                            </ul>
+                            <p>Nothing happens to any of these until you add them.</p>
+                        </section>
+                        <section id="sort-remove">
+                            <h3>Sort or clear the list</h3>
+                            <p>Use <strong>Sort</strong> to order targets by tier, most results, most or fewest comments, or newest or oldest comment. <strong>Remove all</strong> asks you to confirm first; press <strong>Cancel</strong> to keep your list.</p>
+                        </section>
+                    </div>
+                </article>
+
+                <article class="support-card" id="targets-problems">
+                    <h2>If something isn't working</h2>
+                    <div class="support-faq">
+                        <section id="target-no-comments">
+                            <h3>Junior hasn't commented on a target yet</h3>
+                            <ul>
+                            <li><strong>They haven't posted lately.</strong> Junior can only comment on recent posts, and many people post rarely.</li>
+                            <li><strong>The weekly limit is used up.</strong> The tier limit covers the company and all its people together, and a person gets at most one comment a week.</li>
+                            <li><strong>The LinkedIn URL is missing or wrong.</strong> Open the target and check the profile or company URL opens the right page on LinkedIn.</li>
+                            <li><strong>Junior hasn't run since you added it.</strong> Target people are checked once a day while Junior is running.</li>
+                            </ul>
+                        </section>
+                    </div>
+                </article>
+
+                <article class="support-card support-next">
+                    <h2>Still stuck?</h2>
+                    <p>Ask the <a href="help.html">help assistant</a>, check <a href="troubleshooting.html">Troubleshooting</a>, or email <a href="mailto:support@heyjunior.ai">support@heyjunior.ai</a> with a screenshot. In Junior, <strong>Help</strong>, then <strong>Open log file</strong>, gives us the details we need.</p>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/i18n-simple.js"></script>
+    <script src="js/referral.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const mobileToggle = document.querySelector('.mobile-menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            if (mobileToggle && navLinks) {
+                mobileToggle.addEventListener('click', function () {
+                    this.classList.toggle('active');
+                    navLinks.classList.toggle('active');
+                });
+            }
+        });
+    </script>
+    <script src="js/api-config.js"></script>
+    <script src="js/help-assistant.js?v=20261117"></script>
+</body>
+</html>
