@@ -154,9 +154,16 @@
     btn.type = 'button';
     btn.setAttribute('aria-label', 'Open help assistant');
     var box = null;
+    btn.setAttribute('aria-expanded', 'false');
     btn.addEventListener('click', function () {
-      if (!box) box = build(document.body, true);
+      if (box && !box.hidden) { box.hidden = true; btn.setAttribute('aria-expanded', 'false'); return; }
+      if (!box) {
+        box = build(document.body, true);
+        // The panel's own close button also resets the launcher.
+        box.querySelector('.ha-close').addEventListener('click', function () { btn.setAttribute('aria-expanded', 'false'); });
+      }
       box.hidden = false;
+      btn.setAttribute('aria-expanded', 'true');
       box.querySelector('.ha-input').focus();
     });
     document.body.appendChild(btn);

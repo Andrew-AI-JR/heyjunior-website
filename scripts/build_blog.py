@@ -83,7 +83,7 @@ def generate_static_page(template_html, article):
     # assets and pages need a ../../ prefix. Query strings (?v=, ?src=) are preserved.
     html = re.sub(r'(src|href)="(?:\./)?(js|css|images)/', r'\1="../../\2/', html)
     html = re.sub(
-        r'href="(index|why-commenting-works|blog|try-it|register|portal|terms|privacy)\.html',
+        r'href="(index|why-commenting-works|blog|try-it|register|portal|terms|privacy|help)\.html',
         r'href="../../\1.html',
         html,
     )
