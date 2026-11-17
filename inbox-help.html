@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="How Junior's Conversation Inbox works: where replies to your comments show up, drafting and sending replies, Auto-reply safety, handoffs, filters and keyboard shortcuts.">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Conversation Inbox in Junior | Help">
+    <meta property="og:description" content="How Junior's Conversation Inbox works: where replies to your comments show up, drafting and sending replies, Auto-reply safety, handoffs, filters and keyboard shortcuts.">
+    <meta property="og:image" content="https://heyjunior.ai/reseller-assets/global/social/social-card.png">
+    <meta property="og:url" content="https://heyjunior.ai/inbox-help.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Conversation Inbox in Junior | Help">
+    <meta name="twitter:description" content="How Junior's Conversation Inbox works: where replies to your comments show up, drafting and sending replies, Auto-reply safety, handoffs, filters and keyboard shortcuts.">
+    <meta name="twitter:image" content="https://heyjunior.ai/reseller-assets/global/social/social-card.png">
+    <title>Conversation Inbox in Junior | Help</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script defer src="js/analytics.js?v=20261005-pii"></script>
+    <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "c7e2267943804acdb5bfcd009f02f537"}'></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/brand.css?v=20261111-pop2">
+    <link rel="stylesheet" href="css/help-assistant.css?v=20261117">
+    <style>
+        .fh-toc { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .fh-toc a { display: block; padding: 12px 14px; border: 1px solid #e2e8f0; border-radius: 10px; background: #f8fafc; color: #1e293b; font-weight: 500; text-decoration: none; }
+        .fh-toc a:hover { border-color: #2F6FD6; color: #2F6FD6; }
+        @media (max-width: 640px) { .fh-toc { grid-template-columns: 1fr; } }
+        .support-faq section ol, .support-faq section ul { margin: 10px 0 0 22px; color: #334155; line-height: 1.7; }
+        .support-faq section p + p, .support-faq section ul + p, .support-faq section ol + p { margin-top: 10px; }
+        .fh-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 15px; }
+        .fh-table th, .fh-table td { text-align: left; padding: 8px 10px; border-bottom: 1px solid #e2e8f0; vertical-align: top; }
+        .fh-table th { color: #0B0F14; }
+        kbd { font-family: var(--sig-mono, monospace); font-size: 13px; padding: 1px 6px; border: 1px solid #cbd5e1; border-radius: 4px; background: #f8fafc; }
+    </style>
+</head>
+<body data-page="help">
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <img src="./images/junior-logo.png" alt="Junior Logo" class="logo-img">
+            </div>
+            <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <div class="nav-group">
+                    <li><a href="windows-install-help.html">Windows Help</a></li>
+                    <li><a href="mac-install-help.html">macOS Help</a></li>
+                    <li><a href="index.html#pricing">Pricing</a></li>
+                
+                    <li><a href="try-it.html">Try It</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="help.html">Help</a></li></div>
+                <div class="nav-actions">
+                    <li><a href="why-commenting-works.html" class="my-story-link">Why Commenting Works</a></li>
+                    <li><a href="index.html" class="nav-login-link">Back to Home</a></li>
+                </div>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="support-main">
+        <section class="hero conversion-hero hero-dark support-hero">
+            <div class="container narrow-container">
+                <p class="support-eyebrow">Help: Inbox</p>
+                <h1>Inbox: keep the conversation going.</h1>
+                <p class="subtitle">When people reply to Junior's comments, their replies land in the Inbox. Junior can draft an answer for you to review and send. This page explains how it works and what each status means.</p>
+                <div class="cta-buttons">
+                    <a href="#contents" class="primary-button">Jump to a topic</a>
+                    <a href="help.html" class="secondary-button">Ask the help assistant</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="support-section" id="contents">
+            <div class="container support-container">
+                <article class="support-card">
+                    <h2>On this page</h2>
+                    <ul class="fh-toc">
+                        <li><a href="#inbox-basics">How the Inbox works</a></li>
+                        <li><a href="#inbox-replying">Replying</a></li>
+                        <li><a href="#inbox-tools">Filters and shortcuts</a></li>
+                        <li><a href="#inbox-problems">If something isn't working</a></li>
+                    </ul>
+                </article>
+
+                <article class="support-card" id="inbox-basics">
+                    <h2>How the Inbox works</h2>
+                    <div class="support-faq">
+                        <section id="what-inbox-does">
+                            <h3>What shows up in the Inbox?</h3>
+                            <p>Every comment Junior has confirmed on LinkedIn becomes a conversation in the Inbox. When someone replies to one of your comments, the conversation moves up so you can answer it. Reactions are tracked too, but a reaction alone doesn't need an answer.</p>
+                            <p>Open it with <strong>Inbox</strong> in the menu at the top of Junior.</p>
+                        </section>
+                        <section id="how-often">
+                            <h3>How often does Junior check for replies?</h3>
+                            <p>Replies to your personal comments are checked about every 6 hours while Junior is running. Mentions of your company are checked once when a company run starts. Junior has to be open and running to check.</p>
+                        </section>
+                        <section id="tabs">
+                            <h3>What do Needs Reply, Active, Waiting and Closed mean?</h3>
+                            <table class="fh-table">
+                            <tr><th>Tab</th><th>What's in it</th></tr>
+                            <tr><td>Needs Reply</td><td>Someone replied to your comment and it's your turn.</td></tr>
+                            <tr><td>Active</td><td>Junior's confirmed comments, with no reply to answer yet. Reactions stay here.</td></tr>
+                            <tr><td>Waiting</td><td>You answered and are waiting to hear back.</td></tr>
+                            <tr><td>Closed</td><td>Finished conversations.</td></tr>
+                            <tr><td>High priority, Converted</td><td>Conversations you marked. Click the button again to unmark one.</td></tr>
+                            </table>
+                        </section>
+                    </div>
+                </article>
+
+                <article class="support-card" id="inbox-replying">
+                    <h2>Replying</h2>
+                    <div class="support-faq">
+                        <section id="draft-send">
+                            <h3>Draft and send a reply</h3>
+                            <ol>
+                            <li>Open a conversation under <strong>Needs Reply</strong>.</li>
+                            <li>Click <strong>Auto-reply</strong> (or <strong>Draft reply</strong>). Junior writes a draft in your voice. It shows <em>Drafting…</em> while it works.</li>
+                            <li>Read the draft. If it's right, click <strong>Send reply</strong>. If not, click <strong>Cancel</strong>.</li>
+                            </ol>
+                            <p>Junior posts the reply the next time it starts, or at the end of the current batch if it's already running. You don't have to wait for the 6-hour reply check.</p>
+                        </section>
+                        <section id="auto-reply-safety">
+                            <h3>Will Junior ever post a reply I didn't approve?</h3>
+                            <p>No. A reply goes out only after you press <strong>Send reply</strong>, and Junior checks again just before posting. It won't post if the draft has a safety flag, if the conversation now needs a person, or if the person opted out or moved the conversation off LinkedIn. Junior replies at most once in a thread on its own.</p>
+                        </section>
+                        <section id="handoffs">
+                            <h3>What are Handoffs?</h3>
+                            <p>Conversations Junior thinks you should handle yourself are marked <strong>Step in</strong>, <strong>Stop</strong> or <strong>Check external</strong>. They collect under the <strong>Handoffs</strong> filter until you acknowledge them (press <kbd>A</kbd>). For example: the person wants to talk by email or phone, pushed back more than once, or the thread isn't a good fit.</p>
+                        </section>
+                        <section id="could-not-send">
+                            <h3>“Could not send”: why a reply didn't post</h3>
+                            <p>The conversation card says what happened. The most common reasons:</p>
+                            <ul>
+                            <li><strong>Junior couldn't open the reply box</strong>, or LinkedIn kept the Reply button disabled. Nothing was sent.</li>
+                            <li><strong>The post is no longer available</strong>, or Junior couldn't find its original comment.</li>
+                            <li><strong>The browser closed</strong> before the reply was sent.</li>
+                            <li><strong>Junior ran out of time</strong> in that run.</li>
+                            </ul>
+                            <p>To try again, review the draft and press <strong>Auto-reply</strong> again. If the post is gone, there's nothing to reply to.</p>
+                        </section>
+                    </div>
+                </article>
+
+                <article class="support-card" id="inbox-tools">
+                    <h2>Filters and shortcuts</h2>
+                    <div class="support-faq">
+                        <section id="filters">
+                            <h3>Filters</h3>
+                            <ul>
+                            <li><strong>Incomplete replies:</strong> Junior couldn't capture the whole reply. Open the post to read it.</li>
+                            <li><strong>Target accounts:</strong> conversations with your target companies and people.</li>
+                            <li><strong>Handoffs:</strong> conversations waiting for you to step in.</li>
+                            <li><strong>Auto-reply ready:</strong> replies Junior can draft an answer to now, with a count.</li>
+                            </ul>
+                        </section>
+                        <section id="wait">
+                            <h3>Put a conversation aside (Wait)</h3>
+                            <p>Choose <strong>4h</strong>, <strong>24h</strong> or <strong>3d</strong> next to <strong>Wait</strong>, then press <kbd>W</kbd> on a conversation to hide it for that long. Press <kbd>R</kbd> to bring it back early.</p>
+                        </section>
+                        <section id="shortcuts">
+                            <h3>Keyboard shortcuts</h3>
+                            <p>Press <kbd>?</kbd> in the Inbox to see them. <kbd>/</kbd> search · <kbd>1</kbd>–<kbd>6</kbd> tabs · <kbd>I</kbd> incomplete · <kbd>T</kbd> targets · <kbd>H</kbd> handoffs · <kbd>O</kbd> open post · <kbd>P</kbd> profile · <kbd>L</kbd> copy link · <kbd>W</kbd> wait · <kbd>R</kbd> resume · <kbd>A</kbd> acknowledge · <kbd>Esc</kbd> clear.</p>
+                        </section>
+                    </div>
+                </article>
+
+                <article class="support-card" id="inbox-problems">
+                    <h2>If something isn't working</h2>
+                    <div class="support-faq">
+                        <section id="inbox-empty">
+                            <h3>The Inbox is empty</h3>
+                            <p>Conversations appear after Junior has confirmed a comment on LinkedIn or someone replies. If Junior hasn't posted yet, start with the <a href="setup-guide.html">setup guide</a>. If it has, keep Junior running: replies are checked about every 6 hours.</p>
+                        </section>
+                        <section id="reply-missing">
+                            <h3>Someone replied but it isn't in the Inbox</h3>
+                            <p>Junior reads replies from your LinkedIn notifications while it runs. Give it up to 6 hours of running time. If the reply still doesn't appear, email support with the post link.</p>
+                        </section>
+                    </div>
+                </article>
+
+                <article class="support-card support-next">
+                    <h2>Still stuck?</h2>
+                    <p>Ask the <a href="help.html">help assistant</a>, check <a href="troubleshooting.html">Troubleshooting</a>, or email <a href="mailto:support@heyjunior.ai">support@heyjunior.ai</a> with a screenshot. In Junior, <strong>Help</strong>, then <strong>Open log file</strong>, gives us the details we need.</p>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/i18n-simple.js"></script>
+    <script src="js/referral.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const mobileToggle = document.querySelector('.mobile-menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            if (mobileToggle && navLinks) {
+                mobileToggle.addEventListener('click', function () {
+                    this.classList.toggle('active');
+                    navLinks.classList.toggle('active');
+                });
+            }
+        });
+    </script>
+    <script src="js/api-config.js"></script>
+    <script src="js/help-assistant.js?v=20261117"></script>
+</body>
+</html>
