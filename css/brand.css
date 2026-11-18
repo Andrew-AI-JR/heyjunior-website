@@ -379,7 +379,7 @@ code, pre, kbd { font-family: var(--sig-mono); }
 .hj .hj-app-chart { background: #FFFFFF; padding: 14px 16px 12px; }
 .hj .hj-bars { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; align-items: end; height: 170px; }
 .hj .hj-bars li { display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 100%; }
-.hj .hj-bars li::before { content: ""; order: 1; width: 100%; height: calc(var(--v) / 19 * 120px); min-height: 4px; background: #C9D7F7; }
+.hj .hj-bars li::before { content: ""; order: 1; width: 100%; height: calc(var(--v) / 37 * 120px); min-height: 4px; background: #C9D7F7; }
 .hj .hj-bars li.is-peak::before { background: var(--sig-blue); }
 .hj .hj-bars b { order: 0; font-family: var(--sig-mono); font-size: 0.8rem; font-weight: 400; color: var(--sig-muted); margin-bottom: 4px; }
 .hj .hj-bars li.is-peak b { color: var(--sig-blue-ink); font-weight: 500; font-size: 0.95rem; }
@@ -396,3 +396,15 @@ code, pre, kbd { font-family: var(--sig-mono); }
 
 /* The floating CTA keeps a black edge so it still shows on the blue band */
 .sticky-global-cta { box-shadow: 0 0 0 2px var(--sig-black) !important; }
+
+/* Reply wall (Nov 2026): anonymized real replies, inside the blue reply-volume band */
+.hj .hj-reply-wall { margin-top: 64px; padding-top: 40px; border-top: 2px solid var(--sig-black); }
+.hj .hj-reply-wall-title { font-size: clamp(1.5rem, 2.6vw, 2rem); font-weight: 500; color: var(--sig-black); margin: 0 0 24px; }
+.hj .hj-reply-wall-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.hj .hj-quote-reply { margin: 0; background: #FFFFFF; color: var(--sig-black); padding: 22px 22px 18px; display: flex; flex-direction: column; justify-content: space-between; gap: 18px; box-shadow: 6px 6px 0 var(--sig-black); }
+.hj .hj-quote-reply blockquote { margin: 0; font-size: 1.15rem; line-height: 1.45; font-weight: 500; letter-spacing: -0.01em; }
+.hj .hj-quote-reply blockquote::before { content: "Hey-Junior "; color: var(--sig-blue-ink); font-weight: 500; }
+.hj .hj-quote-reply figcaption { font-family: var(--sig-mono); font-size: 0.8rem; color: var(--sig-muted); }
+.hj .hj-reply-wall-note { font-family: var(--sig-mono); font-size: 0.85rem; color: var(--sig-black); margin: 28px 0 0; max-width: 60em; }
+@media (max-width: 980px) { .hj .hj-reply-wall-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .hj .hj-reply-wall-grid { grid-template-columns: 1fr; } .hj .hj-reply-wall { margin-top: 48px; } }
