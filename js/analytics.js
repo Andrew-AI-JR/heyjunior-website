@@ -12,14 +12,15 @@
   if (src) {
     safeSet(sessionStorage, 'marketingSource', src);
   }
-  // Junior desktop 3.2.39 tags comment links ?jr=c<content id>: short, because
-  // it shows in the public LinkedIn comment. Read it as utm tags so a visit
-  // traces back to the comment (backend wins report joins on utm_content).
+  // Junior desktop tags its links: comments ?jr=c<content id> (3.2.39) and
+  // replies ?jr=r<thread id> (3.2.60). Short, because they show in public on
+  // LinkedIn. Read them as utm tags so a visit traces back to the comment or
+  // reply (backend wins report and link attribution join on utm_content).
   var jrTag = qs.get('jr');
-  if (!/^c\d{1,12}$/.test(jrTag || '')) jrTag = null;
+  if (!/^(c\d{1,12}|r[A-Za-z0-9_-]{1,24})$/.test(jrTag || '')) jrTag = null;
   if (jrTag && !qs.get('utm_source')) {
     safeSet(sessionStorage, 'utm_source', 'linkedin');
-    safeSet(sessionStorage, 'utm_medium', 'junior_comment');
+    safeSet(sessionStorage, 'utm_medium', jrTag.charAt(0) === 'r' ? 'junior_reply' : 'junior_comment');
     safeSet(sessionStorage, 'utm_content', jrTag);
     if (!src) safeSet(sessionStorage, 'marketingSource', 'junior_comment');
   }
