@@ -114,6 +114,9 @@ def generate_static_page(template_html, article):
     # Fix asset paths for subdirectory
     html = html.replace('src="js/', 'src="../../js/')
     html = html.replace('href="css/', 'href="../../css/')
+    # The header logo is written as "./images/..." in the template, so cover both forms.
+    html = html.replace('src="./images/', 'src="../../images/')
+    html = html.replace('href="./images/', 'href="../../images/')
     html = html.replace('src="images/', 'src="../../images/')
     html = html.replace('href="images/', 'href="../../images/')
     
