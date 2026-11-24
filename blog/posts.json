@@ -1,6 +1,14 @@
 {
   "posts": [
     {
+      "id": 175,
+      "slug": "linkedin-bots",
+      "title": "LinkedIn Bots: What Actually Gets Accounts Restricted (And What Doesn't)",
+      "excerpt": "Cloud bots, browser extensions and desktop apps carry very different risks. Here is what tends to get LinkedIn accounts restricted, and the questions to ask any tool first.",
+      "featured_image_url": "https://cdn.marblism.com/5F_Frs7YQV4.webp",
+      "published_at": "2026-11-24T22:30:00+00:00"
+    },
+    {
       "id": 174,
       "slug": "linkedin-comments",
       "title": "LinkedIn Comments: What Separates Ones That Get You Noticed From Ones Nobody Reads (2026)",
