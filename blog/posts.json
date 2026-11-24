@@ -1,6 +1,30 @@
 {
   "posts": [
     {
+      "id": 178,
+      "slug": "linkedin-outreach-tool",
+      "title": "LinkedIn Outreach Tools: Why Cold Sequences Stopped Working (And What Replaces Them)",
+      "excerpt": "Every outreach tool automates the same thing: a request from a stranger. Here is why that stopped converting, and how comment-first outbound changes what the prospect sees.",
+      "featured_image_url": "https://cdn.marblism.com/h-v0ewTMP3x.webp",
+      "published_at": "2026-11-24T23:15:00+00:00"
+    },
+    {
+      "id": 177,
+      "slug": "linkedin-engagement",
+      "title": "LinkedIn Engagement: Why Yours Is Flat (And What Actually Fixes It)",
+      "excerpt": "Posting more isn't the fix. Here is what LinkedIn engagement actually measures, which tactics are worth your time, and the weekly routine that moves the number.",
+      "featured_image_url": "https://cdn.marblism.com/l_Ku7IC94b3.webp",
+      "published_at": "2026-11-24T23:00:00+00:00"
+    },
+    {
+      "id": 176,
+      "slug": "linkedin-algorithm",
+      "title": "The LinkedIn Algorithm in 2026: What's Actually True, What's Just Guessing",
+      "excerpt": "Nobody outside LinkedIn knows the exact ranking model. Here is what's documented, which popular 'algorithm hacks' are guesses, and the levers that actually hold up.",
+      "featured_image_url": "https://cdn.marblism.com/w1egkHu5ZYm.webp",
+      "published_at": "2026-11-24T22:45:00+00:00"
+    },
+    {
       "id": 175,
       "slug": "linkedin-bots",
       "title": "LinkedIn Bots: What Actually Gets Accounts Restricted (And What Doesn't)",
