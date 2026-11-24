@@ -26,8 +26,18 @@
   }
   // First touch survives later src= placements so signup attribution keeps the
   // channel that brought the visitor, not the last button they clicked.
+  // With no tag, the site that linked here (ref-google.com, ref-linkedin.com) beats "direct".
+  function referrerSource() {
+    try {
+      var host = new URL(document.referrer).hostname.replace(/^www\./, '');
+      if (!host || /(^|\.)heyjunior\.ai$/.test(host)) return '';
+      return ('ref-' + host).replace(/[^A-Za-z0-9_\-.]/g, '').slice(0, 80);
+    } catch (e) {
+      return '';
+    }
+  }
   if (!safeGet(localStorage, 'juniorFirstTouchSource')) {
-    safeSet(localStorage, 'juniorFirstTouchSource', src || qs.get('utm_source') || (jrTag ? 'junior_comment' : 'direct'));
+    safeSet(localStorage, 'juniorFirstTouchSource', src || qs.get('utm_source') || (jrTag ? 'junior_comment' : (referrerSource() || 'direct')));
     safeSet(localStorage, 'juniorFirstTouchPath', window.location.pathname);
   }
 
