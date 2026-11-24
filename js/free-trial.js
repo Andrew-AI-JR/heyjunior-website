@@ -24,6 +24,22 @@
         return code ? code.toUpperCase() : null;
     }
 
+    // Same first-touch fields as register.js, so no-card trials show where they came from.
+    function attribution() {
+        function read(storage, key) {
+            try { return storage.getItem(key); } catch (e) { return null; }
+        }
+        var ok = /^[A-Za-z0-9_\-./]{1,80}$/;
+        var out = {};
+        [['first_touch_source', localStorage, 'juniorFirstTouchSource'],
+         ['cta_placement', sessionStorage, 'marketingSource'],
+         ['landing_path', localStorage, 'juniorFirstTouchPath']].forEach(function (f) {
+            var v = read(f[1], f[2]);
+            if (v && ok.test(v)) out[f[0]] = v;
+        });
+        return out;
+    }
+
     function showError(text) {
         const el = $('trial-error');
         el.textContent = text;
@@ -102,7 +118,8 @@
                     email: email,
                     password: password,
                     referral_code: referralCode(),
-                    source: params().get('src') || params().get('utm_source') || null
+                    source: params().get('src') || params().get('utm_source') || null,
+                    attribution: attribution()
                 })
             });
             const data = await response.json().catch(function () { return {}; });
