@@ -11,6 +11,41 @@ TEMPLATE_PATH = Path("article.html")
 BLOG_DIR = Path("blog")
 POSTS_INDEX_PATH = BLOG_DIR / "posts.json"
 API_PAGE_SIZE = 100
+SITEMAP_PATH = Path("sitemap.xml")
+
+
+def sync_sitemap(articles):
+    """Make sure every article has a <url> entry in sitemap.xml.
+
+    The sitemap is maintained by hand for the static marketing pages, so this
+    only ever adds missing blog URLs and never reorders or rewrites existing
+    entries.
+    """
+    if not SITEMAP_PATH.exists():
+        return
+    xml = SITEMAP_PATH.read_text(encoding="utf-8")
+    added = 0
+    for article in articles:
+        slug = article.get("slug")
+        if not slug:
+            continue
+        url = f"https://heyjunior.ai/blog/{slug}/"
+        if url in xml:
+            continue
+        published = (article.get("published_at") or "")[:10]
+        lastmod = f"\n    <lastmod>{published}</lastmod>" if len(published) == 10 else ""
+        entry = (
+            "  <url>\n"
+            f"    <loc>{url}</loc>{lastmod}\n"
+            "    <changefreq>weekly</changefreq>\n"
+            "    <priority>0.8</priority>\n"
+            "  </url>\n</urlset>"
+        )
+        xml = xml.replace("</urlset>", entry, 1)
+        added += 1
+    if added:
+        SITEMAP_PATH.write_text(xml, encoding="utf-8")
+        print(f"Added {added} blog URL(s) to {SITEMAP_PATH}")
 
 
 def fetch_articles():
@@ -140,6 +175,7 @@ def main():
     articles = fetch_articles()
     print(f"Found {len(articles)} articles.")
     write_posts_index(articles)
+    sync_sitemap(articles)
     
     for summary in articles:
         slug = summary["slug"]
