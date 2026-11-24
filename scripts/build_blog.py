@@ -1,3 +1,4 @@
+import html as html_lib
 import os
 import re
 import sys
@@ -11,12 +12,13 @@ BLOG_DIR = Path("blog")
 POSTS_INDEX_PATH = BLOG_DIR / "posts.json"
 API_PAGE_SIZE = 100
 
+
 def fetch_articles():
     print(f"Fetching articles from {API_URL}...")
     all_posts = []
     page = 1
     total_pages = 1
-
+    
     while page <= total_pages:
         req = urllib.request.Request(f"{API_URL}?page={page}&size={API_PAGE_SIZE}")
         with urllib.request.urlopen(req) as response:
@@ -26,17 +28,20 @@ def fetch_articles():
             data = json.loads(response.read().decode())
             posts = data.get("posts", [])
             all_posts.extend(posts)
-            total_pages = int(data.get("total_pages", 1) or 1)
+            total_pages = data.get("total_pages", 1)
         page += 1
-
+        
     return all_posts
 
-
-def write_posts_index(posts):
+def write_posts_index(articles):
+    index_fields = ["id", "slug", "title", "excerpt", "featured_image_url", "published_at"]
+    posts_index = []
+    for article in articles:
+        posts_index.append({k: article.get(k) for k in index_fields})
+    
     BLOG_DIR.mkdir(parents=True, exist_ok=True)
-    payload = {"posts": posts}
     with open(POSTS_INDEX_PATH, "w", encoding="utf-8") as f:
-        json.dump(payload, f, ensure_ascii=False, indent=2)
+        json.dump({"posts": posts_index}, f, ensure_ascii=False, indent=2)
     print(f"Generated {POSTS_INDEX_PATH}")
 
 def fetch_article_detail(slug):
@@ -72,25 +77,52 @@ def generate_static_page(template_html, article):
     """
     
     html = template_html.replace('</head>', f'{og_tags}\n</head>')
-    
+
+    # Real <title> and meta description in the served HTML. The template ships a
+    # generic "Article - Junior" title and sets the real one in JS later, which
+    # crawlers and social scrapers that don't run JS never see.
+    full_title = html_lib.escape(f'{article["title"]} - Junior', quote=True)
+    desc = html_lib.escape(article.get("excerpt") or "", quote=True)
+
+    def _set_title(match):
+        return f"<title>{full_title}</title>"
+
+    def _set_desc(match):
+        return match.group(1) + f'\n    <meta name="description" content="{desc}">'
+
+    html = re.sub(r"<title>.*?</title>", _set_title, html, count=1, flags=re.S)
+    if desc:
+        html = re.sub(r'(<meta name="viewport"[^>]*>)', _set_desc, html, count=1)
+
     # Replace JS redirect logic with static content injection
     # We'll replace the article-content div
     
     # Simple script to inject the article data directly into the page so JS doesn't need to fetch it
     article_json = json.dumps(article).replace('</script>', '<\\/script>')
     
-    # Generated pages live two levels down (blog/<slug>/index.html), so root-relative
-    # assets and pages need a ../../ prefix. Query strings (?v=, ?src=) are preserved.
-    html = re.sub(r'(src|href)="(?:\./)?(js|css|images)/', r'\1="../../\2/', html)
-    html = re.sub(
-        r'href="(index|why-commenting-works|blog|try-it|register|portal|terms|privacy|help)\.html',
-        r'href="../../\1.html',
-        html,
-    )
+    # Find where the script starts loading article data
+    # The template has a script that fetches the article based on URL
+    # We'll replace it with inject data
     
-    # Inject the data script before the main script
+    # Inject data script before the main script
+    data_script = f"<script>\n        window.__INITIAL_ARTICLE_DATA__ = {article_json};\n    </script>"
+    
+    # Insert before the main script tag
     html = html.replace('<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>', 
-                        f'<script>\n        window.__INITIAL_ARTICLE_DATA__ = {article_json};\n    </script>\n    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>')
+                       f'{data_script}\n    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>')
+    
+    # Fix asset paths for subdirectory
+    html = html.replace('src="js/', 'src="../../js/')
+    html = html.replace('href="css/', 'href="../../css/')
+    html = html.replace('src="images/', 'src="../../images/')
+    html = html.replace('href="images/', 'href="../../images/')
+    
+    # Fix navigation links (they're at root level)
+    html = html.replace('href="index.html"', 'href="../../index.html"')
+    html = html.replace('href="why-commenting-works.html"', 'href="../../why-commenting-works.html"')
+    html = html.replace('href="blog.html"', 'href="../../blog.html"')
+    html = html.replace('href="try-it.html"', 'href="../../try-it.html"')
+    html = html.replace('href="register.html"', 'href="../../register.html"')
     
     return html
 
@@ -98,10 +130,10 @@ def main():
     if not TEMPLATE_PATH.exists():
         print(f"Template {TEMPLATE_PATH} not found.")
         sys.exit(1)
-        
+    
     with open(TEMPLATE_PATH, "r", encoding="utf-8") as f:
         template_html = f.read()
-        
+    
     articles = fetch_articles()
     print(f"Found {len(articles)} articles.")
     write_posts_index(articles)
@@ -111,16 +143,18 @@ def main():
         detail = fetch_article_detail(slug)
         if not detail:
             continue
-            
-        out_dir = BLOG_DIR / slug
-        out_dir.mkdir(parents=True, exist_ok=True)
         
-        out_file = out_dir / "index.html"
+        # Create directory for the post
+        post_dir = BLOG_DIR / slug
+        post_dir.mkdir(parents=True, exist_ok=True)
+        
+        # Generate the static page
+        out_file = post_dir / "index.html"
         html = generate_static_page(template_html, detail)
         
         with open(out_file, "w", encoding="utf-8") as f:
             f.write(html)
-            
+        
         print(f"Generated {out_file}")
 
 if __name__ == "__main__":
