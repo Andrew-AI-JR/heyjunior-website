@@ -28,12 +28,14 @@ jobs:
           python-version: '3.11'
           
       - name: Run build script
-        run: python scripts/build_blog.py
+        run: |
+          python scripts/build_blog.py
+          python scripts/build_local_posts.py
         
       - name: Commit and push changes
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add blog/
+          git add blog/ sitemap.xml
           # Only commit if there are changes
           git diff --quiet && git diff --staged --quiet || (git commit -m "chore: auto-build static blog pages" && git push)
